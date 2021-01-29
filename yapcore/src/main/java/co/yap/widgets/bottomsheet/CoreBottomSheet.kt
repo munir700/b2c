@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +16,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.LayoutBottomSheetBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.getScreenHeight
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -60,11 +62,20 @@ class CoreBottomSheet(
             getBinding().tvlabel.text = it
         }
         getBinding().lySearchView.etSearch.afterTextChanged {
-            adapter.filter.filter(it)
+            adapter.filter.filter(it) { itemCount ->
+                if (itemCount == 0) {
+                    viewModel.state.noItemFound.set(true)
+                } else {
+                    viewModel.state.noItemFound.set(false)
+                }
+            }
         }
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
+        val params = getBinding().rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
+        params.height =
+            if (viewType == Constants.VIEW_WITH_FLAG) (getScreenHeight() / 2) + 100 else params.height
+        getBinding().rvBottomSheet.layoutParams = params
         getBinding().rvBottomSheet.adapter = adapter
-
     }
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
@@ -78,7 +89,6 @@ class CoreBottomSheet(
         val bottomSheetDialog =
             super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         bottomSheetDialog.setOnShowListener { dialog ->
-            bottomSheetDialog.behavior.saveFlags = BottomSheetBehavior.SAVE_SKIP_COLLAPSED
             bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         return bottomSheetDialog

@@ -32,7 +32,10 @@ import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_add_funds.*
 import kotlinx.android.synthetic.main.activity_remove_funds.*
+import kotlinx.android.synthetic.main.activity_remove_funds.cardInfoLayout
+import kotlinx.android.synthetic.main.activity_remove_funds.etAmount
 
 class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemoveFunds.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -184,11 +187,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
-//        getBinding().etAmount.background =
-//            this.resources.getDrawable(
-//                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
-//                null
-//            )
         if (!isError) cancelAllSnackBar()
         viewModel.state.valid.set(isValid)
     }
@@ -256,7 +254,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         }
     }
 
-
     private fun runAnimations() {
         AnimationUtils.runSequentially(
             AnimationUtils.runTogether(
@@ -285,7 +282,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             .playOn(getBinding().ivSuccessCheckMark)
     }
 
-
     private fun runCardAnimation() {
         Handler(Looper.getMainLooper()).postDelayed({
             cardAnimation().apply {
@@ -294,7 +290,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             }.start()
         }, 500)
     }
-
 
     private fun cardAnimation(): AnimatorSet {
         val checkBtnEndPosition =

@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
@@ -22,6 +23,8 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var categoryTitle: ObservableField<String> = ObservableField("")
     override var categoryIcon: ObservableField<Int> = ObservableField()
     override var transactionTitle: ObservableField<String> = ObservableField()
+    override var noteVisibility: ObservableBoolean =ObservableBoolean(false)
+
 
 
 }

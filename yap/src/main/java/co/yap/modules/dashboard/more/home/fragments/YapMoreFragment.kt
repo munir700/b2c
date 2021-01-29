@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
@@ -23,23 +24,28 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.guidedtour.OnTourItemClickListener
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.TourGuideManager
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.maskIbanNumber
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
+import com.liveperson.infra.configuration.Configuration.getDimension
 
 
 class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
 
     lateinit var adapter: YapMoreAdaptor
     override fun getBindingVariable(): Int = BR.viewModel
+    private var tourStep: TourSetup? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_more_home
 
@@ -118,10 +124,31 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
+        if (context is YapDashboardActivity) {
+            (context as YapDashboardActivity).viewModel.isYapMoreFragmentVisible.observe(this,
+                Observer { isMoreFragmentVisible ->
+                    if (isMoreFragmentVisible) {
+                        tourStep =
+                            requireActivity().launchTourGuide(TourGuideType.MORE_SCREEN) {
+                                this.addAll(setViewsArray())
+                            }
+                    } else {
+                        tourStep?.let {
+                            if (it.isShowing)
+                                it.dismiss()
+                        }
+                    }
+                })
+        }
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+        if (context is YapDashboardActivity) {
+            (context as YapDashboardActivity).viewModel.isYapMoreFragmentVisible.removeObservers(
+                this
+            )
+        }
     }
 
     private val listener = object : OnItemClickListener {
@@ -151,6 +178,10 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.imgSettings -> {
+                /*activity?.let { activity ->
+                    val tour = TourSetup(activity, setViewsArray())
+                    tour.startTour()
+                }*/
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvName -> {
@@ -190,7 +221,53 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         }
     }
 
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                getBinding().btnBankDetails,
+                title = getString(Strings.screen_more_detail_display_text_tour_bank_details_heading),
+                description = getString(Strings.screen_more_detail_display_text_tour_bank_details_description),
+                padding = -getDimension(R.dimen._45sdp),
+                circleRadius = getDimension(R.dimen._65sdp),
+                callBackListener = tourItemListener
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBinding().yapForYou,
+                title = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_heading),
+                description = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_description),
+                showSkip = false,
+                showPageNo = true,
+                btnText = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_btn_text),
+                padding = getDimension(R.dimen._80sdp),
+                circleRadius = getDimension(R.dimen._90sdp),
+                isRectangle = true,
+                callBackListener = tourItemListener
+            )
+        )
+        return list
+    }
+
+    private val tourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.MORE_SCREEN,
+                completed = true
+            )
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.MORE_SCREEN,
+                skipped = true
+            )
+        }
+    }
+
     override fun getBinding(): FragmentMoreHomeBinding {
         return viewDataBinding as FragmentMoreHomeBinding
     }
+
 }

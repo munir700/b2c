@@ -62,6 +62,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        toggleToolBarVisibility(false)
         requestProfileDocumentsInformation()
         SessionManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()

@@ -2,14 +2,14 @@ package co.yap.sendmoney.y2y.home.yapcontacts
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.ItemContactsBinding
 import co.yap.sendmoney.y2y.home.phonecontacts.YapContactItemViewHolder
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 
-class YapContactsAdaptor(private val list: MutableList<Contact>) :
-    BaseBindingSearchRecylerAdapter<Contact, RecyclerView.ViewHolder>(list) {
+class YapContactsAdaptor(private val list: MutableList<IBeneficiary>) :
+    BaseBindingSearchRecylerAdapter<IBeneficiary, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_contacts
 
@@ -24,12 +24,16 @@ class YapContactsAdaptor(private val list: MutableList<Contact>) :
         }
     }
 
-    override fun filterItem(constraint: CharSequence?, item: Contact): Boolean {
+    override fun filterItem(constraint: CharSequence?, item: IBeneficiary): Boolean {
         val filterString = constraint.toString().toLowerCase()
-        val filterableString =
-            item.countryCode!! + "" + item.mobileNo!!
-        val filterableStringForName = item.title!!
-        return (filterableString.toLowerCase().contains(filterString) || filterableStringForName.toLowerCase().contains(filterString))
+//        val filterableString =
+//            item.countryCode!! + "" + item.mobileNo!!
+//        val filterableStringForName = item.title!!
+
+        val filterableString = item.subtitle ?: ""
+        val filterableStringForName = item.fullName ?: ""
+        return (filterableString.toLowerCase()
+            .contains(filterString) || filterableStringForName.toLowerCase().contains(filterString))
 
     }
 }

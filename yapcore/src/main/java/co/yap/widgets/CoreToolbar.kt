@@ -115,6 +115,16 @@ class CoreToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSe
             }
         }
 
+    var rightIconEnabled: Boolean = true
+        set(value) {
+            field = value
+            rightIcon?.let {
+                ivRightIcon.isEnabled = value
+                ivRightIcon.alpha = if (value) 1f else 0.5f
+                invalidate()
+            }
+        }
+
     var leftIcon: Int? = null
         set(value) {
             field = value

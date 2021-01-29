@@ -18,6 +18,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
@@ -53,10 +54,14 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         registerStateListeners()
 
         progress = Utils.createProgressDialog(this)
-        preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
+        preventTakeScreenShot(
+            YAPApplication.configManager?.isReleaseBuild() == true
+                    && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
+        )
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
+
         viewModel.state.viewState.observe(this, Observer {
             it?.let {
                 when (it) {

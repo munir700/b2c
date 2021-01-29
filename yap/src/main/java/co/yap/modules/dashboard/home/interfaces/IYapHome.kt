@@ -16,6 +16,7 @@ interface IYapHome {
     interface View : IBase.View<ViewModel> {
         var transactionViewHelper: TransactionsViewHelper?
         fun setObservers()
+        var drawerButtonEnabled: Boolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -37,6 +38,7 @@ interface IYapHome {
             accountInfo: AccountInfo,
             paymentCard: Card
         ): ArrayList<HomeNotification>
+        fun shouldShowSetPin(paymentCard: Card): Boolean
     }
 
     interface State : IBase.State {
@@ -45,5 +47,6 @@ interface IYapHome {
         var showTxnShimmer: MutableLiveData<co.yap.widgets.State>
         var isTransEmpty: ObservableField<Boolean>
         var isUserAccountActivated: ObservableField<Boolean>
+        var isPartnerBankStatusActivated: ObservableField<Boolean>
     }
 }

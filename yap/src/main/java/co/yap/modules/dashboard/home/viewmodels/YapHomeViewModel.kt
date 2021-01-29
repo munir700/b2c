@@ -16,6 +16,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
@@ -25,7 +26,6 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
-import co.yap.yapcore.managers.SessionManager.getDebitCard
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -65,21 +65,21 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun requestAccountTransactions() {
-        launch {
+        launch(Dispatcher.LongOperation) {
             if (isLoadMore.value == false) {
                 // state.loading = true
-                state.showTxnShimmer.value = State.loading(null)
+                state.showTxnShimmer.postValue(State.loading(null))
             }
             when (val response =
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
-                    isLast.value = response.data.data.last
+                    isLast.postValue(response.data.data.last)
                     val transactionModelData = setUpSectionHeader(response)
 
                     if (isRefreshing.value == true) {
                         sortedCombinedTransactionList.clear()
                     }
-                    isRefreshing.value = false
+                    isRefreshing.postValue(false)
 
                     if (sortedCombinedTransactionList != transactionModelData) {
                         sortedCombinedTransactionList.addAll(transactionModelData)
@@ -144,22 +144,22 @@ class YapHomeViewModel(application: Application) :
                             }
                         }
                     }
-                    ///if (isLoadMore.value == false) {
-                    state.showTxnShimmer.value = State.success(null)
-                    //}
-                    transactionsLiveData.value = sortedCombinedTransactionList
-                    isLoadMore.value = false
+                    if (isLoadMore.value == false) {
+                        state.showTxnShimmer.postValue(State.success(null))
+                    }
+                    transactionsLiveData.postValue(sortedCombinedTransactionList)
+                    //isLoadMore.value = false
                     //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     // state.loading = false
-                    isRefreshing.value = false
-                    isLoadMore.value = false
-                    state.showTxnShimmer.value = State.error("")
+                    isRefreshing.postValue(false)
+                    isLoadMore.postValue(false)
+                    state.showTxnShimmer.postValue(State.error(""))
                 }
             }
         }
-        state.loading = false
+//        state.loading = false
     }
 
     override fun loadMore() {
@@ -258,7 +258,7 @@ class YapHomeViewModel(application: Application) :
                 HomeNotification(
                     id = "3",
                     title = "Set PIN",
-                    description = "Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.",
+                    description = "This 4-digit code is yours to keep. Please don't share it with anyone",
                     action = NotificationAction.SET_PIN
                 )
             )
@@ -293,7 +293,11 @@ class YapHomeViewModel(application: Application) :
         return list
     }
 
-    private fun shouldShowSetPin(paymentCard: Card): Boolean {
-        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
+    override fun shouldShowSetPin(paymentCard: Card): Boolean {
+       return when {
+            paymentCard.status == PaymentCardStatus.INACTIVE.name && paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> true
+            paymentCard.status == PaymentCardStatus.ACTIVE.name && !paymentCard.pinCreated -> true
+            else -> false
+        }
     }
 }

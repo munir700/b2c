@@ -1,0 +1,254 @@
+{
+  "data": [
+    {
+      "achievementType": "GET_STARTED",
+      "title": "Get started",
+      "percentage": 75.0,
+      "order": 0,
+      "colorCode": "#BB42EB",
+      "lastUpdated": "2021-01-06T19:17:17",
+      "tasks": [
+        {
+          "taskType": "OPEN_YOUR_YAP_ACCOUNT",
+          "title": "Open you YAP account",
+          "description": "That first step was easy! Welcome to YAP We're so happy you're here :)",
+          "order": 1,
+          "completion": true,
+          "lock": true
+        },
+        {
+          "taskType": "SET_PIN",
+          "title": "Set your PIN",
+          "description": "What are you waiting for? Go ahead and set a unique 4-digit PIN to start using your card.",
+          "order": 2,
+          "completion": true,
+          "lock": true
+        },
+        {
+          "taskType": "TOP_UP",
+          "title": "Add money to your account",
+          "description": "Go on and add some money to your account so you can start spending! You can do this by using your existing bank card, make a wire transfer to this account or deposit cast at the nearest machine.",
+          "order": 3,
+          "completion": true,
+          "lock": true
+        },
+        {
+          "taskType": "SET_PROFILE_PICTURE",
+          "title": "Set a profile picture",
+          "description": "Personalize your profile with a picture of you (or your pet)",
+          "order": 4,
+          "completion": true,
+          "lock": false
+        }
+      ],
+      "lock": false
+    },
+    {
+      "achievementType": "UP_AND_RUNNING",
+      "title": "Up and running",
+      "percentage": 75.0,
+      "order": 0,
+      "colorCode": "#478DF4",
+      "lastUpdated": "2021-01-06T19:16:17",
+      "tasks": [
+        {
+          "taskType": "LOCAL_USE",
+          "title": "User YAP locally",
+          "description": "Make heads turn the next time you're out using your YAP card.",
+          "order": 1,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "FREEZE_UNFREEZE_CARD",
+          "title": "Freeze and unfreeze you card",
+          "description": "Try to freeze and unfreeze your card, You'll know what to do when you lost or your card has been stolen.",
+          "order": 2,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "SPEND_AMOUNT",
+          "title": "Spend AED 100",
+          "description": "Make your next AED 100 purchase a YAP one. Don't forget to buy yourself something nice!",
+          "order": 3,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "EXPLORE_CARD_CONTROLS",
+          "title": "Explore card controls",
+          "description": "You have full control of your card!\nSet limits against spending online, abroad, retail and at an ATM.",
+          "order": 4,
+          "completion": true,
+          "lock": false
+        }
+      ],
+      "lock": false
+    },
+    {
+      "achievementType": "BETTER_TOGETHER",
+      "title": "Better together",
+      "percentage": 25.0,
+      "order": 0,
+      "colorCode": "#f57f17",
+      "lastUpdated": "2021-01-06T19:19:17",
+      "tasks": [
+        {
+          "taskType": "INVITE_FRIEND",
+          "title": "Invite a friend",
+          "description": "",
+          "order": 1,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "MAKE_Y2Y_TRANSFER",
+          "title": "Make a Y2Y transfer",
+          "description": "",
+          "order": 2,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "SPLIT_BILLS_WITH_YAP",
+          "title": "Split bills with YAP",
+          "description": "",
+          "order": 3,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "SEND_MONEY_OUTSIDE_YAP",
+          "title": "Send money outside YAP",
+          "description": "",
+          "order": 4,
+          "completion": true,
+          "lock": false
+        }
+      ],
+      "lock": false
+    },
+    {
+      "achievementType": "TAKE_THE_LEAP",
+      "title": "Take the leap",
+      "percentage": 50.0,
+      "order": 0,
+      "colorCode": "#00B9AE",
+      "lastUpdated": "2021-01-06T19:18:18",
+      "tasks": [
+        {
+          "taskType": "ORDER_SPARE_CARD",
+          "title": "Order a spare card",
+          "description": "Virtual cards let you make online payments without sharing you main card details",
+          "order": 1,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "UPGRADE_TO_PRIME",
+          "title": "Upgrade to Prime",
+          "description": "A shiny new card available in 4 metallic shades and a world of perks!",
+          "order": 2,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "UPGRADE_TO_METAL",
+          "title": "Go Metal",
+          "description": "The ultimate YAP card - a 100% metal card with exclusive benefits.",
+          "order": 3,
+          "completion": true,
+          "lock": false
+        },
+        {
+          "taskType": "SETUP_MULTI_CURRENCY",
+          "title": "Set up a multi-currency account",
+          "description": "",
+          "order": 4,
+          "completion": true,
+          "lock": false
+        }
+      ],
+      "lock": false
+    },
+    {
+      "achievementType": "YAP_STORE",
+      "title": "YAP Store",
+      "percentage": 0.0,
+      "order": 0,
+      "colorCode": "#f44774",
+      "lastUpdated": "2021-01-06T19:17:18",
+      "tasks": [
+        {
+          "taskType": "GET_YAP_YOUNG",
+          "title": "Get YAP Young",
+          "description": "",
+          "order": 1,
+          "completion": true,
+          "lock": true
+        },
+        {
+          "taskType": "GET_YAP_HOUSEHOLD",
+          "title": "Sign up to Household",
+          "description": "",
+          "order": 2,
+          "completion": true,
+          "lock": true
+        },
+        {
+          "taskType": "SET_MISSIONS_ON_YAP_YOUNG",
+          "title": "Set missions on YAP Young",
+          "description": "",
+          "order": 3,
+          "completion": true,
+          "lock": true
+        },
+        {
+          "taskType": "SALARY_TRANSFER_ON_YAP_HOUSEHOLD",
+          "title": "Pay your help using Household",
+          "description": "",
+          "order": 4,
+          "completion": true,
+          "lock": true
+        }
+      ],
+      "lock": false
+    },
+    {
+      "achievementType": "YOU_ARE_A_PRO",
+      "title": "You're a Pro!",
+      "percentage": 0.0,
+      "order": 0,
+      "colorCode": "#272262",
+      "lastUpdated": "2021-01-06T19:15:18",
+      "tasks":[
+        {
+          "taskType":"INVITE_TEN_FRIENDS",
+          "title":"Get YAP Young",
+          "description":"",
+          "order":1,
+          "completion":false,
+          "lock": false
+        },
+        {
+          "taskType":"SPEND_THOUSAND_AED",
+          "title":"Sign up to Household",
+          "description":"",
+          "order":2,
+          "completion":false,
+          "lock": false
+        },
+        {
+          "taskType":"COMPLETE_RENEWAL",
+          "title":"Set missions on YAP Young",
+          "description":"",
+          "order":3,
+          "completion":false,
+          "lock": false
+        }
+      ],
+      "lock": false
+    }
+  ]
+}

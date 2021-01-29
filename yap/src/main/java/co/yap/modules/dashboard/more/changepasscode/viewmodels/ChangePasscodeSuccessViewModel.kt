@@ -12,7 +12,7 @@ class ChangePasscodeSuccessViewModel(application: Application) :
     override val state: ChangePassCodeSuccessState = ChangePassCodeSuccessState()
     override fun onCreate() {
         super.onCreate()
-        toggleToolBarVisibility(false)
+        parentViewModel?.state?.toolbarVisibility = false
     }
     override fun handlePressOnDoneButton() {
         buttonClickEvent.call()
