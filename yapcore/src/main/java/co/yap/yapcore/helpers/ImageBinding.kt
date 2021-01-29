@@ -104,7 +104,7 @@ object ImageBinding {
     fun loadAvatar(
         imageView: ImageView,
         imageUrl: String?,
-        fullName: String?, colorCode: Int
+        fullName: String?, colorCode: Int?
     ) {
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
@@ -112,13 +112,13 @@ object ImageBinding {
             .fontSize(imageView.context.dimen(R.dimen.text_size_h2))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
             .toUpperCase()
-            .textColor(colorCode)
+            .textColor(colorCode ?: -1)
         setCircleCropImage(
             imageView,
             imageUrl ?: "",
             builder.buildRect(
                 Utils.shortName(fullName ?: ""),
-                ColorUtils.setAlphaComponent(colorCode, 15)
+                ColorUtils.setAlphaComponent(colorCode ?: -1, 25)
             )
         )
     }
