@@ -64,10 +64,9 @@ import com.bumptech.glide.request.target.Target
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.ezaka.customer.app.utils.getActivityFromContext
-import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -1047,7 +1046,7 @@ object UIBinder {
     @BindingAdapter("selectedListener")
     @JvmStatic
     fun getChipSelection(chipGroup: ChipGroup, listener: OnItemClickListener?) {
-          for (index in 0 until chipGroup.childCount) {
+        for (index in 0 until chipGroup.childCount) {
             val chip: Chip = chipGroup.getChildAt(index) as Chip
             chip.setOnCheckedChangeListener { view, isChecked ->
                 listener?.onItemClick(view, isChecked, index)
@@ -1055,7 +1054,7 @@ object UIBinder {
         }
     }
 
-    @BindingAdapter("yapForYouAction","isDone")
+    @BindingAdapter("yapForYouAction", "isDone")
     @JvmStatic
     fun setYapForYouButton(
         view: CoreButton,

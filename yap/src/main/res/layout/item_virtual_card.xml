@@ -19,33 +19,11 @@
             android:id="@+id/ivCard"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/empty_string"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/card_spare" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Regular"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:lines="2"
-            android:maxLength="26"
-            android:maxLines="2"
-            android:padding="@dimen/margin_medium_large"
-            android:text="@{viewModel.cardName}"
-            android:layout_marginHorizontal="@dimen/margin_medium_large"
-            android:textColor="@color/colorLightGreyWithOpacity"
-            app:layout_constraintBottom_toBottomOf="@+id/ivCard"
-            app:layout_constraintEnd_toEndOf="@+id/ivCard"
-            app:layout_constraintStart_toStartOf="@+id/ivCard"
-            app:layout_constraintTop_toTopOf="@+id/ivCard"
-            tools:text="united kingdom arab emirate"
-            tools:textColor="@color/colorLightGreyWithOpacity" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -805,9 +805,11 @@ object Utils {
     }
 
     fun getOtpBlockedMessage(context: Context): String {
-        return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            SessionManager.helpPhoneNumber
-        )}^${AlertType.DIALOG.name}"
+        return "${
+            context.getString(R.string.screen_blocked_otp_display_text_message).format(
+                SessionManager.helpPhoneNumber
+            )
+        }^${AlertType.DIALOG.name}"
     }
 
     fun parseCountryList(

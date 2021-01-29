@@ -16,6 +16,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
@@ -167,7 +168,7 @@ class DashboardNotificationStatusHelper(
                 PaymentCardOnboardingStage.SHIPPING -> {
                     return (when {
                         SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status -> {
-                            StageProgress.INACTIVE
+                            if (SessionManager.user?.notificationStatuses == NotificationStatus.FATCA_GENERATED.name) StageProgress.ACTIVE else StageProgress.INACTIVE
                         }
                         card.deliveryStatus == CardDeliveryStatus.ORDERED.name || card.deliveryStatus == CardDeliveryStatus.BOOKED.name || card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
                             StageProgress.ACTIVE
