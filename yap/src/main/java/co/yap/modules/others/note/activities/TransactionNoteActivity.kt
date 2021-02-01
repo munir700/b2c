@@ -13,6 +13,8 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.decodeToUTF8
+import co.yap.yapcore.helpers.extentions.encodeToUTF8
 import kotlinx.android.synthetic.main.activity_transaction_note.*
 
 class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>() {
@@ -45,7 +47,7 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
         setObservers()
         Utils.requestKeyboard(etNote, request = true, forced = true)
         if (intent.hasExtra(Constants.KEY_NOTE_VALUE)) {
-            viewModel.state.noteValue.set(getNoteValue())
+            viewModel.state.noteValue.set(getNoteValue().decodeToUTF8())
             etNote.append(viewModel.state.noteValue.get())
         }
     }
@@ -73,7 +75,7 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
                 finish()
             }
             R.id.tvRightText -> {
-                viewModel.addEditNote(getTransactionId(), viewModel.state.noteValue.get()!!)
+                viewModel.addEditNote(getTransactionId(), viewModel.state.noteValue.get().encodeToUTF8())
             }
         }
     }
