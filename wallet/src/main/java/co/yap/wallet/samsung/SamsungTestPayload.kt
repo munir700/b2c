@@ -17,7 +17,7 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
             TAVSignatureConfigBuilder.aTAVSignatureConfig()
                 .withAccountExpiry("0125")
                 .withAccountNumber("5381230100016543")
-                .withDataValidUntilTimestamp("2021-01-29T16:10:59Z")
+                .withDataValidUntilTimestamp("2021-02-25T16:10:59Z")
                 .withPrivateKey(
                     EncryptionUtils.loadDecryptionKey(
                         resources.openRawResource(R.raw.privatekey)
