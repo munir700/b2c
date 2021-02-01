@@ -41,11 +41,11 @@ class PreviewTransactionReceiptFragment :
             when (it) {
                 R.id.btnSave -> {
                     viewModel.state.filePath?.let {uri ->
-                        viewModel.saveTransactionReceipt(File(uri.path))
+                        viewModel.saveTransactionReceipt(File(uri.path?:""))
                     }
                 }
                 R.id.tvRedo -> {
-
+                    activity?.onBackPressed()
                 }
                 R.id.ivBack ->{
                     activity?.finish()

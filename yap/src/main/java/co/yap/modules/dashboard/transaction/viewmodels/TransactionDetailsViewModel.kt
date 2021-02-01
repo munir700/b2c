@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
@@ -10,6 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceipt
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
@@ -30,12 +32,18 @@ class TransactionDetailsViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
     override var adapter: TransactionReceiptAdapter = TransactionReceiptAdapter(mutableListOf())
+    override var responseReciept: MutableLiveData<TransactionReceipt> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
 
     override fun onCreate() {
         super.onCreate()
         setStatesData()
         adapter.setList(getReciptItems())
+        getAllReceipts()
+        setReceiptLabel(adapter)
+    }
+
+    private fun setReceiptLabel(adapter: TransactionReceiptAdapter) {
         state.receiptLabel.set(
             when {
                 adapter.getDataList().isNullOrEmpty() -> {
@@ -52,7 +60,6 @@ class TransactionDetailsViewModel(application: Application) :
                 else -> getString(Strings.screen_transaction_details_receipt_label)
             }
         )
-        getAllReceipts()
     }
 
     private fun getReciptItems(): List<ReceiptModel> {
@@ -70,7 +77,7 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     override fun addNewReceipt(receipt: ReceiptModel) {
-        adapter.setItemAt(adapter.getDataList().size,receipt)
+        adapter.setItemAt(adapter.getDataList().size, receipt)
     }
 
     override fun deleteReceipt(position: Int) {
@@ -80,9 +87,12 @@ class TransactionDetailsViewModel(application: Application) :
     override fun getAllReceipts() {
         launch {
             state.loading = true
-            when(val response = repository.getAllTransactionReceipts(transactionId = transaction.get()?.transactionId?:"")){
-                is RetroApiResponse.Success ->{
+            when (val response = repository.getAllTransactionReceipts(
+                transactionId = transaction.get()?.transactionId ?: ""
+            )) {
+                is RetroApiResponse.Success -> {
                     response.data.let { resp ->
+                        responseReciept.value = resp.data
                     }
                     state.loading = false
 

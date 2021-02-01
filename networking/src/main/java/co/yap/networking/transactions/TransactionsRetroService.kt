@@ -10,6 +10,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import com.google.android.gms.common.api.Api
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -211,7 +212,7 @@ interface TransactionsRetroService {
     ): Response<AnalyticsDetailResponseDTO>
 
     @GET(TransactionsRepository.URL_TRANSACTIONS_RECEIPT+"/{transaction-id}")
-    suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String) : Response<ApiResponse>
+    suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String) : Response<TransactionReceiptResponse>
 
     @Multipart
     @POST(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
