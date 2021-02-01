@@ -14,6 +14,14 @@ interface ITransactionDetails {
         fun handlePressOnEditNoteClickEvent(id: Int)
         var clickEvent: SingleClickEvent
         var transaction: ObservableField<Transaction>
+        fun getTransferType(transaction: Transaction): String
+        fun getTransferCategoryTitle(transaction: Transaction?): String
+        fun getTransferCategoryIcon(transaction: Transaction?): Int
+        fun getSpentAmount(transaction: Transaction?): Double
+        fun getCalculatedTotalAmount(transaction: Transaction?): Double
+        fun getForeignAmount(transaction: Transaction?): Double
+        fun getLocation(transaction: Transaction?): String
+
     }
 
     interface State : IBase.State {

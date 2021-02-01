@@ -1,6 +1,7 @@
-package co.yap
+package co.yap.dashboard.more.yapforyou
 
-import co.yap.yapcore.yapcore.base.BaseTestCase
+import co.yap.app.YAPApplication
+import co.yap.base.BaseTestCase
 import co.yap.modules.dashboard.more.yapforyou.YAPForYouAchievementsComposer
 import co.yap.modules.dashboard.more.yapforyou.YAPForYouItemsComposer
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
@@ -18,8 +19,9 @@ class YapForYouTests : BaseTestCase() {
     lateinit var sut: YAPForYouViewModel
 
     @Before
-    fun setUpVM() {
-        sut = YAPForYouViewModel(context)
+    override fun setUp() {
+        super.setUp()
+        sut = YAPForYouViewModel(YAPApplication())
     }
 
     @Test

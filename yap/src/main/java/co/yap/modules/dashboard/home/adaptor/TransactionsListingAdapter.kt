@@ -117,7 +117,7 @@ class TransactionsListingAdapter(
             val transactionTitle = transaction.getTitle()
             val txnIconResId = transaction.getIcon()
             val categoryTitle: String =
-                transaction.getTransactionTypeTitle()
+                transaction.getTransferType()
             transaction.productCode?.let {
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                     setY2YUserImage(transaction, itemTransactionListBinding, position)

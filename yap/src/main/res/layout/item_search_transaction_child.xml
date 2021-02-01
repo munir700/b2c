@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:alpha="0.5"
-            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransactionTypeTitle(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION))}"
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransferType(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION))}"
             android:textColor="@{TransactionExtentionsKt.isTransactionRejected(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/greyDark}"
             app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
@@ -144,7 +144,6 @@
             android:layout_weight="1"
             android:alpha="0.5"
             android:maxLines="2"
-
             android:text="@{TransactionExtentionsKt.getStatus(homeTransactionChildItemVM.item)}"
             android:textColor="@color/greyDark"
             android:visibility="@{TransactionExtentionsKt.getStatus(homeTransactionChildItemVM.item).empty?View.GONE :View.VISIBLE}"

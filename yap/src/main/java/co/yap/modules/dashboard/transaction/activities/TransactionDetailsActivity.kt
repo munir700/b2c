@@ -13,12 +13,11 @@ import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.TransactionProductType
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionProductType
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
@@ -45,36 +44,37 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 ExtraKeys.TRANSACTION_OBJECT_STRING.name
             ) as Transaction
         )
+        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.customerId1 == SessionManager.user?.currentCustomer?.customerId)
         setSpentLabel()
         setAmount()
         setMapImageView()
         setTransactionImage()
-        setTransactionTitle()
         setCardMaskNo()
         setSubTitle()
         setTotalAmount()
+        setDestinationAmount()
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
     }
 
-    private fun setAmount() {
-        getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
-            when {
-
-                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
-                    showCurrency = false
+    private fun setDestinationAmount() {
+        getBindings().tvDestinationAmount.text =
+            viewModel.getForeignAmount(
+                transaction = viewModel.transaction.get()
+            ).toString()
+                .toFormattedCurrency(
+                    showCurrency = true,
+                    currency = viewModel.transaction.get().getCurrency(),
+                    withComma = true
                 )
-                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                    "0.00".toFormattedCurrency()
-                }
-                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    (it.settlementAmount ?: "0.00").toString().toFormattedCurrency()
-                }
-                else -> it.amount.toString().toFormattedCurrency()
-            }
+    }
 
-        } ?: "0.00"
+    private fun setAmount() {
+        getBindings().tvCardSpendAmount.text =
+            viewModel.getSpentAmount(viewModel.transaction.get()).toString()
+                .toFormattedCurrency(showCurrency = viewModel.transaction.get()?.status != TransactionStatus.FAILED.name)
+
     }
 
     private fun setTxnFailedReason() {
@@ -108,31 +108,23 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setTotalAmount() {
-        val totalAmount = viewModel.transaction.get()?.let {
-            when (it.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
-                    (it.settlementAmount ?: 0.00).plus(totalFee).toString()
-                }
-                else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
-            }
-        } ?: "0.0"
+        val totalAmount = viewModel.getCalculatedTotalAmount(viewModel.transaction.get()).toString()
+
         getBindings().tvTotalAmountValueCalculated.text =
             totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
-                totalAmount.toFormattedCurrency(
-                    showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency()
-                )
+            totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = SessionManager.getDefaultCurrency()
+            )
             }" else "+ ${
-                totalAmount.toFormattedCurrency(
-                    showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency()
-                )
+            totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = SessionManager.getDefaultCurrency()
+            )
             }"
 
-        // hiding visibility on nada's request
         viewModel.transaction.get()?.let {
             when {
                 it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
@@ -148,34 +140,16 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setSubTitle() {
-        val subTitle = viewModel.transaction.get()?.let {
-            when {
-                it.isTransactionRejected() -> "Transfer Rejected"
-                it.isTransactionInProgress() -> "Transfer Pending"
-                else -> ""
-            }
-        }
-
-        if (subTitle.isNullOrBlank()) {
+        viewModel.transaction.get()?.let {
             getBindings().tvTxnSubTitle.text =
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == viewModel.transaction.get()?.productCode) getString(
-                    Strings.transaction_narration_y2y_transfer_detail
-                ) else viewModel.transaction.get()
-                    ?.getTransactionTypeTitle()
-        } else {
-            getBindings().tvTxnSubTitle.text = subTitle
+                viewModel.getTransferType(it)
         }
     }
 
     private fun setLocationText() {
-        val location = viewModel.transaction.get()?.let {
-            when (it.productCode) {
-                TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
-                else -> it.cardAcceptorLocation ?: ""
-            }
-        }
+        val location = viewModel.getLocation(viewModel.transaction.get())
         getBindings().tvLocation.visibility =
-            if (location.isNullOrEmpty()) View.GONE else View.VISIBLE
+            if (location.isEmpty()) View.GONE else View.VISIBLE
         getBindings().tvLocation.text = location
 
     }
@@ -185,7 +159,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         maskCardNo?.let {
             getBindings().tvCardMask.text = "*${maskCardNo}"
         }
-
     }
 
     private fun setSpentLabel() {
@@ -200,11 +173,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 } else
                     openNoteScreen(noteValue = viewModel.state.txnNoteValue.get() ?: "")
         }
-    }
-
-    private fun setTransactionTitle() {
-        viewModel.state.transactionTitle.set(viewModel.transaction.get().getTitle())
-        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.customerId1 == SessionManager.user?.currentCustomer?.customerId)
     }
 
     private fun setMapImageView() {

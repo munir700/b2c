@@ -39,10 +39,7 @@ class TransactionsTests : BaseTestCase() {
         val remarks: String,
         val status: String,
         val currency: String,
-        val amount: Double,
-        val rejected: Boolean,
-        val icon: Int,
-        val statusIcon: Int
+        val amount: Double
     )
 
     @TestFactory
@@ -67,12 +64,11 @@ class TransactionsTests : BaseTestCase() {
         return dynamicTest(displayName) {
             assertEquals(expectation.title, transaction.getTitle())
             assertEquals(expectation.time, transaction.getTransactionTime())
-            assertEquals(expectation.category, transaction.getTransactionTypeTitle())
+            assertEquals(expectation.category, transaction.getTransferType())
             assertEquals(expectation.remarks, transaction.transactionNote)
             assertEquals(expectation.status, transaction.getStatus())
             assertEquals(expectation.amount, transaction.getAmount(), 0.2)
             assertEquals(expectation.currency, transaction.getCurrency())
-            assertEquals(expectation.rejected, transaction.isTransactionRejected())
             assertEquals(getExpectedIcon(transaction), transaction.getIcon())
             assertEquals(getExpectedStatusIcon(transaction), transaction.getStatusIcon())
         }
@@ -105,16 +101,24 @@ class TransactionsTests : BaseTestCase() {
 
     private fun getExpectedStatusIcon(transaction: Transaction): Int {
         return when (transaction.productCode) {
-            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode -> {
+            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
                 R.drawable.ic_identifier_atm_withdrawl
             }
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
+            TransactionProductCode.ATM_DEPOSIT.pCode -> {
                 R.drawable.ic_identifier_atm_deposite
             }
-            TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                if (transaction.isTransactionInProgress()) R.drawable.ic_time else if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_outgoing_transaction_y2y else android.R.color.transparent
+            TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
+                if (transaction.isTransactionInProgress()) R.drawable.ic_time else R.drawable.ic_identifier_atm_withdrawl
             }
-
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                if (transaction.isTransactionInProgress()) R.drawable.ic_time else R.drawable.ic_identifier_atm_deposite
+            }
+            TransactionProductCode.Y2Y_TRANSFER.pCode -> {
+                if (transaction.txnType == TxnType.DEBIT.type) if (transaction.isTransactionInProgress()) R.drawable.ic_time else R.drawable.ic_outgoing_transaction_y2y else android.R.color.transparent
+            }
+            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                if (transaction.isTransactionInProgress()) R.drawable.ic_time else android.R.color.transparent
+            }
             else -> android.R.color.transparent
         }
     }

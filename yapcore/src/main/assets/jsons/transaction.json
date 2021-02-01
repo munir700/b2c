@@ -66,14 +66,23 @@
     "expectation": {
       "title": "Received from Vikas Khanna",
       "time": "04:29 PM",
-      "category": "YTY",
+      "transferType": "YTY",
       "remarks": "Test",
       "status": "",
       "currency": "AED",
       "amount": 100.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Received from Vikas Khanna",
+      "detailTransferType": "YTY transfer",
+      "transferCategory": "Incoming Transfer",
+      "currency": "AED",
+      "amount": 100.00,
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -143,14 +152,23 @@
     "expectation": {
       "title": "Sent to Vikas Khanna",
       "time": "05:46 PM",
-      "category": "YTY",
+      "transferType": "YTY",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 1000.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Sent to Vikas Khanna",
+      "detailTransferType": "YTY transfer",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 1000.00,
+      "spentAmount": 1000.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -220,14 +238,23 @@
     "expectation": {
       "title": "Sent to Vikas Khanna",
       "time": "05:46 PM",
-      "category": "YTY",
+      "transferType": "YTY",
       "remarks": null,
       "status": "Transaction in process",
       "currency": "AED",
       "amount": 1111.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Sent from Vikas Khanna",
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 1111.00,
+      "spentAmount": 1111.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -294,14 +321,24 @@
     "expectation": {
       "title": "Remove from Virtual Card",
       "time": "03:38 PM",
-      "category": "Money moved",
+      "transferType": "Money moved",
       "remarks": null,
       "status": "Transaction in process",
       "currency": "AED",
       "amount": 100.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Remove from Virtual Card",
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "",
+      "currency": "AED",
+      "amount": 100.00,
+      "spentAmount": 100.00,
+      "foreignAmount": null,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -369,14 +406,23 @@
     "expectation": {
       "title": "Add to Virtual Card",
       "time": "06:27 PM",
-      "category": "Money moved",
+      "transferType": "Money moved",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 124.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Add to Virtual Card",
+      "detailTransferType": "Money moved",
+      "transferCategory": "",
+      "currency": "AED",
+      "amount": 124.0,
+      "spentAmount": 124.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -440,14 +486,23 @@
     "expectation": {
       "title": "Top up via *0007",
       "time": "02:40 PM",
-      "category": "Add money",
+      "transferType": "Add money",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 100.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Top up via *0007",
+      "detailTransferType": "Add money",
+      "transferCategory": "Incoming Transfer",
+      "currency": "AED",
+      "amount": 100.00,
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -517,14 +572,23 @@
     "expectation": {
       "title": "Sent to UAE Cbwsi",
       "time": "06:29 PM",
-      "category": "Send money",
+      "transferType": "Send money",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 100.99,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Sent to UAE Cbwsi",
+      "detailTransferType": "Send money",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 100.99,
+      "spentAmount": 100.99,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -601,14 +665,24 @@
     "expectation": {
       "title": "Sent to Australia BT",
       "time": "06:28 PM",
-      "category": "Send money",
+      "transferType": "Send money",
       "remarks": null,
       "status": "",
       "currency": "AUD",
       "amount": 39.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Sent to Australia BT",
+      "detailTransferType": "Send money",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 203.75,
+      "spentAmount": 102.95,
+      "foreignAmount":39.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -680,14 +754,24 @@
     "expectation": {
       "title": "Sent to Bs Ban",
       "time": "04:23 PM",
-      "category": "Send money",
+      "transferType": "Send money",
       "remarks": null,
       "status": "",
       "currency": "PKR",
       "amount": 15000.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Sent to Bs Ban",
+      "detailTransferType": "Send money",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 391.47,
+      "spentAmount": 391.47,
+      "foreignAmount": 15000.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -747,14 +831,23 @@
     "expectation": {
       "title": "Sent to nuha aaa",
       "time": "01:41 PM",
-      "category": "Send money",
+      "transferType": "Send money",
       "remarks": null,
       "status": "Transaction in process",
       "currency": "AED",
       "amount": 564.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Sent to nuha aaa",
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 564.00,
+      "spentAmount":564.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -814,14 +907,23 @@
     "expectation": {
       "title": "Manual Adjustment",
       "time": "07:24 PM",
-      "category": "Fee",
+      "transferType": "Fee",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 100.80,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Manual Adjustment",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
+      "currency": "AED",
+      "amount": 100.80,
+      "spentAmount":100.80,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -880,14 +982,23 @@
     "expectation": {
       "title": "Funds Deposit",
       "time": "04:28 PM",
-      "category": "Inward Bank Transfer",
+      "transferType": "Inward Bank Transfer",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 100.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Funds Deposit",
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "Incoming Funds",
+      "currency": "AED",
+      "amount": 100.00,
+      "spentAmount":100.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -948,14 +1059,23 @@
     "expectation": {
       "title": "Withdrawal",
       "time": "01:01 PM",
-      "category": "Withdraw money",
+      "transferType": "Withdraw money",
       "remarks": null,
-      "status": "",
+      "status": "Transaction in process",
       "currency": "AED",
       "amount": 8000.99,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Withdrawal",
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "",
+      "currency": "AED",
+      "amount": 8000.99,
+      "spentAmount":8000.99,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1021,14 +1141,24 @@
     "expectation": {
       "title": "Withdrawal",
       "time": "03:06 PM",
-      "category": "Withdraw money",
+      "transferType": "Withdraw money",
       "remarks": null,
       "status": "AE",
       "currency": "AED",
       "amount": 102.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Withdrawal",
+      "detailTransferType": "Withdraw money",
+      "transferCategory": "Cash withdraw",
+      "location": "AE",
+      "currency": "AED",
+      "amount": 102.00,
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1094,14 +1224,24 @@
     "expectation": {
       "title": "Spent at AL Jaz Branch ATM 0054",
       "time": "10:37 AM",
-      "category": "Transaction",
+      "transferType": "Transaction",
       "remarks": null,
-      "status": "",
+      "status": "Transaction in process",
       "currency": "AED",
       "amount": 102.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Spent at AL Jaz Branch ATM 0054",
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "Cash",
+      "location": "AE",
+      "currency": "AED",
+      "amount": 102.00,
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1162,14 +1302,24 @@
     "expectation": {
       "title": "Al Nakheel Branch 0002",
       "time": "12:02 PM",
-      "category": "Fee",
+      "transferType": "Fee",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 100.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Al Nakheel Branch 0002",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
+      "location": "AE",
+      "currency": "AED",
+      "amount": 100.00,
+      "spentAmount": 0.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1225,14 +1375,23 @@
     "expectation": {
       "title": "Virtual Card Issuance Fee",
       "time": "06:24 PM",
-      "category": "Fee",
+      "transferType": "Fee",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 15.75,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Virtual Card Issuance Fee",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
+      "currency": "AED",
+      "amount": 15.75,
+      "spentAmount": 0.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1304,14 +1463,23 @@
     "expectation": {
       "title": "Sent to testing  flow",
       "time": "04:21 PM",
-      "category": "Send money",
+      "transferType": "Send money",
       "remarks": null,
       "status": "Transaction in process",
       "currency": "AED",
       "amount": 100.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Sent to testing  flow",
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 100.00,
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1383,14 +1551,23 @@
     "expectation": {
       "title": "To nick jonas ",
       "time": "12:00 PM",
-      "category": "Refund",
+      "transferType": "Refund",
       "remarks": "Reversing transaction 877621209637",
-      "status": "",
+      "status": "Transaction in process",
       "currency": "AED",
       "amount": 1414.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "To nick jonas ",
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "",
+      "currency": "AED",
+      "amount": 1414.00,
+      "spentAmount": 1414.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1452,14 +1629,24 @@
     "expectation": {
       "title": "Cash deposit",
       "time": "04:56 PM",
-      "category": "Deposit",
+      "transferType": "Deposit",
       "remarks": null,
       "status": "AE",
       "currency": "AED",
       "amount": 500.00,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Cash deposit",
+      "detailTransferType": "Deposit",
+      "transferCategory": "Cash deposit",
+      "location": "AE",
+      "currency": "AED",
+      "amount": 500.00,
+      "spentAmount": 500.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1526,14 +1713,24 @@
     "expectation": {
       "title": "Spent at AMAZON PAY INDIA PRIVA",
       "time": "12:31 PM",
-      "category": "Transaction",
+      "transferType": "Transaction",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 205.298,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Spent at AMAZON PAY INDIA PRIVA",
+      "detailTransferType": "Transaction",
+      "transferCategory": "",
+      "location": "AMAZON PAY INDIA PRIVA,BANGALORE    ,null,IN",
+      "currency": "AED",
+      "amount": 205.298,
+      "spentAmount": 205.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1595,14 +1792,24 @@
     "expectation": {
       "title": "Balance Inquiry",
       "time": "04:46 PM",
-      "category": "Fee",
+      "transferType": "Fee",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 1.05,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "Balance Inquiry",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
+      "location": "AE",
+      "currency": "AED",
+      "amount": 1.05,
+      "spentAmount": 0.00,
+      "icon": "",
+      "statusIcon": ""
     }
   },
   {
@@ -1657,14 +1864,23 @@
     "expectation": {
       "title": "FEE",
       "time": "11:43 AM",
-      "category": "Fee",
+      "transferType": "Fee",
       "remarks": null,
       "status": "",
       "currency": "AED",
       "amount": 10.50,
-      "rejected": false,
-      "icon": -1,
-      "statusIcon": -1
+      "icon": "",
+      "statusIcon": ""
+    },
+    "detailExpectation": {
+      "title": "FEE",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
+      "currency": "AED",
+      "amount": 10.50,
+      "spentAmount": 0.00,
+      "icon": "",
+      "statusIcon": ""
     }
   }
 ]
