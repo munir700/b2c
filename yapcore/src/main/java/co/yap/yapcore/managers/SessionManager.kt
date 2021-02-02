@@ -52,6 +52,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
     var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
+    var deepLinkFlowId: MutableLiveData<String?> = MutableLiveData(null)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)

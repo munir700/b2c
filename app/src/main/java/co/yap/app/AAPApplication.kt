@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
+import co.yap.app.modules.refreal.DeepLinkNavigation
 import co.yap.household.onboard.otherscreens.InvalidEIDActivity
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
@@ -204,6 +206,12 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                     }
                 }
 
+            }
+
+            override fun handleDeepLinkFlow(activity: AppCompatActivity, flowId: String?) {
+                if (activity is YapDashboardActivity) {
+                    DeepLinkNavigation.getInstance(activity).handleDeepLinkFlow(flowId)
+                }
             }
         }
     }
