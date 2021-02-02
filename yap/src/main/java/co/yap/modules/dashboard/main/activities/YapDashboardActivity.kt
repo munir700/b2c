@@ -26,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -92,7 +93,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
     var view: CounterFloatingActionButton? = null
-    private lateinit var mNavigator: ActivityNavigator
+    private var mNavigator: ActivityNavigator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,7 +106,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         //  setupOldYapButtons()
         setupNewYapButtons()
         logEvent()
-        mNavigator.handleDeepLinkFlow(this, SessionManager.deepLinkFlowId.value)
+        lifecycleScope.launch {
+            delay(100)
+            mNavigator?.handleDeepLinkFlow(
+                this@YapDashboardActivity,
+                SessionManager.deepLinkFlowId.value
+            )
+        }
     }
 
     private fun logEvent() {
@@ -406,6 +413,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onDestroy() {
+        mNavigator = null
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }

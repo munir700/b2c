@@ -4,7 +4,6 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import co.yap.app.main.MainActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
@@ -17,8 +16,6 @@ import com.adjust.sdk.Adjust
 class AdjustReferrerReceiver : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("AdjustReferrerReceiver", "AdjustReferrerReceiver")
-//        toast("AdjustReferrerReceiver", Toast.LENGTH_LONG)
         intent.data?.let { uri ->
             Adjust.appWillOpenUrl(uri, this)
             val customerId = uri.getQueryParameter(Constants.REFERRAL_ID)
@@ -88,18 +85,6 @@ class AdjustReferrerReceiver : AppCompatActivity() {
                     openLogin()
                 }
             } ?: openLogin()
-//            run {
-////                launchActivityForResult<MainActivity>(init = {
-////                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-////                }, completionHandler = { resultCode, intent ->
-////                    if (resultCode == Activity.RESULT_OK) {
-////                        SessionManager.deepLinkFlowId.value = id
-////                    }
-////                    finish()
-////                })
-
-            // finish()
-//            }
         } ?: run {
             if (isRunning(this))
                 finish()
@@ -119,14 +104,4 @@ class AdjustReferrerReceiver : AppCompatActivity() {
         startActivity(packageManager.getLaunchIntentForPackage(packageName))
         finish()
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == REQUEST_MAIN) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                SessionManager.deepLinkFlowId.value = intent.data?.getQueryParameter("flow_id")
-//                finish()
-//            }
-//        }
-//    }
 }
