@@ -1,6 +1,7 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
 import android.os.Parcelable
+import co.yap.networking.cards.responsedtos.VirtualCardDesigns
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -160,6 +161,8 @@ data class Transaction(
     @SerializedName("receiverProfilePictureUrl")
     val receiverProfilePictureUrl: String? = null,
     @SerializedName("cancelReason")
-    val cancelReason: String? = null
+    val cancelReason: String? = null,
+    @SerializedName("designCodesDTO")
+    val virtualCardDesign: VirtualCardDesigns? = null
 
 ):ApiResponse() ,Parcelable

@@ -1,6 +1,9 @@
 package co.yap.yapcore.yapcore.helpers.extensions
 
+import android.graphics.Color
+import android.view.ViewGroup
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.CircleView
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionProductType
@@ -123,7 +126,6 @@ class TransactionsTests : BaseTestCase() {
             else -> android.R.color.transparent
         }
     }
-
 
     private fun getTransactions(): List<TransactionTest> {
         val gson = GsonBuilder().create();
