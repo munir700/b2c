@@ -92,6 +92,6 @@ interface TransactionsApi {
     suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse>
     suspend fun deleteTransactionReceipt(
         transactionId: String,
-        receipt: ArrayList<String>
+        receipt: String
     ): RetroApiResponse<ApiResponse>
 }

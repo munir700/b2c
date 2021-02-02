@@ -76,6 +76,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
     const val URL_TRANSACTIONS_RECEIPT = "/transactions/api/transaction-receipt/transaction-id"
+    const val URL_TRANSACTIONS_RECEIPT_SAVE = "/transactions/api/transaction-receipt"
+    const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -300,7 +302,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun deleteTransactionReceipt(
         transactionId: String,
-        receipt: ArrayList<String>
+        receipt: String
     ): RetroApiResponse<ApiResponse> = executeSafely(call = {
         api.deleteTransactionReceipt(receipt, transactionId)
     })

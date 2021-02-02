@@ -13,9 +13,13 @@ class IPreviewTransactionReceipt {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var transactionId : String
+        var transactionId: String
         fun handlePressOnView(id: Int)
-        fun saveTransactionReceipt(file : File)
+        fun saveTransactionReceipt(file: File, success: () -> Unit)
+        fun requestSavePicture(
+            actualFile: File,
+            success: () -> Unit
+        )
     }
 
     interface State : IBase.State {

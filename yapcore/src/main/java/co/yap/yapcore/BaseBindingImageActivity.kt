@@ -71,33 +71,34 @@ abstract class BaseBindingImageActivity<V : IBase.ViewModel<*>> : BaseBindingAct
         resultCode: Int,
         data: Intent?
     ) {
-        easyImage.handleActivityResult(
-            requestCode,
-            resultCode,
-            data,
-            this,
-            object : DefaultCallback() {
-                override fun onMediaFilesPicked(
-                    imageFiles: Array<MediaFile>,
-                    source: MediaSource
-                ) {
-                    onPhotosReturned(imageFiles, source)
-                }
+        if (this::easyImage.isInitialized)
+            easyImage.handleActivityResult(
+                requestCode,
+                resultCode,
+                data,
+                this,
+                object : DefaultCallback() {
+                    override fun onMediaFilesPicked(
+                        imageFiles: Array<MediaFile>,
+                        source: MediaSource
+                    ) {
+                        onPhotosReturned(imageFiles, source)
+                    }
 
-                override fun onImagePickerError(
-                    @NonNull error: Throwable,
-                    @NonNull source: MediaSource
-                ) {
-                    //Some error handling
-                    error.printStackTrace()
-                    viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                }
+                    override fun onImagePickerError(
+                        @NonNull error: Throwable,
+                        @NonNull source: MediaSource
+                    ) {
+                        //Some error handling
+                        error.printStackTrace()
+                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+                    }
 
-                override fun onCanceled(@NonNull source: MediaSource) {
-                    //Not necessary to remove any files manually anymore
-                    viewModel.state.toast = "No image detected^${AlertType.DIALOG.name}"
-                }
-            })
+                    override fun onCanceled(@NonNull source: MediaSource) {
+                        //Not necessary to remove any files manually anymore
+                        viewModel.state.toast = "No image detected^${AlertType.DIALOG.name}"
+                    }
+                })
     }
 
     private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {

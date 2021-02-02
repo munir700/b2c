@@ -67,6 +67,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
         setReceiptListener()
+        setObserver()
+    }
+
+    private fun setObserver() {
+        viewModel.responseReciept.observe(this, Observer {
+            viewModel.setAdapterList(it.trxnReceiptList ?: listOf())
+        })
     }
 
     private fun setAmount() {
@@ -74,7 +81,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             when {
 
                 it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
-                    showCurrency = false)
+                    showCurrency = false
+                )
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedCurrency()
                 }
@@ -136,8 +144,10 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     currency = SessionManager.getDefaultCurrency()
                 )
             }" else "+ ${
-                totalAmount.toFormattedCurrency(showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency())
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
             }"
 
         // hiding visibility on nada's request
@@ -237,10 +247,12 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     private fun handleReceiptOptionClick(bottomSheetItem: BottomSheetItem) {
         when (bottomSheetItem.tag) {
             PhotoSelectionType.CAMERA.name -> {
-                startFragment<AddTransactionReceiptFragment>(
+                startFragmentForResult<AddTransactionReceiptFragment>(
                     fragmentName = AddTransactionReceiptFragment::class.java.name,
                     bundle = bundleOf(ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId)
-                )
+                ) { resultCode, data ->
+                    viewModel.getAllReceipts()
+                }
             }
 
             PhotoSelectionType.GALLERY.name -> openImagePicker(PhotoSelectionType.GALLERY)
@@ -248,8 +260,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     }
 
     private fun openAddedReceipt(receiptModel: ReceiptModel) {
-        receiptModel.receiptImageUrl = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
-        this?.startImagePreviewerActivity( this , imageSrc =  receiptModel.receiptImageUrl,title = receiptModel.title,id = viewModel.transaction.get()?.transactionId)
+        receiptModel.receiptImageUrl = receiptModel.receiptImageUrl
+        this?.startImagePreviewerActivity(
+            this,
+            imageSrc = receiptModel.receiptImageUrl,
+            title = receiptModel.title,
+            id = viewModel.transaction.get()?.transactionId
+        )
     }
 
     private fun setTransactionTitle() {
@@ -363,7 +380,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 }
 
                 RequestCodes.REQUEST_DELETE_RECEIPT -> {
-                    viewModel.deleteReceipt(0)
+                    viewModel.getAllReceipts()
                 }
             }
         }
@@ -372,8 +389,10 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onImageReturn(mediaFile: MediaFile) {
         startFragment<PreviewTransactionReceiptFragment>(
             fragmentName = PreviewTransactionReceiptFragment::class.java.name,
-            bundle = bundleOf(FILE_PATH to mediaFile.file.absolutePath,
-            ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId)
+            bundle = bundleOf(
+                FILE_PATH to mediaFile.file.absolutePath,
+                ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId
+            )
         )
     }
 

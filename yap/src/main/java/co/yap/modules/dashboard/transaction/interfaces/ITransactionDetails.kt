@@ -27,6 +27,7 @@ interface ITransactionDetails {
         fun deleteReceipt(position: Int)
         fun getAllReceipts()
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
+        fun setAdapterList(receiptLis: List<String>)
     }
 
     interface State : IBase.State {
@@ -39,6 +40,7 @@ interface ITransactionDetails {
         var transactionNoteDate: String?
         val editNotePrefixText: String get() = "Note added "
         var noteVisibility: ObservableBoolean
+        var receiptVisibility: ObservableBoolean
         var receiptLabel: ObservableField<String>
     }
 }

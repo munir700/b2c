@@ -12,7 +12,7 @@ class ImagePreViewerViewModel(application: Application) :
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var transactionId: String = ""
-    override var receiptArray: ArrayList<String> = arrayListOf()
+    override var receiptId: String = ""
     override val state: ImagePreViewerState =
         ImagePreViewerState()
 
@@ -20,12 +20,14 @@ class ImagePreViewerViewModel(application: Application) :
         clickEvent.postValue(id)
     }
 
-    override fun deleteReceipt() {
+    override fun deleteReceipt(success: () -> Unit) {
         launch {
             state.loading = true
-            when(val response = transactionsRepository.deleteTransactionReceipt(transactionId,receiptArray)){
-                is RetroApiResponse.Success ->{
+            when (val response =
+                transactionsRepository.deleteTransactionReceipt(transactionId, receiptId)) {
+                is RetroApiResponse.Success -> {
                     response.data.let { resp ->
+                        success()
                     }
                     state.loading = false
 

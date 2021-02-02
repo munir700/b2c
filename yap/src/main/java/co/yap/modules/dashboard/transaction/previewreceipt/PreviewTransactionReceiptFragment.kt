@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.previewreceipt
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -29,7 +30,7 @@ class PreviewTransactionReceiptFragment :
                 // image.setImageURI(Uri.fromFile(File(it)))
                 viewModel.state.filePath = Uri.fromFile(File(it))
             }
-            bundle.getString(ExtraKeys.TRANSACTION_ID.name)?.let {id->
+            bundle.getString(ExtraKeys.TRANSACTION_ID.name)?.let { id ->
                 viewModel.transactionId = id
             }
         }
@@ -40,14 +41,18 @@ class PreviewTransactionReceiptFragment :
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnSave -> {
-                    viewModel.state.filePath?.let {uri ->
-                        viewModel.saveTransactionReceipt(File(uri.path?:""))
+                    viewModel.state.filePath?.let { uri ->
+                        val file = File(uri.path ?: "")
+                        viewModel.requestSavePicture(file) {
+                            activity?.setResult(Activity.RESULT_OK)
+                            activity?.finish()
+                        }
                     }
                 }
                 R.id.tvRedo -> {
                     activity?.onBackPressed()
                 }
-                R.id.ivBack ->{
+                R.id.ivBack -> {
                     activity?.finish()
                 }
             }

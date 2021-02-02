@@ -11,7 +11,6 @@ import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
-import com.google.android.gms.common.api.Api
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -211,16 +210,22 @@ interface TransactionsRetroService {
         @Body merchantName: ArrayList<String>?
     ): Response<AnalyticsDetailResponseDTO>
 
-    @GET(TransactionsRepository.URL_TRANSACTIONS_RECEIPT+"/{transaction-id}")
-    suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String) : Response<TransactionReceiptResponse>
+    @GET(TransactionsRepository.URL_TRANSACTIONS_RECEIPT + "/{transaction-id}")
+    suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String): Response<TransactionReceiptResponse>
 
     @Multipart
-    @POST(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
-    suspend fun addTransactionReceipt(@Query("transaction-id") transactionId : String, @Part TransactionReceipt: MultipartBody.Part ):Response<ApiResponse>
+    @POST(TransactionsRepository.URL_TRANSACTIONS_RECEIPT_SAVE)
+    suspend fun addTransactionReceipt(
+        @Query("transaction-id") transactionId: String,
+        @Part TransactionReceipt: MultipartBody.Part
+    ): Response<ApiResponse>
 
     @PUT(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
-    suspend fun updateTransactionReceipt(@Query("transaction-id") transactionId : String): Response<ApiResponse>
+    suspend fun updateTransactionReceipt(@Query("transaction-id") transactionId: String): Response<ApiResponse>
 
-    @DELETE(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
-    suspend fun deleteTransactionReceipt(@Query("receipt-images") receipt : ArrayList<String>, @Query("transaction-id") transactionId : String ) : Response<ApiResponse>
+    @DELETE(TransactionsRepository.URL_TRANSACTIONS_RECEIPT_DELETE)
+    suspend fun deleteTransactionReceipt(
+        @Query("receipt-image") receipt: String,
+        @Query("transaction-id") transactionId: String
+    ): Response<ApiResponse>
 }

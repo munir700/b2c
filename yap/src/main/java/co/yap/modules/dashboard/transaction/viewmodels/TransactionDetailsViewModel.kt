@@ -37,24 +37,22 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        setStatesData()
-        adapter.setList(getReciptItems())
         getAllReceipts()
-        setReceiptLabel(adapter)
+        setStatesData()
     }
 
-    private fun setReceiptLabel(adapter: TransactionReceiptAdapter) {
+    private fun setReceiptLabel(list: List<ReceiptModel>) {
         state.receiptLabel.set(
             when {
-                adapter.getDataList().isNullOrEmpty() -> {
+                list.isNullOrEmpty() -> {
                     getString(Strings.screen_transaction_details_receipt_label)
                 }
-                adapter.getDataList().size == 1 -> {
+                list.size == 1 -> {
                     getString(Strings.screen_transaction_details_single_added_receipt_label).format(
                         adapter.getDataList().size
                     )
                 }
-                adapter.getDataList().size > 1 -> {
+                list.size > 1 -> {
                     getString(Strings.screen_transaction_details_added_receipt_label).format(adapter.getDataList().size)
                 }
                 else -> getString(Strings.screen_transaction_details_receipt_label)
@@ -62,13 +60,11 @@ class TransactionDetailsViewModel(application: Application) :
         )
     }
 
-    private fun getReciptItems(): List<ReceiptModel> {
+    private fun getReciptItems(receiptLis: List<String>): List<ReceiptModel> {
         val list: MutableList<ReceiptModel> = arrayListOf()
-        list.add(ReceiptModel("Receipt 1"))
-        list.add(ReceiptModel("Receipt 4"))
-        list.add(ReceiptModel("Receipt 5"))
-        list.add(ReceiptModel("Receipt 6"))
-        list.add(ReceiptModel("Receipt 6"))
+        for (i in 0..receiptLis.size.minus(1)) {
+            list.add(ReceiptModel("Receipt ${i.plus(1)}", receiptLis[i]))
+        }
         return list
     }
 
@@ -115,9 +111,28 @@ class TransactionDetailsViewModel(application: Application) :
             setTransactionNoteDate()
             state.txnNoteValue.set(transaction.transactionNote)
             setSenderOrReceiver(transaction)
+            setReceiptVisible(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
             state.categoryIcon.set(transaction.getCategoryIcon())
         }
+    }
+
+    private fun setReceiptVisible(transaction: Transaction) {
+        when (transaction.productCode) {
+            TransactionProductCode.ATM_DEPOSIT.pCode -> {
+                state.receiptVisibility.set(true)
+            }
+            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+                state.receiptVisibility.set(true)
+            }
+            TransactionProductCode.POS_PURCHASE.pCode -> {
+                state.receiptVisibility.set(true)
+            }
+            else -> {
+                state.receiptVisibility.set(false)
+            }
+        }
+
     }
 
     private fun setToolbarTitle() {
@@ -160,6 +175,11 @@ class TransactionDetailsViewModel(application: Application) :
             )
         )
         return list
+    }
+
+    override fun setAdapterList(receiptLis: List<String>) {
+        adapter.setList(getReciptItems(receiptLis))
+        setReceiptLabel(adapter.getDataList())
     }
 
 }

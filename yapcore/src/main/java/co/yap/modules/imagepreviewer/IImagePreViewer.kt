@@ -12,10 +12,10 @@ interface IImagePreViewer {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var transactionId : String
-        var receiptArray : ArrayList<String>
+        var transactionId: String
+        var receiptId: String
         fun handlePressOnView(id: Int)
-        fun deleteReceipt()
+        fun deleteReceipt(success: () -> Unit)
     }
 
     interface View : IBase.View<ViewModel>
