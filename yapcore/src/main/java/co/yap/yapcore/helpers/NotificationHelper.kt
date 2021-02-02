@@ -164,7 +164,7 @@ object NotificationHelper {
         return list
     }
 
-    private fun shouldShowSetPin(paymentCard: Card?): Boolean {
+    fun shouldShowSetPin(paymentCard: Card?): Boolean {
         return when {
             paymentCard?.status == PaymentCardStatus.INACTIVE.name && paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> true
             paymentCard?.status == PaymentCardStatus.ACTIVE.name && !paymentCard.pinCreated -> true

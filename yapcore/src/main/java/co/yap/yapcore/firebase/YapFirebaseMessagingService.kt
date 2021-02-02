@@ -15,11 +15,11 @@ class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         SharedPreferenceManager.getInstance(applicationContext).save(KEY_FCM_TOKEN, token)
-        Log.d("YapFirebaseMessaging>>" , token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
+        Log.d("onMessageReceived>>", "onMessageReceived")
     }
 
 }

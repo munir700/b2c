@@ -22,6 +22,6 @@ object RequestCodes {
     const val REQUEST_Y2Y_TRANSFER: Int = 10018
     const val REQUEST_CAMERA_PERMISSION: Int = 111
     const val REQUEST_NOTIFICATION_FLOW: Int = 10019
-    const val REQUEST_MAIN: Int = 10020
+    const val REQUEST_CARD_ADDED: Int = 10020
 
 }
