@@ -131,7 +131,8 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
 
 fun Transaction?.getStatusIcon(): Int {
     this?.let { transaction ->
-        return when (transaction.productCode) {
+        if (transaction.isTransactionInProgress()) return R.drawable.ic_time
+        else return when (transaction.productCode) {
             TransactionProductCode.ATM_WITHDRAWL.pCode -> {
                 R.drawable.ic_identifier_atm_withdrawl
             }
@@ -139,16 +140,16 @@ fun Transaction?.getStatusIcon(): Int {
                 R.drawable.ic_identifier_atm_deposite
             }
             TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
-                if (transaction.isTransactionInProgress()) R.drawable.ic_time else R.drawable.ic_identifier_atm_withdrawl
+                R.drawable.ic_identifier_atm_withdrawl
             }
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
-                if (transaction.isTransactionInProgress()) R.drawable.ic_time else R.drawable.ic_identifier_atm_deposite
+                R.drawable.ic_identifier_atm_deposite
             }
             TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                if (transaction.txnType == TxnType.DEBIT.type) if (transaction.isTransactionInProgress()) R.drawable.ic_time else R.drawable.ic_outgoing_transaction_y2y else android.R.color.transparent
+                if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_outgoing_transaction_y2y else android.R.color.transparent
             }
             TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                if (transaction.isTransactionInProgress()) R.drawable.ic_time else android.R.color.transparent
+                R.drawable.ic_outgoing_transaction_y2y
             }
             else -> android.R.color.transparent
         }

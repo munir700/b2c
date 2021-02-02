@@ -44,7 +44,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 ExtraKeys.TRANSACTION_OBJECT_STRING.name
             ) as Transaction
         )
-        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.customerId1 == SessionManager.user?.currentCustomer?.customerId)
+        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.txnType == TxnType.DEBIT.type)
         setSpentLabel()
         setAmount()
         setMapImageView()
