@@ -9,10 +9,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.extentions.getCategoryIcon
-import co.yap.yapcore.helpers.extentions.getCategoryTitle
-import co.yap.yapcore.helpers.extentions.getFormattedTime
-import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
+import co.yap.yapcore.helpers.extentions.*
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -34,7 +31,7 @@ class TransactionDetailsViewModel(application: Application) :
         transaction.get()?.let { transaction ->
             setToolbarTitle()
             setTransactionNoteDate()
-            state.txnNoteValue.set(transaction.transactionNote)
+            state.txnNoteValue.set(transaction.transactionNote.decodeToUTF8())
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
             state.categoryIcon.set(transaction.getCategoryIcon())
