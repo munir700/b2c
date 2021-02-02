@@ -103,7 +103,7 @@
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
                     android:lines="1"
-                    android:text="@{viewModel.item.title.empty?viewModel.item.description:viewModel.item.title}"
+                    android:text="@{viewModel.item.title == null || viewModel.item.title.empty ?viewModel.item.description:viewModel.item.title}"
                     android:textSize="@dimen/text_size_h3"
                     android:typeface="@{Typeface.defaultFromStyle(viewModel.item.isRead?Typeface.NORMAL: Typeface.BOLD)}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
