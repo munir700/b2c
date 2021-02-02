@@ -14,7 +14,6 @@ import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.extentions.*
 
 
 class TransactionDetailsViewModel(application: Application) :
