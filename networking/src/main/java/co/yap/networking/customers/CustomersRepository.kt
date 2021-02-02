@@ -119,6 +119,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_ADDITIONAL_DOCUMENT = "customers/api/additional/documents/required"
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
+    const val URL_SEND_INVITE_FRIEND = "customers/api/save-invite"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -413,5 +414,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.uploadAdditionalQuestion(uploadAdditionalInfo)
         })
 
+    override suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.sendInviteFriend(sendInviteFriendRequest)
+        })
 
 }
