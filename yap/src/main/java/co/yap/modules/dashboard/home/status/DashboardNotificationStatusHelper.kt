@@ -48,10 +48,14 @@ class DashboardNotificationStatusHelper(
                 list
             }
         }
+       initAdapter(onboardingStagesList)
+        setUpAdapter()
+    }
+
+    fun initAdapter(onboardingStagesList: MutableList<StatusDataModel>) {
         dashboardNotificationStatusAdapter =
             DashboardNotificationStatusAdapter(getContext(), onboardingStagesList)
         dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
-        setUpAdapter()
     }
 
     private fun setUpAdapter() {
@@ -79,7 +83,7 @@ class DashboardNotificationStatusHelper(
         binding.lyInclude.rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
     }
 
-    fun getStatusList(): MutableList<StatusDataModel> {
+      fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
         list.add(
             StatusDataModel(
@@ -325,6 +329,8 @@ class DashboardNotificationStatusHelper(
             getStatusList()[2]
         )
     }
+
+
 
     private fun openAdditionalRequirementScreen() {
         getMyFragment().launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)
