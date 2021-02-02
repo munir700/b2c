@@ -14,6 +14,8 @@ import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.*
+
 
 class TransactionDetailsViewModel(application: Application) :
     BaseViewModel<ITransactionDetails.State>(application), ITransactionDetails.ViewModel {
@@ -34,7 +36,7 @@ class TransactionDetailsViewModel(application: Application) :
         transaction.get()?.let { transaction ->
             setToolbarTitle()
             setTransactionNoteDate()
-            state.txnNoteValue.set(transaction.transactionNote)
+            state.txnNoteValue.set(transaction.transactionNote.decodeToUTF8())
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(getTransferCategoryTitle(transaction))
             state.categoryIcon.set(getTransferCategoryIcon(transaction))

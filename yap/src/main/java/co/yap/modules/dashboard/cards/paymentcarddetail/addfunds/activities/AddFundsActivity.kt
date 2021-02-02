@@ -266,11 +266,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
-//        getBinding().etAmountLayout.background =
-//            this.resources.getDrawable(
-//                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
-//                null
-//            )
         if (!isError) cancelAllSnackBar()
         viewModel.state.valid.set(isValid)
     }
@@ -357,7 +352,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }
             Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 1500)
             runCardAnimation()
-            runCardNameAnimation()
         }
     }
 
@@ -397,16 +391,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         }, 500)
     }
 
-    private fun runCardNameAnimation() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            cardNameAnimation().apply {
-                addListener(onEnd = {
-                })
-            }.start()
-        }, 500)
-    }
-
-
     private fun cardAnimation(): AnimatorSet {
         val checkBtnEndPosition =
             (cardInfoLayout.measuredWidth / 2) - (getBinding().cardInfoLayout.ivCustomCard.width / 2)
@@ -419,21 +403,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             ),
             AnimationUtils.pulse(getBinding().cardInfoLayout.ivCustomCard)
         )
-    }
-
-    private fun cardNameAnimation(): AnimatorSet {
-        val checkBtnEndPosition =
-            (cardInfoLayout.measuredWidth / 2) - (getBinding().cardInfoLayout.tvCardNameOnCardImage.width / 2)
-        return AnimationUtils.runSequentially(
-            AnimationUtils.slideHorizontal(
-                view = getBinding().cardInfoLayout.tvCardNameOnCardImage,
-                from = getBinding().cardInfoLayout.tvCardNameOnCardImage.x,
-                to = checkBtnEndPosition.toFloat(),
-                duration = 500
-            ),
-            AnimationUtils.pulse(getBinding().cardInfoLayout.tvCardNameOnCardImage)
-        )
-
     }
 
     private fun setupActionsIntent() {
