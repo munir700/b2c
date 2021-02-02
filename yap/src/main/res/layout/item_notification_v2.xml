@@ -76,7 +76,7 @@
                 app:imageSize="@{R.dimen._35sdp}"
                 android:contentDescription="@string/empty_string"
                 app:bgColor="@{R.color.bg_round_light_green}"
-                app:fullName="@{viewModel.item.firstName + ` ` + viewModel.item.lastName}"
+                app:fullName="@{viewModel.item.fullName}"
                 app:imageUrl="@{viewModel.item.profilePicUrl}"
                 app:initialTextColor="@{R.color.colorDarkAqua}"
                 app:initialTextSize="@{R.dimen.text_size_h3}"
