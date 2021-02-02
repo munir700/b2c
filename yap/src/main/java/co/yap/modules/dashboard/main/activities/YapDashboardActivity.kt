@@ -46,6 +46,8 @@ import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
@@ -90,10 +92,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
     var view: CounterFloatingActionButton? = null
-
+    private lateinit var mNavigator: ActivityNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mNavigator = (applicationContext as NavigatorProvider).provideNavigator()
         SessionManager.getCountriesFromServer { _, _ -> }
         inflateFloatingActonButton()
         setupPager()
@@ -102,6 +105,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         //  setupOldYapButtons()
         setupNewYapButtons()
         logEvent()
+        mNavigator.handleDeepLinkFlow(this, SessionManager.deepLinkFlowId.value)
     }
 
     private fun logEvent() {
@@ -614,7 +618,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
     }
 
-    private fun getViewBinding(): ActivityYapDashboardBinding {
+    fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
     }
 
