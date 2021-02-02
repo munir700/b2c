@@ -1,4 +1,4 @@
-package co.yap.yapcore.firebase
+package co.yap.app
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -30,8 +30,9 @@ class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
         val notificationManager =
             getSystemService(NotificationManager::class.java) as NotificationManager
         notificationManager.sendNotification(
-            notificationTitle = "Yap notification",
-            messageBody = "Here is the yap testing notification", applicationContext = applicationContext
+            notificationTitle = remoteMessage.notification?.title ?: "",
+            messageBody = remoteMessage.notification?.body ?: "",
+            applicationContext = applicationContext
         )
     }
 

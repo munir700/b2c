@@ -79,7 +79,7 @@
             android:value="@string/facebook_app_id" />
 
         <service
-            android:name="co.yap.yapcore.firebase.YapFirebaseMessagingService"
+            android:name=".YapFirebaseMessagingService"
             android:exported="false"
             android:permission="${applicationId}.permission">
             <intent-filter>

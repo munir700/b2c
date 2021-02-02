@@ -19,5 +19,7 @@ fun NotificationManager.sendNotification(
             .setSmallIcon(R.drawable.ic_yap)
             .setContentTitle(notificationTitle)
             .setContentText(messageBody)
-    notify(notificationId, builder.build())
+    notify(
+        notificationId, builder.build()
+    )
 }
