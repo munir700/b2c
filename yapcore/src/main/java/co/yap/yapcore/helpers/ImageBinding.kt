@@ -109,7 +109,7 @@ object ImageBinding {
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
             .height(imageView.context.dimen(R.dimen._35sdp))
-            .fontSize(imageView.context.dimen(R.dimen.text_size_h2))
+            .fontSize(imageView.context.dimen(R.dimen.text_size_h1))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
             .toUpperCase()
             .textColor(colorCode ?: -1)

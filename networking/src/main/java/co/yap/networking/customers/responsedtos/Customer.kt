@@ -51,8 +51,8 @@ class Customer(
     var homeCountry: String? = null,
     @SerializedName("founder")
     var founder: Boolean? = false,
-    @Transient
-    var profileAccentColor: String = "#AD5E35B1"
+    @SerializedName("customerColor")
+    var customerColor: String? = null
 
 ) : Parcelable {
 
@@ -105,6 +105,6 @@ class Customer(
         profilePictureName = picture
     }
 
-    val parsedColor: Int? get() = Color.parseColor("#ffc430")
+    val parsedColor: Int? get() = Color.parseColor(customerColor ?: "#5E35B1")
 
 }

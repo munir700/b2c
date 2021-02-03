@@ -37,37 +37,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_settings" />
 
-<!--        <co.yap.widgets.CoreCircularImageView-->
-<!--            android:id="@+id/imgProfile"-->
-<!--            android:layout_width="@dimen/_64sdp"-->
-<!--            android:layout_height="@dimen/_64sdp"-->
-<!--            android:layout_marginTop="@dimen/_24sdp"-->
-<!--            android:contentDescription="@string/empty_string"-->
-<!--            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"-->
-<!--            android:visibility="@{viewModel.state.image.empty ? View.INVISIBLE:View.VISIBLE}"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:src="@{viewModel.state.image}" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/tvNameInitials"-->
-<!--            style="@style/ALarge"-->
-<!--            android:layout_width="@dimen/_64sdp"-->
-<!--            android:layout_height="@dimen/_64sdp"-->
-<!--            android:background="@drawable/tag_background"-->
-<!--            android:gravity="center"-->
-<!--            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"-->
-<!--            android:text="@{viewModel.state.initials}"-->
-<!--            android:textColor="?attr/colorPrimaryAttr"-->
-<!--            android:textSize="@dimen/_24sdp"-->
-<!--            android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/imgProfile"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/imgProfile"-->
-<!--            tools:text="NM" />-->
-
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
@@ -77,6 +46,7 @@
             android:layout_marginTop="@dimen/margin_extra_small"
             android:background="@drawable/bg_round_white"
             android:contentDescription="@string/empty_string"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             tools:src="@drawable/lp_messaging_ui_icon_image_broken"
             app:imageUrl="@{viewModel.state.image == null ? `` : viewModel.state.image}"
             app:fullName="@{SessionManager.INSTANCE.user.currentCustomer.getFullName()}"
