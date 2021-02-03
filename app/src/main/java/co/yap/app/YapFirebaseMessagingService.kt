@@ -2,13 +2,18 @@ package co.yap.app
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
-import android.graphics.Color
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.os.bundleOf
+import co.yap.app.modules.refreal.AdjustReferrerReceiver
+import co.yap.app.modules.refreal.DeepLinkNavigation
+import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_FCM_TOKEN
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.sendNotification
 import com.google.firebase.messaging.RemoteMessage
 import com.leanplum.LeanplumPushFirebaseMessagingService
 
@@ -26,33 +31,55 @@ class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        createNotificationChannel()
+        sendNotification(remoteMessage)
+    }
+
+    private fun sendNotification(
+        remoteMessage: RemoteMessage
+    ) {
         val notificationManager =
             getSystemService(NotificationManager::class.java) as NotificationManager
-        notificationManager.sendNotification(
-            notificationTitle = remoteMessage.notification?.title ?: "",
-            messageBody = remoteMessage.notification?.body ?: "",
-            applicationContext = applicationContext
+        createNotificationChannel(notificationManager)
+        val notificationId = java.util.Random().nextInt()
+        // Create an explicit intent for an Activity in your app
+        val intent = Intent(this, AdjustReferrerReceiver::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        intent.putExtra(
+            Constants.EXTRA,
+            bundleOf(
+                "flow_id" to DeepLinkNavigation.DeepLinkFlow.TRANSACTION_DETAILS.flowId
+            )
+        )
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT,
+            bundleOf()
+        )
+        val builder: NotificationCompat.Builder =
+            NotificationCompat.Builder(applicationContext, getNotificationChannelId())
+                .setAutoCancel(true).setSmallIcon(R.drawable.ic_yap).setContentTitle(
+                    remoteMessage.notification?.title
+                        ?: ""
+                ).setContentText(remoteMessage.notification?.body ?: "")
+        builder.setContentIntent(pendingIntent)
+        notificationManager.notify(
+            notificationId, builder.build()
         )
     }
 
-    private fun createNotificationChannel() {
+    private fun createNotificationChannel(notificationManager: NotificationManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val morningNotificationChannel =
                 NotificationChannel(
-                    "NotificationChannelId",
-                    "NotificationChannelName",
+                    getNotificationChannelId(),
+                    getNotificationChannelName(),
                     NotificationManager.IMPORTANCE_HIGH
                 )
-            morningNotificationChannel.enableLights(true)
-            morningNotificationChannel.lightColor = Color.BLUE
-            morningNotificationChannel.enableVibration(true)
-
-            val notificationManager = getSystemService(
-                Context.NOTIFICATION_SERVICE
-            ) as NotificationManager
             notificationManager.createNotificationChannel(morningNotificationChannel)
         }
     }
+
+    private fun getNotificationChannelId() = "transaction"
+    private fun getNotificationChannelName() = "NotificationChannelName"
 
 }

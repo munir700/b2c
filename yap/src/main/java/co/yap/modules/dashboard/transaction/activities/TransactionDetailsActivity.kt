@@ -40,11 +40,13 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transaction.set(
-            intent?.getParcelableExtra(
-                ExtraKeys.TRANSACTION_OBJECT_STRING.name
-            ) as Transaction
-        )
+        if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
+            intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
+                viewModel.transaction.set(
+                    it
+                )
+            }
+        }
         setSpentLabel()
         setAmount()
         setMapImageView()
@@ -62,7 +64,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
 
-                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(showCurrency = false)
+                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
+                    showCurrency = false
+                )
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedCurrency()
                 }
@@ -121,7 +125,10 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
                 showCurrency = false,
                 currency = SessionManager.getDefaultCurrency()
-            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())}"
+            )}" else "+ ${totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = SessionManager.getDefaultCurrency()
+            )}"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {
@@ -304,22 +311,24 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     fun setResult() {
         val intent = Intent()
-        intent.putExtra(
-            ExtraKeys.TRANSACTION_OBJECT_STRING.name,
-            viewModel.transaction.get() as Transaction
-        )
-        intent.putExtra(
-            ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, getIntent().getIntExtra(
-                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, -1
+        if (viewModel.transaction.get() is Transaction) {
+            intent.putExtra(
+                ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                viewModel.transaction.get() as Transaction
             )
-        )
-        intent.putExtra(
-            ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, getIntent().getIntExtra(
-                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
+            intent.putExtra(
+                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, getIntent().getIntExtra(
+                    ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, -1
+                )
             )
-        )
+            intent.putExtra(
+                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, getIntent().getIntExtra(
+                    ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
+                )
+            )
 
-        setResult(Activity.RESULT_OK, intent)
+            setResult(Activity.RESULT_OK, intent)
+        }
         finish()
     }
 

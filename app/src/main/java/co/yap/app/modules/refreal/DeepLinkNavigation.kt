@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notifications.main.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
+import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -186,6 +187,9 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
                     activity.getViewBinding().bottomNav.selectedItemId = R.id.yapStore
                     // activity.getViewBinding().viewPager.setCurrentItem(1, false)
                 }
+                DeepLinkFlow.TRANSACTION_DETAILS.flowId -> {
+                    activity.launchActivity<TransactionDetailsActivity>()
+                }
                 else -> {
                 }
             }
@@ -193,7 +197,7 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
         SessionManager.deepLinkFlowId.value = null
     }
 
-    private enum class DeepLinkFlow(val flowId: String) {
+    enum class DeepLinkFlow(val flowId: String) {
         SET_PIN("set_pin"),
         CARD_STATMENT("card_statements"),
         ANALYTICS("analytics"),
@@ -214,6 +218,7 @@ class DeepLinkNavigation private constructor(private val activity: YapDashboardA
         TOP_UP("top_up"),
         YAP_STORE("yap_store"),
         DASHBOARD("dashboard"),
+        TRANSACTION_DETAILS("TransactionDetails"),
     }
 }
 

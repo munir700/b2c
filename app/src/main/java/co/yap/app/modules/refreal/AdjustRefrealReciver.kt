@@ -76,20 +76,31 @@ class AdjustReferrerReceiver : AppCompatActivity() {
         intent.data?.getQueryParameter("flow_id")?.let { id ->
             SessionManager.deepLinkFlowId.value = id
             SessionManager.user?.let {
-                if (isYapDashboardRunning(this)) {
-                    val i = Intent(this, YapDashboardActivity::class.java)
-                    i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(i)
-                    finish()
-                } else {
-                    openLogin()
-                }
+                launchYapDashboard()
             } ?: openLogin()
         } ?: run {
-            if (isRunning(this))
-                finish()
-            else
-                startLauncherActivity()
+            intent.getBundleExtra(Constants.EXTRA)?.let {
+                SessionManager.deepLinkFlowId.value = it.getString("flow_id")
+                SessionManager.user?.let {
+                    launchYapDashboard()
+                } ?: openLogin()
+            } ?: run {
+                if (isRunning(this))
+                    finish()
+                else
+                    startLauncherActivity()
+            }
+        }
+    }
+
+    private fun launchYapDashboard() {
+        if (isYapDashboardRunning(this)) {
+            val i = Intent(this, YapDashboardActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(i)
+            finish()
+        } else {
+            openLogin()
         }
     }
 
