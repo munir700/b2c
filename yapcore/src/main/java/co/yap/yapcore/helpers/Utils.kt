@@ -31,6 +31,7 @@ import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.loading.CircularProgressBar
@@ -622,6 +623,7 @@ object Utils {
     }
 
     fun shareText(context: Context, body: String) {
+        InviteFriendRepository().inviteAFriend()
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(Intent.EXTRA_TEXT, body)

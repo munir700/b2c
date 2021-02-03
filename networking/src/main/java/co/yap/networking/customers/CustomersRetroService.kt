@@ -273,4 +273,8 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)
     suspend fun uploadAdditionalQuestion(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_SEND_INVITE_FRIEND)
+    suspend fun sendInviteFriend(@Body sendInviteFriendRequest: SendInviteFriendRequest): Response<ApiResponse>
+
 }

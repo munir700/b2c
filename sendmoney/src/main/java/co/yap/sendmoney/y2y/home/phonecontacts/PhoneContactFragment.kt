@@ -16,6 +16,7 @@ import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -116,14 +117,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
     }
 
     private fun sendInvite(contact: Contact) {
-        shareInfo(contact)
-    }
-
-    private fun shareInfo(contact: Contact) {
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext(), contact))
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
+      Utils.shareText(requireContext(),getBody(requireContext(), contact))
     }
 
     private fun getBinding(): FragmentPhoneContactsBinding {
