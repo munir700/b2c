@@ -13,11 +13,10 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.fragments.YapForYouBaseFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.networking.customers.requestdtos.SendInviteFriendRequest
+import co.yap.repositories.InviteFriendRepository
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.YAPForYouGoalAction
 import co.yap.yapcore.enums.YapForYouGoalType
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
@@ -67,13 +66,11 @@ class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDeta
         when (controller) {
             YapForYouGoalType.INVITE_FRIEND.name -> {
                 context?.inviteFriendIntent()
-                viewModel.inviteFriend(
-                    SendInviteFriendRequest(
-                        inviteeCustomerId = SessionManager.user?.currentCustomer?.customerId ?: "",
-                        referralDate = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd HH:mm:ss")
-                    )
-                )
+                InviteFriendRepository().inviteAFriend {
+                    viewModel.parentViewModel?.getAchievements()
+                }
             }
+
             AddMoneyActivity::class.simpleName -> {
                 launchActivityForResult<AddMoneyActivity>(type = FeatureSet.TOP_UP) { _, _ ->
                     viewModel.parentViewModel?.getAchievements()
