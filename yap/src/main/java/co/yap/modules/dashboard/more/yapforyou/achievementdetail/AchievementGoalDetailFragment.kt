@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.fragments.YapForYouBaseFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
+import co.yap.repositories.InviteFriendRepository
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.YAPForYouGoalAction
 import co.yap.yapcore.enums.YapForYouGoalType
@@ -65,7 +66,11 @@ class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDeta
         when (controller) {
             YapForYouGoalType.INVITE_FRIEND.name -> {
                 context?.inviteFriendIntent()
+                InviteFriendRepository().inviteAFriend {
+                    viewModel.parentViewModel?.getAchievements()
+                }
             }
+
             AddMoneyActivity::class.simpleName -> {
                 launchActivityForResult<AddMoneyActivity>(type = FeatureSet.TOP_UP) { _, _ ->
                     viewModel.parentViewModel?.getAchievements()

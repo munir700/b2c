@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavOptions
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentY2YSearchContactsBinding
 import co.yap.sendmoney.y2y.home.adaptors.PHONE_CONTACTS
@@ -16,7 +15,6 @@ import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
-import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
