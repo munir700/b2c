@@ -40,5 +40,13 @@ data class HomeNotification(
     @Transient var isPinned: Boolean? = false,
     @Transient var btnTitle: String? = ""
 ) : ApiResponse(), Parcelable {
-    fun fullName() = "$firstName $lastName"
+    fun fullName() = when {
+        "$firstName $lastName" == "null null" -> {
+            title
+        }
+        title == null -> {
+            description
+        }
+        else -> "$firstName $lastName"
+    }
 }
