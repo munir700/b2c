@@ -174,23 +174,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.imgProfile -> {
+            R.id.imgProfile, R.id.imgSettings-> {
                 startActivity(MoreActivity.newIntent(requireContext()))
-            }
-            R.id.imgSettings -> {
-                /*activity?.let { activity ->
-                    val tour = TourSetup(activity, setViewsArray())
-                    tour.startTour()
-                }*/
-                startActivity(MoreActivity.newIntent(requireContext()))
-            }
-            R.id.tvName -> {
-                startActivity(MoreActivity.newIntent(requireContext()))
-            }
-            R.id.tvNameInitials -> {
-                startActivity(MoreActivity.newIntent(requireContext()))
-            }
-            R.id.tvIban -> {
             }
             R.id.btnBankDetails -> {
                 startActivity(BankDetailActivity.newIntent(requireContext()))
