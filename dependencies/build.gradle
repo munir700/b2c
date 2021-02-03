@@ -122,6 +122,7 @@ project.ext {
             analytics                : 'com.google.firebase:firebase-analytics-ktx:18.0.0',
             messagingFcm             : 'com.google.firebase:firebase-messaging-ktx:21.0.1',
             playServicesLocation     : 'com.google.android.gms:play-services-location:17.1.0',
+            directboot               : 'com.google.firebase:firebase-messaging-directboot:21.0.1',
 
             //Leanplum
             leanplumFcm              : 'com.leanplum:leanplum-fcm:5.2.3',
@@ -159,7 +160,7 @@ project.ext {
 
             tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0',
             deeplink                 : 'com.airbnb:deeplinkdispatch:5.2.0',
-            deeplinkprocessor        :'com.airbnb:deeplinkdispatch-processor:5.2.0'
+            deeplinkprocessor        : 'com.airbnb:deeplinkdispatch-processor:5.2.0'
 
     ]
 
@@ -223,6 +224,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
             [configuration: "implementation", dependency: libraries.analytics],
+            [configuration: "implementation", dependency: libraries.directboot],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]
