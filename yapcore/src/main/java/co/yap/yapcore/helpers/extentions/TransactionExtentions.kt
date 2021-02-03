@@ -38,8 +38,8 @@ fun Transaction?.getTitle(): String {
                 } ?: transaction.title ?: "Unknown"
 
             }
-            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from Virtual Card"
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to Virtual Card"
+            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${transaction.cardName?:"Virtual Card"}"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${transaction.cardName?:"Virtual Card"}"
             TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
             TransactionProductCode.ATM_WITHDRAWL.pCode -> "Withdrawal"
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
@@ -54,9 +54,6 @@ fun Transaction?.getIcon(): Int {
         return when {
             transaction.isTransactionRejected() -> R.drawable.ic_transaction_rejected
             else -> when (transaction.productCode) {
-                TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> {
-                    R.drawable.ic_package_standered
-                }
                 TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
                     R.drawable.ic_icon_card_transfer
                 }
@@ -65,7 +62,7 @@ fun Transaction?.getIcon(): Int {
                 }
                 else -> return when (transaction.getProductType()) {
                     TransactionProductType.IS_BANK, TransactionProductType.IS_INCOMING -> R.drawable.ic_transaction_bank
-                    TransactionProductType.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
+                    TransactionProductType.IS_TRANSACTION_FEE -> R.drawable.ic_transaction_fee
                     TransactionProductType.IS_REFUND -> R.drawable.ic_refund
                     TransactionProductType.IS_CASH -> R.drawable.ic_cash_out_trasaction
                     else -> -1

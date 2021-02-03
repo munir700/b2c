@@ -1,9 +1,6 @@
 package co.yap.yapcore.yapcore.helpers.extensions
 
-import android.graphics.Color
-import android.view.ViewGroup
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.widgets.CircleView
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionProductType
@@ -81,9 +78,6 @@ class TransactionsTests : BaseTestCase() {
         return when {
             transaction.isTransactionRejected() -> R.drawable.ic_transaction_rejected
             else -> when (transaction.productCode) {
-                TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> {
-                    R.drawable.ic_package_standered
-                }
                 TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
                     R.drawable.ic_icon_card_transfer
                 }
@@ -93,7 +87,9 @@ class TransactionsTests : BaseTestCase() {
 
                 else -> return when (transaction.getProductType()) {
                     TransactionProductType.IS_BANK, TransactionProductType.IS_INCOMING -> R.drawable.ic_transaction_bank
-                    TransactionProductType.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
+                    TransactionProductType.IS_TRANSACTION_FEE -> R.drawable.ic_transaction_fee
+
+
                     TransactionProductType.IS_REFUND -> R.drawable.ic_refund
                     TransactionProductType.IS_CASH -> R.drawable.ic_cash_out_trasaction
                     else -> -1

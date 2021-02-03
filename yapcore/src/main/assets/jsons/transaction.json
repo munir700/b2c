@@ -301,6 +301,7 @@
       "userType2": "B2C_ACCOUNT",
       "userType1": "B2C_ACCOUNT",
       "title": "Withdrew money from GFSFSFFSG",
+      "cardName":"GFSFSFFSG",
       "markupFees": 0.00,
       "postedFees": 0.00,
       "vatAmount": 0.00,
@@ -319,7 +320,7 @@
       "createdOn": "2021-01-03T10:38:10"
     },
     "expectation": {
-      "title": "Remove from Virtual Card",
+      "title": "Remove from GFSFSFFSG",
       "time": "03:38 PM",
       "transferType": "Money moved",
       "remarks": null,
@@ -386,6 +387,7 @@
       "userType2": "B2C_ACCOUNT",
       "userType1": "B2C_ACCOUNT",
       "title": "Add money to TEST",
+      "cardName":"TEST",
       "markupFees": 0.00,
       "postedFees": 0.00,
       "vatAmount": 0.00,
@@ -404,7 +406,7 @@
       "createdOn": "2021-01-20T13:27:41"
     },
     "expectation": {
-      "title": "Add to Virtual Card",
+      "title": "Add to TEST",
       "time": "06:27 PM",
       "transferType": "Money moved",
       "remarks": null,
