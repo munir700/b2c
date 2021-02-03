@@ -7,7 +7,6 @@ data class Y2YFundsTransferRequest(
     @SerializedName("beneficiaryName") var beneficiaryName: String?,
     @SerializedName("amount") var amount: String?,
     @SerializedName("otpVerificationReq") var otpVerificationReq: Boolean?,
-    @SerializedName("transactionNote") var transactionNote: String?,
     @SerializedName("remarks") var remarks: String?
 ) {
 }

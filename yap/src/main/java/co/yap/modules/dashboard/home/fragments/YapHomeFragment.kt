@@ -88,7 +88,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override var transactionViewHelper: TransactionsViewHelper? = null
     private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
     private lateinit var skeleton: Skeleton
-    private lateinit var tvBalanceSkeleton: Skeleton
     private var tourStep: TourSetup? = null
 
     override val viewModel: YapHomeViewModel
@@ -714,10 +713,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val isSkip =
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
-                    if (isPinSet && isSkip) {
-                        SessionManager.getDebitCard()
+                    if (isPinSet) {
+                        SessionManager.getDebitCard {
+                            GlobalScope.launch(Dispatchers.Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                     } else {
-                        SessionManager.getDebitCard()
+                        SessionManager.getDebitCard {
+                            GlobalScope.launch(Dispatchers.Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                         launchActivity<AddMoneyActivity>()
                     }
                 }
