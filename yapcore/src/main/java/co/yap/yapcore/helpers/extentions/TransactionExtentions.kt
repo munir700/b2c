@@ -320,14 +320,10 @@ fun Transaction?.isTransactionInProgress(): Boolean {
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {
-    if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) {
-        return ""
-    } else {
-        (return when (this?.txnType) {
-            TxnType.DEBIT.type -> "-"
-            TxnType.CREDIT.type -> "+"
-            else -> ""
-        })
+    return when (this?.txnType) {
+        TxnType.DEBIT.type -> "-"
+        TxnType.CREDIT.type -> "+"
+        else -> ""
     }
 }
 
