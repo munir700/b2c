@@ -158,14 +158,11 @@ class PhoneVerificationSignInViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        SessionManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
                         SessionManager.usersList?.value = response.data.data as ArrayList
-
+                        SessionManager.user = SessionManager.getCurrentUser()
                         SessionManager.setupDataSetForBlockedFeatures()
-                        trackEventWithAttributes(
-                            SessionManager.user
-                        )
+                        trackEventWithAttributes(SessionManager.user)
+                        accountInfo.postValue(SessionManager.user)
                     }
                     state.loading = false
                 }

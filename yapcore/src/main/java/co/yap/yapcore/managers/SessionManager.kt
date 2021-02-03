@@ -209,7 +209,10 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                         getDebitFromList(it)?.let { debitCard ->
                             card.postValue(debitCard)
                             success.invoke(debitCard)
-                        } ?: "Debit card not found"
+                        } ?: run {
+                            success.invoke(null)
+                            "Debit card not found"
+                        }
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -264,6 +267,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
+
             override fun onLogoutFailed() {
             }
         })
@@ -288,6 +292,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
         }
     }
+
     fun shouldGoToHousehold(): Boolean {
         val yapUser = getYapUser()
         val householdUser = getHouseholdUser()

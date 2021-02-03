@@ -30,22 +30,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         trackScreenViewEvent()
         if (shouldRegisterViewModelLifeCycle)
             registerStateListeners()
-        viewModel.state.viewState.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                when (it) {
-                    is String -> {
-                        viewModel.state.toast = it
-                    }
-                    is Boolean -> {
-                        viewModel.state.loading = it
-                    }
-                    else -> {
 
-                    }
-                }
-
-            }
-        })
     }
 
     override fun onDestroyView() {
@@ -148,6 +133,22 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     }
 
     open fun registerStateListeners() {
+        viewModel.state.viewState.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = it
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        })
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })

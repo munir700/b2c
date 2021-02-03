@@ -55,27 +55,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         permissionsManager = PermissionsManager(this, this, this)
         if (shouldRegisterViewModelLifeCycle) {
             registerStateListeners()
-
         }
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
 
-        viewModel.state.viewState.observe(this, Observer {
-            it?.let {
-                when (it) {
-                    is String -> {
-                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
-                    }
-                    is Boolean -> {
-                        viewModel.state.loading = it
-                    }
-                    else -> {
 
-                    }
-                }
-
-            }
-        })
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -265,6 +249,22 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     }
 
     open fun registerStateListeners() {
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        })
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })

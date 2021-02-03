@@ -314,28 +314,6 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
-//<<<<<<< HEAD
-//            trackEvents(it)
-//            SessionManager.updateCardBalance { }
-//            viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
-//            if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
-//                    KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-//                    false
-//                ) != true
-//            ) {
-//                if (BiometricUtil.hasBioMetricFeature(requireContext())) {
-//                    val action =
-//                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-//                            Constants.TOUCH_ID_SCREEN_TYPE
-//                        )
-//                    navigate(action)
-//                    viewModel.parentViewModel?.shardPrefs?.save(
-//                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-//                        true
-//                    )
-//                } else {
-//                    viewModel.parentViewModel?.shardPrefs?.save(
-//=======
             trackEvents(it)
             trackEventWithScreenName(if (viewModel.isFingerprintLogin) FirebaseEvent.SIGN_IN_TOUCH else FirebaseEvent.SIGN_IN_PIN)
             TourGuideManager.getTourGuides()

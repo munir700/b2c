@@ -165,12 +165,11 @@ class VerifyPasscodeViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
                        // SessionManager.user = response.data.data[0]
-                        SessionManager.user = getCurrentUser()
-                        accountInfo.postValue(SessionManager.user)
                         SessionManager.usersList?.value = response.data.data as ArrayList
-
+                        SessionManager.user = getCurrentUser()
                         SessionManager.setupDataSetForBlockedFeatures()
                         trackEventWithAttributes(SessionManager.user)
+                        accountInfo.postValue(SessionManager.user)
                         state.loading = false
                     }
                 }
