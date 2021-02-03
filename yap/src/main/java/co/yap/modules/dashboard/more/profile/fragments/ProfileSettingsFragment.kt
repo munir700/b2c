@@ -29,6 +29,7 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
@@ -116,8 +117,16 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             Constants.EVENT_REMOVE_PHOTO -> {
                 viewModel.requestRemoveProfilePicture {
                     if (it) {
-                        ivProfilePic.setImageDrawable(null)
                         ivAddProfilePic.setImageResource(R.drawable.ic_add)
+                        SessionManager.user?.let { user ->
+                            ImageBinding.loadAvatar(
+                                ivProfilePic,
+                                user.currentCustomer.getPicture(),
+                                user.currentCustomer.getFullName(),
+                                user.currentCustomer.parsedColor
+                            )
+
+                        }
                     }
                 }
             }
@@ -308,7 +317,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     "png", "jpg", "jpeg" -> {
                         viewModel.clickEvent.call()
                         viewModel.requestUploadProfilePicture(mediaFile.file)
-                        viewModel.state.imageUri = mediaFile.file.toUri()
                         ivProfilePic.setImageURI(mediaFile.file.toUri())
                         ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
 

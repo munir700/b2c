@@ -204,7 +204,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     private fun setTransactionTitle() {
         viewModel.state.transactionTitle.set(viewModel.transaction.get().getTransactionTitle())
-        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.customerId1 == SessionManager.user?.currentCustomer?.customerId)
+        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.txnType == TxnType.DEBIT.type)
     }
 
     private fun setMapImageView() {
