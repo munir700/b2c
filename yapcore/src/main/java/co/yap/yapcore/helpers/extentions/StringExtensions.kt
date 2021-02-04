@@ -11,8 +11,10 @@ import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import com.google.android.material.textfield.TextInputLayout
+import okio.Utf8
 import java.net.URLDecoder
 import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 /**
  * Checks if a string is a valid email
@@ -84,13 +86,13 @@ fun String.generateQRCode(): String {
 
 fun String?.encodeToUTF8(): String {
     this?.let {
-        return URLEncoder.encode(it, "UTF-8")
+        return URLEncoder.encode(it, StandardCharsets.UTF_8.name())
     } ?: return ""
 }
 
 fun String?.decodeToUTF8(): String {
     this?.let {
-        return URLDecoder.decode(it, "UTF-8")
+        return URLDecoder.decode(it, StandardCharsets.UTF_8.name())
     } ?: return ""
 
 }

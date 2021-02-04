@@ -14,8 +14,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.decodeToUTF8
-import co.yap.yapcore.helpers.extentions.encodeToUTF8
 import kotlinx.android.synthetic.main.activity_transaction_note.*
 
 class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>() {
@@ -59,7 +57,7 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
         Utils.requestKeyboard(etNote, request = true, forced = true)
         if (intent.hasExtra(Constants.KEY_NOTE_VALUE)) {
             viewModel.txnType = getTxnType()
-            viewModel.state.noteValue.set(getNoteValue().decodeToUTF8())
+            viewModel.state.noteValue.set(getNoteValue())
             etNote.append(viewModel.state.noteValue.get())
         }
     }
@@ -89,10 +87,8 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
             R.id.tvRightText -> {
                 viewModel.addEditNote(
                     transactionId = getTransactionId(),
-                    transactionDetail = if (viewModel.txnType == TxnType.DEBIT.type) viewModel.state.noteValue.get()
-                        .encodeToUTF8() else null,
-                    receiverNote = if (viewModel.txnType == TxnType.CREDIT.type) viewModel.state.noteValue.get()
-                        .encodeToUTF8() else null
+                    transactionDetail = if (viewModel.txnType == TxnType.DEBIT.type) viewModel.state.noteValue.get() else null,
+                    receiverNote = if (viewModel.txnType == TxnType.CREDIT.type) viewModel.state.noteValue.get() else null
                 )
             }
         }
