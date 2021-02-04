@@ -60,6 +60,9 @@ fun Transaction?.getIcon(): Int {
                 TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode -> {
                     R.drawable.ic_plus_transactions
                 }
+                TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode -> {
+                    R.drawable.ic_package_standered
+                }
                 else -> return when (transaction.getProductType()) {
                     TransactionProductType.IS_BANK, TransactionProductType.IS_INCOMING -> R.drawable.ic_transaction_bank
                     TransactionProductType.IS_TRANSACTION_FEE -> R.drawable.ic_transaction_fee
