@@ -585,12 +585,12 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Note"
+                    android:text="Remark"
                     android:visibility="@{viewModel.transaction.remarks==null || viewModel.transaction.remarks.isEmpty()? View.GONE :View.VISIBLE }"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvRemarksValue"
                     tools:ignore="HardcodedText"
-                    tools:text="Note" />
+                    tools:text="Remark" />
 
                 <TextView
                     android:id="@+id/tvRemarksValue"
