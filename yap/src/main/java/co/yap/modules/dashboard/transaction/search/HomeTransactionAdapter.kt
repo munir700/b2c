@@ -157,27 +157,27 @@ class HomeTransactionAdapter(
                 itemView.context.getColors(transaction.getTransactionAmountColor())
             )
             binding.tvTransactionAmount.paintFlags =
-                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) binding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) binding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
 
-            binding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
+            binding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             binding.ivIncoming.background =
-                if (transaction.getTransactionTypeIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
+                if (transaction.getStatusIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
                     R.drawable.bg_round_white
                 ) else
                     context.getDrawable(android.R.color.transparent)
-            val txnIconResId = transaction.getTransactionIcon()
+            val txnIconResId = transaction.getIcon()
             transaction.productCode?.let {
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                     setY2YUserImage(transaction, binding, position)
                 } else {
                     if (txnIconResId != -1) {
                         binding.ivTransaction.setImageResource(txnIconResId)
-                        if (transaction.isTransactionCancelled())
+                        if (transaction.isTransactionRejected())
                             binding.ivTransaction.alpha = 0.5f
                     } else {
                         setInitialsAsTxnImage(transaction, binding, position)
-                        if (transaction.isTransactionCancelled())
+                        if (transaction.isTransactionRejected())
                             binding.ivTransaction.alpha = 0.5f
                     }
                     if (txnIconResId != co.yap.yapcore.R.drawable.ic_package_standered)

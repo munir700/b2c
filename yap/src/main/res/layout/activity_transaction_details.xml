@@ -26,7 +26,6 @@
 
         <import type="co.yap.R" />
 
-
         <import type="android.view.View" />
     </data>
 
@@ -96,7 +95,7 @@
                     android:ellipsize="end"
                     android:lineSpacingExtra="@dimen/_1sdp"
                     android:maxLines="2"
-                    android:text="@{viewModel.state.transactionTitle}"
+                    android:text="@{TransactionExtentionsKt.getTitle(viewModel.transaction)}"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -115,8 +114,8 @@
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading"
-                    tools:text="transaction rejected"
-                    tools:visibility="gone" />
+                    tools:text="The Dubai Mall"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tvTxnSubTitle"
@@ -200,7 +199,6 @@
                 android:id="@+id/clNoteParent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="@{viewModel.state.noteVisibility? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vLine"

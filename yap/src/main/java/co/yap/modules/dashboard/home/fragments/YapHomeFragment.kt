@@ -750,12 +750,33 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         childPosition ?: 0
                     )?.transactionNote =
                         (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNote =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNote
+
                     getRecycleViewAdaptor()?.getDataForPosition(
                         groupPosition ?: 0
                     )?.transaction?.get(
                         childPosition ?: 0
                     )?.transactionNoteDate =
                         (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                    getRecycleViewAdaptor()?.notifyItemChanged(
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
+                    )
+
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNoteDate =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition ?: 0,
                         getRecycleViewAdaptor()?.getDataForPosition(
