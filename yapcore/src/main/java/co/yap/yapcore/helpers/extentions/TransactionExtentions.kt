@@ -61,7 +61,7 @@ fun Transaction?.getIcon(): Int {
                     R.drawable.ic_plus_transactions
                 }
                 TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode -> {
-                    R.drawable.ic_virtual_card_issuance_fee
+                    R.drawable.icon_virtual_card_issuance
                 }
                 else -> return when (transaction.getProductType()) {
                     TransactionProductType.IS_BANK, TransactionProductType.IS_INCOMING -> R.drawable.ic_transaction_bank

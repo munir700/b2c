@@ -85,7 +85,7 @@ class TransactionsTests : BaseTestCase() {
                     R.drawable.ic_plus_transactions
                 }
                 TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode -> {
-                    R.drawable.ic_virtual_card_issuance_fee
+                    R.drawable.icon_virtual_card_issuance
                 }
 
                 else -> return when (transaction.getProductType()) {
