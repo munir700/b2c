@@ -38,8 +38,8 @@ fun Transaction?.getTitle(): String {
                 } ?: transaction.title ?: "Unknown"
 
             }
-            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${transaction.cardName?:"Virtual Card"}"
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${transaction.cardName?:"Virtual Card"}"
+            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${transaction.virtualCardName?:"Virtual Card"}"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${transaction.virtualCardName?:"Virtual Card"}"
             TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
             TransactionProductCode.ATM_WITHDRAWL.pCode -> "Withdrawal"
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
@@ -321,7 +321,8 @@ fun Transaction?.isTransactionInProgress(): Boolean {
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {
-    return when (this?.txnType) {
+    return if (this?.isTransactionInProgress() == true) ""
+    else when (this?.txnType) {
         TxnType.DEBIT.type -> "-"
         TxnType.CREDIT.type -> "+"
         else -> ""

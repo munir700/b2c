@@ -168,7 +168,9 @@ data class Transaction(
     val cancelReason: String? = null,
     @SerializedName("designCodesDTO")
     val virtualCardDesign: VirtualCardDesigns? = null,
-    @SerializedName("cardName")
-    val cardName: String? = null
+    @SerializedName("cardName1")
+    val primaryCardName: String? = null,
+    @SerializedName("cardName2")
+    val virtualCardName: String? = null
 
 ):ApiResponse() ,Parcelable
