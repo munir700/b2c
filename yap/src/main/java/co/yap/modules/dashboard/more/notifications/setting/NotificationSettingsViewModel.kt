@@ -1,12 +1,12 @@
 package co.yap.modules.dashboard.more.notifications.setting
 
 import android.app.Application
-import android.widget.CompoundButton
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.NotificationsApi
 import co.yap.networking.notification.NotificationsRepository
 import co.yap.networking.notification.responsedtos.NotificationSettings
 import co.yap.yapcore.BaseViewModel
+import kotlinx.coroutines.delay
 
 class NotificationSettingsViewModel(application: Application) :
     BaseViewModel<INotificationSettings.State>(application = application),
@@ -14,12 +14,9 @@ class NotificationSettingsViewModel(application: Application) :
     override val state: NotificationSettingsState =
         NotificationSettingsState()
     override val repository: NotificationsApi = NotificationsRepository
-    override fun onCreate() {
-        super.onCreate()
-        getNotificationSettings()
-    }
 
-    override fun getNotificationSettings() {
+
+    override fun getNotificationSettings(onComplete: (Boolean) -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.getNotificationSettings()) {
@@ -28,10 +25,13 @@ class NotificationSettingsViewModel(application: Application) :
                     state.inAppNotificationsAllowed = response.data.data?.inAppEnabled
                     state.smsNotificationsAllowed = response.data.data?.smsEnabled
                     state.loading = false
+                    delay(100)
+                    onComplete.invoke(true)
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
+                    onComplete.invoke(false)
                 }
             }
         }
@@ -56,9 +56,5 @@ class NotificationSettingsViewModel(application: Application) :
                 }
             }
         }
-    }
-
-    fun onSwitchChanged(switch: CompoundButton, isChecked: Boolean) {
-        saveNotificationSettings()
     }
 }
