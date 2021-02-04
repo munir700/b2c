@@ -506,7 +506,7 @@
     <string name="screen_change_email_display_text_description">A verification email will be sent to this email address</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
     <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
-    <string name="screen_change_email_display_text_email_match_error">Email doesn’t match what you first entered</string>
+    <string name="screen_change_email_display_text_email_match_error">Email doesn\'t match what you first entered</string>
 
     <!--    Email Verification Screen-->
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
