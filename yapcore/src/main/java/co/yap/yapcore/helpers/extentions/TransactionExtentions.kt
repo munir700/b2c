@@ -315,7 +315,7 @@ fun Transaction?.isTransactionInProgress(): Boolean {
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {
-    return if (this?.isTransactionInProgress() == true) ""
+    return if (this?.status == TransactionStatus.PENDING.name || this?.status == TransactionStatus.IN_PROGRESS.name) ""
     else when (this?.txnType) {
         TxnType.DEBIT.type -> "-"
         TxnType.CREDIT.type -> "+"
