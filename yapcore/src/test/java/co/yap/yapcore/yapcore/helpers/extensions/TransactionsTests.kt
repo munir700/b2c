@@ -84,8 +84,8 @@ class TransactionsTests : BaseTestCase() {
                 TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode -> {
                     R.drawable.ic_plus_transactions
                 }
-                TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode -> {
-                    R.drawable.ic_package_standered
+                TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode -> {
+                    R.drawable.ic_virtual_card_issuance_fee
                 }
 
                 else -> return when (transaction.getProductType()) {
