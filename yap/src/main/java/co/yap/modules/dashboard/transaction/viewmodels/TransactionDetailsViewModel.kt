@@ -35,7 +35,9 @@ class TransactionDetailsViewModel(application: Application) :
         transaction.get()?.let { transaction ->
             setToolbarTitle()
             setTransactionNoteDate()
-            state.txnNoteValue.set(transaction.transactionNote.decodeToUTF8())
+            val note =
+                if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNote.decodeToUTF8() else transaction.receiverTransactionNote.decodeToUTF8()
+            state.txnNoteValue.set(note)
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(getTransferCategoryTitle(transaction))
             state.categoryIcon.set(getTransferCategoryIcon(transaction))
@@ -49,7 +51,7 @@ class TransactionDetailsViewModel(application: Application) :
     private fun setTransactionNoteDate() {
         if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
             state.transactionNoteDate =
-                state.editNotePrefixText + transaction.get()?.transactionNoteDate
+                state.editNotePrefixText + if(transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
         } else {
             state.transactionNoteDate =
                 state.editNotePrefixText + transaction.get()

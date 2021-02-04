@@ -44,7 +44,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 ExtraKeys.TRANSACTION_OBJECT_STRING.name
             ) as Transaction
         )
-        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.txnType == TxnType.DEBIT.type)
         setSpentLabel()
         setAmount()
         setMapImageView()
@@ -233,7 +232,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             TransactionNoteActivity.newIntent(
                 this,
                 noteValue,
-                viewModel.transaction.get()?.transactionId ?: ""
+                viewModel.transaction.get()?.transactionId ?: "",
+                viewModel.transaction.get()?.txnType ?: ""
             ), Constants.INTENT_ADD_NOTE_REQUEST
         )
     }
@@ -253,14 +253,22 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 viewModel.state.txnNoteValue.set(
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 )
-                viewModel.transaction.get()?.transactionNote =
-                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) {
+                    viewModel.transaction.get()?.transactionNote =
+                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                    viewModel.transaction.get()?.receiverTransactionNoteDate =
+                        DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                } else {
+                    viewModel.transaction.get()?.receiverTransactionNote =
+                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                    viewModel.transaction.get()?.receiverTransactionNoteDate =
+                        DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                }
+
                 viewModel.state.transactionNoteDate =
                     viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
                         DateUtils.FORMAT_LONG_OUTPUT
                     )
-                viewModel.transaction.get()?.transactionNoteDate =
-                    DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
             }
 
         }

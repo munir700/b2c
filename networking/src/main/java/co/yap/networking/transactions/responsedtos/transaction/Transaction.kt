@@ -138,8 +138,12 @@ data class Transaction(
     val transactionId: String? = null,
     @SerializedName("transactionNote")
     var transactionNote: String? = null,
+    @SerializedName("receiverTransactionNote")
+    var receiverTransactionNote: String? = null,
     @SerializedName("transactionNoteDate")
     var transactionNoteDate: String? = null,
+    @SerializedName("receiverTransactionNoteDate")
+    var receiverTransactionNoteDate: String? = null,
     @SerializedName("txnRefNo")
     val txnRefNo: String? = null,
     @SerializedName("txnState")

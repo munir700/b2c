@@ -44,6 +44,7 @@ object Constants {
     //Add Note flow constants
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
+    const val TXN_TYPE = "TXN_TYPE"
 
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"

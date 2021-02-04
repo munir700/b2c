@@ -302,7 +302,8 @@ fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_2
 
 fun Transaction?.getTransactionNoteDate(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
     return (DateUtils.reformatStringDate(
-        this?.transactionNoteDate ?: "",
+        if (this?.txnType == TxnType.DEBIT.type) this.transactionNoteDate
+            ?: "" else this?.receiverTransactionNoteDate ?: "",
         SERVER_DATE_FORMAT,
         outputFormat
     ))
