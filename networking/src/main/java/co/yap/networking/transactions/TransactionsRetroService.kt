@@ -72,7 +72,8 @@ interface TransactionsRetroService {
         @Query("txnType") txnType: String?,
         @Query("title") title: String?,
         @Query("merchantCategoryNames") category: ArrayList<String>?,
-        @Query("statuses") txnStatuses: ArrayList<String>?
+        @Query("statuses") txnStatuses: ArrayList<String>?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
 
     ): Response<HomeTransactionsResponse>
 
@@ -92,7 +93,8 @@ interface TransactionsRetroService {
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
-        @Query("title") title: String?
+        @Query("title") title: String?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
 
     ): Response<HomeTransactionsResponse>
 

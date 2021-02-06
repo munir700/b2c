@@ -24,5 +24,7 @@ data class HomeTransactionsRequest(
     @SerializedName("merchantCategoryNames")
     var categories: ArrayList<String>? = null,
     @SerializedName("statuses")
-    var statues: ArrayList<String>? = null
+    var statues: ArrayList<String>? = null,
+    @SerializedName("cardDetailsRequired")
+    val cardDetailsRequired: Boolean = true
 )
