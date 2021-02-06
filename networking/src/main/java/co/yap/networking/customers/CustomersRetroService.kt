@@ -141,6 +141,9 @@ interface CustomersRetroService {
     suspend fun getAllBeneficiaries(): Response<GetAllBeneficiaryResponse>
 
     @GET(CustomersRepository.URL_GET_COUNTRIES)
+    suspend fun getCountries(): Response<CountryModel>
+
+    @GET(CustomersRepository.URL_GET_ALL_COUNTRIES)
     suspend fun getAllCountries(): Response<CountryModel>
 
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)

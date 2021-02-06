@@ -24,7 +24,7 @@ enum class KYCEvents(val type: String) {
     KYC_US_CITIIZEN("KYC_deny_US citizen"),
     KYC_ORDERED("KYC_card ordered"),
     EID_FAILURE("EIDA callback - failure"),
-    EID_UNDER_AGE_18("EIDA callback - under 18"),
+    EID_UNDER_AGE_18("EIDA callback - under 18"),// will be catered later
     KYC_PROHIBITED_CITIIZEN("EIDA callback - CB prohibited citizens"),
     CARD_ACTIVE("account_active"),
     KYC_ID_CONFIRMED("KYC_ID confirmed"),
