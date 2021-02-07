@@ -91,6 +91,10 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 expectation.location ?: "",
                 sut.getLocation(transaction)
             )
+            Assert.assertEquals(
+                getExpectedStatusIcon(transaction),
+                sut.getStatusIcon(transaction)
+            )
         }
     }
 
@@ -114,6 +118,20 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 else -> 0
             })
         } ?: return 0
+    }
+
+
+    private fun getExpectedStatusIcon(transaction: Transaction): Int {
+        return when (transaction.productCode) {
+            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+                R.drawable.ic_identifier_atm_withdrawl
+            }
+            TransactionProductCode.ATM_DEPOSIT.pCode -> {
+                R.drawable.ic_identifier_atm_deposite
+            }
+
+            else -> android.R.color.transparent
+        }
     }
 
     private fun getTransactions(): List<TransactionTest> {

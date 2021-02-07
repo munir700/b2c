@@ -38,11 +38,13 @@ fun Transaction?.getTitle(): String {
                 } ?: transaction.title ?: "Unknown"
 
             }
-            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${transaction.virtualCardName?:"Virtual Card"}"
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${transaction.virtualCardName?:"Virtual Card"}"
+            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${transaction.virtualCardName ?: "Virtual Card"}"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${transaction.virtualCardName ?: "Virtual Card"}"
             TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
             TransactionProductCode.ATM_WITHDRAWL.pCode -> "Withdrawal"
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
+            TransactionProductCode.FUND_LOAD.pCode -> if (transaction.initiator.isNullOrBlank()) transaction.title
+                ?: "Unknown" else "Received from ${transaction.initiator}"
 
             else -> transaction.title ?: "Unknown"
         })

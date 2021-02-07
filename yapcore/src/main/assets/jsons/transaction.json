@@ -986,7 +986,7 @@
       "createdOn": "2020-11-23T11:28:58"
     },
     "expectation": {
-      "title": "Funds Deposit",
+      "title": "Received from RAK",
       "time": "04:28 PM",
       "transferType": "Inward Bank Transfer",
       "remarks": null,
@@ -997,7 +997,7 @@
       "statusIcon": ""
     },
     "detailExpectation": {
-      "title": "Funds Deposit",
+      "title": "Received from RAK",
       "detailTransferType": "Transfer Pending",
       "transferCategory": "Incoming Funds",
       "currency": "AED",

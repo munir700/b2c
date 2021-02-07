@@ -58,6 +58,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
+        setStatusIcon()
+    }
+
+    private fun setStatusIcon() {
+        getBindings().ivIncoming.setImageResource(viewModel.getStatusIcon(viewModel.transaction.get()))
     }
 
     private fun setDestinationAmount() {

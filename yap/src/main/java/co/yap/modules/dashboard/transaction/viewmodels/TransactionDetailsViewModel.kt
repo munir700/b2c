@@ -175,6 +175,20 @@ class TransactionDetailsViewModel(application: Application) :
         } ?: return 0.00
     }
 
+    override fun getStatusIcon(transaction: Transaction?): Int {
+        return return if (transaction?.isTransactionInProgress() == true) android.R.color.transparent
+        else when (transaction?.productCode) {
+            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+                R.drawable.ic_identifier_atm_withdrawl
+            }
+            TransactionProductCode.ATM_DEPOSIT.pCode -> {
+                R.drawable.ic_identifier_atm_deposite
+            }
+
+            else -> android.R.color.transparent
+        }
+    }
+
     //getString(
     //                Strings.transaction_narration_y2y_transfer_detail
     //            )
