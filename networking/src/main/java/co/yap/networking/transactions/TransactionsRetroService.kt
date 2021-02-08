@@ -100,7 +100,7 @@ interface TransactionsRetroService {
 
     // Secure id pooling
     @GET(TransactionsRepository.URL_SECURE_ID_POOLING)
-    suspend fun secureIdPooling(@Path("secureId") secureId: String): Response<StringDataResponseDTO>
+    suspend fun secureIdPooling(@Path("secureId") secureId: String?): Response<StringDataResponseDTO>
 
     // Card top up transaction request
     @PUT(TransactionsRepository.URL_TOP_UP_TRANSACTION)
