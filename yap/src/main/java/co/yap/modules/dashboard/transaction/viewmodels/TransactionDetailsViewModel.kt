@@ -98,7 +98,7 @@ class TransactionDetailsViewModel(application: Application) :
                     }
                     TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                     TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                    TransactionProductCode.POS_PURCHASE.pCode -> "Cash"
+                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName ?: ""
                     TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
                     TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                         if (transaction.category.equals(
@@ -173,6 +173,20 @@ class TransactionDetailsViewModel(application: Application) :
                 else -> 0.00
             }
         } ?: return 0.00
+    }
+
+    override fun getStatusIcon(transaction: Transaction?): Int {
+        return return if (transaction?.isTransactionInProgress() == true) android.R.color.transparent
+        else when (transaction?.productCode) {
+            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+                R.drawable.ic_identifier_atm_withdrawl
+            }
+            TransactionProductCode.ATM_DEPOSIT.pCode -> {
+                R.drawable.ic_identifier_atm_deposite
+            }
+
+            else -> android.R.color.transparent
+        }
     }
 
     //getString(

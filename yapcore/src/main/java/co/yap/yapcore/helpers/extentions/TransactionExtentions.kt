@@ -3,10 +3,7 @@ package co.yap.yapcore.helpers.extentions
 import android.text.format.DateFormat
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
-import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionProductType
-import co.yap.yapcore.enums.TransactionStatus
-import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
@@ -38,11 +35,13 @@ fun Transaction?.getTitle(): String {
                 } ?: transaction.title ?: "Unknown"
 
             }
-            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${transaction.cardName?:"Virtual Card"}"
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${transaction.cardName?:"Virtual Card"}"
+            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
             TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
             TransactionProductCode.ATM_WITHDRAWL.pCode -> "Withdrawal"
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
+            TransactionProductCode.FUND_LOAD.pCode -> if (transaction.initiator.isNullOrBlank()) transaction.title
+                ?: "Unknown" else "Received from ${transaction.initiator}"
 
             else -> transaction.title ?: "Unknown"
         })
@@ -61,7 +60,7 @@ fun Transaction?.getIcon(): Int {
                     R.drawable.ic_plus_transactions
                 }
                 TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode -> {
-                    R.drawable.ic_virtual_card_issuance_fee
+                    R.drawable.icon_virtual_card_issuance
                 }
                 else -> return when (transaction.getProductType()) {
                     TransactionProductType.IS_BANK, TransactionProductType.IS_INCOMING -> R.drawable.ic_transaction_bank
@@ -133,16 +132,10 @@ fun Transaction?.getStatusIcon(): Int {
     this?.let { transaction ->
         if (transaction.isTransactionInProgress()) return R.drawable.ic_time
         else return when (transaction.productCode) {
-            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+            TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
                 R.drawable.ic_identifier_atm_withdrawl
             }
-            TransactionProductCode.ATM_DEPOSIT.pCode -> {
-                R.drawable.ic_identifier_atm_deposite
-            }
-            TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
-                R.drawable.ic_identifier_atm_withdrawl
-            }
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
                 R.drawable.ic_identifier_atm_deposite
             }
             TransactionProductCode.Y2Y_TRANSFER.pCode -> {
@@ -321,7 +314,8 @@ fun Transaction?.isTransactionInProgress(): Boolean {
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {
-    return when (this?.txnType) {
+    return if (this?.status == TransactionStatus.PENDING.name || this?.status == TransactionStatus.IN_PROGRESS.name) ""
+    else when (this?.txnType) {
         TxnType.DEBIT.type -> "-"
         TxnType.CREDIT.type -> "+"
         else -> ""

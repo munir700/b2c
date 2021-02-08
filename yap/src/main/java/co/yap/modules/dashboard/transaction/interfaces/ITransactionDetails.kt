@@ -21,6 +21,7 @@ interface ITransactionDetails {
         fun getCalculatedTotalAmount(transaction: Transaction?): Double
         fun getForeignAmount(transaction: Transaction?): Double
         fun getLocation(transaction: Transaction?): String
+        fun getStatusIcon(transaction: Transaction?): Int
 
     }
 

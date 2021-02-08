@@ -63,16 +63,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivPicture"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+            <FrameLayout
+                android:id="@+id/flImageLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) || viewModel.transaction.status.equals(TransactionStatus.FAILED.name)? 0.5f : 1.0f}"
-                android:background="@drawable/bg_round_purple_enabled"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivMap" />
+                app:layout_constraintTop_toBottomOf="@+id/ivMap">
+
+                <co.yap.widgets.CoreCircularImageView
+                    android:id="@+id/ivPicture"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginBottom="@dimen/_12sdp"
+                    android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) || viewModel.transaction.status.equals(TransactionStatus.FAILED.name)? 0.5f : 1.0f}"
+                    android:background="@drawable/bg_round_purple_enabled"
+                    tools:src="@drawable/icon_virtual_card_issuance" />
+
+                <co.yap.widgets.CoreCircularImageView
+                    android:id="@+id/ivIncoming"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:visibility="visible"
+                    tools:src="@drawable/ic_identifier_atm_withdrawl" />
+            </FrameLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clAmount"
@@ -81,8 +98,8 @@
                 android:layout_marginEnd="@dimen/margin_normal_large"
                 app:layout_constraintBottom_toBottomOf="@+id/vLine"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ivPicture"
-                app:layout_constraintTop_toTopOf="@+id/ivPicture"
+                app:layout_constraintStart_toEndOf="@+id/flImageLayout"
+                app:layout_constraintTop_toTopOf="@+id/flImageLayout"
                 app:layout_constraintVertical_bias="0.0">
 
                 <TextView
@@ -585,12 +602,12 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Remark"
+                    android:text="Remarks"
                     android:visibility="@{viewModel.transaction.remarks==null || viewModel.transaction.remarks.isEmpty()? View.GONE :View.VISIBLE }"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvRemarksValue"
                     tools:ignore="HardcodedText"
-                    tools:text="Remark" />
+                    tools:text="Remarks" />
 
                 <TextView
                     android:id="@+id/tvRemarksValue"

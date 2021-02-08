@@ -2,9 +2,12 @@ package co.yap.modules.dashboard.transaction.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -55,6 +58,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
+        setStatusIcon()
+    }
+
+    private fun setStatusIcon() {
+        getBindings().ivIncoming.setImageResource(viewModel.getStatusIcon(viewModel.transaction.get()))
     }
 
     private fun setDestinationAmount() {
@@ -199,7 +207,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 }
                 else -> {
                     val txnIconResId = transaction.getIcon()
-                    if (txnIconResId != -1) {
+                    if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+                        setVirtualCardIcon(transaction, getBindings().ivPicture)
+                    } else if (txnIconResId != -1) {
                         getBindings().ivPicture.setImageResource(txnIconResId)
                         when (txnIconResId) {
                             R.drawable.ic_rounded_plus -> {
@@ -275,6 +285,29 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     }
 
+    private fun setVirtualCardIcon(
+        transaction: Transaction,
+        imageView: ImageView
+    ) {
+        transaction.virtualCardDesign?.let {
+            try {
+                val startColor = Color.parseColor(it.designCodeColors?.firstOrNull()?.colorCode)
+                val endColor = Color.parseColor(
+                    if (it.designCodeColors?.size ?: 0 > 1) it.designCodeColors?.get(1)?.colorCode else it.designCodeColors?.firstOrNull()?.colorCode
+                )
+                val gd = GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(startColor, endColor)
+                )
+                gd.shape = GradientDrawable.OVAL
+
+                imageView.background = null
+                imageView.background = gd
+                imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
+
+            } catch (e: Exception) {
+            }
+        } ?: imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
+    }
 
     fun getBindings(): ActivityTransactionDetailsBinding {
         return viewDataBinding as ActivityTransactionDetailsBinding

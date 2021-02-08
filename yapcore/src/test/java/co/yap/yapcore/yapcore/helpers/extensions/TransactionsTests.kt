@@ -85,7 +85,7 @@ class TransactionsTests : BaseTestCase() {
                     R.drawable.ic_plus_transactions
                 }
                 TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode -> {
-                    R.drawable.ic_virtual_card_issuance_fee
+                    R.drawable.icon_virtual_card_issuance
                 }
 
                 else -> return when (transaction.getProductType()) {
@@ -102,16 +102,10 @@ class TransactionsTests : BaseTestCase() {
     private fun getExpectedStatusIcon(transaction: Transaction): Int {
         if (transaction.isTransactionInProgress()) return R.drawable.ic_time
         else return when (transaction.productCode) {
-            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+            TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
                 R.drawable.ic_identifier_atm_withdrawl
             }
-            TransactionProductCode.ATM_DEPOSIT.pCode -> {
-                R.drawable.ic_identifier_atm_deposite
-            }
-            TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
-                R.drawable.ic_identifier_atm_withdrawl
-            }
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
                 R.drawable.ic_identifier_atm_deposite
             }
             TransactionProductCode.Y2Y_TRANSFER.pCode -> {
