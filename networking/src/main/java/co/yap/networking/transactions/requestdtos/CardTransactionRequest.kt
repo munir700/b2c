@@ -20,5 +20,9 @@ data class CardTransactionRequest(
     @SerializedName("totalAppliedFilter")
     var totalAppliedFilter: Int = 0,
     @SerializedName("totalAppliedFilter")
-    val cardDetailsRequired: Boolean = true
+    val cardDetailsRequired: Boolean = true,
+    @SerializedName("merchantCategoryNames")
+    var categories: ArrayList<String>? = null,
+    @SerializedName("statuses")
+    var statues: ArrayList<String>? = null
 )

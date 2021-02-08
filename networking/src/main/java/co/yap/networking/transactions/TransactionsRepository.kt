@@ -172,7 +172,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 cardTransactionRequest.amountEndRange,
                 cardTransactionRequest.txnType,
                 cardTransactionRequest.title,
+                cardTransactionRequest.categories,
+                cardTransactionRequest.statues,
                 cardTransactionRequest.cardDetailsRequired
+
             )
         })
 
