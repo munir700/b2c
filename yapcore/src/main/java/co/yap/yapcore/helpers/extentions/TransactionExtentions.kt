@@ -3,10 +3,7 @@ package co.yap.yapcore.helpers.extentions
 import android.text.format.DateFormat
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
-import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionProductType
-import co.yap.yapcore.enums.TransactionStatus
-import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
@@ -38,8 +35,8 @@ fun Transaction?.getTitle(): String {
                 } ?: transaction.title ?: "Unknown"
 
             }
-            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${transaction.virtualCardName ?: "Virtual Card"}"
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${transaction.virtualCardName ?: "Virtual Card"}"
+            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
             TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
             TransactionProductCode.ATM_WITHDRAWL.pCode -> "Withdrawal"
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
