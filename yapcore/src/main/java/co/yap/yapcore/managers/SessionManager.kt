@@ -17,7 +17,7 @@ import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
-import com.liveperson.infra.LPAuthenticationParams
+import com.liveperson.infra.auth.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
 import kotlinx.coroutines.Dispatchers

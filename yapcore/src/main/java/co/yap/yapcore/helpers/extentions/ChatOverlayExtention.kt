@@ -11,11 +11,13 @@ import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.InitLivePersonProperties
-import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.infra.LPConversationsHistoryStateToDisplay
+import com.liveperson.infra.auth.LPAuthenticationParams
+import com.liveperson.infra.auth.LPAuthenticationType
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
+
 
 const val BRAND_ID: String = "17038977"
 
@@ -44,7 +46,7 @@ fun Activity.initializeChatOverLayButton(unreadCount: Int) {
 
 fun Activity.overLayButtonVisibility(visibility: Int) {
     if (Leanplum.getInbox().unreadCount() > 0)
-        (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat).visibility =
+        (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat)?.visibility =
             visibility
 }
 
@@ -70,7 +72,7 @@ fun Activity.chatSetup() {
 
 private fun Activity.openChatActivity() {
     SessionManager.user?.currentCustomer?.let {
-        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
+        val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
         authParams.hostAppJWT = AuthRepository.getJwtToken()
 //        authParams.hostAppJWT = CookiesManager.jwtToken
         val params = ConversationViewParams(false)
