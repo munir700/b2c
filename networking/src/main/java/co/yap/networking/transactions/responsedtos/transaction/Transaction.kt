@@ -169,8 +169,8 @@ data class Transaction(
     @SerializedName("designCodesDTO")
     val virtualCardDesign: VirtualCardDesigns? = null,
     @SerializedName("cardName1")
-    val primaryCardName: String? = null,
+    val cardName1: String? = null,
     @SerializedName("cardName2")
-    val virtualCardName: String? = null
+    val cardName2: String? = null
 
 ):ApiResponse() ,Parcelable
