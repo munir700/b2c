@@ -20,6 +20,7 @@
         <import type="co.yap.yapcore.enums.TxnType" />
 
         <import type="co.yap.translation.Strings" />
+
         <import type="co.yap.yapcore.helpers.TransactionAdapterType" />
 
         <import type="android.view.View" />
@@ -129,7 +130,6 @@
             android:maxLines="1"
             android:text="@{homeTransactionChildItemVM.item.transactionNote==null?``:homeTransactionChildItemVM.item.transactionNote}"
             android:textColor="@color/greyDark"
-            android:visibility="@{homeTransactionChildItemVM.item.transactionNote.empty?View.GONE :View.VISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionTimeAndCategory"

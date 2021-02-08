@@ -3,7 +3,9 @@ package co.yap.modules.dashboard.transaction.search
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
@@ -146,6 +148,15 @@ class HomeTransactionAdapter(
             super.setItem(item, position)
             transaction = item
             handleProductBaseCases(itemView.context, item, position)
+            item.remarks?.let {
+                binding.tvTransactionNote.text = it
+            }
+
+            binding.tvTransactionNote.visibility =
+                if (item.remarks.isNullOrEmpty() || item.remarks.equals(
+                        "null"
+                    )
+                ) View.GONE else View.VISIBLE
         }
 
         private fun handleProductBaseCases(
@@ -153,6 +164,7 @@ class HomeTransactionAdapter(
             transaction: Transaction,
             position: Int?
         ) {
+
             binding.tvTransactionAmount.setTextColor(
                 itemView.context.getColors(transaction.getTransactionAmountColor())
             )
@@ -170,25 +182,48 @@ class HomeTransactionAdapter(
             transaction.productCode?.let {
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                     setY2YUserImage(transaction, binding, position)
+                } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
+                    setVirtualCardIcon(transaction, binding)
                 } else {
                     if (txnIconResId != -1) {
                         binding.ivTransaction.setImageResource(txnIconResId)
-                        if (transaction.isTransactionRejected())
-                            binding.ivTransaction.alpha = 0.5f
                     } else {
                         setInitialsAsTxnImage(transaction, binding, position)
-                        if (transaction.isTransactionRejected())
-                            binding.ivTransaction.alpha = 0.5f
                     }
-                    if (txnIconResId != co.yap.yapcore.R.drawable.ic_package_standered)
-                        ImageViewCompat.setImageTintList(
-                            binding.ivTransaction,
-                            ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
-                        )
+                    if (transaction.isTransactionRejected()) binding.ivTransaction.background =
+                        null
+
+                    ImageViewCompat.setImageTintList(
+                        binding.ivTransaction,
+                        ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
+                    )
                 }
             }
-        }
 
+        }
+        private fun setVirtualCardIcon(
+            transaction: Transaction,
+            itemSearchTransactionBinding: ItemSearchTransactionChildBinding
+        ) {
+            transaction.virtualCardDesign?.let {
+                try {
+                    val startColor = Color.parseColor(it.designCodeColors?.firstOrNull()?.colorCode)
+                    val endColor = Color.parseColor(
+                        if (it.designCodeColors?.size ?: 0 > 1) it.designCodeColors?.get(1)?.colorCode else it.designCodeColors?.firstOrNull()?.colorCode
+                    )
+                    val gd = GradientDrawable(
+                        GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(startColor, endColor)
+                    )
+                    gd.shape = GradientDrawable.OVAL
+
+                    itemSearchTransactionBinding.ivTransaction.background = null
+                    itemSearchTransactionBinding.ivTransaction.background = gd
+                    itemSearchTransactionBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
+
+                } catch (e: Exception) {
+                }
+            }?:itemSearchTransactionBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
+        }
         private fun setInitialsAsTxnImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemSearchTransactionChildBinding, position: Int?

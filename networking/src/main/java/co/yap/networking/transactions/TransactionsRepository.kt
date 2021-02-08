@@ -150,7 +150,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.searchTransactions(
                 homeTransactionsRequest?.number,
                 homeTransactionsRequest?.size,
-                homeTransactionsRequest?.searchField
+                homeTransactionsRequest?.searchField,
+                homeTransactionsRequest?.cardDetailsRequired?:true
             )
         })
     }
