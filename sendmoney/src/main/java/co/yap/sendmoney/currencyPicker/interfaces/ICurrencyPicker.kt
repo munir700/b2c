@@ -21,6 +21,5 @@ interface ICurrencyPicker {
 
     interface State : IBase.State {
         var currencyDialogChecker: ObservableField<Boolean>
-        var stateLiveData: MutableLiveData<co.yap.widgets.State>
-    }
+     }
 }

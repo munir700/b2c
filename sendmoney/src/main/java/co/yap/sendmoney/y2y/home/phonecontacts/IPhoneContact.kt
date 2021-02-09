@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableInt
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.y2y.home.yapcontacts.YapContactsAdaptor
 import co.yap.yapcore.IBase
@@ -25,7 +24,6 @@ interface IPhoneContact {
     }
 
     interface State : IBase.State {
-        var stateLiveData: MutableLiveData<co.yap.widgets.State>
         var isNoContacts: ObservableBoolean
         var isNoSearchResult: ObservableBoolean
         var isShowContactsCounter: ObservableBoolean

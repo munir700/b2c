@@ -2,9 +2,12 @@ package co.yap.modules.dashboard.transaction.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -17,6 +20,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionProductType
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils

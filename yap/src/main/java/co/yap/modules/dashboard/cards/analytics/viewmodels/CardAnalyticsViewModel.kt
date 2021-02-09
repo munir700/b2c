@@ -37,7 +37,7 @@ class CardAnalyticsViewModel(application: Application) :
         val startDate = SessionManager.user?.creationDate ?: ""
         val endDate = DateUtils.dateToString(
             Date(),
-            SIMPLE_DATE_FORMAT
+            SIMPLE_DATE_FORMAT,DateUtils.TIME_ZONE_Default
         )
         listOfMonths = DateUtils.geMonthsBetweenTwoDates(
             startDate,

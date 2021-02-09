@@ -43,10 +43,10 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
-        viewModel.state.stateLiveData.observe(this, Observer { handleShimmerState(it) })
+        viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.y2yBeneficiries?.observe(this, Observer {
             viewModel.contactsAdapter.setList(it)
-            viewModel.state.stateLiveData.value =
+            viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
             viewModel.state.contactsCounts.set(it.size)
         })
@@ -57,7 +57,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
 
         viewModel.contactsAdapter.filterCount.observe(this, Observer {
             if (it == 0 && viewModel.parentViewModel?.isSearching?.value == true && !viewModel.state.isNoYapContacts.get()) {
-                viewModel.state.stateLiveData.value = State.empty(null)
+                viewModel.state.stateLiveData?.value = State.empty(null)
             } else {
                 viewModel.state.isNoSearchResult.set(false)
             }

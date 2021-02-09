@@ -185,7 +185,7 @@ class NotificationsHomeViewModel(application: Application) :
                     lastName = it.title,
                     currency = "",
                     amount = "",
-                    createdAt = DateUtils.dateToString(it.deliveryTimestamp, SERVER_DATE_FORMAT),
+                    createdAt = DateUtils.dateToString(it.deliveryTimestamp, SERVER_DATE_FORMAT,DateUtils.TIME_ZONE_Default),
                     isRead = it.isRead,
                     isDeletable = true,
                     description = "",

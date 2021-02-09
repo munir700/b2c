@@ -49,7 +49,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.fetchCardCategoryAnalytics(
             DateUtils.dateToString(
                 Calendar.getInstance().time,
-                "yyyy-MM-dd"
+                "yyyy-MM-dd",DateUtils.TIME_ZONE_Default
             )
         )
         setObservers()

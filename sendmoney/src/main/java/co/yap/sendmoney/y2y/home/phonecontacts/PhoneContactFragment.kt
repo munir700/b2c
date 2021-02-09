@@ -44,10 +44,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
 
 
     private fun setObservers() {
-        viewModel.state.stateLiveData.observe(this, Observer { handleShimmerState(it) })
+        viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             viewModel.adaptor.setList(it)
-            viewModel.state.stateLiveData.value =
+            viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
@@ -55,7 +55,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
         })
         viewModel.adaptor.filterCount.observe(this, Observer {
             if (it == 0 && viewModel.parentViewModel?.isSearching?.value == true && !viewModel.state.isNoContacts.get()) {
-                viewModel.state.stateLiveData.value = State.empty(null)
+                viewModel.state.stateLiveData?.value = State.empty(null)
             } else {
                 viewModel.state.isNoSearchResult.set(false)
             }
