@@ -77,6 +77,7 @@ private fun Activity.openChatActivity() {
 //        authParams.hostAppJWT = CookiesManager.jwtToken
         val params = ConversationViewParams(false)
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
+            .setHistoryConversationsMaxDays(180)
             .setReadOnlyMode(false)
         LivePerson.showConversation(this, authParams, params)
         val consumerProfile = ConsumerProfile.Builder()
