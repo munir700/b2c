@@ -88,9 +88,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 }
             }
         })
-        tvSignUp.setOnClickListener {
-            requireActivity().chatSetup()
-        }
     }
 
     override fun onDestroy() {
