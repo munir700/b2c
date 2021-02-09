@@ -45,7 +45,7 @@ object ChatManager {
         val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
         authParams.hostAppJWT = authRepository.getJwtToken()
         val params = ConversationViewParams(false)
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
+            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
             .setReadOnlyMode(false)
         LivePerson.showConversation(activity?.get(), authParams, params)
         val consumerProfile = ConsumerProfile.Builder()

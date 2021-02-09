@@ -105,7 +105,7 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
         val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
         authParams.hostAppJWT = viewModel.state.token.get()
         val params = ConversationViewParams(false)
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
+            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
             .setReadOnlyMode(false)
         LivePerson.showConversation(requireActivity(), authParams, params)
         val consumerProfile = ConsumerProfile.Builder()
