@@ -730,27 +730,31 @@ object UIBinder {
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
-    @BindingAdapter("drawableClick")
-    fun setDrawableRightListener(view: EditText, onDrawableClick: Boolean) {
+    @BindingAdapter(requireAll = true, value = ["drawableClick", "deleteAddressField"])
+    fun setDrawableRightListener(
+        view: EditText,
+        onDrawableClick: Boolean,
+        deleteAddressField: String
+    ) {
         if (onDrawableClick) {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_clear_field, 0)
-
-            view.setOnTouchListener(object : View.OnTouchListener {
-                override fun onTouch(v: View, m: MotionEvent): Boolean {
-                    var hasConsumed = false
-                    if (v is EditText) {
-                        if (m.x >= v.width - v.totalPaddingRight) {
-                            if (m.action == MotionEvent.ACTION_UP) {
-                                view.text.clear()
-
-                                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                            }
-                            hasConsumed = true
+            view.setOnTouchListener { v, m ->
+                var hasConsumed = false
+                if (v is EditText) {
+                    if (m.x >= v.width - v.totalPaddingRight) {
+                        if (m.action == MotionEvent.ACTION_UP) {
+                            view.text.clear()
+                            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                            trackEventWithScreenName(
+                                FirebaseEvent.DELETE_ADDRESS_FIELD,
+                                bundleOf("field_name" to deleteAddressField)
+                            )
                         }
+                        hasConsumed = true
                     }
-                    return hasConsumed
                 }
-            })
+                hasConsumed
+            }
         } else {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 

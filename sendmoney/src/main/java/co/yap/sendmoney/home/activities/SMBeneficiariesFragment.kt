@@ -29,6 +29,8 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
@@ -136,11 +138,12 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                         )
                         viewModel.clickEvent.setValue(viewID)
                     }
-           rvAllBeneficiaries.addOnItemTouchListener(onTouchListener!!)
+            rvAllBeneficiaries.addOnItemTouchListener(onTouchListener!!)
         }
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
+        trackEventWithScreenName(FirebaseEvent.CLICK_BENEFICIARY)
         launchActivityForActivityResult<BeneficiaryFundTransferActivity>(
             requestCode = REQUEST_TRANSFER_MONEY,
             type = beneficiary.getBeneficiaryTransferType()
@@ -163,6 +166,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
         beneficiary?.let {
+            trackEventWithScreenName(FirebaseEvent.EDIT_BENEFICIARY)
             val bundle = Bundle()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
             bundle.putString(Constants.IS_IBAN_NEEDED, "loadFromServer")
@@ -259,6 +263,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
             negativeButton = getString(Strings.common_button_cancel)
         ) {
             viewModel.parentViewModel?.requestDeleteBeneficiary(beneficiary.id.toString()) {
+                trackEventWithScreenName(FirebaseEvent.DELETE_BENEFICIARY)
                 viewModel.parentViewModel?.beneficiariesList?.value?.remove(beneficiary)
                 viewModel.beneficiariesAdapter.removeItemAt(position)
             }
@@ -325,6 +330,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
     }
 
     private fun startAddBeneficiaryFlow() {
+        trackEventWithScreenName(FirebaseEvent.ADD_BENEFICIARY)
         launchActivity<SendMoneyHomeActivity>(
             requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
             type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY

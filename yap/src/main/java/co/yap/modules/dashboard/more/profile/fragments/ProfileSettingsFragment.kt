@@ -29,6 +29,8 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -96,7 +98,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
 
         SessionManager.user?.let {
-            if(it.currentCustomer.getPicture() != null){
+            if (it.currentCustomer.getPicture() != null) {
                 ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
             }
         }
@@ -107,14 +109,17 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_OPEN_CAMERA)
                 initEasyImage(takePhoto)
             }
 
             Constants.EVENT_CHOOSE_PHOTO -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_CHOOSE_PHOTO)
                 initEasyImage(pickPhoto)
             }
 
             Constants.EVENT_REMOVE_PHOTO -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_PHOTO)
                 viewModel.requestRemoveProfilePicture {
                     if (it) {
                         ivAddProfilePic.setImageResource(R.drawable.ic_add)
@@ -252,6 +257,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.rlAddNewProfilePic -> {
                     this.fragmentManager?.let {
+                        trackEventWithScreenName(FirebaseEvent.CLICK_ADD_PHOTO)
                         updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, showRemovePhoto())
                         updatePhotoBottomSheet.show(it, "")
                     }

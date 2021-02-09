@@ -8,7 +8,7 @@ import co.yap.widgets.State
 import co.yap.yapcore.BaseState
 
 class CdmMapState : BaseState(), ICdmMap.State {
-    override var stateLiveData: MutableLiveData<State> = MutableLiveData()
+    override var stateLiveData: MutableLiveData<State>? = MutableLiveData()
     override var locationType: MutableLiveData<String>? = MutableLiveData("")
 
     @get:Bindable

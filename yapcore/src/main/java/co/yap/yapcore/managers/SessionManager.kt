@@ -1,10 +1,11 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
-import androidx.databinding.ObservableField
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
@@ -14,10 +15,14 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.NotificationsRepository
+import co.yap.networking.notification.requestdtos.FCMTokenRequest
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.TourGuideManager
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
@@ -33,6 +38,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     override val repository: CardsRepository = CardsRepository
     private val customerRepository: CustomersRepository = CustomersRepository
+    private val authRepository: AuthRepository = AuthRepository
     private var usersList: List<AccountInfo?> = arrayListOf()
     var user: AccountInfo? = null
     var userAddress: Address? = null
@@ -46,6 +52,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
     var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
+    var deepLinkFlowId: MutableLiveData<String?> = MutableLiveData(null)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -234,10 +241,37 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
+
             override fun onLogoutFailed() {
             }
         })
     }
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
+
+    fun sendFcmTokenToServer(context: Context, success: () -> Unit = {}) {
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
+        val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+
+        getFCMToken() {
+            it?.let { token ->
+                GlobalScope.launch {
+                    when (val response = NotificationsRepository.sendFcmTokenToServer(
+                        FCMTokenRequest(
+                            token = it,
+                            deviceId = deviceId
+                        )
+                    )) {
+                        is RetroApiResponse.Success -> {
+                            success.invoke()
+                        }
+                        is RetroApiResponse.Error -> {
+                            Log.d("", "")
+                        }
+                    }
+                }
+            }
+
+        }
+    }
 }

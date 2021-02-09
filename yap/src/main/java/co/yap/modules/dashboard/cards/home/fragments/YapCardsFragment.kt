@@ -31,6 +31,7 @@ import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.constants.RequestCodes.REQUEST_CARD_ADDED
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
@@ -47,7 +48,7 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
     private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
-    private val EVENT_CARD_ADDED: Int get() = 12
+//    private val EVENT_CARD_ADDED: Int get() = 12
     private var selectedCardPosition: Int = 0
 
     //lateinit var adapter: YapCardsAdaptor
@@ -173,7 +174,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 } else
                                     openDetailScreen(pos)
                             }
-                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name, CardStatus.PIN_BLOCKED.name -> openDetailScreen(
+                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(
                                 pos
                             )
                             CardStatus.INACTIVE.name -> {
@@ -279,7 +280,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
             }
-            EVENT_CARD_ADDED -> {
+            REQUEST_CARD_ADDED -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard: Boolean? = data?.getBooleanExtra("cardAdded", false)
                     val paymentCard: Card? = data?.getParcelableExtra("paymentCard")
@@ -360,7 +361,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     private fun openAddCard() {
         startActivityForResult(
             AddPaymentCardActivity.newIntent(requireContext()),
-            EVENT_CARD_ADDED
+            REQUEST_CARD_ADDED
         )
     }
 

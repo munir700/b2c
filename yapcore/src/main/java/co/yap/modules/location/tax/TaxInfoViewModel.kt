@@ -12,6 +12,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -91,6 +93,7 @@ class TaxInfoViewModel(application: Application) :
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
                 R.id.lyAddCountry -> {
+                    trackEventWithScreenName(FirebaseEvent.ADD_TAX_COUNTRY)
                     createModel(
                         reasonsList,
                         options,

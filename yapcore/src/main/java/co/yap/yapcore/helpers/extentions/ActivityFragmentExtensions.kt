@@ -58,6 +58,31 @@ inline fun <reified T : Any> Activity.launchActivity(
     }
 }
 
+inline fun <reified T : Any> FragmentActivity.launchActivityForResult(
+    requestCode: Int = -1,
+    options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
+    noinline init: Intent.() -> Unit = {},
+    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?=null
+) {
+    completionHandler?.let {
+        val intent = newIntent<T>(this)
+        intent.init()
+        intent.putExtra(EXTRA, options)
+        this@launchActivityForResult.startForResult(intent) { result ->
+            it.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            it.invoke(result.resultCode, result.data)
+        }
+    } ?: run {
+        launchActivity<T>(
+            requestCode = requestCode,
+            options = options,
+            type = type,
+            init = init
+        )
+    }
+}
+
 inline fun <reified T : Any> Fragment.launchActivity(
     requestCode: Int = -1,
     options: Bundle? = null,

@@ -14,6 +14,8 @@ import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -92,6 +94,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnInvite -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_INVITE)
                 Utils.shareText(requireContext(), Utils.getGeneralInvitationBody(requireContext()))
             }
         }

@@ -2,12 +2,9 @@ package co.yap.modules.dashboard.transaction.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -20,7 +17,6 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionProductType
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
@@ -42,11 +38,13 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transaction.set(
-            intent?.getParcelableExtra(
-                ExtraKeys.TRANSACTION_OBJECT_STRING.name
-            ) as Transaction
-        )
+        if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
+            intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
+                viewModel.transaction.set(
+                    it
+                )
+            }
+        }
         setSpentLabel()
         setAmount()
         setMapImageView()
@@ -166,6 +164,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         maskCardNo?.let {
             getBindings().tvCardMask.text = "*${maskCardNo}"
         }
+
     }
 
     private fun setSpentLabel() {
@@ -323,22 +322,24 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     fun setResult() {
         val intent = Intent()
-        intent.putExtra(
-            ExtraKeys.TRANSACTION_OBJECT_STRING.name,
-            viewModel.transaction.get() as Transaction
-        )
-        intent.putExtra(
-            ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, getIntent().getIntExtra(
-                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, -1
+        if (viewModel.transaction.get() is Transaction) {
+            intent.putExtra(
+                ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                viewModel.transaction.get() as Transaction
             )
-        )
-        intent.putExtra(
-            ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, getIntent().getIntExtra(
-                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
+            intent.putExtra(
+                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, getIntent().getIntExtra(
+                    ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, -1
+                )
             )
-        )
+            intent.putExtra(
+                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, getIntent().getIntExtra(
+                    ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
+                )
+            )
 
-        setResult(Activity.RESULT_OK, intent)
+            setResult(Activity.RESULT_OK, intent)
+        }
         finish()
     }
 

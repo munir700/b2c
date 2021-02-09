@@ -1,5 +1,7 @@
 package co.yap.yapcore.helpers
 
+import android.content.Context
+import co.yap.yapcore.R
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -96,7 +98,7 @@ object DateUtils {
                         dateStr = it,
                         format = inputFormatter,
                         timeZone = inputTimeZone
-                    )
+                    )!!
                 )
             } catch (e: Exception) {
             }
@@ -135,6 +137,24 @@ object DateUtils {
         } catch (e: Exception) {
             " ";
         }
+    }
+
+    fun dateToString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
+        date?.let {
+            var result = ""
+            val formatter = SimpleDateFormat(format, Locale.US)
+            formatter.timeZone = timeZone
+//            val symbols = DateFormatSymbols(Locale.getDefault())
+//            symbols.amPmStrings = arrayOf("am", "pm")
+//            formatter.dateFormatSymbols = symbols
+            try {
+                result = formatter.format(it)
+            } catch (e: Exception) {
+            }
+
+            return result
+        } ?: return ""
+
     }
 
     fun stringToDate(dateStr: String, format: String): Date? {
@@ -231,6 +251,12 @@ object DateUtils {
     fun getCurrentDateWithFormat(formal: String): String {
         val sdf = SimpleDateFormat(formal, Locale.US)
         sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(Date())
+    }
+
+    fun getCurrentDateWithFormat(formal: String, timeZone: TimeZone): String {
+        val sdf = SimpleDateFormat(formal, Locale.US)
+        sdf.timeZone = timeZone
         return sdf.format(Date())
     }
 
@@ -338,4 +364,95 @@ object DateUtils {
         return sameMonth && sameYear
     }
 
+
+    fun isToday(date: Date?) = date?.let { android.text.format.DateUtils.isToday(it.time) } ?: false
+
+    fun isToday(date: String, format: String, timeZone: TimeZone) =
+        android.text.format.DateUtils.isToday(
+            stringToDate(date, format, timeZone)?.time ?: Date().time
+        )
+
+    fun isTomorrow(date: Date?): Boolean {
+        // Check if yesterday
+        val c1 = Calendar.getInstance() // today
+        c1.add(Calendar.DAY_OF_YEAR, 1) // yesterday
+        val c2 = Calendar.getInstance()
+        c2.time = date ?: Date()
+        return (c1[Calendar.YEAR] == c2[Calendar.YEAR]
+                && c1[Calendar.DAY_OF_YEAR] == c2[Calendar.DAY_OF_YEAR])
+    }
+
+    fun isTomorrow(date: Date?, timeZone: TimeZone) =
+        afterDay(timeZone) == dateToString(date, DEFAULT_DATE_FORMAT, timeZone)
+
+    fun isYesterday(date: Date?): Boolean {
+        // Check if yesterday
+        val c1 = Calendar.getInstance() // today
+        c1.add(Calendar.DAY_OF_YEAR, -1) // yesterday
+        val c2 = Calendar.getInstance()
+        c2.time = date ?: Date()
+        return (c1[Calendar.YEAR] == c2[Calendar.YEAR]
+                && c1[Calendar.DAY_OF_YEAR] == c2[Calendar.DAY_OF_YEAR])
+    }
+
+    fun isYesterday(date: Date?, timeZone: TimeZone) =
+        befoDay(timeZone) == dateToString(date, DEFAULT_DATE_FORMAT, timeZone)
+
+    fun isYesterday(date: String, format: String, timeZone: TimeZone) =
+        stringToDate(date, format, timeZone)?.let {
+            isYesterday(it)
+        } ?: false
+
+    fun afterDay(timeZone: TimeZone) = dateToString(
+        nextDay(Date(), 1),
+        DEFAULT_DATE_FORMAT, timeZone
+    )
+
+    fun befoDay(timeZone: TimeZone) = befoDay(DEFAULT_DATE_FORMAT, timeZone)
+
+    fun nextDay(date: Date?, day: Int): Date? {
+        val cal = Calendar.getInstance()
+        if (date != null) {
+            cal.time = date
+        }
+        cal.add(Calendar.DAY_OF_YEAR, day)
+        return cal.time
+    }
+
+    fun befoDay(format: String, timeZone: TimeZone): String? {
+        return dateToString(
+            nextDay(
+                Date(),
+                -1
+            ), format, timeZone
+        )
+    }
+
+    fun getFormattedLogDate(
+        context: Context,
+        date: String?,
+        inputFormatter: String = SERVER_DATE_FORMAT,
+        outFormatter: String = LEAN_PLUM_FORMAT,
+        inputTimeZone: TimeZone = GMT,
+        outTimeZone: TimeZone = TIME_ZONE_Default
+    ): String? {
+        return date?.let {
+            val dateTime = stringToDate(it, inputFormatter, inputTimeZone)
+            when {
+                isToday(dateTime) -> context.getString(
+                    R.string.today,
+                    dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                )
+                isTomorrow(dateTime) -> context.getString(
+                    R.string.tomorrow,
+                    dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                )
+                isYesterday(dateTime) -> context.getString(
+                    R.string.yesterday,
+                    dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                )
+                else -> dateToString(dateTime, outFormatter, outTimeZone)
+            }
+        } ?: reformatDate(date, inputFormatter, outFormatter, inputTimeZone, outTimeZone)
+    }
 }

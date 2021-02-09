@@ -2,6 +2,7 @@ package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -16,6 +17,8 @@ import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -69,6 +72,10 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
             when (it) {
                 R.id.nextButton -> {
                     if (!isDefaultCurrencyExist()) {
+                        trackEventWithScreenName(
+                            FirebaseEvent.START_NEW_BENEFICIARY,
+                            bundleOf("beneficiary_country" to viewModel.state.selectedCountry?.getName())
+                        )
                         viewModel.state.selectedCountry?.getCurrency()?.let { it ->
                             it.cashPickUp?.let { cashPickup ->
                                 if (cashPickup) {

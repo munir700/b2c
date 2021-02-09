@@ -1,9 +1,6 @@
 package co.yap.modules.dashboard.main.viewmodels
 
 import android.app.Application
-import android.util.Log
-import androidx.databinding.ObservableField
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
@@ -66,13 +63,15 @@ class YapDashBoardViewModel(application: Application) :
         super.onCreate()
         updateVersion()
         getHelpPhoneNo()
-        launch {
-            delay(1500)
-            showUnverifedscreen.value =
-                SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+      if(  SessionManager.deepLinkFlowId.value==null){
+            launch {
+                delay(1500)
+                showUnverifedscreen.value =
+                    SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+            }
         }
         state.isFounder.set(SessionManager.user?.currentCustomer?.founder)
-      }
+    }
 
     override fun resendVerificationEmail(callBack: () -> Unit) {
         launch {

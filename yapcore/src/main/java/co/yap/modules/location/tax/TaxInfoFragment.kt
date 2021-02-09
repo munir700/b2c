@@ -13,6 +13,8 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -35,6 +37,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
             Pair("Individual Self Certification Form for CRS & FATCA.", View.OnClickListener {
                 if (viewModel.state.valid.get() == true) {
                     viewModel.saveInfoDetails(false) { pdf ->
+                        trackEventWithScreenName(FirebaseEvent.FATCA_KNOW_MORE)
                         startActivity(
                             PDFActivity.newIntent(view.context, pdf ?: "", true)
                         )
@@ -79,6 +82,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
         when (it) {
             R.id.nextButton -> {
                 viewModel.saveInfoDetails(true) {
+                    trackEventWithScreenName(FirebaseEvent.TAX_RESIDENCE_SUBMIT)
                     setIntentResult()
                 }
             }

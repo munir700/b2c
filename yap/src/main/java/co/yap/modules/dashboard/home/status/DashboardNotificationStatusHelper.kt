@@ -31,8 +31,11 @@ class DashboardNotificationStatusHelper(
     val viewModel: IYapHome.ViewModel
 ) {
     var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
-    private fun getStringHelper(resourceKey: String): String =
+    private fun getStringHelper(resourceKey: String): String = try {
         Translator.getString(getContext(), resourceKey)
+    } catch (ignored: Exception) {
+        ""
+    }
 
     init {
         val onboardingStagesList = when {
