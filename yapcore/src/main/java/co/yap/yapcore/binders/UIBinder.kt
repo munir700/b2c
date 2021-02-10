@@ -29,6 +29,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
+import androidx.core.os.bundleOf
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.utils.CurrencyUtils
@@ -46,6 +47,8 @@ import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -172,7 +175,7 @@ object UIBinder {
     @JvmStatic
     fun setCardDetailLayoutVisibility(linearLayout: LinearLayout, card: Card) {
         when (card.status) {
-            CardStatus.ACTIVE.name, CardStatus.PIN_BLOCKED.name -> {
+            CardStatus.ACTIVE.name -> {
                 if (card.cardType == CardType.DEBIT.type) {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                         linearLayout.visibility = GONE
@@ -190,7 +193,7 @@ object UIBinder {
     fun setCardStatus(linearLayout: LinearLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             linearLayout.visibility = VISIBLE
@@ -212,7 +215,7 @@ object UIBinder {
     fun setCardStatus(imageView: ImageView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                             imageView.visibility = VISIBLE
@@ -248,7 +251,7 @@ object UIBinder {
     fun setCardStatus(text: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setTextForInactiveCard(text = text, card = card)
@@ -311,7 +314,7 @@ object UIBinder {
     fun setcardButtonStatus(coreButton: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setCardButtonTextForInactive(coreButton, card)
@@ -738,27 +741,31 @@ object UIBinder {
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
-    @BindingAdapter("drawableClick")
-    fun setDrawableRightListener(view: EditText, onDrawableClick: Boolean) {
+    @BindingAdapter(requireAll = true, value = ["drawableClick", "deleteAddressField"])
+    fun setDrawableRightListener(
+        view: EditText,
+        onDrawableClick: Boolean,
+        deleteAddressField: String
+    ) {
         if (onDrawableClick) {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_clear_field, 0)
-
-            view.setOnTouchListener(object : View.OnTouchListener {
-                override fun onTouch(v: View, m: MotionEvent): Boolean {
-                    var hasConsumed = false
-                    if (v is EditText) {
-                        if (m.x >= v.width - v.totalPaddingRight) {
-                            if (m.action == MotionEvent.ACTION_UP) {
-                                view.text.clear()
-
-                                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                            }
-                            hasConsumed = true
+            view.setOnTouchListener { v, m ->
+                var hasConsumed = false
+                if (v is EditText) {
+                    if (m.x >= v.width - v.totalPaddingRight) {
+                        if (m.action == MotionEvent.ACTION_UP) {
+                            view.text.clear()
+                            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                            trackEventWithScreenName(
+                                FirebaseEvent.DELETE_ADDRESS_FIELD,
+                                bundleOf("field_name" to deleteAddressField)
+                            )
                         }
+                        hasConsumed = true
                     }
-                    return hasConsumed
                 }
-            })
+                hasConsumed
+            }
         } else {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 

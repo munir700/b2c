@@ -9,5 +9,5 @@ import co.yap.yapcore.BaseState
 class CurrencyPickerState : BaseState(),
     ICurrencyPicker.State {
     override var currencyDialogChecker: ObservableField<Boolean> = ObservableField()
-    override var stateLiveData: MutableLiveData<State> = MutableLiveData()
+    override var stateLiveData: MutableLiveData<State>? = MutableLiveData()
 }

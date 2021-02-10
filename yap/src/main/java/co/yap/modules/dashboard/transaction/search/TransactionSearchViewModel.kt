@@ -14,6 +14,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.UTC
+import kotlinx.coroutines.cancelChildren
 
 class TransactionSearchViewModel(application: Application) :
     BaseViewModel<ITransactionSearch.State>(application), ITransactionSearch.ViewModel {
@@ -29,18 +30,18 @@ class TransactionSearchViewModel(application: Application) :
         transactionRequest: HomeTransactionsRequest?,
         isLoadMore: Boolean, apiResponse: ((State?, HomeTransactionListData?) -> Unit?)?
     ) {
-        //cancelAllJobs()
         launch {
-            //delay(500)
-            if (transactionRequest?.number == 0) state.transactionMap?.value = null
             if (!isLoadMore)
                 state.stateLiveData?.value = State.loading(null)
             when (val response =
                 searchTransactions(state.transactionRequest)) {
                 is RetroApiResponse.Success -> {
+                    if (transactionRequest?.number == 0) {
+                        state.transactionMap?.value = null
+                    }
                     if (response.data.data.transaction.isNotEmpty()) {
                         state.stateLiveData?.value = State.success(null)
-                        var tempMap: Map<String?, List<Transaction>>
+                        var tempMap: MutableMap<String?, List<Transaction>>
                         tempMap =
                             response.data.data.transaction.sortedByDescending { t ->
                                 DateUtils.stringToDate(
@@ -55,41 +56,36 @@ class TransactionSearchViewModel(application: Application) :
                                         DateUtils.SERVER_DATE_FORMAT,
                                         DateUtils.FORMAT_DATE_MON_YEAR, UTC
                                     )
-                                }
-                        state.transactionMap?.value = state.transactionMap?.value?.let {
-                            tempMap.mergeReduce(other = it)
-                        } ?: tempMap
-//                        state.transactionMap?.value = tempMap
-                        transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
-
-//                        apiResponse?.invoke(State.success(null),response.data.data)
+                                }.toMutableMap()
+//                        state.transactionMap?.value =
+                        state.transactionMap?.value?.let {
+                            mergeReduce(tempMap)
+                        } ?: run {
+                            state.transactionMap?.value = tempMap
+                            transactionAdapter?.get()?.setData(state.transactionMap?.value)
+                        }
                     } else {
-
                         if (state.transactionMap?.value == null) {
                             state.stateLiveData?.value = State.empty(null)
-                            transactionAdapter?.get()?.setTransactionData(emptyMap())
+                            transactionAdapter?.get()?.setData(mutableMapOf())
                         } else {
-                            state.stateLiveData?.value = State.error(null)
+                            state.stateLiveData?.value = State.ideal(null)
                         }
-//                        if (!isLoadMore)
-
-//                        apiResponse?.invoke(State.success(null),response.data.data)
                     }
-
                     apiResponse?.invoke(state.stateLiveData?.value, response.data.data)
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.stateLiveData?.value = State.network(null)
+                    state.toast = response.error.message
+                    state.stateLiveData?.value = State.error(null)
                     apiResponse?.invoke(state.stateLiveData?.value, null)
-
                 }
             }
         }
     }
 
     override fun clearCoroutine() {
-        cancelAllJobs()
+        viewModelJob.cancelChildren()
     }
 
     override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
@@ -98,7 +94,7 @@ class TransactionSearchViewModel(application: Application) :
                 state.transactionRequest?.number = page
                 requestTransactions(state.transactionRequest, page != 0) { state, date ->
                     notifyPageLoaded()
-                    if (date?.last == true || state?.status == Status.ERROR) {
+                    if (date?.last == true || state?.status == Status.IDEAL || state?.status == Status.ERROR) {
                         notifyPaginationCompleted()
                     }
                 }
@@ -106,13 +102,30 @@ class TransactionSearchViewModel(application: Application) :
         }
     }
 
-    fun <K, V> Map<K, V>.mergeReduce(
-        other: Map<K, V>,
-        reduce: (V, V) -> V = { a, b -> b }
-    ): Map<K, V> {
-        val result = LinkedHashMap<K, V>(this.size + other.size)
-        result.putAll(this)
-        other.forEach { e -> result[e.key] = result[e.key]?.let { reduce(e.value, it) } ?: e.value }
-        return result
+    private fun mergeReduce(newMap: MutableMap<String?, List<Transaction>>) {
+        state.transactionMap?.value?.let { map ->
+            val tempMap = mutableMapOf<String?, List<Transaction>>()
+            var keyToRemove: String? = null
+            tempMap.putAll(newMap)
+            newMap.keys.forEach { key ->
+                if (map.containsKey(key)) {
+                    keyToRemove = key
+                    return@forEach
+                }
+            }
+            keyToRemove?.let {
+                val newTransaction = newMap.getValue(it)
+                val oldTransaction = map.getValue(it).toMutableList()
+                oldTransaction.addAll(newTransaction)
+                state.transactionMap?.value!![it] = oldTransaction
+                tempMap.remove(it)
+            }
+            val groupCount = transactionAdapter?.get()?.groupCount ?: 0
+            state.transactionMap?.value?.putAll(tempMap)
+            transactionAdapter?.get()?.expandableItemManager?.notifyGroupItemRangeInserted(
+                groupCount - 1,
+                tempMap.size
+            )
+        }
     }
 }

@@ -118,5 +118,6 @@ class CoreBottomSheet(
     }
 
     private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
+    override fun getScreenName(): String? =null
 
 }

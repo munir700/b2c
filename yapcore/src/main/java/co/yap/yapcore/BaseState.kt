@@ -3,6 +3,7 @@ package co.yap.yapcore
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
+import co.yap.widgets.State
 
 
 abstract class BaseState : BaseObservable(), IBase.State {
@@ -44,6 +45,8 @@ abstract class BaseState : BaseObservable(), IBase.State {
         toast = ""
     }
 
+    override var stateLiveData: MutableLiveData<State>? = MutableLiveData()
+
     override fun destroy() {
 
     }
@@ -59,5 +62,6 @@ abstract class BaseState : BaseObservable(), IBase.State {
     override fun pause() {
 
     }
+
 
 }

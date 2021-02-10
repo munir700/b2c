@@ -18,6 +18,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
@@ -92,6 +94,7 @@ class EmailViewModel(application: Application) :
                     } ?: toast(context, "Invalid pass code")
 
                     trackEvent(SignupEvents.SIGN_UP_EMAIL.type, state.twoWayTextWatcher)
+                    trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL)
                     sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
                     state.setSuccessUI()
@@ -102,6 +105,7 @@ class EmailViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.emailError = response.error.message
+                    parentViewModel?.state?.emailError = true
                 }
             }
         }
@@ -135,6 +139,7 @@ class EmailViewModel(application: Application) :
         launch {
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
@@ -144,6 +149,7 @@ class EmailViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Error -> {
                     state.emailError = response.error.message
+                    parentViewModel?.state?.emailError = true
                     state.loading = false
 
                 }
@@ -163,6 +169,7 @@ class EmailViewModel(application: Application) :
             state.valid = false
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.postDemographicData(
                 DemographicDataRequest(
                     "SIGNUP",
@@ -190,6 +197,7 @@ class EmailViewModel(application: Application) :
         launch {
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {

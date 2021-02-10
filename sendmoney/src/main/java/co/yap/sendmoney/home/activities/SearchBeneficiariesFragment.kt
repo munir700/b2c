@@ -26,6 +26,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.confirm
@@ -55,9 +57,9 @@ class SearchBeneficiariesFragment :
         getBindings().etSearch.afterTextChanged {
             viewModel.adapter.filter.filter(it)
         }
-        viewModel.state.stateLiveData.observe(this, Observer { handleState(it) })
+        viewModel.state.stateLiveData?.observe(this, Observer { handleState(it) })
         viewModel.adapter.filterCount.observe(this, Observer {
-            viewModel.state.stateLiveData.value =
+            viewModel.state.stateLiveData?.value =
                 if (it == 0) State.empty("") else State.success("")
         })
     }
@@ -174,6 +176,7 @@ class SearchBeneficiariesFragment :
             negativeButton = getString(Strings.common_button_cancel)
         ) {
             viewModel.parentViewModel?.requestDeleteBeneficiary(beneficiary.id.toString()) {
+                trackEventWithScreenName(FirebaseEvent.DELETE_BENEFICIARY)
                 viewModel.parentViewModel?.beneficiariesList?.value?.remove(beneficiary)
                 viewModel.parentViewModel?.beneficiariesList?.value =
                     viewModel.parentViewModel?.beneficiariesList?.value
@@ -184,6 +187,7 @@ class SearchBeneficiariesFragment :
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getBindings().etSearch)
+        trackEventWithScreenName(FirebaseEvent.CLICK_BENEFICIARY)
         launchActivityForActivityResult<BeneficiaryFundTransferActivity>(
             requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
             type = beneficiary.getBeneficiaryTransferType()
@@ -210,6 +214,7 @@ class SearchBeneficiariesFragment :
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getBindings().etSearch)
         beneficiary?.let {
+            trackEventWithScreenName(FirebaseEvent.EDIT_BENEFICIARY)
             val bundle = Bundle()
             bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, false)
             bundle.putString(Constants.IS_IBAN_NEEDED, "loadFromServer")
@@ -280,7 +285,7 @@ class SearchBeneficiariesFragment :
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
-        viewModel.state.stateLiveData.removeObservers(this)
+        viewModel.state.stateLiveData?.removeObservers(this)
     }
 
     override fun onDestroyView() {

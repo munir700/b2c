@@ -25,6 +25,7 @@ interface IGenericOtp {
         fun isValidOtpLength(otp: String): Boolean
         fun verifyOtp(success: () -> Unit)
         var requestKeyBoard: MutableLiveData<Boolean>
+        fun logFirebaseEvent(resend: Boolean?=false)
     }
 
     interface State : IBase.State {

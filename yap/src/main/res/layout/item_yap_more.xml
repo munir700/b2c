@@ -62,7 +62,7 @@
                 app:mbtv_border_width="@dimen/_1sdp"
                 app:mbtv_type="shadow_alpha"
                 app:mbtv_border_alpha="1"
-                tools:text="4" />
+                tools:text="41" />
         </FrameLayout>
 
         <TextView

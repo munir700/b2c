@@ -14,6 +14,8 @@ import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -41,10 +43,10 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
-        viewModel.state.stateLiveData.observe(this, Observer { handleShimmerState(it) })
+        viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.y2yBeneficiries?.observe(this, Observer {
             viewModel.contactsAdapter.setList(it)
-            viewModel.state.stateLiveData.value =
+            viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
             viewModel.state.contactsCounts.set(it.size)
         })
@@ -55,7 +57,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
 
         viewModel.contactsAdapter.filterCount.observe(this, Observer {
             if (it == 0 && viewModel.parentViewModel?.isSearching?.value == true && !viewModel.state.isNoYapContacts.get()) {
-                viewModel.state.stateLiveData.value = State.empty(null)
+                viewModel.state.stateLiveData?.value = State.empty(null)
             } else {
                 viewModel.state.isNoSearchResult.set(false)
             }
@@ -92,6 +94,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnInvite -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_INVITE)
                 Utils.shareText(requireContext(), Utils.getGeneralInvitationBody(requireContext()))
             }
         }

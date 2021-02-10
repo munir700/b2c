@@ -24,7 +24,6 @@ interface IYapContact {
     }
 
     interface State : IBase.State {
-        var stateLiveData: MutableLiveData<co.yap.widgets.State>
         var isNoYapContacts: ObservableBoolean
         var isNoSearchResult: ObservableBoolean
         var isShowContactsCounter: ObservableBoolean

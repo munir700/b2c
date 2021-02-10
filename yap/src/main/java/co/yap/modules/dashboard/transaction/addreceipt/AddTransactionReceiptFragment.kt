@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.addreceipt
 
+import android.app.Activity
 import android.graphics.PointF
 import android.os.Bundle
 import android.view.View
@@ -12,8 +13,9 @@ import co.yap.databinding.FragmentAddTransactionReceiptBinding
 import co.yap.modules.dashboard.transaction.previewreceipt.PreviewTransactionReceiptFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.FILE_PATH
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.createTempFile
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import com.digitify.identityscanner.camera.CameraException
 import com.digitify.identityscanner.camera.CameraListener
 import com.digitify.identityscanner.camera.CameraOptions
@@ -32,6 +34,15 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
         getBindingView().camera.setLifecycleOwner(this)
         getBindingView().camera.addCameraListener(this)
         registerObserver()
+    }
+
+    private fun getTransactionId(): String {
+        arguments?.let { bundle ->
+            bundle.getString(ExtraKeys.TRANSACTION_ID.name)?.let { id ->
+                return id
+            }
+        }
+        return ""
     }
 
     override fun registerObserver() {
@@ -86,13 +97,21 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
 
     override fun onPictureTaken(result: PictureResult) {
         result.toFile(
-            requireContext().createTempFile(".jpg")
+            requireContext().createTempFile("jpg")
         ) {
             it?.let {
-                startFragment(
+                startFragmentForResult<PreviewTransactionReceiptFragment>(
                     fragmentName = PreviewTransactionReceiptFragment::class.java.name,
-                    bundle = bundleOf(FILE_PATH to it.absolutePath)
-                )
+                    bundle = bundleOf(
+                        FILE_PATH to it.absolutePath,
+                        ExtraKeys.TRANSACTION_ID.name to getTransactionId()
+                    )
+                ) { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        requireActivity().setResult(Activity.RESULT_OK)
+                        requireActivity().finish()
+                    }
+                }
             }
         }
     }

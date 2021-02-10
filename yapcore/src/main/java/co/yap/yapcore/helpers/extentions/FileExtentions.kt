@@ -147,8 +147,8 @@ fun takeScreenshotForView(view: View): Bitmap {
     return bitmap
 }
 
-fun getCurrentDateTime(): String {
+fun getCurrentDateTime(): String { // need to re verify
     val currentCalendar: Calendar = Calendar.getInstance()
-    val date = DateUtils.dateToString(currentCalendar.time, "dd-mm-yyyy")
+    val date = DateUtils.dateToString(currentCalendar.time, "dd-mm-yyyy",   DateUtils.TIME_ZONE_Default)
     return date
 }

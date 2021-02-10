@@ -21,7 +21,7 @@ import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
+import co.yap.modules.dashboard.more.notifications.main.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.translation.Strings
@@ -30,12 +30,18 @@ import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.leanplum.MoreB2CEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
 import com.liveperson.infra.configuration.Configuration.getDimension
@@ -70,11 +76,28 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     }
 
     private fun updateNotificationCounter() {
+//        Leanplum.forceContentUpdate()
         if (::adapter.isInitialized) {
             if (!adapter.getDataList().isNullOrEmpty()) {
+                val notificationCount: Int = NotificationHelper.getNotifications(
+                    SessionManager.user,
+                    SessionManager.card.value,
+                    requireContext()
+                ).size
                 val item = adapter.getDataForPosition(0)
-                item.hasBadge = false //Leanplum.getInbox().unreadCount() > 0
-                item.badgeCount = Leanplum.getInbox().unreadCount()
+                viewModel.getTransactionsNotificationsCount {
+                    item.badgeCount =
+                        Leanplum.getInbox().unreadCount().plus(notificationCount).plus(it ?: 0)
+                    //Leanplum.getInbox().unreadCount() > 0
+//                Leanplum.getInbox().addChangedHandler(object : InboxChangedCallback() {
+//                    override fun inboxChanged() {
+//                        item.badgeCount = item.badgeCount.plus(Leanplum.getInbox().unreadCount())
+//                        item.hasBadge = item.badgeCount > 0
+//                    }
+//                })
+                    item.hasBadge = item.badgeCount > 0
+                    adapter.setItemAt(0, item)
+                }
                 adapter.setItemAt(0, item)
             }
         }
@@ -174,28 +197,35 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.imgProfile, R.id.imgSettings-> {
+            R.id.imgProfile, R.id.imgSettings -> {
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.btnBankDetails -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_BANK_DETAILS)
                 startActivity(BankDetailActivity.newIntent(requireContext()))
             }
             R.id.yapForYou -> {
                 launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
             }
             Constants.MORE_NOTIFICATION -> {
-                Utils.showComingSoon(requireContext())
+                trackEventWithScreenName(FirebaseEvent.CLICK_NOTIFICATIONS)
+                requireActivity().launchActivity<NotificationsActivity>(requestCode = RequestCodes.REQUEST_NOTIFICATION_FLOW) {
+                }
             }
             Constants.MORE_LOCATE_ATM -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_ATM_LOCATION)
+                trackEvent(MoreB2CEvents.OPEN_ATM_MAP.type)
                 startFragment(CdmMapFragment::class.java.name)
             }
             Constants.MORE_INVITE_FRIEND -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_INVITE_FRIEND)
                 startFragment(
                     InviteFriendFragment::class.java.name, false,
                     bundleOf()
                 )
             }
             Constants.MORE_HELP_SUPPORT -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_HELP_MORE_SCREEN)
                 startActivity(
                     FragmentPresenterActivity.getIntent(
                         requireContext(),

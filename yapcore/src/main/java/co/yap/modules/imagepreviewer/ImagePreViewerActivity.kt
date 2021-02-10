@@ -34,8 +34,11 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         showLoader(true)
-
         viewModel.clickEvent.observe(this, clickEvent)
+        setDataArguments(intent)
+    }
+
+    private fun setDataArguments(intent: Intent) {
         viewModel.state.imageReceiptTitle?.set(
             intent?.getStringExtra(
                 ExtraKeys.CONST_IMAGE_TITLE.name
@@ -46,11 +49,12 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
                 ExtraKeys.CONST_IMAGE_URL.name
             )
         )
+        viewModel.receiptId = viewModel.state.imageUrl?.get()?.split("/")?.last() ?: ""
+        viewModel.transactionId = intent?.getStringExtra(ExtraKeys.TRANSACTION_ID.name) ?: ""
     }
 
     var clickEvent = Observer<Int> {
         when (it) {
-
             R.id.ivActionShare -> {
                 shareImage(imageViewConatiner)
             }
@@ -63,14 +67,13 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
 
     fun setResult() {
         val intent = Intent()
-        intent.putExtra("key", "value")
-
+//        intent.putExtra("key", "value")
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
     override fun onBackPressed() {
-        setResult()
+        super.onBackPressed()
     }
 
 
@@ -99,7 +102,9 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
                 override fun onItemClick(view: View, data: Any, pos: Int) {
                     if (data is Boolean) {
                         if (data) {
-                            setResult()
+                            viewModel.deleteReceipt() {
+                                setResult()
+                            }
                         } else {
                             setResult()
                         }

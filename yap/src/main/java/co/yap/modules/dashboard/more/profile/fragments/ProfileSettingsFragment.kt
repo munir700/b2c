@@ -25,6 +25,8 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -89,62 +91,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
     }
 
-    override fun onClick(eventType: Int) {
-        updatePhotoBottomSheet.dismiss()
-
-        when (eventType) {
-            Constants.EVENT_ADD_PHOTO -> {
-                initEasyImage(takePhoto)
-            }
-
-            Constants.EVENT_CHOOSE_PHOTO -> {
-                initEasyImage(pickPhoto)
-            }
-
-            Constants.EVENT_REMOVE_PHOTO -> {
-                viewModel.requestRemoveProfilePicture {
-                    if (it) {
-                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
-                        SessionManager.user?.let { user ->
-                            ImageBinding.loadAvatar(
-                                ivProfilePic,
-                                user.currentCustomer.getPicture(),
-                                user.currentCustomer.getFullName(),
-                                user.currentCustomer.parsedColor
-                            )
-
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initEasyImage(type: Int) {
-        if (hasCameraPermission()) {
-            easyImage = EasyImage.Builder(requireContext())
-                .setChooserTitle("Pick Image")
-                .setFolderName("YAPImage")
-                .allowMultiple(false)
-                .build()
-            when (type) {
-                takePhoto -> {
-                    easyImage.openCameraForImage(this)
-
-                }
-                pickPhoto -> {
-                    easyImage.openGallery(this)
-                }
-            }
-            //  easyImage.openChooser(this)
-        } else {
-            EasyPermissions.requestPermissions(
-                this, "This app needs access to your camera so you can take pictures.",
-                REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
-            )
-        }
-
-    }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
@@ -239,6 +185,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.rlAddNewProfilePic -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_ADD_PHOTO)
                     requireActivity().launchSheet(
                         itemClickListener = itemListener,
                         itemsList = viewModel.getUploadProfileOptions(showRemovePhoto()),
@@ -275,7 +222,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     "png", "jpg", "jpeg" -> {
                         viewModel.clickEvent.call()
                         viewModel.requestUploadProfilePicture(mediaFile.file)
-                        viewModel.state.imageUri = mediaFile.file.toUri()
                         ivProfilePic.setImageURI(mediaFile.file.toUri())
                         ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
 
@@ -295,19 +241,36 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when ((data as BottomSheetItem).tag) {
                 PhotoSelectionType.CAMERA.name -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_OPEN_CAMERA)
                     openImagePicker(PhotoSelectionType.CAMERA)
                 }
 
                 PhotoSelectionType.GALLERY.name -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_CHOOSE_PHOTO)
                     openImagePicker(PhotoSelectionType.GALLERY)
                 }
 
                 PhotoSelectionType.REMOVE_PHOTO.name -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_PHOTO)
                     viewModel.requestRemoveProfilePicture {
                         if (it) ivProfilePic.setImageDrawable(null)
                     }
                 }
             }
         }
+        // viewModel.requestRemoveProfilePicture {
+        //                    if (it) {
+        //                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
+        //                        SessionManager.user?.let { user ->
+        //                            ImageBinding.loadAvatar(
+        //                                ivProfilePic,
+        //                                user.currentCustomer.getPicture(),
+        //                                user.currentCustomer.getFullName(),
+        //                                user.currentCustomer.parsedColor
+        //                            )
+        //
+        //                        }
+        //                    }
+        //                }
     }
 }
