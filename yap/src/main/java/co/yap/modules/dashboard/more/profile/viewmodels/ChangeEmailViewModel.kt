@@ -45,7 +45,7 @@ open class ChangeEmailViewModel(application: Application) :
                     }
                 }
             } else {
-                state.setErrors("Email is not matched.")
+                state.setErrors(getString(Strings.screen_change_email_display_text_email_match_error))
             }
 
         }

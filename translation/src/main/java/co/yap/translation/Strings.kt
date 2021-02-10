@@ -925,6 +925,8 @@ object Strings {
         "screen_change_email_display_text_email_title"
     const val screen_change_email_display_text_confirm_email_title: String =
         "screen_change_email_display_text_confirm_email_title"
+    const val screen_change_email_display_text_email_match_error: String =
+        "screen_change_email_display_text_email_match_error"
 
 
     //    Change Phone Number Screen
