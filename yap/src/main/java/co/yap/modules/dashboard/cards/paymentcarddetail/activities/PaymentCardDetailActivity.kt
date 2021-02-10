@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
@@ -57,6 +58,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
@@ -617,6 +619,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             viewModel.cardTransactionRequest.amountEndRange = it.amountEndRange
             viewModel.cardTransactionRequest.title = null
             viewModel.cardTransactionRequest.totalAppliedFilter = it.totalAppliedFilter
+            viewModel.cardTransactionRequest.categories = it.categories
+            viewModel.cardTransactionRequest.statues =
+                if (it.pendingTxn == true) arrayListOf(
+                    TransactionStatus.PENDING.name,
+                    TransactionStatus.IN_PROGRESS.name
+                ) else null
+
             viewModel.state.filterCount.set(it.totalAppliedFilter)
         }
     }

@@ -153,7 +153,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.searchTransactions(
                 homeTransactionsRequest?.number,
                 homeTransactionsRequest?.size,
-                homeTransactionsRequest?.searchField
+                homeTransactionsRequest?.searchField,
+                homeTransactionsRequest?.cardDetailsRequired?:true
             )
         })
     }
@@ -174,7 +175,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 cardTransactionRequest.amountEndRange,
                 cardTransactionRequest.txnType,
                 cardTransactionRequest.title,
+                cardTransactionRequest.categories,
+                cardTransactionRequest.statues,
                 cardTransactionRequest.cardDetailsRequired
+
             )
         })
 
