@@ -57,7 +57,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:enabled="false"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:textColor="@color/white"
                 app:btn_size="medium"

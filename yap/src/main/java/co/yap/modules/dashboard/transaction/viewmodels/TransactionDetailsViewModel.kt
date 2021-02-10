@@ -2,12 +2,16 @@ package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceipt
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
@@ -28,22 +32,27 @@ class TransactionDetailsViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
     override var adapter: TransactionReceiptAdapter = TransactionReceiptAdapter(mutableListOf())
+    override var responseReciept: MutableLiveData<TransactionReceipt> = MutableLiveData()
+    val repository: TransactionsRepository = TransactionsRepository
 
     override fun onCreate() {
         super.onCreate()
+        getAllReceipts()
         setStatesData()
-        adapter.setList(getReciptItems())
+    }
+
+    private fun setReceiptLabel(list: List<ReceiptModel>) {
         state.receiptLabel.set(
             when {
-                adapter.getDataList().isNullOrEmpty() -> {
+                list.isNullOrEmpty() -> {
                     getString(Strings.screen_transaction_details_receipt_label)
                 }
-                adapter.getDataList().size == 1 -> {
+                list.size == 1 -> {
                     getString(Strings.screen_transaction_details_single_added_receipt_label).format(
                         adapter.getDataList().size
                     )
                 }
-                adapter.getDataList().size > 1 -> {
+                list.size > 1 -> {
                     getString(Strings.screen_transaction_details_added_receipt_label).format(adapter.getDataList().size)
                 }
                 else -> getString(Strings.screen_transaction_details_receipt_label)
@@ -51,13 +60,11 @@ class TransactionDetailsViewModel(application: Application) :
         )
     }
 
-    private fun getReciptItems(): List<ReceiptModel> {
+    private fun getReciptItems(receiptLis: List<String>): List<ReceiptModel> {
         val list: MutableList<ReceiptModel> = arrayListOf()
-        list.add(ReceiptModel("Receipt 1"))
-        list.add(ReceiptModel("Receipt 4"))
-        list.add(ReceiptModel("Receipt 5"))
-        list.add(ReceiptModel("Receipt 6"))
-        list.add(ReceiptModel("Receipt 6"))
+        for (i in 0..receiptLis.size.minus(1)) {
+            list.add(ReceiptModel("Receipt ${i.plus(1)}", receiptLis[i]))
+        }
         return list
     }
 
@@ -66,11 +73,32 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     override fun addNewReceipt(receipt: ReceiptModel) {
-        adapter.setItemAt(adapter.getDataList().size,receipt)
+        adapter.setItemAt(adapter.getDataList().size, receipt)
     }
 
     override fun deleteReceipt(position: Int) {
         adapter.removeItemAt(position)
+    }
+
+    override fun getAllReceipts() {
+        launch {
+            state.loading = true
+            when (val response = repository.getAllTransactionReceipts(
+                transactionId = transaction.get()?.transactionId ?: ""
+            )) {
+                is RetroApiResponse.Success -> {
+                    response.data.let { resp ->
+                        responseReciept.value = resp.data
+                    }
+                    state.loading = false
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
     }
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {
@@ -83,9 +111,28 @@ class TransactionDetailsViewModel(application: Application) :
             setTransactionNoteDate()
             state.txnNoteValue.set(transaction.transactionNote)
             setSenderOrReceiver(transaction)
+            setReceiptVisible(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
             state.categoryIcon.set(transaction.getCategoryIcon())
         }
+    }
+
+    private fun setReceiptVisible(transaction: Transaction) {
+        when (transaction.productCode) {
+            TransactionProductCode.ATM_DEPOSIT.pCode -> {
+                state.receiptVisibility.set(true)
+            }
+            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+                state.receiptVisibility.set(true)
+            }
+            TransactionProductCode.POS_PURCHASE.pCode -> {
+                state.receiptVisibility.set(true)
+            }
+            else -> {
+                state.receiptVisibility.set(false)
+            }
+        }
+
     }
 
     private fun setToolbarTitle() {
@@ -128,6 +175,11 @@ class TransactionDetailsViewModel(application: Application) :
             )
         )
         return list
+    }
+
+    override fun setAdapterList(receiptLis: List<String>) {
+        adapter.setList(getReciptItems(receiptLis))
+        setReceiptLabel(adapter.getDataList())
     }
 
 }

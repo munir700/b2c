@@ -10,6 +10,7 @@ import co.yap.yapcore.BaseState
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {
 
     override var spentVisibility: ObservableField<Boolean> = ObservableField(false)
+
     @get:Bindable
     override var transactionNoteDate: String? = ""
         set(value) {
@@ -23,8 +24,8 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var categoryTitle: ObservableField<String> = ObservableField("")
     override var categoryIcon: ObservableField<Int> = ObservableField()
     override var transactionTitle: ObservableField<String> = ObservableField()
-    override var noteVisibility: ObservableBoolean =ObservableBoolean(false)
-
+    override var noteVisibility: ObservableBoolean = ObservableBoolean(false)
+    override var receiptVisibility: ObservableBoolean = ObservableBoolean(false)
 
 
 }

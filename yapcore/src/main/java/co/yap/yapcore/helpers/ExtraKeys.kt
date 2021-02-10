@@ -11,5 +11,6 @@ enum class ExtraKeys {
     IS_Y2Y_DATA,
     Y2Y_SELECTED_TAB_POS,
     CONST_IMAGE_TITLE,
-    CONST_IMAGE_URL
+    CONST_IMAGE_URL,
+    TRANSACTION_ID
 }

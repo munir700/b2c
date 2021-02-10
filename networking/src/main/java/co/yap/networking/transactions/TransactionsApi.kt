@@ -9,6 +9,8 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
+import okhttp3.MultipartBody
 
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
@@ -78,9 +80,18 @@ interface TransactionsApi {
         beneficiaryName: String?,
         amount: String?
     ): RetroApiResponse<ApiResponse>
+
     suspend fun getTransactionsOfMerchant(
         merchantType: String,
         cardSerialNo: String?,
         date: String?, merchantName: ArrayList<String>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
+
+    suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
+    suspend fun addTransactionReceipt(transactionId: String, transactionReceipt: MultipartBody.Part): RetroApiResponse<ApiResponse>
+    suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse>
+    suspend fun deleteTransactionReceipt(
+        transactionId: String,
+        receipt: String
+    ): RetroApiResponse<ApiResponse>
 }
