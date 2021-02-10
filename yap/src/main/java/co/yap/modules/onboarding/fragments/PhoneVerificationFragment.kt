@@ -16,9 +16,7 @@ import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.firebase.FirebaseEvents
-import co.yap.yapcore.firebase.FirebaseTagManagerModel
-import co.yap.yapcore.firebase.firebaseTagManagerEvent
+import co.yap.yapcore.firebase.*
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.leanplum.SignupEvents
@@ -44,7 +42,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.VERIFY_NUMBER.event))
+        //requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.VERIFY_NUMBER.event))
         viewModel.state.reverseTimer(10, requireContext())
     }
 
@@ -60,6 +58,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
         when (id) {
             R.id.done -> {
                 viewModel.verifyOtp {
+                    trackEventWithScreenName(FirebaseEvent.VERIFY_NUMBER)
                     viewModel.parentViewModel?.isWaitingList?.value?.let { isWaitingList ->
                         if (isWaitingList) findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment) else startActivityForResult(
                             context?.let { CreatePasscodeActivity.newIntent(it, true) },
@@ -114,6 +113,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
                     //trackEvent(TrackEvents.OTP_CODE_ENTERED)
                     viewModel.setPasscode(data.getStringExtra("PASSCODE") ?: "")
                     findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+                    trackEventWithScreenName(FirebaseEvent.CREATE_PIN)
                     trackEvent(SignupEvents.SIGN_UP_PASSCODE_CREATED.type)
                 }
             }

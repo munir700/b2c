@@ -60,17 +60,11 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
             ) { newText ->
                 newText?.let {
                     viewModel.state.transactionRequest?.searchField = it.toLowerCase()
+//                    viewModel.clearCoroutine()
                     recyclerView.pagination?.notifyPaginationRestart()
                 }
             }
         )
-//        svTransactions.afterTextChanged {
-//            // if (it.isNotEmpty()) {
-//            // viewModel.clearCoroutine()
-//            viewModel.state.transactionRequest?.searchField = it.toLowerCase()
-//            recyclerView.pagination?.notifyPaginationRestart()
-//            // }
-//        }
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivCloseSearch -> {
@@ -90,6 +84,9 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
             Status.EMPTY -> {
                 multiStateView.viewState = MultiStateView.ViewState.EMPTY
             }
+            Status.ERROR -> {
+                multiStateView.viewState = MultiStateView.ViewState.ERROR
+            }
             else -> {
                 multiStateView.viewState = MultiStateView.ViewState.CONTENT
                 //recyclerView.pagination = viewModel.getPaginationListener()
@@ -100,7 +97,7 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
 
     private fun intRecyclersView() {
         mRecyclerViewExpandableItemManager = RecyclerViewExpandableItemManager(null)
-        mAdapter = HomeTransactionAdapter(emptyMap(), mRecyclerViewExpandableItemManager)
+        mAdapter = HomeTransactionAdapter(mutableMapOf(), mRecyclerViewExpandableItemManager)
         mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
         recyclerView.apply {
@@ -109,7 +106,7 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(mAdapter)
             pagination = viewModel.getPaginationListener()
-            setHasFixedSize(false)
+            setHasFixedSize(true)
         }
         mAdapter.onItemClick =
             { view: View, groupPosition: Int, childPosition: Int, data: Transaction? ->
@@ -143,11 +140,8 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
         private val onDebouncingQueryTextChange: (String?) -> Unit
     ) : SearchView.OnQueryTextListener {
         var debouncePeriod: Long = 500
-
         private val coroutineScope = lifecycle.coroutineScope
-
         private var searchJob: Job? = null
-
         override fun onQueryTextSubmit(query: String?): Boolean {
             return false
         }

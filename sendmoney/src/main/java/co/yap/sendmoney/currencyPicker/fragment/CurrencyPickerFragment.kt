@@ -56,9 +56,9 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     private fun setListeners() {
         viewModel.currencyAdapter.setItemListener(currencySelectedItemClickListener)
         viewModel.currencyAdapter.allowFullItemClickListener = true
-        viewModel.state.stateLiveData.observe(this, Observer { handleState(it) })
+        viewModel.state.stateLiveData?.observe(this, Observer { handleState(it) })
         viewModel.currencyAdapter.filterCount.observe(this, Observer {
-            viewModel.state.stateLiveData.value =
+            viewModel.state.stateLiveData?.value =
                 if (it == 0) State.empty("") else State.success("")
         })
     }

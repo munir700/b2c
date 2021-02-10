@@ -7,6 +7,7 @@ import android.view.View
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import co.yap.translation.Translator
+import co.yap.yapcore.firebase.trackScreenViewEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnBackPressedListener
 
@@ -24,6 +25,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        trackScreenViewEvent()
         registerStateListeners()
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
@@ -164,4 +166,6 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
     }
+
+    override fun getScreenName(): String? = ""
 }

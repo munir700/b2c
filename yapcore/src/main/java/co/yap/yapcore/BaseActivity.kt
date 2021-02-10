@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.enums.YAPThemes
+import co.yap.yapcore.firebase.trackScreenViewEvent
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
@@ -42,6 +43,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+        trackScreenViewEvent()
 //        setUpFirebaseAnalytics()
 
         applySelectedTheme(SharedPreferenceManager(this))
@@ -283,4 +285,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
     }
+
+    override fun getScreenName():String? = ""
 }

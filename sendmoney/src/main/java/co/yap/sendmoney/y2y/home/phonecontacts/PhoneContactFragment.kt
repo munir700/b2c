@@ -16,6 +16,7 @@ import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -43,10 +44,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
 
 
     private fun setObservers() {
-        viewModel.state.stateLiveData.observe(this, Observer { handleShimmerState(it) })
+        viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             viewModel.adaptor.setList(it)
-            viewModel.state.stateLiveData.value =
+            viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
@@ -54,7 +55,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
         })
         viewModel.adaptor.filterCount.observe(this, Observer {
             if (it == 0 && viewModel.parentViewModel?.isSearching?.value == true && !viewModel.state.isNoContacts.get()) {
-                viewModel.state.stateLiveData.value = State.empty(null)
+                viewModel.state.stateLiveData?.value = State.empty(null)
             } else {
                 viewModel.state.isNoSearchResult.set(false)
             }
@@ -116,14 +117,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
     }
 
     private fun sendInvite(contact: Contact) {
-        shareInfo(contact)
-    }
-
-    private fun shareInfo(contact: Contact) {
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext(), contact))
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
+      Utils.shareText(requireContext(),getBody(requireContext(), contact))
     }
 
     private fun getBinding(): FragmentPhoneContactsBinding {

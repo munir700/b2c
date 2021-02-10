@@ -29,7 +29,6 @@ import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
@@ -47,6 +46,8 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.notification.responsedtos.HomeNotification
+import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
@@ -64,8 +65,14 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.*
@@ -201,7 +208,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTransactionFilters() {
-        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+            trackEventWithScreenName(FirebaseEvent.CLICK_FILTER_TRANSACTIONS)
             startActivityForResult(
                 TransactionFiltersActivity.newIntent(
                     requireContext(),
@@ -209,6 +217,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 ),
                 RequestCodes.REQUEST_TXN_FILTER
             )
+        }
     }
 
     override fun setObservers() {
@@ -303,6 +312,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         SessionManager.card.value?.let {
             startFlowForSetPin(it)
+            SessionManager.card.value?.let {
+                viewModel.fetchTransactionDetailsForLeanplum(it.status)
+            }
         } ?: SessionManager.getDebitCard { card ->
             startFlowForSetPin(card)
         }
@@ -476,7 +488,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             paymentCard?.let { card ->
                 mAdapter = NotificationAdapter(
                     requireContext(),
-                    viewModel.getNotifications(account, card),
+                    NotificationHelper.getNotifications(account, card, requireContext()),
                     this
                 )
                 getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
@@ -641,6 +653,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     )
                 )
             }
+            NotificationAction.CARD_FEATURES_BLOCKED -> {
+                requireContext().makeCall(SessionManager.helpPhoneNumber)
+            }
         }
     }
 
@@ -713,10 +728,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val isSkip =
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
-                    if (isPinSet && isSkip) {
-                        SessionManager.getDebitCard()
+                    if (isPinSet) {
+                        SessionManager.getDebitCard {
+                            GlobalScope.launch(Dispatchers.Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                     } else {
-                        SessionManager.getDebitCard()
+                        SessionManager.getDebitCard {
+                            GlobalScope.launch(Dispatchers.Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                         launchActivity<AddMoneyActivity>()
                     }
                 }
@@ -742,12 +765,33 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         childPosition ?: 0
                     )?.transactionNote =
                         (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNote =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNote
+
                     getRecycleViewAdaptor()?.getDataForPosition(
                         groupPosition ?: 0
                     )?.transaction?.get(
                         childPosition ?: 0
                     )?.transactionNoteDate =
                         (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                    getRecycleViewAdaptor()?.notifyItemChanged(
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
+                    )
+
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNoteDate =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition ?: 0,
                         getRecycleViewAdaptor()?.getDataForPosition(

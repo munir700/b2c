@@ -14,7 +14,6 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
-import retrofit2.Response
 import retrofit2.http.Body
 
 interface CustomersApi {
@@ -56,6 +55,7 @@ interface CustomersApi {
 
     suspend fun getRecentBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
+    suspend fun getCountries(): RetroApiResponse<CountryModel>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
     suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO>
     suspend fun validateBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse>
@@ -109,4 +109,5 @@ interface CustomersApi {
     suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
     suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
     suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse>
 }

@@ -17,6 +17,8 @@ import co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewMo
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.isNetworkAvailable
 import com.google.android.material.chip.Chip
@@ -74,11 +76,11 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun setChipListener() {
         for (index in 0 until chipGroup.childCount) {
-            val chip:Chip = chipGroup.getChildAt(index) as Chip
-            chip.setOnCheckedChangeListener{view, isChecked ->
-                if (isChecked && !viewModel.txnFilters.value?.categories?.contains(view.text.toString())!!){
+            val chip: Chip = chipGroup.getChildAt(index) as Chip
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                if (isChecked && !viewModel.txnFilters.value?.categories?.contains(view.text.toString())!!) {
                     viewModel.txnFilters.value?.categories?.add(view.text.toString())
-                }else{
+                } else {
                     viewModel.txnFilters.value?.categories?.remove(view.text.toString())
                 }
             }
@@ -89,15 +91,15 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         viewModel.txnFilters.value?.let {
             cbInTransFilter.isChecked = it.incomingTxn ?: false
             cbOutTransFilter.isChecked = it.outgoingTxn ?: false
-            cbPenTransFilter.isChecked =  it.pendingTxn ?: false
+            cbPenTransFilter.isChecked = it.pendingTxn ?: false
             viewModel.txnFilters.value?.categories?.addAll(it.categories ?: arrayListOf())
             setCheckedCategories(it)
         }
     }
 
     private fun setCheckedCategories(it: TransactionFilters) {
-        for (index in 0 until chipGroup.childCount){
-            val chip:Chip = chipGroup.getChildAt(index) as Chip
+        for (index in 0 until chipGroup.childCount) {
+            val chip: Chip = chipGroup.getChildAt(index) as Chip
             chip.isChecked = it.categories?.contains(chip.text.toString()) ?: false
         }
     }
@@ -151,11 +153,14 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             R.id.tvClearFilters -> {
                 resetAllFilters()
             }
-            R.id.btnApplyFilters -> if (isNetworkAvailable()) setIntentAction() else showToast(
-                getString(
-                    Strings.common_display_text_error_no_internet
+            R.id.btnApplyFilters -> if (isNetworkAvailable()) {
+                setIntentAction()
+            } else
+                showToast(
+                    getString(
+                        Strings.common_display_text_error_no_internet
+                    )
                 )
-            )
 
         }
     }
@@ -181,7 +186,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     private fun resetAllFilters() {
         val request = TransactionFilters(
             null,
-            null, false, pendingTxn = false,outgoingTxn = false,categories = arrayListOf()
+            null, false, pendingTxn = false, outgoingTxn = false, categories = arrayListOf()
         )
         val intent = Intent()
         intent.putExtra("txnRequest", request)
@@ -198,7 +203,10 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         viewModel.txnFilters.value?.amountEndRange?.let {
             if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
             setIntentRequest(appliedFilter)
-        } ?: if (rsbAmount.leftSeekBar.progress == rsbAmount.rightSeekBar.progress) setIntentRequest(appliedFilter+1) else setIntentRequest(appliedFilter)
+        }
+            ?: if (rsbAmount.leftSeekBar.progress == rsbAmount.rightSeekBar.progress) setIntentRequest(
+                appliedFilter + 1
+            ) else setIntentRequest(appliedFilter)
     }
 
     private fun setIntentRequest(appliedFilter: Int) {
@@ -211,6 +219,12 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             pendingTxn = cbPenTransFilter.isChecked,
             totalAppliedFilter = appliedFilter
         )
+        val param = Bundle()
+        param.putBoolean("incoming", cbInTransFilter.isChecked)
+        param.putBoolean("outgoing", cbOutTransFilter.isChecked)
+        param.putDouble("value_from", request.amountStartRange ?: 0.0)
+        param.putDouble("value_to", request.amountEndRange ?: 0.0)
+        trackEventWithScreenName(FirebaseEvent.APPLY_FILTERS, param)
         val intent = Intent()
         intent.putExtra("txnRequest", request)
         setResult(Activity.RESULT_OK, intent)
@@ -246,10 +260,10 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             ).toInt()
             chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
             chip.text = categoryName
-            chip.setOnCheckedChangeListener{view, isChecked ->
-                if (isChecked && !viewModel.txnFilters.value?.categories?.contains(view.text.toString())!!){
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                if (isChecked && !viewModel.txnFilters.value?.categories?.contains(view.text.toString())!!) {
                     viewModel.txnFilters.value?.categories?.add(view.text.toString())
-                }else{
+                } else {
                     viewModel.txnFilters.value?.categories?.remove(view.text.toString())
                 }
             }

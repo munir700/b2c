@@ -28,8 +28,8 @@ android {
 
     productFlavors {
         live {
-            versionCode 31
-            versionName "1.0.3"
+            versionCode 35
+            versionName "1.0.6"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -42,8 +42,8 @@ android {
         }
 
         Preprod {
-            versionCode 8
-            versionName "1.0.8"
+            versionCode 11
+            versionName "1.1.1"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -56,8 +56,8 @@ android {
         }
 
         stg {
-            versionCode 238
-            versionName "0.5.7"
+            versionCode 259
+            versionName "0.7.8"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -69,8 +69,8 @@ android {
         }
 
         yapinternal {
-            versionCode 67
-            versionName "0.6.6"
+            versionCode 79
+            versionName "0.7.8"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP Internal"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -82,8 +82,8 @@ android {
         }
 
         qa {
-            versionCode 68
-            versionName "0.6.8"
+            versionCode 85
+            versionName "0.8.5"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP QA"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"

@@ -26,6 +26,8 @@ import co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -295,6 +297,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     }
 
     private fun startTopUpActivity(item: TopUpCard) {
+       // trackEventWithScreenName(FirebaseEvent.CLICK_MAIN_TOPUP)
         launchActivity<TopUpCardActivity>(
             requestCode = RequestCodes.REQUEST_TOP_UP_BENEFICIARY,
             type = FeatureSet.TOP_UP_BY_EXTERNAL_CARD
@@ -323,6 +326,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
 
     private fun addCardProcess() {
         getUrl()?.let {
+            trackEventWithScreenName(FirebaseEvent.CLICK_ADD_CARD)
             launchActivity<AddTopUpCardActivityV2>(requestCode = EVENT_ADD_TOPUP_CARD) {
                 putExtra(co.yap.yapcore.constants.Constants.KEY, it)
                 putExtra(co.yap.yapcore.constants.Constants.TYPE, TYPE_ADD_CARD)

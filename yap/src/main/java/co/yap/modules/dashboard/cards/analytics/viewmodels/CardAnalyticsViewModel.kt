@@ -12,6 +12,8 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
@@ -35,7 +37,7 @@ class CardAnalyticsViewModel(application: Application) :
         val startDate = SessionManager.user?.creationDate ?: ""
         val endDate = DateUtils.dateToString(
             Date(),
-            SIMPLE_DATE_FORMAT
+            SIMPLE_DATE_FORMAT,DateUtils.TIME_ZONE_Default
         )
         listOfMonths = DateUtils.geMonthsBetweenTwoDates(
             startDate,
@@ -55,6 +57,7 @@ class CardAnalyticsViewModel(application: Application) :
                 fetchAnalytics(currentDate)
                 state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
                 state.nextMonth = true
+                trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
             }
             R.id.ivNext -> {
                 currentDate = DateUtils.getNextMonthFromCurrentDate(
@@ -64,6 +67,8 @@ class CardAnalyticsViewModel(application: Application) :
                 fetchAnalytics(currentDate)
                 state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
                 state.previousMonth = true
+                trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
+
             }
         }
     }
@@ -75,7 +80,7 @@ class CardAnalyticsViewModel(application: Application) :
                 SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {analyticsDTO ->
+                    response.data.data?.let { analyticsDTO ->
                         state.monthlyCategoryAvgAmount =
                             response.data.data?.monthlyAvgAmount?.toString()
 
@@ -86,7 +91,8 @@ class CardAnalyticsViewModel(application: Application) :
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        parentViewModel?.categoryAnalyticsItemLiveData?.value = analyticsDTO.txnAnalytics
+                        parentViewModel?.categoryAnalyticsItemLiveData?.value =
+                            analyticsDTO.txnAnalytics
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)
@@ -156,7 +162,7 @@ class CardAnalyticsViewModel(application: Application) :
         return listOfMonths.size >= index + 2
     }
 
-    private fun fetchAnalytics(currentDate: Date?){
+    private fun fetchAnalytics(currentDate: Date?) {
         if (currentDate != null) {
             fetchCardCategoryAnalytics(
                 DateUtils.reformatToLocalString(

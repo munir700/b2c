@@ -2,6 +2,7 @@ package co.yap.yapcore
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import co.yap.widgets.State
 import co.yap.yapcore.helpers.NetworkConnectionManager
 
 interface IBase {
@@ -13,6 +14,7 @@ interface IBase {
         fun isPermissionGranted(permission: String): Boolean
         fun requestPermissions()
         fun getString(resourceKey: String): String
+        fun getScreenName():String?
     }
 
     interface ViewModel<S : State> : ILifecycle {
@@ -29,6 +31,7 @@ interface IBase {
         var toolbarTitle: String
         var error: String
         var viewState : MutableLiveData<Any?>
+        var stateLiveData: MutableLiveData<co.yap.widgets.State>?
         fun reset()
 
         // fun getString(key: String): String

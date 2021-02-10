@@ -12,6 +12,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
+import co.yap.networking.transactions.responsedtos.transaction.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -74,15 +75,16 @@ interface TransactionsRetroService {
         @Query("txnType") txnType: String?,
         @Query("title") title: String?,
         @Query("merchantCategoryNames") category: ArrayList<String>?,
-        @Query("statuses") txnStatuses: ArrayList<String>?
-
+        @Query("statuses") txnStatuses: ArrayList<String>?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
     ): Response<HomeTransactionsResponse>
 
     @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
     suspend fun searchTransactions(
         @Path("number") number: Int?,
         @Path("size") size: Int?,
-        @Query("searchField") minAmount: String?
+        @Query("searchField") minAmount: String?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
     ): Response<HomeTransactionsResponse>
 
     // Get Card Transactions
@@ -94,8 +96,10 @@ interface TransactionsRetroService {
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
-        @Query("title") title: String?
-
+        @Query("title") title: String?,
+        @Query("merchantCategoryNames") category: ArrayList<String>?,
+        @Query("statuses") txnStatuses: ArrayList<String>?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
     ): Response<HomeTransactionsResponse>
 
     // Get transaction fee
@@ -209,6 +213,10 @@ interface TransactionsRetroService {
         @Query("date") date: String?,
         @Body merchantName: ArrayList<String>?
     ): Response<AnalyticsDetailResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM)
+    suspend fun getTransactionDetailForLeanplum(): Response<TransactionDataResponseForLeanplum>
+
 
     @GET(TransactionsRepository.URL_TRANSACTIONS_RECEIPT + "/{transaction-id}")
     suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String): Response<TransactionReceiptResponse>

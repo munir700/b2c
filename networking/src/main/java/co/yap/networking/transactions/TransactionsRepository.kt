@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
 
@@ -75,6 +76,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
 
     const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
+    const val URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM =
+        "/transactions/api/lean-plum/transaction-states"
     const val URL_TRANSACTIONS_RECEIPT = "/transactions/api/transaction-receipt/transaction-id"
     const val URL_TRANSACTIONS_RECEIPT_SAVE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
@@ -145,7 +148,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 homeTransactionsRequest.txnType,
                 homeTransactionsRequest.title,
                 homeTransactionsRequest.categories,
-                homeTransactionsRequest.statues
+                homeTransactionsRequest.statues,
+                homeTransactionsRequest.cardDetailsRequired
             )
         })
 
@@ -154,7 +158,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.searchTransactions(
                 homeTransactionsRequest?.number,
                 homeTransactionsRequest?.size,
-                homeTransactionsRequest?.searchField
+                homeTransactionsRequest?.searchField,
+                homeTransactionsRequest?.cardDetailsRequired?:true
             )
         })
     }
@@ -174,7 +179,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 cardTransactionRequest.amountStartRange,
                 cardTransactionRequest.amountEndRange,
                 cardTransactionRequest.txnType,
-                cardTransactionRequest.title
+                cardTransactionRequest.title,
+                cardTransactionRequest.categories,
+                cardTransactionRequest.statues,
+                cardTransactionRequest.cardDetailsRequired
+
             )
         })
 
@@ -282,6 +291,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 merchantName
             )
         })
+
+    override suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum> =
+        executeSafely(call = { api.getTransactionDetailForLeanplum() })
+
 
     override suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse> =
         executeSafely(call = {

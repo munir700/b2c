@@ -9,6 +9,7 @@ import androidx.annotation.DimenRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
 import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
@@ -21,6 +22,12 @@ import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 object ImageBinding {
     @JvmStatic
@@ -89,10 +96,9 @@ object ImageBinding {
 
     fun loadAvatar(
         imageView: ImageView,
-        beneficiaryPicture: String?,
-        fullName: String?, @ColorRes color: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
+        imageUrl: String?,
+        fullName: String?, @ColorRes colorCode: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
     ) {
-
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
             .height(imageView.context.dimen(R.dimen._35sdp))
@@ -102,8 +108,63 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture ?: "",
+            imageUrl ?: "",
             builder.buildRect(
+                Utils.shortName(fullName ?: ""),
+                ContextCompat.getColor(imageView.context, colorCode)
+            )
+        )
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["imageUrl", "fullName", "colorCode"], requireAll = false)
+    fun loadAvatar(
+        imageView: ImageView,
+        imageUrl: String?,
+        fullName: String?, colorCode: Int?
+    ) {
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
+            .height(imageView.context.dimen(R.dimen._35sdp))
+            .fontSize(imageView.context.dimen(R.dimen.text_size_h1))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(colorCode ?: -1)
+        setCircleCropImage(
+            imageView,
+            imageUrl ?: "",
+            builder.buildRect(
+                Utils.shortName(fullName ?: ""),
+                ColorUtils.setAlphaComponent(colorCode ?: -1, 25)
+            )
+        )
+    }
+
+    fun loadAvatar(
+        imageView: ImageView,
+        isCircular: Boolean,
+        beneficiaryPicture: String?,
+        fullName: String?,
+        @ColorRes color: Int,
+        @DimenRes fontSize: Int = R.dimen.text_size_h5,
+        @ColorRes textColor: Int = R.color.colorPrimary,
+        @DimenRes imageSIze: Int = R.dimen._35sdp
+    ) {
+
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(imageSIze))
+            .height(imageView.context.dimen(imageSIze))
+            .fontSize(imageView.context.dimen(fontSize))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(ContextCompat.getColor(imageView.context, textColor))
+        setCircleCropImage(
+            imageView,
+            beneficiaryPicture ?: "", if (isCircular)
+                builder.buildRound(
+                    Utils.shortName(fullName ?: ""),
+                    ContextCompat.getColor(imageView.context, color)
+                ) else builder.buildRect(
                 Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, color)
             )
@@ -202,6 +263,62 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("app:srcCompat")
     fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
+        imageView.setImageResource(resource)
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        value = ["app:srcCompatGif", "imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor", "imageSize"],
+        requireAll = true
+    )
+    fun setGifImageViewResource(
+        imageView: AppCompatImageView, resourceId: Int?, imageUrl: String?,
+        fullName: String?,
+        bgColor: Int, initialTextSize: Int,
+        initialTextColor: Int,
+        imageSize: Int
+    ) {
+        resourceId?.let { loadGifImageView(imageView, it) } ?: loadAvatar(
+            imageView, false,
+            imageUrl,
+            fullName,
+            bgColor,
+            initialTextSize,
+            initialTextColor,
+            imageSize
+        )
+    }
+
+    fun loadGifImageView(imageView: AppCompatImageView, resource: Int) {
+        if (resource > 0) {
+            Glide.with(imageView.context).asGif().load(resource)
+                .listener(object : RequestListener<GifDrawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<GifDrawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return true
+                    }
+
+                    override fun onResourceReady(
+                        resource: GifDrawable?,
+                        model: Any?,
+                        target: Target<GifDrawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        resource?.setLoopCount(1)
+                        return false
+                    }
+                }).into(imageView)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:srcCompat")
+    fun setImageViewResource(imageView: CoreCircularImageView, resource: Int) {
         imageView.setImageResource(resource)
     }
 

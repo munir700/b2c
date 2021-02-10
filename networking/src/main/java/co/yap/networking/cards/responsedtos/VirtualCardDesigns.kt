@@ -1,7 +1,10 @@
 package co.yap.networking.cards.responsedtos
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class VirtualCardDesigns(
     @SerializedName("designCodeUUID")
     val designCodeUUID: String? = null,
@@ -21,4 +24,4 @@ data class VirtualCardDesigns(
     val designCodeColors: List<CardDesignColor?>? = null,
     @SerializedName("editAndDelete")
     val editAndDelete: Boolean? = null
-)
+) : Parcelable

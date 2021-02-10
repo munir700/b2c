@@ -18,7 +18,6 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
             notifyPropertyChanged(BR.transactionNoteDate)
         }
     override var receiptLabel: ObservableField<String> = ObservableField("")
-
     override var txnNoteValue: ObservableField<String> = ObservableField()
     override var isTransferTxn: ObservableField<Boolean> = ObservableField(false)
     override var categoryTitle: ObservableField<String> = ObservableField("")

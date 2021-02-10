@@ -28,6 +28,15 @@ interface ITransactionDetails {
         fun getAllReceipts()
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
         fun setAdapterList(receiptLis: List<String>)
+        fun getTransferType(transaction: Transaction): String
+        fun getTransferCategoryTitle(transaction: Transaction?): String
+        fun getTransferCategoryIcon(transaction: Transaction?): Int
+        fun getSpentAmount(transaction: Transaction?): Double
+        fun getCalculatedTotalAmount(transaction: Transaction?): Double
+        fun getForeignAmount(transaction: Transaction?): Double
+        fun getLocation(transaction: Transaction?): String
+        fun getStatusIcon(transaction: Transaction?): Int
+
     }
 
     interface State : IBase.State {

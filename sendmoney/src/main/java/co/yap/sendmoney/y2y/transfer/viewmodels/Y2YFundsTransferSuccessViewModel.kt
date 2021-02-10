@@ -7,6 +7,8 @@ import co.yap.sendmoney.y2y.transfer.states.Y2YFundsTransferSuccessState
 
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.leanplum.SendMoneyEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class Y2YFundsTransferSuccessViewModel(application: Application) :
     Y2YBaseViewModel<IY2YFundsTransferSuccess.State>(application),
@@ -16,6 +18,13 @@ class Y2YFundsTransferSuccessViewModel(application: Application) :
 
     override fun handlePressOnDashboardButton(id: Int) {
         clickEvent.call()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        if(parentViewModel?.state?.fromQR?.get() == true) {
+            trackEvent(SendMoneyEvents.QR_PAYMENT_SUCCESS.type)
+        }
     }
 
     override fun onResume() {

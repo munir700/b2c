@@ -89,8 +89,8 @@ project.ext {
             lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$arch",
             lifecycleExtensions      : "androidx.lifecycle:lifecycle-extensions:$arch",
             livedataBuilder          : 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0',
-            lifecycleviewmodel         : 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0',
-            lifecycleRuntimektx          : 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0',
+            lifecycleviewmodel       : 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0',
+            lifecycleRuntimektx      : 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0',
 
             // kotlin coroutine
             coroutineCore            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1',
@@ -119,9 +119,10 @@ project.ext {
             //Firebase Crashlytics
             FirebaseCrashlyticsSdk   : 'com.google.firebase:firebase-crashlytics:17.2.2',
             FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:16.2.1',
-            analytics                : 'com.google.firebase:firebase-analytics:18.0.0',
-            messagingFcm             : 'com.google.firebase:firebase-messaging:20.3.0',
+            analytics                : 'com.google.firebase:firebase-analytics-ktx:18.0.0',
+            messagingFcm             : 'com.google.firebase:firebase-messaging-ktx:21.0.1',
             playServicesLocation     : 'com.google.android.gms:play-services-location:17.1.0',
+            directboot               : 'com.google.firebase:firebase-messaging-directboot:21.0.1',
 
             //Leanplum
             leanplumFcm              : 'com.leanplum:leanplum-fcm:5.2.3',
@@ -158,8 +159,8 @@ project.ext {
             playservicesAuthPhone    : 'com.google.android.gms:play-services-auth-api-phone:17.4.0',
 
             tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0',
-
-            //lotie animation
+            deeplink                 : 'com.airbnb:deeplinkdispatch:5.2.0',
+            deeplinkprocessor        : 'com.airbnb:deeplinkdispatch-processor:5.2.0',
             lotieAnimation           : 'com.airbnb.android:lottie:3.4.0'
 
     ]
@@ -170,9 +171,9 @@ project.ext {
             [configuration: "androidTestImplementation", dependency: 'androidx.test:runner:1.2.0'],
             [configuration: "androidTestImplementation", dependency: 'androidx.test.espresso:espresso-core:3.2.0'],
             [configuration: "testImplementation", dependency: 'org.mockito:mockito-core:3.7.0'],
-            [configuration: "testImplementation", dependency: 'org.mockito:mockito-inline:3.7.0']
+            [configuration: "testImplementation", dependency: 'org.mockito:mockito-inline:3.7.0'],
+            [configuration: "testImplementation", dependency: 'org.junit.jupiter:junit-jupiter-params:5.7.0']
     ]
-
     // Common dependencies which need to be added in all modules
     commonDependencies = [
             [configuration: "implementation", dependency: libraries.sdp],
@@ -208,7 +209,10 @@ project.ext {
             [configuration: "implementation", dependency: libraries.facebook],
             [configuration: "implementation", dependency: libraries.playservicesAuth],
             [configuration: "implementation", dependency: libraries.playservicesAuthPhone],
+            [configuration: "implementation", dependency: libraries.deeplink],
+            [configuration: "kapt", dependency: libraries.deeplinkprocessor],
             [configuration: "implementation", dependency: libraries.lotieAnimation]
+
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -225,6 +229,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
             [configuration: "implementation", dependency: libraries.analytics],
+            [configuration: "implementation", dependency: libraries.directboot],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]
@@ -266,6 +271,7 @@ project.ext {
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
+    // dependencies which need to be added in yapcortee module only in conjunction with commonDependencies
     yapcoreDependencies = [
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "api", dependency: libraries.appcompat],

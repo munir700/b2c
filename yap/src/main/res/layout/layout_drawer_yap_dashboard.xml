@@ -454,6 +454,22 @@
             android:layout_weight="22"
             android:paddingBottom="@dimen/margin_normal">
 
+<!--            <co.yap.widgets.CoreCircularImageView-->
+<!--                android:id="@+id/imgProfile"-->
+<!--                android:layout_width="@dimen/_44sdp"-->
+<!--                android:layout_height="@dimen/_44sdp"-->
+<!--                android:layout_alignParentTop="true"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:background="@drawable/circle_profile"-->
+<!--                android:contentDescription="@string/empty_string"-->
+<!--                android:gravity="center"-->
+<!--                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"-->
+<!--                android:padding="@dimen/_3sdp"-->
+<!--                app:beneficiaryPicture="@{viewModel.state.userNameImage}"-->
+<!--                app:fullName="@{viewModel.state.fullName}"-->
+<!--                tools:src="@color/quantum_yellow" />-->
+<!--            -->
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="@dimen/_44sdp"
@@ -461,14 +477,15 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/circle_profile"
-                android:contentDescription="@string/empty_string"
                 android:gravity="center"
-                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                 android:padding="@dimen/_3sdp"
-                app:beneficiaryPicture="@{viewModel.state.userNameImage}"
-                app:fullName="@{viewModel.state.fullName}"
-                tools:src="@color/quantum_yellow" />
+                android:background="@drawable/bg_round_white"
+                android:contentDescription="@string/empty_string"
+                tools:src="@drawable/lp_messaging_ui_icon_image_broken"
+                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
+                app:imageUrl="@{viewModel.state.userNameImage == null ? `` : viewModel.state.userNameImage}"
+                app:fullName="@{SessionManager.INSTANCE.user.currentCustomer.getFullName()}"
+                app:colorCode="@{SessionManager.INSTANCE.user.currentCustomer.parsedColor}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/ASmallGrey"

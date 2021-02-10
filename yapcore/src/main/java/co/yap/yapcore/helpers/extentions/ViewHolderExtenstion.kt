@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.models.ApiResponse
+import co.yap.widgets.setOnClick
 
 /**
  * Register [OnClickListener] on ViewHolder root view
@@ -12,7 +13,7 @@ import co.yap.networking.models.ApiResponse
  * @return returns this view holder
  */
 fun <T : RecyclerView.ViewHolder> T.onClick(event: (view: View, position: Int, type: Int) -> Unit): T {
-    itemView.setOnClickListener {
+    itemView.setOnClick {
         event.invoke(it, adapterPosition, itemViewType)
     }
     return this

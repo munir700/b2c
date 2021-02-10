@@ -108,7 +108,7 @@ class EditBeneficiaryViewModel(application: Application) :
     ) {
         launch {
             state.loading = true
-            when (val response = repository.getAllCountries()) {
+            when (val response = repository.getCountries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.selectedCountryOfResidence = Utils.parseCountryList(response.data.data)

@@ -9,6 +9,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
 
@@ -94,4 +95,5 @@ interface TransactionsApi {
         transactionId: String,
         receipt: String
     ): RetroApiResponse<ApiResponse>
+    suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
 }

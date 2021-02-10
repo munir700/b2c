@@ -44,6 +44,7 @@ object Constants {
     //Add Note flow constants
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
+    const val TXN_TYPE = "TXN_TYPE"
 
 
     // Invite Friend Constants
@@ -150,6 +151,7 @@ object Constants {
     const val KEY_THEME = "KEY_THEME"
     const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
     const val KEY_IS_REMEMBER = "IS_REMEMBER"
+    const val KEY_FCM_TOKEN = "fcm_token"
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"

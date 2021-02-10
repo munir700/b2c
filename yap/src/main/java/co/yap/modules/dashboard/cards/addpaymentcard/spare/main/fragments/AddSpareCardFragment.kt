@@ -26,6 +26,9 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.leanplum.CardEvents
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
 
@@ -61,6 +64,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 viewModel.ADD_VIRTUAL_SPARE_SUCCESS_EVENT -> {
+                    trackEvent(CardEvents.VIRTUAL_CARD_SUCCESS.type)
                     onAddVirtualCard()
                 }
 

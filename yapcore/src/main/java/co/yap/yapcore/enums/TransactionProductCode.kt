@@ -46,6 +46,6 @@ enum class TransactionStatus {
     PENDING, IN_PROGRESS, COMPLETED, FAILED, CANCELLED, NONE
 }
 
-enum class TransactionLabelsCode {
+enum class TransactionProductType {
     IS_TRANSACTION_FEE, IS_BANK, IS_REFUND, IS_CASH, IS_INCOMING
 }

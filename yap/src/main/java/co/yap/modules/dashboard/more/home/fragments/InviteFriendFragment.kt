@@ -8,6 +8,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
+import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
@@ -40,6 +41,7 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
     }
 
     private fun shareInfo() {
+        InviteFriendRepository().inviteAFriend()
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody())
