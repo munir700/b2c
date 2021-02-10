@@ -713,10 +713,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val isSkip =
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
-                    if (isPinSet && isSkip) {
-                        SessionManager.getDebitCard()
+                    if (isPinSet) {
+                        SessionManager.getDebitCard {
+                            GlobalScope.launch(Dispatchers.Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                     } else {
-                        SessionManager.getDebitCard()
+                        SessionManager.getDebitCard {
+                            GlobalScope.launch(Dispatchers.Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                         launchActivity<AddMoneyActivity>()
                     }
                 }
@@ -742,12 +750,33 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         childPosition ?: 0
                     )?.transactionNote =
                         (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNote =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNote
+
                     getRecycleViewAdaptor()?.getDataForPosition(
                         groupPosition ?: 0
                     )?.transaction?.get(
                         childPosition ?: 0
                     )?.transactionNoteDate =
                         (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                    getRecycleViewAdaptor()?.notifyItemChanged(
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
+                    )
+
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNoteDate =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition ?: 0,
                         getRecycleViewAdaptor()?.getDataForPosition(

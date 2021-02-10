@@ -2,10 +2,13 @@ package co.yap.modules.dashboard.transaction.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -22,6 +25,10 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionProductType
+import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
@@ -29,6 +36,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -63,28 +71,35 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         setCardMaskNo()
         setSubTitle()
         setTotalAmount()
+        setDestinationAmount()
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
         setReceiptListener()
+        setStatusIcon()
+    }
+
+    private fun setStatusIcon() {
+        getBindings().ivIncoming.setImageResource(viewModel.getStatusIcon(viewModel.transaction.get()))
+    }
+
+    private fun setDestinationAmount() {
+        getBindings().tvDestinationAmount.text =
+            viewModel.getForeignAmount(
+                transaction = viewModel.transaction.get()
+            ).toString()
+                .toFormattedCurrency(
+                    showCurrency = true,
+                    currency = viewModel.transaction.get().getCurrency(),
+                    withComma = true
+                )
     }
 
     private fun setAmount() {
-        getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
-            when {
+        getBindings().tvCardSpendAmount.text =
+            viewModel.getSpentAmount(viewModel.transaction.get()).toString()
+                .toFormattedCurrency(showCurrency = viewModel.transaction.get()?.status != TransactionStatus.FAILED.name)
 
-                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
-                    showCurrency = false)
-                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                    "0.00".toFormattedCurrency()
-                }
-                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    (it.settlementAmount ?: "0.00").toString().toFormattedCurrency()
-                }
-                else -> it.amount.toString().toFormattedCurrency()
-            }
-
-        } ?: "0.00"
     }
 
     private fun setTxnFailedReason() {
@@ -118,32 +133,26 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     }
 
     private fun setTotalAmount() {
-        val totalAmount = viewModel.transaction.get()?.let {
-            when (it.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
-                    (it.settlementAmount ?: 0.00).plus(totalFee).toString()
-                }
-                else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
-            }
-        } ?: "0.0"
+        val totalAmount = viewModel.getCalculatedTotalAmount(viewModel.transaction.get()).toString()
+
         getBindings().tvTotalAmountValueCalculated.text =
             totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
-                totalAmount.toFormattedCurrency(
-                    showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency()
-                )
+            totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = SessionManager.getDefaultCurrency()
+            )
             }" else "+ ${
-                totalAmount.toFormattedCurrency(showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency())
+            totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = SessionManager.getDefaultCurrency()
+            )
             }"
 
-        // hiding visibility on nada's request
         viewModel.transaction.get()?.let {
             when {
-                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
+                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     getBindings().tvTotalAmountValueCalculated.visibility = View.VISIBLE
                     getBindings().tvTotalAmount.visibility = View.VISIBLE
                 }
@@ -156,34 +165,16 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     }
 
     private fun setSubTitle() {
-        val subTitle = viewModel.transaction.get()?.let {
-            when {
-                it.isTransactionRejected() -> "Transfer Rejected"
-                it.isTransactionInProgress() -> "Transfer Pending"
-                else -> ""
-            }
-        }
-
-        if (subTitle.isNullOrBlank()) {
+        viewModel.transaction.get()?.let {
             getBindings().tvTxnSubTitle.text =
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == viewModel.transaction.get()?.productCode) getString(
-                    Strings.transaction_narration_y2y_transfer_detail
-                ) else viewModel.transaction.get()
-                    ?.getTransactionTypeTitle()
-        } else {
-            getBindings().tvTxnSubTitle.text = subTitle
+                viewModel.getTransferType(it)
         }
     }
 
     private fun setLocationText() {
-        val location = viewModel.transaction.get()?.let {
-            when (it.productCode) {
-                TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
-                else -> it.cardAcceptorLocation ?: ""
-            }
-        }
+        val location = viewModel.getLocation(viewModel.transaction.get())
         getBindings().tvLocation.visibility =
-            if (location.isNullOrEmpty()) View.GONE else View.VISIBLE
+            if (location.isEmpty()) View.GONE else View.VISIBLE
         getBindings().tvLocation.text = location
 
     }
@@ -251,11 +242,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         this?.startImagePreviewerActivity( this , imageSrc =  receiptModel.receiptImageUrl,title = receiptModel.title)
     }
 
-    private fun setTransactionTitle() {
-        viewModel.state.transactionTitle.set(viewModel.transaction.get().getTransactionTitle())
-        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.customerId1 == SessionManager.user?.currentCustomer?.customerId)
-    }
-
     private fun setMapImageView() {
         val mapResId = viewModel.transaction.get().getMapImage()
         if (mapResId != -1)
@@ -280,8 +266,10 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     )
                 }
                 else -> {
-                    val txnIconResId = transaction.getTransactionIcon()
-                    if (txnIconResId != -1) {
+                    val txnIconResId = transaction.getIcon()
+                    if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+                        setVirtualCardIcon(transaction, getBindings().ivPicture)
+                    } else if (txnIconResId != -1) {
                         getBindings().ivPicture.setImageResource(txnIconResId)
                         when (txnIconResId) {
                             R.drawable.ic_rounded_plus -> {
@@ -314,7 +302,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             TransactionNoteActivity.newIntent(
                 this,
                 noteValue,
-                viewModel.transaction.get()?.transactionId ?: ""
+                viewModel.transaction.get()?.transactionId ?: "",
+                viewModel.transaction.get()?.txnType ?: ""
             ), Constants.INTENT_ADD_NOTE_REQUEST
         )
     }
@@ -323,51 +312,82 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         //strike-thru textview
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =
-                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                Constants.INTENT_ADD_NOTE_REQUEST -> {
-                    viewModel.state.txnNoteValue.set(
-                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                    )
+        if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.state.txnNoteValue.set(
+                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                )
+                if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) {
                     viewModel.transaction.get()?.transactionNote =
                         data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                    viewModel.state.transactionNoteDate =
-                        viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
-                            DateUtils.FORMAT_LONG_OUTPUT
-                        )
-                    viewModel.transaction.get()?.transactionNoteDate =
+                    viewModel.transaction.get()?.receiverTransactionNoteDate =
+                        DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                } else {
+                    viewModel.transaction.get()?.receiverTransactionNote =
+                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                    viewModel.transaction.get()?.receiverTransactionNoteDate =
                         DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                 }
-                RequestCodes.REQUEST_ADD_RECEIPT -> {
-                    this.showReceiptSuccessDialog(
-                        description = getString(Strings.screen_transaction_details_receipt_success_label),
-                        addAnotherText = getString(Strings.screen_transaction_add_another_receipt),
-                        callback = {
-                            when (it) {
-                                R.id.btnActionDone -> {
-                                    viewModel.addNewReceipt(ReceiptModel())
-                                }
-                                R.id.tvAddAnother -> {
-                                    showAddReceiptOptions()
-                                }
+
+                viewModel.state.transactionNoteDate =
+                    viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
+            }
+            RequestCodes.REQUEST_ADD_RECEIPT -> {
+                this.showReceiptSuccessDialog(
+                    description = getString(Strings.screen_transaction_details_receipt_success_label),
+                    addAnotherText = getString(Strings.screen_transaction_add_another_receipt),
+                    callback = {
+                        when (it) {
+                            R.id.btnActionDone -> {
+                                viewModel.addNewReceipt(ReceiptModel())
+                            }
+                            R.id.tvAddAnother -> {
+                                showAddReceiptOptions()
                             }
                         }
-                    )
-                }
+                    }
+                )
+            }
 
                 RequestCodes.REQUEST_DELETE_RECEIPT -> {
                     viewModel.deleteReceipt(0)
                 }
             }
         }
+
     }
 
+    private fun setVirtualCardIcon(
+        transaction: Transaction,
+        imageView: ImageView
+    ) {
+        transaction.virtualCardDesign?.let {
+            try {
+                val startColor = Color.parseColor(it.designCodeColors?.firstOrNull()?.colorCode)
+                val endColor = Color.parseColor(
+                    if (it.designCodeColors?.size ?: 0 > 1) it.designCodeColors?.get(1)?.colorCode else it.designCodeColors?.firstOrNull()?.colorCode
+                )
+                val gd = GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(startColor, endColor)
+                )
+                gd.shape = GradientDrawable.OVAL
+
+                imageView.background = null
+                imageView.background = gd
+                imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
+
+            } catch (e: Exception) {
+            }
+        } ?: imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
+    }
     override fun onImageReturn(mediaFile: MediaFile) {
         startFragment<PreviewTransactionReceiptFragment>(
             fragmentName = PreviewTransactionReceiptFragment::class.java.name,

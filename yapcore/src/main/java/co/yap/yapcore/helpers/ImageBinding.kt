@@ -9,6 +9,7 @@ import androidx.annotation.DimenRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
 import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
@@ -89,10 +90,9 @@ object ImageBinding {
 
     fun loadAvatar(
         imageView: ImageView,
-        beneficiaryPicture: String?,
-        fullName: String?, @ColorRes color: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
+        imageUrl: String?,
+        fullName: String?, @ColorRes colorCode: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
     ) {
-
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
             .height(imageView.context.dimen(R.dimen._35sdp))
@@ -102,10 +102,34 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture ?: "",
+            imageUrl ?: "",
             builder.buildRect(
                 Utils.shortName(fullName ?: ""),
-                ContextCompat.getColor(imageView.context, color)
+                ContextCompat.getColor(imageView.context, colorCode)
+            )
+        )
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["imageUrl", "fullName", "colorCode"], requireAll = false)
+    fun loadAvatar(
+        imageView: ImageView,
+        imageUrl: String?,
+        fullName: String?, colorCode: Int?
+    ) {
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
+            .height(imageView.context.dimen(R.dimen._35sdp))
+            .fontSize(imageView.context.dimen(R.dimen.text_size_h1))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(colorCode ?: -1)
+        setCircleCropImage(
+            imageView,
+            imageUrl ?: "",
+            builder.buildRect(
+                Utils.shortName(fullName ?: ""),
+                ColorUtils.setAlphaComponent(colorCode ?: -1, 25)
             )
         )
     }

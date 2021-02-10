@@ -72,15 +72,16 @@ interface TransactionsRetroService {
         @Query("txnType") txnType: String?,
         @Query("title") title: String?,
         @Query("merchantCategoryNames") category: ArrayList<String>?,
-        @Query("statuses") txnStatuses: ArrayList<String>?
-
+        @Query("statuses") txnStatuses: ArrayList<String>?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
     ): Response<HomeTransactionsResponse>
 
     @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
     suspend fun searchTransactions(
         @Path("number") number: Int?,
         @Path("size") size: Int?,
-        @Query("searchField") minAmount: String?
+        @Query("searchField") minAmount: String?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
     ): Response<HomeTransactionsResponse>
 
     // Get Card Transactions
@@ -92,8 +93,10 @@ interface TransactionsRetroService {
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
-        @Query("title") title: String?
-
+        @Query("title") title: String?,
+        @Query("merchantCategoryNames") category: ArrayList<String>?,
+        @Query("statuses") txnStatuses: ArrayList<String>?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
     ): Response<HomeTransactionsResponse>
 
     // Get transaction fee

@@ -13,7 +13,6 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import kotlinx.coroutines.flow.Flow
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -141,7 +140,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 homeTransactionsRequest.txnType,
                 homeTransactionsRequest.title,
                 homeTransactionsRequest.categories,
-                homeTransactionsRequest.statues
+                homeTransactionsRequest.statues,
+                homeTransactionsRequest.cardDetailsRequired
             )
         })
 
@@ -150,7 +150,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.searchTransactions(
                 homeTransactionsRequest?.number,
                 homeTransactionsRequest?.size,
-                homeTransactionsRequest?.searchField
+                homeTransactionsRequest?.searchField,
+                homeTransactionsRequest?.cardDetailsRequired?:true
             )
         })
     }
@@ -170,7 +171,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 cardTransactionRequest.amountStartRange,
                 cardTransactionRequest.amountEndRange,
                 cardTransactionRequest.txnType,
-                cardTransactionRequest.title
+                cardTransactionRequest.title,
+                cardTransactionRequest.categories,
+                cardTransactionRequest.statues,
+                cardTransactionRequest.cardDetailsRequired
+
             )
         })
 

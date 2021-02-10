@@ -25,6 +25,7 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
@@ -88,6 +89,62 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
     }
 
+    override fun onClick(eventType: Int) {
+        updatePhotoBottomSheet.dismiss()
+
+        when (eventType) {
+            Constants.EVENT_ADD_PHOTO -> {
+                initEasyImage(takePhoto)
+            }
+
+            Constants.EVENT_CHOOSE_PHOTO -> {
+                initEasyImage(pickPhoto)
+            }
+
+            Constants.EVENT_REMOVE_PHOTO -> {
+                viewModel.requestRemoveProfilePicture {
+                    if (it) {
+                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
+                        SessionManager.user?.let { user ->
+                            ImageBinding.loadAvatar(
+                                ivProfilePic,
+                                user.currentCustomer.getPicture(),
+                                user.currentCustomer.getFullName(),
+                                user.currentCustomer.parsedColor
+                            )
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initEasyImage(type: Int) {
+        if (hasCameraPermission()) {
+            easyImage = EasyImage.Builder(requireContext())
+                .setChooserTitle("Pick Image")
+                .setFolderName("YAPImage")
+                .allowMultiple(false)
+                .build()
+            when (type) {
+                takePhoto -> {
+                    easyImage.openCameraForImage(this)
+
+                }
+                pickPhoto -> {
+                    easyImage.openGallery(this)
+                }
+            }
+            //  easyImage.openChooser(this)
+        } else {
+            EasyPermissions.requestPermissions(
+                this, "This app needs access to your camera so you can take pictures.",
+                REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
+            )
+        }
+
+    }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)

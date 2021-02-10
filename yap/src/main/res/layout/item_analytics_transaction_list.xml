@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:alpha="0.5"
-            android:text="@{TransactionExtentionsKt.getTransactionTime(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)+` \u2022 `+TransactionExtentionsKt.getTransactionTypeTitle(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)}"
+            android:text="@{TransactionExtentionsKt.getTransactionTime(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)+` \u2022 `+TransactionExtentionsKt.getTransferType(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)}"
             app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"

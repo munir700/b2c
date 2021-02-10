@@ -4,11 +4,10 @@ import co.yap.app.YAPApplication
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import org.junit.After
-import org.junit.Before
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-open class BaseTestCase {
+abstract class BaseTestCase {
     private var closeable: AutoCloseable? = null
 
     @Mock
@@ -17,8 +16,7 @@ open class BaseTestCase {
     @Mock
     lateinit var appData: AppData
 
-    @Before
-    fun setUp() {
+    open fun setUp() {
         closeable = MockitoAnnotations.openMocks(this)
         appData = AppData(baseUrl = "https://stg.yap.co")
         RetroNetwork.initWith(context, appData)

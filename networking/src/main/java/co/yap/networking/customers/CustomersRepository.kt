@@ -68,6 +68,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SEARCH_BANK_PARAMS = "/customers/api/other_bank/params"
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
     const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
+    const val URL_GET_ALL_COUNTRIES = "customers/api/countries"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
     val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
@@ -119,6 +120,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_ADDITIONAL_DOCUMENT = "customers/api/additional/documents/required"
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
+    const val URL_SEND_INVITE_FRIEND = "customers/api/save-invite"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -248,6 +250,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.getRecentBeneficiaries() })
 
     override suspend fun getAllBeneficiaries() = executeSafely(call = { api.getAllBeneficiaries() })
+
+    override suspend fun getCountries() = executeSafely(call = { api.getCountries() })
 
     override suspend fun getAllCountries() = executeSafely(call = { api.getAllCountries() })
 
@@ -413,5 +417,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.uploadAdditionalQuestion(uploadAdditionalInfo)
         })
 
+    override suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.sendInviteFriend(sendInviteFriendRequest)
+        })
 
 }

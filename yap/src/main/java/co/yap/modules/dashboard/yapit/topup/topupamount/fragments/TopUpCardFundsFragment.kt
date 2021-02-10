@@ -201,7 +201,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         }
 
         getBindings().tvAvailableBalanceGuide.text = requireContext().resources.getText(
-            getString(Strings.screen_topup_transfer_display_text_transaction_fee),
+            getString(Strings.common_display_text_available_balance),
             requireContext().color(
                 R.color.colorPrimaryDark,
                 SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency(showCurrency = true)
