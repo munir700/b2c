@@ -85,7 +85,6 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
     }
 
     override fun onCameraOpened(options: CameraOptions) {
-        getBindingView().camera.useDeviceOrientation = true
         getBindingView().camFab.isEnabled = true
     }
 

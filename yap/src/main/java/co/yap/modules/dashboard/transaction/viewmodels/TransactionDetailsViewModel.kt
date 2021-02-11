@@ -34,7 +34,6 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getAllReceipts()
         setStatesData()
     }
 
@@ -104,6 +103,8 @@ class TransactionDetailsViewModel(application: Application) :
 
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
+            if (isShowReceiptSection(transaction)) getAllReceipts()
+
             setToolbarTitle()
             setTransactionNoteDate()
             val note =
