@@ -26,6 +26,7 @@ interface ITransactionDetails {
         fun addNewReceipt(receipt: ReceiptModel)
         fun deleteReceipt(position: Int)
         fun getAllReceipts()
+        fun getReceiptTitle(list: List<ReceiptModel>): String
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
         fun setAdapterList(receiptLis: List<String>)
         fun getTransferType(transaction: Transaction): String
@@ -36,7 +37,9 @@ interface ITransactionDetails {
         fun getForeignAmount(transaction: Transaction?): Double
         fun getLocation(transaction: Transaction?): String
         fun getStatusIcon(transaction: Transaction?): Int
-
+        fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel>
+        fun isShowReceiptSection(transaction: Transaction): Boolean
+        fun receiptItemName(index: Int): String
     }
 
     interface State : IBase.State {
@@ -50,6 +53,6 @@ interface ITransactionDetails {
         val editNotePrefixText: String get() = "Note added "
         var noteVisibility: ObservableBoolean
         var receiptVisibility: ObservableBoolean
-        var receiptLabel: ObservableField<String>
+        var receiptTitle: ObservableField<String>
     }
 }

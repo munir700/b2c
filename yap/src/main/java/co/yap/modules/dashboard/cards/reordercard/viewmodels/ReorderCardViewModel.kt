@@ -16,5 +16,6 @@ class ReorderCardViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
+
     override var card: Card? = null
 }

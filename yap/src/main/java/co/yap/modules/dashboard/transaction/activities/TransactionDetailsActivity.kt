@@ -7,8 +7,8 @@ import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import android.widget.ImageView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -25,10 +25,6 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionProductType
-import co.yap.yapcore.enums.TransactionStatus
-import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
@@ -146,15 +142,15 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
-            totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
             }" else "+ ${
-            totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
             }"
 
         viewModel.transaction.get()?.let {
@@ -405,6 +401,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             }
         } ?: imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
     }
+
     override fun onImageReturn(mediaFile: MediaFile) {
         startFragment<PreviewTransactionReceiptFragment>(
             fragmentName = PreviewTransactionReceiptFragment::class.java.name,

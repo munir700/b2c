@@ -32,10 +32,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_add_funds.*
 import kotlinx.android.synthetic.main.activity_remove_funds.*
-import kotlinx.android.synthetic.main.activity_remove_funds.cardInfoLayout
-import kotlinx.android.synthetic.main.activity_remove_funds.etAmount
 
 class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemoveFunds.View {
     override fun getBindingVariable(): Int = BR.viewModel

@@ -56,6 +56,7 @@ class MapDetailViewState(application: Application) : BaseState(), IMapDetailView
             field = value
             notifyPropertyChanged(BR.locationBtnText)
         }
+
     @get:Bindable
     override var valid: Boolean = true
         get() = validateAddress()

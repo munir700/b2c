@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.cards.analytics.adaptors
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.databinding.ItemAnalyticsBinding
 import co.yap.databinding.ItemMarchentAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.viewholders.MerchantAnalyticsItemViewHolder
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
@@ -24,7 +23,7 @@ class MerchantAnalyticsAdaptor(private val list: MutableList<TxnAnalytic>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is MerchantAnalyticsItemViewHolder) {
-            holder.onBind(this,list[position], position, onItemClickListener)
+            holder.onBind(this, list[position], position, onItemClickListener)
         }
     }
 }

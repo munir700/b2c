@@ -11,7 +11,7 @@ interface ITopUpCardDetail {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        fun onRemoveCard(cardId:String)
+        fun onRemoveCard(cardId: String)
         fun handlePressOnView(id: Int)
         fun handlePressOnBackButton(id: Int)
     }
@@ -19,7 +19,7 @@ interface ITopUpCardDetail {
     interface State : IBase.State {
         val title: ObservableField<String>
         val cardFormattedExpiry: ObservableField<String>
-        val cardInfo:ObservableField<TopUpCard>
+        val cardInfo: ObservableField<TopUpCard>
         val isCardDeleted: MutableLiveData<Boolean>
     }
 }

@@ -20,7 +20,7 @@ abstract class AddPaymentChildFragment<V : IBase.ViewModel<*>> : BaseBindingFrag
 
     override fun onBackPressed(): Boolean {
 
-            return super.onBackPressed()
+        return super.onBackPressed()
     }
 
 }

@@ -21,7 +21,9 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.PaymentCardStatus
 import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.leanplum.UserAttributes
@@ -294,7 +296,7 @@ class YapHomeViewModel(application: Application) :
 //                )
 //            }
 //        }
-        return NotificationHelper.getNotifications(accountInfo,paymentCard,context)
+        return NotificationHelper.getNotifications(accountInfo, paymentCard, context)
     }
 
     override fun shouldShowSetPin(paymentCard: Card): Boolean {

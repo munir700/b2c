@@ -17,7 +17,7 @@ class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialN
         dialogCardDetailsCardSerialNumberBinding.ivCard.layoutParams = params*/
 
         //dialogCardDetailsCardSerialNumberBinding.ivCard.loadImage(houseHoldCardsDesignModel.frontSideDesignImage?:"")
-       dialogCardDetailsCardSerialNumberBinding.ivCard.loadCardImage(cardDetailsModel.cardImg)
+        dialogCardDetailsCardSerialNumberBinding.ivCard.loadCardImage(cardDetailsModel.cardImg)
         dialogCardDetailsCardSerialNumberBinding.tvCardType.text = cardDetailsModel.cardType
         dialogCardDetailsCardSerialNumberBinding.tvCardNumberValue.text =
             cardDetailsModel.cardNumber?.toCamelCase()

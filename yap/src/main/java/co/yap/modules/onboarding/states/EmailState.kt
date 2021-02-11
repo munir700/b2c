@@ -120,6 +120,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             notifyPropertyChanged(BR.refreshField)
 
         }
+
     @get:Bindable
     override var handleBackPress: Int = 0
         set(value) {

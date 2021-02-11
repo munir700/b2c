@@ -38,31 +38,31 @@ class TransactionDetailsViewModel(application: Application) :
         setStatesData()
     }
 
-    private fun setReceiptLabel(list: List<ReceiptModel>) {
-        state.receiptLabel.set(
-            when {
-                list.isNullOrEmpty() -> {
-                    getString(Strings.screen_transaction_details_receipt_label)
-                }
-                list.size == 1 -> {
-                    getString(Strings.screen_transaction_details_single_added_receipt_label).format(
-                        adapter.getDataList().size
-                    )
-                }
-                list.size > 1 -> {
-                    getString(Strings.screen_transaction_details_added_receipt_label).format(adapter.getDataList().size)
-                }
-                else -> getString(Strings.screen_transaction_details_receipt_label)
-            }
-        )
+    override fun getReceiptTitle(list: List<ReceiptModel>): String {
+        return when {
+            list.isNullOrEmpty() -> getString(Strings.screen_transaction_details_receipt_label)
+            list.size == 1 ->
+                getString(Strings.screen_transaction_details_single_added_receipt_label).format(
+                    adapter.getDataList().size
+                )
+            list.size > 1 -> getString(Strings.screen_transaction_details_added_receipt_label).format(
+                adapter.getDataList().size)
+            else -> getString(Strings.screen_transaction_details_receipt_label)
+        }
+
     }
 
-    private fun getReciptItems(receiptLis: List<String>): List<ReceiptModel> {
+
+    override fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel> {
         val list: MutableList<ReceiptModel> = arrayListOf()
         for (i in 0..receiptLis.size.minus(1)) {
-            list.add(ReceiptModel("Receipt ${i.plus(1)}", receiptLis[i]))
+            list.add(ReceiptModel(receiptItemName(i), receiptLis[i]))
         }
         return list
+    }
+
+    override fun receiptItemName(index: Int): String {
+        return "Receipt ${index.plus(1)}"
     }
 
     override fun handlePressOnView(id: Int) {
@@ -110,28 +110,17 @@ class TransactionDetailsViewModel(application: Application) :
                 if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNote.decodeToUTF8() else transaction.receiverTransactionNote.decodeToUTF8()
             state.txnNoteValue.set(note)
             setSenderOrReceiver(transaction)
-            setReceiptVisible(transaction)
+            state.receiptVisibility.set(isShowReceiptSection(transaction))
             state.categoryTitle.set(getTransferCategoryTitle(transaction))
             state.categoryIcon.set(getTransferCategoryIcon(transaction))
         }
     }
 
-    private fun setReceiptVisible(transaction: Transaction) {
-        when (transaction.productCode) {
-            TransactionProductCode.ATM_DEPOSIT.pCode -> {
-                state.receiptVisibility.set(true)
-            }
-            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
-                state.receiptVisibility.set(true)
-            }
-            TransactionProductCode.POS_PURCHASE.pCode -> {
-                state.receiptVisibility.set(true)
-            }
-            else -> {
-                state.receiptVisibility.set(false)
-            }
+    override fun isShowReceiptSection(transaction: Transaction): Boolean {
+        return when (transaction.productCode) {
+            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> true
+            else -> false
         }
-
     }
 
     private fun setToolbarTitle() {
@@ -303,8 +292,8 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     override fun setAdapterList(receiptLis: List<String>) {
-        adapter.setList(getReciptItems(receiptLis))
-        setReceiptLabel(adapter.getDataList())
+        adapter.setList(getReceiptItems(receiptLis))
+        state.receiptTitle.set(getReceiptTitle(adapter.getDataList()))
     }
 
 }

@@ -45,7 +45,7 @@ class VerifyCardCvvViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.cardCvv=""
+                    state.cardCvv = ""
                     //clickEvent.postValue(Constants.TOP_UP_TRANSACTION_SUCCESS)
                 }
             }

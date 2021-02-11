@@ -49,7 +49,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.fetchCardCategoryAnalytics(
             DateUtils.dateToString(
                 Calendar.getInstance().time,
-                "yyyy-MM-dd",DateUtils.TIME_ZONE_Default
+                "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
             )
         )
         setObservers()
@@ -276,7 +276,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun onValueSelected(e: Entry?, h: Highlight?) {
 
         val selectedItem = getBindingView().tabLayout.selectedTabPosition
-        h?.let {highlight ->
+        h?.let { highlight ->
             setSelectedTabData(selectedItem, highlight.x.toInt())
             viewModel.parentViewModel?.selectedItemPositionParent?.value = highlight.x.toInt()
         }

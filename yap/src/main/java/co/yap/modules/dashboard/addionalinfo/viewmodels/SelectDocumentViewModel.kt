@@ -18,7 +18,7 @@ import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.managers.SessionManager
 import id.zelory.compressor.Compressor
 import java.io.File
-import java.util.ArrayList
+import java.util.*
 
 class SelectDocumentViewModel(application: Application) :
     AdditionalInfoBaseViewModel<ISelectDocument.State>(application),
@@ -105,6 +105,7 @@ class SelectDocumentViewModel(application: Application) :
             )
         }
     }
+
     override fun getUploadDocumentOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem> {
         val list = arrayListOf<BottomSheetItem>()
         list.add(

@@ -242,7 +242,8 @@ class PaymentCardDetailViewModel(application: Application) :
                         card.value?.availableBalance = cardBalance?.availableBalance.toString()
                         state.cardBalance = cardBalance?.availableBalance?.toFormattedCurrency(
                             showCurrency = true,
-                            currency = cardBalance.currencyCode ?: SessionManager.getDefaultCurrency()
+                            currency = cardBalance.currencyCode
+                                ?: SessionManager.getDefaultCurrency()
                         ) ?: ""
                     } catch (e: Exception) {
                         e.printStackTrace()

@@ -10,11 +10,11 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.adjust.AdjustEvents
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
-import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.leanplum.trackEvent
 import java.util.*
 
 class MobileViewModel(application: Application) :

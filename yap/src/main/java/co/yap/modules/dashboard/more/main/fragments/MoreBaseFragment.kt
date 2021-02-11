@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.IBase
 

@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.addionalinfo.interfaces
 
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 
 interface IAdditionalInfoComplete {

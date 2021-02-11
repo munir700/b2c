@@ -9,7 +9,7 @@ interface ISuccess {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnDoneButton()
-        fun placesApiCall(photoPlacedId: String,success: () -> Unit)
+        fun placesApiCall(photoPlacedId: String, success: () -> Unit)
         val buttonClickEvent: SingleClickEvent
     }
 
