@@ -119,6 +119,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         AdapterView.OnItemClickListener { adapter, _, position, _ ->
             viewModel.state.selectedCountryIndex = position
             val country: Country = adapter?.getItemAtPosition(position) as Country
+            country.isoCountryCode2Digit
             setTextSelection(country)
         }
 
