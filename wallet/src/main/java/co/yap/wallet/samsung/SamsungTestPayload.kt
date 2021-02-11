@@ -13,26 +13,30 @@ import java.security.GeneralSecurityException
 
 fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
     try {
-        val tavSignatureConfig =
-            TAVSignatureConfigBuilder.aTAVSignatureConfig()
-                .withAccountExpiry("0125")
-                .withAccountNumber("5381230100016543")
-                .withDataValidUntilTimestamp("2021-02-25T16:10:59Z")
-                .withPrivateKey(
-                    EncryptionUtils.loadDecryptionKey(
-                        resources.openRawResource(R.raw.privatekey)
-                    )
-                ).withPublicKey(
-                    EncryptionUtils.loadPublicKey(
-                        resources.openRawResource(R.raw.tav_public_key)
-                    )
-                ).build()
+        val cardNumber = "5370382000021942"
+        val expiryYear = "23"
+        val expiryMonth = "10"
+        val source = "CARD_ADDED_VIA_APPLICATION"
+        val cardholderName = "UAT MOBILE DEVICE"
+        val tavSignatureConfig = TAVSignatureConfigBuilder.aTAVSignatureConfig()
+            .withAccountExpiry("0125")
+            .withAccountNumber(cardNumber)
+            .withDataValidUntilTimestamp("2021-02-25T16:10:59Z")
+            .withPrivateKey(
+                EncryptionUtils.loadDecryptionKey(
+                    resources.openRawResource(R.raw.privatekey)
+                )
+            ).withPublicKey(
+                EncryptionUtils.loadPublicKey(
+                    resources.openRawResource(R.raw.tav_public_key)
+                )
+            ).build()
         val base64DigitalSignature =
             TAVSignatureMethod.createBase64DigitalSignature(tavSignatureConfig)
         val iss =
             resources.openRawResource(R.raw.test_certificate_new)
         val cardInfoData =
-            "{\"CardInfoData\": {\"accountNumber\": \"5381230100016543\",\"expiryYear\": \"2025\",\"expiryMonth\": \"01\",\"source\": \"CARD_ADDED_VIA_APPLICATION\",\"cardholderName\": \"UAT MOBILE DEVICE\"}}"
+            "{\"CardInfoData\": {\"accountNumber\": \"$cardNumber\",\"expiryYear\":\"$expiryYear\",\"expiryMonth\": \"$expiryMonth\",\"source\": \"$source\",\"cardholderName\": \"$cardholderName\"}}"
         //            Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate("<insert public certificate file path>");
         val encryptionCertificate =
             EncryptionUtils.loadEncryptionCertificate(iss)
@@ -40,7 +44,7 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
             FieldLevelEncryptionConfigBuilder.aFieldLevelEncryptionConfig()
                 .withEncryptionCertificate(encryptionCertificate)
                 .withEncryptionPath("$.CardInfoData", "$.CardInfo")
-                .withOaepPaddingDigestAlgorithm("SHA-512")
+                .withOaepPaddingDigestAlgorithm("SHA-256")
                 .withEncryptionKeyFingerprintFieldName("publicKeyFingerprint")
                 .withEncryptedValueFieldName("encryptedData")
                 .withEncryptedKeyFieldName("encryptedKey")
@@ -55,9 +59,9 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
             config,
             base64DigitalSignature
         )
-        val data = toJson.toByteArray(StandardCharsets.UTF_8)
-        val finalPayload = EncodingUtils.base64Encode(data)
-        Log.d("SamsungTestPayload", finalPayload)
+      //  val data = toJson.toByteArray(StandardCharsets.UTF_8)
+       // val finalPayload = EncodingUtils.base64Encode(data)
+        //Log.d("SamsungTestPayload", finalPayload)
         payload.invoke(toJson)
     } catch (e: IOException) {
         e.printStackTrace()
