@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.addreceipt
 
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.graphics.PointF
 import android.os.Bundle
 import android.view.View
@@ -16,6 +17,8 @@ import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.createTempFile
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.permissions.PermissionEnum
+import co.yap.yapcore.helpers.permissions.PermissionUtils
 import com.digitify.identityscanner.camera.CameraException
 import com.digitify.identityscanner.camera.CameraListener
 import com.digitify.identityscanner.camera.CameraOptions
@@ -31,9 +34,31 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBindingView().camera.setLifecycleOwner(this)
+//        getBindingView().camera.setLifecycleOwner(this)
+        getBindingView().camera.open()
         getBindingView().camera.addCameraListener(this)
         registerObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (PermissionUtils.isGranted(
+                requireContext(),
+                PermissionEnum.CAMERA,
+                PermissionEnum.WRITE_EXTERNAL_STORAGE
+            )
+        )
+            getBindingView().camera.open()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        getBindingView().camera.close()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        getBindingView().camera.destroy()
     }
 
     private fun getTransactionId(): String {
@@ -77,6 +102,10 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         getBindingView().camera.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        grantResults.filter { it == PackageManager.PERMISSION_GRANTED }.run {
+            if (this.size < grantResults.size) requireActivity().finish()
+        }
+
     }
 
     private fun getBindingView() = (viewDataBinding as FragmentAddTransactionReceiptBinding)
@@ -85,7 +114,6 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
     }
 
     override fun onCameraOpened(options: CameraOptions) {
-        getBindingView().camera.useDeviceOrientation = true
         getBindingView().camFab.isEnabled = true
     }
 
