@@ -4,6 +4,7 @@ import co.yap.networking.interfaces.IRepository
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
@@ -32,6 +33,8 @@ abstract class BaseRepository : IRepository {
             return RetroApiResponse.Error(detectError(response))
 
         } catch (exception: MalformedJsonException1) {
+            FirebaseCrashlytics.getInstance().recordException(exception)
+
             return RetroApiResponse.Error(
                 ApiError(
                     MALFORMED_JSON_EXCEPTION_CODE,
@@ -39,10 +42,14 @@ abstract class BaseRepository : IRepository {
                 )
             )
         } catch (exception: ConnectException) {
+            FirebaseCrashlytics.getInstance().recordException(exception)
+
             return RetroApiResponse.Error(
                 ApiError(0, defaultConnectionErrorMessage)
             )
         } catch (exception: Exception) {
+            FirebaseCrashlytics.getInstance().recordException(exception)
+
             return RetroApiResponse.Error(
                 ApiError(
                     0,
@@ -102,6 +109,7 @@ abstract class BaseRepository : IRepository {
                         return ServerError(0, error)
                     }
                 } catch (e: JSONException) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                     ServerError(code, defaultErrorMessage)
                 }
             }
