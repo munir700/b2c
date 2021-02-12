@@ -49,6 +49,7 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
                 ExtraKeys.CONST_IMAGE_URL.name
             )
         )
+        if (viewModel.state.imageUrl?.get().isNullOrEmpty()) showLoader(false)
         viewModel.receiptId = viewModel.state.imageUrl?.get()?.split("/")?.last() ?: ""
         viewModel.transactionId = intent?.getStringExtra(ExtraKeys.TRANSACTION_ID.name) ?: ""
     }
