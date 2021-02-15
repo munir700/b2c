@@ -192,7 +192,7 @@ fun Transaction?.getSpentLabelText(): String {
                                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
                                     if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
                                 }
-                                else -> "Amount"
+                                 else -> "Amount"
                             }
                         }
                         else -> ""

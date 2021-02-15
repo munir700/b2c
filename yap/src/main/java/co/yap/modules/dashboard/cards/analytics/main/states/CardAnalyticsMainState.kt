@@ -11,6 +11,8 @@ class CardAnalyticsMainState : BaseState(), ICardAnalyticsMain.State {
     override var toolbarVisibility: ObservableBoolean = ObservableBoolean()
     override var leftButtonVisibility: ObservableBoolean = ObservableBoolean()
 
+    override var isNoDataFound: ObservableBoolean = ObservableBoolean()
+
     @get:Bindable
     override var currentSelectedMonth: String = ""
         set(value) {
@@ -24,4 +26,5 @@ class CardAnalyticsMainState : BaseState(), ICardAnalyticsMain.State {
             field = value
             notifyPropertyChanged(BR.currentSelectedDate)
         }
+
 }

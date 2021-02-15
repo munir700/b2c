@@ -17,6 +17,7 @@ interface ICardAnalytics {
         fun fetchCardCategoryAnalytics(currentMonth: String)
         fun fetchCardMerchantAnalytics(currentMonth: String)
         fun handlePressOnView(id: Int)
+        fun isDataAvailableForSelectedMonth(tab : Int): Boolean
     }
 
     interface State : IBase.State {
