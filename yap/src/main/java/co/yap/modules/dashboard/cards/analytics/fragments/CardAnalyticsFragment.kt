@@ -150,7 +150,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
             setupPieChart(selectedTabPos)
             setSelectedTabData(selectedTabPos, 0)
-            viewModel.parentViewModel?.state?.isNoDataFound?.set(viewModel.isDataAvailableForSelectedMonth(1))
+            viewModel.parentViewModel?.state?.isNoDataFound?.set(viewModel.isDataAvailableForSelectedMonth(
+                1))
 
         })
 

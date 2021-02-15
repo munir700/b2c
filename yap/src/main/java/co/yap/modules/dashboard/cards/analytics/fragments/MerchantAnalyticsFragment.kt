@@ -37,7 +37,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
         viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.observe(
             this,
             Observer { txnAnalytics ->
-                if (txnAnalytics == null || txnAnalytics.size == 0) {
+                if (txnAnalytics == null) {
                     return@Observer
                 }
                 getAdaptor().setList(txnAnalytics)

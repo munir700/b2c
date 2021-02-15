@@ -118,16 +118,19 @@ class CardAnalyticsViewModel(application: Application) :
                 SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    state.monthlyMerchantAvgAmount =
-                        response.data.data?.monthlyAvgAmount?.toString()
-                    state.totalMerchantSpent = response.data.data?.totalTxnAmount.toString()
-                        .toFormattedCurrency(
-                            showCurrency = true,
-                            currency = state.currencyType ?: SessionManager.getDefaultCurrency()
-                        )
+                    response.data.data?.let { merchantResponse ->
+                        state.monthlyMerchantAvgAmount =
+                            merchantResponse.monthlyAvgAmount?.toString()
+                        state.totalMerchantSpent = merchantResponse.totalTxnAmount.toString()
+                            .toFormattedCurrency(
+                                showCurrency = true,
+                                currency = state.currencyType ?: SessionManager.getDefaultCurrency()
+                            )
 
-                    parentViewModel?.merchantAnalyticsItemLiveData?.value =
-                        response.data.data?.txnAnalytics
+                        parentViewModel?.merchantAnalyticsItemLiveData?.value =
+                            merchantResponse.txnAnalytics
+
+                    }
                     state.loading = false
                     parentViewModel?.state?.isNoDataFound?.set(isDataAvailableForSelectedMonth(1))
                 }
