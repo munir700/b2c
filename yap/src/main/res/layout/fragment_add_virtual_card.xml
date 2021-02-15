@@ -88,7 +88,6 @@
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="textCapCharacters"
-                    android:textAllCaps="true"
                     android:maxLength="26"
                     android:paddingBottom="@dimen/margin_normal"
                     android:singleLine="true"
