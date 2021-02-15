@@ -337,6 +337,8 @@ project.ext {
             [configuration: "api", dependency: libraries.okhttp3LoggingInterceptor],
             [configuration: "implementation", dependency: libraries.coroutineCore],
             [configuration: "implementation", dependency: libraries.coroutineAndroid],
+            [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
+            [configuration: "implementation", dependency: libraries.FirebaseCreshlytics]
     ]
 }
 
