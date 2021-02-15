@@ -36,6 +36,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     override fun setObservers() {
         viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.observe(
             this,
+
             Observer { txnAnalytics ->
                 if (txnAnalytics == null) {
                     return@Observer
