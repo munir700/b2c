@@ -193,7 +193,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.check3DEnrollmentSession(check3DEnrollmentSessionRequest) })
 
     override suspend fun secureIdPooling(
-        secureId: String
+        secureId: String?
     ): RetroApiResponse<StringDataResponseDTO> =
         executeSafely(call = { api.secureIdPooling(secureId) })
 
