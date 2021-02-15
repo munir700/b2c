@@ -84,6 +84,7 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
         itemName = (AppCompatTextView) rowView.findViewById(R.id.tvCountryName);
         ivCountry = (CoreCircularImageView) rowView.findViewById(R.id.ivCountry);
         itemName.setText(mOriginalValues.get(position).getName());
+        mOriginalValues.get(position).getIsoCountryCode2Digit();
         ivCountry.setImageResource(mOriginalValues.get(position).getFlagDrawableResId(itemName.getContext()));
         return rowView;
     }

@@ -345,11 +345,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Card"
-                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode) || viewModel.state.exchangeRate != null  ?  View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvCardMask"
                     tools:ignore="HardcodedText"
                     tools:text="Card" />
+<!--                // add same null check here as well done-->
 
                 <TextView
                     android:id="@+id/tvCardMask"
@@ -360,7 +361,7 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode) || viewModel.state.exchangeRate !=null ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvCardLabel"
                     app:layout_constraintTop_toBottomOf="@+id/cancelReasonLy"
@@ -371,12 +372,15 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Transfer amount"
-                    android:visibility="@{(viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))  ? View.VISIBLE : View.GONE}"
+                    android:text="@{viewModel.state.exchangeRate !=null?  `Spent amount` : `Transfer amount`}"
+                    android:visibility="@{(viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) || viewModel.state.exchangeRate !=null ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvDestinationAmount"
                     tools:ignore="HardcodedText"
                     tools:text="Transfer amount" />
+<!--&lt;!&ndash;                android:text="@{viewModel.transaction.get().getSpentLabelText()}"&ndash;&gt;Transfer amount-->
+<!--                android:text="@{viewModel.transaction.get().getSpentLabelText()} Transfer amount" : Spent amount-->
+
 
                 <TextView
                     android:id="@+id/tvDestinationAmount"
@@ -386,18 +390,18 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.amount.toString(),true,viewModel.transaction.currency,true)}"
-                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))  ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) || viewModel.state.exchangeRate != null  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardMask"
                     tools:text="CAD 50.00 " />
-
+<!--add null check on visibility  added-->
                 <TextView
                     android:id="@+id/tvFxRateLabel"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Exchange rate"
-                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))   ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) || viewModel.state.exchangeRate != null  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvFxRateValue"
                     tools:ignore="HardcodedText"
@@ -410,8 +414,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.currency+` 1.00 = AED `+viewModel.transaction.fxRate}"
-                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) ? View.VISIBLE : View.GONE}"
+                    android:text="@{viewModel.state.exchangeRate!=null ?  viewModel.transaction.currency+` 1.00 = AED `+ viewModel.state.exchangeRate.toString() :   viewModel.transaction.currency+` 1.00 = AED `+viewModel.transaction.fxRate}"
+                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) || viewModel.state.exchangeRate != null  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDestinationAmount"
                     tools:text="1 CAD =  2.3 AED " />
@@ -520,7 +524,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.postedFees!=null ?  CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.postedFees.toString(),true,`AED`,true) :  `AED 0.00`}"
+                    android:text="@{viewModel.state.exchangeRate !=null ? CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.markupFees.toString(),true,`AED`,true) : viewModel.transaction.postedFees!=null ?  CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.postedFees.toString(),true,`AED`,true) : `AED 0.00` }"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                     tools:text="1000" />

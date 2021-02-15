@@ -2,11 +2,11 @@ package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import co.yap.R
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseViewModel
-import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionProductType
@@ -14,6 +14,7 @@ import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -22,6 +23,8 @@ class TransactionDetailsViewModel(application: Application) :
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
+    var spentLabelText: ObservableField<String> = ObservableField()
+
     override fun onCreate() {
         super.onCreate()
         setStatesData()
@@ -41,7 +44,13 @@ class TransactionDetailsViewModel(application: Application) :
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(getTransferCategoryTitle(transaction))
             state.categoryIcon.set(getTransferCategoryIcon(transaction))
+            if (transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && transaction.currency != SessionManager.getDefaultCurrency()) {
+                state.exchangeRate?.set(getExchangeRate(transaction))
+            } else {
+                state.exchangeRate?.set(null)
+            }
         }
+        spentLabelText.set(this.transaction.get().getSpentLabelText())
     }
 
     private fun setToolbarTitle() {
@@ -146,6 +155,9 @@ class TransactionDetailsViewModel(application: Application) :
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: 0.00)
                 }
+                it.productCode == TransactionProductCode.POS_PURCHASE.pCode -> {
+                    it.cardHolderBillingAmount ?: 0.00
+                }
                 else -> it.amount ?: 0.00
             }
         } ?: return 0.00
@@ -176,7 +188,7 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     override fun getStatusIcon(transaction: Transaction?): Int {
-        return return if (transaction?.isTransactionInProgress() == true) android.R.color.transparent
+        return if (transaction?.isTransactionInProgress() == true) android.R.color.transparent
         else when (transaction?.productCode) {
             TransactionProductCode.ATM_WITHDRAWL.pCode -> {
                 R.drawable.ic_identifier_atm_withdrawl
@@ -189,7 +201,31 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    //getString(
-    //                Strings.transaction_narration_y2y_transfer_detail
-    //            )
+    private fun getExchangeRate(transaction: Transaction): Double? {
+        var fxRate: Double? =
+            transaction.amount?.let { transaction.cardHolderBillingAmount?.div(it) }
+
+        if (transaction.amount?.let {
+                transaction.cardHolderBillingAmount?.compareTo(
+                    it
+                )
+            } == -1) { // cardHolderBillingAmount is smaller than amount
+            // round to the 6 decimal if cardHolderBillingAmount is smaller than amount
+            fxRate = getDecimalFormatUpTo(
+                6,
+                amount = fxRate.toString(),
+                withComma = true
+            ).toDouble()
+        } else {
+            //   and to the 3rd decimal
+            fxRate = getDecimalFormatUpTo(
+                3,
+                amount = fxRate.toString(),
+                withComma = true
+            ).toDouble()
+        }
+
+        return fxRate
+    }
+
 }
