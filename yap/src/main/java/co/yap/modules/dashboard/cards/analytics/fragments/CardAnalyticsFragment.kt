@@ -123,7 +123,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         dataSet.sliceSpace = 0f
 //        dataSet.sliceSpace = 5f   // For Rounded corner graph with spaces
         dataSet.iconsOffset = MPPointF(0f, 40f)
-        dataSet.selectionShift = 20f
+        dataSet.selectionShift = 12f
         dataSet.setDrawValues(false)
         dataSet.colors = colors
         val data = PieData(dataSet)

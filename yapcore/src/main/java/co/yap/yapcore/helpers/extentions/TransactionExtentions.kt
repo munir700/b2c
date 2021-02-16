@@ -76,16 +76,17 @@ fun Transaction?.getIcon(): Int {
 
 fun Transaction?.getStatus(): String {
     when (this?.productCode) {
-        TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> return this.cardAcceptorLocation ?: ""
+        TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> return this.cardAcceptorLocation
+            ?: ""
         TransactionProductCode.FUND_LOAD.pCode -> return this.otherBankName ?: ""
         else -> this?.let { txn ->
-                return (when (txn.status) {
-                    TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> "Rejected transaction"
-                    TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
-                        if (txn.getProductType() != TransactionProductType.IS_TRANSACTION_FEE) "Transaction in process" else ""
-                    }
-                    else -> ""
-                })
+            return (when (txn.status) {
+                TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> "Rejected transaction"
+                TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
+                    if (txn.getProductType() != TransactionProductType.IS_TRANSACTION_FEE) "Transaction in process" else ""
+                }
+                else -> ""
+            })
         } ?: return ""
     }
 }
@@ -170,7 +171,7 @@ fun Transaction?.getMapImage(): Int {
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_brown_background
             TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
             TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
-            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_map
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_image_light_blue_background
             else -> -1
         })
     } ?: return -1
@@ -192,7 +193,7 @@ fun Transaction?.getSpentLabelText(): String {
                                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
                                     if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
                                 }
-                                 else -> "Amount"
+                                else -> "Amount"
                             }
                         }
                         else -> ""
