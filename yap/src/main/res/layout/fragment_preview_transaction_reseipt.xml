@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.transaction.previewreceipt.PreviewTransactionReceiptViewModel" />
+            type="co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -59,7 +59,7 @@
                 android:layout_gravity="center"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:textColor="@color/white"
-                app:btn_size="medium"
+                app:btn_size="small"
                 app:text="@{Strings.common_button_save}"
                 tools:text="@string/common_button_save" />
 

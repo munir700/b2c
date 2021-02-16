@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.transaction.TransactionReceiptItemViewModel" />
+            type="co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
 

@@ -33,7 +33,6 @@ import androidx.core.os.bundleOf
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.utils.CurrencyUtils
-import co.yap.modules.imagepreviewer.ImagePreViewerActivity
 import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
 import co.yap.modules.placesautocomplete.model.Place
 import co.yap.networking.cards.responsedtos.Card
@@ -58,15 +57,10 @@ import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.ezaka.customer.app.utils.getActivityFromContext
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
@@ -1000,40 +994,9 @@ object UIBinder {
     @JvmStatic
     fun setImageResUrl(view: AppCompatImageView, imageSrc: String?) {
         imageSrc?.let {
-
             val mUrl = getUrl(imageSrc)
             Glide.with(view).load(mUrl)
-                .placeholder(R.color.white).listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        val activity: ImagePreViewerActivity =
-                            getActivityFromContext(view.context) as ImagePreViewerActivity
-                        activity.showLoader(false)
-                        return false
-
-                    }
-
-
-                }).into(view)
-        }
-        if (imageSrc.isNullOrBlank()) {
-            Glide.with(view.context)
-                .load(R.drawable.ic_young_household)
-                .into(view)
+                .placeholder(R.color.white).into(view)
         }
 
     }

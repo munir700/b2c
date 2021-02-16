@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.previewreceipt
+package co.yap.modules.dashboard.transaction.receipt.previewer
 
 import android.net.Uri
 import co.yap.yapcore.IBase

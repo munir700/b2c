@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.transaction.interfaces
+package co.yap.modules.dashboard.transaction.detail
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
+import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceipt
@@ -23,7 +23,6 @@ interface ITransactionDetails {
         var transaction: ObservableField<Transaction>
         var adapter: TransactionReceiptAdapter
         var responseReciept: MutableLiveData<TransactionReceipt>
-        fun addNewReceipt(receipt: ReceiptModel)
         fun deleteReceipt(position: Int)
         fun getAllReceipts()
         fun getReceiptTitle(list: List<ReceiptModel>): String

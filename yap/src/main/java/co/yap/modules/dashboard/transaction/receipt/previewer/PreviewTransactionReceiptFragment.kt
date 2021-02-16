@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.previewreceipt
+package co.yap.modules.dashboard.transaction.receipt.previewer
 
 import android.app.Activity
 import android.net.Uri
@@ -27,7 +27,6 @@ class PreviewTransactionReceiptFragment :
         super.onViewCreated(view, savedInstanceState)
         arguments?.let { bundle ->
             bundle.getString(FILE_PATH)?.let {
-                // image.setImageURI(Uri.fromFile(File(it)))
                 viewModel.state.filePath = Uri.fromFile(File(it))
             }
             bundle.getString(ExtraKeys.TRANSACTION_ID.name)?.let { id ->

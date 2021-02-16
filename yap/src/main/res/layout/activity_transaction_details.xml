@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel" />
+            type="co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel" />
 
         <import type="co.yap.translation.Strings" />
 

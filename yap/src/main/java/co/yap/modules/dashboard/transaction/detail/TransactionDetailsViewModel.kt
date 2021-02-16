@@ -1,13 +1,10 @@
-package co.yap.modules.dashboard.transaction.viewmodels
+package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
-import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
-import co.yap.R
-import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
-import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
+import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.ReceiptModel
@@ -20,17 +17,21 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
-import java.util.*
 import co.yap.yapcore.managers.SessionManager
+import java.util.*
 
 
 class TransactionDetailsViewModel(application: Application) :
     BaseViewModel<ITransactionDetails.State>(application), ITransactionDetails.ViewModel {
 
-    override val state: TransactionDetailsState = TransactionDetailsState()
+    override val state: TransactionDetailsState =
+        TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
-    override var adapter: TransactionReceiptAdapter = TransactionReceiptAdapter(mutableListOf())
+    override var adapter: TransactionReceiptAdapter =
+        TransactionReceiptAdapter(
+            mutableListOf()
+        )
     override var responseReciept: MutableLiveData<TransactionReceipt> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
 
@@ -72,10 +73,6 @@ class TransactionDetailsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun addNewReceipt(receipt: ReceiptModel) {
-        adapter.setItemAt(adapter.getDataList().size, receipt)
-    }
-
     override fun deleteReceipt(position: Int) {
         adapter.removeItemAt(position)
     }
@@ -87,9 +84,7 @@ class TransactionDetailsViewModel(application: Application) :
                 transactionId = transaction.get()?.transactionId ?: ""
             )) {
                 is RetroApiResponse.Success -> {
-                    response.data.let { resp ->
-                        responseReciept.value = resp.data
-                    }
+                    responseReciept.value = response.data.data
                     state.loading = false
 
                 }

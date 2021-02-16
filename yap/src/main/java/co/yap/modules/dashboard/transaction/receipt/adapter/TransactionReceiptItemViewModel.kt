@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction
+package co.yap.modules.dashboard.transaction.receipt.adapter
 
 import android.view.View
 import co.yap.networking.transactions.responsedtos.ReceiptModel

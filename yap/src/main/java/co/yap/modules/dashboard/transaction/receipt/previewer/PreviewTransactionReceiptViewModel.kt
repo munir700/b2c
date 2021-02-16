@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.previewreceipt
+package co.yap.modules.dashboard.transaction.receipt.previewer
 
 import android.app.Application
 import android.os.Build

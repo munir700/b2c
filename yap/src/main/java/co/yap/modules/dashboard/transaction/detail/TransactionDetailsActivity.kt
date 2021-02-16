@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.activities
+package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Activity
 import android.content.Intent
@@ -13,10 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
-import co.yap.modules.dashboard.transaction.addreceipt.AddTransactionReceiptFragment
-import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
-import co.yap.modules.dashboard.transaction.previewreceipt.PreviewTransactionReceiptFragment
-import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
+import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
+import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
+import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -37,9 +36,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import pl.aprilapps.easyphotopicker.MediaFile
 
-//pass image url or uri along with title
-//activity?.startImagePreviewerActivity( activity , imageSrc = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg",title = "")
-
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
 
@@ -52,14 +48,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEvent)
-        if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
-            intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
-                viewModel.transaction.set(
-                    it
-                )
-            }
-        }
+        addObservers()
         setSpentLabel()
         setAmount()
         setMapImageView()
@@ -72,6 +61,17 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
         setStatusIcon()
+    }
+
+    private fun addObservers() {
+        viewModel.clickEvent.observe(this, clickEvent)
+        if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
+            intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
+                viewModel.transaction.set(
+                    it
+                )
+            }
+        }
     }
 
     private fun setStatusIcon() {
@@ -235,8 +235,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 startFragmentForResult<AddTransactionReceiptFragment>(
                     fragmentName = AddTransactionReceiptFragment::class.java.name,
                     bundle = bundleOf(ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId)
-                ) { resultCode, data ->
-                    viewModel.getAllReceipts()
+                ) { resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK)
+                        showAddReceiptSuccessDialog()
                 }
             }
 
@@ -244,14 +245,33 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         }
     }
 
-    private fun openAddedReceipt(receiptModel: ReceiptModel) {
-        receiptModel.receiptImageUrl = receiptModel.receiptImageUrl
-        this?.startImagePreviewerActivity(
-            this,
-            imageSrc = receiptModel.receiptImageUrl,
-            title = receiptModel.title,
-            id = viewModel.transaction.get()?.transactionId
+    private fun showAddReceiptSuccessDialog() {
+        this.showReceiptSuccessDialog(
+            description = getString(Strings.screen_transaction_details_receipt_success_label),
+            addAnotherText = getString(Strings.screen_transaction_add_another_receipt),
+            callback = {
+                when (it) {
+                    R.id.btnActionDone -> {
+                        viewModel.getAllReceipts()
+                    }
+                    R.id.tvAddAnother -> {
+                        viewModel.getAllReceipts()
+                        showAddReceiptOptions()
+                    }
+                }
+            }
         )
+    }
+
+    private fun openAddedReceipt(receiptModel: ReceiptModel) {
+        launchActivity<ImageViewerActivity>(requestCode = RequestCodes.REQUEST_DELETE_RECEIPT) {
+            putExtra(ExtraKeys.TRANSACTION_RECEIPT.name, receiptModel)
+            putExtra(ExtraKeys.TRANSACTION_ID.name, viewModel.transaction.get()?.transactionId)
+            putExtra(
+                ExtraKeys.TRANSACTION_RECEIPT_LIST.name,
+                viewModel.adapter.getDataList() as ArrayList<ReceiptModel>
+            )
+        }
     }
 
     private fun setMapImageView() {
@@ -354,23 +374,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         )
                 }
 
-                RequestCodes.REQUEST_ADD_RECEIPT -> {
-                    this.showReceiptSuccessDialog(
-                        description = getString(Strings.screen_transaction_details_receipt_success_label),
-                        addAnotherText = getString(Strings.screen_transaction_add_another_receipt),
-                        callback = {
-                            when (it) {
-                                R.id.btnActionDone -> {
-                                    viewModel.addNewReceipt(ReceiptModel())
-                                }
-                                R.id.tvAddAnother -> {
-                                    showAddReceiptOptions()
-                                }
-                            }
-                        }
-                    )
-                }
-
                 RequestCodes.REQUEST_DELETE_RECEIPT -> {
                     viewModel.getAllReceipts()
                 }
@@ -403,17 +406,16 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     }
 
     override fun onImageReturn(mediaFile: MediaFile) {
-        startFragment<PreviewTransactionReceiptFragment>(
+        startFragmentForResult<PreviewTransactionReceiptFragment>(
             fragmentName = PreviewTransactionReceiptFragment::class.java.name,
             bundle = bundleOf(
                 FILE_PATH to mediaFile.file.absolutePath,
                 ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId
             )
-        )
-    }
-
-    fun getBindings(): ActivityTransactionDetailsBinding {
-        return viewDataBinding as ActivityTransactionDetailsBinding
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK)
+                showAddReceiptSuccessDialog()
+        }
     }
 
     override fun onToolBarClick(id: Int) {
@@ -445,6 +447,10 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             setResult(Activity.RESULT_OK, intent)
         }
         finish()
+    }
+
+    fun getBindings(): ActivityTransactionDetailsBinding {
+        return viewDataBinding as ActivityTransactionDetailsBinding
     }
 
     override fun onBackPressed() {

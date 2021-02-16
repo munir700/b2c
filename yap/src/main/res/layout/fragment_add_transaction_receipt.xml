@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.transaction.addreceipt.AddTransactionReceiptViewModel" />
+            type="co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -88,7 +88,7 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:btn_size="medium"
+                app:btn_size="small"
                 app:text="@{Strings.screen_update_profile_photo_display_text_take_photo}"
                 tools:text="@string/screen_update_profile_photo_display_text_take_photo" />
 

@@ -1,20 +1,27 @@
-package co.yap.modules.imagepreviewer
+package co.yap.modules.dashboard.transaction.receipt.viewer
 
 import android.app.Application
+import co.yap.modules.dashboard.transaction.receipt.viewer.adapter.ReceiptViewerAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class ImagePreViewerViewModel(application: Application) :
-    BaseViewModel<IImagePreViewer.State>(application), IImagePreViewer.ViewModel {
+class ImageViewerViewModel(application: Application) :
+    BaseViewModel<IImageViewer.State>(application),
+    IImageViewer.ViewModel {
 
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var transactionId: String = ""
     override var receiptId: String = ""
-    override val state: ImagePreViewerState =
-        ImagePreViewerState()
+    override var isReceiptDeleted: Boolean = false
+    override val imagesViewerAdapter: ReceiptViewerAdapter =
+        ReceiptViewerAdapter(
+            arrayListOf()
+        )
+    override val state: ImageViewerState =
+        ImageViewerState()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.postValue(id)
@@ -26,17 +33,16 @@ class ImagePreViewerViewModel(application: Application) :
             when (val response =
                 transactionsRepository.deleteTransactionReceipt(transactionId, receiptId)) {
                 is RetroApiResponse.Success -> {
-                    response.data.let { resp ->
-                        success()
-                    }
+                    isReceiptDeleted = true
                     state.loading = false
-
+                    success()
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    showToast(response.error.message)
                 }
             }
         }
     }
+
 }

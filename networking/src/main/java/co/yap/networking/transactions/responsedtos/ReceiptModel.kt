@@ -1,10 +1,12 @@
 package co.yap.networking.transactions.responsedtos
 
-import com.google.gson.annotations.SerializedName
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ReceiptModel(
-    @SerializedName("receipt_name")
-    val title: String? = null,
-    @SerializedName("receipt_image_url")
-    var receiptImageUrl: String? = null
-)
+    val title: String,
+    val receiptImageUrl: String? = null
+) : Parcelable {
+    val receiptId: String get() = receiptImageUrl?.split("/")?.last() ?: ""
+}

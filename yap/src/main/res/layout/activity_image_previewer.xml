@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.imagepreviewer.ImagePreViewerViewModel" />
+            type="co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerViewModel" />
 
         <import type="android.view.View" />
 
@@ -20,12 +20,16 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <co.yap.modules.imagepreviewer.TouchImageView
-            android:id="@+id/imageViewConatiner"
-            android:background="@color/white"
-            previewImageSrc="@{viewModel.state.imageUrl}"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:adapter="@{viewModel.imagesViewerAdapter}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <RelativeLayout
             android:id="@+id/bottomActions"

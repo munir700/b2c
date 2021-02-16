@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.addreceipt
+package co.yap.modules.dashboard.transaction.receipt.add
 
 import android.app.Activity
 import android.content.pm.PackageManager
@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddTransactionReceiptBinding
-import co.yap.modules.dashboard.transaction.previewreceipt.PreviewTransactionReceiptFragment
+import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.helpers.ExtraKeys
@@ -34,7 +34,6 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        getBindingView().camera.setLifecycleOwner(this)
         getBindingView().camera.open()
         getBindingView().camera.addCameraListener(this)
         registerObserver()

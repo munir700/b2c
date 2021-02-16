@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.addreceipt
+package co.yap.modules.dashboard.transaction.receipt.add
 
 import android.app.Application
 import co.yap.yapcore.BaseViewModel

@@ -2,8 +2,7 @@ package co.yap.dashboard.transaction
 
 import co.yap.app.YAPApplication
 import co.yap.base.BaseTestCase
-import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
-import co.yap.networking.transactions.responsedtos.ReceiptModel
+import co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode

@@ -276,7 +276,7 @@ fun Activity.showReceiptSuccessDialog(
     dialogLayout.setContentView(R.layout.layout_receipt_success_dialog)
     val label = dialogLayout.findViewById<TextView>(R.id.tvDescrip)
     val addAnother = dialogLayout.findViewById<TextView>(R.id.tvAddAnother)
-    val coreButton = dialogLayout.findViewById<TextView>(R.id.btnAction)
+    val coreButton = dialogLayout.findViewById<TextView>(R.id.btnActionDone)
     label.text = description
     addAnother.text = addAnotherText
     addAnother.visibility = if (addOtherVisibility == true) View.VISIBLE else View.GONE

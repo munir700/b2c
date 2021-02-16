@@ -1,10 +1,10 @@
-package co.yap.modules.dashboard.transaction.states
+package co.yap.modules.dashboard.transaction.detail
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.BR
-import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
+import co.yap.modules.dashboard.transaction.detail.ITransactionDetails
 import co.yap.yapcore.BaseState
 
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {

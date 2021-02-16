@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
-import co.yap.modules.imagepreviewer.ImagePreViewerActivity
 import co.yap.widgets.bottomsheet.BottomSheet
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.guidedtour.TourSetup
@@ -31,7 +30,6 @@ import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
@@ -474,23 +472,6 @@ fun FragmentActivity.launchSheet(
                 subHeadingLabel = subHeading
             )
         coreBottomSheet.show(it, "")
-    }
-}
-
-
-fun Activity.startImagePreviewerActivity(
-    activity: Activity?,
-    imageSrc: String? = null,
-    title: String? = null,
-    id: String? = null
-) {
-    val intent = Intent(activity, ImagePreViewerActivity::class.java)
-    intent.putExtra(ExtraKeys.CONST_IMAGE_URL.name, imageSrc)
-    intent.putExtra(ExtraKeys.CONST_IMAGE_TITLE.name, title)
-    intent.putExtra(ExtraKeys.TRANSACTION_ID.name, id)
-
-    if (!imageSrc.isNullOrEmpty() || !imageSrc.isNullOrBlank()) {
-        startActivityForResult(intent, RequestCodes.REQUEST_DELETE_RECEIPT)
     }
 }
 

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.addreceipt
+package co.yap.modules.dashboard.transaction.receipt.add
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

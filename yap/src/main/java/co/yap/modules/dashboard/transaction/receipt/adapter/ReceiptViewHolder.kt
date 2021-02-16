@@ -1,11 +1,11 @@
-package co.yap.modules.dashboard.transaction
+package co.yap.modules.dashboard.transaction.receipt.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.databinding.ItemTransectionReciptBinding
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class ReceiptViewHolder(val itemReceiptBinding: ItemTransectionReciptBinding) :
+class ReceiptViewHolder(private val itemReceiptBinding: ItemTransectionReciptBinding) :
     RecyclerView.ViewHolder(itemReceiptBinding.root) {
     fun onBind(
         itemReceipt: ReceiptModel, position: Int,
