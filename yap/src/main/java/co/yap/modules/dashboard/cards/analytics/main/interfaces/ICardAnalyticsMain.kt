@@ -25,6 +25,7 @@ interface ICardAnalyticsMain {
         var toolbarVisibility: ObservableBoolean
         var currentSelectedMonth : String
         var currentSelectedDate : String
+        var isNoDataFound : ObservableBoolean
     }
 
 }
