@@ -618,7 +618,7 @@
 
     <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
-    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark here</string>
+    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark</string>
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
@@ -781,7 +781,7 @@
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
     <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
-    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark here</string>
+    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark</string>
     <string name="screen_international_funds_transfer_input_text_reason">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
     <string name="screen_international_funds_transfer_display_text_note">Note that the recipient\'s bank may have its own charges.</string>

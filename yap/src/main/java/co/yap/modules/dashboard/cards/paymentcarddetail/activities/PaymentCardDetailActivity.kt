@@ -360,6 +360,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.state.cardTypeText =
                     getString(Strings.screen_spare_card_landing_display_text_virtual_card)
             }
+            viewModel.state.cardNameText = viewModel.card.value?.cardName?:""
             viewModel.getCardBalance { balance ->
                 llAddFunds.alpha = 1f
                 llAddFunds.isEnabled = true
@@ -672,6 +673,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
         }
+
 
         cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             "Primary card"
