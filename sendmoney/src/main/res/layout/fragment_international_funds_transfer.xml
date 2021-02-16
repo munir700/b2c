@@ -264,6 +264,28 @@
                     app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
                     tools:text="@string/screen_international_funds_transfer_display_text_note" />
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SmallGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_c1"
+                    android:text="@{viewModel.state.transferFeeSpannable}"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
+                    tools:text="@string/screen_international_funds_transfer_display_text_fee" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SmallGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_c1"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
+                    app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
+                    tools:text="@string/screen_international_funds_transfer_display_text_note" />
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAvailableBalance"
                     style="@style/MicroGrey"
                     android:layout_width="match_parent"
@@ -349,29 +371,6 @@
                     tools:hint="@string/screen_international_funds_transfer_input_text_note_hint"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                     app:layout_constraintBottom_toBottomOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/SmallGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_c1"
-                    android:text="@{viewModel.state.transferFeeSpannable}"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    tools:text="@string/screen_international_funds_transfer_display_text_fee" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/SmallGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_c1"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
-                    tools:text="@string/screen_international_funds_transfer_display_text_note" />
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnNext"
