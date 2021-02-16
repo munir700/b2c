@@ -5,5 +5,5 @@ import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoScanDocum
 import co.yap.yapcore.BaseState
 
 class AdditionalInfoScanDocumentState : BaseState(), IAdditionalInfoScanDocument.State {
-    override val documentName: ObservableField<String> =ObservableField("")
+    override val documentName: ObservableField<String> = ObservableField("")
 }

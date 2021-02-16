@@ -14,7 +14,6 @@ import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultActionDefault
 import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultActionMoveToSwipedDirection
 import co.yap.widgets.advrecyclerview.utils.AbstractSwipeableItemViewHolder
 import co.yap.yapcore.BaseRVAdapter
-import co.yap.yapcore.helpers.extentions.parseToLong
 
 class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation: NavController?) :
     BaseRVAdapter<HomeNotification, NotificationItemViewModel, NotificationsHomeAdapter.ViewHolder>(
@@ -51,7 +50,7 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
 
     override fun getVariableId() = BR.viewModel
     override fun onGetSwipeReactionType(holder: ViewHolder, position: Int, x: Int, y: Int) =
-        if (datas[position].isDeletable==true) SwipeableItemConstants.REACTION_CAN_SWIPE_LEFT else SwipeableItemConstants.REACTION_CAN_NOT_SWIPE_ANY
+        if (datas[position].isDeletable == true) SwipeableItemConstants.REACTION_CAN_SWIPE_LEFT else SwipeableItemConstants.REACTION_CAN_NOT_SWIPE_ANY
 
 
     override fun onSwipeItemStarted(holder: ViewHolder, position: Int) {

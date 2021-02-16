@@ -202,7 +202,8 @@ class TransactionsListingAdapter(
 
                 } catch (e: Exception) {
                 }
-            }?:itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
+            }
+                ?: itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
         }
 
         private fun setContentDataColor(

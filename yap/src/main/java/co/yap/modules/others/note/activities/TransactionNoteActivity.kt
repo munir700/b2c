@@ -80,7 +80,7 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
         when (id) {
-           R.id.ivLeftIcon -> {
+            R.id.ivLeftIcon -> {
                 hideKeyboard()
                 finish()
             }

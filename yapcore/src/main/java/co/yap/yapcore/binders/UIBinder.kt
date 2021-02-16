@@ -26,6 +26,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
@@ -51,6 +52,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.loadImage
+import co.yap.yapcore.helpers.glide.getUrl
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -986,6 +988,17 @@ object UIBinder {
                 drawables[3]
             )
         }
+    }
+
+    @BindingAdapter("previewImageSrc")
+    @JvmStatic
+    fun setImageResUrl(view: AppCompatImageView, imageSrc: String?) {
+        imageSrc?.let {
+            val mUrl = getUrl(imageSrc)
+            Glide.with(view).load(mUrl)
+                .placeholder(R.color.white).into(view)
+        }
+
     }
 
 

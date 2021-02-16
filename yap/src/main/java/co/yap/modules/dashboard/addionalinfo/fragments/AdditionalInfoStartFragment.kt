@@ -1,7 +1,5 @@
 package co.yap.modules.dashboard.addionalinfo.fragments
 
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R

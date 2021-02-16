@@ -16,18 +16,18 @@ interface IChangePhoneNumber {
         fun onEditorActionListener(): TextView.OnEditorActionListener
         fun onHandlePressOnNextButton(view: android.view.View)
         fun changePhoneNumber()
-        val isPhoneNumberValid:MutableLiveData<Boolean>
-        val changePhoneNumberSuccessEvent:SingleClickEvent
+        val isPhoneNumberValid: MutableLiveData<Boolean>
+        val changePhoneNumberSuccessEvent: SingleClickEvent
     }
 
     interface State : IBase.State {
-        var countryCode:String
+        var countryCode: String
         var mobile: String
         var drawbleRight: Drawable?
         var background: Drawable?
         var mobileNoLength: Int
         var etMobileNumber: EditText?
         var valid: Boolean
-        var errorMessage:String
+        var errorMessage: String
     }
 }

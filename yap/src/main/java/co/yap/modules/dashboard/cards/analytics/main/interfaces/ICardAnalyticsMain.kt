@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.main.interfaces
 
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.IBase

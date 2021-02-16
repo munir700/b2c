@@ -62,7 +62,8 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
             viewModel.state.formattedCardNo.set(Utils.getFormattedCardNumber(cardInfo?.number.toString()))
             when (cardInfo?.logo) {
                 Constants.VISA,
-                Constants.MASTER -> {
+                Constants.MASTER
+                -> {
                     getBindings().cvvView.visibility = View.VISIBLE
                     getBindings().cvvAmericanView.visibility = View.GONE
                 }

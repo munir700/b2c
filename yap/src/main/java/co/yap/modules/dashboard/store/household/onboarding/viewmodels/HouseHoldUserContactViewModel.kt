@@ -59,7 +59,7 @@ class HouseHoldUserContactViewModel(application: Application) :
                     verifyMobileSuccess.value = true
                 }
                 is RetroApiResponse.Error -> {
-                   verifyMobileError.value = response.error.message
+                    verifyMobileError.value = response.error.message
 //                    state.toast = response.error.message
                 }
             }

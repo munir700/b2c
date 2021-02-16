@@ -2,7 +2,7 @@ package co.yap.dashboard.transaction
 
 import co.yap.app.YAPApplication
 import co.yap.base.BaseTestCase
-import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
+import co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken
 import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import java.io.BufferedReader
 import java.io.FileInputStream
@@ -47,12 +48,45 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
     }
 
     @TestFactory
+    fun test_add_receipt_section_should_show_or_not(): Collection<DynamicTest>? {
+        val tests: MutableSet<DynamicTest> = LinkedHashSet()
+        getTransactions().forEach {
+            val expectedValue = when (it.transaction.productCode) {
+                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> true
+                else -> false
+            }
+            tests.add(addReceiptNewTest(it.transaction, expectedValue))
+        }
+        return tests
+    }
+
+    @Test
+    fun test_receipt_item_name() {
+        val expectedValue = "Receipt 1"
+        val actualValue = sut.receiptItemName(0)
+        Assert.assertEquals(expectedValue, actualValue)
+    }
+
+    private fun addReceiptNewTest(
+        transaction: Transaction,
+        expectation: Boolean
+    ): DynamicTest {
+        val displayName: String = java.lang.String.format(
+            Locale.getDefault(),
+            "test_receipt_visibility_for_product_code_%s",
+            transaction.productCode
+        )
+        return DynamicTest.dynamicTest(displayName) {
+            Assert.assertEquals(expectation, sut.isShowReceiptSection(transaction))
+        }
+    }
+
+    @TestFactory
     fun test_transaction(): Collection<DynamicTest>? {
         val tests: MutableSet<DynamicTest> = LinkedHashSet()
         getTransactions().forEach {
             tests.add(addNewTest(it.transaction, it.detailExpectation))
         }
-
         return tests
     }
 
@@ -153,5 +187,4 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         }
         return sb.toString()
     }
-
 }

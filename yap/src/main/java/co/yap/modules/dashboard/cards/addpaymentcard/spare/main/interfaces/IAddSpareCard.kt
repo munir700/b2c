@@ -20,7 +20,7 @@ interface IAddSpareCard {
         var cardType: String
         val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper
         var paymentCard: Card?
-        var cardName : String?
+        var cardName: String?
 
         val CONFIRM_VIRTUAL_PURCHASE: Int
         val ADD_VIRTUAL_SPARE_SUCCESS_EVENT: Int

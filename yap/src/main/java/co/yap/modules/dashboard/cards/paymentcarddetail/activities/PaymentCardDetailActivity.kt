@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
@@ -41,7 +40,7 @@ import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCa
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
-import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
@@ -90,7 +89,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private lateinit var mNavigator: ActivityNavigator
 
     companion object {
-         const val CARD = "card"
+        const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, PaymentCardDetailActivity::class.java)
             intent.putExtra(CARD, card)

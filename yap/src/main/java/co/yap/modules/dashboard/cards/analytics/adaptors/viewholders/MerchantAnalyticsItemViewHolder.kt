@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.databinding.ItemAnalyticsBinding
 import co.yap.databinding.ItemMarchentAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.MerchantAnalyticsAdaptor
 import co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel

@@ -91,8 +91,7 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
             Utils.confirmationDialog(it, null,
                 Translator.getString(
                     requireContext(), Strings.screen_add_spare_card_display_text_alert_title
-                )
-                , Translator.getString(
+                ), Translator.getString(
                     it,
                     R.string.screen_add_spare_card_display_button_block_alert_top_up
                 ), Translator.getString(

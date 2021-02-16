@@ -63,7 +63,7 @@ class YapDashBoardViewModel(application: Application) :
         super.onCreate()
         updateVersion()
         getHelpPhoneNo()
-      if(  SessionManager.deepLinkFlowId.value==null){
+        if (SessionManager.deepLinkFlowId.value == null) {
             launch {
                 delay(1500)
                 showUnverifedscreen.value =

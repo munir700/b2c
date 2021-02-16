@@ -16,7 +16,8 @@ import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.firebase.*
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.leanplum.SignupEvents

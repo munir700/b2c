@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.models.transactions
 
-data class TransactionData (
+data class TransactionData(
     var closingBalance: Double,
     var id: Int,
     var merchant: Any?,

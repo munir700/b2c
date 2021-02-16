@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.more.main.interfaces
 
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleLiveEvent
 
 interface IMore {
     interface State : IBase.State {

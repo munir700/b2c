@@ -10,6 +10,8 @@ class HouseHoldConfirmPaymentState : BaseState(), IHouseHoldConfirmPayment.State
     override var selectedCardPlan: ObservableField<String> = ObservableField("")
     override var selectedPlanSaving: ObservableField<String> = ObservableField("")
     override var selectedPlanFee: ObservableField<String> = ObservableField("")
-    override var availableBalance: ObservableField<SpannableStringBuilder> = ObservableField(SpannableStringBuilder.valueOf(""))
-    override var currencyType: ObservableField<String> = ObservableField(SessionManager.getDefaultCurrency())
+    override var availableBalance: ObservableField<SpannableStringBuilder> =
+        ObservableField(SpannableStringBuilder.valueOf(""))
+    override var currencyType: ObservableField<String> =
+        ObservableField(SessionManager.getDefaultCurrency())
 }

@@ -10,7 +10,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class UpdateCardNameViewModel (application: Application) :
+class UpdateCardNameViewModel(application: Application) :
     BaseViewModel<IUpdateCardName.State>(application),
     IUpdateCardName.ViewModel {
 
@@ -27,7 +27,8 @@ class UpdateCardNameViewModel (application: Application) :
     override fun updateCardName() {
         launch {
             state.loading = true
-            when (val response = cardsRepository.updateCardName(state.cardName, card.cardSerialNumber)) {
+            when (val response =
+                cardsRepository.updateCardName(state.cardName, card.cardSerialNumber)) {
                 is RetroApiResponse.Success -> {
                     Handler().postDelayed({
                         clickEvent.setValue(EVENT_UPDATE_CARD_NAME)
