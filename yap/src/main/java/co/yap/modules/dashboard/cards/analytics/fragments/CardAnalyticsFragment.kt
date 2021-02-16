@@ -84,7 +84,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.setTransparentCircleAlpha(200)
 //            chart.holeRadius = // 78f  For Rounded corner graph with spaces
             chart.holeRadius = 70f
-            chart.transparentCircleRadius = 70f
+            chart.transparentCircleRadius = 68f
             chart.setDrawCenterText(true)
             chart.rotationAngle = -90f
             chart.isRotationEnabled = false
