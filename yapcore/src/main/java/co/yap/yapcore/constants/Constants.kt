@@ -162,6 +162,7 @@ object Constants {
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
     const val SUCCESS_BUTTON_LABEL = "successButtonLabel"
+    const val ENABLE_LEAN_PLUM_NOTIFICATIONS = "enableLeanPlumNotifications"
 
     //Sms consent
     const val SMS_CONSENT_REQUEST = 2
@@ -187,5 +188,6 @@ object Constants {
     //Core Bottom Sheet
     const val VIEW_WITHOUT_FLAG = 1
     const val VIEW_WITH_FLAG = 2
+
 
 }

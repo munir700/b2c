@@ -13,20 +13,12 @@ import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
-import co.yap.yapcore.firebase.FirebaseEvent
-import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.leanplum.KYCEvents
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
     ISystemPermission.View {
-
-    private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -35,62 +27,28 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     override val viewModel: ISystemPermission.ViewModel
         get() = ViewModelProviders.of(this).get(SystemPermissionViewModel::class.java)
 
+    private fun getScreenType(): String {
+        return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferenceManager = SharedPreferenceManager(requireContext())
-
         viewModel.screenType = getScreenType()
         viewModel.registerLifecycleOwner(this)
-
-        viewModel.permissionGrantedPressEvent.observe(this, permissionGrantedObserver)
-        viewModel.permissionNotGrantedPressEvent.observe(this, permissionNotGrantedObserver)
-        viewModel.handlePressOnTermsAndConditionsPressEvent.observe(
-            this,
-            handlePressOnTermsAndConditionsObserver
-        )
+        setObservers()
     }
 
-    override fun onDestroyView() {
-        viewModel.permissionGrantedPressEvent.removeObservers(this)
-        viewModel.permissionNotGrantedPressEvent.removeObservers(this)
-        super.onDestroyView()
-
+    override fun setObservers() {
+        viewModel.clickEvent.observe(this, clickObserver)
     }
 
-    private val permissionGrantedObserver = Observer<Boolean> {
-        if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
-            sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
-            trackEvent(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type,"TouchID")
-            trackEventWithScreenName(FirebaseEvent.SETUP_TOUCH_ID)
-            val action =
-                SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
-                    Constants.NOTIFICATION_SCREEN_TYPE
-                )
-            findNavController().navigate(action)
-        } else {
-            trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
-            navigateToDashboard()
-        }
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(clickObserver)
     }
 
-    private val permissionNotGrantedObserver = Observer<Boolean> {
-        if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
-            trackEventWithScreenName(FirebaseEvent.NO_TOUCH_ID)
-            sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, false)
-            val action =
-                SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
-                    Constants.NOTIFICATION_SCREEN_TYPE
-                )
-            findNavController().navigate(action)
-        } else {
-            trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
-            navigateToDashboard()
-        }
-    }
-
-    private val handlePressOnTermsAndConditionsObserver = Observer<Int> {
-        when (it) {
+    private val clickObserver = Observer<Int> { view ->
+        when (view) {
             R.id.tvTermsAndConditions -> {
                 startFragment(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
@@ -98,11 +56,41 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                     ), showToolBar = false
                 )
             }
+            R.id.tvNoThanks -> {
+                grantPermissions(false)
+            }
+            R.id.btnTouchId -> {
+                grantPermissions(true)
+            }
+
         }
     }
 
+    private fun grantPermissions(isGranted: Boolean) {
+        when (viewModel.screenType) {
+            Constants.TOUCH_ID_SCREEN_TYPE -> {
+                viewModel.getTouchScreenValues(isGranted)
+                navigateFromTouchScreen()
+            }
+            Constants.NOTIFICATION_SCREEN_TYPE -> {
+                viewModel.getNotificationScreenValues(isGranted)
+                navigateToDashboard()
+            }
+            else -> {
+            }
+        }
+    }
+
+    private fun navigateFromTouchScreen() {
+        val action =
+            SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
+                Constants.NOTIFICATION_SCREEN_TYPE
+            )
+        findNavController().navigate(action)
+    }
+
     private fun navigateToDashboard() {
-        if (SessionManager.user?.otpBlocked == true|| SessionManager.user?.freezeInitiator != null)
+        if (SessionManager.user?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
         else
             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
@@ -110,8 +98,9 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
         activity?.finish()
     }
 
-    private fun getScreenType(): String {
-        return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
-    }
+    override fun onDestroyView() {
+        removeObservers()
+        super.onDestroyView()
 
+    }
 }

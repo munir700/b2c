@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -18,6 +19,7 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
@@ -33,10 +35,13 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.leanplum.toggleLeanPlumNotifications
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.exoplayer2.source.MediaSource
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
+import kotlinx.android.synthetic.main.layout_profile_settings.view.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
@@ -85,6 +90,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             if (it.currentCustomer.getPicture() != null) {
                 ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
             }
+        }
+        layoutProfileSettings.swNotifications.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
+            requireContext().toggleLeanPlumNotifications(b)
         }
     }
 

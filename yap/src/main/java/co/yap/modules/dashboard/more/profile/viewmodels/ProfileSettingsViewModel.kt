@@ -15,6 +15,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
@@ -63,6 +64,7 @@ class ProfileSettingsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         toggleToolBarVisibility(false)
+        state.isNotificationsEnabled.set(sharedPreferenceManager.getValueBoolien(ENABLE_LEAN_PLUM_NOTIFICATIONS,false))
         requestProfileDocumentsInformation()
         SessionManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()

@@ -239,6 +239,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:gravity="end"
+                    android:checked="@{viewModel.state.isNotificationsEnabled}"
                     android:paddingStart="0dp"
                     android:paddingEnd="-2dp"
                     android:theme="@style/CustomSwitch" />

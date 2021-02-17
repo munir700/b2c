@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
@@ -220,4 +221,16 @@ fun markReadLeanPlumMessage(messageId: String?) {
 
     } catch (e: Exception) {
     }
+}
+
+fun Context.toggleLeanPlumNotifications(isSwitchOn: Boolean) {
+    when (isSwitchOn) {
+        true -> {
+            // when user turn on the notification
+        }
+        else -> {
+            // when user turn off the notification
+        }
+    }
+    SharedPreferenceManager(this).save(ENABLE_LEAN_PLUM_NOTIFICATIONS,isSwitchOn)
 }
