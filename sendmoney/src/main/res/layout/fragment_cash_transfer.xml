@@ -142,6 +142,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:gravity="start"
                 android:text="@string/screen_add_beneficiary_display_text_transfer_type"
+                android:textColor="@color/colorDarkGrey"
                 android:textSize="@dimen/_12sdp"
                 android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"
                 app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
@@ -161,6 +162,8 @@
                 android:maxLength="@integer/notes_external_transfer_length"
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
+                android:textColor="@color/colorDarkGrey"
+                android:textColorHint="@color/greyDark"
                 app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                 app:layout_constraintTop_toBottomOf="@+id/rlSpinner"
                 tools:hint="@string/screen_international_funds_transfer_input_text_note_hint" />
@@ -186,6 +189,7 @@
                     android:layout_toStartOf="@+id/ivSelector"
                     android:alpha=".5"
                     android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+                    android:textColor="@color/colorDarkGrey"
                     app:text="@{Strings.screen_international_funds_transfer_dropdown_text_reason_hint}"
                     tools:text="@string/screen_international_funds_transfer_dropdown_text_reason_hint" />
 
