@@ -3,9 +3,13 @@ version: 2.1
 
 orbs:
  android: circleci/android@0.2.0
- 
+
 jobs:
  build:
+   filters:
+     branches:
+       only:
+         - circle_ci
    executor: android/android
    environment:
      FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
