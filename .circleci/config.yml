@@ -10,9 +10,9 @@ jobs:
 
    steps:
      - checkout
-        - run:
-             name: Install fastlane
-             command: bundle install
-        - run:
-             name: Execute fastlane
-             command: bundle exec fastlane $FASTLANE_LANE
+     - run:
+         name: Install fastlane
+         command: bundle install
+     - run:
+        name: Execute fastlane
+        command: bundle exec fastlane $FASTLANE_LANE
