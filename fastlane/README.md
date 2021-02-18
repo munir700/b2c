@@ -21,6 +21,11 @@ or alternatively using `brew install fastlane`
 fastlane android build
 ```
 Build
+### android upload_to_appcenter
+```
+fastlane android upload_to_appcenter
+```
+Upload build to appcenter
 
 ----
 
