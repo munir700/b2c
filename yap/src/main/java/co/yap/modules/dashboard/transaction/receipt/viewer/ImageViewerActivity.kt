@@ -51,6 +51,7 @@ class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImag
 
             viewModel.state.imageReceiptTitle?.set("receipt ${currentImagePos.plus(1)}")
             viewPager.currentItem = currentImagePos
+            viewPager.setCurrentItem(currentImagePos,false)
         } else {
             finish()
         }
