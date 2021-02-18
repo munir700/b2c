@@ -6,10 +6,6 @@ orbs:
 
 jobs:
  build:
-   filters:
-     branches:
-       only:
-         - circle_ci
    executor: android/android
    environment:
      FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
@@ -27,4 +23,8 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - circle_ci
