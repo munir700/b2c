@@ -121,6 +121,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private fun setAddress() {
         viewModel.address = viewModel.parentViewModel?.address
         viewModel.state.addressTitle.set(viewModel.address?.address1)
+        viewModel.state.headingTitle.set(viewModel.address?.address1)
         viewModel.state.addressSubtitle.set(viewModel.address?.address2)
         populateCardState(viewModel.address, true)
         getCurrentLocation()
