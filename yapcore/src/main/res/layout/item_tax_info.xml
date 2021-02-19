@@ -45,13 +45,13 @@
             android:id="@+id/ivCross"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:onClick="@{v->viewModel.onViewClicked(v)}"
             android:src="@drawable/ic_close"
             android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/bcountries"
@@ -61,7 +61,6 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:background="@drawable/bg_edit_text_disable_grey_under_line"
             android:drawableEnd="@{viewModel.taxModel.selectedCountry == null ? @drawable/iv_drown_down: null}"
-            android:drawablePadding="@dimen/_6sdp"
             android:ellipsize="end"
             android:text="@{viewModel.taxModel.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.taxModel.selectedCountry.name}"
             android:gravity="center|start"
@@ -262,6 +261,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/screen_place_of_birth_display_text_select_country"
+                android:textColor="@color/colorDarkGrey"
                 app:text="@{Strings.screen_tax_info_display_text_add_another_country}"
                 tools:text="@string/screen_tax_info_display_text_add_another_country" />
         </LinearLayout>
