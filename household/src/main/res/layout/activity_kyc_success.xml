@@ -23,6 +23,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorLightPinkBackground">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/tickImage"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/ic_tick"
+                    android:background="@drawable/bg_card_color_selection_circle_filled_blue"
+                    />
 
                 <TextView
                     android:id="@+id/tvTitleKYCSuccess"
@@ -35,8 +46,8 @@
                     android:gravity="center"
                     android:lineSpacingExtra="9sp"
                     android:text="@string/screen_success_on_its_way_display_text_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tickImage"
                     android:textColor="@color/kyc_success_text_color"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:text="@{Strings.screen_success_on_its_way_display_text_title}"
                     tools:text="@string/screen_success_on_its_way_display_text_title" />
 
