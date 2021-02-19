@@ -107,7 +107,7 @@ class LocationSelectionViewModel(application: Application) :
         } else {
             state.isUnNamed.set(false)
             state.addressTitle.set(state.placeSubTitle.get() ?: "")
-            state.headingTitle.set(state.placeSubTitle.get() ?: "")
+            state.headingTitle.set(state.placeSubTitle.get() ?: "add")
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),
