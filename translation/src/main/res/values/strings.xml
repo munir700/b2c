@@ -92,7 +92,7 @@
     <string name="screen_verify_phone_number_button_send">Next</string>
 
     <!-- Create passcode screen -->
-    <string name="screen_create_passcode_display_heading">Create a new 4 to 6 digit passcode to access your account</string>
+    <string name="screen_create_passcode_display_heading">Create a 4- to 6- digit passcode to access your account</string>
     <string name="screen_create_passcode_display_text_title">Create a new 4- to 6-digit passcode</string>
     <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
@@ -531,10 +531,10 @@
     <!--    Change email screen-->
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
-    <string name="screen_change_email_placeholder_confirm_email_address">Enter in one more time</string>
+    <string name="screen_change_email_placeholder_confirm_email_address">enter in one more time</string>
     <string name="screen_change_email_display_text_description">A verification email will now be sent to this address​</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
-    <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
+    <string name="screen_change_email_display_text_confirm_email_title">Enter in one more time</string>
     <string name="screen_change_email_display_text_email_match_error">Email doesn\'t match what you first entered</string>
 
     <!--    Email Verification Screen-->
