@@ -286,9 +286,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         )
                     }
                     R.id.ivMenu -> {
+
                         parentView?.toggleDrawer()
                     }
                     R.id.rlFilter -> {
+
                         if (viewModel.state.isTransEmpty.get() == false) {
                             openTransactionFilters()
                         } else {
@@ -385,10 +387,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         viewModel.state.isTransEmpty.set(true)
                     }
                     it.size < 5 -> {
-                        viewModel.state.isTransEmpty.set(false)
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                             viewModel.state.isUserAccountActivated.set(true)
                             showTransactions()
+                            viewModel.state.isTransEmpty.set(true)
+                        } else {
+                            viewModel.state.isTransEmpty.set(true)
                         }
                         getRecycleViewAdaptor()?.setList(it)
                     }
