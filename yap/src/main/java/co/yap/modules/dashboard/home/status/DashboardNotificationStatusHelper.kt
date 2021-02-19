@@ -195,6 +195,14 @@ class DashboardNotificationStatusHelper(
                                 || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status) -> {
                             StageProgress.COMPLETED
                         }
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
+                            StageProgress.INACTIVE
+                        }
+
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> {
+                            StageProgress.IN_PROGRESS
+                        }
+
                         else -> StageProgress.INACTIVE
                     })
                 }
