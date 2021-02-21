@@ -192,7 +192,9 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.SEND_MONEY,
                 FeatureSet.YAP_TO_YAP,
                 FeatureSet.TOP_UP,
-                FeatureSet.DEBIT_CARD_DETAIL
+                FeatureSet.DEBIT_CARD_DETAIL,
+                FeatureSet.ANALYTICS
+
             )
         }
         UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED -> {

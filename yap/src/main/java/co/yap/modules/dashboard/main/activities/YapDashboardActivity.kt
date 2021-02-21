@@ -195,6 +195,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 FloatingActionMenu.MenuStateChangeListener {
                 override fun onMenuOpened(menu: FloatingActionMenu) {
                     trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
+                    SessionManager.getCountriesFromServer { _, _ -> }
                     overLayButtonVisibility(View.GONE)
                 }
 
