@@ -60,7 +60,7 @@
             android:layout_marginTop="@dimen/small"
             android:layout_marginBottom="@dimen/margin_medium"
             android:text="@{viewModel.state.message}"
-            android:visibility="@{viewModel.state.valid &amp;&amp; viewModel.state.responseReceived ? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.responseReceived ? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtCardsCount"

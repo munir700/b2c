@@ -388,11 +388,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
                     it.size < 5 -> {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                            viewModel.state.isTransEmpty.set(false)
                             viewModel.state.isUserAccountActivated.set(true)
                             showTransactions()
-                            viewModel.state.isTransEmpty.set(true)
-                        } else {
-                            viewModel.state.isTransEmpty.set(true)
                         }
                         getRecycleViewAdaptor()?.setList(it)
                     }

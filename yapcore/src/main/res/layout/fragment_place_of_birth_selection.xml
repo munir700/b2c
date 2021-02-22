@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="@dimen/_22sdp"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,36 +115,34 @@
                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <TextView
-                android:id="@+id/textView"
-                style="@style/Small"
-                android:layout_width="wrap_content"
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/tvCityHeading"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/screen_place_of_birth_display_text_city_of_birth"
+                android:paddingTop="@dimen/margin_normal"
+                app:hintTextAppearance="@style/Small"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:text="@string/screen_place_of_birth_display_text_city_of_birth"
-                app:layout_constraintStart_toStartOf="@+id/containerAutoText"
-                app:layout_constraintTop_toBottomOf="@+id/containerAutoText"
-                app:text="@{Strings.screen_place_of_birth_display_text_city_of_birth}"
-                app:textColor="@{viewModel.state.cityOfBirth.empty}"
-                tools:text="@string/screen_place_of_birth_display_text_city_of_birth" />
-
-            <EditText
-                android:id="@+id/etCityOfBirth"
-                style="@style/Regular"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
-                android:backgroundTint="@color/greyLight"
-                android:imeOptions="actionDone"
-                android:maxLength="50"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="@={viewModel.state.cityOfBirth}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
-
+                app:layout_constraintStart_toStartOf="@+id/containerAutoText"
+                app:layout_constraintTop_toBottomOf="@+id/containerAutoText">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCityOfBirth"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/greyLight"
+                    android:imeOptions="actionDone"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.cityOfBirth}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
             <co.yap.widgets.CoreButton
                 android:id="@+id/nextButton"
                 style="@style/FragmentsBtnStyle"
@@ -161,7 +159,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etCityOfBirth"
+                app:layout_constraintTop_toBottomOf="@+id/tvCityHeading"
                 app:layout_constraintVertical_bias="1.0"
                 app:text="@{Strings.common_button_next}"
                 tools:text="@string/common_button_next" />
