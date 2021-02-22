@@ -420,6 +420,8 @@ object Strings {
         "screen_set_card_pin_display_text_title"
     const val screen_set_card_pin_button_create_pin: String =
         "screen_set_card_pin_button_create_pin"
+    const val screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions: String =
+        "screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions"
 
     //Confirm card PIN screen
     const val screen_confirm_card_pin_display_text_title: String =
@@ -479,6 +481,8 @@ object Strings {
         "screen_create_new_passcode_button_text"
     const val screen_create_passcode_display_heading: String =
         "screen_create_passcode_display_heading"
+ const val screen_create_passcode_onboarding_button_create_passcode: String =
+        "screen_create_passcode_onboarding_button_create_passcode"
 
     //Yap Store screen
     const val screen_yap_store_display_text_title: String = "screen_yap_store_display_text_title"

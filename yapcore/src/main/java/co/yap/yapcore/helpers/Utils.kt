@@ -831,7 +831,7 @@ object Utils {
             countries.addAll(it.map {
                 Country(
                     id = it.id,
-                    isoCountryCode3Digit = it.isoCountryCode2Digit,
+                    isoCountryCode3Digit = it.isoCountryCode3Digit,
                     isoCountryCode2Digit = it.isoCountryCode2Digit,
                     supportedCurrencies = it.currencyList?.filter { curr -> curr.active == true }
                         ?.map { cur ->

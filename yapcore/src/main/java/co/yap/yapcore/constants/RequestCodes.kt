@@ -25,4 +25,6 @@ object RequestCodes {
     const val REQUEST_CARD_ADDED: Int = 10021
     const val REQUEST_ADD_RECEIPT = 10022
     const val REQUEST_DELETE_RECEIPT = 10023
+    const val REQUEST_CODE_CREATE_PASSCODE: Int = 10024
+
 }
