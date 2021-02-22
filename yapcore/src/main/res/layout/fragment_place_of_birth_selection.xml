@@ -84,50 +84,53 @@
                     style="@style/Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:layout_marginBottom="@dimen/margin_small"
+                    android:gravity="center_vertical"
                     android:text="@string/screen_place_of_birth_display_text_select_country"
-                    app:textColor="@{viewModel.state.selectedCountry == null}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:text="@{Strings.screen_place_of_birth_display_text_select_country}"
+                    app:textColor="@{viewModel.state.selectedCountry == null}"
                     tools:text="@string/screen_place_of_birth_display_text_select_country" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/bcountries"
                     style="@style/ASmall"
-                    android:drawableEnd="@{viewModel.state.selectedCountry == null ? @drawable/iv_drown_down: @drawable/iv_drown_down}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_edit_text_disable_grey_under_line"
-                    android:hint="@string/screen_add_beneficiary_display_text_select_country"
+                    android:drawableEnd="@{viewModel.state.selectedCountry == null ? @drawable/iv_drown_down: @drawable/iv_drown_down}"
                     android:drawablePadding="@dimen/margin_small"
                     android:gravity="center_vertical"
+                    android:hint="@string/screen_add_beneficiary_display_text_select_country"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:text="@{viewModel.state.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.state.selectedCountry.name}"
                     android:textColor="@{viewModel.state.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
+                    app:flagOnDrawableStart="@{viewModel.state.selectedCountry.isoCountryCode2Digit}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView"
-                    app:flagOnDrawableStart="@{viewModel.state.selectedCountry.isoCountryCode2Digit}"
-                    app:showDropDown="@{true}"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
-                    />
+                    app:showDropDown="@{true}" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/tvCityHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
                 android:hint="@string/screen_place_of_birth_display_text_city_of_birth"
                 android:paddingTop="@dimen/margin_normal"
+                android:textColorHint="@color/colorPrimaryDark"
                 app:hintTextAppearance="@style/Small"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_normal"
+                app:hintTextColorSelected="@color/colorPrimaryDarkFadedLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/containerAutoText"
                 app:layout_constraintTop_toBottomOf="@+id/containerAutoText">
+
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etCityOfBirth"
                     style="@style/Regular"
@@ -143,18 +146,19 @@
                     app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
             <co.yap.widgets.CoreButton
                 android:id="@+id/nextButton"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:btn_size="small"
                 android:layout_gravity="bottom"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:background="@color/white"
                 android:gravity="bottom"
                 android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

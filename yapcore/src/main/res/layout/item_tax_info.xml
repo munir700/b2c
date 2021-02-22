@@ -38,6 +38,7 @@
             android:text="@{viewModel.taxModel.taxRowTitle}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:textColor="@{viewModel.taxModel.selectedCountry == null || viewModel.taxModel.selectedCountry.name.empty? true : false}"
             app:text="@{Strings.screen_tax_info_display_text_select_country}"
             tools:text="@string/screen_tax_info_display_text_select_country" />
 
@@ -62,6 +63,7 @@
             android:background="@drawable/bg_edit_text_disable_grey_under_line"
             android:drawableEnd="@{viewModel.taxModel.selectedCountry == null ? @drawable/iv_drown_down: null}"
             android:ellipsize="end"
+            android:drawablePadding="@dimen/_6sdp"
             android:text="@{viewModel.taxModel.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.taxModel.selectedCountry.name}"
             android:gravity="center|start"
             android:onClick="@{v->viewModel.onViewClicked(v)}"
