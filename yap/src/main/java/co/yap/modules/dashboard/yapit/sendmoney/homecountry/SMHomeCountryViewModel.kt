@@ -43,8 +43,14 @@ class SMHomeCountryViewModel(application: Application) :
         super.onCreate()
         state.toolbarTitle = getString(R.string.screen_send_money_home_title)
         state.rightButtonText.set(getString(R.string.screen_send_money_home_display_text_compare))
-        homeCountry = SessionManager.getCountries()
-            .find { it.isoCountryCode3Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
+
+        homeCountry = if (SessionManager.user?.currentCustomer?.homeCountry?.count() ?: 0 > 2)
+            SessionManager.getCountries()
+                .find { it.isoCountryCode3Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
+        else
+            SessionManager.getCountries()
+                .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
+
         homeCountry?.let { populateData(it) }
         benefitsList.add(getString(R.string.screen_send_money_home_display_text_send_money_home))
         benefitsList.add(getString(R.string.screen_send_money_home_display_text_get_best_rates))
@@ -119,7 +125,7 @@ class SMHomeCountryViewModel(application: Application) :
             coroutineScope {
                 val deferredUpdateCountryResponse = async {
                     repository.updateHomeCountry(
-                        homeCountry = homeCountry?.isoCountryCode3Digit ?: ""
+                        homeCountry = homeCountry?.isoCountryCode2Digit ?: ""
                     )
                 }
                 val response = deferredUpdateCountryResponse.await()
