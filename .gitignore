@@ -44,3 +44,4 @@ app/~/tmp/full-r8-config.txt
 /multicurrency
 /qrcodereaderview/build/*
 /.idea/gradle.xml
+/fastlane/*
