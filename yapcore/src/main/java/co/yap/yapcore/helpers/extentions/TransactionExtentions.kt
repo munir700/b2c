@@ -311,7 +311,11 @@ fun Transaction?.isTransactionRejected(): Boolean {
 }
 
 fun Transaction?.isTransactionInProgress(): Boolean {
-    return (TransactionStatus.PENDING.name == this?.status || TransactionStatus.IN_PROGRESS.name == this?.status && this.getProductType() != TransactionProductType.IS_TRANSACTION_FEE)
+    return (TransactionStatus.IN_PROGRESS.name == this?.status
+            && (this.productCode == TransactionProductCode.SWIFT.pCode
+            || this.productCode == TransactionProductCode.UAEFTS.pCode)
+            && (this.txnState == TransactionState.FSS_START.name || this.txnState == TransactionState.FSS_NOTIFICATION_PENDING.name || this.txnState == TransactionState.RAK_CUT_OFF_TIME_HOLD.name || this.txnState == TransactionState.FSS_TIMEOUT.name || this.txnState == TransactionState.FSS_REVERSAL_PENDING.name)
+            )
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {
