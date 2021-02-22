@@ -15,12 +15,12 @@
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: assembleYapinternalRelease" time="179.349457">
+      <testcase classname="fastlane.lanes" name="2: assembleYapinternalRelease" time="686.301513">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: appcenter_upload" time="313.796939">
+      <testcase classname="fastlane.lanes" name="3: appcenter_upload" time="189.371721">
         
       </testcase>
     
