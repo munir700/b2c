@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.content.Context
 import android.text.format.DateFormat
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
@@ -400,4 +401,25 @@ fun List<Transaction>?.getTotalAmount(): String {
         }
     }
     return totalAmount
+}
+
+fun Transaction.getTransactionStatusMessage(context: Context): String {
+    return when {
+        this.isTransactionRejected() -> {
+            context.getString(R.string.screen_transaction_detail_text_cancelled_reason)
+        }
+        this.showCutOffMsg() -> {
+            context.getString(R.string.screen_transaction_detail_text_cut_off_msg)
+        }
+        else -> ""
+    }
+}
+
+ fun Transaction.getTransferType(): String {
+    return when {
+        this.isTransactionRejected() -> "Transfer Rejected"
+        this.isTransactionInProgress() -> "Transfer Pending"
+        TransactionProductCode.Y2Y_TRANSFER.pCode == this.productCode -> "YTY transfer"
+        else -> this.getTransferType()
+    }
 }

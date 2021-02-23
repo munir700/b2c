@@ -23,22 +23,21 @@ interface ITransactionDetails {
         var transaction: ObservableField<Transaction>
         var adapter: TransactionReceiptAdapter
         var responseReciept: MutableLiveData<TransactionReceipt>
+        var transactionAdapter : TransactionDetailItemAdapter
         fun deleteReceipt(position: Int)
         fun getAllReceipts()
         fun getReceiptTitle(list: List<ReceiptModel>): String
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
         fun setAdapterList(receiptLis: List<String>)
-        fun getTransferType(transaction: Transaction): String
         fun getTransferCategoryTitle(transaction: Transaction?): String
         fun getTransferCategoryIcon(transaction: Transaction?): Int
-        fun getSpentAmount(transaction: Transaction?): Double
-        fun getCalculatedTotalAmount(transaction: Transaction?): Double
         fun getForeignAmount(transaction: Transaction?): Double
         fun getLocation(transaction: Transaction?): String
         fun getStatusIcon(transaction: Transaction?): Int
         fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel>
         fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String
+        var itemsComposer: TransactionDetailComposer?
     }
 
     interface State : IBase.State {
@@ -48,11 +47,12 @@ interface ITransactionDetails {
         var categoryTitle: ObservableField<String>
         var categoryIcon: ObservableField<Int>
         var transactionTitle: ObservableField<String>
-        var exchangeRate: ObservableField<Double>?
         var transactionNoteDate: String?
         val editNotePrefixText: String get() = "Note added "
         var noteVisibility: ObservableBoolean
         var receiptVisibility: ObservableBoolean
         var receiptTitle: ObservableField<String>
+        var transferType: ObservableField<String>
+        var isTransactionInProcessOrRejected : ObservableBoolean
     }
 }

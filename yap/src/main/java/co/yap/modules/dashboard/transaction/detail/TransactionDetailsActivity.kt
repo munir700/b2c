@@ -49,18 +49,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
-        setSpentLabel()
-        setAmount()
         setMapImageView()
         setTransactionImage()
-        setCardMaskNo()
-        setSubTitle()
         setTotalAmount()
-        setDestinationAmount()
-        setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
-        setStatusIcon()
     }
 
     private fun addObservers() {
@@ -70,76 +63,18 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 viewModel.transaction.set(
                     it
                 )
+                viewModel.itemsComposer = TransactionDetailComposer(viewModel.transaction.get())
+                viewModel.transactionAdapter.setList(viewModel.itemsComposer!!.compose())
             }
         }
-    }
-
-    private fun setStatusIcon() {
-        getBindings().ivIncoming.setImageResource(viewModel.getStatusIcon(viewModel.transaction.get()))
-    }
-
-    private fun setDestinationAmount() {
-        getBindings().tvDestinationAmount.text =
-            viewModel.getForeignAmount(
-                transaction = viewModel.transaction.get()
-            ).toString()
-                .toFormattedCurrency(
-                    showCurrency = true,
-                    currency = viewModel.transaction.get().getCurrency(),
-                    withComma = true
-                )
-        setReceiptListener()
-        setObserver()
-    }
-
-    private fun setObserver() {
         viewModel.responseReciept.observe(this, Observer {
             viewModel.setAdapterList(it.trxnReceiptList ?: listOf())
         })
-    }
-
-    private fun setAmount() {
-        getBindings().tvCardSpendAmount.text =
-            viewModel.getSpentAmount(viewModel.transaction.get()).toString()
-                .toFormattedCurrency(showCurrency = viewModel.transaction.get()?.status != TransactionStatus.FAILED.name)
+        viewModel.adapter.setItemListener(onReceiptClickListener)
 
     }
-
-    private fun setTxnFailedReason() {
-        val msg = viewModel.transaction.get()?.let {
-            when {
-                it.isTransactionInProgress() || it.isTransactionRejected() -> {
-                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
-                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                    getBindings().tvTransactionSubheading.alpha = 0.5f
-                    getBindings().ivCategoryIcon.alpha = 0.5f
-                    return@let if (it.isTransactionRejected()) getCancelReason() else getCutOffMsg(
-                        it
-                    )
-                }
-                else -> ""
-            }
-        } ?: ""
-        if (msg.isBlank()) {
-            getBindings().cancelReasonLy.visibility = View.GONE
-        } else {
-            getBindings().tvCanceReason.text = msg
-        }
-    }
-
-    private fun getCutOffMsg(transaction: Transaction): String {
-        return if (transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
-    }
-
-    private fun getCancelReason(): String {
-        return getString(R.string.screen_transaction_detail_text_cancelled_reason)
-    }
-
     private fun setTotalAmount() {
         val totalAmount = viewModel.getCalculatedTotalAmount(viewModel.transaction.get()).toString()
-
-        getBindings().tvTotalAmountValueCalculated.text =
-            totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
                 totalAmount.toFormattedCurrency(
@@ -152,26 +87,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     currency = SessionManager.getDefaultCurrency()
                 )
             }"
-
-        viewModel.transaction.get()?.let {
-            when {
-                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                    getBindings().tvTotalAmountValueCalculated.visibility = View.VISIBLE
-                    getBindings().tvTotalAmount.visibility = View.VISIBLE
-                }
-                else -> {
-                    getBindings().tvTotalAmountValueCalculated.visibility = View.GONE
-                    getBindings().tvTotalAmount.visibility = View.GONE
-                }
-            }
-        }
-    }
-
-    private fun setSubTitle() {
-        viewModel.transaction.get()?.let {
-            getBindings().tvTxnSubTitle.text =
-                viewModel.getTransferType(it)
-        }
     }
 
     private fun setLocationText() {
@@ -180,21 +95,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             if (location.isEmpty()) View.GONE else View.VISIBLE
         getBindings().tvLocation.text = location
 
-    }
-
-    private fun setCardMaskNo() {
-        val maskCardNo = viewModel.transaction.get()?.maskedCardNo?.split(" ")?.lastOrNull()
-        maskCardNo?.let {
-            getBindings().tvCardMask.text = "*${maskCardNo}"
-        }
-    }
-
-    private fun setSpentLabel() {
-        getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
-    }
-
-    private fun setReceiptListener() {
-        viewModel.adapter.setItemListener(onReceiptClickListener)
     }
 
     private val onReceiptClickListener = object : OnItemClickListener {

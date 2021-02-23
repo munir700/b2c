@@ -14,10 +14,12 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionProductType
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 
@@ -33,7 +35,10 @@ class TransactionDetailsViewModel(application: Application) :
             mutableListOf()
         )
     override var responseReciept: MutableLiveData<TransactionReceipt> = MutableLiveData()
+    override var transactionAdapter: TransactionDetailItemAdapter =
+        TransactionDetailItemAdapter(mutableListOf())
     val repository: TransactionsRepository = TransactionsRepository
+    override var itemsComposer: TransactionDetailComposer? = null
 
     var spentLabelText: ObservableField<String> = ObservableField()
 
@@ -113,13 +118,11 @@ class TransactionDetailsViewModel(application: Application) :
             state.receiptVisibility.set(isShowReceiptSection(transaction))
             state.categoryTitle.set(getTransferCategoryTitle(transaction))
             state.categoryIcon.set(getTransferCategoryIcon(transaction))
-            if (transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && transaction.currency != SessionManager.getDefaultCurrency()) {
-                state.exchangeRate?.set(getExchangeRate(transaction))
-            } else {
-                state.exchangeRate?.set(null)
-            }
         }
         spentLabelText.set(this.transaction.get().getSpentLabelText())
+        state.transferType.set(transaction.get().getTransferType())
+        state.isTransactionInProcessOrRejected.set(transaction.get()
+            .isTransactionRejected() || transaction.get().isTransactionInProgress())
     }
 
     override fun isShowReceiptSection(transaction: Transaction): Boolean {
@@ -152,15 +155,6 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    override fun getTransferType(transaction: Transaction): String {
-        return when {
-            transaction.isTransactionRejected() -> "Transfer Rejected"
-            transaction.isTransactionInProgress() -> "Transfer Pending"
-            TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode -> "YTY transfer"
-            else -> transaction.getTransferType()
-        }
-    }
-
     override fun getLocation(transaction: Transaction?): String {
         return when (transaction?.productCode) {
             TransactionProductCode.FUND_LOAD.pCode -> transaction.otherBankName ?: ""
@@ -183,7 +177,8 @@ class TransactionDetailsViewModel(application: Application) :
                     }
                     TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                     TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName ?: ""
+                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName
+                        ?: ""
                     TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
                     TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                         if (transaction.category.equals(
@@ -218,38 +213,6 @@ class TransactionDetailsViewModel(application: Application) :
                 else -> 0
             })
         } ?: return 0
-    }
-
-
-    override fun getSpentAmount(transaction: Transaction?): Double {
-        transaction?.let {
-            return when {
-                it.status == TransactionStatus.FAILED.name -> 0.00
-                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                    0.00
-                }
-                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    (it.settlementAmount ?: 0.00)
-                }
-                it.productCode == TransactionProductCode.POS_PURCHASE.pCode -> {
-                    it.cardHolderBillingAmount ?: 0.00
-                }
-                else -> it.amount ?: 0.00
-            }
-        } ?: return 0.00
-    }
-
-    override fun getCalculatedTotalAmount(transaction: Transaction?): Double {
-        transaction?.let {
-            return when (it.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
-                    (it.settlementAmount ?: 0.00).plus(totalFee)
-                }
-                else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
-                    ?: 0.00
-            }
-        } ?: return 0.00
     }
 
     override fun getForeignAmount(transaction: Transaction?): Double {
@@ -302,33 +265,6 @@ class TransactionDetailsViewModel(application: Application) :
     override fun setAdapterList(receiptLis: List<String>) {
         adapter.setList(getReceiptItems(receiptLis))
         state.receiptTitle.set(getReceiptTitle(adapter.getDataList()))
-    }
-
-    private fun getExchangeRate(transaction: Transaction): Double? {
-        var fxRate: Double? =
-            transaction.amount?.let { transaction.cardHolderBillingAmount?.div(it) }
-
-        if (transaction.amount?.let {
-                transaction.cardHolderBillingAmount?.compareTo(
-                    it
-                )
-            } == -1) { // cardHolderBillingAmount is smaller than amount
-            // round to the 6 decimal if cardHolderBillingAmount is smaller than amount
-            fxRate = getDecimalFormatUpTo(
-                6,
-                amount = fxRate.toString(),
-                withComma = true
-            ).toDouble()
-        } else {
-            //   and to the 3rd decimal
-            fxRate = getDecimalFormatUpTo(
-                3,
-                amount = fxRate.toString(),
-                withComma = true
-            ).toDouble()
-        }
-
-        return fxRate
     }
 
 }
