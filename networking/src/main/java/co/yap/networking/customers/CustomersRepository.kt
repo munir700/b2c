@@ -78,7 +78,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_HOME_COUNTRY_FX_RATE = "/transactions/api/fxRate"
 
 
-
     val URL_RMT = "transactions/api/rmt"
     val URL_SWIFT = "transactions/api/swift "
     val URL_CASH_PICKUP = "/transactions/api/cashpayout "
@@ -121,6 +120,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
     const val URL_SEND_INVITE_FRIEND = "customers/api/save-invite"
+    const val URL_ADDITIONAL_SUBMIT =
+        "customers/api/update-notification-status"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -425,4 +426,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = {
             api.sendInviteFriend(sendInviteFriendRequest)
         })
+    override suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.submitAdditionalInfo(uploadAdditionalInfo)
+        })
+
+
 }
