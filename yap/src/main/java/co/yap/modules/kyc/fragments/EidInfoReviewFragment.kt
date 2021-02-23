@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -22,9 +23,8 @@ import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.widgets.Status
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.firebase.FirebaseEvents
-import co.yap.yapcore.firebase.FirebaseTagManagerModel
-import co.yap.yapcore.firebase.firebaseTagManagerEvent
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
@@ -62,6 +62,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     ivEditMiddleName.isEnabled = true
                     ivEditLastName.isEnabled = true
                     manageFocus(tvFirstName, ivEditFirstName)
+                    trackEventWithScreenName(
+                        FirebaseEvent.EDIT_FIELD,
+                        bundleOf("field_name" to "first_name")
+                    )
                 }
 
                 R.id.ivEditMiddleName, R.id.tvMiddleName -> {
@@ -69,6 +73,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     ivEditFirstName.isEnabled = true
                     ivEditLastName.isEnabled = true
                     manageFocus(tvMiddleName, ivEditMiddleName)
+                    trackEventWithScreenName(
+                        FirebaseEvent.EDIT_FIELD,
+                        bundleOf("field_name" to "middle_name")
+                    )
                 }
 
                 R.id.ivEditLastName, R.id.tvLastName -> {
@@ -76,6 +84,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     ivEditMiddleName.isEnabled = true
                     ivEditFirstName.isEnabled = true
                     manageFocus(tvLastName, ivEditLastName)
+                    trackEventWithScreenName(
+                        FirebaseEvent.EDIT_FIELD,
+                        bundleOf("field_name" to "last_name")
+                    )
                 }
 
                 viewModel.eventErrorInvalidEid -> showInvalidEidScreen()
@@ -84,6 +96,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.eventErrorFromUsa -> showUSACitizenScreen()
                 viewModel.eventRescan -> openCardScanner()
                 R.id.tvNoThanks -> {
+                    trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
                     hideKeyboard(tvNoThanks)
                     openCardScanner()
                 }
@@ -111,7 +124,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
                 viewModel.eventNext -> {
-                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.CONFIRM_ID.event))
+                    trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
+//                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.CONFIRM_ID.event))
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {

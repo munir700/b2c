@@ -1,26 +1,32 @@
 package co.yap.sendmoney.y2y.home.yapcontacts
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import co.yap.networking.customers.requestdtos.Contact
-import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
+import android.os.Bundle
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableInt
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.PagingState
 
 interface IYapContact {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        fun navigateToTransferScreen(args: Bundle, actionId: Int)
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var contactsAdapter: YapContactsAdaptor
-        fun getState(): LiveData<PagingState>
         fun handlePressOnView(id: Int)
-        fun retry()
+        fun getBundle(data: IBeneficiary, pos: Int): Bundle
+        fun getActionId(fragment: Fragment?): Int
     }
 
     interface State : IBase.State {
-        var listCountDescription: String
+        var isNoYapContacts: ObservableBoolean
+        var isNoSearchResult: ObservableBoolean
+        var isShowContactsCounter: ObservableBoolean
+        var contactsCounts: ObservableInt
     }
 }

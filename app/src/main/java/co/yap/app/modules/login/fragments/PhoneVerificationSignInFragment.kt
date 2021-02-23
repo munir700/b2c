@@ -21,6 +21,8 @@ import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
@@ -28,6 +30,8 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startSmsConsent
+import co.yap.yapcore.leanplum.SignInEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import kotlinx.coroutines.Dispatchers
@@ -93,6 +97,7 @@ class PhoneVerificationSignInFragment :
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
+            trackEventWithScreenName(FirebaseEvent.SIGN_IN_PIN)
             TourGuideManager.getTourGuides()
             SessionManager.getDebitCard { card ->
                 SessionManager.updateCardBalance { }
@@ -106,6 +111,10 @@ class PhoneVerificationSignInFragment :
                 } else {
                     if (BiometricUtil.hasBioMetricFeature(requireActivity())
                     ) {
+                        viewModel.parentViewModel?.shardPrefs?.save(
+                            co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                            true
+                        )
                         if (SharedPreferenceManager(requireContext()).getValueBoolien(
                                 co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                                 false
@@ -113,8 +122,10 @@ class PhoneVerificationSignInFragment :
                         ) {
                             if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                            else
+                            else {
+                                SessionManager.sendFcmTokenToServer(requireContext()) {}
                                 findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                            }
 
                             activity?.finish()
                         } else {
@@ -126,11 +137,13 @@ class PhoneVerificationSignInFragment :
                         }
 
                     } else {
-                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                        else
+                        } else {
+                            SessionManager.sendFcmTokenToServer(requireContext()) {}
+                            trackEvent(SignInEvents.SIGN_IN.type)
                             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-
+                        }
                         activity?.finish()
                     }
                 }

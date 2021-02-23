@@ -54,7 +54,7 @@ fun Activity.initializeChatOverLayButton(unreadCount: Int, fab: CounterFloatingA
 
 fun Activity.overLayButtonVisibility(visibility: Int) {
     if (Leanplum.getInbox().unreadCount() > 0)
-        (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat).visibility =
+        (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat)?.visibility =
             visibility
 }
 

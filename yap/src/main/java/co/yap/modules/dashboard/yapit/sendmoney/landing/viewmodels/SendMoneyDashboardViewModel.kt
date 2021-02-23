@@ -137,7 +137,9 @@ class SendMoneyDashboardViewModel(application: Application) :
                     false,
                     CurrencyUtils.getFlagDrawable(
                         context,
-                        SessionManager.user?.currentCustomer?.homeCountry ?: ""
+                        if (SessionManager.user?.currentCustomer?.homeCountry?.count() ?: 0 > 2) SessionManager.getCountries()
+                            .find { it.isoCountryCode3Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }?.isoCountryCode2Digit
+                            ?: "AE" else SessionManager.user?.currentCustomer?.homeCountry ?: ""
                     ), SendMoneyType.sendMoneyToHomeCountry
                 )
             )

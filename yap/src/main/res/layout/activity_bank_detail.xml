@@ -289,44 +289,61 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--        <co.yap.widgets.CoreCircularImageView-->
+<!--            android:id="@+id/imgProfile"-->
+<!--            android:layout_width="@dimen/_64sdp"-->
+<!--            android:layout_height="@dimen/_64sdp"-->
+<!--            android:layout_marginTop="@dimen/margin_extra_large"-->
+<!--            android:background="@drawable/bg_round_with_space_white"-->
+<!--            android:contentDescription="@string/empty_string"-->
+<!--            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"-->
+<!--            android:visibility="@{viewModel.state.image.empty ? View.INVISIBLE:View.VISIBLE}"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+<!--            app:src="@{viewModel.state.image}"-->
+<!--            tools:visibility="visible" />-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/lyNameInitials"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/bg_round_with_space_white"-->
+<!--            android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/imgProfile"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/imgProfile">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tvNameInitials"-->
+<!--                style="@style/ALarge"-->
+<!--                android:layout_width="@dimen/_64sdp"-->
+<!--                android:layout_height="@dimen/_64sdp"-->
+<!--                android:background="@drawable/bg_round_purple"-->
+<!--                android:backgroundTint="?attr/colorPrimaryAttr"-->
+<!--                android:gravity="center"-->
+<!--                android:text="@{viewModel.state.initials}"-->
+<!--                android:textColor="?attr/colorPrimaryAttr"-->
+<!--                tools:text="NM" />-->
+<!--        </LinearLayout>-->
+
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/_10sdp"
             android:layout_marginTop="@dimen/margin_extra_large"
-            android:background="@drawable/bg_round_with_space_white"
+            android:background="@drawable/bg_round_white"
             android:contentDescription="@string/empty_string"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:visibility="@{viewModel.state.image.empty ? View.INVISIBLE:View.VISIBLE}"
+            tools:src="@drawable/lp_messaging_ui_icon_image_broken"
+            app:imageUrl="@{viewModel.state.image == null ? `` : viewModel.state.image}"
+            app:fullName="@{SessionManager.INSTANCE.user.currentCustomer.getFullName()}"
+            app:colorCode="@{SessionManager.INSTANCE.user.currentCustomer.parsedColor}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:src="@{viewModel.state.image}"
-            tools:visibility="visible" />
-
-        <LinearLayout
-            android:id="@+id/lyNameInitials"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_round_with_space_white"
-            android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgProfile">
-
-            <TextView
-                android:id="@+id/tvNameInitials"
-                style="@style/ALarge"
-                android:layout_width="@dimen/_64sdp"
-                android:layout_height="@dimen/_64sdp"
-                android:background="@drawable/bg_round_purple"
-                android:backgroundTint="?attr/colorPrimaryAttr"
-                android:gravity="center"
-                android:text="@{viewModel.state.initials}"
-                android:textColor="?attr/colorPrimaryAttr"
-                tools:text="NM" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"

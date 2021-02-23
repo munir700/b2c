@@ -16,6 +16,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
@@ -30,8 +31,11 @@ class DashboardNotificationStatusHelper(
     val viewModel: IYapHome.ViewModel
 ) {
     var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
-    private fun getStringHelper(resourceKey: String): String =
+    private fun getStringHelper(resourceKey: String): String = try {
         Translator.getString(getContext(), resourceKey)
+    } catch (ignored: Exception) {
+        ""
+    }
 
     init {
         val onboardingStagesList = when {
@@ -47,10 +51,14 @@ class DashboardNotificationStatusHelper(
                 list
             }
         }
+       initAdapter(onboardingStagesList)
+        setUpAdapter()
+    }
+
+    fun initAdapter(onboardingStagesList: MutableList<StatusDataModel>) {
         dashboardNotificationStatusAdapter =
             DashboardNotificationStatusAdapter(getContext(), onboardingStagesList)
         dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
-        setUpAdapter()
     }
 
     private fun setUpAdapter() {
@@ -78,7 +86,7 @@ class DashboardNotificationStatusHelper(
         binding.lyInclude.rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
     }
 
-    fun getStatusList(): MutableList<StatusDataModel> {
+      fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
         list.add(
             StatusDataModel(
@@ -166,8 +174,8 @@ class DashboardNotificationStatusHelper(
             when (stage) {
                 PaymentCardOnboardingStage.SHIPPING -> {
                     return (when {
-                        SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status -> {
-                            StageProgress.INACTIVE
+                        SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status || SessionManager.user?.partnerBankStatus == PartnerBankStatus.DOCUMENT_UPLOADED.status -> {
+                            if (SessionManager.user?.notificationStatuses == NotificationStatus.FATCA_GENERATED.name) StageProgress.ACTIVE else StageProgress.INACTIVE
                         }
                         card.deliveryStatus == CardDeliveryStatus.ORDERED.name || card.deliveryStatus == CardDeliveryStatus.BOOKED.name || card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
                             StageProgress.ACTIVE
@@ -187,6 +195,14 @@ class DashboardNotificationStatusHelper(
                                 || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status) -> {
                             StageProgress.COMPLETED
                         }
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
+                            StageProgress.INACTIVE
+                        }
+
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> {
+                            StageProgress.IN_PROGRESS
+                        }
+
                         else -> StageProgress.INACTIVE
                     })
                 }
@@ -324,6 +340,8 @@ class DashboardNotificationStatusHelper(
             getStatusList()[2]
         )
     }
+
+
 
     private fun openAdditionalRequirementScreen() {
         getMyFragment().launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)

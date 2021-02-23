@@ -55,6 +55,7 @@
             <enum name="mini_medium" value="4" />
             <enum name="mini_large" value="5" />
             <enum name="mini" value="6" />
+            <enum name="dynamic" value="7" />
         </attr>
     </declare-styleable>
 
@@ -567,6 +568,7 @@
     </declare-styleable>
 
     <declare-styleable name="CoreToolbar"></declare-styleable>
+    <declare-styleable name="CoreSearchView"></declare-styleable>
 
     <declare-styleable name="RoundedImageViewV2">
         <attr name="rounded_radius" format="float" />

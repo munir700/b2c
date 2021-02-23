@@ -14,6 +14,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.City
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
@@ -107,7 +108,7 @@ class LocationSelectionViewModel(application: Application) :
         } else {
             state.isUnNamed.set(false)
             state.addressTitle.set(state.placeSubTitle.get() ?: "")
-            state.headingTitle.set(state.placeTitle.get() ?: "")
+            state.headingTitle.set(state.placeSubTitle.get() ?: getString(Strings.screen_meeting_location_display_text_add_new_address_title))
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),

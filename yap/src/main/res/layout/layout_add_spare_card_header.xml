@@ -31,25 +31,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Regular"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{cardName}"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:lines="2"
-            android:maxLength="26"
-            android:maxLines="2"
-            android:padding="@dimen/margin_medium_large"
-            android:layout_marginHorizontal="@dimen/margin_medium_large"
-            android:textColor="@color/colorLightGreyWithOpacity"
-            app:layout_constraintBottom_toBottomOf="@id/cardView"
-            app:layout_constraintEnd_toEndOf="@+id/cardView"
-            app:layout_constraintStart_toStartOf="@+id/cardView"
-            app:layout_constraintTop_toTopOf="@id/cardView"
-            tools:text="Amazon cardasdasd " />
-
         <TextView
             android:id="@+id/labelCardType"
             android:layout_width="@dimen/_90sdp"

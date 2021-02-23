@@ -26,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -46,6 +47,8 @@ import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
@@ -57,9 +60,11 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -88,10 +93,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
     var view: CounterFloatingActionButton? = null
-
+    private var mNavigator: ActivityNavigator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mNavigator = (applicationContext as NavigatorProvider).provideNavigator()
         SessionManager.getCountriesFromServer { _, _ -> }
         inflateFloatingActonButton()
         setupPager()
@@ -100,6 +106,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         //  setupOldYapButtons()
         setupNewYapButtons()
         logEvent()
+        lifecycleScope.launch {
+            delay(100)
+            mNavigator?.handleDeepLinkFlow(
+                this@YapDashboardActivity,
+                SessionManager.deepLinkFlowId.value
+            )
+        }
     }
 
     private fun logEvent() {
@@ -181,6 +194,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .setStateChangeListener(object :
                 FloatingActionMenu.MenuStateChangeListener {
                 override fun onMenuOpened(menu: FloatingActionMenu) {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
                     overLayButtonVisibility(View.GONE)
                 }
 
@@ -188,6 +202,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
                     when (subActionButtonId) {
                         1 -> {
+                            trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
                             launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                             /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 checkPermission()
@@ -292,6 +307,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.id.btnCopy -> shareAccountInfo()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
                     startActivity(MoreActivity.newIntent(this))
                 }
                 R.id.tvLogOut -> {
@@ -312,6 +328,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun shareAccountInfo() {
+        trackEventWithScreenName(FirebaseEvent.SHARE_ACCOUNT_DETAILS)
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(Intent.EXTRA_TEXT, viewModel.getAccountInfo())
@@ -341,6 +358,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         val myClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 dialog.dismiss()
+                trackEventWithScreenName(FirebaseEvent.CHANGE_MAIL)
                 startActivity(
                     UnVerifiedEmailActivity.newIntent(widget.context)
                 )
@@ -370,6 +388,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         tvTroubleDescription.text = spanStr
 
         dialog.findViewById<CoreButton>(R.id.btnOpenMailApp).setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.OPEN_MAIL_APP)
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_APP_EMAIL)
             startActivity(Intent.createChooser(intent, "Choose Email App"))
@@ -381,6 +400,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
             viewModel.resendVerificationEmail() {
+                trackEventWithScreenName(FirebaseEvent.MAIL_VERIFICATION_RESEND)
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
         }
@@ -393,6 +413,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onDestroy() {
+        mNavigator = null
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
@@ -402,6 +423,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun openDrawer() {
+        trackEventWithScreenName(FirebaseEvent.CLICK_MAIN_MENU)
         drawerLayout.openDrawer(GravityCompat.END)
     }
 
@@ -442,10 +464,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         }
         getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_ANALYTICS_MAIN_MENU)
             launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lRefer.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
             startFragment<InviteFriendFragment>(
                 InviteFriendFragment::class.java.name, false,
                 bundleOf()
@@ -454,6 +478,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             SessionManager.getPrimaryCard()?.let {
+                trackEventWithScreenName(FirebaseEvent.CLICK_STATEMENTS)
                 launchActivity<CardStatementsActivity> {
                     putExtra("card", it)
                     putExtra("isFromDrawer", true)
@@ -471,6 +496,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lyContact.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_HELP_MAIN_MENU)
             startActivity(
                 FragmentPresenterActivity.getIntent(
                     this,
@@ -481,11 +507,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
 
         getViewBinding().includedDrawerLayout.lLiveChat.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_LIVECHAT_MAIN_MENU)
             chatSetup()
             closeDrawer()
         }
 
         getViewBinding().includedDrawerLayout.ivSettings.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
             startActivity(Intent(this, MoreActivity::class.java))
             closeDrawer()
         }
@@ -493,19 +521,23 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.yapHome -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_HOME)
                     getViewBinding().viewPager.setCurrentItem(0, false)
                     SessionManager.getAccountInfo()
                 }
                 R.id.yapStore -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_STORE)
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
 
                 }
                 R.id.yapCards -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_CARDS)
                     getViewBinding().viewPager.setCurrentItem(2, false)
                 }
                 R.id.yapMore -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_MORE_DASHBOARD)
                     getViewBinding().viewPager.setCurrentItem(3, false)
                 }
             }
@@ -578,7 +610,23 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
     }
 
-    private fun getViewBinding(): ActivityYapDashboardBinding {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            RequestCodes.REQUEST_NOTIFICATION_FLOW -> {
+                data?.let {
+                    val result =
+                        data.getBooleanExtra(Constants.result, false)
+                    if (result) {
+                        getViewBinding().viewPager.setCurrentItem(0, false)
+                        getViewBinding().bottomNav.selectedItemId = R.id.yapHome
+                    }
+                }
+            }
+        }
+    }
+
+    fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
     }
 

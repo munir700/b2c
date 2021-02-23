@@ -1,12 +1,14 @@
 package co.yap.sendmoney.y2y.home.yapcontacts
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
+import co.yap.sendmoney.R
+import co.yap.sendmoney.y2y.home.fragments.Y2YSearchContactsFragment
+import co.yap.sendmoney.y2y.home.fragments.YapToYapFragment
 import co.yap.sendmoney.y2y.main.viewmodels.Y2YBaseViewModel
-import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.PagingState
 
 class YapContactViewModel(application: Application) :
     Y2YBaseViewModel<IYapContact.State>(application),
@@ -14,19 +16,33 @@ class YapContactViewModel(application: Application) :
 
     override val state: IYapContact.State = YapContactState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var contactsAdapter: YapContactsAdaptor = YapContactsAdaptor(mutableListOf())
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override fun getState(): LiveData<PagingState> {
-        return pagingState
+    override fun getBundle(data: IBeneficiary, pos: Int): Bundle {
+        val result = Bundle()
+        result.putString("imagePath", data.imgUrl)
+        result.putString("receiverUUID", data.accountUUID)
+        result.putString("beneficiaryName", data.fullName)
+        result.putInt("position", pos)
+        result.putString("beneficiaryCreationDate", data.creationDateOfBeneficiary)
+        return result
     }
 
-    override fun retry() {
-
+    override fun getActionId(fragment: Fragment?): Int {
+        return when (fragment) {
+            is YapToYapFragment -> {
+                R.id.action_yapToYapHome_to_y2YTransferFragment
+            }
+            is Y2YSearchContactsFragment -> {
+                R.id.action_y2YSearchContactsFragment_to_y2YTransferFragment
+            }
+            else -> {
+                -1
+            }
+        }
     }
-
 }

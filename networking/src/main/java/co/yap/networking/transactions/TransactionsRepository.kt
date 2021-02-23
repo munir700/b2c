@@ -13,7 +13,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import kotlinx.coroutines.flow.Flow
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -74,6 +74,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
 
     const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
+    const val URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM =
+        "/transactions/api/lean-plum/transaction-states"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -139,16 +141,20 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 homeTransactionsRequest.amountStartRange,
                 homeTransactionsRequest.amountEndRange,
                 homeTransactionsRequest.txnType,
-                homeTransactionsRequest.title
+                homeTransactionsRequest.title,
+                homeTransactionsRequest.categories,
+                homeTransactionsRequest.statues,
+                homeTransactionsRequest.cardDetailsRequired
             )
         })
 
     override suspend fun searchTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse> {
-       return  executeSafely(call = {
+        return executeSafely(call = {
             api.searchTransactions(
                 homeTransactionsRequest?.number,
                 homeTransactionsRequest?.size,
-                homeTransactionsRequest?.searchField
+                homeTransactionsRequest?.searchField,
+                homeTransactionsRequest?.cardDetailsRequired?:true
             )
         })
     }
@@ -168,7 +174,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 cardTransactionRequest.amountStartRange,
                 cardTransactionRequest.amountEndRange,
                 cardTransactionRequest.txnType,
-                cardTransactionRequest.title
+                cardTransactionRequest.title,
+                cardTransactionRequest.categories,
+                cardTransactionRequest.statues,
+                cardTransactionRequest.cardDetailsRequired
+
             )
         })
 
@@ -183,7 +193,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.check3DEnrollmentSession(check3DEnrollmentSessionRequest) })
 
     override suspend fun secureIdPooling(
-        secureId: String
+        secureId: String?
     ): RetroApiResponse<StringDataResponseDTO> =
         executeSafely(call = { api.secureIdPooling(secureId) })
 
@@ -276,5 +286,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 merchantName
             )
         })
+
+    override suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum> =
+        executeSafely(call = { api.getTransactionDetailForLeanplum() })
+
 }
 

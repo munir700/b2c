@@ -15,6 +15,8 @@ import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.viewmodels.EmailViewModel
 import co.yap.widgets.AnimatingProgressBar
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.AnimationUtils
 
 
@@ -46,9 +48,16 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     private val nextButtonObserver = Observer<Int> {
         when (it) {
-            viewModel.EVENT_NAVIGATE_NEXT -> navigate(R.id.congratulationsFragment)
-            viewModel.EVENT_POST_VERIFICATION_EMAIL -> viewModel.sendVerificationEmail()
-            viewModel.EVENT_POST_DEMOGRAPHIC -> viewModel.postDemographicData()
+            viewModel.EVENT_NAVIGATE_NEXT -> {
+                trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_SUCCESS)
+                navigate(R.id.congratulationsFragment)
+            }
+            viewModel.EVENT_POST_VERIFICATION_EMAIL -> {
+                viewModel.sendVerificationEmail()
+            }
+            viewModel.EVENT_POST_DEMOGRAPHIC -> {
+                viewModel.postDemographicData()
+            }
         }
 
     }

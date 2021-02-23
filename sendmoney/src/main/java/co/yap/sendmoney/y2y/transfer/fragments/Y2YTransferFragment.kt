@@ -13,24 +13,28 @@ import androidx.navigation.fragment.navArgs
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
-import co.yap.sendmoney.R
+import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentY2yFundsTransferBinding
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
 import co.yap.sendmoney.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.sendmoney.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
-import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.leanplum.Y2YEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 
@@ -42,7 +46,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override val viewModel: Y2YFundsTransferViewModel
         get() = ViewModelProviders.of(this).get(Y2YFundsTransferViewModel::class.java)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -185,6 +188,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         }
                         else -> {
                             viewModel.proceedToTransferAmount {
+                                trackEvent(Y2YEvents.YAP_TO_YAP_SENT.type)
                                 moveToFundTransferSuccess()
                             }
                         }
@@ -230,7 +234,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 showCurrency = true,
                 currency = SessionManager.getDefaultCurrency()
             )
-       viewModel.getCoolingPeriod(
+        viewModel.getCoolingPeriod(
             SMCoolingPeriodRequest(
                 beneficiaryId = viewModel.receiverUUID,
                 productCode = TransactionProductCode.Y2Y_TRANSFER.pCode
@@ -272,6 +276,13 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     private fun moveToFundTransferSuccess() {
+        if (viewModel.parentViewModel?.state?.fromQR?.get() == true)
+            trackEventWithScreenName(FirebaseEvent.SEND_QR_PAYMENT)
+        else
+            trackEventWithScreenName(
+                FirebaseEvent.CLICK_CONFIRM_YTY,
+                bundleOf("yty_currency" to viewModel.state.currencyType)
+            )
         // Send Broadcast for updating transactions list in `Home Fragment`
         val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
@@ -282,7 +293,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 SessionManager.getDefaultCurrency(),
                 viewModel.state.amount ?: "", args.position
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     override fun onDestroy() {

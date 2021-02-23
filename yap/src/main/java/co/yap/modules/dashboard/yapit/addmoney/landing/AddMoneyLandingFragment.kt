@@ -20,6 +20,8 @@ import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.SUCCESS_BUTTON_LABEL
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
@@ -55,7 +57,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private fun setupRecycleView() {
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal_large) ?: 16, 2, true
+                dimen(R.dimen.margin_normal_large), 2, true
             )
         )
         viewModel.landingAdapter.allowFullItemClickListener = true
@@ -73,6 +75,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private val observer = Observer<Int> {
         when (it) {
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)
                 launchActivity<TopUpBeneficiariesActivity>(requestCode = RequestCodes.REQUEST_SHOW_BENEFICIARY) {
                     putExtra(
                         SUCCESS_BUTTON_LABEL,
@@ -87,6 +90,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_google_pay))
             }
             Constants.ADD_MONEY_BANK_TRANSFER -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_TRANSFER)
                 startFragment(
                     TopUpBankDetailsFragment::class.java.name,
                     false,
@@ -103,6 +107,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
             }
             Constants.ADD_MONEY_QR_CODE -> {
                 QRCodeFragment {}.let { fragment ->
+                    trackEventWithScreenName(FirebaseEvent.TOPUP_QR_CODE)
                     if (isAdded)
                         fragment.show(requireActivity().supportFragmentManager, "")
                 }

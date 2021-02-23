@@ -1,27 +1,46 @@
 package co.yap.yapcore.helpers
 
 import android.net.Uri
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
+import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
+import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl")
     fun setImageUrl(imageView: AppCompatImageView, url: String) {
         setImage(imageView, url)
+    }
+
+    @JvmStatic
+    @BindingAdapter("circularImageUrl")
+    fun setCircularImageUrl(imageView: ImageView, url: String?) {
+        url?.let {
+            setImage(imageView, url)
+        }
     }
 
     @JvmStatic
@@ -32,8 +51,10 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter("circularImageUrl")
-    fun setCircularImageUrl(imageView: AppCompatImageView, url: String) {
-        setCircleCropImage(imageView, url)
+    fun setCircularImageUrl(imageView: AppCompatImageView, url: String?) {
+        url?.let {
+            setCircleCropImage(imageView, url)
+        }
     }
 
     @JvmStatic
@@ -64,10 +85,9 @@ object ImageBinding {
 
     fun loadAvatar(
         imageView: ImageView,
-        beneficiaryPicture: String?,
-        fullName: String?, @ColorRes color: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
+        imageUrl: String?,
+        fullName: String?, @ColorRes colorCode: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
     ) {
-
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
             .height(imageView.context.dimen(R.dimen._35sdp))
@@ -77,8 +97,63 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture ?: "",
+            imageUrl ?: "",
             builder.buildRect(
+                Utils.shortName(fullName ?: ""),
+                ContextCompat.getColor(imageView.context, colorCode)
+            )
+        )
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["imageUrl", "fullName", "colorCode"], requireAll = false)
+    fun loadAvatar(
+        imageView: ImageView,
+        imageUrl: String?,
+        fullName: String?, colorCode: Int?
+    ) {
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
+            .height(imageView.context.dimen(R.dimen._35sdp))
+            .fontSize(imageView.context.dimen(R.dimen.text_size_h1))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(colorCode ?: -1)
+        setCircleCropImage(
+            imageView,
+            imageUrl ?: "",
+            builder.buildRect(
+                Utils.shortName(fullName ?: ""),
+                ColorUtils.setAlphaComponent(colorCode ?: -1, 25)
+            )
+        )
+    }
+
+    fun loadAvatar(
+        imageView: ImageView,
+        isCircular: Boolean,
+        beneficiaryPicture: String?,
+        fullName: String?,
+        @ColorRes color: Int,
+        @DimenRes fontSize: Int = R.dimen.text_size_h5,
+        @ColorRes textColor: Int = R.color.colorPrimary,
+        @DimenRes imageSIze: Int = R.dimen._35sdp
+    ) {
+
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(imageSIze))
+            .height(imageView.context.dimen(imageSIze))
+            .fontSize(imageView.context.dimen(fontSize))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(ContextCompat.getColor(imageView.context, textColor))
+        setCircleCropImage(
+            imageView,
+            beneficiaryPicture ?: "", if (isCircular)
+                builder.buildRound(
+                    Utils.shortName(fullName ?: ""),
+                    ContextCompat.getColor(imageView.context, color)
+                ) else builder.buildRect(
                 Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, color)
             )
@@ -134,7 +209,7 @@ object ImageBinding {
         showFirstInitials: Boolean = false
     ) {
         if (fullName.isNullOrEmpty()) return
-        val fName = fullName?:""
+        val fName = fullName ?: ""
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId =
@@ -177,6 +252,62 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("app:srcCompat")
     fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
+        imageView.setImageResource(resource)
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        value = ["app:srcCompatGif", "imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor", "imageSize"],
+        requireAll = true
+    )
+    fun setGifImageViewResource(
+        imageView: AppCompatImageView, resourceId: Int?, imageUrl: String?,
+        fullName: String?,
+        bgColor: Int, initialTextSize: Int,
+        initialTextColor: Int,
+        imageSize: Int
+    ) {
+        resourceId?.let { loadGifImageView(imageView, it) } ?: loadAvatar(
+            imageView, false,
+            imageUrl,
+            fullName,
+            bgColor,
+            initialTextSize,
+            initialTextColor,
+            imageSize
+        )
+    }
+
+    fun loadGifImageView(imageView: AppCompatImageView, resource: Int) {
+        if (resource > 0) {
+            Glide.with(imageView.context).asGif().load(resource)
+                .listener(object : RequestListener<GifDrawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<GifDrawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return true
+                    }
+
+                    override fun onResourceReady(
+                        resource: GifDrawable?,
+                        model: Any?,
+                        target: Target<GifDrawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        resource?.setLoopCount(1)
+                        return false
+                    }
+                }).into(imageView)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:srcCompat")
+    fun setImageViewResource(imageView: CoreCircularImageView, resource: Int) {
         imageView.setImageResource(resource)
     }
 
@@ -265,15 +396,93 @@ object ImageBinding {
 
         val resId = getResId(
             "flag_${
-                getDrawableName(
-                    countryName
-                )
+            getDrawableName(
+                countryName
+            )
             }"
         )
         if (resId != -1) {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
         }
         view.prefix = countryCode
+    }
 
+    @JvmStatic
+    @BindingAdapter(value = ["media", "completedMedia"], requireAll = false)
+    fun loadLottieAnimation(
+        lottieView: LottieAnimationView,
+        media: YAPForYouGoalMedia,
+        completedMedia: YAPForYouGoalMedia? = null
+    ) {
+        if (completedMedia == null) {
+            when (media) {
+                is YAPForYouGoalMedia.Image -> {
+                    val id = lottieView.context.resources.getIdentifier(
+                        media.imageName,
+                        "drawable",
+                        lottieView.context.packageName
+                    )
+                    val drawable = lottieView.context.resources.getDrawable(id, null)
+                    lottieView.setImageDrawable(
+                        drawable
+                    )
+                }
+                is YAPForYouGoalMedia.LottieAnimation -> {
+                    lottieView.setAnimation(media.jsonFileName)
+                }
+
+                is YAPForYouGoalMedia.None -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+
+                else -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+            }
+        } else {
+            when (completedMedia) {
+                is YAPForYouGoalMedia.Image -> {
+                    val id = lottieView.context.resources.getIdentifier(
+                        completedMedia.imageName,
+                        "drawable",
+                        lottieView.context.packageName
+                    )
+                    val drawable = lottieView.context.resources.getDrawable(id, null)
+                    lottieView.setImageDrawable(
+                        drawable
+                    )
+                }
+
+                is YAPForYouGoalMedia.LottieAnimation -> {
+                    lottieView.setAnimation(completedMedia.jsonFileName)
+                }
+
+                is YAPForYouGoalMedia.None -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+
+                else -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("urlMedia")
+    fun setCircularImageUrlYapForYou(imageView: CoreCircularImageView, goal: YAPForYouGoalMedia?) {
+        goal?.let {
+            when (goal) {
+                is YAPForYouGoalMedia.ImageUrl -> {
+                    if (goal.imageUrl.isNullOrBlank())
+                        imageView.visibility = View.GONE
+                    else
+                        setCircularImageUrl(imageView, goal.imageUrl)
+                }
+                else -> {
+
+                }
+            }
+        }
     }
 }

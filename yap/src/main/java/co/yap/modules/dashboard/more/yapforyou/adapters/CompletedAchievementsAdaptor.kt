@@ -4,8 +4,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemCompletedAchievementBinding
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.CompletedAchievementItemViewModel
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class CompletedAchievementsAdaptor(val list: MutableList<Achievement>) :
@@ -28,12 +28,9 @@ class CompletedAchievementsAdaptor(val list: MutableList<Achievement>) :
         RecyclerView.ViewHolder(itemCompletedAchievementBinding.root) {
 
         fun onBind(achievement: Achievement) {
-            val item = achievement.copy()
-            if (item.percentage ?: 0.0 == 100.00) {
-                itemCompletedAchievementBinding.viewModel =
-                    CompletedAchievementItemViewModel(item)
-                itemCompletedAchievementBinding.executePendingBindings()
-            }
+            itemCompletedAchievementBinding.viewModel =
+                CompletedAchievementItemViewModel(achievement)
+            itemCompletedAchievementBinding.executePendingBindings()
         }
     }
 }
