@@ -93,7 +93,8 @@
     <string name="screen_verify_phone_number_button_send">Next</string>
 
     <!-- Create passcode screen -->
-    <string name="screen_create_passcode_display_heading">Create a new 4 to 6 digit passcode to access your account</string>
+    <string name="screen_create_passcode_display_heading">Create a 4- to 6- digit passcode to access your account</string>
+    <string name="screen_create_passcode_onboarding_button_create_passcode">Create passcode</string>
     <string name="screen_create_passcode_display_text_title">Create a new 4- to 6-digit passcode</string>
     <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
@@ -181,7 +182,7 @@
     <!-- Meeting location selection screen -->
     <string name="screen_meeting_location_display_text_title">Your card is ready to be delivered!</string>
     <string name="screen_meeting_location_display_text_subtitle">Choose your location below. We will also call you to verify this address</string>
-    <string name="screen_meeting_location_button_confirm_location">Tap here to change location</string>
+    <string name="screen_meeting_location_button_confirm_location">Tap map to confirm location</string>
     <string name="screen_meeting_location_button_change_location">Tap here to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
     <string name="screen_meeting_location_input_text_address_hint">Enter your address</string>
@@ -191,7 +192,7 @@
     <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added successfully</string>
     <string name="screen_meeting_location_text_accept_terms">I accept the </string>
     <string name="screen_meeting_location_text_terms_and_conditions"> CRS and FATCA Terms and Conditions</string>
-    <string name="screen_meeting_location_display_text_add_new_address_title">Add new delivery address</string>
+    <string name="screen_meeting_location_display_text_add_new_address_title">Your card is ready to be delivered!</string>
     <string name="screen_meeting_location_display_text_add_new_address_subtitle">Where can we deliver your debit card?</string>
     <string name="screen_meeting_location_display_text_add_manual_address_subtitle">We’ll need you to enter your address below</string>
 
@@ -263,6 +264,7 @@
 
     <!-- Confirm card PIN screen -->
     <string name="screen_confirm_card_pin_display_text_title">Enter that one more time to confirm</string>
+    <string name="screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN you agree to our</string>
     <string name="screen_confirm_card_pin_display_text_terms_and_conditions">terms &amp; conditions</string>
     <string name="screen_confirm_card_pin_button_create_pin">Set PIN</string>
@@ -532,18 +534,18 @@
     <!--    Change email screen-->
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
-    <string name="screen_change_email_placeholder_confirm_email_address">confirm email address</string>
-    <string name="screen_change_email_display_text_description">A verification email will be sent to this email address</string>
+    <string name="screen_change_email_placeholder_confirm_email_address">enter in one more time</string>
+    <string name="screen_change_email_display_text_description">A verification email will now be sent to this address​</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
-    <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
+    <string name="screen_change_email_display_text_confirm_email_title">Enter in one more time</string>
     <string name="screen_change_email_display_text_email_match_error">Email doesn\'t match what you first entered</string>
 
     <!--    Email Verification Screen-->
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
 
     <!--    Change Phone Number Screen-->
-    <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
-    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
+    <string name="screen_change_phone_number_display_text_heading">Change mobile number</string>
+    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new number</string>
     <string name="screen_change_phone_number_display_text_text_description">We\'ve sent a code to\n %1$s</string>
     <string name="screen_change_phone_number_display_text_country_code">+971</string>
 

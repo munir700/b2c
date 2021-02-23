@@ -110,7 +110,9 @@
                 android:gravity="bottom|left"
                 android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                 app:layout_constraintBottom_toTopOf="@id/flAddressDetail"
-                app:layout_constraintTop_toBottomOf="@id/flTitle">
+                app:layout_constraintTop_toBottomOf="@id/flTitle"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="0dp">
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnLocation"
@@ -153,7 +155,7 @@
                     android:gravity="left|start"
                     android:textSize="@dimen/text_size_h2"
                     app:text="@{Strings.screen_meeting_location_input_text_address_title}"
-                    app:textColor="@{viewModel.state.addressTitle.empty ? true : false}"
+                    app:textColor="@{viewModel.state.addressTitle.empty || viewModel.state.addressTitle == null ? true : false}"
                     tools:ignore="MissingConstraints"
                     tools:text="@string/screen_meeting_location_input_text_address_title" />
 
@@ -200,7 +202,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etAddressField"
                     app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
-                    app:textColor="@{viewModel.state.addressSubtitle.empty ? true : false}"
+                    app:textColor="@{viewModel.state.addressSubtitle.empty ||  viewModel.state.addressSubtitle == null ? true : false}"
                     tools:text="@string/screen_meeting_location_input_text_landmark_title" />
                 <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
 
@@ -247,6 +249,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="Emirate"
+                        app:textColor="@{viewModel.state.city.empty || viewModel.state.city == null ? true : false}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Emirate" />
@@ -258,6 +261,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/margin_extra_small"
                         android:paddingBottom="@dimen/margin_extra_small"
+                        android:hint="Select"
                         android:text="@{viewModel.state.city}"
                         app:layout_constraintStart_toStartOf="@+id/tvSelectCity"
                         app:layout_constraintTop_toBottomOf="@id/tvSelectCity"
