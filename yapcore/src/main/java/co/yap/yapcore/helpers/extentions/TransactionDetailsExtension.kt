@@ -76,7 +76,7 @@ fun Transaction.getTransactionDetailValue(tag: TransactionDetailItems): String {
 
         }
         TransactionDetailItems.TOTAL -> {
-            getCalculatedTotalAmount(this).toString().toFormattedCurrency()
+            getCalculatedTotalAmount().toString().toFormattedCurrency()
         }
         TransactionDetailItems.REFERENCE_NUMBER -> {
             this.transactionId ?: ""
@@ -141,8 +141,8 @@ fun getExchangeRate(transaction: Transaction): Double {
     }
 }
 
-fun getCalculatedTotalAmount(transaction: Transaction): Double {
-    transaction.let {
+fun Transaction?.getCalculatedTotalAmount(): Double {
+    this?.let {
         return when (it.productCode) {
             TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
                 val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
@@ -152,6 +152,7 @@ fun getCalculatedTotalAmount(transaction: Transaction): Double {
                 ?: 0.00
         }
     }
+    return 0.00
 }
 
 private fun getFees(transaction: Transaction): String {

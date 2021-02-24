@@ -27,4 +27,6 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var receiptVisibility: ObservableBoolean = ObservableBoolean(false)
     override var isTransactionInProcessOrRejected: ObservableBoolean = ObservableBoolean(false)
     override var transferType: ObservableField<String> = ObservableField("")
+    override var locationValue: ObservableField<String> = ObservableField("")
+    override var totalAmount: ObservableField<String> = ObservableField("")
 }

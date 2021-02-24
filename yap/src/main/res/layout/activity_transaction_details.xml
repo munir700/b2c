@@ -127,6 +127,8 @@
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
                     android:maxLines="1"
+                    android:text="@{viewModel.state.locationValue}"
+                    android:visibility="@{viewModel.state.locationValue.empty || viewModel.state.locationValue == null ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
@@ -191,6 +193,7 @@
                     android:textColor="@{viewModel.state.isTransactionInProcessOrRejected ? @color/colorFaded: @color/colorPrimaryDark}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:text="@{viewModel.state.totalAmount}"
                     tools:text="2500" />
 
                 <androidx.appcompat.widget.AppCompatTextView

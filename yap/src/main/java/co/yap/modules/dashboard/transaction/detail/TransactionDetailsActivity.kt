@@ -26,14 +26,16 @@ import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import pl.aprilapps.easyphotopicker.MediaFile
 
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
@@ -51,9 +53,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         addObservers()
         setMapImageView()
         setTransactionImage()
-        setTotalAmount()
         setContentDataColor(viewModel.transaction.get())
-        setLocationText()
     }
 
     private fun addObservers() {
@@ -71,29 +71,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             viewModel.setAdapterList(it.trxnReceiptList ?: listOf())
         })
         viewModel.adapter.setItemListener(onReceiptClickListener)
-
-    }
-    private fun setTotalAmount() {
-        val totalAmount = viewModel.getCalculatedTotalAmount(viewModel.transaction.get()).toString()
-        getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
-                totalAmount.toFormattedCurrency(
-                    showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency()
-                )
-            }" else "+ ${
-                totalAmount.toFormattedCurrency(
-                    showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency()
-                )
-            }"
-    }
-
-    private fun setLocationText() {
-        val location = viewModel.getLocation(viewModel.transaction.get())
-        getBindings().tvLocation.visibility =
-            if (location.isEmpty()) View.GONE else View.VISIBLE
-        getBindings().tvLocation.text = location
 
     }
 

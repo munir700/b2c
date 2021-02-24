@@ -3,9 +3,9 @@ package co.yap.modules.dashboard.transaction.detail
 import co.yap.networking.transactions.responsedtos.transaction.ItemTransactionDetail
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.enums.TransactionDetailItems
-import co.yap.yapcore.helpers.extentions.getTransactionDetailValue
-import co.yap.yapcore.helpers.extentions.getTransactionDetailLabel
 import co.yap.yapcore.helpers.extentions.getTransactionDetailItemVisibility
+import co.yap.yapcore.helpers.extentions.getTransactionDetailLabel
+import co.yap.yapcore.helpers.extentions.getTransactionDetailValue
 
 interface TransactionDetailItemsComposer {
     fun compose(): List<ItemTransactionDetail>
@@ -14,12 +14,12 @@ interface TransactionDetailItemsComposer {
 class TransactionDetailComposer(private val transaction: Transaction?) :
     TransactionDetailItemsComposer {
     override fun compose(): List<ItemTransactionDetail> {
-        return getOneWayData().filter {
+        return transactionDetailItemList().filter {
             it.visibility == true
         }
     }
 
-    private fun getOneWayData(): MutableList<ItemTransactionDetail> {
+    private fun transactionDetailItemList(): MutableList<ItemTransactionDetail> {
         return arrayListOf(
             makeTransactionDetailItem(TransactionDetailItems.CARD_NUMBER),
             makeTransactionDetailItem(TransactionDetailItems.TRANSFER_AMOUNT),

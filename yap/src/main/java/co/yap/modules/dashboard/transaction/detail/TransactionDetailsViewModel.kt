@@ -16,7 +16,6 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionProductType
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
@@ -116,8 +115,10 @@ class TransactionDetailsViewModel(application: Application) :
             state.txnNoteValue.set(note)
             setSenderOrReceiver(transaction)
             state.receiptVisibility.set(isShowReceiptSection(transaction))
-            state.categoryTitle.set(getTransferCategoryTitle(transaction))
-            state.categoryIcon.set(getTransferCategoryIcon(transaction))
+            state.categoryTitle.set(transaction.getTransferCategoryTitle())
+            state.categoryIcon.set(transaction.getTransferCategoryIcon())
+            state.totalAmount.set(transaction.getTotalAmount())
+            state.locationValue.set(transaction.getLocation())
         }
         spentLabelText.set(this.transaction.get().getSpentLabelText())
         state.transferType.set(transaction.get().getTransferType())
@@ -155,66 +156,6 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    override fun getLocation(transaction: Transaction?): String {
-        return when (transaction?.productCode) {
-            TransactionProductCode.FUND_LOAD.pCode -> transaction.otherBankName ?: ""
-            else -> transaction?.cardAcceptorLocation ?: ""
-        }
-    }
-
-    override fun getTransferCategoryTitle(transaction: Transaction?): String {
-        transaction?.let {
-            transaction.productCode?.let { productCode ->
-                if (TransactionProductType.IS_TRANSACTION_FEE == transaction.getProductType()) {
-                    return "Fee"
-                }
-                return (when (productCode) {
-                    TransactionProductCode.Y2Y_TRANSFER.pCode -> if (transaction.txnType == TxnType.DEBIT.type) "Outgoing Transfer" else "Incoming Transfer"
-                    TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> "Incoming Transfer"
-                    TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> ""
-                    TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                        "Outgoing Transfer"
-                    }
-                    TransactionProductCode.CARD_REORDER.pCode -> "Fee"
-                    TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName
-                        ?: ""
-                    TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
-                    TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
-                        if (transaction.category.equals(
-                                "REVERSAL",
-                                true
-                            )
-                        ) "Reversal" else "Cash withdraw"
-                    }
-                    else -> ""
-                })
-            } ?: return ""
-        } ?: return ""
-    }
-
-    override fun getTransferCategoryIcon(transaction: Transaction?): Int {
-        transaction?.let {
-            if (transaction.getProductType() == TransactionProductType.IS_TRANSACTION_FEE) {
-                return R.drawable.ic_expense
-            }
-            return (when (transaction.productCode) {
-                TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_send_money
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> 0
-                TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                    R.drawable.ic_send_money
-                }
-                TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_expense
-                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
-                    R.drawable.ic_cash
-                }
-                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
-
-                else -> 0
-            })
-        } ?: return 0
-    }
-
     override fun getForeignAmount(transaction: Transaction?): Double {
         transaction?.let {
             return when (transaction.productCode) {
@@ -240,9 +181,6 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    //getString(
-    //                Strings.transaction_narration_y2y_transfer_detail
-    //            )
     override fun getAddReceiptOptions(): ArrayList<BottomSheetItem> {
         val list = arrayListOf<BottomSheetItem>()
         list.add(
