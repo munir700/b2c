@@ -29,4 +29,5 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var transferType: ObservableField<String> = ObservableField("")
     override var locationValue: ObservableField<String> = ObservableField("")
     override var totalAmount: ObservableField<String> = ObservableField("")
+    override var statusIcon: ObservableField<Int> = ObservableField(-1)
 }

@@ -30,7 +30,6 @@ interface ITransactionDetails {
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
         fun setAdapterList(receiptLis: List<String>)
         fun getForeignAmount(transaction: Transaction?): Double
-        fun getStatusIcon(transaction: Transaction?): Int
         fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel>
         fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String
@@ -53,5 +52,6 @@ interface ITransactionDetails {
         var isTransactionInProcessOrRejected : ObservableBoolean
         var locationValue: ObservableField<String>
         var totalAmount: ObservableField<String>
+        var statusIcon: ObservableField<Int>
     }
 }

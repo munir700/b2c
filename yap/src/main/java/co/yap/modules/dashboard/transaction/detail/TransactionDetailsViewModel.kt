@@ -113,12 +113,12 @@ class TransactionDetailsViewModel(application: Application) :
             val note =
                 if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNote.decodeToUTF8() else transaction.receiverTransactionNote.decodeToUTF8()
             state.txnNoteValue.set(note)
-            setSenderOrReceiver(transaction)
             state.receiptVisibility.set(isShowReceiptSection(transaction))
             state.categoryTitle.set(transaction.getTransferCategoryTitle())
             state.categoryIcon.set(transaction.getTransferCategoryIcon())
             state.totalAmount.set(transaction.getTotalAmount())
             state.locationValue.set(transaction.getLocation())
+            state.statusIcon.set(transaction.getTransactionStatusIcon())
         }
         spentLabelText.set(this.transaction.get().getSpentLabelText())
         state.transferType.set(transaction.get().getTransferType())
@@ -147,15 +147,6 @@ class TransactionDetailsViewModel(application: Application) :
                     .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
         }
     }
-
-    private fun setSenderOrReceiver(transaction: Transaction) {
-        when (transaction.productCode ?: "") {
-            TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                state.isTransferTxn.set(true)
-            }
-        }
-    }
-
     override fun getForeignAmount(transaction: Transaction?): Double {
         transaction?.let {
             return when (transaction.productCode) {
@@ -165,20 +156,6 @@ class TransactionDetailsViewModel(application: Application) :
                 else -> 0.00
             }
         } ?: return 0.00
-    }
-
-    override fun getStatusIcon(transaction: Transaction?): Int {
-        return if (transaction?.isTransactionInProgress() == true) android.R.color.transparent
-        else when (transaction?.productCode) {
-            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
-                R.drawable.ic_identifier_atm_withdrawl
-            }
-            TransactionProductCode.ATM_DEPOSIT.pCode -> {
-                R.drawable.ic_identifier_atm_deposite
-            }
-
-            else -> android.R.color.transparent
-        }
     }
 
     override fun getAddReceiptOptions(): ArrayList<BottomSheetItem> {

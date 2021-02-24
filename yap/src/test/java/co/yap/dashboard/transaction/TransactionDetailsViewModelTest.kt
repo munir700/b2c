@@ -7,8 +7,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionProductType
-import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
-import co.yap.yapcore.helpers.extentions.getProductType
+import co.yap.yapcore.helpers.extentions.*
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.junit.Assert
@@ -100,22 +99,22 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             transaction.productCode
         )
         return DynamicTest.dynamicTest(displayName) {
-            Assert.assertEquals(expectation.detailTransferType, sut.getTransferType(transaction))
+            Assert.assertEquals(expectation.detailTransferType, transaction.getTransferType())
             Assert.assertEquals(
                 expectation.transferCategory,
-                sut.getTransferCategoryTitle(transaction)
+                transaction.getTransferCategoryTitle()
             )
             Assert.assertEquals(
                 expectedTransferCategoryIcon(transaction),
-                sut.getTransferCategoryIcon(transaction)
+                transaction.getTransferCategoryIcon()
             )
             Assert.assertEquals(
                 expectation.amount,
-                sut.getCalculatedTotalAmount(transaction), 0.2
+                transaction.getCalculatedTotalAmount(), 0.2
             )
             Assert.assertEquals(
                 expectation.spentAmount,
-                sut.getSpentAmount(transaction), 0.2
+                transaction.getSpentAmount(), 0.2
             )
             Assert.assertEquals(
                 expectation.foreignAmount,
@@ -123,11 +122,11 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             )
             Assert.assertEquals(
                 expectation.location ?: "",
-                sut.getLocation(transaction)
+                transaction.getLocation()
             )
             Assert.assertEquals(
                 getExpectedStatusIcon(transaction),
-                sut.getStatusIcon(transaction)
+                transaction.getStatusIcon()
             )
         }
     }

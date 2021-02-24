@@ -362,11 +362,9 @@ fun Transaction?.getTransactionAmountColor(): Int {
         })
     }
 }
-
 fun Transaction?.showCutOffMsg(): Boolean {
     return (this?.productCode == TransactionProductCode.SWIFT.pCode)
 }
-
 fun List<Transaction>?.getTotalAmount(): String {
     var total = 0.0
     this?.map {
@@ -402,7 +400,6 @@ fun List<Transaction>?.getTotalAmount(): String {
     }
     return totalAmount
 }
-
 fun Transaction.getTransactionStatusMessage(context: Context): String {
     return when {
         this.isTransactionRejected() -> {
@@ -414,7 +411,6 @@ fun Transaction.getTransactionStatusMessage(context: Context): String {
         else -> ""
     }
 }
-
 fun Transaction.getTransferType(): String {
     return when {
         this.isTransactionRejected() -> "Transfer Rejected"
@@ -423,7 +419,6 @@ fun Transaction.getTransferType(): String {
         else -> this.getTransferType()
     }
 }
-
 fun Transaction?.getTransferCategoryTitle(): String {
     this?.let {
         this.productCode?.let { productCode ->
@@ -490,10 +485,23 @@ fun Transaction?.getTotalAmount(): String{
         )
     }"
 }
-
 fun Transaction?.getLocation(): String? {
     return when (this?.productCode) {
         TransactionProductCode.FUND_LOAD.pCode -> this.otherBankName ?: ""
         else -> this?.cardAcceptorLocation ?: ""
+    }
+}
+
+fun Transaction?.getTransactionStatusIcon(): Int {
+    return if (this?.isTransactionInProgress() == true) android.R.color.transparent
+    else when (this?.productCode) {
+        TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+            R.drawable.ic_identifier_atm_withdrawl
+        }
+        TransactionProductCode.ATM_DEPOSIT.pCode -> {
+            R.drawable.ic_identifier_atm_deposite
+        }
+
+        else -> android.R.color.transparent
     }
 }

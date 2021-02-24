@@ -63,7 +63,7 @@ fun Transaction.getTransactionDetailValue(tag: TransactionDetailItems): String {
             this.receiverName ?: ""
         }
         TransactionDetailItems.SENT_RECEIVED -> {
-            getSpentAmount(this).toString()
+            this.getSpentAmount().toString()
                 .toFormattedCurrency(showCurrency = this.status != TransactionStatus.FAILED.name)
         }
         TransactionDetailItems.FEES -> {
@@ -173,8 +173,8 @@ private fun setSenderOrReceiver(transaction: Transaction): Boolean {
     return transaction.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode || transaction.productCode == TransactionProductCode.UAEFTS.pCode || transaction.productCode == TransactionProductCode.DOMESTIC.pCode || transaction.productCode == TransactionProductCode.RMT.pCode || transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.CASH_PAYOUT.pCode
 }
 
-fun getSpentAmount(transaction: Transaction?): Double {
-    transaction?.let {
+fun Transaction?.getSpentAmount(): Double {
+    this?.let {
         return when {
             it.status == TransactionStatus.FAILED.name -> 0.00
             it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
