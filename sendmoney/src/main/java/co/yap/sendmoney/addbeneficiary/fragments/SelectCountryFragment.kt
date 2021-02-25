@@ -42,7 +42,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 
     private fun skipToAddBeneficiary() {
         val homeCountry = SessionManager.getCountries()
-            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
+            .find { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
             viewModel.getBeneficiaryTypeFromCurrency(homeCountry)
         viewModel.parentViewModel?.selectedCountry?.value = homeCountry

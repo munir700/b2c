@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
-import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
@@ -38,7 +37,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     override val repository: CardsRepository = CardsRepository
     private val customerRepository: CustomersRepository = CustomersRepository
-    private val authRepository: AuthRepository = AuthRepository
     private var usersList: List<AccountInfo?> = arrayListOf()
     var user: AccountInfo? = null
     var userAddress: Address? = null
@@ -53,7 +51,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private const val DEFAULT_CURRENCY: String = "AED"
     var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
     var deepLinkFlowId: MutableLiveData<String?> = MutableLiveData(null)
-
+    val homeCountry2Digit: String
+        get() {
+            return if (user?.currentCustomer?.homeCountry?.count() == 3) countries.value?.find { it.isoCountryCode3Digit == user?.currentCustomer?.homeCountry }?.isoCountryCode2Digit
+                ?: "AE"
+            else
+                user?.currentCustomer?.homeCountry?:"AE"
+        }
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
 
@@ -75,7 +79,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getCountriesFromServer(response: (success: Boolean, countries: ArrayList<Country>) -> Unit) {
         GlobalScope.launch(Dispatchers.IO) {
-            when (val apiResponse = customerRepository.getAllCountries()) {
+            when (val apiResponse = customerRepository.getCountries()) {
                 is RetroApiResponse.Success -> {
                     countries.postValue(
                         Utils.parseCountryList(

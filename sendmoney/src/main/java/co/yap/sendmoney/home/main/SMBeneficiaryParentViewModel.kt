@@ -63,10 +63,10 @@ class SMBeneficiaryParentViewModel(application: Application) :
     override fun getBeneficiariesOfType(type: String, list: List<Beneficiary>): List<Beneficiary> {
         return when (type) {
             SendMoneyTransferType.HOME_COUNTRY.name -> {
-                list.filter { it.country == SessionManager.user?.currentCustomer?.homeCountry }
+                list.filter { it.country == SessionManager.homeCountry2Digit }
             }
             SendMoneyTransferType.INTERNATIONAL.name -> {
-                list.filter { (it.beneficiaryType == SendMoneyBeneficiaryType.RMT.type || it.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type) && it.country != SessionManager.user?.currentCustomer?.homeCountry }
+                list.filter { (it.beneficiaryType == SendMoneyBeneficiaryType.RMT.type || it.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type) && it.country != SessionManager.homeCountry2Digit }
             }
             SendMoneyTransferType.LOCAL.name -> {
                 list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.UAEFTS.type || it.beneficiaryType == SendMoneyBeneficiaryType.DOMESTIC.type }
