@@ -37,13 +37,40 @@ class TransactionDetailsViewModel(application: Application) :
     override var transactionAdapter: TransactionDetailItemAdapter =
         TransactionDetailItemAdapter(mutableListOf())
     val repository: TransactionsRepository = TransactionsRepository
-    override var itemsComposer: TransactionDetailComposer? = null
-
+    override var itemsComposer: TransactionDetailComposer =
+        TransactionDetailComposer(transaction.get())
     var spentLabelText: ObservableField<String> = ObservableField()
 
     override fun onCreate() {
         super.onCreate()
         setStatesData()
+    }
+
+    private fun setStatesData() {
+        transaction.get()?.let { transaction ->
+            if (isShowReceiptSection(transaction)) getAllReceipts()
+
+            state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
+            setTransactionNoteDate()
+            val note =
+                if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNote.decodeToUTF8() else transaction.receiverTransactionNote.decodeToUTF8()
+            state.txnNoteValue.set(note)
+            state.receiptVisibility.set(isShowReceiptSection(transaction))
+            state.categoryTitle.set(transaction.getTransferCategoryTitle())
+            state.categoryIcon.set(transaction.getTransferCategoryIcon())
+            state.totalAmount.set(transaction.getTotalAmount())
+            state.locationValue.set(transaction.getLocation())
+            state.statusIcon.set(transaction.getTransactionStatusIcon())
+            state.coverImage.set(transaction.getMapImage())
+        }
+        spentLabelText.set(this.transaction.get().getSpentLabelText())
+        state.transferType.set(transaction.get()?.getStatusType())
+        state.isTransactionInProcessOrRejected.set(transaction.get()
+            .isTransactionRejected() || transaction.get().isTransactionInProgress())
+    }
+
+    override fun handlePressOnEditNoteClickEvent(id: Int) {
+        clickEvent.postValue(id)
     }
 
     override fun getReceiptTitle(list: List<ReceiptModel>): String {
@@ -59,7 +86,6 @@ class TransactionDetailsViewModel(application: Application) :
         }
 
     }
-
 
     override fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel> {
         val list: MutableList<ReceiptModel> = arrayListOf()
@@ -90,7 +116,6 @@ class TransactionDetailsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     responseReciept.value = response.data.data
                     state.loading = false
-
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -100,62 +125,11 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnEditNoteClickEvent(id: Int) {
-        clickEvent.postValue(id)
-    }
-
-    private fun setStatesData() {
-        transaction.get()?.let { transaction ->
-            if (isShowReceiptSection(transaction)) getAllReceipts()
-
-            setToolbarTitle()
-            setTransactionNoteDate()
-            val note =
-                if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNote.decodeToUTF8() else transaction.receiverTransactionNote.decodeToUTF8()
-            state.txnNoteValue.set(note)
-            state.receiptVisibility.set(isShowReceiptSection(transaction))
-            state.categoryTitle.set(transaction.getTransferCategoryTitle())
-            state.categoryIcon.set(transaction.getTransferCategoryIcon())
-            state.totalAmount.set(transaction.getTotalAmount())
-            state.locationValue.set(transaction.getLocation())
-            state.statusIcon.set(transaction.getTransactionStatusIcon())
-        }
-        spentLabelText.set(this.transaction.get().getSpentLabelText())
-        state.transferType.set(transaction.get().getTransferType())
-        state.isTransactionInProcessOrRejected.set(transaction.get()
-            .isTransactionRejected() || transaction.get().isTransactionInProgress())
-    }
-
     override fun isShowReceiptSection(transaction: Transaction): Boolean {
         return when (transaction.productCode) {
             TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> true
             else -> false
         }
-    }
-
-    private fun setToolbarTitle() {
-        state.toolbarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
-    }
-
-    private fun setTransactionNoteDate() {
-        if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
-            state.transactionNoteDate =
-                state.editNotePrefixText + if (transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
-        } else {
-            state.transactionNoteDate =
-                state.editNotePrefixText + transaction.get()
-                    .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
-        }
-    }
-    override fun getForeignAmount(transaction: Transaction?): Double {
-        transaction?.let {
-            return when (transaction.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    transaction.amount ?: 0.00
-                }
-                else -> 0.00
-            }
-        } ?: return 0.00
     }
 
     override fun getAddReceiptOptions(): ArrayList<BottomSheetItem> {
@@ -182,4 +156,25 @@ class TransactionDetailsViewModel(application: Application) :
         state.receiptTitle.set(getReceiptTitle(adapter.getDataList()))
     }
 
+    override fun getForeignAmount(transaction: Transaction?): Double {
+        transaction?.let {
+            return when (transaction.productCode) {
+                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                    transaction.amount ?: 0.00
+                }
+                else -> 0.00
+            }
+        } ?: return 0.00
+    }
+
+    private fun setTransactionNoteDate() {
+        if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
+            state.transactionNoteDate =
+                state.editNotePrefixText + if (transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
+        } else {
+            state.transactionNoteDate =
+                state.editNotePrefixText + transaction.get()
+                    .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
+        }
+    }
 }

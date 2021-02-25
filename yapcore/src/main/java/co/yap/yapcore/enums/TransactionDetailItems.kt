@@ -1,6 +1,6 @@
 package co.yap.yapcore.enums
 
-enum class TransactionDetailItems() {
+enum class TransactionDetailItems {
     CARD_NUMBER,
     TRANSFER_AMOUNT,
     EXCHANGE_RATE,

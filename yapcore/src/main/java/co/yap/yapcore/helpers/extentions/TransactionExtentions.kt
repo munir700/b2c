@@ -362,9 +362,11 @@ fun Transaction?.getTransactionAmountColor(): Int {
         })
     }
 }
+
 fun Transaction?.showCutOffMsg(): Boolean {
     return (this?.productCode == TransactionProductCode.SWIFT.pCode)
 }
+
 fun List<Transaction>?.getTotalAmount(): String {
     var total = 0.0
     this?.map {
@@ -400,6 +402,7 @@ fun List<Transaction>?.getTotalAmount(): String {
     }
     return totalAmount
 }
+
 fun Transaction.getTransactionStatusMessage(context: Context): String {
     return when {
         this.isTransactionRejected() -> {
@@ -411,7 +414,8 @@ fun Transaction.getTransactionStatusMessage(context: Context): String {
         else -> ""
     }
 }
-fun Transaction.getTransferType(): String {
+
+fun Transaction.getStatusType(): String {
     return when {
         this.isTransactionRejected() -> "Transfer Rejected"
         this.isTransactionInProgress() -> "Transfer Pending"
@@ -419,6 +423,7 @@ fun Transaction.getTransferType(): String {
         else -> this.getTransferType()
     }
 }
+
 fun Transaction?.getTransferCategoryTitle(): String {
     this?.let {
         this.productCode?.let { productCode ->
@@ -449,7 +454,8 @@ fun Transaction?.getTransferCategoryTitle(): String {
         } ?: return ""
     } ?: return ""
 }
- fun Transaction?.getTransferCategoryIcon(): Int {
+
+fun Transaction?.getTransferCategoryIcon(): Int {
     this?.let { transaction ->
 
         if (transaction.getProductType() == TransactionProductType.IS_TRANSACTION_FEE) {
@@ -471,9 +477,10 @@ fun Transaction?.getTransferCategoryTitle(): String {
         })
     } ?: return 0
 }
-fun Transaction?.getTotalAmount(): String{
+
+fun Transaction?.getTotalAmount(): String {
     val totalAmount = this.getCalculatedTotalAmount().toString()
-    return  if (this?.txnType == TxnType.DEBIT.type) "- ${
+    return if (this?.txnType == TxnType.DEBIT.type) "- ${
         totalAmount.toFormattedCurrency(
             showCurrency = false,
             currency = SessionManager.getDefaultCurrency()
@@ -485,6 +492,7 @@ fun Transaction?.getTotalAmount(): String{
         )
     }"
 }
+
 fun Transaction?.getLocation(): String? {
     return when (this?.productCode) {
         TransactionProductCode.FUND_LOAD.pCode -> this.otherBankName ?: ""

@@ -23,7 +23,7 @@ interface ITransactionDetails {
         var transaction: ObservableField<Transaction>
         var adapter: TransactionReceiptAdapter
         var responseReciept: MutableLiveData<TransactionReceipt>
-        var transactionAdapter : TransactionDetailItemAdapter
+        var transactionAdapter: TransactionDetailItemAdapter
         fun deleteReceipt(position: Int)
         fun getAllReceipts()
         fun getReceiptTitle(list: List<ReceiptModel>): String
@@ -33,7 +33,7 @@ interface ITransactionDetails {
         fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel>
         fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String
-        var itemsComposer: TransactionDetailComposer?
+        var itemsComposer: TransactionDetailComposer
     }
 
     interface State : IBase.State {
@@ -49,9 +49,10 @@ interface ITransactionDetails {
         var receiptVisibility: ObservableBoolean
         var receiptTitle: ObservableField<String>
         var transferType: ObservableField<String>
-        var isTransactionInProcessOrRejected : ObservableBoolean
+        var isTransactionInProcessOrRejected: ObservableBoolean
         var locationValue: ObservableField<String>
         var totalAmount: ObservableField<String>
         var statusIcon: ObservableField<Int>
+        var coverImage: ObservableField<Int>
     }
 }

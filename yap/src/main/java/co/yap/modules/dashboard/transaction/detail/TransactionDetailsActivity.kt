@@ -51,7 +51,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
-        setMapImageView()
         setTransactionImage()
         setContentDataColor(viewModel.transaction.get())
     }
@@ -64,14 +63,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     it
                 )
                 viewModel.itemsComposer = TransactionDetailComposer(viewModel.transaction.get())
-                viewModel.transactionAdapter.setList(viewModel.itemsComposer!!.compose())
+                viewModel.transactionAdapter.setList(viewModel.itemsComposer.compose())
             }
         }
         viewModel.responseReciept.observe(this, Observer {
             viewModel.setAdapterList(it.trxnReceiptList ?: listOf())
         })
         viewModel.adapter.setItemListener(onReceiptClickListener)
-
     }
 
     private val onReceiptClickListener = object : OnItemClickListener {
@@ -149,14 +147,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 viewModel.adapter.getDataList() as ArrayList<ReceiptModel>
             )
         }
-    }
-
-    private fun setMapImageView() {
-        val mapResId = viewModel.transaction.get().getMapImage()
-        if (mapResId != -1)
-            getBindings().ivMap.setImageResource(mapResId)
-        else
-            getBindings().ivMap.visibility = View.GONE
     }
 
     private fun setTransactionImage() {
