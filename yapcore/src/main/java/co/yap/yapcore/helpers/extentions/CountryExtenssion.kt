@@ -16,7 +16,7 @@ fun FragmentActivity.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Change home country",
     viewType: Int = Constants.VIEW_WITH_FLAG,
-    countriesList: List<Country>? = SessionManager.getCountries()
+    countriesList: List<Country>? = null
 ) {
     this.supportFragmentManager.let {
         countriesList?.let { countriesList ->
@@ -39,7 +39,7 @@ fun Fragment.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Change home country",
     viewType: Int = Constants.VIEW_WITH_FLAG,
-    countriesList: List<Country>? = SessionManager.getCountries()
+    countriesList: List<Country>? = null
 ) {
     this.requireActivity().launchBottomSheet(itemClickListener, label, viewType, countriesList)
 }
@@ -54,5 +54,6 @@ private fun parseCountries(context: Context, countries: ArrayList<Country>): Arr
     }
     return countries
 }
+
 
 
