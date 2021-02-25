@@ -83,8 +83,11 @@ import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -360,7 +363,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         if (!shouldAppend)
                             listToAppend.add(parentItem)
                     }
-
                 }
                 listToAppend.partition { txn -> txn.isNewItem }.let { pair ->
                     pair.second.forEach { data ->
@@ -381,7 +383,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 MultiStateView.ViewState.ERROR
                         } else {
                             viewModel.state.isUserAccountActivated.set(false)
-                            setUpDashBoardNotificationsView()
+                            SessionManager.getAccountInfo {
+                                GlobalScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
+                            }
                         }
                         transactionViewHelper?.setTooltipVisibility(View.GONE)
                         viewModel.state.isTransEmpty.set(true)
@@ -728,13 +734,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet) {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Dispatchers.Main) {
+                            GlobalScope.launch(Main) {
                                 setUpDashBoardNotificationsView()
                             }
                         }
                     } else {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Dispatchers.Main) {
+                            GlobalScope.launch(Main) {
                                 setUpDashBoardNotificationsView()
                             }
                         }
@@ -803,7 +809,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT -> {
                 if (resultCode == Activity.RESULT_OK) {
                     SessionManager.getAccountInfo {
-                        GlobalScope.launch(Dispatchers.Main) {
+                        GlobalScope.launch(Main) {
                             dashboardNotificationStatusHelper?.notifyAdapter()
                         }
                     }

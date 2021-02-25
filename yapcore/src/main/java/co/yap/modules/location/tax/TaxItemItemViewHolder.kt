@@ -66,7 +66,7 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         itemTaxInfoBinding.reasonsSpinner.isEnabled = (position != 0)
 
         itemTaxInfoBinding.reasonsSpinner.viewTreeObserver.addOnGlobalLayoutListener {
-            (itemTaxInfoBinding.reasonsSpinner.selectedView as TextView).setTextColor(
+            (itemTaxInfoBinding.reasonsSpinner.selectedView as? TextView)?.setTextColor(
                 ContextCompat.getColor(
                     itemTaxInfoBinding.reasonsSpinner.context,
                     R.color.colorPrimaryDark
