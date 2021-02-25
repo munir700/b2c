@@ -99,7 +99,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             transaction.productCode
         )
         return DynamicTest.dynamicTest(displayName) {
-            Assert.assertEquals(expectation.detailTransferType, transaction.getTransferType())
+            Assert.assertEquals(expectation.detailTransferType, transaction.getStatusType())
             Assert.assertEquals(
                 expectation.transferCategory,
                 transaction.getTransferCategoryTitle()
@@ -126,7 +126,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             )
             Assert.assertEquals(
                 getExpectedStatusIcon(transaction),
-                transaction.getStatusIcon()
+                transaction.getTransactionStatusIcon()
             )
         }
     }
