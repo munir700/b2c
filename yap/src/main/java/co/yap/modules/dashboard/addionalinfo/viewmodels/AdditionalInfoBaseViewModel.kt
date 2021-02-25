@@ -31,4 +31,10 @@ abstract class AdditionalInfoBaseViewModel<S : IBase.State>(application: Applica
         return parentViewModel?.state?.screenType?.get() ?: ""
     }
 
+    fun submitInfo(success: () -> Unit) {
+        parentViewModel?.submitAdditionalInfo {
+            success.invoke()
+        }
+    }
+
 }

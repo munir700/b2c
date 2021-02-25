@@ -61,11 +61,9 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AdditionalDocument) {
-                if (data.status == "PENDING") {
-                    currentDocument = data
-                    currentPos = pos
-                    openBottomSheet(data.name)
-                }
+                currentDocument = data
+                currentPos = pos
+                openBottomSheet(data.name)
             }
         }
     }
@@ -88,7 +86,9 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                     viewModel.moveToNext()
                     navigate(R.id.action_selectDocumentFragment_to_additionalInfoQuestion)
                 } else {
-                    navigate(R.id.action_selectDocumentFragment_to_additionalInfoComplete)
+                    viewModel.parentViewModel?.submitAdditionalInfo {
+                        navigate(R.id.action_selectDocumentFragment_to_additionalInfoComplete)
+                    }
                 }
             }
             R.id.tvDoItLater -> {
@@ -145,7 +145,8 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                 file,
                 data.documentType ?: ""
             ) {
-                data.status = if (data.status == "PENDING") "DONE" else "PENDING"
+                if (data.status == "PENDING")
+                    data.status = "DONE"
                 viewModel.uploadAdditionalDocumentAdapter.setItemAt(
                     pos,
                     data
@@ -196,30 +197,31 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
         resultCode: Int,
         data: Intent?
     ) {
-        easyImage.handleActivityResult(
-            requestCode,
-            resultCode,
-            data,
-            requireActivity(),
-            object : DefaultCallback() {
-                override fun onMediaFilesPicked(
-                    imageFiles: Array<MediaFile>,
-                    source: MediaSource
-                ) {
-                    onPhotosReturned(imageFiles, source)
-                }
+        if (this::easyImage.isInitialized)
+            easyImage.handleActivityResult(
+                requestCode,
+                resultCode,
+                data,
+                requireActivity(),
+                object : DefaultCallback() {
+                    override fun onMediaFilesPicked(
+                        imageFiles: Array<MediaFile>,
+                        source: MediaSource
+                    ) {
+                        onPhotosReturned(imageFiles, source)
+                    }
 
-                override fun onImagePickerError(
-                    @NonNull error: Throwable,
-                    @NonNull source: MediaSource
-                ) {
-                    viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                }
+                    override fun onImagePickerError(
+                        @NonNull error: Throwable,
+                        @NonNull source: MediaSource
+                    ) {
+                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+                    }
 
-                override fun onCanceled(@NonNull source: MediaSource) {
-                    viewModel.state.toast = "No image detected^${AlertType.DIALOG.name}"
-                }
-            })
+                    override fun onCanceled(@NonNull source: MediaSource) {
+                        viewModel.state.toast = "No image detected^${AlertType.DIALOG.name}"
+                    }
+                })
     }
 
     private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {

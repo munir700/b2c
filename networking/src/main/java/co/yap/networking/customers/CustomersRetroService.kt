@@ -280,4 +280,6 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_SEND_INVITE_FRIEND)
     suspend fun sendInviteFriend(@Body sendInviteFriendRequest: SendInviteFriendRequest): Response<ApiResponse>
 
+    @POST(CustomersRepository.URL_ADDITIONAL_SUBMIT)
+    suspend fun submitAdditionalInfo(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
 }

@@ -1126,24 +1126,30 @@
     <string name="dashboard_timeline_shipping_stage_description">Give us up to 48 hours for it to reach you</string>
     <string name="dashboard_timeline_shipping_stage_completed_description">Your card was delivered on %1s</string>
     <string name="dashboard_timeline_shipping_stage_action_title">Track your delivery</string>
+
     <string name="dashboard_timeline_delivery_stage_title">Your card is delivered</string>
     <string name="dashboard_timeline_delivery_stage_description">Your EID scan is required.</string>
     <string name="dashboard_timeline_delivery_stage_active_description">Your EID scan has been carried out. We are now processing your account. Please wait for activation to be completed shortly.</string>
     <string name="dashboard_timeline_delivery_stage_completed_description">Your EID scan was approved on %1s</string>
+
     <string name="dashboard_timeline_set_pin_stage_title">Set your card PIN</string>
     <string name="dashboard_timeline_set_pin_stage_description">You’ll need this to begin using your card</string>
     <string name="dashboard_timeline_set_pin_stage_completed_description">Your PIN was successfully set on %1s</string>
     <string name="dashboard_timeline_set_pin_stage_action_title">Set PIN</string>
+
     <string name="dashboard_timeline_top_up_stage_title">Time to top up</string>
     <string name="dashboard_timeline_top_up_stage_description">Add money to your YAP card to start spending</string>
     <string name="dashboard_timeline_top_up_stage_action_title">Top up now</string>
+
     <string name="dashboard_timeline_additional_requirement_stage_title">Additional requirements</string>
     <string name="dashboard_timeline_additional_requirement_stage_description">We’ll need some more additional information to proceed</string>
     <string name="dashboard_timeline_additional_requirement_stage_completed_description">We are reviewing your documents submitted on %1s</string>
     <string name="dashboard_timeline_additional_requirement_stage_action_title">Submit now</string>
 
+
     <string name="dashboard_timeline_top_up_stage_completion_title">Completed</string>
     <string name="dashboard_timeline_top_up_stage_in_process_title">In process</string>
+
 
     <!--  Yap It Add Money Screen-->
     <string name="screen_fragment_yap_it_add_money_title">Add money</string>
@@ -1177,6 +1183,7 @@
 
     <!-- Live Chat Strings-->
     <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
+
     <!-- Additional Information Strings-->
     <string name="screen_additional_info_label_text_do_it_later">Do it later</string>
     <string name="screen_additional_info_label_text_question_hint">Answer to question goes here</string>
@@ -1189,6 +1196,7 @@
     <string name="screen_additional_info_label_text_bottom_sheet_des">Scan or upload your</string>
     <string name="common_display_text_founder">FOUNDER</string>
     <string name="common_display_text_copy">copy</string>
+
     <!-- Send Money Home -->
     <string name="screen_send_money_home_title">Send money home</string>
     <string name="screen_send_money_home_display_text_send_money">Send money</string>
