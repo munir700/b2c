@@ -26,10 +26,10 @@
             android:layout_marginBottom="@dimen/margin_medium"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:paddingTop="@dimen/small"
             app:cardBackgroundColor="?attr/colorPrimaryWarmAttr"
             app:cardCornerRadius="10dp"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.525"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_extra_large"
+                android:paddingTop="@dimen/margin_medium_large"
                 android:paddingEnd="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_extra_large">
 
@@ -62,15 +62,22 @@
                     app:maxImageSize="@dimen/_20sdp"
                     app:srcCompat="@drawable/ic_note" />
 
-                <TextView
+                <co.yap.widgets.AutoResizeTextView
                     android:id="@+id/tvEid"
                     style="@style/ALarge"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@{viewModel.additionalDocument.name}"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="0dp"
+                    android:maxLines="1"
+                    android:paddingEnd="@dimen/margin_extra_small"
+                    android:singleLine="true"
+                    android:text='@{viewModel.additionalDocument.name + " copy"}'
                     android:textColor="@color/white"
-                    app:layout_constraintLeft_toRightOf="@+id/ivProfile"
+                    app:layout_constraintEnd_toStartOf="@id/ivCheck"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/ivProfile"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Passport Copy" />
 

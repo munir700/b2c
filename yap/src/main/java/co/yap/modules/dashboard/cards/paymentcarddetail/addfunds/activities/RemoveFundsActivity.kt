@@ -85,7 +85,12 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     private fun setDenominationValue(denominationAmount: String) {
         hideKeyboard()
         getBinding().etAmount.setText("")
-        getBinding().etAmount.setText(denominationAmount)
+        getBinding().etAmount.setText(
+            denominationAmount.toFormattedCurrency(
+                showCurrency = false,
+                withComma = true
+            )
+        )
         val position = getBinding().etAmount.length()
         getBinding().etAmount.setSelection(position)
         getBinding().etAmount.clearFocus()

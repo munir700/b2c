@@ -966,28 +966,28 @@ object UIBinder {
     ) {
         val drawables: Array<Drawable> =
             textView.compoundDrawables
-        iso2DigitCode?.let {
-            val drawable: Drawable? =
+        val drawableDropDown: Drawable? =
+            textView.context.getDrawable(
+                R.drawable.iv_drown_down
+            )
+        var drawable: Drawable? = null
+            iso2DigitCode?.let {
+             drawable =
                 textView.context.getDrawable(
                     CurrencyUtils.getFlagDrawable(
                         textView.context,
                         it
                     )
                 )
-
-            val drawableDropDown: Drawable? =
-                textView.context.getDrawable(
-                    R.drawable.iv_drown_down
-                )
             drawable?.setBounds(0, 0, 70, 70)
             drawableDropDown?.setBounds(0, 0, 123, 123)
-            textView.setCompoundDrawables(
-                drawable,
-                drawables[1],
-                if (showDropDown) drawableDropDown else null,
-                drawables[3]
-            )
         }
+        textView.setCompoundDrawables(
+            if (!iso2DigitCode.isNullOrEmpty()) drawable else null,
+            drawables[1],
+            if (showDropDown) drawableDropDown else null,
+            drawables[3]
+        )
     }
 
     @BindingAdapter("previewImageSrc")
