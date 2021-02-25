@@ -127,7 +127,12 @@ class DashboardNotificationStatusHelper(
                     PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT,
                     getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT)
                 ),
-                statusAction = getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_action_title),
+                statusAction = when (SessionManager.user?.partnerBankStatus) {
+                    PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status, PartnerBankStatus.ADD_COMPLIANCE_INFO_SUBMITTED_BY_ADMIN.status -> {
+                        null
+                    }
+                    else -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_action_title)
+                },
                 statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT) == StageProgress.COMPLETED) getContext().resources.getDrawable(
                     R.drawable.ic_dashboard_finish
                 ) else getContext().resources.getDrawable(R.drawable.file),
@@ -206,6 +211,21 @@ class DashboardNotificationStatusHelper(
                         else -> StageProgress.INACTIVE
                     })
                 }
+                PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> {
+                    return (when (SessionManager.user?.partnerBankStatus) {
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status -> {
+                            StageProgress.INACTIVE
+                        }
+                        PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status, PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status, PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status, PartnerBankStatus.ADD_COMPLIANCE_INFO_SUBMITTED_BY_ADMIN.status -> {
+                            StageProgress.IN_PROGRESS
+                        }
+
+                        PartnerBankStatus.ACTIVATED.status -> {
+                            StageProgress.COMPLETED
+                        }
+                        else -> StageProgress.INACTIVE
+                    })
+                }
                 PaymentCardOnboardingStage.SET_PIN -> {
                     return (when {
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !card.pinCreated && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
@@ -227,20 +247,6 @@ class DashboardNotificationStatusHelper(
                     })
                 }
 
-                PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> {
-                    return (when (SessionManager.user?.partnerBankStatus) {
-                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status -> {
-                            StageProgress.INACTIVE
-                        }
-                        PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status -> {
-                            StageProgress.IN_PROGRESS
-                        }
-                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status -> {
-                            StageProgress.COMPLETED
-                        }
-                        else -> StageProgress.INACTIVE
-                    })
-                }
             }
         } ?: return StageProgress.INACTIVE
     }
@@ -288,7 +294,28 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.TOP_UP -> getStringHelper(Strings.dashboard_timeline_top_up_stage_description)
 
             PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> return (when (progress) {
-                StageProgress.IN_PROGRESS, StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                StageProgress.IN_PROGRESS -> {
+                    return when (SessionManager.user?.partnerBankStatus) {
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status, PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status -> {
+                            getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                        }
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status, PartnerBankStatus.ADD_COMPLIANCE_INFO_SUBMITTED_BY_ADMIN.status -> {
+                            getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_completed_description).format(
+                                DateUtils.reformatStringDate(
+                                    SessionManager.user?.additionalDocSubmitionDate ?: "",
+                                    SERVER_DATE_FORMAT,
+                                    DEFAULT_DATE_FORMAT
+                                )
+                            )
+                        }
+                        else -> {
+                            getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                        }
+                    }
+                }
+
+
                 StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_completed_description).format(
                     DateUtils.reformatStringDate(
                         SessionManager.user?.additionalDocSubmitionDate ?: "",
