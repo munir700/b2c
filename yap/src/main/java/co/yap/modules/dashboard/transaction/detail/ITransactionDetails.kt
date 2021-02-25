@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.transaction.detail
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction

@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail
 
-import co.yap.networking.transactions.responsedtos.transaction.ItemTransactionDetail
+import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.enums.TransactionDetailItems
 import co.yap.yapcore.helpers.extentions.getTransactionDetailItemVisibility
@@ -39,8 +39,8 @@ class TransactionDetailComposer(private val transaction: Transaction?) :
         tag: TransactionDetailItems
     ): ItemTransactionDetail {
         return ItemTransactionDetail(
-            itemTitle = transaction?.getTransactionDetailLabel(tag),
-            itemDescription = transaction?.getTransactionDetailValue(tag),
+            label = transaction?.getTransactionDetailLabel(tag),
+            value = transaction?.getTransactionDetailValue(tag),
             visibility = transaction?.getTransactionDetailItemVisibility(tag)
         )
     }

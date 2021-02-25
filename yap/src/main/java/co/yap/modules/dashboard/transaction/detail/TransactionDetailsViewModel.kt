@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -35,7 +36,9 @@ class TransactionDetailsViewModel(application: Application) :
         )
     override var responseReciept: MutableLiveData<TransactionReceipt> = MutableLiveData()
     override var transactionAdapter: TransactionDetailItemAdapter =
-        TransactionDetailItemAdapter(mutableListOf())
+        TransactionDetailItemAdapter(
+            mutableListOf()
+        )
     val repository: TransactionsRepository = TransactionsRepository
     override var itemsComposer: TransactionDetailComposer =
         TransactionDetailComposer(transaction.get())
