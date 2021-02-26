@@ -328,6 +328,9 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 }
 
 fun Transaction?.getAmount(): Double {
+    if (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode || (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode && this.currency != SessionManager.getDefaultCurrency()))
+        return this.amount ?: 0.0
+
     (return when (this?.txnType) {
         TxnType.DEBIT.type -> this.totalAmount ?: 0.0
         TxnType.CREDIT.type -> this.amount ?: 0.0

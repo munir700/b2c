@@ -231,7 +231,7 @@ class TransactionDetailsViewModel(application: Application) :
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: 0.00)
                 }
-                it.productCode == TransactionProductCode.POS_PURCHASE.pCode -> {
+                it.productCode == TransactionProductCode.POS_PURCHASE.pCode && it.currency != SessionManager.getDefaultCurrency() -> {
                     it.cardHolderBillingAmount ?: 0.00
                 }
                 else -> it.amount ?: 0.00
@@ -245,6 +245,14 @@ class TransactionDetailsViewModel(application: Application) :
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
                     (it.settlementAmount ?: 0.00).plus(totalFee)
+                }
+                TransactionProductCode.POS_PURCHASE.pCode -> {
+                    if (it.currency != SessionManager.getDefaultCurrency()) {
+                        (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
+                    } else {
+                        if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.0 else it.amount
+                            ?: 0.0
+                    }
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
                     ?: 0.00
