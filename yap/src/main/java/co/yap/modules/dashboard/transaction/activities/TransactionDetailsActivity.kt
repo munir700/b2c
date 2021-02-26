@@ -172,7 +172,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setSpentLabel() {
-        getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
+        if (viewModel.state.exchangeRate != null) {
+            getBindings().tvCardSpent.text = "Spent in AED"
+        } else {
+            getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
+        }
     }
 
     var clickEvent = Observer<Int> {
