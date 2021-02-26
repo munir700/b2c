@@ -2,17 +2,20 @@ package co.yap.modules.dashboard.transaction.detail
 
 import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.yapcore.enums.TransactionDetailItems
-import co.yap.yapcore.helpers.extentions.getTransactionDetailItemVisibility
-import co.yap.yapcore.helpers.extentions.getTransactionDetailLabel
-import co.yap.yapcore.helpers.extentions.getTransactionDetailValue
+import co.yap.yapcore.enums.TransactionDetailItem
+import co.yap.yapcore.helpers.extentions.TransactionDetailFactory
 
 interface TransactionDetailItemsComposer {
     fun compose(): List<ItemTransactionDetail>
 }
 
-class TransactionDetailComposer(private val transaction: Transaction?) :
+class TransactionDetailComposer(private val transaction: Transaction) :
     TransactionDetailItemsComposer {
+    private val transactionDetailFactory: TransactionDetailFactory by lazy {
+        TransactionDetailFactory(transaction)
+    }
+
+
     override fun compose(): List<ItemTransactionDetail> {
         return transactionDetailItemList().filter {
             it.visibility == true
@@ -21,27 +24,27 @@ class TransactionDetailComposer(private val transaction: Transaction?) :
 
     private fun transactionDetailItemList(): MutableList<ItemTransactionDetail> {
         return arrayListOf(
-            makeTransactionDetailItem(TransactionDetailItems.CARD_NUMBER),
-            makeTransactionDetailItem(TransactionDetailItems.TRANSFER_AMOUNT),
-            makeTransactionDetailItem(TransactionDetailItems.EXCHANGE_RATE),
-            makeTransactionDetailItem(TransactionDetailItems.SENDER),
-            makeTransactionDetailItem(TransactionDetailItems.RECEIVER),
-            makeTransactionDetailItem(TransactionDetailItems.SENT_RECEIVED),
-            makeTransactionDetailItem(TransactionDetailItems.FEES),
-            makeTransactionDetailItem(TransactionDetailItems.VAT),
-            makeTransactionDetailItem(TransactionDetailItems.TOTAL),
-            makeTransactionDetailItem(TransactionDetailItems.REFERENCE_NUMBER),
-            makeTransactionDetailItem(TransactionDetailItems.REMARKS)
+            makeTransactionDetailItem(TransactionDetailItem.CARD_NUMBER),
+            makeTransactionDetailItem(TransactionDetailItem.TRANSFER_AMOUNT),
+            makeTransactionDetailItem(TransactionDetailItem.EXCHANGE_RATE),
+            makeTransactionDetailItem(TransactionDetailItem.SENDER),
+            makeTransactionDetailItem(TransactionDetailItem.RECEIVER),
+            makeTransactionDetailItem(TransactionDetailItem.SENT_RECEIVED),
+            makeTransactionDetailItem(TransactionDetailItem.FEES),
+            makeTransactionDetailItem(TransactionDetailItem.VAT),
+            makeTransactionDetailItem(TransactionDetailItem.TOTAL),
+            makeTransactionDetailItem(TransactionDetailItem.REFERENCE_NUMBER),
+            makeTransactionDetailItem(TransactionDetailItem.REMARKS)
         )
     }
 
     private fun makeTransactionDetailItem(
-        tag: TransactionDetailItems
+        tag: TransactionDetailItem
     ): ItemTransactionDetail {
         return ItemTransactionDetail(
-            label = transaction?.getTransactionDetailLabel(tag),
-            value = transaction?.getTransactionDetailValue(tag),
-            visibility = transaction?.getTransactionDetailItemVisibility(tag)
+            label = transactionDetailFactory.label(tag),
+            value = transactionDetailFactory.value(tag),
+            visibility = transactionDetailFactory.isShowItem(tag)
         )
     }
 }

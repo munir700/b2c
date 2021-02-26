@@ -178,33 +178,6 @@ fun Transaction?.getMapImage(): Int {
     } ?: return -1
 }
 
-fun Transaction?.getSpentLabelText(): String {
-    this?.let { transaction ->
-        transaction.productCode?.let { productCode ->
-            return (when (productCode) {
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Amount"
-                else -> {
-                    when (transaction.txnType) {
-                        TxnType.CREDIT.type -> "Amount"
-                        TxnType.DEBIT.type -> {
-                            when (transaction.productCode) {
-                                TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                                    "Amount"
-                                }
-                                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                                    if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
-                                }
-                                else -> "Amount"
-                            }
-                        }
-                        else -> ""
-                    }
-                }
-            })
-        } ?: return ""
-    } ?: return ""
-}
-
 fun Transaction?.getCurrency(): String {
     this?.let { transaction ->
         return (when (transaction.productCode) {
@@ -233,6 +206,9 @@ fun Transaction?.getProductType(): TransactionProductType? {
             }
             TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode -> {
                 TransactionProductType.IS_INCOMING
+            }
+            TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                TransactionProductType.IS_SEND_MONEY
             }
             else -> null
         })

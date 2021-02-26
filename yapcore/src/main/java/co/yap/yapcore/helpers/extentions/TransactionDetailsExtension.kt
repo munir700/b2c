@@ -5,188 +5,177 @@ import co.yap.yapcore.enums.*
 import co.yap.yapcore.managers.SessionManager
 
 
-fun Transaction.getTransactionDetailLabel(tag: TransactionDetailItems): String {
-    return when (tag) {
-        TransactionDetailItems.CARD_NUMBER -> {
-            "Card"
-        }
-        TransactionDetailItems.TRANSFER_AMOUNT -> {
-            if (isExchangeRateNull(this)) "Spent amount" else "Transfer amount"
-        }
-        TransactionDetailItems.EXCHANGE_RATE -> {
-            "Exchange rate"
-        }
-        TransactionDetailItems.SENDER -> {
-            "Sender"
-        }
-        TransactionDetailItems.RECEIVER -> {
-            "Receiver"
-        }
-        TransactionDetailItems.SENT_RECEIVED -> {
-            getSpentLabelText()
-        }
-        TransactionDetailItems.FEES -> {
-            "Fee"
-        }
-        TransactionDetailItems.VAT -> {
-            "VAT"
-        }
-        TransactionDetailItems.TOTAL -> {
-            "Total amount"
-        }
-        TransactionDetailItems.REFERENCE_NUMBER -> {
-            "Reference number"
-        }
-        TransactionDetailItems.REMARKS -> {
-            "Remarks"
+class TransactionDetailFactory(private val transaction: Transaction) {
+    fun label(forTag: TransactionDetailItem): String {
+        return when (forTag) {
+            TransactionDetailItem.CARD_NUMBER -> "Card"
+            TransactionDetailItem.TRANSFER_AMOUNT -> if (isInternationalPOS(transaction)) "Spent amount" else "Transfer amount"
+            TransactionDetailItem.EXCHANGE_RATE -> "Exchange rate"
+            TransactionDetailItem.SENDER -> "Sender"
+            TransactionDetailItem.RECEIVER -> "Receiver"
+            TransactionDetailItem.SENT_RECEIVED -> "Amount"
+            TransactionDetailItem.FEES -> "Fee"
+            TransactionDetailItem.VAT -> "VAT"
+            TransactionDetailItem.TOTAL -> "Total amount"
+            TransactionDetailItem.REFERENCE_NUMBER -> "Reference number"
+            TransactionDetailItem.REMARKS -> "Remarks"
+
         }
     }
-}
 
-fun Transaction.getTransactionDetailValue(tag: TransactionDetailItems): String {
-    return when (tag) {
-        TransactionDetailItems.CARD_NUMBER -> {
-            this.maskedCardNo?.split(" ")?.lastOrNull().let { maskCardNo ->
-                "*${maskCardNo}"
+    fun value(forTag: TransactionDetailItem): String {
+        return when (forTag) {
+            TransactionDetailItem.CARD_NUMBER -> {
+                transaction.maskedCardNo?.split(" ")?.lastOrNull().let { maskCardNo ->
+                    "*${maskCardNo}"
+                }
+            }
+            TransactionDetailItem.TRANSFER_AMOUNT -> {
+                transaction.amount.toString().toFormattedCurrency(true, transaction.currency, true)
+            }
+            TransactionDetailItem.EXCHANGE_RATE -> {
+                if (isInternationalPOS(transaction)) "${transaction.currency} 1.00 = AED ${getExchangeRateForInternationalPOS(
+                    transaction
+                )}" else "${transaction.currency} 1.00 = AED ${transaction.fxRate}"
+            }
+            TransactionDetailItem.SENDER, TransactionDetailItem.RECEIVER -> {
+                if (transaction.txnType == TxnType.CREDIT.type) transaction.senderName
+                    ?: "" else transaction.receiverName ?: ""
+            }
+
+            TransactionDetailItem.SENT_RECEIVED -> {
+                getSpentAmount(transaction).toString()
+                    .toFormattedCurrency(showCurrency = transaction.status != TransactionStatus.FAILED.name)
+            }
+            TransactionDetailItem.FEES -> {
+                fee(transaction)
+            }
+            TransactionDetailItem.VAT -> {
+                transaction.vatAmount?.toString()
+                    ?.toFormattedCurrency(true, SessionManager.getDefaultCurrency(), true)
+                    ?: "AED 0.00"
+            }
+            TransactionDetailItem.TOTAL -> {
+                getCalculatedTotalAmount(transaction).toString().toFormattedCurrency()
+            }
+            TransactionDetailItem.REFERENCE_NUMBER -> {
+                transaction.transactionId ?: ""
+            }
+            TransactionDetailItem.REMARKS -> {
+                transaction.remarks ?: ""
             }
         }
-        TransactionDetailItems.TRANSFER_AMOUNT -> {
-            this.amount.toString().toFormattedCurrency(true, this.currency, true)
-        }
-        TransactionDetailItems.EXCHANGE_RATE -> {
-            if (isExchangeRateNull(this)) "${this.currency} 1.00 = AED ${getExchangeRate(this)}" else "${this.currency} 1.00 = AED ${this.fxRate}"
-        }
-        TransactionDetailItems.SENDER -> {
-            this.senderName ?: ""
-        }
-        TransactionDetailItems.RECEIVER -> {
-            this.receiverName ?: ""
-        }
-        TransactionDetailItems.SENT_RECEIVED -> {
-            this.getSpentAmount().toString()
-                .toFormattedCurrency(showCurrency = this.status != TransactionStatus.FAILED.name)
-        }
-        TransactionDetailItems.FEES -> {
-            getFees(this)
-        }
-        TransactionDetailItems.VAT -> {
-            this.vatAmount?.let {
-                it.toString().toFormattedCurrency(true, "AED", true)
-            } ?: "AED 0.00"
-
-        }
-        TransactionDetailItems.TOTAL -> {
-            getCalculatedTotalAmount().toString().toFormattedCurrency()
-        }
-        TransactionDetailItems.REFERENCE_NUMBER -> {
-            this.transactionId ?: ""
-        }
-        TransactionDetailItems.REMARKS -> {
-            this.remarks ?: ""
-        }
     }
-}
 
-fun Transaction.getTransactionDetailItemVisibility(tag: TransactionDetailItems): Boolean {
-    return when (tag) {
-        TransactionDetailItems.CARD_NUMBER -> {
-            this.status == TransactionStatus.CANCELLED.name || (this.productCode == TransactionProductCode.SWIFT.pCode || this.productCode == TransactionProductCode.RMT.pCode) || isExchangeRateNull(
-                this)
-        }
-        TransactionDetailItems.TRANSFER_AMOUNT, TransactionDetailItems.EXCHANGE_RATE -> {
-            isExchangeRateNull(this) || (this.productCode == TransactionProductCode.SWIFT.pCode || this.productCode == TransactionProductCode.RMT.pCode)
-        }
-        TransactionDetailItems.SENDER -> {
-            setSenderOrReceiver(this) && this.txnType == TxnType.CREDIT.type
-        }
-        TransactionDetailItems.RECEIVER -> {
-            setSenderOrReceiver(this) && this.txnType == TxnType.DEBIT.type
-        }
-        TransactionDetailItems.SENT_RECEIVED, TransactionDetailItems.FEES, TransactionDetailItems.VAT -> {
-            true
-        }
-        TransactionDetailItems.TOTAL -> {
-            this.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && this.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode
-        }
-        TransactionDetailItems.REFERENCE_NUMBER -> {
-            true
-        }
-        TransactionDetailItems.REMARKS -> {
-            !this.remarks.isNullOrEmpty()
-        }
-    }
-}
-
-fun isExchangeRateNull(transaction: Transaction): Boolean {
-    return transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && transaction.currency != SessionManager.getDefaultCurrency()
-}
-
-fun getExchangeRate(transaction: Transaction): Double {
-    val fxRate: Double? = transaction.amount?.let { transaction.cardHolderBillingAmount?.div(it) }
-    return when {
-        transaction.amount?.let { transaction.cardHolderBillingAmount?.compareTo(it) } == -1 -> {
-            getDecimalFormatUpTo(
-                6,
-                amount = fxRate.toString(),
-                withComma = true
-            ).toDouble()
-        }
-        else -> {
-            getDecimalFormatUpTo(
-                3,
-                amount = fxRate.toString(),
-                withComma = true
-            ).toDouble()
-        }
-    }
-}
-
-fun Transaction?.getCalculatedTotalAmount(): Double {
-    this?.let {
-        return when (it.productCode) {
-            TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
-                (it.settlementAmount ?: 0.00).plus(totalFee)
+    fun isShowItem(tag: TransactionDetailItem): Boolean {
+        return when (tag) {
+            TransactionDetailItem.CARD_NUMBER -> {
+                transaction.status == TransactionStatus.CANCELLED.name || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode) || isInternationalPOS(
+                    transaction
+                )
             }
-            else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
-                ?: 0.00
+            TransactionDetailItem.TRANSFER_AMOUNT, TransactionDetailItem.EXCHANGE_RATE -> {
+                isInternationalPOS(transaction) || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
+            }
+            TransactionDetailItem.SENDER -> {
+                transaction.getProductType() == TransactionProductType.IS_SEND_MONEY && transaction.txnType == TxnType.CREDIT.type
+            }
+            TransactionDetailItem.RECEIVER -> {
+                transaction.getProductType() == TransactionProductType.IS_SEND_MONEY && transaction.txnType == TxnType.DEBIT.type
+            }
+            TransactionDetailItem.SENT_RECEIVED, TransactionDetailItem.FEES, TransactionDetailItem.VAT -> {
+                true
+            }
+            TransactionDetailItem.TOTAL -> {
+                transaction.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && transaction.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode
+            }
+            TransactionDetailItem.REFERENCE_NUMBER -> {
+                true
+            }
+            TransactionDetailItem.REMARKS -> {
+                !transaction.remarks.isNullOrEmpty()
+            }
         }
     }
-    return 0.00
-}
 
-private fun getFees(transaction: Transaction): String {
-    return when {
-        isExchangeRateNull(transaction) -> {
-            transaction.markupFees.toString().toFormattedCurrency(true, "AED", true)
-        }
-        transaction.postedFees != null -> {
-            transaction.postedFees.toString().toFormattedCurrency(true, "AED", true)
-        }
-        else -> {
-            "AED 0.00"
+    private fun isInternationalPOS(transaction: Transaction): Boolean {
+        return transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && transaction.currency != SessionManager.getDefaultCurrency()
+    }
+
+    private fun getSpentAmount(transaction: Transaction): Double {
+        transaction.let {
+            return when {
+                it.status == TransactionStatus.FAILED.name -> 0.00
+                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
+                    0.00
+                }
+                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
+                    (it.settlementAmount ?: 0.00)
+                }
+                it.productCode == TransactionProductCode.POS_PURCHASE.pCode -> {
+                    it.cardHolderBillingAmount ?: 0.00
+                }
+                else -> it.amount ?: 0.00
+            }
         }
     }
-}
 
-private fun setSenderOrReceiver(transaction: Transaction): Boolean {
-    return transaction.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode || transaction.productCode == TransactionProductCode.UAEFTS.pCode || transaction.productCode == TransactionProductCode.DOMESTIC.pCode || transaction.productCode == TransactionProductCode.RMT.pCode || transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.CASH_PAYOUT.pCode
-}
-
-fun Transaction?.getSpentAmount(): Double {
-    this?.let {
+    private fun fee(forTransaction: Transaction): String {
         return when {
-            it.status == TransactionStatus.FAILED.name -> 0.00
-            it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                0.00
+            isInternationalPOS(forTransaction) -> {
+                forTransaction.markupFees.toString()
+                    .toFormattedCurrency(true, SessionManager.getDefaultCurrency(), true)
             }
-            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                (it.settlementAmount ?: 0.00)
+            forTransaction.postedFees != null -> {
+                forTransaction.postedFees.toString()
+                    .toFormattedCurrency(true, SessionManager.getDefaultCurrency(), true)
             }
-            it.productCode == TransactionProductCode.POS_PURCHASE.pCode -> {
-                it.cardHolderBillingAmount ?: 0.00
+            else -> {
+                "AED 0.00"
             }
-            else -> it.amount ?: 0.00
         }
-    } ?: return 0.00
+    }
+
+    private fun getCalculatedTotalAmount(transaction: Transaction): Double {
+        transaction.let {
+            return when (it.productCode) {
+                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
+                    (it.settlementAmount ?: 0.00).plus(totalFee)
+                }
+                TransactionProductCode.POS_PURCHASE.pCode -> {
+                    if (it.currency != SessionManager.getDefaultCurrency()) {
+                        (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
+                    } else {
+                        if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.0 else it.amount
+                            ?: 0.0
+                    }
+                }
+                else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
+                    ?: 0.00
+            }
+        }
+    }
+
+
+    private fun getExchangeRateForInternationalPOS(transaction: Transaction): Double {
+        val fxRate: Double? =
+            transaction.amount?.let { transaction.cardHolderBillingAmount?.div(it) }
+        return when {
+            transaction.amount?.let { transaction.cardHolderBillingAmount?.compareTo(it) } == -1 -> {
+                getDecimalFormatUpTo(
+                    6,
+                    amount = fxRate.toString(),
+                    withComma = true
+                ).toDouble()
+            }
+            else -> {
+                getDecimalFormatUpTo(
+                    3,
+                    amount = fxRate.toString(),
+                    withComma = true
+                ).toDouble()
+            }
+        }
+    }
 }
