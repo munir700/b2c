@@ -299,6 +299,4 @@ class TransactionDetailFactory(private val transaction: Transaction) {
            else -> transaction.receiverTransactionNote.decodeToUTF8()
        }
     }
-
-
 }

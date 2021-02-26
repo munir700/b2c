@@ -25,11 +25,11 @@ class TransactionDetailComposer(private val transaction: Transaction?) :
             transferType = transactionDetailFactory.getStatusType(),
             statusIcon = transactionDetailFactory.getTransactionStatusIcon(),
             coverImage = transactionDetailFactory.getMapImage(),
-            transactionItem = getValidList())
+            transactionItem = listTransactionItem())
     }
 
 
-    private fun getValidList(): List<ItemTransactionDetail> {
+    private fun listTransactionItem(): List<ItemTransactionDetail> {
         return transactionDetailItemList().filter {
             it.visibility == true
         }
