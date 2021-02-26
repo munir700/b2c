@@ -41,7 +41,7 @@ class TransactionDetailsViewModel(application: Application) :
         )
     val repository: TransactionsRepository = TransactionsRepository
     override var itemsComposer: TransactionDetailComposer =
-        TransactionDetailComposer(transaction.get())
+        TransactionDetailComposer(transaction.get() ?: Transaction())
     var spentLabelText: ObservableField<String> = ObservableField()
 
     override fun onCreate() {
@@ -66,7 +66,7 @@ class TransactionDetailsViewModel(application: Application) :
             state.statusIcon.set(transaction.getTransactionStatusIcon())
             state.coverImage.set(transaction.getMapImage())
         }
-        spentLabelText.set(this.transaction.get().getSpentLabelText())
+        //    spentLabelText.set(this.transaction.get().getSpentLabelText())
         state.transferType.set(transaction.get()?.getStatusType())
         state.isTransactionInProcessOrRejected.set(transaction.get()
             .isTransactionRejected() || transaction.get().isTransactionInProgress())
