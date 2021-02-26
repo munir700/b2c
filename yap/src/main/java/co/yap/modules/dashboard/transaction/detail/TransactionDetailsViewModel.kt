@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
+import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -42,32 +43,20 @@ class TransactionDetailsViewModel(application: Application) :
     val repository: TransactionsRepository = TransactionsRepository
     override var itemsComposer: TransactionDetailComposer =
         TransactionDetailComposer(transaction.get() ?: Transaction())
-    var spentLabelText: ObservableField<String> = ObservableField()
-
     override fun onCreate() {
         super.onCreate()
         setStatesData()
     }
 
     private fun setStatesData() {
+        state.transactionData.set(itemsComposer.compose())
         transaction.get()?.let { transaction ->
             if (isShowReceiptSection(transaction)) getAllReceipts()
 
             state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
             setTransactionNoteDate()
-            val note =
-                if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNote.decodeToUTF8() else transaction.receiverTransactionNote.decodeToUTF8()
-            state.txnNoteValue.set(note)
             state.receiptVisibility.set(isShowReceiptSection(transaction))
-            state.categoryTitle.set(transaction.getTransferCategoryTitle())
-            state.categoryIcon.set(transaction.getTransferCategoryIcon())
-            state.totalAmount.set(transaction.getTotalAmount())
-            state.locationValue.set(transaction.getLocation())
-            state.statusIcon.set(transaction.getTransactionStatusIcon())
-            state.coverImage.set(transaction.getMapImage())
         }
-        //    spentLabelText.set(this.transaction.get().getSpentLabelText())
-        state.transferType.set(transaction.get()?.getStatusType())
         state.isTransactionInProcessOrRejected.set(transaction.get()
             .isTransactionRejected() || transaction.get().isTransactionInProgress())
     }

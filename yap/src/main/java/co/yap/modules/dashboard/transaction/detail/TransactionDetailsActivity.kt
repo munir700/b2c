@@ -63,7 +63,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     it
                 )
                 viewModel.itemsComposer = TransactionDetailComposer(viewModel.transaction.get())
-                viewModel.transactionAdapter.setList(viewModel.itemsComposer.compose())
+                viewModel.state.transactionData.get()?.let { items ->
+                    viewModel.transactionAdapter.setList(items.transactionItem)
+                }
             }
         }
         viewModel.responseReciept.observe(this, Observer {

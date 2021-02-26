@@ -4,6 +4,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.BR
+import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.yapcore.BaseState
 
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {
@@ -30,4 +31,5 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var totalAmount: ObservableField<String> = ObservableField("")
     override var statusIcon: ObservableField<Int> = ObservableField(-1)
     override var coverImage: ObservableField<Int> = ObservableField(-1)
+    override var transactionData: ObservableField<TransactionDetail> = ObservableField()
 }
