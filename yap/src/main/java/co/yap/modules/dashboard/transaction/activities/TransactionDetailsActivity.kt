@@ -172,7 +172,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setSpentLabel() {
-        if (viewModel.state.exchangeRate != null) {
+        if (viewModel.transaction.get()?.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && viewModel.transaction.get()?.currency != SessionManager.getDefaultCurrency()) {
             getBindings().tvCardSpent.text = "Spent in AED"
         } else {
             getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
