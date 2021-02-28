@@ -81,7 +81,7 @@ class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImag
             cancelable = false
         ) {
             viewModel.deleteReceipt {
-                if (viewModel.imagesViewerAdapter.itemCount <= 2) {
+                if (viewModel.imagesViewerAdapter.itemCount == 0) {
                     setResult()
                 } else {
                     viewModel.imagesViewerAdapter.removeItemAt(viewPager.currentItem)
