@@ -190,7 +190,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     }
 
     private fun setSpentLabel() {
-        getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
+        if (viewModel.transaction.get()?.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && viewModel.transaction.get()?.currency != SessionManager.getDefaultCurrency()) {
+            getBindings().tvCardSpent.text = "Spent in AED"
+        } else {
+            getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
+        }
     }
 
     private fun setReceiptListener() {
