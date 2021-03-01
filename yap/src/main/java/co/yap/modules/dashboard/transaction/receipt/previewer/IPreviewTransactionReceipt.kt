@@ -1,11 +1,12 @@
 package co.yap.modules.dashboard.transaction.receipt.previewer
 
 import android.net.Uri
+import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import java.io.File
 
-class IPreviewTransactionReceipt {
+interface IPreviewTransactionReceipt {
     interface View : IBase.View<ViewModel> {
         fun registerObserver()
         fun unRegisterObserver()
@@ -24,5 +25,6 @@ class IPreviewTransactionReceipt {
 
     interface State : IBase.State {
         var filePath: Uri?
+        val showRedo: ObservableBoolean
     }
 }

@@ -131,7 +131,8 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
                     fragmentName = PreviewTransactionReceiptFragment::class.java.name,
                     bundle = bundleOf(
                         FILE_PATH to it.absolutePath,
-                        ExtraKeys.TRANSACTION_ID.name to getTransactionId()
+                        ExtraKeys.TRANSACTION_ID.name to getTransactionId(),
+                        ExtraKeys.TAKE_IMAGE_FROM.name to "CAMERA"
                     )
                 ) { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
