@@ -16,10 +16,11 @@
         android:id="@+id/rvTransactionsBarChart"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_90sdp"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom|end"
         android:gravity="bottom"
         android:layoutDirection="ltr"
         app:reverseLayout="true"
+        tools:itemCount="5"
         android:clipToPadding="false"
         tools:listitem="@layout/item_bar_chart_v2" />
 

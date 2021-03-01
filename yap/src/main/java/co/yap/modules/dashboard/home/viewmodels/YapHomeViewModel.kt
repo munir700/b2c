@@ -307,29 +307,6 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
-    override fun getFxRates(fxRate: (FxRateResponse.Data) -> Unit) {
-
-        val homeCountry = SessionManager.getCountries()
-            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
-        launch(Dispatcher.Background) {
-            val response =
-                updateFxRate(
-                    FxRateRequest(
-                        other_bank_country = homeCountry?.isoCountryCode2Digit ?: ""
-                    )
-                )
-            launch {
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                        fxRate.invoke(response.data.data)
-                    }
-                    is RetroApiResponse.Error -> {
-                    }
-                }
-            }
-        }
-    }
-
     override fun fetchTransactionDetailsForLeanplum(cardStatus: String?) {
         //getFxRates() {
         launch {

@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.transaction.detail
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import co.yap.BR
 import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.yapcore.BaseState
@@ -23,4 +24,6 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var receiptVisibility: ObservableBoolean = ObservableBoolean(false)
     override var isTransactionInProcessOrRejected: ObservableBoolean = ObservableBoolean(false)
     override var transactionData: ObservableField<TransactionDetail> = ObservableField()
+    override var coverImage: ObservableInt = ObservableInt()
+
 }

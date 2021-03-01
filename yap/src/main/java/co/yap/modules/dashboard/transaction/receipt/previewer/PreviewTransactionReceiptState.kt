@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.receipt.previewer
 
 import android.net.Uri
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import co.yap.BR
 import co.yap.yapcore.BaseState
 
@@ -12,4 +13,5 @@ class PreviewTransactionReceiptState : BaseState(), IPreviewTransactionReceipt.S
             field = value
             notifyPropertyChanged(BR.filePath)
         }
+    override val showRedo: ObservableBoolean = ObservableBoolean()
 }

@@ -11,7 +11,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceipt
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
@@ -20,13 +19,16 @@ import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.getFormattedTime
+import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
+import co.yap.yapcore.helpers.extentions.isTransactionInProgress
+import co.yap.yapcore.helpers.extentions.isTransactionRejected
 import java.util.*
 
 
 class TransactionDetailsViewModel(application: Application) :
     BaseViewModel<ITransactionDetails.State>(application), ITransactionDetails.ViewModel {
-
+    val repository: TransactionsRepository = TransactionsRepository
     override val state: TransactionDetailsState =
         TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -35,18 +37,25 @@ class TransactionDetailsViewModel(application: Application) :
         TransactionReceiptAdapter(
             mutableListOf()
         )
-    override var responseReciept: MutableLiveData<TransactionReceipt> = MutableLiveData()
-    override var transactionAdapter: TransactionDetailItemAdapter =
-        TransactionDetailItemAdapter(
-            mutableListOf()
-        )
-    val repository: TransactionsRepository = TransactionsRepository
-    override var itemsComposer: MutableLiveData<TransactionDetailComposer> =
-        MutableLiveData()
+    override var transactionAdapter: TransactionDetailItemAdapter = TransactionDetailItemAdapter(
+        arrayListOf()
+    )
+    override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
+    override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
 
     override fun onCreate() {
         super.onCreate()
         setStatesData()
+    }
+
+    override fun composeTransactionDetail(transaction: Transaction) {
+        state.transactionData.set(itemsComposer.compose(transaction))
+        state.transactionData.get()?.let {
+            transactionAdapter.setList(it.transactionItem)
+            state.txnNoteValue.set(it.noteValue)
+            state.transactionNoteDate = it.noteAddedDate
+            state.coverImage.set(it.coverImage)
+        }
     }
 
     private fun setStatesData() {
@@ -56,8 +65,10 @@ class TransactionDetailsViewModel(application: Application) :
             state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
             state.receiptVisibility.set(isShowReceiptSection(transaction))
         }
-        state.isTransactionInProcessOrRejected.set(transaction.get()
-            .isTransactionRejected() || transaction.get().isTransactionInProgress())
+        state.isTransactionInProcessOrRejected.set(
+            transaction.get()
+                .isTransactionRejected() || transaction.get().isTransactionInProgress()
+        )
 
     }
 
@@ -106,7 +117,7 @@ class TransactionDetailsViewModel(application: Application) :
                 transactionId = transaction.get()?.transactionId ?: ""
             )) {
                 is RetroApiResponse.Success -> {
-                    responseReciept.value = response.data.data
+                    responseReciept.value = response.data.trxnReceiptList as ArrayList<String>?
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
@@ -119,7 +130,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun isShowReceiptSection(transaction: Transaction): Boolean {
         return when (transaction.productCode) {
-            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> true
+            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode -> true
             else -> false
         }
     }

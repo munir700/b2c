@@ -39,10 +39,8 @@ interface IYapHome {
             accountInfo: AccountInfo,
             paymentCard: Card
         ): ArrayList<HomeNotification>
-
         fun shouldShowSetPin(paymentCard: Card): Boolean
-        fun fetchTransactionDetailsForLeanplum(cardStatus: String?)
-        fun getFxRates(fxRate: (FxRateResponse.Data) -> Unit)
+        fun fetchTransactionDetailsForLeanplum(cardStatus:String?)
     }
 
     interface State : IBase.State {

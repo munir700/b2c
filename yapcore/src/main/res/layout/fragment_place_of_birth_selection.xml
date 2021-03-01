@@ -97,9 +97,9 @@
                     style="@style/ASmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_edit_text_disable_grey_under_line"
-                    android:drawableEnd="@{viewModel.state.selectedCountry == null ? @drawable/iv_drown_down: @drawable/iv_drown_down}"
+                    android:drawableEnd="@{@drawable/iv_drown_down}"
                     android:drawablePadding="@dimen/margin_small"
+                    android:background="@drawable/bg_edit_text_disable_grey_under_line"
                     android:gravity="center_vertical"
                     android:hint="@string/screen_add_beneficiary_display_text_select_country"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
@@ -112,6 +112,12 @@
                     app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
                     app:showDropDown="@{true}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/greyLight"
+                    android:visibility="gone"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class TransactionReceiptResponse(
     @SerializedName("data")
-    val data: TransactionReceipt? = null
+    val trxnReceiptList: List<String>? = null
 ) : ApiResponse()

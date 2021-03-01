@@ -971,17 +971,21 @@ object UIBinder {
                 R.drawable.iv_drown_down
             )
         var drawable: Drawable? = null
-            iso2DigitCode?.let {
-             drawable =
-                textView.context.getDrawable(
-                    CurrencyUtils.getFlagDrawable(
-                        textView.context,
-                        it
+        iso2DigitCode?.let {
+            try {
+                drawable =
+                    textView.context.getDrawable(
+                        CurrencyUtils.getFlagDrawable(
+                            textView.context,
+                            it
+                        )
                     )
-                )
-            drawable?.setBounds(0, 0, 70, 70)
-            drawableDropDown?.setBounds(0, 0, 123, 123)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
         }
+        drawable?.setBounds(0, 0, 70, 70)
+        drawableDropDown?.setBounds(0, 0, 123, 123)
         textView.setCompoundDrawables(
             if (!iso2DigitCode.isNullOrEmpty()) drawable else null,
             drawables[1],

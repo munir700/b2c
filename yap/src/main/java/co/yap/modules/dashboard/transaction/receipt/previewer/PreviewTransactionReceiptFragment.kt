@@ -32,6 +32,12 @@ class PreviewTransactionReceiptFragment :
             bundle.getString(ExtraKeys.TRANSACTION_ID.name)?.let { id ->
                 viewModel.transactionId = id
             }
+            bundle.getString(ExtraKeys.TAKE_IMAGE_FROM.name)?.let { from ->
+                if (from == "CAMERA") viewModel.state.showRedo.set(true) else viewModel.state.showRedo.set(
+                    false
+                )
+            }
+
         }
         registerObserver()
     }

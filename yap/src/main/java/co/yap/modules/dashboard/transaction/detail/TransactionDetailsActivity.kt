@@ -61,26 +61,15 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
             intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
                 viewModel.transaction.set(it)
-                viewModel.itemsComposer =
-                    MutableLiveData(TransactionDetailComposer(it))
+                viewModel.composeTransactionDetail(it)
             }
         }
-        viewModel.itemsComposer.observe(this, trasactionDetailObserver)
         viewModel.responseReciept.observe(this, Observer {
-            viewModel.setAdapterList(it.trxnReceiptList ?: listOf())
+            viewModel.setAdapterList(it)
         })
         viewModel.adapter.setItemListener(onReceiptClickListener)
     }
 
-    val trasactionDetailObserver = Observer<TransactionDetailComposer> { composer ->
-        viewModel.state.transactionData.set(composer.compose())
-        viewModel.state.transactionData.get()?.let { it1 ->
-            viewModel.transactionAdapter.setList(it1.transactionItem)
-            viewModel.state.txnNoteValue.set(it1.noteValue)
-            viewModel.state.transactionNoteDate = it1.noteAddedDate
-            getBindings().ivMap.setImageResource(it1.coverImage)
-        }
-    }
 
     private val onReceiptClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -328,7 +317,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickEvent)
-        viewModel.itemsComposer.removeObserver(trasactionDetailObserver)
     }
 
     fun getBindings(): ActivityTransactionDetailsBinding =

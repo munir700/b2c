@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.detail
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
 import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
@@ -9,11 +10,9 @@ import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceipt
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import java.util.*
 
 interface ITransactionDetails {
     interface View : IBase.View<ViewModel> {
@@ -27,8 +26,7 @@ interface ITransactionDetails {
         var clickEvent: SingleClickEvent
         var transaction: ObservableField<Transaction>
         var adapter: TransactionReceiptAdapter
-        var responseReciept: MutableLiveData<TransactionReceipt>
-        var transactionAdapter: TransactionDetailItemAdapter
+        var responseReciept: MutableLiveData<ArrayList<String>>
         fun deleteReceipt(position: Int)
         fun getAllReceipts()
         fun getReceiptTitle(list: List<ReceiptModel>): String
@@ -38,7 +36,9 @@ interface ITransactionDetails {
         fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel>
         fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String
-        var itemsComposer: MutableLiveData<TransactionDetailComposer>
+        fun composeTransactionDetail(transaction: Transaction)
+        var itemsComposer: TransactionDetailComposer
+        var transactionAdapter: TransactionDetailItemAdapter
     }
 
     interface State : IBase.State {
@@ -51,5 +51,6 @@ interface ITransactionDetails {
         var receiptTitle: ObservableField<String>
         var isTransactionInProcessOrRejected: ObservableBoolean
         var transactionData: ObservableField<TransactionDetail>
+        var coverImage: ObservableInt
     }
 }

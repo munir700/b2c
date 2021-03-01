@@ -126,20 +126,15 @@ class SendMoneyDashboardViewModel(application: Application) :
                 null, SendMoneyType.sendMoneyToInternational
             )
         )
-        if (!SessionManager.user?.currentCustomer?.homeCountry.equals(
-                "AE"
-            ) && SessionManager.user?.currentCustomer?.homeCountry != null
-        )
+        if (SessionManager.homeCountry2Digit != "AE")
             list.add(
                 SendMoneyOptions(
                     getString(Strings.screen_send_money_home_label),
                     R.drawable.ic_houseicon,
-                    false,
+                    true,
                     CurrencyUtils.getFlagDrawable(
                         context,
-                        if (SessionManager.user?.currentCustomer?.homeCountry?.count() ?: 0 > 2) SessionManager.getCountries()
-                            .find { it.isoCountryCode3Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }?.isoCountryCode2Digit
-                            ?: "AE" else SessionManager.user?.currentCustomer?.homeCountry ?: ""
+                        SessionManager.homeCountry2Digit
                     ), SendMoneyType.sendMoneyToHomeCountry
                 )
             )

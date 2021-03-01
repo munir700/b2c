@@ -7,29 +7,29 @@ import co.yap.yapcore.enums.TransactionDetailItem
 import co.yap.yapcore.helpers.extentions.getTitle
 
 interface TransactionDetailItemsComposer {
-    fun compose(): TransactionDetail
+    fun compose(transaction: Transaction?): TransactionDetail?
 }
 
-class TransactionDetailComposer(private val transaction: Transaction?) :
-    TransactionDetailItemsComposer {
-    private val transactionDetailFactory: TransactionDetailFactory by lazy {
-        TransactionDetailFactory(transaction ?: Transaction())
-    }
+class TransactionDetailComposer : TransactionDetailItemsComposer {
+    private var transactionDetailFactory: TransactionDetailFactory? = null
 
-
-    override fun compose(): TransactionDetail {
-        return TransactionDetail(
-            transactionTitle = transaction.getTitle(),
-            noteValue = transactionDetailFactory.getNote(),
-            noteAddedDate = transactionDetailFactory.getTransactionNoteDate(),
-            categoryTitle = transactionDetailFactory.getTransferCategoryTitle(),
-            categoryIcon = transactionDetailFactory.getTransferCategoryIcon(),
-            totalAmount = transactionDetailFactory.getTotalAmount(),
-            locationValue = transactionDetailFactory.getLocation(),
-            transferType = transactionDetailFactory.getStatusType(),
-            statusIcon = transactionDetailFactory.getTransactionStatusIcon(),
-            coverImage = transactionDetailFactory.getMapImage(),
-            transactionItem = listTransactionItem())
+    override fun compose(transaction: Transaction?): TransactionDetail? {
+        transaction?.let {
+            transactionDetailFactory = TransactionDetailFactory(transaction)
+            return TransactionDetail(
+                transactionTitle = transaction.getTitle(),
+                noteValue = transactionDetailFactory?.getNote(),
+                noteAddedDate = transactionDetailFactory?.getTransactionNoteDate(),
+                categoryTitle = transactionDetailFactory?.getTransferCategoryTitle(),
+                categoryIcon = transactionDetailFactory?.getTransferCategoryIcon(),
+                totalAmount = transactionDetailFactory?.getTotalAmount(),
+                locationValue = transactionDetailFactory?.getLocation(),
+                transferType = transactionDetailFactory?.getStatusType(),
+                statusIcon = transactionDetailFactory?.getTransactionStatusIcon(),
+                coverImage = transactionDetailFactory?.getMapImage() ?: -1,
+                transactionItem = listTransactionItem()
+            )
+        } ?: return null
     }
 
 
@@ -59,9 +59,9 @@ class TransactionDetailComposer(private val transaction: Transaction?) :
         tag: TransactionDetailItem
     ): ItemTransactionDetail {
         return ItemTransactionDetail(
-            label = transactionDetailFactory.label(tag),
-            value = transactionDetailFactory.value(tag),
-            visibility = transactionDetailFactory.isShowItem(tag)
+            label = transactionDetailFactory?.label(tag),
+            value = transactionDetailFactory?.value(tag),
+            visibility = transactionDetailFactory?.isShowItem(tag)
         )
     }
 }

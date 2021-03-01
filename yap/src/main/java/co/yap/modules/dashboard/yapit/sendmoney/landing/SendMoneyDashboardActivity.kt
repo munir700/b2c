@@ -264,14 +264,14 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         super.onResume()
         viewModel.dashboardAdapter.setList(viewModel.geSendMoneyOptions())
         if (!viewModel.dashboardAdapter.getDataList()
-                .isNullOrEmpty() && SessionManager.user?.currentCustomer?.homeCountry != "AE"
+                .isNullOrEmpty() && SessionManager.homeCountry2Digit != "AE"
         ) {
             viewModel.dashboardAdapter.getDataList()
                 .find { it.name == getString(Strings.screen_send_money_home_label) }?.let {
                     val index = viewModel.dashboardAdapter.getDataList().indexOf(it)
                     it.flag = CurrencyUtils.getFlagDrawable(
                         context,
-                        SessionManager.user?.currentCustomer?.homeCountry ?: ""
+                        SessionManager.homeCountry2Digit
                     )
                     viewModel.dashboardAdapter.setItemAt(index, it)
                 }

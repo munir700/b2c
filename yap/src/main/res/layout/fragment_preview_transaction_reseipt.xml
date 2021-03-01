@@ -10,6 +10,7 @@
             type="co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,6 +78,7 @@
                 android:paddingEnd="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_extra_small"
                 android:text="Redo"
+                android:visibility="@{viewModel.state.showRedo ? View.VISIBLE : View.GONE}"
                 android:textColor="@color/colorPrimary"
                 tools:text="Redo" />
         </LinearLayout>

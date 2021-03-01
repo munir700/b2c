@@ -3,6 +3,7 @@ package co.yap.dashboard.transaction
 import co.yap.app.YAPApplication
 import co.yap.base.BaseTestCase
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel
+import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
@@ -83,6 +84,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
     @TestFactory
     fun test_transaction(): Collection<DynamicTest>? {
         val tests: MutableSet<DynamicTest> = LinkedHashSet()
+        val composer = TransactionDetailComposer()
         getTransactions().forEach {
             tests.add(addNewTest(it.transaction, it.detailExpectation))
         }
