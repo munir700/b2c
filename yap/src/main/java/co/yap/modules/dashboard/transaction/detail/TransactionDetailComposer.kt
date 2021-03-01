@@ -17,7 +17,10 @@ class TransactionDetailComposer(private val transaction: Transaction?) :
 
 
     override fun compose(): TransactionDetail {
-        return TransactionDetail(noteValue = transactionDetailFactory.getNote(),
+        return TransactionDetail(
+            transactionTitle = transactionDetailFactory.transactionTitle(),
+            noteValue = transactionDetailFactory.getNote(),
+            noteAddedDate = transactionDetailFactory.getTransactionNoteDate(),
             categoryTitle = transactionDetailFactory.getTransferCategoryTitle(),
             categoryIcon = transactionDetailFactory.getTransferCategoryIcon(),
             totalAmount = transactionDetailFactory.getTotalAmount(),

@@ -16,6 +16,8 @@ import java.util.*
 
 interface ITransactionDetails {
     interface View : IBase.View<ViewModel> {
+      fun  setObservers()
+      fun  removeObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -35,26 +37,18 @@ interface ITransactionDetails {
         fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel>
         fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String
-        var itemsComposer: TransactionDetailComposer
+        var itemsComposer: MutableLiveData<TransactionDetailComposer>
     }
 
     interface State : IBase.State {
         var txnNoteValue: ObservableField<String>
         var isTransferTxn: ObservableField<Boolean>
         var spentVisibility: ObservableField<Boolean>
-        var categoryTitle: ObservableField<String>
-        var categoryIcon: ObservableField<Int>
-        var transactionTitle: ObservableField<String>
         var transactionNoteDate: String?
-        val editNotePrefixText: String get() = "Note added "
         var noteVisibility: ObservableBoolean
         var receiptVisibility: ObservableBoolean
         var receiptTitle: ObservableField<String>
-        var transferType: ObservableField<String>
         var isTransactionInProcessOrRejected: ObservableBoolean
-        var locationValue: ObservableField<String>
-        var totalAmount: ObservableField<String>
-        var statusIcon: ObservableField<Int>
         var coverImage: ObservableField<Int>
         var transactionData: ObservableField<TransactionDetail>
     }

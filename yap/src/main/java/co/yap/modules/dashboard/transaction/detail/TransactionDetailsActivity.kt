@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.core.os.bundleOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -44,34 +45,42 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_transaction_details
-
-    override val viewModel: ITransactionDetails.ViewModel
-        get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addObservers()
-        setTransactionImage()
-        setContentDataColor(viewModel.transaction.get())
-    }
-
-    private fun addObservers() {
+    override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
             intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
                 viewModel.transaction.set(
                     it
                 )
-                viewModel.itemsComposer = TransactionDetailComposer(viewModel.transaction.get())
-                viewModel.state.transactionData.get()?.let { items ->
-                    viewModel.transactionAdapter.setList(items.transactionItem)
-                }
+                viewModel.itemsComposer =
+                    MutableLiveData(TransactionDetailComposer(viewModel.transaction.get()))
+                viewModel.itemsComposer.observe(this, trasactionDetailObserver)
             }
         }
         viewModel.responseReciept.observe(this, Observer {
             viewModel.setAdapterList(it.trxnReceiptList ?: listOf())
         })
         viewModel.adapter.setItemListener(onReceiptClickListener)
+    }
+
+    val trasactionDetailObserver = Observer<TransactionDetailComposer> { composer ->
+        viewModel.state.transactionData.set(composer.compose())
+        viewModel.state.transactionData.get()?.let { it1 ->
+            viewModel.transactionAdapter.setList(it1.transactionItem)
+            viewModel.state.txnNoteValue.set(it1.noteValue)
+            viewModel.state.coverImage.set(it1.coverImage)
+            viewModel.state.transactionNoteDate = it1.noteAddedDate
+        }
+    }
+
+    override val viewModel: ITransactionDetails.ViewModel
+        get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+        setTransactionImage()
+        setContentDataColor(viewModel.transaction.get())
     }
 
     private val onReceiptClickListener = object : OnItemClickListener {
@@ -117,7 +126,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         showAddReceiptSuccessDialog()
                 }
             }
-
             PhotoSelectionType.GALLERY.name -> openImagePicker(PhotoSelectionType.GALLERY)
         }
     }
@@ -237,10 +245,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
 
-                    viewModel.state.transactionNoteDate =
-                        viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                    viewModel.state.transactionNoteDate = "Note added ${
+                        DateUtils.getCurrentDateWithFormat(
                             DateUtils.FORMAT_LONG_OUTPUT
                         )
+                    }"
                 }
 
                 RequestCodes.REQUEST_DELETE_RECEIPT -> {
@@ -318,11 +327,20 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         finish()
     }
 
-    fun getBindings(): ActivityTransactionDetailsBinding {
-        return viewDataBinding as ActivityTransactionDetailsBinding
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(clickEvent)
+        viewModel.itemsComposer.removeObserver(trasactionDetailObserver)
     }
+
+    fun getBindings(): ActivityTransactionDetailsBinding =
+        viewDataBinding as ActivityTransactionDetailsBinding
 
     override fun onBackPressed() {
         setResult()
+    }
+
+    override fun onDestroy() {
+        removeObservers()
+        super.onDestroy()
     }
 }

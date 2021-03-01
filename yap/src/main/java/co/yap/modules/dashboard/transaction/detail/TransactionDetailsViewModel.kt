@@ -5,7 +5,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
-import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -18,9 +17,10 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.getFormattedTime
+import co.yap.yapcore.helpers.extentions.isTransactionInProgress
+import co.yap.yapcore.helpers.extentions.isTransactionRejected
 import java.util.*
 
 
@@ -41,20 +41,18 @@ class TransactionDetailsViewModel(application: Application) :
             mutableListOf()
         )
     val repository: TransactionsRepository = TransactionsRepository
-    override var itemsComposer: TransactionDetailComposer =
-        TransactionDetailComposer(transaction.get() ?: Transaction())
+    override var itemsComposer: MutableLiveData<TransactionDetailComposer> =
+        MutableLiveData()
+
     override fun onCreate() {
         super.onCreate()
         setStatesData()
     }
 
     private fun setStatesData() {
-        state.transactionData.set(itemsComposer.compose())
         transaction.get()?.let { transaction ->
             if (isShowReceiptSection(transaction)) getAllReceipts()
-
             state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
-            setTransactionNoteDate()
             state.receiptVisibility.set(isShowReceiptSection(transaction))
         }
         state.isTransactionInProcessOrRejected.set(transaction.get()
@@ -157,16 +155,5 @@ class TransactionDetailsViewModel(application: Application) :
                 else -> 0.00
             }
         } ?: return 0.00
-    }
-
-    private fun setTransactionNoteDate() {
-        if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
-            state.transactionNoteDate =
-                state.editNotePrefixText + if (transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
-        } else {
-            state.transactionNoteDate =
-                state.editNotePrefixText + transaction.get()
-                    .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
-        }
     }
 }

@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.transaction.detail
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 
@@ -197,18 +198,20 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         }
     }
 
-     fun getMapImage(): Int {
-            if (TransactionProductType.IS_TRANSACTION_FEE == transaction.getProductType()) {
-                return R.drawable.ic_image_light_red_background
-            }
-            return (when (transaction.productCode) {
-                TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_image_blue_background
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_brown_background
-                TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
-                TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
-                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_image_light_blue_background
-                else -> -1
-            }) }
+    fun getMapImage(): Int {
+        if (TransactionProductType.IS_TRANSACTION_FEE == transaction.getProductType()) {
+            return R.drawable.ic_image_light_red_background
+        }
+        return (when (transaction.productCode) {
+            TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_image_blue_background
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_brown_background
+            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
+            TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_image_light_blue_background
+            else -> -1
+        })
+    }
+
     fun getLocation(): String? {
         return when (transaction.productCode) {
             TransactionProductCode.FUND_LOAD.pCode -> transaction.otherBankName ?: ""
@@ -293,10 +296,27 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             } ?: return ""
         }
     }
-    fun getNote() : String{
-       return when (transaction.txnType) {
-           TxnType.DEBIT.type -> transaction.transactionNote.decodeToUTF8()
-           else -> transaction.receiverTransactionNote.decodeToUTF8()
-       }
+
+    fun getNote(): String {
+        return when (transaction.txnType) {
+            TxnType.DEBIT.type -> transaction.transactionNote.decodeToUTF8()
+            else -> {
+                transaction.receiverTransactionNote.decodeToUTF8()
+            }
+        }
+    }
+
+    fun transactionTitle(): String = transaction.getTitle()
+
+    fun getTransactionNoteDate(): String {
+        return when {
+            transaction.getTransactionNoteDate(DateUtils.FORMAT_LONG_OUTPUT).isEmpty() -> {
+                "Note added " + if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNoteDate else transaction.receiverTransactionNoteDate
+            }
+            else -> {
+                "Note added " + transaction
+                    .getTransactionNoteDate(DateUtils.FORMAT_LONG_OUTPUT)
+            }
+        }
     }
 }
