@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
+import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -17,10 +18,9 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.extentions.getFormattedTime
-import co.yap.yapcore.helpers.extentions.isTransactionInProgress
-import co.yap.yapcore.helpers.extentions.isTransactionRejected
+import co.yap.yapcore.helpers.extentions.*
 import java.util.*
 
 
@@ -52,11 +52,13 @@ class TransactionDetailsViewModel(application: Application) :
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
             if (isShowReceiptSection(transaction)) getAllReceipts()
+            setTransactionNoteDate()
             state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
             state.receiptVisibility.set(isShowReceiptSection(transaction))
         }
         state.isTransactionInProcessOrRejected.set(transaction.get()
             .isTransactionRejected() || transaction.get().isTransactionInProgress())
+
     }
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {
@@ -155,5 +157,16 @@ class TransactionDetailsViewModel(application: Application) :
                 else -> 0.00
             }
         } ?: return 0.00
+    }
+
+    private fun setTransactionNoteDate() {
+        if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
+            state.transactionNoteDate =
+                "Note added " + if (transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
+
+        } else {
+            state.transactionNoteDate = "Note added" + transaction.get()
+                .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
+        }
     }
 }

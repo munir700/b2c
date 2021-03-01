@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
+import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
@@ -45,18 +46,26 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_transaction_details
+    override val viewModel: ITransactionDetails.ViewModel
+        get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+        setTransactionImage()
+        setContentDataColor(viewModel.transaction.get())
+    }
+
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
             intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
-                viewModel.transaction.set(
-                    it
-                )
+                viewModel.transaction.set(it)
                 viewModel.itemsComposer =
-                    MutableLiveData(TransactionDetailComposer(viewModel.transaction.get()))
-                viewModel.itemsComposer.observe(this, trasactionDetailObserver)
+                    MutableLiveData(TransactionDetailComposer(it))
             }
         }
+        viewModel.itemsComposer.observe(this, trasactionDetailObserver)
         viewModel.responseReciept.observe(this, Observer {
             viewModel.setAdapterList(it.trxnReceiptList ?: listOf())
         })
@@ -68,19 +77,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         viewModel.state.transactionData.get()?.let { it1 ->
             viewModel.transactionAdapter.setList(it1.transactionItem)
             viewModel.state.txnNoteValue.set(it1.noteValue)
-            viewModel.state.coverImage.set(it1.coverImage)
             viewModel.state.transactionNoteDate = it1.noteAddedDate
+            getBindings().ivMap.setImageResource(it1.coverImage)
         }
-    }
-
-    override val viewModel: ITransactionDetails.ViewModel
-        get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObservers()
-        setTransactionImage()
-        setContentDataColor(viewModel.transaction.get())
     }
 
     private val onReceiptClickListener = object : OnItemClickListener {

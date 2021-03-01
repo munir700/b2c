@@ -4,6 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
+import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.transactions.responsedtos.ReceiptModel
@@ -49,7 +50,6 @@ interface ITransactionDetails {
         var receiptVisibility: ObservableBoolean
         var receiptTitle: ObservableField<String>
         var isTransactionInProcessOrRejected: ObservableBoolean
-        var coverImage: ObservableField<Int>
         var transactionData: ObservableField<TransactionDetail>
     }
 }

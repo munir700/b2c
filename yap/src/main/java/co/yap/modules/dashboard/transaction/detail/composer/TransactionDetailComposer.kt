@@ -1,9 +1,10 @@
-package co.yap.modules.dashboard.transaction.detail
+package co.yap.modules.dashboard.transaction.detail.composer
 
 import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
 import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.enums.TransactionDetailItem
+import co.yap.yapcore.helpers.extentions.getTitle
 
 interface TransactionDetailItemsComposer {
     fun compose(): TransactionDetail
@@ -18,7 +19,7 @@ class TransactionDetailComposer(private val transaction: Transaction?) :
 
     override fun compose(): TransactionDetail {
         return TransactionDetail(
-            transactionTitle = transactionDetailFactory.transactionTitle(),
+            transactionTitle = transaction.getTitle(),
             noteValue = transactionDetailFactory.getNote(),
             noteAddedDate = transactionDetailFactory.getTransactionNoteDate(),
             categoryTitle = transactionDetailFactory.getTransferCategoryTitle(),
