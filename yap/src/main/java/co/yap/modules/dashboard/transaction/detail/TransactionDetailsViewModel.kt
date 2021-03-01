@@ -124,7 +124,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun isShowReceiptSection(transaction: Transaction): Boolean {
         return when (transaction.productCode) {
-            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> true
+            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode -> true
             else -> false
         }
     }
