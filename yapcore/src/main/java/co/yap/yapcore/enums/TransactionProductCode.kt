@@ -47,7 +47,7 @@ enum class TransactionStatus {
 }
 
 enum class TransactionProductType {
-    IS_TRANSACTION_FEE, IS_BANK, IS_REFUND, IS_CASH, IS_INCOMING
+    IS_TRANSACTION_FEE, IS_BANK, IS_REFUND, IS_CASH, IS_INCOMING, IS_SEND_MONEY
 }
 
 enum class TransactionState {

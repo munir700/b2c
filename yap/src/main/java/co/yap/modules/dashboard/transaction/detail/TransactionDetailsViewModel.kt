@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
+import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -13,15 +15,20 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.helpers.extentions.getFormattedTime
+import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
+import co.yap.yapcore.helpers.extentions.isTransactionInProgress
+import co.yap.yapcore.helpers.extentions.isTransactionRejected
+import java.util.*
 
 
 class TransactionDetailsViewModel(application: Application) :
     BaseViewModel<ITransactionDetails.State>(application), ITransactionDetails.ViewModel {
-
+    val repository: TransactionsRepository = TransactionsRepository
     override val state: TransactionDetailsState =
         TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -30,14 +37,43 @@ class TransactionDetailsViewModel(application: Application) :
         TransactionReceiptAdapter(
             mutableListOf()
         )
+    override var transactionAdapter: TransactionDetailItemAdapter = TransactionDetailItemAdapter(
+        arrayListOf()
+    )
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
-    val repository: TransactionsRepository = TransactionsRepository
-
-    var spentLabelText: ObservableField<String> = ObservableField()
+    override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
 
     override fun onCreate() {
         super.onCreate()
         setStatesData()
+    }
+
+    override fun composeTransactionDetail(transaction: Transaction) {
+        state.transactionData.set(itemsComposer.compose(transaction))
+        state.transactionData.get()?.let {
+            transactionAdapter.setList(it.transactionItem)
+            state.txnNoteValue.set(it.noteValue)
+            state.transactionNoteDate = it.noteAddedDate
+            state.coverImage.set(it.coverImage)
+        }
+    }
+
+    private fun setStatesData() {
+        transaction.get()?.let { transaction ->
+            if (isShowReceiptSection(transaction)) getAllReceipts()
+            setTransactionNoteDate()
+            state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
+            state.receiptVisibility.set(isShowReceiptSection(transaction))
+        }
+        state.isTransactionInProcessOrRejected.set(
+            transaction.get()
+                .isTransactionRejected() || transaction.get().isTransactionInProgress()
+        )
+
+    }
+
+    override fun handlePressOnEditNoteClickEvent(id: Int) {
+        clickEvent.postValue(id)
     }
 
     override fun getReceiptTitle(list: List<ReceiptModel>): String {
@@ -53,7 +89,6 @@ class TransactionDetailsViewModel(application: Application) :
         }
 
     }
-
 
     override fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel> {
         val list: MutableList<ReceiptModel> = arrayListOf()
@@ -84,7 +119,6 @@ class TransactionDetailsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     responseReciept.value = response.data.trxnReceiptList as ArrayList<String>?
                     state.loading = false
-
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -94,32 +128,6 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnEditNoteClickEvent(id: Int) {
-        clickEvent.postValue(id)
-    }
-
-    private fun setStatesData() {
-        transaction.get()?.let { transaction ->
-            if (isShowReceiptSection(transaction)) getAllReceipts()
-
-            setToolbarTitle()
-            setTransactionNoteDate()
-            val note =
-                if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNote.decodeToUTF8() else transaction.receiverTransactionNote.decodeToUTF8()
-            state.txnNoteValue.set(note)
-            setSenderOrReceiver(transaction)
-            state.receiptVisibility.set(isShowReceiptSection(transaction))
-            state.categoryTitle.set(getTransferCategoryTitle(transaction))
-            state.categoryIcon.set(getTransferCategoryIcon(transaction))
-            if (transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && transaction.currency != SessionManager.getDefaultCurrency()) {
-                state.exchangeRate?.set(getExchangeRate(transaction))
-            } else {
-                state.exchangeRate?.set(null)
-            }
-        }
-        spentLabelText.set(this.transaction.get().getSpentLabelText())
-    }
-
     override fun isShowReceiptSection(transaction: Transaction): Boolean {
         return when (transaction.productCode) {
             TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode -> true
@@ -127,165 +135,6 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    private fun setToolbarTitle() {
-        state.toolbarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
-    }
-
-    private fun setTransactionNoteDate() {
-        if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
-            state.transactionNoteDate =
-                state.editNotePrefixText + if (transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
-        } else {
-            state.transactionNoteDate =
-                state.editNotePrefixText + transaction.get()
-                    .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
-        }
-    }
-
-    private fun setSenderOrReceiver(transaction: Transaction) {
-        when (transaction.productCode ?: "") {
-            TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                state.isTransferTxn.set(true)
-            }
-        }
-    }
-
-    override fun getTransferType(transaction: Transaction): String {
-        return when {
-            transaction.isTransactionRejected() -> "Transfer Rejected"
-            transaction.isTransactionInProgress() -> "Transfer Pending"
-            TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode -> "YTY transfer"
-            else -> transaction.getTransferType()
-        }
-    }
-
-    override fun getLocation(transaction: Transaction?): String {
-        return when (transaction?.productCode) {
-            TransactionProductCode.FUND_LOAD.pCode -> transaction.otherBankName ?: ""
-            else -> transaction?.cardAcceptorLocation ?: ""
-        }
-    }
-
-    override fun getTransferCategoryTitle(transaction: Transaction?): String {
-        transaction?.let {
-            transaction.productCode?.let { productCode ->
-                if (TransactionProductType.IS_TRANSACTION_FEE == transaction.getProductType()) {
-                    return "Fee"
-                }
-                return (when (productCode) {
-                    TransactionProductCode.Y2Y_TRANSFER.pCode -> if (transaction.txnType == TxnType.DEBIT.type) "Outgoing Transfer" else "Incoming Transfer"
-                    TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> "Incoming Transfer"
-                    TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> ""
-                    TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                        "Outgoing Transfer"
-                    }
-                    TransactionProductCode.CARD_REORDER.pCode -> "Fee"
-                    TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName ?: ""
-                    TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
-                    TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
-                        if (transaction.category.equals(
-                                "REVERSAL",
-                                true
-                            )
-                        ) "Reversal" else "Cash withdraw"
-                    }
-                    else -> ""
-                })
-            } ?: return ""
-        } ?: return ""
-    }
-
-    override fun getTransferCategoryIcon(transaction: Transaction?): Int {
-        transaction?.let {
-            if (transaction.getProductType() == TransactionProductType.IS_TRANSACTION_FEE) {
-                return R.drawable.ic_expense
-            }
-            return (when (transaction.productCode) {
-                TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_send_money
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> 0
-                TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                    R.drawable.ic_send_money
-                }
-                TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_expense
-                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
-                    R.drawable.ic_cash
-                }
-                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
-
-                else -> 0
-            })
-        } ?: return 0
-    }
-
-
-    override fun getSpentAmount(transaction: Transaction?): Double {
-        transaction?.let {
-            return when {
-                it.status == TransactionStatus.FAILED.name -> 0.00
-                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                    0.00
-                }
-                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    (it.settlementAmount ?: 0.00)
-                }
-                it.productCode == TransactionProductCode.POS_PURCHASE.pCode && it.currency != SessionManager.getDefaultCurrency() -> {
-                    it.cardHolderBillingAmount ?: 0.00
-                }
-                else -> it.amount ?: 0.00
-            }
-        } ?: return 0.00
-    }
-
-    override fun getCalculatedTotalAmount(transaction: Transaction?): Double {
-        transaction?.let {
-            return when (it.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
-                    (it.settlementAmount ?: 0.00).plus(totalFee)
-                }
-                TransactionProductCode.POS_PURCHASE.pCode -> {
-                    if (it.currency != SessionManager.getDefaultCurrency()) {
-                        (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
-                    } else {
-                        if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.0 else it.amount
-                            ?: 0.0
-                    }
-                }
-                else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
-                    ?: 0.00
-            }
-        } ?: return 0.00
-    }
-
-    override fun getForeignAmount(transaction: Transaction?): Double {
-        transaction?.let {
-            return when (transaction.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    transaction.amount ?: 0.00
-                }
-                else -> 0.00
-            }
-        } ?: return 0.00
-    }
-
-    override fun getStatusIcon(transaction: Transaction?): Int {
-        return if (transaction?.isTransactionInProgress() == true) android.R.color.transparent
-        else when (transaction?.productCode) {
-            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
-                R.drawable.ic_identifier_atm_withdrawl
-            }
-            TransactionProductCode.ATM_DEPOSIT.pCode -> {
-                R.drawable.ic_identifier_atm_deposite
-            }
-
-            else -> android.R.color.transparent
-        }
-    }
-
-    //getString(
-    //                Strings.transaction_narration_y2y_transfer_detail
-    //            )
     override fun getAddReceiptOptions(): ArrayList<BottomSheetItem> {
         val list = arrayListOf<BottomSheetItem>()
         list.add(
@@ -309,32 +158,14 @@ class TransactionDetailsViewModel(application: Application) :
         adapter.setList(getReceiptItems(receiptLis))
         state.receiptTitle.set(getReceiptTitle(adapter.getDataList()))
     }
+    private fun setTransactionNoteDate() {
+        if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
+            state.transactionNoteDate =
+                "Note added " + if (transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
 
-    private fun getExchangeRate(transaction: Transaction): Double? {
-        var fxRate: Double? =
-            transaction.amount?.let { transaction.cardHolderBillingAmount?.div(it) }
-
-        if (transaction.amount?.let {
-                transaction.cardHolderBillingAmount?.compareTo(
-                    it
-                )
-            } == -1) { // cardHolderBillingAmount is smaller than amount
-            // round to the 6 decimal if cardHolderBillingAmount is smaller than amount
-            fxRate = getDecimalFormatUpTo(
-                6,
-                amount = fxRate.toString(),
-                withComma = true
-            ).toDouble()
         } else {
-            //   and to the 3rd decimal
-            fxRate = getDecimalFormatUpTo(
-                3,
-                amount = fxRate.toString(),
-                withComma = true
-            ).toDouble()
+            state.transactionNoteDate = "Note added " + transaction.get()
+                .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
         }
-
-        return fxRate
     }
-
 }
