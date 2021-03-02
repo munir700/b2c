@@ -121,10 +121,6 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
 //                expectation.spentAmount,
 //                txnDetail., 0.2
 //            )
-//            Assert.assertEquals(
-//                expectation.foreignAmount,
-//                sut.getForeignAmount(transaction), 0.2
-//            )
             Assert.assertEquals(
                 expectation.location ?: "",
                 txnDetail?.locationValue

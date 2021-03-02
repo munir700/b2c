@@ -32,7 +32,6 @@ interface ITransactionDetails {
         fun getReceiptTitle(list: List<ReceiptModel>): String
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
         fun setAdapterList(receiptLis: List<String>)
-        fun getForeignAmount(transaction: Transaction?): Double
         fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel>
         fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String

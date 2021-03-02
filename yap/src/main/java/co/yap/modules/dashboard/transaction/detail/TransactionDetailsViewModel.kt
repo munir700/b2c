@@ -158,18 +158,6 @@ class TransactionDetailsViewModel(application: Application) :
         adapter.setList(getReceiptItems(receiptLis))
         state.receiptTitle.set(getReceiptTitle(adapter.getDataList()))
     }
-
-    override fun getForeignAmount(transaction: Transaction?): Double {
-        transaction?.let {
-            return when (transaction.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    transaction.amount ?: 0.00
-                }
-                else -> 0.00
-            }
-        } ?: return 0.00
-    }
-
     private fun setTransactionNoteDate() {
         if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
             state.transactionNoteDate =
