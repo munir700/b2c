@@ -94,7 +94,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     private fun setObserver() {
         viewModel.responseReciept.observe(this, Observer {
-            viewModel.setAdapterList(it.trxnReceiptList ?: listOf())
+            viewModel.setAdapterList(it)
         })
     }
 

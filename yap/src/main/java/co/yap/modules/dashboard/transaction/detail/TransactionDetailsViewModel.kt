@@ -9,7 +9,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceipt
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
@@ -18,7 +17,6 @@ import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
-import java.util.*
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -32,7 +30,7 @@ class TransactionDetailsViewModel(application: Application) :
         TransactionReceiptAdapter(
             mutableListOf()
         )
-    override var responseReciept: MutableLiveData<TransactionReceipt> = MutableLiveData()
+    override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
 
     var spentLabelText: ObservableField<String> = ObservableField()
@@ -84,7 +82,7 @@ class TransactionDetailsViewModel(application: Application) :
                 transactionId = transaction.get()?.transactionId ?: ""
             )) {
                 is RetroApiResponse.Success -> {
-                    responseReciept.value = response.data.data
+                    responseReciept.value = response.data.trxnReceiptList as ArrayList<String>?
                     state.loading = false
 
                 }
