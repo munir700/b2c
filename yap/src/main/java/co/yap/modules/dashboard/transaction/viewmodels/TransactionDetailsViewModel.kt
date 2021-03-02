@@ -44,7 +44,10 @@ class TransactionDetailsViewModel(application: Application) :
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(getTransferCategoryTitle(transaction))
             state.categoryIcon.set(getTransferCategoryIcon(transaction))
-            if (transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && transaction.currency != SessionManager.getDefaultCurrency()) {
+            if ((transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) || transaction.productCode.equals(
+                    TransactionProductCode.ATM_WITHDRAWL.pCode
+                ) || transaction.productCode.equals(TransactionProductCode.ATM_DEPOSIT.pCode)) && transaction.currency != SessionManager.getDefaultCurrency()
+            ) {
                 state.exchangeRate?.set(getExchangeRate(transaction))
             } else {
                 state.exchangeRate?.set(null)
@@ -60,7 +63,7 @@ class TransactionDetailsViewModel(application: Application) :
     private fun setTransactionNoteDate() {
         if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
             state.transactionNoteDate =
-                state.editNotePrefixText + if(transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
+                state.editNotePrefixText + if (transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
         } else {
             state.transactionNoteDate =
                 state.editNotePrefixText + transaction.get()
@@ -107,7 +110,8 @@ class TransactionDetailsViewModel(application: Application) :
                     }
                     TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                     TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName ?: ""
+                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName
+                        ?: ""
                     TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
                     TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                         if (transaction.category.equals(
@@ -155,7 +159,7 @@ class TransactionDetailsViewModel(application: Application) :
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: 0.00)
                 }
-                it.productCode == TransactionProductCode.POS_PURCHASE.pCode && it.currency != SessionManager.getDefaultCurrency() -> {
+                (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || it.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && it.currency != SessionManager.getDefaultCurrency() -> {
                     it.cardHolderBillingAmount ?: 0.00
                 }
                 else -> it.amount ?: 0.00
@@ -170,7 +174,7 @@ class TransactionDetailsViewModel(application: Application) :
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
                     (it.settlementAmount ?: 0.00).plus(totalFee)
                 }
-                TransactionProductCode.POS_PURCHASE.pCode -> {
+                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode -> {
                     if (it.currency != SessionManager.getDefaultCurrency()) {
                         (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
                     } else {
