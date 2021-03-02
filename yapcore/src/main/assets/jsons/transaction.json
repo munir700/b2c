@@ -1036,7 +1036,7 @@
     },
     "detailExpectation": {
       "title": "Spent at ENGLISH TEA HOUSE     ",
-      "detailTransferType": "Transfer Pending",
+      "detailTransferType": "Transaction",
       "transferCategory": "Miscellaneous Stores",
       "location": "ENGLISH TEA HOUSE     ,LAHORE       , ,PK",
       "currency": "AED",
