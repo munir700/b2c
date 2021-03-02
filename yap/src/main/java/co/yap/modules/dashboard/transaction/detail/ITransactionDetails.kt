@@ -6,11 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceipt
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import java.util.*
 
 interface ITransactionDetails {
     interface View : IBase.View<ViewModel> {
@@ -22,7 +20,7 @@ interface ITransactionDetails {
         var clickEvent: SingleClickEvent
         var transaction: ObservableField<Transaction>
         var adapter: TransactionReceiptAdapter
-        var responseReciept: MutableLiveData<TransactionReceipt>
+        var responseReciept: MutableLiveData<ArrayList<String>>
         fun deleteReceipt(position: Int)
         fun getAllReceipts()
         fun getReceiptTitle(list: List<ReceiptModel>): String
