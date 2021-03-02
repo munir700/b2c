@@ -113,14 +113,15 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 expectedTransferCategoryIcon(transaction),
                 txnDetail?.categoryIcon
             )
-//            Assert.assertEquals(
-//                expectation.amount,
-//                txnDetail.totalAmount, 0.2
-//            )
+            Assert.assertEquals(
+                expectation.amount,
+                txnDetail?.totalAmount ?: 0.0, 0.2
+            )
 //            Assert.assertEquals(
 //                expectation.spentAmount,
 //                txnDetail., 0.2
 //            )
+
             Assert.assertEquals(
                 expectation.location ?: "",
                 txnDetail?.locationValue

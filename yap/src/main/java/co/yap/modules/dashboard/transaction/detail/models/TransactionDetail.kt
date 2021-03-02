@@ -5,7 +5,7 @@ data class TransactionDetail(
     val noteValue: String?,
     val noteAddedDate: String?,
     val categoryTitle: String?,
-    val totalAmount: String?,
+    val totalAmount: Double?,
     val locationValue: String?,
     val transferType: String?,
     val categoryIcon: Int?,

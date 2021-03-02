@@ -26,6 +26,8 @@
         <import type="co.yap.R" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.managers.SessionManager"/>
     </data>
 
     <ScrollView
@@ -192,7 +194,7 @@
                     style="@style/Large"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.transactionData.totalAmount}"
+                    android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.transactionData.totalAmount.toString(),false,SessionManager.INSTANCE.defaultCurrency,true) : `+ `+CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.transactionData.totalAmount.toString(),false,SessionManager.INSTANCE.defaultCurrency,true)}"
                     android:textColor="@{viewModel.state.isTransactionInProcessOrRejected ? @color/colorFaded: @color/colorPrimaryDark}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

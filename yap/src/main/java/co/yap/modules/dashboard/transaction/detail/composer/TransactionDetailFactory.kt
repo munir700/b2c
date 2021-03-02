@@ -22,7 +22,6 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.TOTAL -> "Total amount"
             TransactionDetailItem.REFERENCE_NUMBER -> "Reference number"
             TransactionDetailItem.REMARKS -> "Remarks"
-
         }
     }
 
@@ -34,7 +33,8 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 }
             }
             TransactionDetailItem.TRANSFER_AMOUNT -> {
-                transaction.amount.toString().toFormattedCurrency(true, transaction.currency, true)
+                //   transaction.amount.toString().toFormattedCurrency(true, transaction.currency, true)
+                getForeignAmount().toString().toFormattedCurrency(true, transaction.currency, true)
             }
             TransactionDetailItem.EXCHANGE_RATE -> {
                 if (isInternationalPOS(transaction)) "${transaction.currency} 1.00 = AED ${
@@ -221,20 +221,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         }
     }
 
-    fun getTotalAmount(): String {
-        val totalAmount = getCalculatedTotalAmount(transaction).toString()
-        return if (transaction.txnType == TxnType.DEBIT.type) "- ${
-            totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )
-        }" else "+ ${
-            totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )
-        }"
-    }
+    fun getTotalAmount(): Double = getCalculatedTotalAmount(transaction)
 
     fun getStatusType(): String {
         return when {
@@ -308,7 +295,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         }
     }
 
-    fun getTransactionNoteDate(): String? {
+    fun getTransactionNoteDate(): String {
         return when {
             transaction.getTransactionNoteDate(DateUtils.FORMAT_LONG_OUTPUT).isEmpty() -> {
                 "Note added " + if (transaction.txnType == TxnType.DEBIT.type) transaction.transactionNoteDate else transaction.receiverTransactionNoteDate
@@ -317,6 +304,15 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 "Note added " + transaction
                     .getTransactionNoteDate(DateUtils.FORMAT_LONG_OUTPUT)
             }
+        }
+    }
+
+    fun getForeignAmount(): Double {
+        return when (transaction.productCode) {
+            TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                transaction.amount ?: 0.00
+            }
+            else -> 0.00
         }
     }
 }

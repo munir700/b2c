@@ -52,7 +52,35 @@
       "amount": 100.00,
       "spentAmount": 100.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "Sender": {
+          "label": "Sender",
+          "value": "Vikas Khanna"
+        },
+          "Amount": {
+            "label": "Amount",
+            "value": "AED 100.00"
+          },
+          "Fee": {
+            "label": "Fee",
+            "value": "AED 0.00"
+          },
+          "VAT": {
+            "label": "VAT",
+            "value": "AED 0.00"
+          },
+          "ReferenceNumber": {
+            "label": "Reference number",
+            "value": "958362846908"
+          },
+          "Remarks": {
+            "label": "Remarks",
+            "value": "Test"
+          }
+        }
+      ]
     }
   },
   {
@@ -108,7 +136,39 @@
       "amount": 1000.00,
       "spentAmount": 1000.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "card": {
+            "label": "Card",
+            "value": "*1781"
+          },
+          "Sender": {
+            "label": "Sender",
+            "value": "Vikas Khanna"
+          },
+          "Amount": {
+            "label": "Amount",
+            "value": "AED 100.00"
+          },
+          "Fee": {
+            "label": "Fee",
+            "value": "AED 0.00"
+          },
+          "VAT": {
+            "label": "VAT",
+            "value": "AED 0.00"
+          },
+          "ReferenceNumber": {
+            "label": "Reference number",
+            "value": "958362846908"
+          },
+          "Remarks": {
+            "label": "Remarks",
+            "value": "Test"
+          }
+        }
+      ]
     }
   },
   {
@@ -669,7 +729,7 @@
       "transferCategory": "Outgoing Transfer",
       "currency": "AED",
       "amount": 564.00,
-      "spentAmount":564.00,
+      "spentAmount": 564.00,
       "icon": "",
       "statusIcon": ""
     }
@@ -721,7 +781,7 @@
       "transferCategory": "Fee",
       "currency": "AED",
       "amount": 100.80,
-      "spentAmount":100.80,
+      "spentAmount": 100.80,
       "icon": "",
       "statusIcon": ""
     }
@@ -778,7 +838,7 @@
       "transferCategory": "Incoming Funds",
       "currency": "AED",
       "amount": 100.00,
-      "spentAmount":100.00,
+      "spentAmount": 100.00,
       "icon": "",
       "statusIcon": ""
     }
@@ -835,7 +895,7 @@
       "transferCategory": "",
       "currency": "AED",
       "amount": 8000.99,
-      "spentAmount":8000.99,
+      "spentAmount": 8000.99,
       "icon": "",
       "statusIcon": ""
     }
@@ -1041,7 +1101,7 @@
       "location": "ENGLISH TEA HOUSE     ,LAHORE       , ,PK",
       "currency": "AED",
       "amount": 174.65,
-      "spentAmount":173.44,
+      "spentAmount": 173.44,
       "foreignAmount": null,
       "icon": "",
       "statusIcon": ""
