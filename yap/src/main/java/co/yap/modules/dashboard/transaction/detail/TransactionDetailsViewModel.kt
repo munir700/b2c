@@ -164,7 +164,7 @@ class TransactionDetailsViewModel(application: Application) :
                 "Note added " + if (transaction.get()?.txnType == TxnType.DEBIT.type) transaction.get()?.transactionNoteDate else transaction.get()?.receiverTransactionNoteDate
 
         } else {
-            state.transactionNoteDate = "Note added" + transaction.get()
+            state.transactionNoteDate = "Note added " + transaction.get()
                 .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
         }
     }
