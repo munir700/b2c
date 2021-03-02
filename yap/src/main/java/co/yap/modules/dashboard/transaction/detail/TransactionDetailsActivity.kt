@@ -62,6 +62,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
                 viewModel.transaction.set(it)
                 viewModel.composeTransactionDetail(it)
+                getBindings().ivMap.setImageResource(viewModel.state.coverImage.get())
             }
         }
         viewModel.responseReciept.observe(this, Observer {

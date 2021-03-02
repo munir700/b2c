@@ -57,9 +57,8 @@
                 android:layout_height="@dimen/_120sdp"
                 android:contentDescription="@string/empty_string"
                 android:scaleType="fitXY"
+                android:src="@drawable/ic_image_brown_background"
                 android:visibility="@{viewModel.state.transactionData.coverImage == -1 ? View.GONE : View.VISIBLE}"
-                app:src="@{viewModel.state.coverImage == -1 ? @drawable/ic_image_brown_background : viewModel.state.coverImage}"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -323,9 +322,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:background="@color/greySoftSelected"
                 android:paddingTop="@dimen/margin_extra_small"
-                android:layout_marginBottom="@dimen/margin_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPaymentDetail">
@@ -352,9 +351,9 @@
                     android:id="@+id/rvTransactionDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:paddingStart="@dimen/margin_medium"
                     android:paddingEnd="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:paddingBottom="@dimen/margin_extra_small"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintLeft_toLeftOf="parent"
