@@ -14,7 +14,6 @@ import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.SessionManager
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -44,10 +43,7 @@ class TransactionDetailsViewModel(application: Application) :
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(getTransferCategoryTitle(transaction))
             state.categoryIcon.set(getTransferCategoryIcon(transaction))
-            if ((transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) || transaction.productCode.equals(
-                    TransactionProductCode.ATM_WITHDRAWL.pCode
-                ) || transaction.productCode.equals(TransactionProductCode.ATM_DEPOSIT.pCode)) && transaction.currency != SessionManager.getDefaultCurrency()
-            ) {
+            if (transaction.isNonAEDTransaction()) {
                 state.exchangeRate?.set(getExchangeRate(transaction))
             } else {
                 state.exchangeRate?.set(null)
@@ -159,7 +155,7 @@ class TransactionDetailsViewModel(application: Application) :
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: 0.00)
                 }
-                (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || it.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && it.currency != SessionManager.getDefaultCurrency() -> {
+                it.isNonAEDTransaction() -> {
                     it.cardHolderBillingAmount ?: 0.00
                 }
                 else -> it.amount ?: 0.00
@@ -169,18 +165,14 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun getCalculatedTotalAmount(transaction: Transaction?): Double {
         transaction?.let {
-            return when (it.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+            return when {
+                it.productCode == TransactionProductCode.RMT.pCode || it.productCode == TransactionProductCode.SWIFT.pCode -> {
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
                     (it.settlementAmount ?: 0.00).plus(totalFee)
                 }
-                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode -> {
-                    if (it.currency != SessionManager.getDefaultCurrency()) {
-                        (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
-                    } else {
-                        if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.0 else it.amount
-                            ?: 0.0
-                    }
+                it.isNonAEDTransaction() -> {
+                    (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
+                        .plus(it.vatAmount ?: 0.0)
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
                     ?: 0.00

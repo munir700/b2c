@@ -121,7 +121,7 @@ class TransactionsListingAdapter(
             val categoryTitle: String =
                 transaction.getTransferType()
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it && !transaction.isTransactionRejected()) {
                     setY2YUserImage(transaction, itemTransactionListBinding, position)
                 } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
                     setVirtualCardIcon(transaction, itemTransactionListBinding)
