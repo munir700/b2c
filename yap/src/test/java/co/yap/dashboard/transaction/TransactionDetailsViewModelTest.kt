@@ -53,7 +53,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
     @TestFactory
     fun test_add_receipt_section_should_show_or_not(): Collection<DynamicTest>? {
         val tests: MutableSet<DynamicTest> = LinkedHashSet()
-        getTransactions().forEach {
+        getTransactionsForDetail().forEach {
             val expectedValue = when (it.transaction.productCode) {
                 TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> true
                 else -> false
@@ -87,7 +87,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
     @TestFactory
     fun test_transaction_detail_items(): Collection<DynamicTest>? {
         val tests: MutableSet<DynamicTest> = LinkedHashSet()
-        getTransactions().forEach {
+        getTransactionsForDetail().forEach {
             tests.add(detailListItemTest(it.transaction, it.detailExpectation))
 
         }
@@ -112,7 +112,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
     @TestFactory
     fun test_transaction(): Collection<DynamicTest>? {
         val tests: MutableSet<DynamicTest> = LinkedHashSet()
-        getTransactions().forEach {
+        getTransactionsForDetail().forEach {
             tests.add(addNewTest(it.transaction, it.detailExpectation))
         }
         return tests
@@ -191,17 +191,18 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         }
     }
 
-    private fun getTransactions(): List<TransactionTest> {
+    private fun getTransactionsForDetail(): List<TransactionTest> {
         val gson = GsonBuilder().create();
         val itemType = object : TypeToken<List<TransactionTest>>() {}.type
 
-        return gson.fromJson<List<TransactionTest>>(readJsonFile(), itemType)
+        return gson.fromJson<List<TransactionTest>>(readJsonFile(
+        ), itemType)
     }
 
     @Throws(IOException::class)
     private fun readJsonFile(): String? {
         val br =
-            BufferedReader(InputStreamReader(FileInputStream("../yapcore/src/main/assets/jsons/transaction.json")))
+            BufferedReader(InputStreamReader(FileInputStream("../yapcore/src/main/assets/jsons/transaction_detail.json")))
         val sb = StringBuilder()
         var line: String? = br.readLine()
         while (line != null) {

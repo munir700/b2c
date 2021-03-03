@@ -37,8 +37,7 @@ class TransactionDetailsViewModel(application: Application) :
         TransactionReceiptAdapter(
             mutableListOf()
         )
-    override var transactionAdapter: TransactionDetailItemAdapter = TransactionDetailItemAdapter(
-        arrayListOf()
+    override var transactionAdapter: TransactionDetailItemAdapter = TransactionDetailItemAdapter(arrayListOf()
     )
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
     override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
@@ -70,10 +69,6 @@ class TransactionDetailsViewModel(application: Application) :
                 .isTransactionRejected() || transaction.get().isTransactionInProgress()
         )
 
-    }
-
-    override fun handlePressOnEditNoteClickEvent(id: Int) {
-        clickEvent.postValue(id)
     }
 
     override fun getReceiptTitle(list: List<ReceiptModel>): String {
@@ -158,6 +153,7 @@ class TransactionDetailsViewModel(application: Application) :
         adapter.setList(getReceiptItems(receiptLis))
         state.receiptTitle.set(getReceiptTitle(adapter.getDataList()))
     }
+
     private fun setTransactionNoteDate() {
         if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
             state.transactionNoteDate =

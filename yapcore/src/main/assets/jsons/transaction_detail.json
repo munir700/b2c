@@ -33,16 +33,47 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT"
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Received from Vikas Khanna",
-      "time": "04:29 PM",
-      "transferType": "YTY",
-      "remarks": "Test",
-      "status": "",
+      "detailTransferType": "YTY transfer",
+      "transferCategory": "Incoming Transfer",
       "currency": "AED",
       "amount": 100.00,
-      "icon": null,
-      "statusIcon": null
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Sender",
+          "value": "Vikas Khanna",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "958362846908",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "Test",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -79,16 +110,42 @@
       "senderProfilePictureUrl": "https://s3-eu-west-1.amazonaws.com//stg-yap-documents-public/profile_image/customer_data/1000001167/documents/1608196056681_ei_1608196055485.jpg",
       "fixedFee": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Sent to Vikas Khanna",
-      "time": "05:46 PM",
-      "transferType": "YTY",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "YTY transfer",
+      "transferCategory": "Outgoing Transfer",
       "currency": "AED",
       "amount": 1000.00,
-      "icon": null,
-      "statusIcon": "icon_transaction_type_debit"
+      "spentAmount": 1000.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Receiver",
+          "value": "Vikas Khanna",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 1,000.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "920503463498",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -125,16 +182,42 @@
       "senderProfilePictureUrl": "https://s3-eu-west-1.amazonaws.com//stg-yap-documents-public/profile_image/customer_data/1000001167/documents/1608196056681_ei_1608196055485.jpg",
       "fixedFee": 0.00
     },
-    "expectation": {
-      "title": "Sent to Vikas Khanna",
-      "time": "05:46 PM",
-      "transferType": "YTY",
-      "remarks": null,
-      "status": "",
+    "detailExpectation": {
+      "title": "Sent from Vikas Khanna",
+      "detailTransferType": "YTY transfer",
+      "transferCategory": "Outgoing Transfer",
       "currency": "AED",
       "amount": 1111.00,
-      "icon": null,
-      "statusIcon": "icon_transaction_type_inprogress"
+      "spentAmount": 1111.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Receiver",
+          "value": "Vikas Khanna",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 1,111.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "920503463498",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -172,16 +255,38 @@
       "cardType": "DEBIT",
       "fixedFee": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Remove from Virtual Card",
-      "time": "03:38 PM",
-      "transferType": "Money moved",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Money moved",
+      "transferCategory": "",
       "currency": "AED",
       "amount": 100.00,
-      "icon": "icon_virtual_card_transaction",
-      "statusIcon": "icon_transaction_type_inprogress"
+      "spentAmount": 100.00,
+      "foreignAmount": null,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "801641679742",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -216,16 +321,37 @@
       "cardType": "DEBIT",
       "fixedFee": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Add to Virtual Card",
-      "time": "06:27 PM",
-      "transferType": "Money moved",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Money moved",
+      "transferCategory": "",
       "currency": "AED",
-      "amount": 124.00,
-      "icon": "icon_virtual_card_transaction",
-      "statusIcon": "icon_identifire_atm_deposit"
+      "amount": 124.0,
+      "spentAmount": 124.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 124.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "346692409392",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -262,16 +388,37 @@
       "billed": false,
       "fixedFee": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Top up via *0007",
-      "time": "02:40 PM",
-      "transferType": "Add money",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Add money",
+      "transferCategory": "Incoming Transfer",
       "currency": "AED",
       "amount": 100.00,
-      "icon": "icon_card_transfer",
-      "statusIcon": "icon_identifire_atm_deposit"
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 2.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.10",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "179358858544",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -314,16 +461,42 @@
       "otherBankBIC": "ABINAEAAXXX",
       "countryOfResidence": "AE"
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Sent to UAE Cbwsi",
-      "time": "06:29 PM",
-      "transferType": "Send money",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Send money",
+      "transferCategory": "Outgoing Transfer",
       "currency": "AED",
       "amount": 100.99,
-      "icon": "icon_send_money",
-      "statusIcon": "icon_transaction_type_debit"
+      "spentAmount": 100.99,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.99",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "884505526713",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "UAEFTS",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -372,16 +545,58 @@
       "countryOfResidence": "WF",
       "fixedFee": 30
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Sent to Australia BT",
-      "time": "06:28 PM",
-      "transferType": "Send money",
-      "remarks": null,
-      "status": "",
-      "currency": "AUD",
-      "amount": 39.00,
-      "icon": "icon_send_money",
-      "statusIcon": "icon_transaction_type_debit"
+      "detailTransferType": "Send money",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 203.75,
+      "spentAmount": 102.95,
+      "foreignAmount": 39.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Card",
+          "value": "*6543",
+          "visibility": true
+        },
+        {
+          "label": "Transfer amount",
+          "value": "AUD 39.00",
+          "visibility": true
+        },
+        {
+          "label": "Exchange rate",
+          "value": "AUD 1.00 = AED 2.63987",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 102.95",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 96.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 4.80",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "905033640707",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "SWIFT",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -449,16 +664,58 @@
       "txnTransactionsDetailDTO": [],
       "fixedFee": 30.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Sent to Afghanistan Beneficiary",
-      "time": "06:10 PM",
-      "transferType": "Send money",
-      "remarks": null,
-      "status": "Transaction in process",
-      "currency": "USD",
-      "amount": 100.00,
-      "icon": "icon_send_money",
-      "statusIcon": "icon_transaction_type_debit"
+      "detailTransferType": "Transfer Pending",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 438.69,
+      "spentAmount": 368.5,
+      "foreignAmount": 100.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Card",
+          "value": "*1781",
+          "visibility": true
+        },
+        {
+          "label": "Transfer amount",
+          "value": "USD 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Exchange rate",
+          "value": "USD 1.00 = AED 3.6850",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 368.50",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 66.85",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 3.34",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "586180489779",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "SWIFT",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -502,16 +759,58 @@
       "fxRate": "0.026098",
       "fixedFee": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Sent to Bs Ban",
-      "time": "04:23 PM",
-      "transferType": "Send money",
-      "remarks": null,
-      "status": "",
-      "currency": "PKR",
-      "amount": 15000.00,
-      "icon": "icon_send_money",
-      "statusIcon": "icon_transaction_type_debit"
+      "detailTransferType": "Send money",
+      "transferCategory": "Outgoing Transfer",
+      "currency": "AED",
+      "amount": 391.47,
+      "spentAmount": 391.47,
+      "foreignAmount": 15000.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Card",
+          "value": "*6543",
+          "visibility": true
+        },
+        {
+          "label": "Transfer amount",
+          "value": "PKR 15,000.00",
+          "visibility": true
+        },
+        {
+          "label": "Exchange rate",
+          "value": "PKR 1.00 = AED 0.026098",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 391.47",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "776593503676",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "RMT",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -549,16 +848,42 @@
       "otherBankCountry": "JO",
       "vatPercentage": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Sent to nuha aaa",
-      "time": "01:41 PM",
-      "transferType": "Send money",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Send money",
+      "transferCategory": "Outgoing Transfer",
       "currency": "AED",
       "amount": 564.00,
-      "icon": "icon_cash_payout",
-      "statusIcon": "icon_transaction_type_inprogress"
+      "spentAmount": 564.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 564.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "810858647795",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "CASH PAYOUT",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -591,16 +916,42 @@
       "identifier": "01",
       "adjustmentDate": "2021-01-21"
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Manual Adjustment",
-      "time": "07:24 PM",
-      "transferType": "Fee",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
       "currency": "AED",
       "amount": 100.80,
-      "icon": "icon_transaction_fee",
-      "statusIcon": null
+      "spentAmount": 100.80,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.80",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "211194506528",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "20210121",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -638,16 +989,42 @@
       "vatAmount": 0.00,
       "fxRate": "1.000000"
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Received from RAK",
-      "time": "04:28 PM",
-      "transferType": "Inward Bank Transfer",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Inward Bank Transfer",
+      "transferCategory": "Incoming Funds",
       "currency": "AED",
       "amount": 100.00,
-      "icon": "icon_send_money",
-      "statusIcon": "icon_transaction_type_inprogress"
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "530379944751",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "REVERSAL TRAN OF   S32752623-11-2020-REVERSAL OF-OUTWARD TT-000023702620-REVERSAL PO REF 000023702620",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -685,16 +1062,42 @@
       "makerAction": "settle_at_fss_bank",
       "lienExpiryDays": "08/08/2023 00:00:00.000"
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Withdrawal",
-      "time": "01:01 PM",
-      "transferType": "Withdraw money",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Withdraw money",
+      "transferCategory": "",
       "currency": "AED",
       "amount": 8000.99,
-      "icon": "icon_cash_payout",
-      "statusIcon": "icon_transaction_type_inprogress"
+      "spentAmount": 8000.99,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 8,000.99",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "523111111239",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "Bank Debit adjustment",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -735,16 +1138,43 @@
       "cardType": "DEBIT",
       "source": ""
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Withdrawal",
-      "time": "03:06 PM",
-      "transferType": "Withdraw money",
-      "remarks": null,
-      "status": "AE",
+      "detailTransferType": "Withdraw money",
+      "transferCategory": "Cash withdraw",
+      "location": "AE",
       "currency": "AED",
       "amount": 102.00,
-      "icon": "icon_cash_payout",
-      "statusIcon": "icon_identifire_atm_withdrawal"
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 2.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "253747745037",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -785,16 +1215,43 @@
       "cardType": "DEBIT",
       "source": ""
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Spent at AL Jaz Branch ATM 0054",
-      "time": "10:37 AM",
-      "transferType": "Transaction",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Transaction",
+      "transferCategory": "Clothing stores Retail store",
+      "location": "AE",
       "currency": "AED",
       "amount": 102.00,
-      "icon": null,
-      "statusIcon": "icon_transaction_type_inprogress"
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 2.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "132484086951",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -858,16 +1315,59 @@
       "dispute": false,
       "createdOn": "2021-02-20T05:56:57"
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Spent at ENGLISH TEA HOUSE     ",
-      "time": "10:56 AM",
-      "transferType": "Transaction",
-      "remarks": null,
-      "status": "Transaction in process",
-      "currency": "AUD",
-      "amount": 60.00,
+      "detailTransferType": "Transaction",
+      "transferCategory": "Miscellaneous Stores",
+      "location": "ENGLISH TEA HOUSE     ,LAHORE       , ,PK",
+      "currency": "AED",
+      "amount": 174.65,
+      "spentAmount": 173.44,
+      "foreignAmount": null,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Card",
+          "value": "*1156",
+          "visibility": true
+        },
+        {
+          "label": "Spent amount",
+          "value": "AUD 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Exchange rate",
+          "value": "AUD 1.00 = AED 2.891",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 173.44",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 1.21",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "806630932885",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -906,16 +1406,48 @@
       "billed": false,
       "vatPercentage": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Al Nakheel Branch 0002",
-      "time": "12:02 PM",
-      "transferType": "Fee",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
+      "location": "AE",
       "currency": "AED",
       "amount": 100.00,
-      "icon": "icon_transaction_fee",
-      "statusIcon": null
+      "spentAmount": 0.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Total amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "903303439553",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "FSS Transaction Notification",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -946,16 +1478,42 @@
       "vatAmount": 0.75,
       "cardType": "DEBIT"
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Virtual Card Issuance Fee",
-      "time": "06:24 PM",
-      "transferType": "Fee",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
       "currency": "AED",
       "amount": 15.75,
-      "icon": "icon_virtual_card_issuance_fee",
-      "statusIcon": null
+      "spentAmount": 0.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 15.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.75",
+          "visibility": true
+        },
+        {
+          "label": "Total amount",
+          "value": "AED 15.75",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "025412192320",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -999,16 +1557,42 @@
       "otherBankCountry": "AE",
       "fixedFee": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Sent to testing  flow",
-      "time": "04:21 PM",
-      "transferType": "Send money",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Send money",
+      "transferCategory": "Outgoing Transfer",
       "currency": "AED",
       "amount": 100.00,
-      "icon": "icon_send_money",
-      "statusIcon": "icon_transaction_type_inprogress"
+      "spentAmount": 100.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "111017330036",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "Internal Transfer",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1077,16 +1661,42 @@
       "reversal": true,
       "createdOn": "2020-11-06T13:58:08"
     },
-    "expectation": {
-      "title": "Sent to Joel Bechtel",
-      "time": "06:58 PM",
-      "transferType": "Send money",
-      "remarks": "This is a note This is a note",
-      "status": "Rejected transaction",
+    "detailExpectation": {
+      "title": "Sent to testing  flow",
+      "detailTransferType": "Transfer Rejected",
+      "transferCategory": "Outgoing Transfer",
       "currency": "AED",
-      "amount": 208.5300,
-      "icon": "icon_send_money",
-      "statusIcon": "icon_transaction_type_inprogress"
+      "amount": 208.53,
+      "spentAmount": 0.0,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.50",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.03",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "480096922127",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "This is a note This is a note",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1129,16 +1739,42 @@
       "otherBankCountry": "AE",
       "fixedFee": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "To nick jonas ",
-      "time": "12:00 PM",
-      "transferType": "Refund",
-      "remarks": "Reversing transaction 877621209637",
-      "status": "",
+      "detailTransferType": "Refund",
+      "transferCategory": "",
       "currency": "AED",
       "amount": 1414.00,
-      "icon": "icon_refund_transaction",
-      "statusIcon": "icon_transaction_type_inprogress"
+      "spentAmount": 1414.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 1,414.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.50",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.03",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "062410177256",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "Reversing transaction 877621209637",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1178,16 +1814,43 @@
       "billed": false,
       "vatPercentage": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Cash deposit",
-      "time": "04:56 PM",
-      "transferType": "Deposit",
-      "remarks": null,
-      "status": "AE",
+      "detailTransferType": "Deposit",
+      "transferCategory": "Cash deposit",
+      "location": "AE",
       "currency": "AED",
       "amount": 500.00,
-      "icon": "icon_cash_payout",
-      "statusIcon": "icon_identifire_atm_deposit"
+      "spentAmount": 500.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 500.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "289330527762",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1229,16 +1892,43 @@
       "cardType": "DEBIT",
       "source": "MCI"
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Spent at AMAZON PAY INDIA PRIVA",
-      "time": "12:31 PM",
-      "transferType": "Transaction",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Transaction",
+      "transferCategory": "",
+      "location": "AMAZON PAY INDIA PRIVA,BANGALORE    ,null,IN",
       "currency": "AED",
       "amount": 205.298,
-      "icon": "icon_send_money",
-      "statusIcon": null
+      "spentAmount": 205.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 205.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "572171165018",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1278,16 +1968,48 @@
       "billed": false,
       "vatPercentage": 0.00
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "Balance Inquiry",
-      "time": "04:46 PM",
-      "transferType": "Fee",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
+      "location": "AE",
       "currency": "AED",
       "amount": 1.05,
-      "icon": "icon_transaction_fee",
-      "statusIcon": null
+      "spentAmount": 0.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 1.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.05",
+          "visibility": true
+        },
+        {
+          "label": "Total amount",
+          "value": "AED 1.05",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "867195255791",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1318,16 +2040,47 @@
       "postedFees": 10.00,
       "vatAmount": 0.50
     },
-    "expectation": {
+    "detailExpectation": {
       "title": "FEE",
-      "time": "11:43 AM",
-      "transferType": "Fee",
-      "remarks": null,
-      "status": "",
+      "detailTransferType": "Fee",
+      "transferCategory": "Fee",
       "currency": "AED",
       "amount": 10.50,
-      "icon": "icon_transaction_fee",
-      "statusIcon": null
+      "spentAmount": 0.00,
+      "icon": "",
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 10.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.50",
+          "visibility": true
+        },
+        {
+          "label": "Total amount",
+          "value": "AED 10.50",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "138058982424",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "FSS Fee Notification ",
+          "visibility": true
+        }
+      ]
     }
   }
 ]

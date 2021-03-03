@@ -21,7 +21,6 @@ interface ITransactionDetails {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnEditNoteClickEvent(id: Int)
         fun handlePressOnView(id: Int)
         var clickEvent: SingleClickEvent
         var transaction: ObservableField<Transaction>
@@ -32,7 +31,7 @@ interface ITransactionDetails {
         fun getReceiptTitle(list: List<ReceiptModel>): String
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
         fun setAdapterList(receiptLis: List<String>)
-        fun getReceiptItems(receiptLis: List<String>): List<ReceiptModel>
+        fun getReceiptItems(receiptList: List<String>): List<ReceiptModel>
         fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String
         fun composeTransactionDetail(transaction: Transaction)

@@ -239,7 +239,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_normal_large"
                     android:background="@drawable/bg_round_purple_enabled"
-                    android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                     android:visibility="visible"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -261,7 +261,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                     android:visibility="visible"
                     app:layout_constraintLeft_toRightOf="@+id/clEditIcon"
                     app:layout_constraintRight_toRightOf="parent"
