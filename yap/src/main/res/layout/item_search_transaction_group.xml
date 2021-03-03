@@ -6,6 +6,7 @@
 
         <variable
             name="homeTransactionGroupItemVM"
+
             type="co.yap.modules.dashboard.transaction.search.SearchTransactionGroupItemVM" />
 
         <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
