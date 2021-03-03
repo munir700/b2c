@@ -55,30 +55,34 @@
       "statusIcon": "",
       "items": [
         {
-          "Sender": {
           "label": "Sender",
-          "value": "Vikas Khanna"
+          "value": "Vikas Khanna",
+          "visibility": true
         },
-          "Amount": {
-            "label": "Amount",
-            "value": "AED 100.00"
-          },
-          "Fee": {
-            "label": "Fee",
-            "value": "AED 0.00"
-          },
-          "VAT": {
-            "label": "VAT",
-            "value": "AED 0.00"
-          },
-          "ReferenceNumber": {
-            "label": "Reference number",
-            "value": "958362846908"
-          },
-          "Remarks": {
-            "label": "Remarks",
-            "value": "Test"
-          }
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "958362846908",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "Test",
+          "visibility": true
         }
       ]
     }
@@ -139,34 +143,29 @@
       "statusIcon": "",
       "items": [
         {
-          "card": {
-            "label": "Card",
-            "value": "*1781"
-          },
-          "Sender": {
-            "label": "Sender",
-            "value": "Vikas Khanna"
-          },
-          "Amount": {
-            "label": "Amount",
-            "value": "AED 100.00"
-          },
-          "Fee": {
-            "label": "Fee",
-            "value": "AED 0.00"
-          },
-          "VAT": {
-            "label": "VAT",
-            "value": "AED 0.00"
-          },
-          "ReferenceNumber": {
-            "label": "Reference number",
-            "value": "958362846908"
-          },
-          "Remarks": {
-            "label": "Remarks",
-            "value": "Test"
-          }
+          "label": "Receiver",
+          "value": "Vikas Khanna",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 1,000.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "920503463498",
+          "visibility": true
         }
       ]
     }
@@ -224,7 +223,34 @@
       "amount": 1111.00,
       "spentAmount": 1111.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Receiver",
+          "value": "Vikas Khanna",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 1,111.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "920503463498",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -282,7 +308,29 @@
       "spentAmount": 100.00,
       "foreignAmount": null,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "801641679742",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -336,7 +384,29 @@
       "amount": 124.0,
       "spentAmount": 124.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 124.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "346692409392",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -358,6 +428,7 @@
       "transactionId": "179358858544",
       "receiverMobileNo": "3214084099",
       "receiverEmail": "java@yap.com",
+      "senderName": "Top Up Via Card",
       "receiverName": "Umar Aziz",
       "maskedCardNo": "222300xxxxxx0007",
       "cardHolderBillingCurrency": "AED",
@@ -391,7 +462,29 @@
       "amount": 100.00,
       "spentAmount": 100.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 2.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.10",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "179358858544",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -453,7 +546,34 @@
       "amount": 100.99,
       "spentAmount": 100.99,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.99",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "884505526713",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "UAEFTS",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -522,7 +642,49 @@
       "spentAmount": 102.95,
       "foreignAmount": 39.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Card",
+          "value": "*6543",
+          "visibility": true
+        },
+        {
+          "label": "Transfer amount",
+          "value": "AUD 39.00",
+          "visibility": true
+        },
+        {
+          "label": "Exchange rate",
+          "value": "AUD 1.00 = AED 2.63987",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 102.95",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 96.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 4.80",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "905033640707",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "SWIFT",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -610,7 +772,49 @@
       "spentAmount": 368.5,
       "foreignAmount": 100.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Card",
+          "value": "*1781",
+          "visibility": true
+        },
+        {
+          "label": "Transfer amount",
+          "value": "USD 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Exchange rate",
+          "value": "USD 1.00 = AED 3.6850",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 368.50",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 66.85",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 3.34",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "586180489779",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "SWIFT",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -674,7 +878,49 @@
       "spentAmount": 391.47,
       "foreignAmount": 15000.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Card",
+          "value": "*6543",
+          "visibility": true
+        },
+        {
+          "label": "Transfer amount",
+          "value": "PKR 15,000.00",
+          "visibility": true
+        },
+        {
+          "label": "Exchange rate",
+          "value": "PKR 1.00 = AED 0.026098",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 391.47",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "776593503676",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "RMT",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -731,7 +977,34 @@
       "amount": 564.00,
       "spentAmount": 564.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 564.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "810858647795",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "CASH PAYOUT",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -783,7 +1056,34 @@
       "amount": 100.80,
       "spentAmount": 100.80,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.80",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "211194506528",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "20210121",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -840,7 +1140,34 @@
       "amount": 100.00,
       "spentAmount": 100.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "530379944751",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "REVERSAL TRAN OF   S32752623-11-2020-REVERSAL OF-OUTWARD TT-000023702620-REVERSAL PO REF 000023702620",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -897,7 +1224,34 @@
       "amount": 8000.99,
       "spentAmount": 8000.99,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 8,000.99",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "523111111239",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "Bank Debit adjustment",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -958,7 +1312,34 @@
       "amount": 102.00,
       "spentAmount": 100.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 2.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "253747745037",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1019,7 +1400,34 @@
       "amount": 102.00,
       "spentAmount": 100.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 2.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "132484086951",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1104,7 +1512,49 @@
       "spentAmount": 173.44,
       "foreignAmount": null,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Card",
+          "value": "*1156",
+          "visibility": true
+        },
+        {
+          "label": "Spent amount",
+          "value": "AUD 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Exchange rate",
+          "value": "AUD 1.00 = AED 2.891",
+          "visibility": true
+        },
+        {
+          "label": "Amount",
+          "value": "AED 173.44",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 1.21",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "806630932885",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1163,7 +1613,39 @@
       "amount": 100.00,
       "spentAmount": 0.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Total amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "903303439553",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "FSS Transaction Notification",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1213,7 +1695,34 @@
       "amount": 15.75,
       "spentAmount": 0.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 15.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.75",
+          "visibility": true
+        },
+        {
+          "label": "Total amount",
+          "value": "AED 15.75",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "025412192320",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1276,7 +1785,34 @@
       "amount": 100.00,
       "spentAmount": 100.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 100.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "111017330036",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "Internal Transfer",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1364,7 +1900,34 @@
       "amount": 208.53,
       "spentAmount": 0.0,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.50",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.03",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "480096922127",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "This is a note This is a note",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1426,7 +1989,34 @@
       "amount": 1414.00,
       "spentAmount": 1414.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 1,414.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.50",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.03",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "062410177256",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "Reversing transaction 877621209637",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1486,7 +2076,34 @@
       "amount": 500.00,
       "spentAmount": 500.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 500.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "289330527762",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1548,7 +2165,34 @@
       "amount": 205.298,
       "spentAmount": 205.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 205.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "572171165018",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1608,7 +2252,39 @@
       "amount": 1.05,
       "spentAmount": 0.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 1.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.05",
+          "visibility": true
+        },
+        {
+          "label": "Total amount",
+          "value": "AED 1.05",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "867195255791",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "APPROVED_OR_COMPLETED",
+          "visibility": true
+        }
+      ]
     }
   },
   {
@@ -1658,7 +2334,39 @@
       "amount": 10.50,
       "spentAmount": 0.00,
       "icon": "",
-      "statusIcon": ""
+      "statusIcon": "",
+      "items": [
+        {
+          "label": "Amount",
+          "value": "AED 0.00",
+          "visibility": true
+        },
+        {
+          "label": "Fee",
+          "value": "AED 10.00",
+          "visibility": true
+        },
+        {
+          "label": "VAT",
+          "value": "AED 0.50",
+          "visibility": true
+        },
+        {
+          "label": "Total amount",
+          "value": "AED 10.50",
+          "visibility": true
+        },
+        {
+          "label": "Reference number",
+          "value": "138058982424",
+          "visibility": true
+        },
+        {
+          "label": "Remarks",
+          "value": "FSS Fee Notification ",
+          "visibility": true
+        }
+      ]
     }
   }
 ]

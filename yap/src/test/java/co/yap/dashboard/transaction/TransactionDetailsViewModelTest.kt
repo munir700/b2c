@@ -4,6 +4,7 @@ import co.yap.app.YAPApplication
 import co.yap.base.BaseTestCase
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel
 import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
+import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
@@ -22,6 +23,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TransactionDetailsViewModelTest : BaseTestCase() {
     lateinit var sut: TransactionDetailsViewModel
@@ -39,7 +41,8 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         val currency: String,
         val amount: Double,
         val foreignAmount: Double,
-        val spentAmount: Double
+        val spentAmount: Double,
+        val items: ArrayList<ItemTransactionDetail>
     )
 
     @BeforeEach
@@ -79,6 +82,31 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         )
         return DynamicTest.dynamicTest(displayName) {
             Assert.assertEquals(expectation, sut.isShowReceiptSection(transaction))
+        }
+    }
+
+    @TestFactory
+    fun test_transaction_detail_items(): Collection<DynamicTest>? {
+        val tests: MutableSet<DynamicTest> = LinkedHashSet()
+        getTransactions().forEach {
+            tests.add(getValidListTest(it.transaction, it.detailExpectation))
+
+        }
+        return tests
+    }
+
+    private fun getValidListTest(
+        transaction: Transaction, expectation: TransactionExpectation
+    ): DynamicTest {
+        val displayName: String = java.lang.String.format(
+            Locale.getDefault(),
+            "test_transaction_for_detail_items_%s",
+            transaction.productCode
+        )
+        val transactionDetailComposer = TransactionDetailComposer()
+        val txnDetail = transactionDetailComposer.compose(transaction)
+        return DynamicTest.dynamicTest(displayName) {
+            Assert.assertEquals(expectation.items, txnDetail?.transactionItem)
         }
     }
 
