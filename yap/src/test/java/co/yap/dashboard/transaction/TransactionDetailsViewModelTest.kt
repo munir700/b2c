@@ -23,7 +23,6 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.*
-import kotlin.collections.ArrayList
 
 class TransactionDetailsViewModelTest : BaseTestCase() {
     lateinit var sut: TransactionDetailsViewModel
@@ -89,13 +88,13 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
     fun test_transaction_detail_items(): Collection<DynamicTest>? {
         val tests: MutableSet<DynamicTest> = LinkedHashSet()
         getTransactions().forEach {
-            tests.add(getValidListTest(it.transaction, it.detailExpectation))
+            tests.add(detailListItemTest(it.transaction, it.detailExpectation))
 
         }
         return tests
     }
 
-    private fun getValidListTest(
+    private fun detailListItemTest(
         transaction: Transaction, expectation: TransactionExpectation
     ): DynamicTest {
         val displayName: String = java.lang.String.format(
