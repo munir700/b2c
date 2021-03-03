@@ -144,11 +144,6 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 expectation.amount,
                 txnDetail?.totalAmount ?: 0.0, 0.2
             )
-//            Assert.assertEquals(
-//                expectation.spentAmount,
-//                txnDetail., 0.2
-//            )
-
             Assert.assertEquals(
                 expectation.location ?: "",
                 txnDetail?.locationValue
