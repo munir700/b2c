@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.kyc.viewmodels.EmpInfoSelectionViewModel" />
+            type="co.yap.modules.employmentstatusselection.EmploymentStatusSelectionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,11 +53,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEmploymentStatusText"
-            app:recycleViewAdapter="@{viewModel.empInfoSelectionAdapter}" />
+            app:recycleViewAdapter="@{viewModel.employmentStatusSelectionAdapter}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBottomDescription"
-            style="@style/ARegular"
+            style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
