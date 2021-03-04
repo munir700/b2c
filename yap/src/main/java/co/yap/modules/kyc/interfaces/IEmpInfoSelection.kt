@@ -17,6 +17,7 @@ interface IEmpInfoSelection {
         fun handleOnPressNext(id: Int)
         var empInfoSelectionAdapter: EmpInfoSelectionAdapter
         var empInfoStatusList: MutableList<EmpInfoStatusModel>
+        var lastItemCheckedPosition: Int
     }
 
     interface State : IBase.State {
