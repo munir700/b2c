@@ -488,6 +488,19 @@ object Strings {
     const val screen_yap_store_display_text_title: String = "screen_yap_store_display_text_title"
     const val screen_yap_store_display_text_heading: String =
         "screen_yap_store_display_text_heading"
+    const val screen_yap_store_card_plans_label_text: String =
+        "screen_yap_store_card_plans_label_text"
+    const val screen_yap_store_card_plans_description_text: String =
+        "screen_yap_store_card_plans_description_text"
+    const val screen_yap_store_young_label_text: String =
+        "screen_yap_store_young_label_text"
+    const val screen_yap_store_young_description_text: String =
+        "screen_yap_store_young_description_text"
+    const val screen_yap_store_household_label_text: String =
+        "screen_yap_store_household_label_text"
+    const val screen_yap_store_household_description_text: String =
+        "screen_yap_store_household_description_text"
+
 
     //Yap card home screen
     const val screen_cards_display_text_inactive_description: String =

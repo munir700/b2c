@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_plans_navigation"
+    app:startDestination="@id/cardPlansFragment">
+
+    <fragment
+        android:id="@+id/cardPlansFragment"
+        android:name="co.yap.modules.dashboard.store.cardplans.fragments.CardPlansFragment"
+        android:label="CardPlansFragment"
+        tools:layout="@layout/fragment_card_plans" />
+    <fragment
+        android:id="@+id/primeCardFragment"
+        android:name="co.yap.modules.dashboard.store.cardplans.fragments.PrimeCardFragment"
+        android:label="CardPlansFragment"
+        tools:layout="@layout/fragment_prime_metal_card" />
+    <fragment
+        android:id="@+id/metalCardFragment"
+        android:name="co.yap.modules.dashboard.store.cardplans.fragments.MetalCardFragment"
+        android:label="CardPlansFragment"
+        tools:layout="@layout/fragment_prime_metal_card" />
+
+</navigation>
