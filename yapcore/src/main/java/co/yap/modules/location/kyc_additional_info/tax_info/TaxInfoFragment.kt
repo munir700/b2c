@@ -16,6 +16,7 @@ import co.yap.yapcore.databinding.FragmentTaxInfoBinding
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
+import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),

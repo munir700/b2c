@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.kyc_additional_info.tax_info.TaxInfoViewModel" />
+            type="co.yap.modules.location.kyc_additional_info.tax_info.TaxInfoViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
