@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kyc_navigation"
-    app:startDestination="@id/KYCHomeFragment">
+    app:startDestination="@id/employmentStatusSelectionFragment">
 
     <fragment
         android:id="@+id/KYCHomeFragment"
@@ -78,7 +78,7 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/empInfoSelectionFragment"
-        android:name="co.yap.modules.kyc.fragments.EmpInfoSelectionFragment"
-        android:label="EmpInfoSelectionFragment" />
+        android:id="@+id/employmentStatusSelectionFragment"
+        android:name="co.yap.modules.kyc.fragments.EmploymentStatusSelectionFragment"
+        android:label="EmploymentStatusSelectionFragment" />
 </navigation>

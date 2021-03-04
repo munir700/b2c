@@ -1,6 +1,6 @@
 package co.yap.modules.kyc.models
 
-data class EmpInfoStatusModel(
+data class EmploymentStatusSelectionModel(
     var infoStatus: String?,
     var isSelected: Boolean
 )

@@ -6,15 +6,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.kyc.interfaces.IEmpInfoSelection
-import co.yap.modules.kyc.viewmodels.EmpInfoSelectionViewModel
+import co.yap.modules.kyc.interfaces.IEmploymentStatusSelection
+import co.yap.modules.kyc.viewmodels.EmploymentStatusSelectionViewModel
 
-class EmpInfoSelectionFragment :
-    KYCChildFragment<IEmpInfoSelection.ViewModel>(),
-    IEmpInfoSelection.View {
+class EmploymentStatusSelectionFragment :
+    KYCChildFragment<IEmploymentStatusSelection.ViewModel>(),
+    IEmploymentStatusSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_employment_information_selection
+    override fun getLayoutId(): Int = R.layout.fragment_employment_status_selection
     override fun setObservers() {
         viewModel.clickEvent.observe(this, onClickObserver)
     }
@@ -23,8 +23,8 @@ class EmpInfoSelectionFragment :
         viewModel.clickEvent.removeObservers(this)
     }
 
-    override val viewModel: EmpInfoSelectionViewModel
-        get() = ViewModelProviders.of(this).get(EmpInfoSelectionViewModel::class.java)
+    override val viewModel: EmploymentStatusSelectionViewModel
+        get() = ViewModelProviders.of(this).get(EmploymentStatusSelectionViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

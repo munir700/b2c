@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.kyc.viewmodels.EmpInfoSelectionItemViewModel" />
+            type="co.yap.modules.kyc.viewmodels.EmploymentStatusSelectionItemViewModel" />
     </data>
 
 
@@ -20,7 +20,7 @@
         android:checked="false"
         android:gravity="center"
         android:onClick="@{(v)->viewModel.handlePressOnView(v)}"
-        android:text="@{viewModel.empInfoStatusModel.infoStatus}"
+        android:text="@{viewModel.employmentStatusSelectionModel.infoStatus}"
         android:textAlignment="center"
         tools:text="Employed" />
 </layout>
