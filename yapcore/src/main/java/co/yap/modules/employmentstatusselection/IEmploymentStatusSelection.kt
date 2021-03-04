@@ -1,8 +1,6 @@
-package co.yap.modules.kyc.interfaces
+package co.yap.modules.employmentstatusselection
 
 import androidx.databinding.ObservableBoolean
-import co.yap.modules.kyc.adapters.EmploymentStatusSelectionAdapter
-import co.yap.modules.kyc.models.EmploymentStatusSelectionModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 

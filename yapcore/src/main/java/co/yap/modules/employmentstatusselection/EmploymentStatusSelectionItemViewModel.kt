@@ -1,7 +1,6 @@
-package co.yap.modules.kyc.viewmodels
+package co.yap.modules.employmentstatusselection
 
 import android.view.View
-import co.yap.modules.kyc.models.EmploymentStatusSelectionModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EmploymentStatusSelectionItemViewModel(

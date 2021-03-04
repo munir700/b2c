@@ -1,7 +1,6 @@
-package co.yap.modules.kyc.states
+package co.yap.modules.employmentstatusselection
 
 import androidx.databinding.ObservableBoolean
-import co.yap.modules.kyc.interfaces.IEmploymentStatusSelection
 import co.yap.yapcore.BaseState
 
 class EmploymentStatusSelectionState : BaseState(), IEmploymentStatusSelection.State {

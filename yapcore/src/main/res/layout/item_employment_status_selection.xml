@@ -6,13 +6,13 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.kyc.viewmodels.EmploymentStatusSelectionItemViewModel" />
+            type="co.yap.modules.employmentstatusselection.EmploymentStatusSelectionItemViewModel" />
     </data>
 
 
     <androidx.appcompat.widget.AppCompatCheckedTextView
         android:id="@+id/tvEmploymentStatus"
-        style="@style/ALarge"
+        style="@style/Micro"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_55sdp"
         android:layout_marginBottom="@dimen/_10sdp"

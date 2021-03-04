@@ -1,12 +1,11 @@
-package co.yap.modules.kyc.adapters
+package co.yap.modules.employmentstatusselection
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.R
-import co.yap.databinding.ItemEmploymentStatusSelectionBinding
-import co.yap.modules.kyc.models.EmploymentStatusSelectionModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.R
+import co.yap.yapcore.databinding.ItemEmploymentStatusSelectionBinding
 
 class EmploymentStatusSelectionAdapter(
     context: Context,
@@ -14,7 +13,9 @@ class EmploymentStatusSelectionAdapter(
 ) :
     BaseBindingRecyclerAdapter<EmploymentStatusSelectionModel, RecyclerView.ViewHolder>(list) {
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return EmploymentStatusSelectionViewHolder(binding as ItemEmploymentStatusSelectionBinding)
+        return EmploymentStatusSelectionViewHolder(
+            binding as ItemEmploymentStatusSelectionBinding
+        )
     }
 
     override fun getLayoutIdForViewType(viewType: Int): Int =

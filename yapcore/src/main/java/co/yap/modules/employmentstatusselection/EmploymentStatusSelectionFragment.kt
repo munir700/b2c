@@ -1,16 +1,15 @@
-package co.yap.modules.kyc.fragments
+package co.yap.modules.employmentstatusselection
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.BR
-import co.yap.R
-import co.yap.modules.kyc.interfaces.IEmploymentStatusSelection
-import co.yap.modules.kyc.viewmodels.EmploymentStatusSelectionViewModel
+import co.yap.yapcore.BR
+import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.R
 
 class EmploymentStatusSelectionFragment :
-    KYCChildFragment<IEmploymentStatusSelection.ViewModel>(),
+    BaseBindingFragment<IEmploymentStatusSelection.ViewModel>(),
     IEmploymentStatusSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

@@ -1,9 +1,7 @@
-package co.yap.modules.kyc.adapters
+package co.yap.modules.employmentstatusselection
 
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.databinding.ItemEmploymentStatusSelectionBinding
-import co.yap.modules.kyc.models.EmploymentStatusSelectionModel
-import co.yap.modules.kyc.viewmodels.EmploymentStatusSelectionItemViewModel
+import co.yap.yapcore.databinding.ItemEmploymentStatusSelectionBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EmploymentStatusSelectionViewHolder(private val itemEmploymentInformationSelectionBinding: ItemEmploymentStatusSelectionBinding) :

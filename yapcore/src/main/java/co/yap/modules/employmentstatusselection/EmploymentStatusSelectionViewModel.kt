@@ -1,19 +1,17 @@
-package co.yap.modules.kyc.viewmodels
+package co.yap.modules.employmentstatusselection
 
 import android.app.Application
 import android.view.View
 import android.widget.CheckedTextView
-import co.yap.modules.kyc.adapters.EmploymentStatusSelectionAdapter
-import co.yap.modules.kyc.interfaces.IEmploymentStatusSelection
-import co.yap.modules.kyc.models.EmploymentStatusSelectionModel
-import co.yap.modules.kyc.states.EmploymentStatusSelectionState
+import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EmploymentStatusSelectionViewModel(application: Application) :
-    KYCChildViewModel<IEmploymentStatusSelection.State>(application),
+    BaseViewModel<IEmploymentStatusSelection.State>(application),
     IEmploymentStatusSelection.ViewModel {
-    override val state: EmploymentStatusSelectionState = EmploymentStatusSelectionState()
+    override val state: EmploymentStatusSelectionState =
+        EmploymentStatusSelectionState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var employmentStatusSelectionAdapter: EmploymentStatusSelectionAdapter =
         EmploymentStatusSelectionAdapter(
@@ -38,10 +36,30 @@ class EmploymentStatusSelectionViewModel(application: Application) :
 
     private fun getEmploymentStatusList(): MutableList<EmploymentStatusSelectionModel> {
         val employmentStatus = mutableListOf<EmploymentStatusSelectionModel>()
-        employmentStatus.add(EmploymentStatusSelectionModel("Employed", false))
-        employmentStatus.add(EmploymentStatusSelectionModel("Self-Employed", false))
-        employmentStatus.add(EmploymentStatusSelectionModel("Salaried & Self-Employed", false))
-        employmentStatus.add(EmploymentStatusSelectionModel("Other", false))
+        employmentStatus.add(
+            EmploymentStatusSelectionModel(
+                "Employed",
+                false
+            )
+        )
+        employmentStatus.add(
+            EmploymentStatusSelectionModel(
+                "Self-Employed",
+                false
+            )
+        )
+        employmentStatus.add(
+            EmploymentStatusSelectionModel(
+                "Salaried & Self-Employed",
+                false
+            )
+        )
+        employmentStatus.add(
+            EmploymentStatusSelectionModel(
+                "Other",
+                false
+            )
+        )
         return employmentStatus
     }
 

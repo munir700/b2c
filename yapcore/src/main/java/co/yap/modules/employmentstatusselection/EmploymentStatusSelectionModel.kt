@@ -1,4 +1,4 @@
-package co.yap.modules.kyc.models
+package co.yap.modules.employmentstatusselection
 
 data class EmploymentStatusSelectionModel(
     var infoStatus: String?,
