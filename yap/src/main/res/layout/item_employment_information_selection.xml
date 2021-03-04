@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.viewmodels.EmpInfoSelectionItemViewModel" />
+    </data>
+
+
+    <androidx.appcompat.widget.AppCompatCheckedTextView
+        android:id="@+id/tvEmploymentStatus"
+        style="@style/ALarge"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_55sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/bg_status_selector"
+        android:checked="false"
+        android:gravity="center"
+        android:onClick="@{(v)->viewModel.handlePressOnView(v)}"
+        android:text="@{viewModel.empInfoStatusModel.infoStatus}"
+        android:textAlignment="center"
+        tools:text="Employed" />
+</layout>

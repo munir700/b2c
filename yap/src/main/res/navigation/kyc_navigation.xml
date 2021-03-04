@@ -77,4 +77,8 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/empInfoSelectionFragment"
+        android:name="co.yap.modules.kyc.fragments.EmpInfoSelectionFragment"
+        android:label="EmpInfoSelectionFragment" />
 </navigation>
