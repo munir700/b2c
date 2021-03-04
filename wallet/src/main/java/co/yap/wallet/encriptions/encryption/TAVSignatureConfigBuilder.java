@@ -6,15 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static co.yap.wallet.encriptions.encryption.FieldLevelEncryption.isNullOrEmpty;
+import static co.yap.wallet.encriptions.encryption.TAVSignatureConfig.TAVFormat.TAV_FORMAT_2;
+import static co.yap.wallet.encriptions.encryption.TAVSignatureConfig.TAVFormat.TAV_FORMAT_3;
 
 public class TAVSignatureConfigBuilder {
     private final static String ACCOUNT_NUMBER_FIELD = "accountNumber";
     private final static String ACCOUNT_EXPIRY_FIELD = "accountExpiry";
     private final static String DATE_VALID_UNTIL_TIMESTAMP_FIELD = "dataValidUntilTimestamp";
+
     private Map<String, String> signaturePaths = new HashMap<>();
 
     private PrivateKey privateKey;
     private PublicKey publicKey;
+    private TAVSignatureConfig.TAVFormat tavFormat = TAVSignatureConfig.TAVFormat.NAN;
+
 
     private TAVSignatureConfigBuilder() {
     }
@@ -25,6 +30,11 @@ public class TAVSignatureConfigBuilder {
 
     public TAVSignatureConfigBuilder withPrivateKey(PrivateKey privateKey) {
         this.privateKey = privateKey;
+        return this;
+    }
+
+    public TAVSignatureConfigBuilder withTavFormat(TAVSignatureConfig.TAVFormat tavFormat) {
+        this.tavFormat = tavFormat;
         return this;
     }
 
@@ -106,26 +116,40 @@ public class TAVSignatureConfigBuilder {
         TAVSignatureConfig config = new TAVSignatureConfig();
         config.privateKey = this.privateKey;
         config.publicKey = this.publicKey;
-        config.concatenatedData.append(signaturePaths.get(ACCOUNT_NUMBER_FIELD))
-                .append("|")
-                .append(signaturePaths.get(ACCOUNT_EXPIRY_FIELD))
-                .append("|")
-                .append(signaturePaths.get(DATE_VALID_UNTIL_TIMESTAMP_FIELD));
+        config.tavFormat = this.tavFormat;
+        if (config.tavFormat == TAV_FORMAT_2) {
+            config.concatenatedData.append(signaturePaths.get(ACCOUNT_NUMBER_FIELD))
+                    .append(config.expirationDateIncluded)
+                    .append(signaturePaths.get(ACCOUNT_EXPIRY_FIELD))
+                    .append(config.tokenUniqueReferenceIncluded);
+            return config;
+        } else if (config.tavFormat == TAV_FORMAT_3) {
+            config.concatenatedData.append(signaturePaths.get(ACCOUNT_NUMBER_FIELD))
+                    .append("|")
+                    .append(signaturePaths.get(ACCOUNT_EXPIRY_FIELD))
+                    .append("|")
+                    .append(signaturePaths.get(DATE_VALID_UNTIL_TIMESTAMP_FIELD));
 
-        config.includedFieldsInOrder.append(ACCOUNT_NUMBER_FIELD)
-                .append("|")
-                .append(ACCOUNT_EXPIRY_FIELD)
-                .append("|")
-                .append(DATE_VALID_UNTIL_TIMESTAMP_FIELD);
-        config.dataValidUntilTimestamp = signaturePaths.get(DATE_VALID_UNTIL_TIMESTAMP_FIELD);
-        return config;
+            config.includedFieldsInOrder.append(ACCOUNT_NUMBER_FIELD)
+                    .append("|")
+                    .append(ACCOUNT_EXPIRY_FIELD)
+                    .append("|")
+                    .append(DATE_VALID_UNTIL_TIMESTAMP_FIELD);
+            config.dataValidUntilTimestamp = signaturePaths.get(DATE_VALID_UNTIL_TIMESTAMP_FIELD);
+            return config;
+        }
+
+        return null;
     }
 
     private void checkParameterConsistency() {
         if (privateKey == null) {
             throw new IllegalArgumentException("Can't create digital signature  without privateKey key!");
         }
-
+        if (tavFormat == TAVSignatureConfig.TAVFormat.NAN) {
+            throw new IllegalArgumentException("Can't create digital signature! tavFormat should be TAV_FORMAT_2 or TAV_FORMAT_3 ");
+        }
     }
+
 
 }

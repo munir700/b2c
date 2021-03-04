@@ -55,7 +55,6 @@ public class TAVSignatureMethod {
     public static final String SIGNATURE_NAME = "RSA-SHA256";
     // Signature Algorithm
     private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
-    private static final String version = "3";
 
     private PrivateKey privateKey;
     private PublicKey publicKey;
@@ -136,6 +135,7 @@ public class TAVSignatureMethod {
         }
     }
 
+    @Deprecated
     private String sign1(String signatureBaseString) throws InvalidSignatureException {
         if (privateKey == null) {
             throw new InvalidSignatureException("Cannot sign the base string: no private key supplied.");
@@ -144,7 +144,7 @@ public class TAVSignatureMethod {
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             byte[] signatureBytes = cipher.doFinal(sha256digestBytes(signatureBaseString.getBytes(UTF_8)));
-            verify2(signatureBaseString, signatureBytes);
+            //verify2(signatureBaseString, signatureBytes);
             String hashData = EncodingUtils.hexEncode(sha256digestBytes(signatureBaseString.getBytes(UTF_8)));
             System.out.println("TAVSignatureMethod HASH_DATA>>" + hashData);
             System.out.println("TAVSignatureMethod Signed_Hashed_Data>>" + EncodingUtils.hexEncode(signatureBytes));
@@ -154,6 +154,7 @@ public class TAVSignatureMethod {
         }
     }
 
+    @Deprecated
     public boolean verify2(String signatureBaseString, byte[] signature) throws InvalidSignatureException {
         if (publicKey == null) {
             throw new UnsupportedOperationException("A public key must be provided to verify signatures.");
@@ -202,6 +203,7 @@ public class TAVSignatureMethod {
         }
     }
 
+    @Deprecated
     public static String createDigitalSignature(TAVSignatureConfig config) throws InvalidSignatureException {
         TAVSignatureMethod signatureMethod = new TAVSignatureMethod(config.privateKey);
         return signatureMethod.sign(config.concatenatedData.toString());
@@ -211,8 +213,17 @@ public class TAVSignatureMethod {
         TAVSignatureMethod signatureMethod = new TAVSignatureMethod(config.privateKey, config.publicKey);
         String signature = signatureMethod.sign(config.concatenatedData.toString());
         System.out.println("TAVSignatureMethod Bas64 Encoded Data>>" + signature);
-        TAVStructure tavStructure = new TAVStructure(version, SIGNATURE_NAME, config.dataValidUntilTimestamp, config.includedFieldsInOrder.toString(), signature);
-        String toJson = new GsonBuilder().disableHtmlEscaping().create().toJson(tavStructure);
+        String toJson = null;
+        if (config.tavFormat == TAVSignatureConfig.TAVFormat.TAV_FORMAT_2) {
+            TAVStructure2 tavStructur2 = new TAVStructure2(config.tavFormat.version, SIGNATURE_NAME, true, false, signature);
+            toJson = new GsonBuilder().disableHtmlEscaping().create().toJson(tavStructur2);
+        } else if (config.tavFormat == TAVSignatureConfig.TAVFormat.TAV_FORMAT_3) {
+            TAVStructure3 tavStructure = new TAVStructure3(config.tavFormat.version, SIGNATURE_NAME, config.dataValidUntilTimestamp, config.includedFieldsInOrder.toString(), signature);
+            toJson = new GsonBuilder().disableHtmlEscaping().create().toJson(tavStructure);
+        }
+        if (toJson == null)
+            throw new InvalidSignatureException(" TAV signature Json can not be null");
+
         System.out.println("TAVSignatureMethod JSON Payload>>" + toJson);
         byte[] data = toJson.getBytes(UTF_8);
         System.out.println("TAVSignatureMethod Base64 Encoded JSON Payload>>" + EncodingUtils.base64Encode(data));
@@ -237,25 +248,47 @@ public class TAVSignatureMethod {
         return publicKey;
     }
 
-    private static class TAVStructure {
+    private static abstract class TAVStructure {
 
         @SerializedName("version")
         public String version;
         @SerializedName("signatureAlgorithm")
         public String signatureAlgorithm;
+        @SerializedName("signature")
+        public String signature;
+
+        public TAVStructure(String version, String signatureAlgorithm, String signature) {
+            this.version = version;
+            this.signatureAlgorithm = signatureAlgorithm;
+            this.signature = signature;
+        }
+    }
+
+    private static class TAVStructure3 extends TAVStructure {
+
         @SerializedName("dataValidUntilTimestamp")
         public String dataValidUntilTimestamp;
         @SerializedName("includedFieldsInOrder")
         public String includedFieldsInOrder;
-        @SerializedName("signature")
-        public String signature;
 
-        public TAVStructure(String version, String signatureAlgorithm, String dataValidUntilTimestamp, String includedFieldsInOrder, String signature) {
-            this.version = version;
-            this.signatureAlgorithm = signatureAlgorithm;
+        public TAVStructure3(String version, String signatureAlgorithm, String dataValidUntilTimestamp, String includedFieldsInOrder, String signature) {
+            super(version, signatureAlgorithm, signature);
             this.dataValidUntilTimestamp = dataValidUntilTimestamp;
             this.includedFieldsInOrder = includedFieldsInOrder;
-            this.signature = signature;
+        }
+    }
+
+    private static class TAVStructure2 extends TAVStructure {
+
+        @SerializedName("expirationDateIncluded")
+        public boolean expirationDateIncluded;
+        @SerializedName("tokenUniqueReferenceIncluded")
+        public boolean tokenUniqueReferenceIncluded;
+
+        public TAVStructure2(String version, String signatureAlgorithm, boolean expirationDateIncluded, boolean tokenUniqueReferenceIncluded, String signature) {
+            super(version, signatureAlgorithm, signature);
+            this.expirationDateIncluded = expirationDateIncluded;
+            this.tokenUniqueReferenceIncluded = tokenUniqueReferenceIncluded;
         }
     }
 

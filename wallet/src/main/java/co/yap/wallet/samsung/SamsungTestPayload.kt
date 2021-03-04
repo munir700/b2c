@@ -1,27 +1,35 @@
 package co.yap.wallet.samsung
 
 import android.content.Context
-import android.util.Log
 import co.yap.wallet.R
 import co.yap.wallet.encriptions.encryption.*
 import co.yap.wallet.encriptions.json.GsonJsonEngine
 import co.yap.wallet.encriptions.utils.EncodingUtils
 import co.yap.wallet.encriptions.utils.EncryptionUtils
+import co.yap.yapcore.helpers.DateUtils
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
+import java.util.*
 
 fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
     try {
-        val cardNumber = "5370382000021942"
-        val expiryYear = "23"
+//"yyyy-MM-dd'T'HH:mm"
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MINUTE, 30)
+        val dataValidUntilTimestamp =
+            DateUtils.dateToString(calendar.time, "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        //5381230100036491
+        val cardNumber = "5381230100036491"
+        val expiryYear = "25"
         val expiryMonth = "10"
         val source = "CARD_ADDED_VIA_APPLICATION"
-        val cardholderName = "UAT MOBILE DEVICE"
+        val cardholderName = "UATMOB"
         val tavSignatureConfig = TAVSignatureConfigBuilder.aTAVSignatureConfig()
-            .withAccountExpiry("0125")
-            .withAccountNumber(cardNumber)
-            .withDataValidUntilTimestamp("2021-02-25T16:10:59Z")
+            .withAccountExpiry("1025")
+            .withAccountNumber("5381230100036491")
+            .withTavFormat(TAVSignatureConfig.TAVFormat.TAV_FORMAT_2)
+            .withDataValidUntilTimestamp(dataValidUntilTimestamp)// "2021-03-25T16:10:59Z"
             .withPrivateKey(
                 EncryptionUtils.loadDecryptionKey(
                     resources.openRawResource(R.raw.privatekey)
@@ -36,19 +44,19 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
         val iss =
             resources.openRawResource(R.raw.test_certificate_new)
         val cardInfoData =
-            "{\"CardInfoData\": {\"accountNumber\": \"$cardNumber\",\"expiryYear\":\"$expiryYear\",\"expiryMonth\": \"$expiryMonth\",\"source\": \"$source\",\"cardholderName\": \"$cardholderName\"}}"
+            "{\"cardInfoData\": {\"accountNumber\": \"$cardNumber\",\"expiryMonth\": \"$expiryMonth\",\"expiryYear\":\"$expiryYear\",\"source\": \"$source\",\"cardholderName\": \"$cardholderName\"}}"
         //            Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate("<insert public certificate file path>");
         val encryptionCertificate =
             EncryptionUtils.loadEncryptionCertificate(iss)
         val config =
             FieldLevelEncryptionConfigBuilder.aFieldLevelEncryptionConfig()
                 .withEncryptionCertificate(encryptionCertificate)
-                .withEncryptionPath("$.CardInfoData", "$.CardInfo")
-                .withOaepPaddingDigestAlgorithm("SHA-256")
+                .withEncryptionPath("$.cardInfoData", "$.cardInfo")
+                .withOaepPaddingDigestAlgorithm("SHA-512")
                 .withEncryptionKeyFingerprintFieldName("publicKeyFingerprint")
                 .withEncryptedValueFieldName("encryptedData")
                 .withEncryptedKeyFieldName("encryptedKey")
-                .withIvFieldName("iv")
+                .withIvField(false)
                 .withOaepPaddingDigestAlgorithmFieldName("oaepHashingAlgorithm")
                 .withTokenizationAuthenticationValueFieldName("tokenizationAuthenticationValue")
                 .withFieldValueEncoding(FieldLevelEncryptionConfig.FieldValueEncoding.HEX)
@@ -59,9 +67,11 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
             config,
             base64DigitalSignature
         )
-      //  val data = toJson.toByteArray(StandardCharsets.UTF_8)
-       // val finalPayload = EncodingUtils.base64Encode(data)
-        //Log.d("SamsungTestPayload", finalPayload)
+        val data = toJson.toByteArray(StandardCharsets.UTF_8)
+        val finalPayload = EncodingUtils.base64Encode(data)
+        // val finalPayload = EncodingUtils.base64Decode(finalPayload)
+        println("SamsungTestPayload Json>>$toJson")
+        println("SamsungTestPayload>>$finalPayload")
         payload.invoke(toJson)
     } catch (e: IOException) {
         e.printStackTrace()

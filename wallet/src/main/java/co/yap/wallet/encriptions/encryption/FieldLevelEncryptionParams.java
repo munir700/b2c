@@ -40,6 +40,7 @@ public final class FieldLevelEncryptionParams {
 
     /**
      * Generate encryption parameters.
+     *
      * @param config A {@link co.yap.wallet.encriptions.encryption.FieldLevelEncryptionConfig} instance
      * @return A {@link co.yap.wallet.encriptions.encryption.FieldLevelEncryptionParams} instance
      * @throws EncryptionException
@@ -61,8 +62,8 @@ public final class FieldLevelEncryptionParams {
         String oaepPaddingDigestAlgorithmValue = config.oaepPaddingDigestAlgorithm.replace("-", "");
 
         FieldLevelEncryptionParams params = new FieldLevelEncryptionParams(ivSpecValue, encryptedKeyValue,
-                                                                           oaepPaddingDigestAlgorithmValue,
-                                                                           config);
+                oaepPaddingDigestAlgorithmValue,
+                config);
         params.secretKey = secretKey;
         params.ivParameterSpec = ivParameterSpec;
         return params;
@@ -164,3 +165,4 @@ public final class FieldLevelEncryptionParams {
         return new OAEPParameterSpec(mgf1ParameterSpec.getDigestAlgorithm(), "MGF1", mgf1ParameterSpec, PSource.PSpecified.DEFAULT);
     }
 }
+

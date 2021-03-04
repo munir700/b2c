@@ -38,6 +38,7 @@ import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 import java.nio.charset.StandardCharsets
 
@@ -204,25 +205,25 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
                 R.id.btnSamsungPay -> {
-                    SamsungPayWalletManager.getInstance(requireContext())
-                        .getWalletInfo { status, bundle ->
-                            requireContext().getTestPayloadForSamsung { paylaod ->
-                                val data = paylaod.toByteArray(StandardCharsets.UTF_8)
-                                val finalPayload = EncodingUtils.base64Encode(data)
-                                SamsungPayWalletManager.getInstance(requireContext())
-                                    .addYapCardToSamsungPay(finalPayload)
-                            }
-//                            viewModel.getCardTokenForSamsungPay { data ->
-//                                val toJson =
-//                                    GsonBuilder().disableHtmlEscaping().create()
-//                                        .toJson(data)
-//                                val finalPayload =
-//                                    EncodingUtils.base64Encode(toJson.toByteArray(Charsets.UTF_8))
+//                    SamsungPayWalletManager.getInstance(requireContext())
+//                        .getWalletInfo { status, bundle ->
+//                            requireContext().getTestPayloadForSamsung { paylaod ->
+//                                val data = paylaod.toByteArray(StandardCharsets.UTF_8)
+//                                val finalPayload = EncodingUtils.base64Encode(data)
 //                                SamsungPayWalletManager.getInstance(requireContext())
-//                                    .addYapCardToSamsungPay(
-//                                        finalPayload
-//                                    )
+//                                    .addYapCardToSamsungPay(finalPayload)
 //                            }
+                            viewModel.getCardTokenForSamsungPay { data ->
+                                val toJson =
+                                    GsonBuilder().disableHtmlEscaping().create()
+                                        .toJson(data)
+                                val finalPayload =
+                                    EncodingUtils.base64Encode(toJson.toByteArray(Charsets.UTF_8))
+                                SamsungPayWalletManager.getInstance(requireContext())
+                                    .addYapCardToSamsungPay(
+                                        finalPayload
+                                    )
+
                         }
 
                 }

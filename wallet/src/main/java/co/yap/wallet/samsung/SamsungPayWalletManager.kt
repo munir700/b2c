@@ -34,7 +34,8 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
                     }
                 }
             }
-
+//            MTgwNzI1MTI1MTQ5NTE4eUNv
+//            EjmwLn9tTou9kUBM5Sw5VQ
             override fun onFail(errorCode: Int, errorData: Bundle?) {
                 context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                 // Check the extra error codes in the errorData bundle for all the reasons in
@@ -92,6 +93,8 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
                 }
 
                 override fun onProgress(currentCount: Int, p1: Int, bundleData: Bundle?) {
+                    Log.d("","")
+//                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                 }
             })
         }

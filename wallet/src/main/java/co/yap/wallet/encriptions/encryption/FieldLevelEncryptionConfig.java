@@ -92,6 +92,7 @@ public class FieldLevelEncryptionConfig {
      * The name of the payload field where to write/read the initialization vector value.
      */
     protected String ivFieldName = null;
+    protected boolean includeIvFieldName = false;
 
     /**
      * The name of the header where to write/read the initialization vector value.

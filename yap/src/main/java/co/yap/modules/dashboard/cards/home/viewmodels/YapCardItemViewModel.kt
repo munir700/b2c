@@ -31,9 +31,12 @@ class YapCardItemViewModel(
         }
 
     init {
-        if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType && isCardActive(card = paymentCard)) {
-            getSPayStatus()
+        paymentCard?.let {
+           // if (/*Constants.CARD_TYPE_DEBIT == paymentCard?.cardType && */isCardActive(card = it)) {
+                getSPayStatus()
+           // }
         }
+
     }
 
     // Custom logic if there any and add only observable or mutable dataList if your really need it.
