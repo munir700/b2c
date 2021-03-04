@@ -82,9 +82,9 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
                     Constants.ITEM_STORE_CARD_PLANS -> {
                         launchActivity<CardPlansActivity> { }
                     }
-                    Constants.ITEM_STORE_HOUSE_HOLD -> startActivityForResult(
+                    /*Constants.ITEM_STORE_HOUSE_HOLD -> startActivityForResult(
                         HouseHoldLandingActivity.newIntent(requireContext()),
-                        RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+                        RequestCodes.REQUEST_ADD_HOUSE_HOLD)*/
                 }
             }
         }
