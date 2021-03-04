@@ -1,4 +1,4 @@
-package co.yap.modules.location.fragments
+package co.yap.modules.location.kyc_additional_info.birth_info
 
 import android.os.Bundle
 import android.view.View
@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
-import co.yap.modules.location.interfaces.IPOBSelection
-import co.yap.modules.location.viewmodels.POBSelectionViewModel
+import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants

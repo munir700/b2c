@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/POBSelectionFragment"
-        android:name="co.yap.modules.location.fragments.POBSelectionFragment"
+        android:name="co.yap.modules.kyc_additional_info.birth_info.POBSelectionFragment"
         android:label="POBSelectionFragment"
         tools:layout="@layout/fragment_place_of_birth_selection">
         <action
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/taxInfoFragment"
-        android:name="co.yap.modules.location.tax.TaxInfoFragment"
+        android:name="co.yap.modules.kyc_additional_info.tax_info.TaxInfoFragment"
         android:label="TaxInfoFragment"
         tools:layout="@layout/fragment_tax_info" />
 </navigation>

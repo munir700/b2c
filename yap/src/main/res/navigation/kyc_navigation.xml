@@ -79,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/employmentStatusSelectionFragment"
-        android:name="co.yap.modules.employmentstatusselection.EmploymentStatusSelectionFragment"
+        android:name="co.yap.modules.kyc_additional_info.employment_info.status.EmploymentStatusSelectionFragment"
         android:label="EmploymentStatusSelectionFragment" />
 
 </navigation>

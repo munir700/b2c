@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.employmentstatusselection.EmploymentStatusSelectionViewModel" />
+            type="co.yap.modules.kyc_additional_info.employment_info.status.EmploymentStatusSelectionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,10 +1,9 @@
-package co.yap.modules.location.viewmodels
+package co.yap.modules.location.kyc_additional_info.birth_info
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
-import co.yap.modules.location.interfaces.IPOBSelection
-import co.yap.modules.location.states.POBSelectionState
+import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.BirthInfoRequest
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -12,13 +11,13 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.SessionManager
 
 class POBSelectionViewModel(application: Application) :
     LocationChildViewModel<IPOBSelection.State>(application),
     IPOBSelection.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: IPOBSelection.State = POBSelectionState()
+    override val state: IPOBSelection.State =
+        POBSelectionState()
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
 
     override val repository: CustomersRepository = CustomersRepository

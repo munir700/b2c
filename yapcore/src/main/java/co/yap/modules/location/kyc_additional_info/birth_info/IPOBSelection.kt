@@ -1,4 +1,4 @@
-package co.yap.modules.location.interfaces
+package co.yap.modules.location.kyc_additional_info.birth_info
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
