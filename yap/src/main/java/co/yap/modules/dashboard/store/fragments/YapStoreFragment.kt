@@ -12,6 +12,7 @@ import co.yap.R
 import co.yap.databinding.FragmentYapStoreBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
+import co.yap.modules.dashboard.store.cardplans.CardPlansActivity
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
@@ -25,8 +26,8 @@ import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchTourGuide
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_store.*
@@ -79,7 +80,7 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
             if (data is Store) {
                 when (data.id) {
                     Constants.ITEM_STORE_CARD_PLANS -> {
-                        toast("Coming Soooon")
+                        launchActivity<CardPlansActivity> { }
                     }
                     Constants.ITEM_STORE_HOUSE_HOLD -> startActivityForResult(
                         HouseHoldLandingActivity.newIntent(requireContext()),
