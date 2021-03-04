@@ -12,18 +12,21 @@ import co.yap.R
 import co.yap.databinding.FragmentYapStoreBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
+import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchTourGuide
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_store.*
@@ -74,12 +77,14 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Store) {
-//                if (data.name == "YAP Household") {
-//                    startActivityForResult(
-//                        HouseHoldLandingActivity.newIntent(requireContext()),
-//                        RequestCodes.REQUEST_ADD_HOUSE_HOLD
-//                    )
-//                }
+                when (data.id) {
+                    Constants.ITEM_STORE_CARD_PLANS -> {
+                        toast("Coming Soooon")
+                    }
+                    Constants.ITEM_STORE_HOUSE_HOLD -> startActivityForResult(
+                        HouseHoldLandingActivity.newIntent(requireContext()),
+                        RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+                }
             }
         }
     }

@@ -188,4 +188,10 @@ object Constants {
     const val VIEW_WITHOUT_FLAG = 1
     const val VIEW_WITH_FLAG = 2
 
+    //Yap Store
+
+    const val ITEM_STORE_CARD_PLANS =0
+    const val ITEM_STORE_YOUNG =1
+    const val ITEM_STORE_HOUSE_HOLD =2
+
 }

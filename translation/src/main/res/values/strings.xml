@@ -300,6 +300,12 @@
     <!--  store  -->
     <string name="screen_yap_store_display_text_title">YAP Store</string>
     <string name="screen_yap_store_display_text_heading">Browse YAP packages and add-ons</string>
+    <string name="screen_yap_store_card_plans_label_text">Card Plans</string>
+    <string name="screen_yap_store_card_plans_description_text">Upgrade your plan to Prime or Metal to supercharge your YAP experience.</string>
+    <string name="screen_yap_store_young_label_text">YAP Young</string>
+    <string name="screen_yap_store_young_description_text">Open a bank account for your children and help empower them financially.</string>
+    <string name="screen_yap_store_household_label_text">YAP Household</string>
+    <string name="screen_yap_store_household_description_text">Manage your household salaries digitally.</string>
 
     <!--    fragment home transaction-->
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
@@ -1340,7 +1346,6 @@
     <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
 
     <!-- image previewer dialogue -->
-
     <string name="screen_image_previewer_display_text_delete_message">This photo will be deleted from your saved receipts.</string>
     <string name="screen_image_previewer_button_text_delete">Delete Photo</string>
 
