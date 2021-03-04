@@ -16,4 +16,8 @@ abstract class LocationSelectionBaseViewModel<S : IBase.State>(application: Appl
     fun toggleToolBarVisibility(visibility: Boolean) {
         parentViewModel?.state?.toolbarVisibility?.set(visibility)
     }
+
+    fun setProgress(percent: Int) {
+        parentViewModel?.state?.currentProgress = percent
+    }
 }

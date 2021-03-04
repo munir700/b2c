@@ -43,6 +43,7 @@ class LocationSelectionViewModel(application: Application) :
         super.onCreate()
         getCities()
         initializePlacesAdapter()
+        setProgress(40)
     }
 
     override fun handleOnPressView(id: Int) {
@@ -79,6 +80,7 @@ class LocationSelectionViewModel(application: Application) :
 
     override fun onLocationSelected() {
         hasSeletedLocation = true
+        setProgress(60)
 
         if (state.placeTitle.get()?.toLowerCase()
                 ?.contains(unNamed.toLowerCase()) == true || !StringUtils.isValidAddress(

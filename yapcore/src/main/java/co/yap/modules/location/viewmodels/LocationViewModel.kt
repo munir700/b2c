@@ -35,4 +35,9 @@ class LocationViewModel(application: Application) :
         state.toolbarVisibility.set(true)
     }
 
+    override fun handlePressOnBackButton() {
+    }
+
+    override fun handlePressOnTickButton() {
+    }
 }

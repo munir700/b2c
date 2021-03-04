@@ -11,6 +11,8 @@ interface ILocation {
         var toolbarVisibility: ObservableBoolean
         var rightIcon: ObservableBoolean
         var leftIcon: ObservableBoolean
+        var totalProgress: Int
+        var currentProgress: Int
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -24,6 +26,8 @@ interface ILocation {
         val clickEvent: SingleClickEvent
         var selectedCountry: Country?
         var countries: ArrayList<Country>
+        fun handlePressOnBackButton()
+        fun handlePressOnTickButton()
 
     }
 
