@@ -27,7 +27,6 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.wallet.encriptions.utils.EncodingUtils
 import co.yap.wallet.samsung.SamsungPayWalletManager
-import co.yap.wallet.samsung.getTestPayloadForSamsung
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -40,7 +39,6 @@ import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
-import java.nio.charset.StandardCharsets
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
@@ -213,6 +211,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                                SamsungPayWalletManager.getInstance(requireContext())
 //                                    .addYapCardToSamsungPay(finalPayload)
 //                            }
+                    SamsungPayWalletManager.getInstance(requireContext())
+                        .getWalletInfo {status, bundle ->
                             viewModel.getCardTokenForSamsungPay { data ->
                                 val toJson =
                                     GsonBuilder().disableHtmlEscaping().create()
@@ -224,6 +224,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                         finalPayload
                                     )
 
+                            }
                         }
 
                 }

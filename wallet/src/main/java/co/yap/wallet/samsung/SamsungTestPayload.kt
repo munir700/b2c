@@ -25,6 +25,7 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
         val expiryMonth = "10"
         val source = "CARD_ADDED_VIA_APPLICATION"
         val cardholderName = "UATMOB"
+        // TAV Process start
         val tavSignatureConfig = TAVSignatureConfigBuilder.aTAVSignatureConfig()
             .withAccountExpiry("1025")
             .withAccountNumber("5381230100036491")
@@ -39,8 +40,10 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
                     resources.openRawResource(R.raw.tav_public_key)
                 )
             ).build()
+
         val base64DigitalSignature =
             TAVSignatureMethod.createBase64DigitalSignature(tavSignatureConfig)
+        //TAV process End
         val iss =
             resources.openRawResource(R.raw.test_certificate_new)
         val cardInfoData =
@@ -52,7 +55,7 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
             FieldLevelEncryptionConfigBuilder.aFieldLevelEncryptionConfig()
                 .withEncryptionCertificate(encryptionCertificate)
                 .withEncryptionPath("$.cardInfoData", "$.cardInfo")
-                .withOaepPaddingDigestAlgorithm("SHA-512")
+                .withOaepPaddingDigestAlgorithm("SHA-256")
                 .withEncryptionKeyFingerprintFieldName("publicKeyFingerprint")
                 .withEncryptedValueFieldName("encryptedData")
                 .withEncryptedKeyFieldName("encryptedKey")
