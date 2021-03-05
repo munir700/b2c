@@ -2,7 +2,9 @@ package co.yap.modules.dashboard.store.cardplans.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.navOptions
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.cardplans.CardPlans
@@ -33,9 +35,37 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         if (data is CardPlans) {
             when (data.id) {
                 Constants.PRIME_CARD_PLAN -> {
+                    navigate(destinationId = R.id.action_cardPlansFragment_to_primeCardFragment,
+                        args = bundleOf(
+                            "title" to data.title,
+                            "icon" to data.cardIcon,
+                            "description" to data.description
+                        ),
+                        navOptions = navOptions {
+                            anim {
+                                enter = co.yap.yapcore.R.anim.slide_in_from_bottom
+                                exit = co.yap.yapcore.R.anim.slide_out_to_bottom
+                                popEnter = co.yap.yapcore.R.anim.slide_in_left
+                                popExit = co.yap.yapcore.R.anim.slide_out_right
+                            }
+                        })
 
                 }
                 Constants.METAL_CARD_PLAN -> {
+                    navigate(destinationId = R.id.action_cardPlansFragment_to_metalCardFragment,
+                        args = bundleOf(
+                            "title" to data.title,
+                            "icon" to data.cardIcon,
+                            "description" to data.description
+                        ),
+                        navOptions = navOptions {
+                            anim {
+                                enter = co.yap.yapcore.R.anim.slide_in_from_bottom
+                                exit = co.yap.yapcore.R.anim.slide_out_to_bottom
+                                popEnter = co.yap.yapcore.R.anim.slide_in_left
+                                popExit = co.yap.yapcore.R.anim.slide_out_right
+                            }
+                        })
                 }
             }
         }
