@@ -1,4 +1,4 @@
-package co.yap.modules.location.tax
+package co.yap.modules.location.kyc_additional_info.tax_info
 
 import android.view.View
 import co.yap.yapcore.R

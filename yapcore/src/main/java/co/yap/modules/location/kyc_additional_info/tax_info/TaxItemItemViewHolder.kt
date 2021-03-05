@@ -1,9 +1,5 @@
-package co.yap.modules.location.tax
+package co.yap.modules.location.kyc_additional_info.tax_info
 
-import android.graphics.Color
-import android.view.View
-import android.view.ViewTreeObserver
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +19,11 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         onItemClickListener: OnItemClickListener?
     ) {
         itemTaxInfoBinding.viewModel =
-            TaxInfoItemViewModel(taxModel, position, onItemClickListener)
+            TaxInfoItemViewModel(
+                taxModel,
+                position,
+                onItemClickListener
+            )
         itemTaxInfoBinding.etTinNumber.afterTextChanged {
             onItemClickListener?.onItemClick(itemTaxInfoBinding.etTinNumber, it, -1)
         }

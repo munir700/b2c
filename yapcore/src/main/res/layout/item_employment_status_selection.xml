@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.employmentstatusselection.EmploymentStatusSelectionItemViewModel" />
+            type="co.yap.modules.location.kyc_additional_info.employment_info.status.EmploymentStatusSelectionItemViewModel" />
     </data>
 
 

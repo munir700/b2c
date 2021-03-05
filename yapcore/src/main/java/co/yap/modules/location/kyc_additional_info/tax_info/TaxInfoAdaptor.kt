@@ -1,4 +1,4 @@
-package co.yap.modules.location.tax
+package co.yap.modules.location.kyc_additional_info.tax_info
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +12,9 @@ class TaxInfoAdaptor(private val list: MutableList<TaxModel>) :
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_tax_info
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return TaxItemItemViewHolder(binding as ItemTaxInfoBinding)
+        return TaxItemItemViewHolder(
+            binding as ItemTaxInfoBinding
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

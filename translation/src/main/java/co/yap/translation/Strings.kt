@@ -255,6 +255,10 @@ object Strings {
         "screen_meeting_confirmation_display_text_emirates_id"
     const val screen_meeting_confirmation_button_go_to_dashboard: String =
         "screen_meeting_confirmation_button_go_to_dashboard"
+    const val screen_kyc_on_the_way_display_text_guide: String =
+        "screen_kyc_on_the_way_display_text_guide"
+    const val screen_kyc_on_the_way_display_text_yap_member: String =
+        "screen_kyc_on_the_way_display_text_yap_member"
 
     //country not allowed screen
     const val screen_kyc_information_error_display_text_title_from_usa: String =

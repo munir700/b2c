@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.location.tax.TaxInfoItemViewModel" />
+            type="co.yap.modules.location.kyc_additional_info.tax_info.TaxInfoItemViewModel" />
 
         <import type="android.view.View" />
 

@@ -1,4 +1,4 @@
-package co.yap.modules.location.tax
+package co.yap.modules.location.kyc_additional_info.tax_info
 
 import android.app.Activity
 import android.content.Intent
@@ -19,7 +19,8 @@ import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.View {
+class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
+    ITaxInfo.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_tax_info

@@ -1,9 +1,9 @@
-package co.yap.modules.location.states
+package co.yap.modules.location.kyc_additional_info.birth_info
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
-import co.yap.modules.location.interfaces.IPOBSelection
+import co.yap.modules.location.kyc_additional_info.birth_info.IPOBSelection
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils

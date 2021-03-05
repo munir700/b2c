@@ -1,4 +1,4 @@
-package co.yap.modules.location.tax
+package co.yap.modules.location.kyc_additional_info.tax_info
 
 import android.app.Application
 import android.view.View
@@ -21,9 +21,11 @@ class TaxInfoViewModel(application: Application) :
     LocationChildViewModel<ITaxInfo.State>(application),
     ITaxInfo.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: ITaxInfo.State = TaxInfoState()
+    override val state: ITaxInfo.State =
+        TaxInfoState()
     override var taxInfoList: MutableList<TaxModel> = mutableListOf()
-    override var taxInfoAdaptor: TaxInfoAdaptor = TaxInfoAdaptor(taxInfoList)
+    override var taxInfoAdaptor: TaxInfoAdaptor =
+        TaxInfoAdaptor(taxInfoList)
     override val repository: CustomersRepository = CustomersRepository
     override var reasonsList: ArrayList<String> = arrayListOf()
     override var options = arrayListOf("No", "Yes")
@@ -111,7 +113,12 @@ class TaxInfoViewModel(application: Application) :
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
                 R.id.bcountries -> {
-                    state.viewState.value = ITaxInfo.CountryPicker(view, data, pos)
+                    state.viewState.value =
+                        ITaxInfo.CountryPicker(
+                            view,
+                            data,
+                            pos
+                        )
                 }
             }
         }

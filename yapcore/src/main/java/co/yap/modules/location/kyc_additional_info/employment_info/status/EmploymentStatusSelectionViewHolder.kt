@@ -1,4 +1,4 @@
-package co.yap.modules.employmentstatusselection
+package co.yap.modules.location.kyc_additional_info.employment_info.status
 
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.yapcore.databinding.ItemEmploymentStatusSelectionBinding

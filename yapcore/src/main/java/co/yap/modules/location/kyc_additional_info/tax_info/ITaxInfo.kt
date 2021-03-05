@@ -1,4 +1,4 @@
-package co.yap.modules.location.tax
+package co.yap.modules.location.kyc_additional_info.tax_info
 
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
@@ -25,7 +25,7 @@ interface ITaxInfo {
 
         fun saveInfoDetails(isSubmit: Boolean, success: (pdfUrl: String?) -> Unit)
         fun getAllCountries(success: (ArrayList<Country>) -> Unit)
-        fun onCountryPicked(view: android.view.View, country: Country,itemModel: TaxModel, pos: Int)
+        fun onCountryPicked(view: android.view.View, country: Country, itemModel: TaxModel, pos: Int)
         var clickEvent: SingleClickEvent
         var taxInfoList: MutableList<TaxModel>
         var reasonsList: ArrayList<String>
