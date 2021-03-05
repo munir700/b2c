@@ -4,17 +4,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
+import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.yapcore.BaseListItemViewModel
 
-class CardPlansItemViewModel : BaseListItemViewModel<Int>() {
-    private var mItem: Int? = null
+class CardPlansItemViewModel : BaseListItemViewModel<CardPlans>() {
+    private var mItem: CardPlans? = null
 
-    override fun setItem(item: Int, position: Int) {
+    override fun setItem(item: CardPlans, position: Int) {
         mItem = item
         notifyChange()
     }
 
-    override fun getItem(): Int = mItem ?: 0
+    override fun getItem(): Int = mItem.id ?: 0
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 

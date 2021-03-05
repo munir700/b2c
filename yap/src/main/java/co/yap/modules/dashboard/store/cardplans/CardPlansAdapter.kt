@@ -8,8 +8,8 @@ import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansItemViewMode
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 
-class CardPlansAdapter(mValue: MutableList<Int>, navigation: NavController?) :
-    BaseRVAdapter<Int, CardPlansItemViewModel, CardPlansAdapter.CardPlansViewHolder>(
+class CardPlansAdapter(mValue: MutableList<CardPlans>, navigation: NavController?) :
+    BaseRVAdapter<CardPlans, CardPlansItemViewModel, CardPlansAdapter.CardPlansViewHolder>(
         mValue,
         navigation
     ) {
@@ -19,7 +19,7 @@ class CardPlansAdapter(mValue: MutableList<Int>, navigation: NavController?) :
         view: View,
         viewModel: CardPlansItemViewModel,
         mDataBinding: ViewDataBinding,
-        viewType: Int
+        viewType: CardPlans
     ): CardPlansViewHolder = CardPlansViewHolder(
         view,
         viewModel,
@@ -33,6 +33,6 @@ class CardPlansAdapter(mValue: MutableList<Int>, navigation: NavController?) :
         viewModel: CardPlansItemViewModel,
         mDataBinding: ViewDataBinding
     ) :
-        BaseViewHolder<Int, CardPlansItemViewModel>(view, viewModel, mDataBinding)
+        BaseViewHolder<CardPlans, CardPlansItemViewModel>(view, viewModel, mDataBinding)
 
 }
