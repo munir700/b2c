@@ -2133,4 +2133,8 @@ object Strings {
         "screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose"
     const val screen_employment_information_selection_display_button_text_next =
         "screen_employment_information_selection_display_button_text_next"
+    const val screen_employment_information_dialog_display_text_heading =
+        "screen_employment_information_dialog_display_text_heading"
+    const val screen_employment_information_dialog_display_text_subheading =
+        "screen_employment_information_dialog_display_text_subheading"
 }
