@@ -10,7 +10,7 @@ import co.yap.yapcore.constants.Constants
 
 class CardPlansViewModel(application: Application) :
     CardPlansBaseViewModel<ICardPlans.State>(application), ICardPlans.ViewModel {
-    override val state: ICardPlans.State = CardPlansState()
+    override val state: CardPlansState = CardPlansState()
     override var cardAdapter: CardPlansAdapter = CardPlansAdapter(mutableListOf(), null)
     override fun onCreate() {
         super.onCreate()
@@ -21,10 +21,18 @@ class CardPlansViewModel(application: Application) :
         return arrayListOf(
             CardPlans(id = Constants.PRIME_CARD_PLAN,
                 title = "Prime Card",
-                resourse = R.drawable.image_spare_card),
+                type = "Prime",
+                description = "Subscribe to Prime for only AED 8/month and choose your card colour that comes packed with benefits.",
+                resource = R.drawable.image_spare_card,
+                cardIcon = R.drawable.ic_prime_card_small
+            ),
             CardPlans(id = Constants.METAL_CARD_PLAN,
                 title = "Metal Card",
-                resourse = R.drawable.image_spare_card)
+                type = "Metal",
+                description = "Subscribe to metal starting at AED 50/month and choose a metal card that comes packed with benefits.",
+                resource = R.drawable.image_spare_card,
+                cardIcon = R.drawable.ic_metal_card_small
+            )
         )
     }
 

@@ -2,7 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
 
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+        <variable
+            name="title"
+            type="String" />
+        <variable
+            name="description"
+            type="String" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,14 +24,16 @@
             android:layout_height="@dimen/_60sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:src="@drawable/ic_card_plans"/>
+            android:src="@{icon}"
+            tools:src="@drawable/ic_card_plans"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/cardLabel"
             android:layout_width="0dp"
-            style="@style/ALargeGrey"
+            style="@style/ARegularGrey"
             android:textColor="@color/colorPrimaryDark"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="@{title}"
             app:layout_constraintStart_toEndOf="@+id/cardIcon"
             android:layout_marginTop="@dimen/margin_extra_small"
             android:layout_marginStart="@dimen/margin_normal"
@@ -33,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             app:layout_constraintStart_toEndOf="@+id/cardIcon"
+            android:text="@{description}"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_extra_small"
             android:lineHeight="@dimen/_11sdp"

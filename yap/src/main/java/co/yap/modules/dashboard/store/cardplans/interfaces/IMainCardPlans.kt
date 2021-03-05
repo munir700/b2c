@@ -1,5 +1,9 @@
 package co.yap.modules.dashboard.store.cardplans.interfaces
 
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 
 interface IMainCardPlans {

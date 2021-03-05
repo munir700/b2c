@@ -227,5 +227,7 @@
 
         <activity android:name=".modules.dashboard.transaction.receipt.viewer.ImageViewerActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".modules.dashboard.store.cardplans.CardPlansActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
