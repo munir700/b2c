@@ -2137,4 +2137,6 @@ object Strings {
         "screen_employment_information_dialog_display_text_heading"
     const val screen_employment_information_dialog_display_text_subheading =
         "screen_employment_information_dialog_display_text_subheading"
+    const val screen_employment_information_dialog_button_text_close =
+        "screen_employment_information_dialog_button_text_close"
 }

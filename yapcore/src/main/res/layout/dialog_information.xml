@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:constraint_referenced_ids="tbBtnInfo,tvHeading,tvSubHeading,btnClose"
+            app:constraint_referenced_ids="tbBtnInfo,tvDialogTitle,tvTitle,btnClose"
             app:flow_verticalGap="@dimen/margin_medium"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,18 +35,17 @@
             app:srcCompat="@drawable/ic_support" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvHeading"
+            android:id="@+id/tvDialogTitle"
             style="@style/Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:lineSpacingExtra="5sp"
             android:text="@string/screen_employment_information_dialog_display_text_heading"
-            android:textSize="@dimen/_21sdp"
             app:text="@{Strings.screen_employment_information_dialog_display_text_heading}" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSubHeading"
+            android:id="@+id/tvTitle"
             style="@style/SmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
