@@ -59,13 +59,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_small"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/margin_small"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:recycleViewAdapter=""
-            tools:listitem="@layout/layout_item_card_plans"
-            android:layout_marginBottom="@dimen/margin_small"/>
+            app:recycleViewAdapter="@{viewModel.cardAdapter}"
+            tools:listitem="@layout/item_card_plans" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
