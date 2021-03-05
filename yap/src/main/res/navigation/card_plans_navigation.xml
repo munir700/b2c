@@ -9,7 +9,14 @@
         android:id="@+id/cardPlansFragment"
         android:name="co.yap.modules.dashboard.store.cardplans.fragments.CardPlansFragment"
         android:label="CardPlansFragment"
-        tools:layout="@layout/fragment_card_plans" />
+        tools:layout="@layout/fragment_card_plans" >
+        <action
+            android:id="@+id/action_cardPlansFragment_to_primeCardFragment"
+            app:destination="@id/primeCardFragment" />
+        <action
+            android:id="@+id/action_cardPlansFragment_to_metalCardFragment"
+            app:destination="@id/metalCardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/primeCardFragment"
         android:name="co.yap.modules.dashboard.store.cardplans.fragments.PrimeCardFragment"

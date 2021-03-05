@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.store.cardplans
 
 data class CardPlans(
-    val id: Int,
+    val id: String,
     val title: String?,
     val resourse: Int?
 )

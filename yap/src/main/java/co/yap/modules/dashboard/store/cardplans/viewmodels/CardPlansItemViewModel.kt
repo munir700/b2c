@@ -8,14 +8,14 @@ import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.yapcore.BaseListItemViewModel
 
 class CardPlansItemViewModel : BaseListItemViewModel<CardPlans>() {
-    private var mItem: CardPlans? = null
-
+    private lateinit var cardPlan: CardPlans
     override fun setItem(item: CardPlans, position: Int) {
-        mItem = item
+        cardPlan = item
         notifyChange()
     }
 
-    override fun getItem(): Int = mItem.id ?: 0
+    override fun getItem(): CardPlans = cardPlan
+
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
@@ -24,4 +24,5 @@ class CardPlansItemViewModel : BaseListItemViewModel<CardPlans>() {
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
     }
+
 }

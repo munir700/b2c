@@ -14,25 +14,23 @@ class CardPlansAdapter(mValue: MutableList<CardPlans>, navigation: NavController
         navigation
     ) {
     override fun getLayoutId(viewType: Int): Int = getViewModel().layoutRes()
-
+    override fun getViewModel(): CardPlansItemViewModel = CardPlansItemViewModel()
+    override fun getVariableId(): Int = BR.cardPlansItemViewModel
     override fun getViewHolder(
         view: View,
         viewModel: CardPlansItemViewModel,
         mDataBinding: ViewDataBinding,
-        viewType: CardPlans
+        viewType: Int
     ): CardPlansViewHolder = CardPlansViewHolder(
         view,
         viewModel,
         mDataBinding
     )
 
-    override fun getViewModel(): CardPlansItemViewModel = CardPlansItemViewModel()
-    override fun getVariableId(): Int = BR.cardPlansItemViewModel
     class CardPlansViewHolder(
         view: View,
         viewModel: CardPlansItemViewModel,
         mDataBinding: ViewDataBinding
     ) :
         BaseViewHolder<CardPlans, CardPlansItemViewModel>(view, viewModel, mDataBinding)
-
 }
