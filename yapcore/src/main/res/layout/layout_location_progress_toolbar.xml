@@ -18,7 +18,7 @@
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tbBtnBack"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tbBtnCheck"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"

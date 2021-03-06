@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.docscanner.models.Identity
 
 interface IDocumentsDashboard {
@@ -20,6 +21,7 @@ interface IDocumentsDashboard {
         var finishKyc: MutableLiveData<DocumentsResponse>
         var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation?
         fun handlePressOnView(id: Int)
+        var clickEvent:SingleClickEvent
     }
 
     interface View : IBase.View<ViewModel>
