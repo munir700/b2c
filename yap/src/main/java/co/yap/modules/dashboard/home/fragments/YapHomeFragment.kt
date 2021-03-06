@@ -38,14 +38,12 @@ import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
@@ -594,13 +592,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                    putExtra(
-                        Constants.name,
-                        SessionManager.user?.currentCustomer?.firstName.toString()
-                    )
-                    putExtra(Constants.data, false)
-                }
+//                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+//                    putExtra(
+//                        Constants.name,
+//                        SessionManager.user?.currentCustomer?.firstName.toString()
+//                    )
+//                    putExtra(Constants.data, false)
+//                }
+                startActivityForResult(
+                    LocationSelectionActivity.newIntent(
+                        context = requireContext(),
+                        address = SessionManager.userAddress ?: Address(),
+                        headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                        subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                        onBoarding = true
+                    ), RequestCodes.REQUEST_FOR_LOCATION
+                )
             }
 
             NotificationAction.SET_PIN -> {
@@ -614,39 +621,57 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     if (SessionManager.eidStatus == EIDStatus.NOT_SET &&
                         PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
                     ) {
-                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                            putExtra(
-                                Constants.name,
-                                SessionManager.user?.currentCustomer?.firstName.toString()
-                            )
-                            putExtra(Constants.data, true)
-                            putExtra(
-                                "document",
-                                GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
-                                    identityNo = SessionManager.user?.currentCustomer?.identityNo
-                                )
-                            )
-                        }
+//                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+//                            putExtra(
+//                                Constants.name,
+//                                SessionManager.user?.currentCustomer?.firstName.toString()
+//                            )
+//                            putExtra(Constants.data, true)
+//                            putExtra(
+//                                "document",
+//                                GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+//                                    identityNo = SessionManager.user?.currentCustomer?.identityNo
+//                                )
+//                            )
+//                        }
+                        startActivityForResult(
+                            LocationSelectionActivity.newIntent(
+                                context = requireContext(),
+                                address = SessionManager.userAddress ?: Address(),
+                                headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                                subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                                onBoarding = true
+                            ), RequestCodes.REQUEST_FOR_LOCATION
+                        )
                     } else {
                         showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
                     }
                 } else {
-                    launchActivity<DocumentsDashboardActivity>(
-                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
-                        type = FeatureSet.UPDATE_EID
-                    ) {
-                        putExtra(
-                            Constants.name,
-                            SessionManager.user?.currentCustomer?.firstName.toString()
-                        )
-                        putExtra(Constants.data, true)
-                        putExtra(
-                            "document",
-                            GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
-                                identityNo = SessionManager.user?.currentCustomer?.identityNo
-                            )
-                        )
-                    }
+//                    launchActivity<DocumentsDashboardActivity>(
+//                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+//                        type = FeatureSet.UPDATE_EID
+//                    ) {
+//                        putExtra(
+//                            Constants.name,
+//                            SessionManager.user?.currentCustomer?.firstName.toString()
+//                        )
+//                        putExtra(Constants.data, true)
+//                        putExtra(
+//                            "document",
+//                            GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+//                                identityNo = SessionManager.user?.currentCustomer?.identityNo
+//                            )
+//                        )
+//                    }
+                    startActivityForResult(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = SessionManager.userAddress ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                            onBoarding = true
+                        ), RequestCodes.REQUEST_FOR_LOCATION
+                    )
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {

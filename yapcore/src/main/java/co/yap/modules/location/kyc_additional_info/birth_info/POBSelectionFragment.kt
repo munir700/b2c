@@ -32,12 +32,12 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         when (SessionManager.user?.notificationStatuses) {
             AccountStatus.BIRTH_INFO_COLLECTED.name -> {
-                skipPOBSelectionFragment()
+//                skipPOBSelectionFragment()
             }
             else -> {
-                addObservers()
             }
         }
+        addObservers()
     }
 
     override fun addObservers() {
@@ -52,7 +52,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                     navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
                 }
             }
-            R.id.ivBackBtn -> {
+            R.id.tbBtnBack -> {
                 activity?.onBackPressed()
             }
             R.id.bcountries -> {
