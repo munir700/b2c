@@ -27,7 +27,7 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back" />
@@ -40,7 +40,7 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{(v) -> viewModel.handlePressOnTickButton()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:enabled="@{false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tbBtnBack"

@@ -7,7 +7,7 @@ import co.yap.yapcore.IBase
 import com.digitify.identityscanner.docscanner.models.Identity
 
 interface IDocumentsDashboard {
-    interface State : IBase.State{
+    interface State : IBase.State {
         var totalProgress: Int
         var currentProgress: Int
     }
@@ -19,8 +19,7 @@ interface IDocumentsDashboard {
         var skipFirstScreen: MutableLiveData<Boolean>
         var finishKyc: MutableLiveData<DocumentsResponse>
         var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation?
-        fun handlePressOnBackButton()
-        fun handlePressOnTickButton()
+        fun handlePressOnView(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

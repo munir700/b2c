@@ -22,11 +22,6 @@ class DocumentsDashboardViewModel(application: Application) :
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =
         null
 
-    override fun handlePressOnBackButton() {
-
-    }
-
-    override fun handlePressOnTickButton() {
-
+    override fun handlePressOnView(id: Int) {
     }
 }

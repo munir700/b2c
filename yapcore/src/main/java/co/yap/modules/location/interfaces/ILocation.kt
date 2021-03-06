@@ -26,9 +26,6 @@ interface ILocation {
         val clickEvent: SingleClickEvent
         var selectedCountry: Country?
         var countries: ArrayList<Country>
-        fun handlePressOnBackButton()
-        fun handlePressOnTickButton()
-
     }
 
     interface View : IBase.View<ViewModel>
