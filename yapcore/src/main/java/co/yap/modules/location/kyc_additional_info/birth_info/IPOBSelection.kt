@@ -1,5 +1,6 @@
 package co.yap.modules.location.kyc_additional_info.birth_info
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
@@ -23,14 +24,14 @@ interface IPOBSelection {
         var clickEvent: SingleClickEvent
         var populateSpinnerData: MutableLiveData<ArrayList<Country>>
         fun getAllCountries()
-        val dualNatioanlitySpinnerItemClickListener : OnItemClickListener
+        val dualNatioanlitySpinnerItemClickListener: OnItemClickListener
         val dualNationalityQuestionOptions: ArrayList<String>
-        var selectedData:String
     }
 
     interface State : IBase.State {
         var cityOfBirth: String
         var valid: ObservableField<Boolean>
         var selectedCountry: ObservableField<Country?>
+        var dualNationalityEnabled: ObservableBoolean
     }
 }
