@@ -2,6 +2,7 @@ package co.yap.modules.location.kyc_additional_info.birth_info
 
 import android.app.Application
 import android.view.View
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.viewmodels.LocationChildViewModel
@@ -22,7 +23,7 @@ class POBSelectionViewModel(application: Application) :
         POBSelectionState()
     override val dualNationalityQuestionOptions: ArrayList<String> = arrayListOf("No", "Yes")
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
-
+    override var selectedOption: ObservableField<String> = ObservableField()
     override val repository: CustomersRepository = CustomersRepository
 
     override fun handleOnPressView(id: Int) {
@@ -32,7 +33,6 @@ class POBSelectionViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
-        state.dualNationalityEnabled.set(false)
     }
 
     override fun getAllCountries() {
@@ -66,9 +66,9 @@ class POBSelectionViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is String) {
                 if (data.equals(dualNationalityQuestionOptions.get(0)))
-                    state.dualNationalityEnabled.set(false)
+                    selectedOption.set(data)
                 else
-                    state.dualNationalityEnabled.set(true)
+                    selectedOption.set(data)
 
             }
         }

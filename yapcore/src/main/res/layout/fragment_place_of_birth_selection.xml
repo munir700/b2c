@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:hint="@string/screen_place_of_birth_display_text_city_of_birth"
                 android:paddingTop="@dimen/margin_normal"
@@ -186,34 +186,31 @@
                 android:layout_marginStart="@dimen/margin_normal"
                 android:background="@color/greyLight" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvNationalityEIDTitle"
-                style="@style/Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:gravity="center"
-                android:text="@string/screen_place_of_birth_display_text_nationality_as_per_eid"
-                android:visibility="@{viewModel.state.dualNationalityEnabled? View.VISIBLE : View.GONE }"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dualNationalQuestionLine"
-                tools:text="@string/screen_place_of_birth_display_text_nationality_as_per_eid" />
 
             <androidx.constraintlayout.helper.widget.Flow
                 android:id="@+id/fwEidNationality"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_normal"
-                android:visibility="@{viewModel.state.dualNationalityEnabled? View.VISIBLE : View.GONE }"
-                app:constraint_referenced_ids="tvEIDNationality"
+                android:visibility="@{viewModel.selectedOption.equals(`Yes`)? View.VISIBLE : View.GONE }"
+                app:constraint_referenced_ids="tvNationalityEIDTitle,tvEIDNationality"
+                app:flow_verticalGap="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvNationalityEIDTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/fwSpinnerOption" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvNationalityEIDTitle"
+                style="@style/Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+
+                android:text="@string/screen_place_of_birth_display_text_nationality_as_per_eid" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvEIDNationality"
@@ -237,8 +234,8 @@
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_normal"
-                android:visibility="@{viewModel.state.dualNationalityEnabled? View.VISIBLE : View.GONE }"
-                app:constraint_referenced_ids="tvAddSecondCountry,bSecondcountry,secondCountryLine"
+                android:visibility="@{viewModel.selectedOption.equals(`Yes`)? View.VISIBLE : View.GONE }"
+                app:constraint_referenced_ids="tvAddSecondCountry,bSecondcountry"
                 app:flow_verticalGap="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
