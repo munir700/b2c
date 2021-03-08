@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/location_navigation"
-    app:startDestination="@id/POBSelectionFragment">
+    app:startDestination="@id/locationSelectionFragment">
     <fragment
         android:id="@+id/locationSelectionFragment"
         android:name="co.yap.modules.location.fragments.LocationSelectionFragment"
