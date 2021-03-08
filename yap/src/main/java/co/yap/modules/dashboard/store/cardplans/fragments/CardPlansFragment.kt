@@ -37,10 +37,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
     }
 
     private fun iniVideoView() {
-        val dimensions: Int = Utils.getDimensionInPercent(requireContext(), false, 25)
-        val params = cardAnimation.layoutParams as ConstraintLayout.LayoutParams
-        params.height = dimensions
-        cardAnimation.layoutParams = params
+        cardAnimation.layoutParams = viewModel.setViewDimensions(30,cardAnimation)
         cardAnimation.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_all_card_plans))
         cardAnimation.start()
         cardAnimation.setOnCompletionListener { mediaPlayer ->
