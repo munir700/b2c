@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.store.cardplans.fragments
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.MediaController
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.navOptions
@@ -14,6 +14,7 @@ import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.interfaces.ICardPlans
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansViewModel
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_card_plans.*
 
@@ -36,6 +37,10 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
     }
 
     private fun iniVideoView() {
+        val dimensions: Int = Utils.getDimensionInPercent(requireContext(), false, 25)
+        val params = cardAnimation.layoutParams as ConstraintLayout.LayoutParams
+        params.height = dimensions
+        cardAnimation.layoutParams = params
         cardAnimation.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_all_card_plans))
         cardAnimation.start()
         cardAnimation.setOnCompletionListener { mediaPlayer ->
@@ -49,50 +54,37 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         viewModel.cardAdapter.onItemClickListener = object :
             OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                clickOnCardPlan(view, data, pos)
+                clickOnCardPlan(data, pos)
             }
         }
     }
 
-    private fun clickOnCardPlan(view: View, data: Any, pos: Int) {
+    private fun clickOnCardPlan(data: Any, pos: Int) {
         if (data is CardPlans) {
             when (data.id) {
                 Constants.PRIME_CARD_PLAN -> {
-                    navigate(destinationId = R.id.action_cardPlansFragment_to_primeCardFragment,
-                        args = bundleOf(
-                            "title" to data.title,
-                            "icon" to data.cardIcon,
-                            "description" to data.description
-                        ),
-                        navOptions = navOptions {
-                            anim {
-                                enter = co.yap.yapcore.R.anim.slide_in_from_bottom
-                                exit = co.yap.yapcore.R.anim.slide_out_to_bottom
-                                popEnter = co.yap.yapcore.R.anim.slide_in_left
-                                popExit = co.yap.yapcore.R.anim.slide_out_right
-                            }
-                        })
-
+                    navigateToFragment(data, R.id.action_cardPlansFragment_to_primeCardFragment)
                 }
                 Constants.METAL_CARD_PLAN -> {
-                    navigate(destinationId = R.id.action_cardPlansFragment_to_metalCardFragment,
-                        args = bundleOf(
-                            "title" to data.title,
-                            "icon" to data.cardIcon,
-                            "description" to data.description
-                        ),
-                        navOptions = navOptions {
-                            anim {
-                                enter = co.yap.yapcore.R.anim.slide_out_to_bottom
-                                exit = co.yap.yapcore.R.anim.slide_in_from_bottom
-                                popEnter = co.yap.yapcore.R.anim.slide_in_left
-                                popExit = co.yap.yapcore.R.anim.slide_out_right
-                            }
-                        })
+                    navigateToFragment(data, R.id.action_cardPlansFragment_to_metalCardFragment)
                 }
             }
         }
+    }
 
+    override fun navigateToFragment(data: CardPlans, actionId: Int) {
+        navigate(destinationId = actionId,
+            args = bundleOf(
+                "cardTag" to data.id
+            ),
+            navOptions = navOptions {
+                anim {
+                    enter = co.yap.yapcore.R.anim.slide_up_from_bottom
+                    exit = co.yap.yapcore.R.anim.abc_slide_out_top
+                    popEnter = co.yap.yapcore.R.anim.slide_in_left
+                    popExit = co.yap.yapcore.R.anim.slide_out_right
+                }
+            })
     }
 
     override fun getBindings(): FragmentCardPlansBinding =

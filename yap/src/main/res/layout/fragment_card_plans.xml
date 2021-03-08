@@ -35,8 +35,8 @@
 
         <VideoView
             android:id="@+id/cardAnimation"
-            android:layout_width="0dp"
             android:layout_height="@dimen/_160sdp"
+            android:layout_width="fill_parent"
             />
 
         <include

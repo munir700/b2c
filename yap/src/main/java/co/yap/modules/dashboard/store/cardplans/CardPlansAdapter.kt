@@ -7,12 +7,15 @@ import co.yap.BR
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansItemViewModel
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
+import co.yap.yapcore.helpers.Utils
 
 class CardPlansAdapter(mValue: MutableList<CardPlans>, navigation: NavController?) :
     BaseRVAdapter<CardPlans, CardPlansItemViewModel, CardPlansAdapter.CardPlansViewHolder>(
         mValue,
         navigation
     ) {
+
+
     override fun getLayoutId(viewType: Int): Int = getViewModel().layoutRes()
     override fun getViewModel(): CardPlansItemViewModel = CardPlansItemViewModel()
     override fun getVariableId(): Int = BR.cardPlansItemViewModel
