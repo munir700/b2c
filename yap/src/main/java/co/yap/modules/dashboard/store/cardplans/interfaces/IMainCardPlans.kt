@@ -1,5 +1,10 @@
 package co.yap.modules.dashboard.store.cardplans.interfaces
 
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.yapcore.IBase
 
 interface IMainCardPlans {
@@ -8,7 +13,9 @@ interface IMainCardPlans {
         fun removeObservers()
     }
 
-    interface ViewModel : IBase.ViewModel<State>
+    interface ViewModel : IBase.ViewModel<State>{
+        var cards : MutableList<CardPlans>
+    }
 
     interface State : IBase.State
 }

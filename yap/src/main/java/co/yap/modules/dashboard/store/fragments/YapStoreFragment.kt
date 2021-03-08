@@ -12,8 +12,7 @@ import co.yap.R
 import co.yap.databinding.FragmentYapStoreBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
-import co.yap.modules.dashboard.store.cardplans.CardPlansActivity
-import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
+import co.yap.modules.dashboard.store.cardplans.activities.CardPlansActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store

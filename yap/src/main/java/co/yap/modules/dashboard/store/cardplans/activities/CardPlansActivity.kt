@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.cardplans
+package co.yap.modules.dashboard.store.cardplans.activities
 
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -14,15 +14,11 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class CardPlansActivity : BaseBindingActivity<IMainCardPlans.ViewModel>(), INavigator,
     IFragmentHolder, IMainCardPlans.View {
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.activity_card_plans
-
     override fun setObservers() {
     }
-
     override fun removeObservers() {
     }
-
     override val viewModel: IMainCardPlans.ViewModel
         get() = ViewModelProviders.of(this).get(CardPlansMainViewModel::class.java)
     override val navigator: IBaseNavigator
