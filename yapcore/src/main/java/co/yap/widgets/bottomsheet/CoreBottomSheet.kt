@@ -34,8 +34,8 @@ open class CoreBottomSheet(
     override val viewModel: CoreBottomSheetViewModel
         get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
 
-    val adapter: CoreMultiSelectionBottomSheetAdapter by lazy {
-        CoreMultiSelectionBottomSheetAdapter(bottomSheetItems, viewType)
+    val adapter: CoreBottomSheetAdapter by lazy {
+        CoreBottomSheetAdapter(bottomSheetItems, viewType)
     }
 
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
