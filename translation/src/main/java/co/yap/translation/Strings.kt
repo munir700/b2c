@@ -2147,4 +2147,12 @@ object Strings {
     //    Employee information screen
     const val screen_employee_information_display_bottom_sheet_text_heading =
         "screen_employee_information_display_bottom_sheet_text_heading"
+
+    // KYC Employment Information Questionnaire screen
+    const val screen_employment_questionnaire_display_text_heading =
+        "screen_employment_questionnaire_display_text_heading"
+    const val screen_employment_questionnaire_display_text_desc =
+        "screen_employment_questionnaire_display_text_desc"
+    const val screen_employment_questionnaire_display_text_user_information =
+        "screen_employment_questionnaire_display_text_user_information"
 }

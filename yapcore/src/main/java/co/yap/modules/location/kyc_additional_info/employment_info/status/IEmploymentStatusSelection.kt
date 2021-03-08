@@ -13,8 +13,7 @@ interface IEmploymentStatusSelection {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         fun handleOnPressNext(id: Int)
-        var employmentStatusSelectionAdapter: EmploymentStatusSelectionAdapter
-        var employmentStatusSelectionList: MutableList<EmploymentStatusSelectionModel>
+        var employmentStatusAdapter: EmploymentStatusAdapter
         var lastItemCheckedPosition: Int
     }
 

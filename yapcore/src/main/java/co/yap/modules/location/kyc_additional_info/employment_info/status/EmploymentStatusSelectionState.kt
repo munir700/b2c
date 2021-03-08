@@ -5,5 +5,5 @@ import co.yap.yapcore.BaseState
 
 class EmploymentStatusSelectionState : BaseState(),
     IEmploymentStatusSelection.State {
-    override val enableNextButton: ObservableBoolean = ObservableBoolean()
+    override val enableNextButton: ObservableBoolean = ObservableBoolean(false)
 }

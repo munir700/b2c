@@ -3,31 +3,24 @@ package co.yap.modules.location.kyc_additional_info.employment_info.status
 import android.app.Application
 import android.view.View
 import android.widget.CheckedTextView
-import co.yap.yapcore.BaseViewModel
+import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EmploymentStatusSelectionViewModel(application: Application) :
-    BaseViewModel<IEmploymentStatusSelection.State>(application),
+    LocationChildViewModel<IEmploymentStatusSelection.State>(application),
     IEmploymentStatusSelection.ViewModel {
     override val state: EmploymentStatusSelectionState =
         EmploymentStatusSelectionState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var employmentStatusSelectionAdapter: EmploymentStatusSelectionAdapter =
-        EmploymentStatusSelectionAdapter(
-            context,
-            mutableListOf()
-        )
+    override var employmentStatusAdapter: EmploymentStatusAdapter =
+        EmploymentStatusAdapter(getEmploymentStatusList())
     override var lastItemCheckedPosition = -1;
-    override var employmentStatusSelectionList: MutableList<EmploymentStatusSelectionModel> =
-        mutableListOf()
 
     override fun onCreate() {
         super.onCreate()
-        employmentStatusSelectionList = getEmploymentStatusList()
-        employmentStatusSelectionAdapter.setList(employmentStatusSelectionList)
-        state.enableNextButton.set(false)
-        employmentStatusSelectionAdapter.onItemClickListener = onItemClickListener
+        employmentStatusAdapter.onItemClickListener = onItemClickListener
     }
 
     override fun handleOnPressNext(id: Int) {
@@ -35,53 +28,58 @@ class EmploymentStatusSelectionViewModel(application: Application) :
     }
 
     private fun getEmploymentStatusList(): MutableList<EmploymentStatusSelectionModel> {
-        val employmentStatus = mutableListOf<EmploymentStatusSelectionModel>()
-        employmentStatus.add(
+        val employmentStatuses = mutableListOf<EmploymentStatusSelectionModel>()
+        employmentStatuses.add(
             EmploymentStatusSelectionModel(
-                "Employed",
+                EmploymentStatus.EMPLOYED,
+                EmploymentStatus.EMPLOYED.status,
                 false
             )
         )
-        employmentStatus.add(
+        employmentStatuses.add(
             EmploymentStatusSelectionModel(
-                "Self-Employed",
+                EmploymentStatus.SELF_EMPLOYED,
+                EmploymentStatus.SELF_EMPLOYED.status,
                 false
             )
         )
-        employmentStatus.add(
+        employmentStatuses.add(
             EmploymentStatusSelectionModel(
-                "Salaried & Self-Employed",
+                EmploymentStatus.SALARIED_AND_SELF_EMPLOYED,
+                EmploymentStatus.SALARIED_AND_SELF_EMPLOYED.status,
                 false
             )
         )
-        employmentStatus.add(
+        employmentStatuses.add(
             EmploymentStatusSelectionModel(
-                "Other",
+                EmploymentStatus.OTHER,
+                EmploymentStatus.OTHER.status,
                 false
             )
         )
-        return employmentStatus
+        return employmentStatuses
     }
 
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if ((data is EmploymentStatusSelectionModel) && (view is CheckedTextView)) {
-
-                if (data.isSelected == false && lastItemCheckedPosition == -1) {
+                if (!data.isSelected && lastItemCheckedPosition == -1) {
                     data.isSelected = true
                     lastItemCheckedPosition = pos
-                    employmentStatusSelectionAdapter.notifyItemChanged(lastItemCheckedPosition)
+                    employmentStatusAdapter.notifyItemChanged(lastItemCheckedPosition)
                     state.enableNextButton.set(true)
-                } else if (data.isSelected == false && lastItemCheckedPosition != pos) {
+                } else if (!data.isSelected && lastItemCheckedPosition != pos) {
                     data.isSelected = true
-                    employmentStatusSelectionList.get(lastItemCheckedPosition).isSelected = false
-                    employmentStatusSelectionAdapter.notifyItemChanged(pos)
-                    employmentStatusSelectionAdapter.notifyItemChanged(lastItemCheckedPosition)
+                    employmentStatusAdapter.setItemAt(pos, data)
+                    val previousSelected =
+                        employmentStatusAdapter.getDataForPosition(lastItemCheckedPosition)
+                    previousSelected.isSelected = false
+                    employmentStatusAdapter.setItemAt(lastItemCheckedPosition, previousSelected)
                     lastItemCheckedPosition = pos
                 } else {
                     data.isSelected = false
-                    employmentStatusSelectionAdapter.notifyItemChanged(pos)
-                    lastItemCheckedPosition = -1;
+                    employmentStatusAdapter.notifyItemChanged(pos)
+                    lastItemCheckedPosition = -1
                     state.enableNextButton.set(false)
                 }
             }
