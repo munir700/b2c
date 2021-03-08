@@ -47,7 +47,7 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
    private fun getLayoutId(forType: QuestionType): Int {
         return when (forType) {
             QuestionType.EDIT_TEXT_FIELD -> R.layout.layout_question_type_edit_text
-            QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> R.layout.layout_question_type_edit_text
+            QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> R.layout.layout_question_type_edit_text_with_amount
             QuestionType.DROP_DOWN_FIELD -> TODO()
             QuestionType.COUNTRIES_FIELD -> TODO()
         }

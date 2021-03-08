@@ -38,31 +38,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_normal"
-                android:gravity="center"
                 android:text="@{viewModel.question.question}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
-                tools:text="@string/screen_tax_info_display_text_heading_tin_number" />
+                tools:text="What is your monthly salary? Don’t worry there is no minimum salary requirement." />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etTinNumber"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:background="@null"
-                android:gravity="bottom"
-                android:hint="@{viewModel.question.placeholder}"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLength="20"
-                android:paddingStart="@dimen/_6sdp"
-                android:paddingTop="@dimen/margin_extra_small"
-                android:paddingEnd="@dimen/margin_extra_small"
-                android:paddingBottom="@dimen/margin_extra_small"
-                android:text="@={viewModel.question.answer}" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/ALargeGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:text="AED"
+                    />
+                <co.yap.widgets.EasyMoneyEditText
+                    android:id="@+id/etAmount"
+                    style="@style/ATitle2"
+                    android:background="@null"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingTop="@dimen/margin_extra_small"
+                    android:paddingEnd="@dimen/margin_extra_small"
+                    android:paddingBottom="@dimen/margin_extra_small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:em_background="@null"
+                    android:drawableEnd="@drawable/ic_support"
+                    android:drawableRight="@drawable/ic_support"
+                    android:hint="@{viewModel.question.placeholder}"
+                    android:text="@={viewModel.question.answer}"
+                    tools:text="1234567891" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
