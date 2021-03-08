@@ -13,6 +13,11 @@
             name="viewModel"
             type="co.yap.modules.location.kyc_additional_info.employment_info.status.EmploymentStatusSelectionViewModel" />
     </data>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -77,14 +82,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:onClick="@{(v)-> viewModel.handleOnPressNext(v.id)}"
             app:btn_size="small"
             app:btn_text_size="@dimen/text_size_h4"
             app:enableCoreButton="@{viewModel.state.enableNextButton}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvBottomDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:text="@{Strings.screen_employment_information_selection_display_button_text_next}"
             tools:text="@string/screen_employment_information_selection_display_button_text_next" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
