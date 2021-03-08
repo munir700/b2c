@@ -34,5 +34,4 @@ class LocationViewModel(application: Application) :
         super.onResume()
         state.toolbarVisibility.set(true)
     }
-
 }
