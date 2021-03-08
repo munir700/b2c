@@ -8,4 +8,8 @@ import co.yap.yapcore.IBase
 abstract class LocationChildViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
     var parentViewModel: ILocation.ViewModel? = null
+
+    fun setProgress(percent: Int) {
+        parentViewModel?.state?.currentProgress = percent
+    }
 }

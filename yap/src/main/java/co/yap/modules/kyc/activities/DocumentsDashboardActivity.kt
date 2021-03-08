@@ -48,6 +48,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     }
 
     private fun addObserver() {
+        viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.finishKyc.observe(this, Observer {
             viewModel.paths.forEach { filePath ->
                 File(filePath).deleteRecursively()
@@ -58,6 +59,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 status = it.status
             )
         })
+    }
+
+    private val clickEventObserver = Observer<Int> {
+        when (it) {
+            R.id.tbBtnBack -> {
+                onBackPressed()
+            }
+        }
     }
 
 
@@ -74,8 +83,8 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                     viewModel.paths.forEach { filePath ->
                         File(filePath).deleteRecursively()
                     }
-                    super.onBackPressed()
                 }
+                super.onBackPressed()
             }
         }
     }

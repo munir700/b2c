@@ -255,6 +255,10 @@ object Strings {
         "screen_meeting_confirmation_display_text_emirates_id"
     const val screen_meeting_confirmation_button_go_to_dashboard: String =
         "screen_meeting_confirmation_button_go_to_dashboard"
+    const val screen_kyc_on_the_way_display_text_guide: String =
+        "screen_kyc_on_the_way_display_text_guide"
+    const val screen_kyc_on_the_way_display_text_yap_member: String =
+        "screen_kyc_on_the_way_display_text_yap_member"
 
     //country not allowed screen
     const val screen_kyc_information_error_display_text_title_from_usa: String =
@@ -2129,6 +2133,16 @@ object Strings {
         "screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose"
     const val screen_employment_information_selection_display_button_text_next =
         "screen_employment_information_selection_display_button_text_next"
+    const val screen_employment_information_dialog_display_text_heading =
+        "screen_employment_information_dialog_display_text_heading"
+    const val screen_employment_information_dialog_display_text_subheading =
+        "screen_employment_information_dialog_display_text_subheading"
+    const val screen_employment_information_dialog_button_text_close =
+        "screen_employment_information_dialog_button_text_close"
+    const val screen_employment_information_cash_dialog_display_text_heading =
+        "screen_employment_information_cash_dialog_display_text_heading"
+    const val screen_employment_information_cash_dialog_display_text_subheading =
+        "screen_employment_information_cash_dialog_display_text_subheading"
 
     //    Employee information screen
     const val screen_employee_information_display_bottom_sheet_text_heading =
