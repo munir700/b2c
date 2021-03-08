@@ -64,7 +64,6 @@
                     android:paddingBottom="@dimen/margin_extra_small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:em_background="@null"
                     android:drawableEnd="@drawable/ic_support"
                     android:drawableRight="@drawable/ic_support"
                     android:hint="@{viewModel.question.placeholder}"
