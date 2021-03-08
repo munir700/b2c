@@ -1343,4 +1343,7 @@
     <string name="screen_employment_information_dialog_button_text_close">Close</string>
     <string name="screen_employment_information_cash_dialog_display_text_heading">For those people who still use cash, how much cash will you add to YAP per month?</string>
     <string name="screen_employment_information_cash_dialog_display_text_subheading">We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account.</string>
+
+    <!--    Employee information screen-->
+    <string name="screen_employee_information_display_bottom_sheet_text_heading">Add all the countries your company does business with:</string>
 </resources>

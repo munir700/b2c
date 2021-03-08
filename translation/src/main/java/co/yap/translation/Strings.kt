@@ -2150,4 +2150,8 @@ object Strings {
         "screen_employment_information_cash_dialog_display_text_heading"
     const val screen_employment_information_cash_dialog_display_text_subheading =
         "screen_employment_information_cash_dialog_display_text_subheading"
+
+    //    Employee information screen
+    const val screen_employee_information_display_bottom_sheet_text_heading =
+        "screen_employee_information_display_bottom_sheet_text_heading"
 }
