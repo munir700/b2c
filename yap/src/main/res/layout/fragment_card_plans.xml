@@ -35,12 +35,16 @@
 
         <VideoView
             android:id="@+id/cardAnimation"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_160sdp" />
+            android:layout_height="@dimen/_160sdp"
+            android:layout_width="fill_parent"
+            />
 
         <include
             android:id="@+id/cardPlanstext"
-            layout="@layout/layout_card_plans_header" />
+            layout="@layout/layout_card_plans_header"
+            app:description='@{"Select from Prime or Metal cards and get access to the coolest cards and benefits!"}'
+            app:icon="@{@drawable/ic_card_plans}"
+            app:title='@{"Card Plans"}' />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
@@ -51,6 +55,7 @@
             android:lineHeight="@dimen/margin_large"
             android:maxLines="2"
             android:paddingHorizontal="@dimen/margin_normal_large"
+            android:text="Upgrade to a Prime \nor Metal plan"
             android:textColor="@color/colorPrimaryDark"
             tools:text="Upgrade to a Prime \nor Metal plan" />
 
@@ -59,13 +64,20 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_small"
             android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/margin_small"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:recycleViewAdapter=""
-            tools:listitem="@layout/layout_item_card_plans"
-            android:layout_marginBottom="@dimen/margin_small"/>
+            app:recycleViewAdapter="@{viewModel.cardAdapter}"
+            tools:listitem="@layout/item_card_plans" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:src="@drawable/ic_circle_cross"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
