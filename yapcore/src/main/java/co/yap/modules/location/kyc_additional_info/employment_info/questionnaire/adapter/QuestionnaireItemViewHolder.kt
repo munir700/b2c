@@ -7,9 +7,11 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
+import co.yap.widgets.DrawableClickEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemEmploymentQuestionnaireBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
+import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextWithAmountBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -40,11 +42,25 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
                     onItemClickListener?.onItemClick(binding.etTinNumber, it, -1)
                 }
             }
+            is LayoutQuestionTypeEditTextWithAmountBinding -> {
+                binding.viewModel =
+                    getItemViewModel(question, position, onItemClickListener)
+                binding.etAmount.setDrawableClickListener(object :
+                    DrawableClickEditText.OnDrawableClickListener {
+                    override fun onClick(target: DrawableClickEditText.DrawablePosition) {
+                        when (target) {
+                            DrawableClickEditText.DrawablePosition.RIGHT -> {
+                                onItemClickListener?.onItemClick(binding.etAmount, question, -1)
+                            }
+                        }
+                    }
+                })
+            }
 
         }
     }
 
-   private fun getLayoutId(forType: QuestionType): Int {
+    private fun getLayoutId(forType: QuestionType): Int {
         return when (forType) {
             QuestionType.EDIT_TEXT_FIELD -> R.layout.layout_question_type_edit_text
             QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> R.layout.layout_question_type_edit_text_with_amount
