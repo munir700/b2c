@@ -83,16 +83,21 @@ class TransactionsListingAdapter(
         fun onBind(transaction: Transaction, position: Int?) {
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction, position)
+//mention prod ticket
 
-            transaction.remarks?.let {
-                itemTransactionListBinding.tvTransactionNote.text = it
-            }
+//            transaction.remarks?.let {
+//                itemTransactionListBinding.tvTransactionNote.text = it
+//            }
 
-            itemTransactionListBinding.tvTransactionNote.visibility =
-                if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
-                        "null"
-                    )
-                ) View.GONE else View.VISIBLE
+//            itemTransactionListBinding.tvTransactionNote.visibility =
+//                if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
+//                        "null"
+//                    )
+//                ) View.GONE else View.VISIBLE
+
+
+            itemTransactionListBinding.tvTransactionNote.visibility = View.GONE
+
             itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
                 if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
@@ -202,7 +207,8 @@ class TransactionsListingAdapter(
 
                 } catch (e: Exception) {
                 }
-            }?:itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
+            }
+                ?: itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
         }
 
         private fun setContentDataColor(
