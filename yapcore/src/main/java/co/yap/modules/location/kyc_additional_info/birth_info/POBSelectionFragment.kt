@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.fragments.LocationChildFragment
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -29,7 +30,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().window
-            ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+            ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         when (SessionManager.user?.notificationStatuses) {
             AccountStatus.BIRTH_INFO_COLLECTED.name -> {
                 skipPOBSelectionFragment()
@@ -38,7 +39,6 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                 addObservers()
             }
         }
-
     }
 
     override fun addObservers() {
@@ -58,8 +58,16 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             }
             R.id.bcountries -> {
                 this.launchBottomSheet(
-                    itemClickListener = itemListener,
-                    label = "Select country",
+                    itemClickListener = selectCountryItemClickListener,
+                    label = getString(Strings.screen_place_of_birth_display_text_select_country),
+                    viewType = Constants.VIEW_WITH_FLAG,
+                    countriesList = viewModel.populateSpinnerData.value
+                )
+            }
+            R.id.bSecondcountry -> {
+                this.launchBottomSheet(
+                    itemClickListener = selectSecondCountryItemClickListener,
+                    label = getString(Strings.screen_place_of_birth_display_text_add_second_country),
                     viewType = Constants.VIEW_WITH_FLAG,
                     countriesList = viewModel.populateSpinnerData.value
                 )
@@ -67,19 +75,15 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         }
     }
 
-    private val itemListener = object : OnItemClickListener {
+    private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.selectedCountry.set(data as Country)
         }
     }
-
-    override fun removeObservers() {
-        viewModel.clickEvent.removeObserver(clickObserver)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        removeObservers()
+    private val selectSecondCountryItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.state.selectedSecondCountry.set(data as Country)
+        }
     }
 
     override fun getBinding(): FragmentPlaceOfBirthSelectionBinding {
@@ -100,5 +104,14 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
     override fun onBackPressed(): Boolean {
         return false
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(clickObserver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
     }
 }

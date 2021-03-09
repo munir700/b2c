@@ -184,5 +184,32 @@
         android:label="YapDashboardActivity"
         tools:layout="@layout/activity_yap_dashboard" />
 
+    <activity
+        android:id="@+id/householdOnboard"
+        android:name="co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity"
+        android:label="householdOnboard"
+        tools:layout="@layout/activity_main_house_hold" />
+
+    <activity
+        android:id="@+id/householdOnBoardingExistingYAP"
+        android:name="co.yap.household.onboard.otherscreens.ExistingHouseholdActivity"
+        android:label="OnBoardingExistingYAP"
+        tools:layout="@layout/activity_on_boarding_existing_yap" />
+
+    <fragment
+        android:id="@+id/employmentStatusSelectionFragment"
+        android:name="co.yap.modules.location.kyc_additional_info.employment_info.status.EmploymentStatusSelectionFragment"
+        tools:layout="@layout/fragment_employment_status_selection"
+        android:label="EmploymentStatusSelectionFragment" >
+        <action
+            android:id="@+id/action_employmentStatusSelectionFragment_to_employmentQuestionnaireFragment"
+            app:destination="@id/employmentQuestionnaireFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employmentQuestionnaireFragment"
+        android:name="co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.EmploymentQuestionnaireFragment"
+        tools:layout="@layout/fragment_employment_questionnaire"
+        android:label="EmploymentQuestionnaireFragment" />
+
 </navigation>
 
