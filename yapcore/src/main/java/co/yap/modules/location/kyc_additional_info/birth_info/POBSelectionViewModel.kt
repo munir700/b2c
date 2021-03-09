@@ -1,6 +1,8 @@
 package co.yap.modules.location.kyc_additional_info.birth_info
 
 import android.app.Application
+import android.view.View
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.viewmodels.LocationChildViewModel
@@ -11,6 +13,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class POBSelectionViewModel(application: Application) :
     LocationChildViewModel<IPOBSelection.State>(application),
@@ -18,8 +21,9 @@ class POBSelectionViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IPOBSelection.State =
         POBSelectionState()
+    override val dualNationalityQuestionOptions: ArrayList<String> = arrayListOf("No", "Yes")
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
-
+    override var selectedOption: ObservableField<String> = ObservableField()
     override val repository: CustomersRepository = CustomersRepository
 
     override fun handleOnPressView(id: Int) {
@@ -54,6 +58,18 @@ class POBSelectionViewModel(application: Application) :
                         }
                     }
                 }
+            }
+        }
+    }
+
+    override val dualNatioanlitySpinnerItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is String) {
+                if (data.equals(dualNationalityQuestionOptions.get(0)))
+                    selectedOption.set(data)
+                else
+                    selectedOption.set(data)
+
             }
         }
     }
