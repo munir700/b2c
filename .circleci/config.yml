@@ -15,14 +15,14 @@ jobs:
       - run:
           name: Install Open JDK 8
           command: |
-            wget https://download.java.net/java/GA/jdk1.8.0_271/205943a0976c4ed48cb16f1043c5c647/12/GPL/openjdk-1.8.0_271_linux-x64_bin.tar.gz
-            sudo tar -zxvf openjdk-1.8.0_271_linux-x64_bin.tar.gz -C /usr/lib/jvm
-            sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-1.8.0_271/bin/java 100
-            sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk-1.8.0_271/bin/jar 100
-            sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-1.8.0_271/bin/javac 100
-            sudo update-alternatives --set java /usr/lib/jvm/jdk-1.8.0_271/bin/java
-            sudo update-alternatives --set jar /usr/lib/jvm/jdk-1.8.0_271/bin/jar
-            sudo update-alternatives --set javac /usr/lib/jvm/jdk-1.8.0_271/bin/javac
+            wget https://download.java.net/java/GA/jdk1.8.0/205943a0976c4ed48cb16f1043c5c647/12/GPL/openjdk-1.8.0_linux-x64_bin.tar.gz
+            sudo tar -zxvf openjdk-1.8.0_linux-x64_bin.tar.gz -C /usr/lib/jvm
+            sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-1.8.0/bin/java 100
+            sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk-1.8.0/bin/jar 100
+            sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-1.8.0/bin/javac 100
+            sudo update-alternatives --set java /usr/lib/jvm/jdk-1.8.0/bin/java
+            sudo update-alternatives --set jar /usr/lib/jvm/jdk-1.8.0/bin/jar
+            sudo update-alternatives --set javac /usr/lib/jvm/jdk-1.8.0/bin/javac
             java -version
       - run:
           name: Install fastlane
