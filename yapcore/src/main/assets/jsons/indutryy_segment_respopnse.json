@@ -1,0 +1,914 @@
+[
+  {
+    "subSegmentCode": "1",
+    "subSegmentDesc": "ALCHOHOLIC BEVERAGES"
+  },
+  {
+    "subSegmentCode": "10",
+    "subSegmentDesc": "GOODS SUPPLY TO MILITARY/ARMY/DEFENCE"
+  },
+  {
+    "subSegmentCode": "11",
+    "subSegmentDesc": "NUCLEAR POWER AND RELATED"
+  },
+  {
+    "subSegmentCode": "12",
+    "subSegmentDesc": "SERVICES Â -PETRO REF&CHEM PROD"
+  },
+  {
+    "subSegmentCode": "13",
+    "subSegmentDesc": "USED CARS"
+  },
+  {
+    "subSegmentCode": "2",
+    "subSegmentDesc": "ARMS DEALER"
+  },
+  {
+    "subSegmentCode": "3",
+    "subSegmentDesc": "AUCTION HOUSES"
+  },
+  {
+    "subSegmentCode": "4",
+    "subSegmentDesc": "COMMERCIAL BROKERS"
+  },
+  {
+    "subSegmentCode": "5",
+    "subSegmentDesc": "CONSULTING OTHERS"
+  },
+  {
+    "subSegmentCode": "6",
+    "subSegmentDesc": "DEALERS IN LUXURY GOODS"
+  },
+  {
+    "subSegmentCode": "9",
+    "subSegmentDesc": "EXCHANGE HOUSES /MSB"
+  },
+  {
+    "subSegmentCode": "AB",
+    "subSegmentDesc": "RT-LUMBER&WOOD PRODUCTS"
+  },
+  {
+    "subSegmentCode": "AC",
+    "subSegmentDesc": "RT-MACH&EQUIP EXCEPT ELCTRICAL"
+  },
+  {
+    "subSegmentCode": "AD",
+    "subSegmentDesc": "RT-MOTOR VEHICLES"
+  },
+  {
+    "subSegmentCode": "AE",
+    "subSegmentDesc": "RT-PAINT&VARNISH&LACQUERS ETC"
+  },
+  {
+    "subSegmentCode": "AF",
+    "subSegmentDesc": "RT-PAPER & PAPER PRODUCTS"
+  },
+  {
+    "subSegmentCode": "AG",
+    "subSegmentDesc": "RT-RUBBER& PLASTIC PRODUCTS"
+  },
+  {
+    "subSegmentCode": "AH",
+    "subSegmentDesc": "RT-STONE&CLAY&GLASS PROD"
+  },
+  {
+    "subSegmentCode": "AI",
+    "subSegmentDesc": "RT-TOBACCO"
+  },
+  {
+    "subSegmentCode": "AJ",
+    "subSegmentDesc": "RT-OPTICALS"
+  },
+  {
+    "subSegmentCode": "AK",
+    "subSegmentDesc": "RT-ELEC / HOUSEHOLD APPLIANC."
+  },
+  {
+    "subSegmentCode": "AL",
+    "subSegmentDesc": "RT-STATIONARY"
+  },
+  {
+    "subSegmentCode": "AM",
+    "subSegmentDesc": "RT-LEATHER&LEATHER PROD&FOOTW"
+  },
+  {
+    "subSegmentCode": "AN",
+    "subSegmentDesc": "RT-COAL EXTRACTION"
+  },
+  {
+    "subSegmentCode": "AO",
+    "subSegmentDesc": "SERVICES-FURNITRE& FURNSHINGS"
+  },
+  {
+    "subSegmentCode": "AP",
+    "subSegmentDesc": "SERVICES - PACKING & PACKAGING"
+  },
+  {
+    "subSegmentCode": "AQ",
+    "subSegmentDesc": "RT - PLANTS & FLOWERS"
+  },
+  {
+    "subSegmentCode": "AR",
+    "subSegmentDesc": "RT-MOBILE PHONES & ACCESSORIES"
+  },
+  {
+    "subSegmentCode": "AS",
+    "subSegmentDesc": "SERVICES - MOTOR VEHICLES"
+  },
+  {
+    "subSegmentCode": "AT",
+    "subSegmentDesc": "SERVICES-METAL PRODS.INCL.ALU"
+  },
+  {
+    "subSegmentCode": "AU",
+    "subSegmentDesc": "SERVICES-STONE &CLAY&GLASS PROD"
+  },
+  {
+    "subSegmentCode": "BA",
+    "subSegmentDesc": "WST-LUMBER&WOOD PRODUCTS"
+  },
+  {
+    "subSegmentCode": "BB",
+    "subSegmentDesc": "WST-PAINT&VARNISH&LACQUERS ETC"
+  },
+  {
+    "subSegmentCode": "BC",
+    "subSegmentDesc": "WST-RUBBER& PLASTIC PRODUCTS"
+  },
+  {
+    "subSegmentCode": "BD",
+    "subSegmentDesc": "WST-STONE&CLAY&GLASS PROD"
+  },
+  {
+    "subSegmentCode": "BE",
+    "subSegmentDesc": "WST-TEXTILE & FABRIC & CLOTHING"
+  },
+  {
+    "subSegmentCode": "BF",
+    "subSegmentDesc": "WST-COMPUTER&OFFICE EQUIP"
+  },
+  {
+    "subSegmentCode": "BG",
+    "subSegmentDesc": "WST-HARDWARE&BUILDRS MATERIALS"
+  },
+  {
+    "subSegmentCode": "BH",
+    "subSegmentDesc": "WST-SUPERMRKTS&DEPT.STORES ETC"
+  },
+  {
+    "subSegmentCode": "BI",
+    "subSegmentDesc": "WST-OPTICALS"
+  },
+  {
+    "subSegmentCode": "BJ",
+    "subSegmentDesc": "WST-PERSONAL GOODS"
+  },
+  {
+    "subSegmentCode": "BK",
+    "subSegmentDesc": "WST - MOBILE PHONES"
+  },
+  {
+    "subSegmentCode": "BL",
+    "subSegmentDesc": "WST - PLANTS & FLOWERS"
+  },
+  {
+    "subSegmentCode": "CB",
+    "subSegmentDesc": "MFG-MEDICINAL&PHARMA PRODUCTS"
+  },
+  {
+    "subSegmentCode": "CC",
+    "subSegmentDesc": "MFG-TRANSPORT EQUIP&PETROL"
+  },
+  {
+    "subSegmentCode": "CD",
+    "subSegmentDesc": "MFG-INDUS & AGRI MACH & EQUIPT"
+  },
+  {
+    "subSegmentCode": "CE",
+    "subSegmentDesc": "MFG-OPTICALS"
+  },
+  {
+    "subSegmentCode": "CF",
+    "subSegmentDesc": "MFG-PERSONAL GOODS"
+  },
+  {
+    "subSegmentCode": "CG",
+    "subSegmentDesc": "MFG-ELEC / HOUSEHOLD APPLIANC."
+  },
+  {
+    "subSegmentCode": "CH",
+    "subSegmentDesc": "MFG-STATIONARY"
+  },
+  {
+    "subSegmentCode": "CU",
+    "subSegmentDesc": "MFG-RADIO & TV & COMM EQUIPMENT"
+  },
+  {
+    "subSegmentCode": "CV",
+    "subSegmentDesc": "MFG-SHIPBUILDING AND REPAIRING"
+  },
+  {
+    "subSegmentCode": "DA",
+    "subSegmentDesc": "ARCHITECTURAL & CONSULTING ENGINEERING"
+  },
+  {
+    "subSegmentCode": "DB",
+    "subSegmentDesc": "SERVICES - ADVERTISING"
+  },
+  {
+    "subSegmentCode": "DC",
+    "subSegmentDesc": "SERVICES - ACCOUNTING AND CONSULTING"
+  },
+  {
+    "subSegmentCode": "DEPEN",
+    "subSegmentDesc": "DEPENDENT"
+  },
+  {
+    "subSegmentCode": "EF",
+    "subSegmentDesc": "RT-BOOKS& MAGAZINES&PAPER PROD"
+  },
+  {
+    "subSegmentCode": "GT",
+    "subSegmentDesc": "GENERAL TRADING COMPANY"
+  },
+  {
+    "subSegmentCode": "IH",
+    "subSegmentDesc": "INVESTMENT COMPANIES/HOLDING COMPANIES"
+  },
+  {
+    "subSegmentCode": "KA",
+    "subSegmentDesc": "A&A-CULTIVATION OF CROPS"
+  },
+  {
+    "subSegmentCode": "KB",
+    "subSegmentDesc": "A&A-FORESTRY"
+  },
+  {
+    "subSegmentCode": "KC",
+    "subSegmentDesc": "A&A- FISHING HUNTING TRAPPING"
+  },
+  {
+    "subSegmentCode": "KD",
+    "subSegmentDesc": "A&A-POULTRY FARMING"
+  },
+  {
+    "subSegmentCode": "KE",
+    "subSegmentDesc": "A&A-SHEEP"
+  },
+  {
+    "subSegmentCode": "KF",
+    "subSegmentDesc": "A&A-CATTLE"
+  },
+  {
+    "subSegmentCode": "KG",
+    "subSegmentDesc": "A&A-OTHER LIVESTOCK"
+  },
+  {
+    "subSegmentCode": "KH",
+    "subSegmentDesc": "A&A-OTHER ACTIVITIES"
+  },
+  {
+    "subSegmentCode": "LA",
+    "subSegmentDesc": "M&Q-CRUDE PET & NATURAL GAS"
+  },
+  {
+    "subSegmentCode": "LB",
+    "subSegmentDesc": "M&Q-COAL EXTRACTION"
+  },
+  {
+    "subSegmentCode": "LC",
+    "subSegmentDesc": "M&Q-METAL MINING"
+  },
+  {
+    "subSegmentCode": "LD",
+    "subSegmentDesc": "M&Q-NON METALLIC MINING"
+  },
+  {
+    "subSegmentCode": "LE",
+    "subSegmentDesc": "M&Q-OTHER MINING"
+  },
+  {
+    "subSegmentCode": "MA",
+    "subSegmentDesc": "MFG-FOOD"
+  },
+  {
+    "subSegmentCode": "MB",
+    "subSegmentDesc": "MFG-BEVERAGES"
+  },
+  {
+    "subSegmentCode": "MC",
+    "subSegmentDesc": "MFG-TOBACCO"
+  },
+  {
+    "subSegmentCode": "MD",
+    "subSegmentDesc": "MFG-TEXTILE & FABRIC & CLOTHING"
+  },
+  {
+    "subSegmentCode": "ME",
+    "subSegmentDesc": "MFG-LEATHER & LEATHER PROD&FOOTW"
+  },
+  {
+    "subSegmentCode": "MF",
+    "subSegmentDesc": "MFG-LUMBER&WOOD PRODUCTS"
+  },
+  {
+    "subSegmentCode": "MG",
+    "subSegmentDesc": "MFG-FURNITURE & FIXTURES"
+  },
+  {
+    "subSegmentCode": "MH",
+    "subSegmentDesc": "MFG-PAPER & PAPER PRODUCTS"
+  },
+  {
+    "subSegmentCode": "MI",
+    "subSegmentDesc": "MFG-PRINTING&PUBLISHING"
+  },
+  {
+    "subSegmentCode": "MJ",
+    "subSegmentDesc": "MFG-CHEMICAL PROD (EXCL.PETRO)"
+  },
+  {
+    "subSegmentCode": "MJA",
+    "subSegmentDesc": "MFG-BASIC IND CHEMICAL (EXCEPT-FERTILIZERS)"
+  },
+  {
+    "subSegmentCode": "MJB",
+    "subSegmentDesc": "MFG-FERTILIZERS AND PESTICIDES"
+  },
+  {
+    "subSegmentCode": "MJC",
+    "subSegmentDesc": "MFG-SOAPS & PERFUMES & COSMETICS ETC"
+  },
+  {
+    "subSegmentCode": "MJD",
+    "subSegmentDesc": "MFG-OTHER CHEMICAL PRODUCTS"
+  },
+  {
+    "subSegmentCode": "MK",
+    "subSegmentDesc": "MFG-PETOL. REF & CHEM. PROD."
+  },
+  {
+    "subSegmentCode": "MKA",
+    "subSegmentDesc": "MFG-PETROLEUM REFINERY"
+  },
+  {
+    "subSegmentCode": "MKB",
+    "subSegmentDesc": "MFG-MISCELLANEOUS PRODUCTS OF PETROLEUM"
+  },
+  {
+    "subSegmentCode": "MKC",
+    "subSegmentDesc": "MFG-TYRE AND TUBES"
+  },
+  {
+    "subSegmentCode": "MKE",
+    "subSegmentDesc": "MFG-OTHER PETROLEUM (NOT INCLUDED ELSEWHERE)"
+  },
+  {
+    "subSegmentCode": "ML",
+    "subSegmentDesc": "MFG-RUBBER& PLASTIC PROD."
+  },
+  {
+    "subSegmentCode": "MM",
+    "subSegmentDesc": "MFG-STONE &CLAY&GLASS PROD."
+  },
+  {
+    "subSegmentCode": "MN",
+    "subSegmentDesc": "MFG-BASIC METAL PRODS.INCL.ALU"
+  },
+  {
+    "subSegmentCode": "MNA",
+    "subSegmentDesc": "MFG-IRON AND BASIC INDUSTRIES"
+  },
+  {
+    "subSegmentCode": "MNB",
+    "subSegmentDesc": "MFG-NON-FERROUS METAL BASIC INDUSTRIES"
+  },
+  {
+    "subSegmentCode": "MNC",
+    "subSegmentDesc": "MFG-CUTLERY & HANDTOOLS & HARDWARE"
+  },
+  {
+    "subSegmentCode": "MO",
+    "subSegmentDesc": "MFG-FABRICATED METAL PROD."
+  },
+  {
+    "subSegmentCode": "MP",
+    "subSegmentDesc": "MFG-MACH&EQUIP EXCEPT ELECT."
+  },
+  {
+    "subSegmentCode": "MQ",
+    "subSegmentDesc": "MFG-ELECTRICAL PRODUCTS"
+  },
+  {
+    "subSegmentCode": "MR",
+    "subSegmentDesc": "MFG-MOTOR VEHICLES"
+  },
+  {
+    "subSegmentCode": "MS",
+    "subSegmentDesc": "MFG-OTHER TRANSPORT. EQUIP."
+  },
+  {
+    "subSegmentCode": "MT",
+    "subSegmentDesc": "MFG-CONSTRUCTION MATERIALS"
+  },
+  {
+    "subSegmentCode": "MTA",
+    "subSegmentDesc": "MFG-TILES AND STRUCTURAL CLAY PRODUCTS"
+  },
+  {
+    "subSegmentCode": "MTB",
+    "subSegmentDesc": "MFG-SANITARY & BATHROOM FITTINGS"
+  },
+  {
+    "subSegmentCode": "MTC",
+    "subSegmentDesc": "MFG-GLASS AND GLASS PRODUCTS"
+  },
+  {
+    "subSegmentCode": "MU",
+    "subSegmentDesc": "MFG-PAINTS & VARNISHES & LACQUER"
+  },
+  {
+    "subSegmentCode": "MV",
+    "subSegmentDesc": "MFG-PLASTIC PRODUCTS"
+  },
+  {
+    "subSegmentCode": "MW",
+    "subSegmentDesc": "MFG-CEMENT"
+  },
+  {
+    "subSegmentCode": "MX",
+    "subSegmentDesc": "MFG-JEWELLERY & RELATED ARTS"
+  },
+  {
+    "subSegmentCode": "MY",
+    "subSegmentDesc": "MFG-OTHER MANUFACTURING"
+  },
+  {
+    "subSegmentCode": "MZ",
+    "subSegmentDesc": "MFG-COMPUTER&OFFICE EQUIP"
+  },
+  {
+    "subSegmentCode": "NA",
+    "subSegmentDesc": "CONSTN-GEN CONTRACTORS-RESIDEN"
+  },
+  {
+    "subSegmentCode": "NB",
+    "subSegmentDesc": "CONSTN-GEN CONTRACTORS-COMMERC"
+  },
+  {
+    "subSegmentCode": "NC",
+    "subSegmentDesc": "CONSTN-GEN CONTRACTORS-RETAIL"
+  },
+  {
+    "subSegmentCode": "ND",
+    "subSegmentDesc": "CONSTN-OTHER BUILDING CONT. WO"
+  },
+  {
+    "subSegmentCode": "NE",
+    "subSegmentDesc": "CONSTN-ROADS & STREETS"
+  },
+  {
+    "subSegmentCode": "NF",
+    "subSegmentDesc": "CONSTN-WATER & SEWERS &GAS PIPELI"
+  },
+  {
+    "subSegmentCode": "NG",
+    "subSegmentDesc": "CONSTN-CIVIL WORK"
+  },
+  {
+    "subSegmentCode": "NH",
+    "subSegmentDesc": "CONSTN-ELECTRICAL WORK"
+  },
+  {
+    "subSegmentCode": "NI",
+    "subSegmentDesc": "CONSTN-OTHER CONSTRUCTION"
+  },
+  {
+    "subSegmentCode": "OA",
+    "subSegmentDesc": "EWG-ELECTRICITY & GAS & WATER"
+  },
+  {
+    "subSegmentCode": "OB",
+    "subSegmentDesc": "EWG-INDUSTRIAL AND CONSUMER GAS & CNG"
+  },
+  {
+    "subSegmentCode": "OC",
+    "subSegmentDesc": "EWG-WATER PRODUCTION- INCLDG BOTTLED WATER"
+  },
+  {
+    "subSegmentCode": "PA",
+    "subSegmentDesc": "PUBLIC ADMIN - ADMINISTRATIVE"
+  },
+  {
+    "subSegmentCode": "PB",
+    "subSegmentDesc": "PUBLIC ADMIN - UTILITIES"
+  },
+  {
+    "subSegmentCode": "PC",
+    "subSegmentDesc": "PUBLIC ADMIN - SERVICES"
+  },
+  {
+    "subSegmentCode": "PR",
+    "subSegmentDesc": "MANPOWER & RECRUITMENT COMPANY"
+  },
+  {
+    "subSegmentCode": "QA",
+    "subSegmentDesc": "WST-CONSTRUCTION MATERIALS"
+  },
+  {
+    "subSegmentCode": "QB",
+    "subSegmentDesc": "WST-MOTOR VEHICLES"
+  },
+  {
+    "subSegmentCode": "QC",
+    "subSegmentDesc": "WST-FOOD& DRINK & TOBACCO"
+  },
+  {
+    "subSegmentCode": "QD",
+    "subSegmentDesc": "WST-FURNITURE& HOME FURNG ETC"
+  },
+  {
+    "subSegmentCode": "QE",
+    "subSegmentDesc": "WST-MEDICINAL&PHARMA PROD."
+  },
+  {
+    "subSegmentCode": "QF",
+    "subSegmentDesc": "WST-INDUST & AGRI MACH & EQUIP."
+  },
+  {
+    "subSegmentCode": "QG",
+    "subSegmentDesc": "WST-TRANSPORT EQUIP."
+  },
+  {
+    "subSegmentCode": "QH",
+    "subSegmentDesc": "WST-MACHINES & EQUIP."
+  },
+  {
+    "subSegmentCode": "QI",
+    "subSegmentDesc": "WST-ELECTRICAL GOODS"
+  },
+  {
+    "subSegmentCode": "QJ",
+    "subSegmentDesc": "WST-ELEC / HOUSEHOLD APPLIANC."
+  },
+  {
+    "subSegmentCode": "QK",
+    "subSegmentDesc": "WST-PAPER&PAPER PROD & STY."
+  },
+  {
+    "subSegmentCode": "QL",
+    "subSegmentDesc": "WST-SPECIFIC COMMODITIES (NEC)"
+  },
+  {
+    "subSegmentCode": "QM",
+    "subSegmentDesc": "WST-GEN IMPORTERS&EXPORTERS"
+  },
+  {
+    "subSegmentCode": "QN",
+    "subSegmentDesc": "WST-WHOLESALE TRADE-OTHERS"
+  },
+  {
+    "subSegmentCode": "QO",
+    "subSegmentDesc": "WST-FISHING HUNTING TRAPPING"
+  },
+  {
+    "subSegmentCode": "QP",
+    "subSegmentDesc": "WST-LIVESTOCK"
+  },
+  {
+    "subSegmentCode": "QQ",
+    "subSegmentDesc": "WST-SHEEP"
+  },
+  {
+    "subSegmentCode": "QR",
+    "subSegmentDesc": "WST-CATTLE"
+  },
+  {
+    "subSegmentCode": "QS",
+    "subSegmentDesc": "WST-COAL EXTRACTION"
+  },
+  {
+    "subSegmentCode": "QT",
+    "subSegmentDesc": "WST-CRUDE PETRO & NATURAL GAS"
+  },
+  {
+    "subSegmentCode": "QU",
+    "subSegmentDesc": "WST-BASIC METAL PRODS.INCL.ALU"
+  },
+  {
+    "subSegmentCode": "QV",
+    "subSegmentDesc": "WST-CEMENT"
+  },
+  {
+    "subSegmentCode": "QW",
+    "subSegmentDesc": "WST-CHEMICAL PROD (EXCL.PETRO)"
+  },
+  {
+    "subSegmentCode": "QX",
+    "subSegmentDesc": "WST-FABRICATED METAL PRODUCTS"
+  },
+  {
+    "subSegmentCode": "QY",
+    "subSegmentDesc": "WST-JEWELLERY & RELATED ARTS"
+  },
+  {
+    "subSegmentCode": "QZ",
+    "subSegmentDesc": "WST-LEATHER &LEATHR PROD&FOOTWR"
+  },
+  {
+    "subSegmentCode": "RA",
+    "subSegmentDesc": "RT-FOOD & BEVERAGES"
+  },
+  {
+    "subSegmentCode": "RB",
+    "subSegmentDesc": "RT-TEXTILES & WEARING APPAREL"
+  },
+  {
+    "subSegmentCode": "RC",
+    "subSegmentDesc": "RT-PERSONAL GOODS / JEWELLERY"
+  },
+  {
+    "subSegmentCode": "RD",
+    "subSegmentDesc": "RT-FURNITURE&FURNISHINGS&H.HOL"
+  },
+  {
+    "subSegmentCode": "RE",
+    "subSegmentDesc": "RT-TRANSPORT EQUIP&PETROL"
+  },
+  {
+    "subSegmentCode": "RF",
+    "subSegmentDesc": "RT-BOOKS&MAGAZINES&PAPER PROD"
+  },
+  {
+    "subSegmentCode": "RG",
+    "subSegmentDesc": "RT-COMPUTER&OFFICE EQUIP."
+  },
+  {
+    "subSegmentCode": "RH",
+    "subSegmentDesc": "RT-HARDWARE & BUILDERS MAT."
+  },
+  {
+    "subSegmentCode": "RI",
+    "subSegmentDesc": "RT-SPECIFIC COMMODITIES (NEC)"
+  },
+  {
+    "subSegmentCode": "RJ",
+    "subSegmentDesc": "RT-SUPERMARKETS&DEPT. STORES&E"
+  },
+  {
+    "subSegmentCode": "RK",
+    "subSegmentDesc": "RT-PHARMACIES& DRUG STORES& ET"
+  },
+  {
+    "subSegmentCode": "RL",
+    "subSegmentDesc": "RT-HOTELS&LODGING&BOARDING HOU"
+  },
+  {
+    "subSegmentCode": "RM",
+    "subSegmentDesc": "RT-RESTAURANTS & CATERING"
+  },
+  {
+    "subSegmentCode": "RN",
+    "subSegmentDesc": "RT-AUTOMOTIVE"
+  },
+  {
+    "subSegmentCode": "RO",
+    "subSegmentDesc": "RT-OTHER RETAIL TRADE"
+  },
+  {
+    "subSegmentCode": "RP",
+    "subSegmentDesc": "RT-FISHING HUNTING TRAPPING"
+  },
+  {
+    "subSegmentCode": "RQ",
+    "subSegmentDesc": "RENT A CAR"
+  },
+  {
+    "subSegmentCode": "RS",
+    "subSegmentDesc": "RT-CATTLE"
+  },
+  {
+    "subSegmentCode": "RT",
+    "subSegmentDesc": "RT IN ELECTRONIC & ELECT.EQUIP"
+  },
+  {
+    "subSegmentCode": "RU",
+    "subSegmentDesc": "RT-CRUDE PETRO & NATURAL GAS"
+  },
+  {
+    "subSegmentCode": "RV",
+    "subSegmentDesc": "RT-BASIC METAL PRODS.INCL.ALU"
+  },
+  {
+    "subSegmentCode": "RW",
+    "subSegmentDesc": "RT-CEMENT"
+  },
+  {
+    "subSegmentCode": "RX",
+    "subSegmentDesc": "RT-CHEMICAL PROD (EXCL.PETRO)"
+  },
+  {
+    "subSegmentCode": "RY",
+    "subSegmentDesc": "RT-ELECTRICAL PRODUCTS"
+  },
+  {
+    "subSegmentCode": "RZ",
+    "subSegmentDesc": "RT-FABRICATED METAL PRODUCTS"
+  },
+  {
+    "subSegmentCode": "SA",
+    "subSegmentDesc": "SERVICES - MOTELS &HOTELS&RESTA"
+  },
+  {
+    "subSegmentCode": "SB",
+    "subSegmentDesc": "SERVICES - PERSONAL"
+  },
+  {
+    "subSegmentCode": "SC",
+    "subSegmentDesc": "SERVICES - BUSINESS"
+  },
+  {
+    "subSegmentCode": "SD",
+    "subSegmentDesc": "SERVICES - REPAIR"
+  },
+  {
+    "subSegmentCode": "SE",
+    "subSegmentDesc": "SERVICES - MEDICAL"
+  },
+  {
+    "subSegmentCode": "SF",
+    "subSegmentDesc": "SERVICES - EDUCATIONAL"
+  },
+  {
+    "subSegmentCode": "SG",
+    "subSegmentDesc": "SERVICES - RECREATION"
+  },
+  {
+    "subSegmentCode": "SH",
+    "subSegmentDesc": "SERVICES - REAL EST. DEV.(RES)"
+  },
+  {
+    "subSegmentCode": "SJ",
+    "subSegmentDesc": "SERVICES - REAL EST. DEV (IND)"
+  },
+  {
+    "subSegmentCode": "SK",
+    "subSegmentDesc": "SERVICES - SOCIAL WELFARE"
+  },
+  {
+    "subSegmentCode": "SL",
+    "subSegmentDesc": "SERVICES - COMMUNITY"
+  },
+  {
+    "subSegmentCode": "SM",
+    "subSegmentDesc": "SERVICES- Â GEN CONTRACTORS"
+  },
+  {
+    "subSegmentCode": "SN",
+    "subSegmentDesc": "SERVICES - TRAVEL AGENTS"
+  },
+  {
+    "subSegmentCode": "SO",
+    "subSegmentDesc": "SERVICES - OTHERS"
+  },
+  {
+    "subSegmentCode": "SU",
+    "subSegmentDesc": "SERVICES-PRINTING&PUBLISHING"
+  },
+  {
+    "subSegmentCode": "SV",
+    "subSegmentDesc": "SERVICES-TRANSPORT EQUIP&PETRO"
+  },
+  {
+    "subSegmentCode": "SW",
+    "subSegmentDesc": "SERVICES-INDUS&AGRI MACH EQUIP"
+  },
+  {
+    "subSegmentCode": "SX",
+    "subSegmentDesc": "SERVICES - ENTERTAINMENT"
+  },
+  {
+    "subSegmentCode": "SY",
+    "subSegmentDesc": "SERVICES-CUMPUTER&IT INDUSTRY"
+  },
+  {
+    "subSegmentCode": "SZ",
+    "subSegmentDesc": "SERVICES-CARGO LOGSTCS&FWRDNG"
+  },
+  {
+    "subSegmentCode": "TA",
+    "subSegmentDesc": "TSC - TAXIS & OTHER LAND TRANS"
+  },
+  {
+    "subSegmentCode": "TB",
+    "subSegmentDesc": "TSC - FREIGHT TRANSPORT BY ROAD"
+  },
+  {
+    "subSegmentCode": "TC",
+    "subSegmentDesc": "TSC - SUPPORT SERVICE LAND TRA"
+  },
+  {
+    "subSegmentCode": "TD",
+    "subSegmentDesc": "TSC - WATER TRANSPORTATION"
+  },
+  {
+    "subSegmentCode": "TF",
+    "subSegmentDesc": "TSC - SUPPORT SERV. WATER TRAN"
+  },
+  {
+    "subSegmentCode": "TG",
+    "subSegmentDesc": "TSC - SUPPORT SERV.WATER TRANS"
+  },
+  {
+    "subSegmentCode": "TH",
+    "subSegmentDesc": "TSC - AIR TRANSPORTATION"
+  },
+  {
+    "subSegmentCode": "TI",
+    "subSegmentDesc": "TSC - SUPPORT SERVICE AIR TRAN"
+  },
+  {
+    "subSegmentCode": "TJ",
+    "subSegmentDesc": "TSC - SERVICE ALLIED TRANSP (N"
+  },
+  {
+    "subSegmentCode": "TK",
+    "subSegmentDesc": "TSC - POSTAL SERVICES"
+  },
+  {
+    "subSegmentCode": "TL",
+    "subSegmentDesc": "TSC - COMMUNICATION SERVICES"
+  },
+  {
+    "subSegmentCode": "TM",
+    "subSegmentDesc": "TSC - WAREHOUSING & STORAGE"
+  },
+  {
+    "subSegmentCode": "TN",
+    "subSegmentDesc": "TSC - OTHERS"
+  },
+  {
+    "subSegmentCode": "TO",
+    "subSegmentDesc": "TSC - Â INFORMATION TECHNOLOGY"
+  },
+  {
+    "subSegmentCode": "TT",
+    "subSegmentDesc": "TOURISM & TRAVEL COMPANY"
+  },
+  {
+    "subSegmentCode": "UA",
+    "subSegmentDesc": "FI - BANKS"
+  },
+  {
+    "subSegmentCode": "UB",
+    "subSegmentDesc": "FI - FINANCIAL NON BANKS"
+  },
+  {
+    "subSegmentCode": "UC",
+    "subSegmentDesc": "FI - INSURANCE COMPANIES"
+  },
+  {
+    "subSegmentCode": "UD",
+    "subSegmentDesc": "FI - REAL ESTATE"
+  },
+  {
+    "subSegmentCode": "UE",
+    "subSegmentDesc": "FI - INVESTMENT & TRUSTS"
+  },
+  {
+    "subSegmentCode": "UF",
+    "subSegmentDesc": "FI - BROKERS & SERVICES"
+  },
+  {
+    "subSegmentCode": "UG",
+    "subSegmentDesc": "FI - STOCK & SHARE & BOND BROKE"
+  },
+  {
+    "subSegmentCode": "UH",
+    "subSegmentDesc": "FI - INVESTMENT COMPANIES"
+  },
+  {
+    "subSegmentCode": "UI",
+    "subSegmentDesc": "FI - FINANCIAL INSTN & SERV. ("
+  },
+  {
+    "subSegmentCode": "UJ",
+    "subSegmentDesc": "FI - OTHERS"
+  },
+  {
+    "subSegmentCode": "VC",
+    "subSegmentDesc": "EMPLOYED INDIVIDUAL"
+  },
+  {
+    "subSegmentCode": "WA",
+    "subSegmentDesc": "FEDERAL GOVERNMENT"
+  },
+  {
+    "subSegmentCode": "WB",
+    "subSegmentDesc": "EMIRATE GOVERNMENT"
+  },
+  {
+    "subSegmentCode": "WC",
+    "subSegmentDesc": "LOCAL GOVERNMENT"
+  }
+]
