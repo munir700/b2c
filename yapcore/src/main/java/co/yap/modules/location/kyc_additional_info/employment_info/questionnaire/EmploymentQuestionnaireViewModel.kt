@@ -21,6 +21,15 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val state: IEmploymentQuestionnaire.State =
         EmploymentQuestionnaireState()
 
+    override fun onCreate() {
+        super.onCreate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setProgress(95)
+    }
+
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
