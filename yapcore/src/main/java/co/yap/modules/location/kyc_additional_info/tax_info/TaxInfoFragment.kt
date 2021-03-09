@@ -48,7 +48,6 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
         )
     }
 
-
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.state.viewState.observe(this, Observer {
@@ -84,25 +83,15 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
             R.id.nextButton -> {
                 viewModel.saveInfoDetails(true) {
                     trackEventWithScreenName(FirebaseEvent.TAX_RESIDENCE_SUBMIT)
-                    setIntentResult()
+                    navigate(
+                        R.id.action_employmentStatusSelectionFragment_to_employmentQuestionnaireFragment
+                    )
                 }
-            }
-            R.id.ivBackBtn -> {
-                activity?.onBackPressed()
             }
         }
     }
 
     override fun onBackPressed(): Boolean = false
-
-    override fun removeObservers() {
-        viewModel.clickEvent.removeObserver(clickObserver)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        removeObservers()
-    }
 
     override fun getBinding(): FragmentTaxInfoBinding {
         return (viewDataBinding as FragmentTaxInfoBinding)
@@ -113,5 +102,14 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
         intent.putExtra(Constants.ADDRESS_SUCCESS, true)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(clickObserver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
     }
 }
