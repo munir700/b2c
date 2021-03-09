@@ -24,7 +24,7 @@ class POBSelectionViewModel(application: Application) :
         POBSelectionState()
     override val dualNationalityQuestionOptions: ArrayList<String> = arrayListOf("No", "Yes")
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
-    override var selectedSecondCountryOption: ObservableField<String> = ObservableField()
+    override var dualNationalitySelectedOption: ObservableField<String> = ObservableField()
     override val repository: CustomersRepository = CustomersRepository
 
     override fun handleOnPressView(id: Int) {
@@ -40,7 +40,7 @@ class POBSelectionViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(75)
+        setProgress(70)
     }
 
     override fun getAllCountries() {
@@ -74,9 +74,9 @@ class POBSelectionViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is String) {
                 if (data.equals(dualNationalityQuestionOptions.get(0)))
-                    selectedSecondCountryOption.set(data)
+                    dualNationalitySelectedOption.set(data)
                 else
-                    selectedSecondCountryOption.set(data)
+                    dualNationalitySelectedOption.set(data)
 
             }
         }

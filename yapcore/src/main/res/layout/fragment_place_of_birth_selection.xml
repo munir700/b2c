@@ -64,7 +64,7 @@
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_normal"
-                app:constraint_referenced_ids="tvSelectCountry,bcountries,selectCountryLine"
+                app:constraint_referenced_ids="tvSelectCountry,bcountries"
                 app:flow_verticalGap="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -98,13 +98,6 @@
                 android:textColor="@{viewModel.state.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
                 app:flagOnDrawableStart="@{viewModel.state.selectedCountry.isoCountryCode2Digit}"
                 app:showDropDown="@{true}" />
-
-            <View
-                android:id="@+id/selectCountryLine"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/greyLight"
-                android:visibility="gone" />
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/tvCityHeading"
@@ -147,6 +140,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
                 android:text="@string/screen_place_of_birth_display_text_select_country"
+                android:textColor="@{viewModel.dualNationalitySelectedOption.equals(`Yes`)? @color/greyDark : @color/colorPrimaryDark }"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCityHeading"
                 app:text="@{Strings.screen_place_of_birth_display_text_are_you_a_dual_national}"
@@ -199,9 +193,9 @@
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_normal"
-                android:visibility="@{viewModel.selectedSecondCountryOption.equals(`Yes`)? View.VISIBLE : View.GONE }"
+                android:visibility="@{viewModel.dualNationalitySelectedOption.equals(`Yes`)? View.VISIBLE : View.GONE }"
                 app:constraint_referenced_ids="tvNationalityEIDTitle,tvEIDNationality"
-                app:flow_verticalGap="@dimen/_5sdp"
+                app:flow_verticalGap="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fwSpinnerOption" />
@@ -212,8 +206,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-
-                android:text="@string/screen_place_of_birth_display_text_nationality_as_per_eid" />
+                android:text="@string/screen_place_of_birth_display_text_nationality_as_per_eid"
+                app:textColor="@{viewModel.state.eidNationality == null}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvEIDNationality"
@@ -226,7 +220,6 @@
                 android:hint="@string/screen_add_beneficiary_display_text_select_country"
                 android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                 android:text="@{viewModel.state.eidNationality}"
-                android:textColor="@{viewModel.state.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
                 app:flagOnDrawableStart="@{SessionManager.INSTANCE.homeCountry2Digit}"
                 app:showDropDown="@{false}" />
 
@@ -238,7 +231,7 @@
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_normal"
-                android:visibility="@{viewModel.selectedSecondCountryOption.equals(`Yes`)? View.VISIBLE : View.GONE }"
+                android:visibility="@{viewModel.dualNationalitySelectedOption.equals(`Yes`)? View.VISIBLE : View.GONE }"
                 app:constraint_referenced_ids="tvAddSecondCountry,bSecondcountry"
                 app:flow_verticalGap="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -254,8 +247,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@string/screen_place_of_birth_display_text_add_second_country"
-                app:text="@{Strings.screen_place_of_birth_display_text_select_country}"
-                app:textColor="@{viewModel.state.selectedCountry == null}"
+                app:text="@{Strings.screen_place_of_birth_display_text_add_second_country}"
+                app:textColor="@{viewModel.state.selectedSecondCountry == null}"
                 tools:text="@string/screen_place_of_birth_display_text_add_second_country" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -269,7 +262,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/screen_place_of_birth_display_text_add_second_country"
                 android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
-                android:text="@{viewModel.state.selectedSecondCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.state.selectedSecondCountry.name}"
+                android:text="@{viewModel.state.selectedSecondCountry == null ? @string/screen_place_of_birth_display_text_add_second_country : viewModel.state.selectedSecondCountry.name}"
                 android:textColor="@{viewModel.state.selectedSecondCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
                 app:flagOnDrawableStart="@{viewModel.state.selectedSecondCountry.isoCountryCode2Digit}"
                 app:showDropDown="@{true}" />

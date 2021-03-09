@@ -33,13 +33,12 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         when (SessionManager.user?.notificationStatuses) {
             AccountStatus.BIRTH_INFO_COLLECTED.name -> {
-//                skipPOBSelectionFragment()
+                skipPOBSelectionFragment()
             }
             else -> {
+                addObservers()
             }
         }
-        addObservers()
-
     }
 
     override fun addObservers() {

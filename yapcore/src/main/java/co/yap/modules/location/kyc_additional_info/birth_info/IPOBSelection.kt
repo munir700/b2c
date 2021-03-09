@@ -25,7 +25,7 @@ interface IPOBSelection {
         fun getAllCountries()
         val dualNatioanlitySpinnerItemClickListener: OnItemClickListener
         val dualNationalityQuestionOptions: ArrayList<String>
-        var selectedSecondCountryOption: ObservableField<String>
+        var dualNationalitySelectedOption: ObservableField<String>
     }
 
     interface State : IBase.State {
