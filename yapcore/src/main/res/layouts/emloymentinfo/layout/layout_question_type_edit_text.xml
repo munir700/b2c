@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:gravity="center"
-                android:text="@{viewModel.question.question}"
+                android:text="@{viewModel.questionUiFields.question.questionTitle}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
                 tools:text="@string/screen_tax_info_display_text_heading_tin_number" />
@@ -53,22 +53,19 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@null"
                 android:gravity="bottom"
-                android:hint="@{viewModel.question.placeholder}"
+                android:hint="@{viewModel.questionUiFields.question.placeholder}"
                 android:imeOptions="actionDone"
-                android:inputType="number"
                 android:lines="1"
                 android:maxLength="20"
                 android:paddingStart="@dimen/_6sdp"
                 android:paddingTop="@dimen/margin_extra_small"
                 android:paddingEnd="@dimen/margin_extra_small"
                 android:paddingBottom="@dimen/margin_extra_small"
-                android:text="@={viewModel.question.answer}" />
+                android:text="@={viewModel.questionUiFields.question.answer}" />
+            <include
+                layout="@layout/content_input_field_selector"
+                app:isFocus="@{viewModel.questionUiFields.isFocusInput}"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:background="@color/greyLight" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

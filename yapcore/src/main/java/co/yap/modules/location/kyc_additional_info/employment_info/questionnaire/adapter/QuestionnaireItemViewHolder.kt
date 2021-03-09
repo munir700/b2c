@@ -2,11 +2,13 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.widgets.DrawableClickEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemEmploymentQuestionnaireBinding
@@ -19,7 +21,7 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
     RecyclerView.ViewHolder(itemEmploymentQuestionnaireBinding.root) {
 
     fun onBind(
-        question: Question,
+        questionUiFields: QuestionUiFields,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {
@@ -28,7 +30,7 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
         val binding =
             DataBindingUtil.inflate<ViewDataBinding>(
                 inflater,
-                getLayoutId(forType = question.questionType),
+                getLayoutId(forType =questionUiFields.question.questionType),
                 itemEmploymentQuestionnaireBinding.flow,
                 false
             )
@@ -37,26 +39,32 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
         when (binding) {
             is LayoutQuestionTypeEditTextBinding -> {
                 binding.viewModel =
-                    getItemViewModel(question, position, onItemClickListener)
+                    getItemViewModel(questionUiFields, position, onItemClickListener)
                 binding.etTinNumber.afterTextChanged {
                     onItemClickListener?.onItemClick(binding.etTinNumber, it, -1)
                 }
+                setFocusListener(binding.etTinNumber, questionUiFields)
             }
             is LayoutQuestionTypeEditTextWithAmountBinding -> {
+
                 binding.viewModel =
-                    getItemViewModel(question, position, onItemClickListener)
+                    getItemViewModel(questionUiFields, position, onItemClickListener)
                 binding.etAmount.setDrawableClickListener(object :
                     DrawableClickEditText.OnDrawableClickListener {
                     override fun onClick(target: DrawableClickEditText.DrawablePosition) {
-                        when (target) {
-                            DrawableClickEditText.DrawablePosition.RIGHT -> {
-                                onItemClickListener?.onItemClick(binding.etAmount, question, -1)
-                            }
-                        }
+                        binding.etAmount.clearFocus()
+                        onItemClickListener?.onItemClick(binding.etAmount, questionUiFields, -1)
                     }
                 })
+                setFocusListener(binding.etAmount, questionUiFields)
             }
 
+        }
+    }
+
+    private fun setFocusListener(input: AppCompatEditText, questionUiFields: QuestionUiFields) {
+        input.onFocusChangeListener = View.OnFocusChangeListener { _, b ->
+            questionUiFields.isFocusInput.set(b)
         }
     }
 
@@ -70,11 +78,11 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
     }
 
     private fun getItemViewModel(
-        question: Question,
+        questionUiFields: QuestionUiFields,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) = QuestionnaireItemViewModel(
-        question,
+        questionUiFields,
         position,
         onItemClickListener
     )

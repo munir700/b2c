@@ -3,12 +3,13 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemEmploymentQuestionnaireBinding
 
-class EmploymentQuestionnaireAdaptor(private val list: MutableList<Question>) :
-    BaseBindingRecyclerAdapter<Question, RecyclerView.ViewHolder>(list) {
+class EmploymentQuestionnaireAdaptor(private val list: MutableList<QuestionUiFields>) :
+    BaseBindingRecyclerAdapter<QuestionUiFields, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_employment_questionnaire
 

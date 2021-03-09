@@ -5,11 +5,12 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.fragments.LocationChildFragment
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
+import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -36,7 +37,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             viewModel.listener.onItemClick(view, data, pos)
             when (view.id) {
                 R.id.etAmount -> {
-                    val question = data as Question
+                    val question = data as QuestionUiFields
                     onInfoClick(question)
                 }
             }
@@ -60,12 +61,12 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun getBinding(): FragmentEmploymentQuestionnaireBinding =
         viewDataBinding as FragmentEmploymentQuestionnaireBinding
 
-    override fun onInfoClick(question: Question) {
-        if (!question.key.isNullOrBlank()) {
+    override fun onInfoClick(questionUiFields: QuestionUiFields) {
+        if (questionUiFields.key != null) {
             var title = ""
             var message = ""
-            when (question.key) {
-                "SALARY_AMOUNT" -> {
+            when (questionUiFields.key) {
+                EmploymentQuestionIdentifier.SALARY_AMOUNT -> {
                     title =
                         getString(Strings.screen_employment_information_dialog_display_text_heading)
 
@@ -73,7 +74,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                         getString(Strings.screen_employment_information_dialog_display_text_subheading)
                 }
 
-                "DEPOSIT_AMOUNT" -> {
+                EmploymentQuestionIdentifier.DEPOSIT_AMOUNT -> {
                     title =
                         getString(Strings.screen_employment_information_cash_dialog_display_text_heading)
                     message =
