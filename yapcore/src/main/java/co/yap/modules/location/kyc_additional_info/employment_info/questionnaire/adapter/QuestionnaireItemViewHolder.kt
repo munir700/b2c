@@ -2,6 +2,8 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -41,22 +43,28 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
                 binding.etTinNumber.afterTextChanged {
                     onItemClickListener?.onItemClick(binding.etTinNumber, it, -1)
                 }
+                setFocusListener(binding.etTinNumber, question)
             }
             is LayoutQuestionTypeEditTextWithAmountBinding -> {
+
                 binding.viewModel =
                     getItemViewModel(question, position, onItemClickListener)
                 binding.etAmount.setDrawableClickListener(object :
                     DrawableClickEditText.OnDrawableClickListener {
                     override fun onClick(target: DrawableClickEditText.DrawablePosition) {
-                        when (target) {
-                            DrawableClickEditText.DrawablePosition.RIGHT -> {
-                                onItemClickListener?.onItemClick(binding.etAmount, question, -1)
-                            }
-                        }
+                        binding.etAmount.clearFocus()
+                        onItemClickListener?.onItemClick(binding.etAmount, question, -1)
                     }
                 })
+                setFocusListener(binding.etAmount, question)
             }
 
+        }
+    }
+
+    private fun setFocusListener(input: AppCompatEditText, question: Question) {
+        input.onFocusChangeListener = View.OnFocusChangeListener { _, b ->
+            question.isFocusInput.set(b)
         }
     }
 

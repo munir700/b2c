@@ -63,12 +63,10 @@
                 android:paddingEnd="@dimen/margin_extra_small"
                 android:paddingBottom="@dimen/margin_extra_small"
                 android:text="@={viewModel.question.answer}" />
+            <include
+                layout="@layout/content_input_field_selector"
+                app:isFocus="@{viewModel.question.isFocusInput}"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:background="@color/greyLight" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

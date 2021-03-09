@@ -74,11 +74,10 @@
                     tools:text="1234567891" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:background="@color/greyLight" />
+            <include
+                layout="@layout/content_input_field_selector"
+                app:isFocus="@{viewModel.question.isFocusInput}"/>
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
