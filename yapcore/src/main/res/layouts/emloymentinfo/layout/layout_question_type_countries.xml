@@ -66,8 +66,9 @@
             </HorizontalScrollView>
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/searchCountries"
                 style="@style/ARegular"
-                android:onClick="@{viewModel.onViewClicked}"
+                android:onClick="@{viewModel::onViewClicked}"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_height="wrap_content"

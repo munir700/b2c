@@ -1,6 +1,7 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -14,7 +15,10 @@ import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextWithAmountBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.generateChipViews
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding: ItemEmploymentQuestionnaireBinding) :
     RecyclerView.ViewHolder(itemEmploymentQuestionnaireBinding.root) {
@@ -39,8 +43,8 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
             is LayoutQuestionTypeEditTextBinding -> {
                 binding.viewModel =
                     getItemViewModel(question, position, onItemClickListener)
-                binding.etTinNumber.afterTextChanged {
-                    onItemClickListener?.onItemClick(binding.etTinNumber, it, -1)
+                binding.etQuestionEditText.afterTextChanged {
+                    onItemClickListener?.onItemClick(binding.etQuestionEditText, it, -1)
                 }
             }
             is LayoutQuestionTypeEditTextWithAmountBinding -> {
@@ -59,9 +63,10 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
             }
 
             is LayoutQuestionTypeCountriesBinding -> {
-                
+                binding.viewModel =
+                    getItemViewModel(question, position, onItemClickListener)
+//                binding.chipGroup.generateChipViews()
             }
-
         }
     }
 
@@ -83,5 +88,4 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
         position,
         onItemClickListener
     )
-
 }

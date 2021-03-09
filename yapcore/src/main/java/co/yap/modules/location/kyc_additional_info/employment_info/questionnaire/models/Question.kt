@@ -3,7 +3,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import androidx.databinding.ObservableField
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 
-data class Question(
+open class Question(
     val question: String,
     val placeholder: String?,
     val questionType: QuestionType,

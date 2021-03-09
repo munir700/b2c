@@ -31,13 +31,18 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     private val clickObserver = Observer<Int> {
     }
+
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.listener.onItemClick(view, data, pos)
             when (view.id) {
-                R.id.etAmount -> {
-                    val question = data as Question
-                    onInfoClick(question)
+                R.id.etAmount -> onInfoClick(data as Question)
+                R.id.searchCountries -> {
+                    //lunchBottom{
+                    (data as Question).countriesAnswer.clear()
+                    (data as Question).countriesAnswer.addAll(arrayListOf())
+                        viewModel.questionnaireAdaptor.setItemAt(pos,data)
+                    //}
                 }
             }
         }
