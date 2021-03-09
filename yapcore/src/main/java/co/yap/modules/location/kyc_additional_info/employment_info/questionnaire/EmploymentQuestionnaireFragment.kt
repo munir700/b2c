@@ -5,7 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.fragments.LocationChildFragment
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
@@ -36,7 +36,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             viewModel.listener.onItemClick(view, data, pos)
             when (view.id) {
                 R.id.etAmount -> {
-                    val question = data as Question
+                    val question = data as QuestionUiFields
                     onInfoClick(question)
                 }
             }
@@ -60,11 +60,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun getBinding(): FragmentEmploymentQuestionnaireBinding =
         viewDataBinding as FragmentEmploymentQuestionnaireBinding
 
-    override fun onInfoClick(question: Question) {
-        if (!question.key.isNullOrBlank()) {
+    override fun onInfoClick(questionUiFields: QuestionUiFields) {
+        if (!questionUiFields.key.isNullOrBlank()) {
             var title = ""
             var message = ""
-            when (question.key) {
+            when (questionUiFields.key) {
                 "SALARY_AMOUNT" -> {
                     title =
                         getString(Strings.screen_employment_information_dialog_display_text_heading)
