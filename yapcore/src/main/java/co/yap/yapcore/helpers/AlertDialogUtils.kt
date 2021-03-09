@@ -264,10 +264,9 @@ fun Activity.showAlertDialogAndExitApp(
 
 }
 
-@JvmOverloads
 fun Context.infoDialog(
-    message: String,
     title: String = "",
+    message: String,
     buttonText: String? = null,
     callback: () -> Unit = {}
 ) {
@@ -277,8 +276,8 @@ fun Context.infoDialog(
     dialogLayout.setCancelable(false)
     dialogLayout.setContentView(R.layout.dialog_information)
     val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
-    val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
-    label.text = message
+    val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
+    messageView.text = message
     dialogTitle.text = title
     val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
     btnClose.text = buttonText

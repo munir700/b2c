@@ -51,8 +51,10 @@ open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
 
                     }
                     DrawablePosition.RIGHT -> {
-                        val xoff = Utils.getDimensionInPercent(context,true,6)
-                        showAsPopUp(this@DrawableClickEditText, xoff, 0)
+                        if (popupTextValue.isNotEmpty()){
+                            val xoff = Utils.getDimensionInPercent(context,true,6)
+                            showAsPopUp(this@DrawableClickEditText, xoff, 0)
+                        }
                     }
                 }
             }

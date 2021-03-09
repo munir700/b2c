@@ -6,11 +6,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentStatus
-import co.yap.yapcore.helpers.showAlertCustomDialog
+import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestionnaire.ViewModel>(),
@@ -65,16 +66,18 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             var message = ""
             when (question.key) {
                 "SALARY_AMOUNT" -> {
-                    title = "Why do we ask you about your monthly salary?"
+                    title =
+                        getString(Strings.screen_employment_information_dialog_display_text_heading)
+
                     message =
-                        "There is no minimum salary requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account."
+                        getString(Strings.screen_employment_information_dialog_display_text_subheading)
                 }
 
                 "DEPOSIT_AMOUNT" -> {
                     title =
-                        "For those people who still use cash, how much cash will you add to YAP per month?"
+                        getString(Strings.screen_employment_information_cash_dialog_display_text_heading)
                     message =
-                        "We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account."
+                        getString(Strings.screen_employment_information_cash_dialog_display_text_subheading)
                 }
             }
             showInfoDialog(title, message)
@@ -82,6 +85,10 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     }
 
     override fun showInfoDialog(title: String, message: String) {
-        requireActivity().showAlertCustomDialog(title,message)
+        requireContext().infoDialog(
+            title = title,
+            message = message,
+            buttonText = getString(Strings.screen_employment_information_dialog_button_text_close)
+        )
     }
 }
