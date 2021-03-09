@@ -6,6 +6,7 @@ import co.yap.countryutils.country.Country
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 interface IPOBSelection {
@@ -22,6 +23,9 @@ interface IPOBSelection {
         var clickEvent: SingleClickEvent
         var populateSpinnerData: MutableLiveData<ArrayList<Country>>
         fun getAllCountries()
+        val dualNatioanlitySpinnerItemClickListener: OnItemClickListener
+        val dualNationalityQuestionOptions: ArrayList<String>
+        var selectedOption: ObservableField<String>
     }
 
     interface State : IBase.State {

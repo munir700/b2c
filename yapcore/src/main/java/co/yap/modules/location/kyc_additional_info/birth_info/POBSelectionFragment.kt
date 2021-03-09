@@ -38,6 +38,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                 addObservers()
             }
         }
+
     }
 
     override fun addObservers() {
@@ -52,7 +53,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                     navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
                 }
             }
-            R.id.ivBackBtn -> {
+            R.id.tbBtnBack -> {
                 activity?.onBackPressed()
             }
             R.id.bcountries -> {
