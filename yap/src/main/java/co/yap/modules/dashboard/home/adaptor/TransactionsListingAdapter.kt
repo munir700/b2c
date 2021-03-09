@@ -83,8 +83,24 @@ class TransactionsListingAdapter(
         fun onBind(transaction: Transaction, position: Int?) {
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction, position)
-//mention prod ticket
 
+            //prod ticket YM-11574 fix start
+            if (transaction.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode) {
+                transaction.remarks?.let {
+                    itemTransactionListBinding.tvTransactionNote.text = it
+
+                    itemTransactionListBinding.tvTransactionNote.visibility =
+                        if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
+                                "null"
+                            )
+                        ) View.GONE else View.VISIBLE
+                }
+
+            } else {
+                itemTransactionListBinding.tvTransactionNote.visibility = View.GONE
+            }
+            // prod ticket YM-11574 fix end
+            //due to fixes above commenting following code
 //            transaction.remarks?.let {
 //                itemTransactionListBinding.tvTransactionNote.text = it
 //            }
@@ -95,8 +111,6 @@ class TransactionsListingAdapter(
 //                    )
 //                ) View.GONE else View.VISIBLE
 
-
-            itemTransactionListBinding.tvTransactionNote.visibility = View.GONE
 
             itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
