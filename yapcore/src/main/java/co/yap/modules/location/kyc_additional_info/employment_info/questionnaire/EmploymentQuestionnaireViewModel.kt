@@ -42,7 +42,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
-                R.id.etTinNumber -> { // on tin number change
+                R.id.etQuestionEditText -> {
                 }
             }
         }

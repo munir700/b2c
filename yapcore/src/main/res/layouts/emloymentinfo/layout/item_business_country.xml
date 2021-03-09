@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionnaireItemViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/labelCardType"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginStart="@dimen/margin_extra_small"
+            android:background="@drawable/round_light_gery_background"
+            android:gravity="center"
+            android:textColor="?attr/colorPrimaryAttr"
+            android:textSize="@dimen/_9sdp"
+            app:btn_unpressed_color="@color/disabledLight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="United Arab Emirates"
+            tools:textColor="@color/colorPrimary" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
