@@ -8,9 +8,15 @@ jobs:
   build:
     executor: android/android
     machine:
-      java:
-        version: 'oraclejdk8'
-      executor: android/android
+      image: ubuntu-1604:202007-01
+      steps:
+        - run:
+            name: Install OpenJDK 8
+            command: |
+              sudo apt-get update && sudo apt-get install openjdk-8-jdk
+              sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/bin/java
+              sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
+              java -version
     environment:
       FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
       FASTLANE_LANE: upload_to_appcenter
