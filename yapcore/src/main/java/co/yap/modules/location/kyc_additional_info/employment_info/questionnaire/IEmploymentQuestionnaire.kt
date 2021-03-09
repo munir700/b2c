@@ -2,7 +2,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 
 import androidx.databinding.ObservableField
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
@@ -14,7 +14,7 @@ interface IEmploymentQuestionnaire {
         fun addObservers()
         fun removeObservers()
         fun getBinding(): FragmentEmploymentQuestionnaireBinding
-        fun onInfoClick(question:Question)
+        fun onInfoClick(questionUiFields:QuestionUiFields)
         fun showInfoDialog(title:String,message:String)
     }
 
@@ -22,7 +22,7 @@ interface IEmploymentQuestionnaire {
         val clickEvent: SingleClickEvent
         val questionnaireAdaptor: EmploymentQuestionnaireAdaptor
         fun handleOnPressView(id: Int)
-        fun questionnaires(forStatus: EmploymentStatus): ArrayList<Question>
+        fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
     }
 
     interface State : IBase.State {

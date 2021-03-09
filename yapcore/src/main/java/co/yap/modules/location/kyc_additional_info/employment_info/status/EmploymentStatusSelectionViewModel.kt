@@ -23,6 +23,11 @@ class EmploymentStatusSelectionViewModel(application: Application) :
         employmentStatusAdapter.onItemClickListener = onItemClickListener
     }
 
+    override fun onResume() {
+        super.onResume()
+        setProgress(90)
+    }
+
     override fun handleOnPressNext(id: Int) {
         clickEvent.setValue(id)
     }

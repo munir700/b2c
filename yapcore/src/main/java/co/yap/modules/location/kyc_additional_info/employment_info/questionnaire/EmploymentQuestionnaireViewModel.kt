@@ -3,7 +3,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import android.app.Application
 import android.view.View
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
@@ -21,11 +21,20 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val state: IEmploymentQuestionnaire.State =
         EmploymentQuestionnaireState()
 
+    override fun onCreate() {
+        super.onCreate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setProgress(95)
+    }
+
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override fun questionnaires(forStatus: EmploymentStatus): ArrayList<Question> {
+    override fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields> {
         val questionnairesComposer: ComplianceQuestionsItemsComposer = KYCComplianceComposer()
         return questionnairesComposer.compose(forStatus)
     }
