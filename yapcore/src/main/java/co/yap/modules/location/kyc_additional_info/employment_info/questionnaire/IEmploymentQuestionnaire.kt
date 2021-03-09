@@ -22,7 +22,6 @@ interface IEmploymentQuestionnaire {
         fun onInfoClick(questionUiFields: QuestionUiFields)
         fun showInfoDialog(title: String, message: String)
         fun setBusinessCountries(countries: ArrayList<String>, position: Int)
-        fun getSegments(): List<EmploymentSegment>
         fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
         fun launchBottomSheetSegment(
             itemClickListener: OnItemClickListener? = null,
@@ -41,6 +40,8 @@ interface IEmploymentQuestionnaire {
         val questionnaireAdaptor: EmploymentQuestionnaireAdaptor
         fun handleOnPressView(id: Int)
         fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
+        fun getEmploymentType(): List<EmploymentSegment>
+        fun employeeSegment(): List<EmploymentSegment>
     }
 
     interface State : IBase.State {

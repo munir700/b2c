@@ -17,13 +17,13 @@ import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.io.IOException
 
 class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestionnaire.ViewModel>(),
     IEmploymentQuestionnaire.View {
@@ -57,7 +57,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 }
                 R.id.describeTV -> launchBottomSheetSegment(
                     segmentItemClickListener,
-                    employmentSegments = getSegments()
+                    employmentSegments = viewModel.getEmploymentType()
                 )
             }
         }
@@ -159,29 +159,6 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         }
 
         return countries
-    }
-
-
-    override fun getSegments(): List<EmploymentSegment> {
-        val gson = GsonBuilder().create();
-        val itemType = object : TypeToken<List<EmploymentSegment>>() {}.type
-        return gson.fromJson<List<EmploymentSegment>>(
-            getJsonDataFromAsset(
-                requireContext(),
-                "jsons/employment_describe_you_best.json"
-            ), itemType
-        )
-    }
-
-    fun getJsonDataFromAsset(context: Context, fileName: String): String? {
-        val jsonString: String
-        try {
-            jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
-        } catch (ioException: IOException) {
-            ioException.printStackTrace()
-            return null
-        }
-        return jsonString
     }
 
     override fun launchBottomSheetSegment(
