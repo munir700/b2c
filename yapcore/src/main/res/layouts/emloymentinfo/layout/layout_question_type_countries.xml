@@ -17,7 +17,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal">
 
         <LinearLayout
             android:id="@+id/lyTinNumber"
@@ -37,37 +38,46 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:gravity="center"
                 android:text="@{viewModel.question.question}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
-                tools:text="Tell us the name of your company?" />
+                tools:text="Add all the countries your company does business with" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:scrollbars="none"
+                app:layout_constraintStart_toStartOf="@+id/tvCategoriesTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategoriesTitle">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:singleSelection="false">
+
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etTinNumber"
+                style="@style/ARegular"
+                android:onClick="@{viewModel.onViewClicked}"
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:background="@null"
-                android:gravity="bottom"
-                android:hint="@{viewModel.question.placeholder}"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLength="20"
-                android:paddingStart="@dimen/_6sdp"
-                android:paddingTop="@dimen/margin_extra_small"
-                android:paddingEnd="@dimen/margin_extra_small"
-                android:paddingBottom="@dimen/margin_extra_small"
-                android:text="@={viewModel.question.answer}" />
+                android:drawableEnd="@drawable/ic_search_grey"
+                android:focusable="false"
+                android:text="Search countries" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_normal"
                 android:background="@color/greyLight" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

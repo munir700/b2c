@@ -9,6 +9,7 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemEmploymentQuestionnaireBinding
+import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -41,6 +42,10 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
                 }
             }
 
+            is LayoutQuestionTypeCountriesBinding -> {
+                
+            }
+
         }
     }
 
@@ -49,7 +54,7 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
             QuestionType.EDIT_TEXT_FIELD -> R.layout.layout_question_type_edit_text
             QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> R.layout.layout_question_type_edit_text_with_amount
             QuestionType.DROP_DOWN_FIELD -> TODO()
-            QuestionType.COUNTRIES_FIELD -> TODO()
+            QuestionType.COUNTRIES_FIELD -> R.layout.layout_question_type_countries
         }
     }
 
