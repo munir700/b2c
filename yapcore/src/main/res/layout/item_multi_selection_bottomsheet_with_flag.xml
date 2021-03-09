@@ -52,10 +52,11 @@
             android:id="@+id/ivSelectionTag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="@dimen/margin_normal"
+            android:src="@{viewModel.itemBottomSheet.isSelected? @drawable/ic_rounded_tick:@drawable/ic_round_empty }"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_rounded_tick" />
+            tools:srcCompat="@drawable/ic_rounded_tick" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -195,5 +195,6 @@
         android:name="co.yap.household.onboard.otherscreens.ExistingHouseholdActivity"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
+
 </navigation>
 

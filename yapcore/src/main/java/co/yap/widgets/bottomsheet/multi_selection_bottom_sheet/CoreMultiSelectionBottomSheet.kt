@@ -1,6 +1,8 @@
 package co.yap.widgets.bottomsheet.multi_selection_bottom_sheet
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,8 @@ import co.yap.yapcore.databinding.LayoutMultiSelectorBottomSheetBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.getScreenHeight
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.layout_core_bottomsheet_search.*
 
 class CoreMultiSelectionBottomSheet(
     private val mListener: OnItemClickListener?,
@@ -24,6 +28,10 @@ class CoreMultiSelectionBottomSheet(
     private val headingLabel: String? = null,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
 ) : CoreBottomSheet(mListener, bottomSheetItems, headingLabel, viewType) {
+    override val adapter: CoreMultiSelectionBottomSheetAdapter by lazy {
+        CoreMultiSelectionBottomSheetAdapter(bottomSheetItems, viewType)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,7 +63,7 @@ class CoreMultiSelectionBottomSheet(
         headingLabel?.let {
             getBinding().tvlabel.text = it
         }
-        getBinding().lySearchView.etSearch.afterTextChanged {
+        etSearch.afterTextChanged {
             adapter.filter.filter(it) { itemCount ->
                 if (itemCount == 0) {
                     viewModel.state.noItemFound.set(true)
@@ -70,13 +78,53 @@ class CoreMultiSelectionBottomSheet(
             if (viewType == Constants.VIEW_WITH_FLAG) (getScreenHeight() / 2) + 100 else params.height
         getBinding().rvBottomSheet.layoutParams = params
         getBinding().rvBottomSheet.adapter = adapter
+        val a = bottomSheetItems.filter { it.isSelected == true }
+        val list = arrayListOf<String>()
+        a.forEach {
+            list.add(it.subTitle ?: "")
+        }
+        generateChipViews(list)
     }
+
     private val myListener: OnItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            this@CoreMultiSelectionBottomSheet.dismiss()
-            mListener?.onItemClick(view, data, pos)
+            if (data is CoreBottomSheetData) {
+                data.isSelected = !(data.isSelected ?: false)
+                adapter.setItemAt(pos, data)
+                if (data.isSelected == true) {
+                    viewModel.selectedViewsList?.add(data.subTitle ?: "")
+                } else {
+                    viewModel.selectedViewsList?.remove(data.subTitle)
+                }
+                getBinding().chipGroup.removeAllViews()
+                generateChipViews(selectedList = viewModel.selectedViewsList ?: arrayListOf())
+                getBinding().horizontalChips.post {
+                    getBinding().horizontalChips.fullScroll(View.FOCUS_RIGHT)
+                }
+            }
+            mListener?.onItemClick(view, viewModel.selectedViewsList as ArrayList<String>, pos)
         }
     }
 
-    fun getBinding() = viewDataBinding as LayoutMultiSelectorBottomSheetBinding
+    private fun generateChipViews(selectedList: List<String>) {
+        for (index in selectedList.indices) {
+            val categoryName = selectedList[index]
+            val chip = layoutInflater.inflate(
+                R.layout.item_selected_country_chip,
+                getBinding().chipGroup,
+                false
+            ) as Chip
+            val paddingDp = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 10f,
+                resources.displayMetrics
+            ).toInt()
+            chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+            chip.text = categoryName
+            chip.setOnCheckedChangeListener { view, isChecked ->
+            }
+            getBinding().chipGroup.addView(chip)
+        }
+    }
+
+    private fun getBinding() = viewDataBinding as LayoutMultiSelectorBottomSheetBinding
 }

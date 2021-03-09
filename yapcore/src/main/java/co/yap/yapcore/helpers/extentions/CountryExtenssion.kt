@@ -60,7 +60,7 @@ fun FragmentActivity.launchMultiSelectionBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Add all the countries your company does business with:",
     viewType: Int = Constants.VIEW_WITH_FLAG,
-    countriesList: List<Country>? = SessionManager.getCountries()
+    countriesList: List<Country>? = null
 ) {
     this.supportFragmentManager.let {
         countriesList?.let { countriesList ->
@@ -78,6 +78,3 @@ fun FragmentActivity.launchMultiSelectionBottomSheet(
         }
     }
 }
-
-
-
