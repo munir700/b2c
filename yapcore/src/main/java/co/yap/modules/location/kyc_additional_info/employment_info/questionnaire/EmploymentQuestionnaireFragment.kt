@@ -10,6 +10,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
+import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -61,11 +62,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         viewDataBinding as FragmentEmploymentQuestionnaireBinding
 
     override fun onInfoClick(questionUiFields: QuestionUiFields) {
-        if (!questionUiFields.key.isNullOrBlank()) {
+        if (questionUiFields.key != null) {
             var title = ""
             var message = ""
             when (questionUiFields.key) {
-                "SALARY_AMOUNT" -> {
+                EmploymentQuestionIdentifier.SALARY_AMOUNT -> {
                     title =
                         getString(Strings.screen_employment_information_dialog_display_text_heading)
 
@@ -73,7 +74,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                         getString(Strings.screen_employment_information_dialog_display_text_subheading)
                 }
 
-                "DEPOSIT_AMOUNT" -> {
+                EmploymentQuestionIdentifier.DEPOSIT_AMOUNT -> {
                     title =
                         getString(Strings.screen_employment_information_cash_dialog_display_text_heading)
                     message =

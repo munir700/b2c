@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.enums.EmploymentStatus.*
 
@@ -31,7 +32,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField()
                     ),
-                    key = "SALARY_AMOUNT"
+                    key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
                     question = Question(
                         questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
@@ -39,7 +40,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField()
                     ),
-                    key = "DEPOSIT_AMOUNT"
+                    key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
 
             )
