@@ -1,7 +1,7 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.status
 
 import android.os.Bundle
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BR
@@ -34,10 +34,13 @@ class EmploymentStatusSelectionFragment :
     private val onClickObserver = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Last Item Clicked is ${viewModel.lastItemCheckedPosition}", Toast.LENGTH_SHORT
-                ).show()
+                val status =
+                    (viewModel.employmentStatusAdapter.getDataForPosition(viewModel.lastItemCheckedPosition)).employmentStatus
+                navigate(
+                    R.id. action_employmentStatusSelectionFragment_to_employmentQuestionnaireFragment
+                    ,
+                    args = bundleOf("EMPLOYMENT_STATUS" to status)
+                )
             }
         }
     }

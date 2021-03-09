@@ -52,8 +52,10 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_employment_status_selection"
             app:layout_constraintTop_toBottomOf="@+id/tvEmploymentStatusText"
-            app:recycleViewAdapter="@{viewModel.employmentStatusSelectionAdapter}" />
+            app:recycleViewAdapter="@{viewModel.employmentStatusAdapter}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBottomDescription"

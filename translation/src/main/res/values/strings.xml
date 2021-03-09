@@ -1346,4 +1346,10 @@
 
     <!--    Employee information screen-->
     <string name="screen_employee_information_display_bottom_sheet_text_heading">Add all the countries your company does business with:</string>
+
+    <!-- KYC Employment Information Questionnaire screen -->
+    <string name="screen_employment_questionnaire_display_text_heading">Employment Information</string>
+    <string name="screen_employment_questionnaire_display_text_desc">Final questions and your set to go!</string>
+    <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
+
 </resources>

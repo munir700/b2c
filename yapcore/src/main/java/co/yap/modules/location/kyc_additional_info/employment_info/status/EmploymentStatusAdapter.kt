@@ -1,14 +1,12 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.status
 
-import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemEmploymentStatusSelectionBinding
 
-class EmploymentStatusSelectionAdapter(
-    context: Context,
+class EmploymentStatusAdapter(
     private val list: MutableList<EmploymentStatusSelectionModel>
 ) :
     BaseBindingRecyclerAdapter<EmploymentStatusSelectionModel, RecyclerView.ViewHolder>(list) {
