@@ -3,7 +3,9 @@ version: 2.1
 
 orbs:
  android: circleci/android@0.2.0
-
+machine:
+  java:
+    version: 'oraclejdk8'
 jobs:
  build:
    executor: android/android
