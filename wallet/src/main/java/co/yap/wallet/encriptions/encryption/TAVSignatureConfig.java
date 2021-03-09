@@ -21,11 +21,11 @@ public class TAVSignatureConfig {
 
     }
 
-  public   enum TAVFormat {
+    public enum TAVFormat {
         TAV_FORMAT_2("2"), TAV_FORMAT_3("3"), NAN("0");
         public String version;
 
-        private TAVFormat(String version) {
+        TAVFormat(String version) {
             this.version = version;
         }
     }

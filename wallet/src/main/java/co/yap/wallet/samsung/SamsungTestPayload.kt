@@ -24,11 +24,11 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
         val expiryYear = "25"
         val expiryMonth = "10"
         val source = "CARD_ADDED_VIA_APPLICATION"
-        val cardholderName = "UATMOB"
+        val cardholderName = "JENNIFER WIGGINS"
         // TAV Process start
         val tavSignatureConfig = TAVSignatureConfigBuilder.aTAVSignatureConfig()
             .withAccountExpiry("1025")
-            .withAccountNumber("5381230100036491")
+            .withAccountNumber(cardNumber)
             .withTavFormat(TAVSignatureConfig.TAVFormat.TAV_FORMAT_2)
             .withDataValidUntilTimestamp(dataValidUntilTimestamp)// "2021-03-25T16:10:59Z"
             .withPrivateKey(
@@ -55,7 +55,7 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
             FieldLevelEncryptionConfigBuilder.aFieldLevelEncryptionConfig()
                 .withEncryptionCertificate(encryptionCertificate)
                 .withEncryptionPath("$.cardInfoData", "$.cardInfo")
-                .withOaepPaddingDigestAlgorithm("SHA-256")
+                .withOaepPaddingDigestAlgorithm("SHA-512")
                 .withEncryptionKeyFingerprintFieldName("publicKeyFingerprint")
                 .withEncryptedValueFieldName("encryptedData")
                 .withEncryptedKeyFieldName("encryptedKey")

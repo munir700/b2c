@@ -223,11 +223,10 @@ public class TAVSignatureMethod {
         }
         if (toJson == null)
             throw new InvalidSignatureException(" TAV signature Json can not be null");
-
         System.out.println("TAVSignatureMethod JSON Payload>>" + toJson);
         byte[] data = toJson.getBytes(UTF_8);
         System.out.println("TAVSignatureMethod Base64 Encoded JSON Payload>>" + EncodingUtils.base64Encode(data));
-        return EncodingUtils.base64Encode(data); //new String(Base64.encode(data, Base64.DEFAULT), UTF_8);
+        return EncodingUtils.base64Encode(data);
     }
 
     /**

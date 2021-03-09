@@ -43,7 +43,7 @@ import static co.yap.wallet.encriptions.utils.EncodingUtils.encodeBytes;
  */
 public class FieldLevelEncryption {
 
-    private static final String SYMMETRIC_CYPHER = "AES/CBC/PKCS5Padding";
+    private static final String SYMMETRIC_CYPHER = "AES/CBC/PKCS7Padding";
 
     private static JsonEngine jsonEngine;
     private static Configuration jsonPathConfig = withJsonEngine(JsonEngine.getDefault());
@@ -183,7 +183,7 @@ public class FieldLevelEncryption {
         } catch (UnsupportedEncodingException e) {
             // Should not happen
         }
-        byte[] encryptedValueBytes = encryptBytes(params.getSecretKey(), params.getIvSpec(), inJsonBytes);
+        byte[] encryptedValueBytes = encryptBytes(params.getSecretKey(), config.includeIvFieldName ? params.getIvSpec() : null, inJsonBytes);
         String encryptedValue = encodeBytes(encryptedValueBytes, config.fieldValueEncoding);
 
         // Delete data in clear
@@ -339,47 +339,25 @@ public class FieldLevelEncryption {
 
     protected static byte[] encryptBytes(Key key, AlgorithmParameterSpec iv, byte[] bytes) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance(SYMMETRIC_CYPHER);
-        cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+        if (iv == null) {
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+        } else {
+            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+        }
         return cipher.doFinal(bytes);
     }
 
     protected static byte[] decryptBytes(Key key, AlgorithmParameterSpec iv, byte[] bytes) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance(SYMMETRIC_CYPHER);
-        cipher.init(Cipher.DECRYPT_MODE, key, iv);
+        if (iv == null) {
+            cipher.init(Cipher.DECRYPT_MODE, key);
+        } else {
+            cipher.init(Cipher.DECRYPT_MODE, key, iv);
+        }
         return cipher.doFinal(bytes);
     }
 
     public static boolean isNullOrEmpty(String str) {
         return null == str || str.length() == 0;
     }
-
-//    private static SecretKeySpec getKey(String Key) throws UnsupportedEncodingException {
-//        int keyLength = 256;
-//        byte[] keyBytes = new byte[keyLength / 8];
-//        Arrays.fill(keyBytes, (byte) 0x0);
-//        byte[] passwordBytes = Key.getBytes(StandardCharsets.UTF_8);
-//        int length = passwordBytes.length < keyBytes.length ? passwordBytes.length : keyBytes.length;
-//        System.arraycopy(passwordBytes, 0, keyBytes, 0, length);
-//        return new SecretKeySpec(keyBytes, "AES");
-//    }
-//    public static String encode(String stringToEncode, String Key, String IV) throws NullPointerException {
-//        try {/*  w w  w . ja va2  s  . co  m*/
-//            SecretKeySpec skeySpec = getKey(Key);
-//            byte[] clearText = stringToEncode.getBytes(StandardCharsets.UTF_8);
-//            Cipher cipher;
-//            if (null != IV) {
-//                IvParameterSpec ivParameterSpec = new IvParameterSpec(IV.getBytes());
-//                cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-//                cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivParameterSpec);
-//            } else {
-//                cipher = Cipher.getInstance("AES/ECB/PKCS7Padding");
-//                cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-//            }
-//            String encrypedValue = Base64.encodeToString(cipher.doFinal(clearText), Base64.DEFAULT);
-//            return encrypedValue;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return "";
-//    }
 }

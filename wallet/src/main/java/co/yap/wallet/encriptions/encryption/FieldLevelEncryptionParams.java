@@ -48,8 +48,12 @@ public final class FieldLevelEncryptionParams {
     public static FieldLevelEncryptionParams generate(FieldLevelEncryptionConfig config) throws EncryptionException {
 
         // Generate a random IV
-        IvParameterSpec ivParameterSpec = generateIv();
-        String ivSpecValue = encodeBytes(ivParameterSpec.getIV(), config.fieldValueEncoding);
+        String ivSpecValue = null;
+        IvParameterSpec ivParameterSpec = null;
+        if (config.includeIvFieldName) {
+            ivParameterSpec = generateIv();
+            ivSpecValue = encodeBytes(ivParameterSpec.getIV(), config.fieldValueEncoding);
+        }
 
         // Generate an AES secret key
         SecretKey secretKey = generateSecretKey();
@@ -65,12 +69,13 @@ public final class FieldLevelEncryptionParams {
                 oaepPaddingDigestAlgorithmValue,
                 config);
         params.secretKey = secretKey;
-        params.ivParameterSpec = ivParameterSpec;
+        if (ivParameterSpec != null)
+            params.ivParameterSpec = ivParameterSpec;
         return params;
     }
 
     public String getIvValue() {
-        return ivValue;
+        return this.config.includeIvFieldName ? ivValue : null;
     }
 
     public String getEncryptedKeyValue() {
@@ -139,7 +144,7 @@ public final class FieldLevelEncryptionParams {
             String asymmetricCipher = ASYMMETRIC_CYPHER.replace("{ALG}", mgf1ParameterSpec.getDigestAlgorithm());
             Cipher cipher = Cipher.getInstance(asymmetricCipher);
             cipher.init(Cipher.WRAP_MODE, publicEncryptionKey, getOaepParameterSpec(mgf1ParameterSpec));
-            return cipher.wrap(key);
+           return cipher.wrap(key);
         } catch (GeneralSecurityException e) {
             throw new EncryptionException("Failed to wrap secret key!", e);
         }

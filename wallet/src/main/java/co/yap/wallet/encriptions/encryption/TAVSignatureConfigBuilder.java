@@ -112,11 +112,11 @@ public class TAVSignatureConfigBuilder {
     }
 
     public TAVSignatureConfig build() {
-        checkParameterConsistency();
         TAVSignatureConfig config = new TAVSignatureConfig();
         config.privateKey = this.privateKey;
         config.publicKey = this.publicKey;
         config.tavFormat = this.tavFormat;
+        checkParameterConsistency();
         if (config.tavFormat == TAV_FORMAT_2) {
             config.concatenatedData.append(signaturePaths.get(ACCOUNT_NUMBER_FIELD))
                     .append(config.expirationDateIncluded)
@@ -143,6 +143,9 @@ public class TAVSignatureConfigBuilder {
     }
 
     private void checkParameterConsistency() {
+        if(tavFormat ==  TAV_FORMAT_3 && !signaturePaths.containsKey(DATE_VALID_UNTIL_TIMESTAMP_FIELD) ){
+            throw new NullPointerException("Can't create digital signature  without dataValidUntilTimestamp key! use withDataValidUntilTimestamp to add dataValidUntilTimestamp");
+        }
         if (privateKey == null) {
             throw new IllegalArgumentException("Can't create digital signature  without privateKey key!");
         }
