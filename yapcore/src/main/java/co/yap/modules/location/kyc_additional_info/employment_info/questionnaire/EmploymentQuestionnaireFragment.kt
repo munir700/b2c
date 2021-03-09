@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
@@ -12,13 +14,16 @@ import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestionnaire.ViewModel>(),
     IEmploymentQuestionnaire.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_employment_questionnaire
+    var oldPosition = -1
 
     override val viewModel: EmploymentQuestionnaireViewModel
         get() = ViewModelProviders.of(this).get(EmploymentQuestionnaireViewModel::class.java)
@@ -40,14 +45,31 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 R.id.etAmount -> onInfoClick(data as QuestionUiFields)
                 R.id.etAmount -> onInfoClick(data as QuestionUiFields)
                 R.id.searchCountries -> {
-                    //lunchBottom{
-//                    (data as QuestionUiFields).countriesAnswer.clear()
-//                    (data as QuestionUiFields).countriesAnswer.addAll(arrayListOf())
-//                        viewModel.questionnaireAdaptor.setItemAt(pos,data)
-//                    //}
+                    requireActivity().launchMultiSelectionBottomSheet(
+                        countriesItemClickListener,
+                        countriesList = getSelectedStateCountries(SessionManager.getCountries())
+                    )
                 }
             }
         }
+    }
+
+    private val countriesItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is ArrayList<*>) {
+                setBusinessCountries(data as ArrayList<String>, pos)
+            }
+        }
+    }
+
+    override fun setBusinessCountries(
+        countries: ArrayList<String>,
+        position: Int
+    ) {
+        val objQuestion = viewModel.questionnaireAdaptor.getDataForPosition(position)
+        objQuestion.question.countriesAnswer.clear()
+        objQuestion.question.countriesAnswer.addAll(countries)
+        viewModel.questionnaireAdaptor.setItemAt(position, objQuestion)
     }
 
     override fun addObservers() {
@@ -97,5 +119,28 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             message = message,
             buttonText = getString(Strings.screen_employment_information_dialog_button_text_close)
         )
+    }
+
+    private fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country> {
+        if (countries.isNullOrEmpty()) return emptyList()
+        countries.forEach {
+            it.subTitle = it.getName()
+            it.sheetImage = CurrencyUtils.getFlagDrawable(
+                requireContext(),
+                it.isoCountryCode2Digit.toString()
+            )
+        }
+
+        val position = -1
+        if (oldPosition == -1) {
+            oldPosition = position
+            countries[oldPosition].isSelected = true
+        } else {
+            countries[oldPosition].isSelected = false
+            oldPosition = position
+            countries[oldPosition].isSelected = true
+        }
+
+        return countries
     }
 }

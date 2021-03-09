@@ -21,7 +21,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                     question = Question(
                         questionTitle = "Tell us where you work?",
                         placeholder = "Employer name",
-                        questionType = QuestionType.EDIT_TEXT_FIELD,
+                        questionType = QuestionType.COUNTRIES_FIELD,
                         answer = ObservableField()
                     )
                 ),

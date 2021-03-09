@@ -16,6 +16,7 @@ import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextWithAmountBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.generateChipViews
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding: ItemEmploymentQuestionnaireBinding) :
@@ -62,7 +63,10 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
             is LayoutQuestionTypeCountriesBinding -> {
                 binding.viewModel =
                     getItemViewModel(questionUiFields, position, onItemClickListener)
-//                binding.chipGroup.generateChipViews()
+                binding.chipGroup.generateChipViews(
+                    R.layout.item_selected_country_chip,
+                    questionUiFields.question.countriesAnswer
+                )
             }
         }
     }
