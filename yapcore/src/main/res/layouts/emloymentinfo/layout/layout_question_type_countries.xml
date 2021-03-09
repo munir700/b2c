@@ -45,11 +45,13 @@
 
             <HorizontalScrollView
                 android:id="@+id/horizontalScrollView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="@{viewModel.questionUiFields.question.countriesAnswer.size == 0? View.GONE : View.VISIBLE}"
                 android:layout_marginTop="@dimen/margin_normal_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:scrollbars="none"
+                tools:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/tvCategoriesTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvCategoriesTitle">
 
@@ -65,15 +67,14 @@
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/searchCountries"
-                style="@style/ARegular"
+                style="@style/ATitle2"
                 android:onClick="@{viewModel::onViewClicked}"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_search_grey"
-                android:focusable="false"
                 android:text="Search countries" />
 
             <View
