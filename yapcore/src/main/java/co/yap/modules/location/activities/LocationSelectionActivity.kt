@@ -3,6 +3,7 @@ package co.yap.modules.location.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.interfaces.ILocation
 import co.yap.modules.location.viewmodels.LocationViewModel
@@ -53,6 +54,23 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settDataFromIntent()
+        setObservers()
+    }
+
+    override fun setObservers() {
+        viewModel.clickEvent.observe(this, onClickObserver)
+    }
+
+    private val onClickObserver = Observer<Int> {
+        when (it) {
+            R.id.tbBtnBack -> {
+                onBackPressed()
+            }
+        }
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(onClickObserver)
     }
 
     private fun settDataFromIntent() {
@@ -91,5 +109,8 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
         }
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
+    }
 }

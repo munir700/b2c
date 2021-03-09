@@ -28,6 +28,8 @@ interface ILocation {
         var countries: ArrayList<Country>
     }
 
-    interface View : IBase.View<ViewModel>
-
+    interface View : IBase.View<ViewModel>{
+        fun setObservers()
+        fun removeObservers()
+    }
 }

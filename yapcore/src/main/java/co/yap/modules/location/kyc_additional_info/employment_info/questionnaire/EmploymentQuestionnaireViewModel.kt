@@ -26,6 +26,11 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         setupRecycleView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setProgress(95)
+    }
+
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -43,7 +48,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.etTinNumber -> { // on tin number change
-                    showToast("ans"+questionnaireAdaptor.getDataForPosition(0).answer.get())
+                    showToast("ans" + questionnaireAdaptor.getDataForPosition(0).answer.get())
                 }
             }
         }
