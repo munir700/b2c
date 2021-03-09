@@ -46,18 +46,16 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 R.id.etAmount -> onInfoClick(data as QuestionUiFields)
                 R.id.searchCountries -> {
                     requireActivity().launchMultiSelectionBottomSheet(
-                        countriesItemClickListener,
+                        object : OnItemClickListener {
+                            override fun onItemClick(view: View, data: Any, position: Int) {
+                                if (data is ArrayList<*>) {
+                                    setBusinessCountries(data as ArrayList<String>, pos)
+                                }
+                            }
+                        },
                         countriesList = getSelectedStateCountries(SessionManager.getCountries())
                     )
                 }
-            }
-        }
-    }
-
-    private val countriesItemClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is ArrayList<*>) {
-                setBusinessCountries(data as ArrayList<String>, pos)
             }
         }
     }
@@ -129,16 +127,6 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 requireContext(),
                 it.isoCountryCode2Digit.toString()
             )
-        }
-
-        val position = -1
-        if (oldPosition == -1) {
-            oldPosition = position
-            countries[oldPosition].isSelected = true
-        } else {
-            countries[oldPosition].isSelected = false
-            oldPosition = position
-            countries[oldPosition].isSelected = true
         }
 
         return countries

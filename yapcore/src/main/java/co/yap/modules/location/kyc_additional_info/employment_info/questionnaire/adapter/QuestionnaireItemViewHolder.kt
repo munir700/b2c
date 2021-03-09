@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.widgets.DrawableClickEditText
+import co.yap.widgets.skeletonlayout.views
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemEmploymentQuestionnaireBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
@@ -36,7 +37,9 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
                 itemEmploymentQuestionnaireBinding.flow,
                 false
             )
-        itemEmploymentQuestionnaireBinding.flow.addView(binding.root)
+        if (!viewExist(binding.root.id)) {
+            itemEmploymentQuestionnaireBinding.flow.addView(binding.root)
+        }
 
         when (binding) {
             is LayoutQuestionTypeEditTextBinding -> {
@@ -47,6 +50,7 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
                 }
                 setFocusListener(binding.etQuestionEditText, questionUiFields)
             }
+
             is LayoutQuestionTypeEditTextWithAmountBinding -> {
                 binding.viewModel =
                     getItemViewModel(questionUiFields, position, onItemClickListener)
@@ -96,4 +100,7 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
         position,
         onItemClickListener
     )
+
+    private fun viewExist(viewId: Int): Boolean =
+        itemEmploymentQuestionnaireBinding.flow.views().firstOrNull { it.id == viewId } == null
 }

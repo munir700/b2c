@@ -1,6 +1,5 @@
 package co.yap.widgets.bottomsheet.multi_selection_bottom_sheet
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
