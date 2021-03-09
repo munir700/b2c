@@ -45,7 +45,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_small">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ALargeGrey"
@@ -54,9 +55,10 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:text="AED"
                     />
-                <co.yap.widgets.EasyMoneyEditText
+                <co.yap.widgets.currency.CoreEditText
                     android:id="@+id/etAmount"
                     style="@style/ATitle2"
+                    android:textSize="@dimen/text_size_h4"
                     android:background="@null"
                     android:paddingStart="@dimen/_6sdp"
                     android:paddingTop="@dimen/margin_extra_small"
@@ -68,6 +70,7 @@
                     android:drawableRight="@drawable/ic_support"
                     android:hint="@{viewModel.question.placeholder}"
                     android:text="@={viewModel.question.answer}"
+                    android:textColorHint="?attr/colorPrimaryDarkAttr"
                     tools:text="1234567891" />
             </LinearLayout>
 

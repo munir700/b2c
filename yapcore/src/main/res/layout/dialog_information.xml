@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:constraint_referenced_ids="tbBtnInfo,tvDialogTitle,tvTitle,btnClose"
+            app:constraint_referenced_ids="tbBtnInfo,tvDialogTitle,tvMessage,btnClose"
             app:flow_verticalGap="@dimen/margin_medium"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +45,7 @@
             app:text="@{Strings.screen_employment_information_dialog_display_text_heading}" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvMessage"
             style="@style/SmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

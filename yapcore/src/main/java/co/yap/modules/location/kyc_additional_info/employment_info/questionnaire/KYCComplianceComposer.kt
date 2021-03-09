@@ -25,13 +25,15 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                     question = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                     placeholder = "Enter the amount",
                     questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                    answer = ObservableField()
+                    answer = ObservableField(),
+                    key = "SALARY_AMOUNT"
                 ),
                 Question(
                     question = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
                     placeholder = "Enter the amount",
                     questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                    answer = ObservableField()
+                    answer = ObservableField(),
+                    key = "DEPOSIT_AMOUNT"
                 )
             )
             SELF_EMPLOYED -> TODO()

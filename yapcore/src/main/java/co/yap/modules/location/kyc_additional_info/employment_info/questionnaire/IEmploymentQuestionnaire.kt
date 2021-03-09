@@ -14,6 +14,8 @@ interface IEmploymentQuestionnaire {
         fun addObservers()
         fun removeObservers()
         fun getBinding(): FragmentEmploymentQuestionnaireBinding
+        fun onInfoClick(question:Question)
+        fun showInfoDialog(title:String,message:String)
     }
 
     interface ViewModel : IBase.ViewModel<State> {
