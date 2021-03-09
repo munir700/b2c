@@ -1,20 +1,18 @@
-{
-  "describe_subset": [
-    {
-      "description": "I am a homemaker",
-      "value": "HOUSEWIFE"
-    },
-    {
-      "description": "I am retired",
-      "value": "RETIRED"
-    },
-    {
-      "description": "I am a pensioner",
-      "value": "PENSIONER "
-    },
-    {
-      "description": "Other",
-      "value": "OTHER "
-    }
-  ]
-}
+[
+  {
+    "subSegmentDesc": "I am a homemaker",
+    "subSegmentCode": "HOUSEWIFE"
+  },
+  {
+    "subSegmentDesc": "I am retired",
+    "subSegmentCode": "RETIRED"
+  },
+  {
+    "subSegmentDesc": "I am a pensioner",
+    "subSegmentCode": "PENSIONER "
+  },
+  {
+    "subSegmentDesc": "Other",
+    "subSegmentCode": "OTHER "
+  }
+]

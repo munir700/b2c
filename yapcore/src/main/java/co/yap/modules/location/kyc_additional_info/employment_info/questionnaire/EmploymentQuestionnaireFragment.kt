@@ -1,5 +1,6 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -7,8 +8,10 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.fragments.LocationChildFragment
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentSegment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
@@ -18,6 +21,9 @@ import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import java.io.IOException
 
 class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestionnaire.ViewModel>(),
     IEmploymentQuestionnaire.View {
@@ -43,13 +49,16 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             viewModel.listener.onItemClick(view, data, pos)
             when (view.id) {
                 R.id.etAmount -> onInfoClick(data as QuestionUiFields)
-                R.id.etAmount -> onInfoClick(data as QuestionUiFields)
                 R.id.searchCountries -> {
                     requireActivity().launchMultiSelectionBottomSheet(
                         countriesItemClickListener,
                         countriesList = getSelectedStateCountries(SessionManager.getCountries())
                     )
                 }
+                R.id.describeTV -> launchBottomSheetSegment(
+                    segmentItemClickListener,
+                    employmentSegments = getSegments()
+                )
             }
         }
     }
@@ -59,6 +68,14 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             if (data is ArrayList<*>) {
                 setBusinessCountries(data as ArrayList<String>, pos)
             }
+        }
+    }
+
+    private val segmentItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, position: Int) {
+            val objQuestion = viewModel.questionnaireAdaptor.getDataForPosition(position)
+            objQuestion.question.answer.set((data as EmploymentSegment).subSegmentDesc)
+            viewModel.questionnaireAdaptor.setItemAt(position, objQuestion)
         }
     }
 
@@ -121,7 +138,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         )
     }
 
-    private fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country> {
+    override fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country> {
         if (countries.isNullOrEmpty()) return emptyList()
         countries.forEach {
             it.subTitle = it.getName()
@@ -143,4 +160,63 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
         return countries
     }
+
+
+    override fun getSegments(): List<EmploymentSegment> {
+        val gson = GsonBuilder().create();
+        val itemType = object : TypeToken<List<EmploymentSegment>>() {}.type
+        return gson.fromJson<List<EmploymentSegment>>(
+            getJsonDataFromAsset(
+                requireContext(),
+                "jsons/employment_describe_you_best.json"
+            ), itemType
+        )
+    }
+
+    fun getJsonDataFromAsset(context: Context, fileName: String): String? {
+        val jsonString: String
+        try {
+            jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
+        } catch (ioException: IOException) {
+            ioException.printStackTrace()
+            return null
+        }
+        return jsonString
+    }
+
+    override fun launchBottomSheetSegment(
+        itemClickListener: OnItemClickListener?,
+        label: String,
+        viewType: Int,
+        employmentSegments: List<EmploymentSegment>?
+    ) {
+        fragmentManager.let {
+            employmentSegments?.let { employmentSegments ->
+                val coreBottomSheet =
+                    CoreBottomSheet(
+                        itemClickListener,
+                        bottomSheetItems = parseSegment(
+                            requireContext(),
+                            employmentSegments as java.util.ArrayList<EmploymentSegment>
+                        ).toMutableList(),
+                        headingLabel = label,
+                        viewType = viewType
+                    )
+                it?.let { it1 -> coreBottomSheet.show(it1, "") }
+            }
+        }
+    }
+
+
+    override fun parseSegment(
+        context: Context,
+        employmentSegments: java.util.ArrayList<EmploymentSegment>
+    ): java.util.ArrayList<EmploymentSegment> {
+        employmentSegments.forEach {
+            it.subTitle = it.subSegmentDesc
+        }
+        return employmentSegments
+    }
+
+
 }
