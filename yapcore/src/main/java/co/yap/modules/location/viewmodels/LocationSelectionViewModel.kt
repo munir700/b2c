@@ -43,6 +43,7 @@ class LocationSelectionViewModel(application: Application) :
         super.onCreate()
         getCities()
         initializePlacesAdapter()
+        setProgress(40)
     }
 
     override fun handleOnPressView(id: Int) {
@@ -79,6 +80,7 @@ class LocationSelectionViewModel(application: Application) :
 
     override fun onLocationSelected() {
         hasSeletedLocation = true
+        setProgress(60)
 
         if (state.placeTitle.get()?.toLowerCase()
                 ?.contains(unNamed.toLowerCase()) == true || !StringUtils.isValidAddress(
@@ -108,7 +110,10 @@ class LocationSelectionViewModel(application: Application) :
         } else {
             state.isUnNamed.set(false)
             state.addressTitle.set(state.placeSubTitle.get() ?: "")
-            state.headingTitle.set(state.placeSubTitle.get() ?: getString(Strings.screen_meeting_location_display_text_add_new_address_title))
+            state.headingTitle.set(
+                state.placeSubTitle.get()
+                    ?: getString(Strings.screen_meeting_location_display_text_add_new_address_title)
+            )
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),
@@ -173,7 +178,8 @@ class LocationSelectionViewModel(application: Application) :
     }
 
     private fun initializePlacesAdapter() {
-        val placeAPI = PlaceAPI.Builder().apiKey(context.getString(R.string.google_maps_key)).build(context)
+        val placeAPI =
+            PlaceAPI.Builder().apiKey(context.getString(R.string.google_maps_key)).build(context)
         placesAdapter = PlacesAutoCompleteAdapter(context, placeAPI)
     }
 }

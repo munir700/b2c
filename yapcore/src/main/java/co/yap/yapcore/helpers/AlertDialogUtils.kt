@@ -4,13 +4,12 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import co.yap.widgets.CoreButton
 import co.yap.yapcore.BaseActivity
@@ -263,4 +262,30 @@ fun Activity.showAlertDialogAndExitApp(
     alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     alertDialog.show()
 
+}
+
+@JvmOverloads
+fun Context.infoDialog(
+    message: String,
+    title: String = "",
+    buttonText: String? = null,
+    callback: () -> Unit = {}
+) {
+
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.dialog_information)
+    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
+    label.text = message
+    dialogTitle.text = title
+    val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
+    btnClose.text = buttonText
+    btnClose.setOnClickListener {
+        callback.invoke()
+        dialogLayout.dismiss()
+    }
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
 }
