@@ -1748,6 +1748,13 @@ object Strings {
         "screen_place_of_birth_display_text_select_country"
     const val screen_place_of_birth_display_text_city_of_birth: String =
         "screen_place_of_birth_display_text_city_of_birth"
+    const val screen_place_of_birth_display_text_are_you_a_dual_national: String =
+        "screen_place_of_birth_display_text_are_you_a_dual_national"
+    const val screen_place_of_birth_display_text_nationality_as_per_eid: String =
+        "screen_place_of_birth_display_text_nationality_as_per_eid"
+    const val screen_place_of_birth_display_text_add_second_country: String =
+        "screen_place_of_birth_display_text_add_second_country"
+
 
     // Tax info screen
     const val screen_tax_info_display_text_heading: String =
