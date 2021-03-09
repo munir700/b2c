@@ -77,7 +77,6 @@ class POBSelectionViewModel(application: Application) :
                     dualNationalitySelectedOption.set(data)
                 else
                     dualNationalitySelectedOption.set(data)
-
             }
         }
     }
