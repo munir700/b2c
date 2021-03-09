@@ -69,7 +69,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/searchCountries"
-                style="@style/ATitle2"
+                style="@style/ALarge"
                 android:onClick="@{viewModel::onViewClicked}"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_medium"

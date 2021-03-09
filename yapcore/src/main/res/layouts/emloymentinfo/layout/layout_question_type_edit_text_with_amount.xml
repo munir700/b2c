@@ -57,8 +57,7 @@
                     />
                 <co.yap.widgets.currency.CoreEditText
                     android:id="@+id/etAmount"
-                    style="@style/ATitle2"
-                    android:textSize="@dimen/text_size_h4"
+                    style="@style/ALarge"
                     android:background="@null"
                     android:paddingStart="@dimen/_6sdp"
                     android:paddingTop="@dimen/margin_extra_small"
