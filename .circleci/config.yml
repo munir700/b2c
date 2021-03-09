@@ -4,8 +4,12 @@ version: 2.1
 orbs:
  android: circleci/android@0.2.0
 machine:
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    JAVA6_HOME: /usr/lib/jvm/java-6-openjdk-amd64
+
   java:
-    version: 'oraclejdk8'
+    version: openjdk8
 jobs:
  build:
    executor: android/android
