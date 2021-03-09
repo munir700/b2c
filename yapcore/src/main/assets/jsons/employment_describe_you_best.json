@@ -1,0 +1,20 @@
+{
+  "describe_subset": [
+    {
+      "description": "I am a homemaker",
+      "value": "HOUSEWIFE"
+    },
+    {
+      "description": "I am retired",
+      "value": "RETIRED"
+    },
+    {
+      "description": "I am a pensioner",
+      "value": "PENSIONER "
+    },
+    {
+      "description": "Other",
+      "value": "OTHER "
+    }
+  ]
+}

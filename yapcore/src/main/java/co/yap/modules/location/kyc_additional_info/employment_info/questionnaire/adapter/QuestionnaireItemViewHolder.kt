@@ -11,10 +11,7 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.widgets.DrawableClickEditText
 import co.yap.yapcore.R
-import co.yap.yapcore.databinding.ItemEmploymentQuestionnaireBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextWithAmountBinding
+import co.yap.yapcore.databinding.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.generateChipViews
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -66,7 +63,10 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
                 binding.chipGroup.generateChipViews(
                     R.layout.item_selected_country_chip,
                     questionUiFields.question.countriesAnswer
-                )
+                )}
+            is LayoutQuestionTypeDropDownBinding -> {
+                binding.viewModel =
+                    getItemViewModel(questionUiFields, position, onItemClickListener)
             }
         }
     }
@@ -82,8 +82,8 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
         return when (forType) {
             QuestionType.EDIT_TEXT_FIELD -> R.layout.layout_question_type_edit_text
             QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> R.layout.layout_question_type_edit_text_with_amount
-            QuestionType.DROP_DOWN_FIELD -> TODO()
             QuestionType.COUNTRIES_FIELD -> R.layout.layout_question_type_countries
+            QuestionType.DROP_DOWN_FIELD -> R.layout.layout_question_type_drop_down
         }
     }
 
