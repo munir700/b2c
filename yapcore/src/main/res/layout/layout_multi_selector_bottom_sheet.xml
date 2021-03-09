@@ -45,6 +45,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sepretorTop" />
 
+        <HorizontalScrollView
+            android:id="@+id/horizontalChips"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="@+id/tvlabel"
+            app:layout_constraintTop_toBottomOf="@+id/tvlabel">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:singleSelection="false">
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
         <include
             android:id="@+id/lySearchView"
             layout="@layout/layout_core_bottomsheet_search"
@@ -54,7 +76,7 @@
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_medium"
             android:visibility="@{viewModel.state.searchBarVisibility ? View.VISIBLE : View.GONE }"
-            app:layout_constraintTop_toBottomOf="@+id/tvlabel" />
+            app:layout_constraintTop_toBottomOf="@+id/horizontalChips" />
 
         <View
             android:id="@+id/sepretorLine"

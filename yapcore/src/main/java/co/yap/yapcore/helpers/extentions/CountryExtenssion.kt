@@ -78,6 +78,3 @@ fun FragmentActivity.launchMultiSelectionBottomSheet(
         }
     }
 }
-
-
-

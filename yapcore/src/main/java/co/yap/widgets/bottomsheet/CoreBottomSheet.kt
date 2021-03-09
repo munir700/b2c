@@ -34,7 +34,7 @@ open class CoreBottomSheet(
     override val viewModel: CoreBottomSheetViewModel
         get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
 
-    val adapter: CoreBottomSheetAdapter by lazy {
+   open val adapter: CoreBottomSheetAdapter by lazy {
         CoreBottomSheetAdapter(bottomSheetItems, viewType)
     }
 
