@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
                 android:paddingStart="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_normal"

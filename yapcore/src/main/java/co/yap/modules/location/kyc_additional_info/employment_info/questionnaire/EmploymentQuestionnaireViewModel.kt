@@ -21,11 +21,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val state: IEmploymentQuestionnaire.State =
         EmploymentQuestionnaireState()
 
-    override fun onCreate() {
-        super.onCreate()
-        setupRecycleView()
-    }
-
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -35,14 +30,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         return questionnairesComposer.compose(forStatus)
     }
 
-    private fun setupRecycleView() {
-        questionnaireAdaptor.setItemListener(listener)
-    }
-
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
-                R.id.etTinNumber -> {
+                R.id.etTinNumber -> { // on tin number change
                 }
             }
         }
