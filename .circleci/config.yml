@@ -15,24 +15,28 @@ dependencies:
     - sudo apt-get -y install oracle-java8-installer
     - sudo apt-get install oracle-java8-set-default
 jobs:
- build:
-   executor: android/android
-   environment:
-     FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
-     FASTLANE_LANE: upload_to_appcenter
+  java-8:
+    docker:
+      - image: circleci/openjdk:8-jdk
+  build:
+    executor: android/android
+    environment:
+      FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
+      FASTLANE_LANE: upload_to_appcenter
 
-   steps:
-     - checkout
-     - run:
-         name: Install fastlane
-         command: bundle install
-     - run:
-        name: Execute fastlane
-        command: bundle exec fastlane $FASTLANE_LANE
+    steps:
+      - checkout
+      - run:
+          name: Install fastlane
+          command: bundle install
+      - run:
+          name: Execute fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
 
 workflows:
   build_and_test:
     jobs:
+      - java-8:
       - build:
           filters:
             branches:
