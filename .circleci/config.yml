@@ -10,15 +10,11 @@ jobs:
     environment:
       FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
       FASTLANE_LANE: upload_to_appcenter
+      docker:
+        - image: cimg/openjdk:1.8.0
     steps:
       - checkout
-      - run:
-          name: Install Open JDK 8
-          command: |
-            sudo apt-get update && sudo apt-get install openjdk-8-jdk
-            sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/bin/java
-            sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
-            java -version
+      - run: java -version
       - run:
           name: Install fastlane
           command: bundle install
