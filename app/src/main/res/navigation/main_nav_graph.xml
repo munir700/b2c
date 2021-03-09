@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/employmentStatusSelectionFragment">
+    app:startDestination="@id/splashFragment">
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
@@ -195,21 +195,6 @@
         android:name="co.yap.household.onboard.otherscreens.ExistingHouseholdActivity"
         android:label="OnBoardingExistingYAP"
         tools:layout="@layout/activity_on_boarding_existing_yap" />
-
-    <fragment
-        android:id="@+id/employmentStatusSelectionFragment"
-        android:name="co.yap.modules.location.kyc_additional_info.employment_info.status.EmploymentStatusSelectionFragment"
-        tools:layout="@layout/fragment_employment_status_selection"
-        android:label="EmploymentStatusSelectionFragment" >
-        <action
-            android:id="@+id/action_employmentStatusSelectionFragment_to_employmentQuestionnaireFragment"
-            app:destination="@id/employmentQuestionnaireFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/employmentQuestionnaireFragment"
-        android:name="co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.EmploymentQuestionnaireFragment"
-        tools:layout="@layout/fragment_employment_questionnaire"
-        android:label="EmploymentQuestionnaireFragment" />
 
 </navigation>
 
