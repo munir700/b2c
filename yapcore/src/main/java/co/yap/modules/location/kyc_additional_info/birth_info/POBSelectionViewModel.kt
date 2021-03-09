@@ -14,6 +14,7 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class POBSelectionViewModel(application: Application) :
     LocationChildViewModel<IPOBSelection.State>(application),
@@ -23,7 +24,7 @@ class POBSelectionViewModel(application: Application) :
         POBSelectionState()
     override val dualNationalityQuestionOptions: ArrayList<String> = arrayListOf("No", "Yes")
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
-    override var selectedOption: ObservableField<String> = ObservableField()
+    override var selectedSecondCountryOption: ObservableField<String> = ObservableField()
     override val repository: CustomersRepository = CustomersRepository
 
     override fun handleOnPressView(id: Int) {
@@ -33,6 +34,13 @@ class POBSelectionViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
+        state.eidNationality = SessionManager.getCountries()
+            .first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }.getName()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setProgress(75)
     }
 
     override fun getAllCountries() {
@@ -66,9 +74,9 @@ class POBSelectionViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is String) {
                 if (data.equals(dualNationalityQuestionOptions.get(0)))
-                    selectedOption.set(data)
+                    selectedSecondCountryOption.set(data)
                 else
-                    selectedOption.set(data)
+                    selectedSecondCountryOption.set(data)
 
             }
         }
