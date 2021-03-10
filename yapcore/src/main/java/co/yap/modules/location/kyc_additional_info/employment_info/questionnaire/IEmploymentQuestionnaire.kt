@@ -25,6 +25,7 @@ interface IEmploymentQuestionnaire {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         val questionnaireAdaptor: EmploymentQuestionnaireAdaptor
+        var selectedQuestionItemPosition:Int
         fun handleOnPressView(id: Int)
         fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
         fun getEmploymentType(): Type

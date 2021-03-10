@@ -43,18 +43,14 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 R.id.etAmount -> viewModel.onInfoClick(data as QuestionUiFields) { title, message ->
                     showInfoDialog(title, message)
                 }
+
                 R.id.searchCountries -> {
                     requireActivity().launchMultiSelectionBottomSheet(
-                        object : OnItemClickListener {
-                            override fun onItemClick(view: View, data: Any, position: Int) {
-                                if (data is ArrayList<*>) {
-                                    viewModel.setBusinessCountries(data as ArrayList<String>, pos)
-                                }
-                            }
-                        },
+                        viewModel.countriesItemClickListener,
                         countriesList = viewModel.getSelectedStateCountries(SessionManager.getCountries())
                     )
                 }
+
                 R.id.describeTV -> launchBottomSheetSegment(
                     viewModel.segmentItemClickListener,
                     label = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you),

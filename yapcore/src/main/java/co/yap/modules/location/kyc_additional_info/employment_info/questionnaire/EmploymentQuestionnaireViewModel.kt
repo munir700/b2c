@@ -24,7 +24,6 @@ import java.lang.reflect.Type
 class EmploymentQuestionnaireViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaire.State>(application),
     IEmploymentQuestionnaire.ViewModel {
-    var oldPosition = -1
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val questionnaireAdaptor: EmploymentQuestionnaireAdaptor =
         EmploymentQuestionnaireAdaptor(
@@ -32,6 +31,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         )
     override val state: IEmploymentQuestionnaire.State =
         EmploymentQuestionnaireState()
+    override var selectedQuestionItemPosition: Int = -1
 
     override fun onResume() {
         super.onResume()
@@ -42,16 +42,16 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     val countriesItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is ArrayList<*>) {
-                setBusinessCountries(data as ArrayList<String>, pos)
+                setBusinessCountries(data as ArrayList<String>, selectedQuestionItemPosition)
             }
         }
     }
 
     val segmentItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            val objQuestion = questionnaireAdaptor.getDataForPosition(pos)
+            val objQuestion = questionnaireAdaptor.getDataForPosition(selectedQuestionItemPosition)
             objQuestion.question.answer.set((data as CoreBottomSheetData).subTitle)
-            questionnaireAdaptor.setItemAt(pos, objQuestion)
+            questionnaireAdaptor.setItemAt(selectedQuestionItemPosition, objQuestion)
         }
     }
 
@@ -84,12 +84,12 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     }
 
     override fun getEmploymentType(): Type {
-        val itemType = object : TypeToken<List<EmploymentSegment>>() {}.type
-        return itemType
+        return object : TypeToken<List<EmploymentSegment>>() {}.type
     }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            selectedQuestionItemPosition = pos
             when (view.id) {
                 R.id.etQuestionEditText -> {
                 }
@@ -105,16 +105,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 context,
                 it.isoCountryCode2Digit.toString()
             )
-        }
-
-        val position = -1
-        if (oldPosition == -1) {
-            oldPosition = position
-            countries[oldPosition].isSelected = true
-        } else {
-            countries[oldPosition].isSelected = false
-            oldPosition = position
-            countries[oldPosition].isSelected = true
         }
 
         return countries
