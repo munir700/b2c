@@ -42,6 +42,11 @@ class TaxInfoViewModel(application: Application) :
         setupRecycleView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setProgress(80)
+    }
+
     private fun setupRecycleView() {
         taxInfoAdaptor.setItemListener(listener)
     }
@@ -217,7 +222,12 @@ class TaxInfoViewModel(application: Application) :
             launch {
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
-                        success(Utils.parseCountryList(response.data.data, addOIndex = false) as ArrayList<Country>)
+                        success(
+                            Utils.parseCountryList(
+                                response.data.data,
+                                addOIndex = false
+                            ) as ArrayList<Country>
+                        )
                     }
 
                     is RetroApiResponse.Error -> {
