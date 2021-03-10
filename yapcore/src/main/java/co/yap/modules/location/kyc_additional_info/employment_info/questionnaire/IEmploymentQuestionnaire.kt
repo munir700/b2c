@@ -9,10 +9,9 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentStatus
-import co.yap.yapcore.interfaces.OnItemClickListener
+import java.lang.reflect.Type
 
 interface IEmploymentQuestionnaire {
 
@@ -20,21 +19,7 @@ interface IEmploymentQuestionnaire {
         fun addObservers()
         fun removeObservers()
         fun getBinding(): FragmentEmploymentQuestionnaireBinding
-        fun onInfoClick(questionUiFields: QuestionUiFields)
         fun showInfoDialog(title: String, message: String)
-        fun setBusinessCountries(countries: ArrayList<String>, position: Int)
-        fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
-        fun launchBottomSheetSegment(
-            itemClickListener: OnItemClickListener? = null,
-            label: String = "Select which statement describes your situation best:",
-            viewType: Int = Constants.VIEW_WITHOUT_FLAG,
-            employmentSegments: List<CoreBottomSheetData>? = null
-        )
-
-        fun parseSegment(
-            context: Context,
-            employmentSegments: List<EmploymentSegment>
-        ): List<EmploymentSegment>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -42,8 +27,15 @@ interface IEmploymentQuestionnaire {
         val questionnaireAdaptor: EmploymentQuestionnaireAdaptor
         fun handleOnPressView(id: Int)
         fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
-        fun getEmploymentType(): List<EmploymentSegment>
-        fun employeeSegment(): List<EmploymentSegment>
+        fun getEmploymentType(): Type
+        fun employeeSegment(): MutableList<EmploymentSegment>
+        fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
+        fun setBusinessCountries(countries: ArrayList<String>, position: Int)
+        fun parseSegment(
+            context: Context,
+            employmentSegments: MutableList<EmploymentSegment>
+        ): MutableList<CoreBottomSheetData>
+        fun onInfoClick(questionUiFields: QuestionUiFields,callBack:(title:String,message:String)-> Unit)
     }
 
     interface State : IBase.State {
