@@ -35,14 +35,14 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
     }
 
     private fun iniVideoView() {
-        cardAnimation.layoutParams = viewModel.setViewDimensions(32, cardAnimation)
-        cardAnimation.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_all_card_plans))
-        cardAnimation.start()
-        cardAnimation.setOnCompletionListener { mediaPlayer ->
+        getBindings().cardAnimation.layoutParams =
+            viewModel.parentViewModel?.setViewDimensions(32, cardAnimation)
+        getBindings().cardAnimation.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_all_card_plans))
+        getBindings().cardAnimation.start()
+        getBindings().cardAnimation.setOnCompletionListener { mediaPlayer ->
             mediaPlayer.isLooping = true
-            cardAnimation.start()
+            getBindings().cardAnimation.start()
         }
-
     }
 
     private fun eventListener() {

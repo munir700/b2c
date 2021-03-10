@@ -16,6 +16,8 @@ interface IMainCardPlans {
     interface ViewModel : IBase.ViewModel<State>{
         var cards : MutableList<CardPlans>
         val cardTag: String get() = "CARD-TAG"
+        var selectedPlan : ObservableField<String>
+        fun setViewDimensions(percent : Int, view : android.view.View) : ConstraintLayout.LayoutParams
     }
 
     interface State : IBase.State

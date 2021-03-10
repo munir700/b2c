@@ -13,7 +13,7 @@ class CardPlanViewerViewModel(application: Application) :
         return when(id){
             Constants.PRIME_CARD_PLAN -> 0
             Constants.METAL_CARD_PLAN -> 1
-            else -> 0
+            else -> 3
         }
     }
 }

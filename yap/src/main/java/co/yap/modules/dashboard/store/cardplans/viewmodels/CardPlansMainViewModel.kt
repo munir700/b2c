@@ -1,16 +1,21 @@
 package co.yap.modules.dashboard.store.cardplans.viewmodels
 
 import android.app.Application
+import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.ObservableField
 import co.yap.R
 import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.interfaces.IMainCardPlans
 import co.yap.modules.dashboard.store.cardplans.states.CardPlansMainState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 
 class CardPlansMainViewModel(application: Application) :
     BaseViewModel<IMainCardPlans.State>(application), IMainCardPlans.ViewModel {
     override var cards: MutableList<CardPlans> = arrayListOf()
+    override var selectedPlan: ObservableField<String> = ObservableField()
 
     override val state: CardPlansMainState = CardPlansMainState()
     override fun onCreate() {
@@ -37,5 +42,13 @@ class CardPlansMainViewModel(application: Application) :
         )
     }
 
-
+    override fun setViewDimensions(
+        percent: Int,
+        view: View
+    ): ConstraintLayout.LayoutParams {
+        val dimensions: Int = Utils.getDimensionInPercent(context, false, percent)
+        val params = view.layoutParams as ConstraintLayout.LayoutParams
+        params.height = dimensions
+        return params
+    }
 }
