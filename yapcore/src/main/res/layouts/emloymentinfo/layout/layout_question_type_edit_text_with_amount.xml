@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center_vertical"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,6 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_normal"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="What is your monthly salary? Don’t worry there is no minimum salary requirement." />
@@ -53,16 +52,15 @@
                     style="@style/ALargeGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_gravity="center_vertical"
                     android:text="AED"
                     />
                 <co.yap.widgets.currency.CoreEditText
                     android:id="@+id/etAmount"
                     style="@style/ALarge"
                     android:background="@null"
-                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingStart="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_extra_small"
-                    android:paddingEnd="@dimen/margin_extra_small"
                     android:paddingBottom="@dimen/margin_extra_small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,7 +68,8 @@
                     android:drawableRight="@drawable/ic_support"
                     android:hint="@{viewModel.questionUiFields.question.placeholder}"
                     android:text="@={viewModel.questionUiFields.question.answer}"
-                    android:textColorHint="?attr/colorPrimaryDarkAttr"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimaryDark"
                     tools:text="1234567891" />
             </LinearLayout>
 
