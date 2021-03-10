@@ -17,11 +17,13 @@ import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextWithAmountBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.generateChipViews
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding: ItemEmploymentQuestionnaireBinding) :
     RecyclerView.ViewHolder(itemEmploymentQuestionnaireBinding.root) {
+    private val businessAdapter: BusinessCountriesAdapter by lazy {
+        BusinessCountriesAdapter(arrayListOf())
+    }
 
     fun onBind(
         questionUiFields: QuestionUiFields,
@@ -65,12 +67,18 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
             }
 
             is LayoutQuestionTypeCountriesBinding -> {
+                businessAdapter.setList(
+                    questionUiFields.question.countriesAnswer.get() ?: arrayListOf()
+                )
+                binding.businessCountriesAdapter = businessAdapter
+                if (businessAdapter.itemCount > 0) {
+                    binding.rvBusinessCountries.visibility = View.VISIBLE
+                    binding.rvBusinessCountries.smoothScrollToPosition(businessAdapter.itemCount - 1)
+                } else {
+                    binding.rvBusinessCountries.visibility = View.GONE
+                }
                 binding.viewModel =
                     getItemViewModel(questionUiFields, position, onItemClickListener)
-                binding.chipGroup.generateChipViews(
-                    R.layout.item_selected_country_chip,
-                    questionUiFields.question.countriesAnswer
-                )
             }
         }
     }
@@ -102,5 +110,6 @@ class QuestionnaireItemViewHolder(private val itemEmploymentQuestionnaireBinding
     )
 
     private fun viewExist(viewId: Int): Boolean =
-        itemEmploymentQuestionnaireBinding.flow.views().firstOrNull { it.id == viewId } == null
+        itemEmploymentQuestionnaireBinding.flow.views().firstOrNull { it.id == viewId } != null
+
 }

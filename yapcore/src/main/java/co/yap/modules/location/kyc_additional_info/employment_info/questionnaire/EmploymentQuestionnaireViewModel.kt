@@ -21,12 +21,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val state: IEmploymentQuestionnaire.State =
         EmploymentQuestionnaireState()
 
-    override fun onCreate() {
-        super.onCreate()
-    }
-
     override fun onResume() {
         super.onResume()
+        parentViewModel?.countries
         setProgress(95)
     }
 

@@ -2,7 +2,6 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.R

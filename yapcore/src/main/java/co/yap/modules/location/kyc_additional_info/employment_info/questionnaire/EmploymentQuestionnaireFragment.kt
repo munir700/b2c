@@ -1,4 +1,4 @@
-package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
+package co.yap.modules.location.kyc_additional_info.employment_info .questionnaire
 
 import android.os.Bundle
 import android.view.View
@@ -23,7 +23,6 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     IEmploymentQuestionnaire.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_employment_questionnaire
-    var oldPosition = -1
 
     override val viewModel: EmploymentQuestionnaireViewModel
         get() = ViewModelProviders.of(this).get(EmploymentQuestionnaireViewModel::class.java)
@@ -65,8 +64,8 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         position: Int
     ) {
         val objQuestion = viewModel.questionnaireAdaptor.getDataForPosition(position)
-        objQuestion.question.countriesAnswer.clear()
-        objQuestion.question.countriesAnswer.addAll(countries)
+        objQuestion.question.countriesAnswer.get()?.clear()
+        objQuestion.question.countriesAnswer.get()?.addAll(countries)
         viewModel.questionnaireAdaptor.setItemAt(position, objQuestion)
     }
 

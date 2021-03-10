@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionnaireItemViewModel" />
+            name="countryName"
+            type="String" />
 
     </data>
 
@@ -16,12 +16,18 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/labelCardType"
+            style="@style/Micro"
+            android:id="@+id/tvCountryName"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_extra_small"
+            android:paddingTop="@dimen/margin_extra_small"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_extra_small"
             android:background="@drawable/round_light_gery_background"
             android:gravity="center"
+            android:text="@{countryName}"
             android:textColor="?attr/colorPrimaryAttr"
             android:textSize="@dimen/_9sdp"
             app:btn_unpressed_color="@color/disabledLight"

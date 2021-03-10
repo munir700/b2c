@@ -14,8 +14,8 @@ interface ICoreBottomSheet {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        var selectedViewsList: ArrayList<String>
         fun handlePressOnView(id: Int)
-        var selectedViewsList: ArrayList<String>?
     }
 
     interface View : IBase.View<ViewModel> {
