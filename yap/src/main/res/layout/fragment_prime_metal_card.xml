@@ -38,6 +38,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/backImage"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:background="@{viewModel.state.cardPlans.id.equals(Constants.INSTANCE.PRIME_CARD_PLAN) ?@drawable/bg_card_plan_purple:@drawable/bg_card_plan_blue}"
+                android:src="@{viewModel.state.cardPlans.id.equals(Constants.INSTANCE.PRIME_CARD_PLAN) ?@drawable/ic_banner_prime_card:@drawable/ic_banner_metal_card}"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <VideoView
                 android:id="@+id/planVideo"
                 android:layout_width="match_parent"
@@ -64,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
-                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.navOptions
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentCardPlansBinding
@@ -69,15 +68,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
     override fun navigateToFragment(data: String) {
         navigate(destinationId = R.id.action_cardPlansFragment_to_cardPlanViewerFragment,
-            args = bundleOf((viewModel.parentViewModel?.cardTag ?: "CARD-TAG") to data),
-            navOptions = navOptions {
-                anim {
-                    enter = co.yap.yapcore.R.anim.slide_up_from_bottom
-                    exit = co.yap.yapcore.R.anim.abc_slide_out_top
-                    popEnter = co.yap.yapcore.R.anim.slide_in_left
-                    popExit = co.yap.yapcore.R.anim.slide_out_right
-                }
-            })
+            args = bundleOf((viewModel.parentViewModel?.cardTag ?: "CARD-TAG") to data))
     }
 
     override fun getBindings(): FragmentCardPlansBinding =
