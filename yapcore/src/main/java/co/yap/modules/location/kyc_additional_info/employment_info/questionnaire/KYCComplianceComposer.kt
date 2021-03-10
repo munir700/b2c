@@ -21,9 +21,8 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                     question = Question(
                         questionTitle = "Tell us where you work?",
                         placeholder = "Employer name",
-                        questionType = QuestionType.COUNTRIES_FIELD,
-                        answer = ObservableField(),
-                        countriesAnswer = ObservableField(arrayListOf())
+                        questionType = QuestionType.EDIT_TEXT_FIELD,
+                        answer = ObservableField()
                     )
                 ),
                 QuestionUiFields(
@@ -46,8 +45,76 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
 
             )
             SELF_EMPLOYED -> TODO()
-            SALARIED_AND_SELF_EMPLOYED -> TODO()
-            OTHER -> TODO()
+            SALARIED_AND_SELF_EMPLOYED -> arrayListOf(
+                QuestionUiFields(
+                    question = Question(
+                        questionTitle = "Tell us the name of your company?",
+                        placeholder = "Company name",
+                        questionType = QuestionType.EDIT_TEXT_FIELD,
+                        answer = ObservableField()
+                    )
+                ),
+                QuestionUiFields(
+                    question = Question(
+                        questionTitle = "Add an industry segment:",
+                        placeholder = "Select industry segment",
+                        questionType = QuestionType.DROP_DOWN_FIELD,
+                        answer = ObservableField()
+                    ),
+                    key = EmploymentQuestionIdentifier.INDUSTRY_SEGMENT
+                ), QuestionUiFields(
+                    question = Question(
+                        questionTitle = "Add all the countries your company does business with",
+                        placeholder = "Search countries",
+                        questionType = QuestionType.COUNTRIES_FIELD,
+                        answer = ObservableField()
+                    )
+                ),
+                QuestionUiFields(
+                    question = Question(
+                        questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
+                        placeholder = "Enter the amount",
+                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
+                        answer = ObservableField()
+                    ),
+                    key = EmploymentQuestionIdentifier.SALARY_AMOUNT
+                ), QuestionUiFields(
+                    question = Question(
+                        questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
+                        placeholder = "Enter the amount",
+                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
+                        answer = ObservableField()
+                    ),
+                    key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
+                )
+
+            )
+            OTHER -> arrayListOf(
+                QuestionUiFields(
+                    question = Question(
+                        questionTitle = "Which of the following statements describes you best?",
+                        placeholder = "Select from list",
+                        questionType = QuestionType.DROP_DOWN_FIELD,
+                        answer = ObservableField()
+                    )
+                ), QuestionUiFields(
+                    question = Question(
+                        questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
+                        placeholder = "Enter the amount",
+                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
+                        answer = ObservableField()
+                    ),
+                    key = EmploymentQuestionIdentifier.SALARY_AMOUNT
+                ), QuestionUiFields(
+                    question = Question(
+                        questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
+                        placeholder = "Enter the amount",
+                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
+                        answer = ObservableField()
+                    ),
+                    key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
+                )
+            )
         }
     }
 }

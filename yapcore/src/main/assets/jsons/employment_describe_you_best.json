@@ -1,0 +1,18 @@
+[
+  {
+    "subSegmentDesc": "I am a homemaker",
+    "subSegmentCode": "HOUSEWIFE"
+  },
+  {
+    "subSegmentDesc": "I am retired",
+    "subSegmentCode": "RETIRED"
+  },
+  {
+    "subSegmentDesc": "I am a pensioner",
+    "subSegmentCode": "PENSIONER "
+  },
+  {
+    "subSegmentDesc": "Other",
+    "subSegmentCode": "OTHER "
+  }
+]
