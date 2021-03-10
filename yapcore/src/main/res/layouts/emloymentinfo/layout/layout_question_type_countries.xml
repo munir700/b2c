@@ -22,8 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clCountries"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_normal">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/lyTinNumber"
@@ -31,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
             android:gravity="center_vertical"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,6 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark"
                 android:drawableEnd="@drawable/ic_search_grey"
                 android:text="Search countries" />
 

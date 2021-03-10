@@ -51,7 +51,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                     )
                 }
 
-                R.id.describeTV -> launchBottomSheetSegment(
+                R.id.tvDropDown -> launchBottomSheetSegment(
                     viewModel.segmentItemClickListener,
                     label = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you),
                     viewType = Constants.VIEW_WITHOUT_FLAG,
