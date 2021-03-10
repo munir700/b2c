@@ -12,18 +12,16 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
-import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestionnaire.ViewModel>(),
     IEmploymentQuestionnaire.View {
@@ -57,7 +55,10 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 }
                 R.id.describeTV -> launchBottomSheetSegment(
                     segmentItemClickListener,
-                    employmentSegments = viewModel.getEmploymentType()
+                    employmentSegments = parseSegment(
+                        requireContext(),
+                        viewModel.getEmploymentType()
+                    ).toMutableList()
                 )
             }
         }
@@ -165,17 +166,14 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         itemClickListener: OnItemClickListener?,
         label: String,
         viewType: Int,
-        employmentSegments: List<EmploymentSegment>?
+        employmentSegments: List<CoreBottomSheetData>?
     ) {
         fragmentManager.let {
             employmentSegments?.let { employmentSegments ->
                 val coreBottomSheet =
                     CoreBottomSheet(
                         itemClickListener,
-                        bottomSheetItems = parseSegment(
-                            requireContext(),
-                            employmentSegments as java.util.ArrayList<EmploymentSegment>
-                        ).toMutableList(),
+                        bottomSheetItems = employmentSegments.toMutableList(),
                         headingLabel = label,
                         viewType = viewType
                     )
@@ -187,8 +185,8 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     override fun parseSegment(
         context: Context,
-        employmentSegments: java.util.ArrayList<EmploymentSegment>
-    ): java.util.ArrayList<EmploymentSegment> {
+        employmentSegments: List<EmploymentSegment>
+    ): List<EmploymentSegment> {
         employmentSegments.forEach {
             it.subTitle = it.subSegmentDesc
         }

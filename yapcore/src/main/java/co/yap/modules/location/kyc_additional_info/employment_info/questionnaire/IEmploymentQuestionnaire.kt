@@ -6,6 +6,7 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentSegment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -27,12 +28,13 @@ interface IEmploymentQuestionnaire {
             itemClickListener: OnItemClickListener? = null,
             label: String = "Select which statement describes your situation best:",
             viewType: Int = Constants.VIEW_WITHOUT_FLAG,
-            employmentSegments: List<EmploymentSegment>? = null
+            employmentSegments: List<CoreBottomSheetData>? = null
         )
+
         fun parseSegment(
             context: Context,
-            employmentSegments: java.util.ArrayList<EmploymentSegment>
-        ): java.util.ArrayList<EmploymentSegment>
+            employmentSegments: List<EmploymentSegment>
+        ): List<EmploymentSegment>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
