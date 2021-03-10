@@ -16,5 +16,5 @@ class CoreBottomSheetViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override var selectedViewsList: ArrayList<String>? = arrayListOf()
+    override var selectedViewsList: ArrayList<String> = arrayListOf()
 }

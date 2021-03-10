@@ -1,12 +1,17 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 
+import android.content.Context
 import androidx.databinding.ObservableField
+import co.yap.countryutils.country.Country
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentSegment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentStatus
+import java.lang.reflect.Type
 
 interface IEmploymentQuestionnaire {
 
@@ -14,16 +19,24 @@ interface IEmploymentQuestionnaire {
         fun addObservers()
         fun removeObservers()
         fun getBinding(): FragmentEmploymentQuestionnaireBinding
-        fun onInfoClick(questionUiFields:QuestionUiFields)
         fun showInfoDialog(title: String, message: String)
-        fun setBusinessCountries(countries: ArrayList<String>,position:Int)
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         val questionnaireAdaptor: EmploymentQuestionnaireAdaptor
+        var selectedQuestionItemPosition:Int
         fun handleOnPressView(id: Int)
         fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
+        fun getEmploymentType(): Type
+        fun employeeSegment(): MutableList<EmploymentSegment>
+        fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
+        fun setBusinessCountries(countries: ArrayList<String>, position: Int)
+        fun parseSegment(
+            context: Context,
+            employmentSegments: MutableList<EmploymentSegment>
+        ): MutableList<CoreBottomSheetData>
+        fun onInfoClick(questionUiFields: QuestionUiFields,callBack:(title:String,message:String)-> Unit)
     }
 
     interface State : IBase.State {
