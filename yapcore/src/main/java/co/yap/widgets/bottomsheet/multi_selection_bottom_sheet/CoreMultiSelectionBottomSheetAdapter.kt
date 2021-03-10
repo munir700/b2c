@@ -3,7 +3,7 @@ package co.yap.widgets.bottomsheet.multi_selection_bottom_sheet
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.widgets.bottomsheet.CoreBottomSheetAdapter
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.bottomsheet.CoreBottomSheetItemViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants

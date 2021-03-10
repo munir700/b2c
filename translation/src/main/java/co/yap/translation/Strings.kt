@@ -2164,4 +2164,6 @@ object Strings {
         "screen_employment_questionnaire_display_text_user_information"
     const val screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you =
         "screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you"
+    const val screen_employment_questionnaire_display_text__bottom_sheet_title_segments =
+        "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
 }

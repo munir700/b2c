@@ -1,6 +1,7 @@
 package co.yap.widgets.bottomsheet
 
 import android.view.View
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CoreBottomSheetItemViewModel(

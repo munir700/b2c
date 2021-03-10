@@ -2,6 +2,7 @@ package co.yap.widgets.bottomsheet
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants

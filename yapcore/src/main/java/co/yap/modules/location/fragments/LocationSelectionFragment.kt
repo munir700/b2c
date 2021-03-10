@@ -21,7 +21,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.City
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.CoreBottomSheet
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS

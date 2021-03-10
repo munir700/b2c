@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
 import co.yap.widgets.bottomsheet.CoreBottomSheet
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
