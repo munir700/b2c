@@ -11,7 +11,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelable
 interface ICardPlans {
     interface View : IBase.View<ViewModel>{
         fun getBindings(): FragmentCardPlansBinding
-        fun navigateToFragment(data: CardPlans, actionId: Int)
+        fun navigateToFragment(data: String)
     }
     interface ViewModel : IBase.ViewModel<State>{
         var cardAdapter : CardPlansAdapter

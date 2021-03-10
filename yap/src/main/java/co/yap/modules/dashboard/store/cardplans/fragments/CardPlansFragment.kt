@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.store.cardplans.fragments
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.navOptions
@@ -14,7 +13,6 @@ import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.interfaces.ICardPlans
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansViewModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_card_plans.*
 
@@ -37,7 +35,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
     }
 
     private fun iniVideoView() {
-        cardAnimation.layoutParams = viewModel.setViewDimensions(30,cardAnimation)
+        cardAnimation.layoutParams = viewModel.setViewDimensions(30, cardAnimation)
         cardAnimation.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_all_card_plans))
         cardAnimation.start()
         cardAnimation.setOnCompletionListener { mediaPlayer ->
@@ -60,19 +58,19 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         if (data is CardPlans) {
             when (data.id) {
                 Constants.PRIME_CARD_PLAN -> {
-                    navigateToFragment(data, R.id.action_cardPlansFragment_to_primeCardFragment)
+                    navigateToFragment(data.id)
                 }
                 Constants.METAL_CARD_PLAN -> {
-                    navigateToFragment(data, R.id.action_cardPlansFragment_to_metalCardFragment)
+                    navigateToFragment(data.id)
                 }
             }
         }
     }
 
-    override fun navigateToFragment(data: CardPlans, actionId: Int) {
-        navigate(destinationId = actionId,
+    override fun navigateToFragment(data: String) {
+        navigate(destinationId = R.id.action_cardPlansFragment_to_cardPlanViewerFragment,
             args = bundleOf(
-                "cardTag" to data.id
+                "cardTag" to data
             ),
             navOptions = navOptions {
                 anim {
