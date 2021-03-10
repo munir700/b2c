@@ -21,7 +21,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
     override fun getLayoutId(): Int = R.layout.fragment_card_plans
 
-    override val viewModel: ICardPlans.ViewModel
+    override val viewModel: CardPlansViewModel
         get() = ViewModelProviders.of(this).get(CardPlansViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
     }
 
     private fun iniVideoView() {
-        cardAnimation.layoutParams = viewModel.setViewDimensions(30, cardAnimation)
+        cardAnimation.layoutParams = viewModel.setViewDimensions(32, cardAnimation)
         cardAnimation.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_all_card_plans))
         cardAnimation.start()
         cardAnimation.setOnCompletionListener { mediaPlayer ->
@@ -69,9 +69,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
     override fun navigateToFragment(data: String) {
         navigate(destinationId = R.id.action_cardPlansFragment_to_cardPlanViewerFragment,
-            args = bundleOf(
-                "cardTag" to data
-            ),
+            args = bundleOf((viewModel.parentViewModel?.cardTag ?: "CARD-TAG") to data),
             navOptions = navOptions {
                 anim {
                     enter = co.yap.yapcore.R.anim.slide_up_from_bottom

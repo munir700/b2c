@@ -15,6 +15,7 @@ interface IMainCardPlans {
 
     interface ViewModel : IBase.ViewModel<State>{
         var cards : MutableList<CardPlans>
+        val cardTag: String get() = "CARD-TAG"
     }
 
     interface State : IBase.State
