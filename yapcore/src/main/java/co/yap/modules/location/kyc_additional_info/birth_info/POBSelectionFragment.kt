@@ -83,6 +83,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     private val selectSecondCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.selectedSecondCountry.set(data as Country)
+            viewModel.state.validate()
         }
     }
 

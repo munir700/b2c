@@ -1,6 +1,7 @@
 package co.yap.modules.location.kyc_additional_info.birth_info
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
 import co.yap.yapcore.BR
@@ -22,14 +23,15 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
     override var selectedSecondCountry: ObservableField<Country?> = ObservableField()
     override var eidNationality: String = ""
     override var valid: ObservableField<Boolean> = ObservableField(false)
+    override var dualNationalitySelectedOption: ObservableBoolean = ObservableBoolean()
 
-    private fun validate() {
+    override fun validate() {
         valid.set(
             StringUtils.validateRegix(
                 cityOfBirth,
                 "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$"
                 , 2
-            ) && selectedCountry.get() != null
+            ) && selectedCountry.get() != null && (dualNationalitySelectedOption.get() == (selectedSecondCountry.get() != null))
         )
     }
 }
