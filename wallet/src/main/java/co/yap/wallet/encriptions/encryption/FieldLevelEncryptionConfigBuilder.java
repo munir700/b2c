@@ -208,6 +208,7 @@ public final class FieldLevelEncryptionConfigBuilder {
         this.encryptionCertificateFingerprintHeaderName = encryptionCertificateFingerprintHeaderName;
         return this;
     }
+
     /**
      * Build a {@link co.yap.wallet.encriptions.encryption.FieldLevelEncryptionConfig}.
      *
@@ -316,7 +317,8 @@ public final class FieldLevelEncryptionConfigBuilder {
                 // No encryption certificate set or certificate fingerprint already provided
                 return;
             }
-            byte[] certificateFingerprintBytes = sha256digestBytes(encryptionCertificate.getEncoded());
+            // you can change finger print hash calculation to sha256digestBytes
+            byte[] certificateFingerprintBytes = sha1digestBytes(encryptionCertificate.getEncoded());
             encryptionCertificateFingerprint = encodeBytes(certificateFingerprintBytes, FieldLevelEncryptionConfig.FieldValueEncoding.HEX);
         } catch (Exception e) {
             throw new EncryptionException("Failed to compute encryption certificate fingerprint!", e);
@@ -338,6 +340,12 @@ public final class FieldLevelEncryptionConfigBuilder {
 
     protected static byte[] sha256digestBytes(byte[] bytes) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        messageDigest.update(bytes);
+        return messageDigest.digest();
+    }
+
+    protected static byte[] sha1digestBytes(byte[] bytes) throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
         messageDigest.update(bytes);
         return messageDigest.digest();
     }
