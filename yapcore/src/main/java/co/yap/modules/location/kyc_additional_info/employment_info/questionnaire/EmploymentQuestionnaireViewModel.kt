@@ -3,6 +3,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import android.app.Application
 import android.view.View
 import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.filterSelectedIsoCodes
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
@@ -44,6 +45,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override var selectedQuestionItemPosition: Int = -1
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
     override var employmentStatus: EmploymentStatus = EmploymentStatus.NONE
+    override val selectedBusinessCountries: ArrayList<String> = arrayListOf()
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -145,6 +147,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         objQuestion.question.multipleAnswers.clear()
         objQuestion.question.multipleAnswers.addAll(countries)
         questionnaireAdaptor.setItemAt(position, objQuestion)
+        selectedBusinessCountries.clear()
+        selectedBusinessCountries.addAll(countries)
     }
 
     val countriesItemClickListener = object : OnItemClickListener {
@@ -180,13 +184,20 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     }
 
     private fun validate() {
+        var isValid = false
         questionnaireAdaptor.getDataList().forEach {
-            state.valid.set(
-                !(it.question.answer.get()
-                    .isNullOrBlank() || (it.question.questionType == QuestionType.COUNTRIES_FIELD && it.question.multipleAnswers.isNullOrEmpty()))
-            )
-            if (state.valid.get() == false) return
+            isValid = when (it.question.questionType) {
+                QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.isNotEmpty()
+                else -> !it.question.answer.get().isNullOrBlank()
+            }
+
+            if (!isValid) {
+                state.valid.set(isValid)
+                return
+            }
         }
+
+        state.valid.set(isValid)
     }
 
     private fun fetchParallelAPIResponses(
@@ -266,24 +277,26 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         return when (status) {
             EmploymentStatus.EMPLOYED -> {
                 EmploymentInfoRequest(
-                    employerName = questionnaireAdaptor.getDataForPosition(0).question.answer.get(),
-                    monthlySalary = questionnaireAdaptor.getDataForPosition(1).question.answer.get(),
-                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).question.answer.get()
+                    employerName = questionnaireAdaptor.getDataForPosition(0).getAnswer(),
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(1).getAnswer(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).getAnswer()
                 )
             }
             EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
-                    companyName = questionnaireAdaptor.getDataForPosition(0).question.answer.get(),
+                    companyName = questionnaireAdaptor.getDataForPosition(0).getAnswer(),
                     industrySegmentCodes = listOf(
                         industrySegmentsList.first {
                             it.segment == questionnaireAdaptor.getDataForPosition(
                                 1
-                            ).question.answer.get() ?: ""
+                            ).getAnswer()
                         }.segmentCode ?: ""
                     ),
-                    businessCountries = questionnaireAdaptor.getDataForPosition(2).question.multipleAnswers,
-                    monthlySalary = questionnaireAdaptor.getDataForPosition(3).question.answer.get(),
-                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(4).question.answer.get()
+                    businessCountries = parentViewModel?.countries?.filterSelectedIsoCodes(
+                        questionnaireAdaptor.getDataForPosition(2).question.multipleAnswers
+                    ),
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(3).getAnswer(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(4).getAnswer()
                 )
             }
             EmploymentStatus.OTHER -> {
@@ -291,10 +304,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     employmentType = employmentTypes().first {
                         it.employmentType == questionnaireAdaptor.getDataForPosition(
                             0
-                        ).question.answer.get()
+                        ).getAnswer()
                     }.employmentTypeCode,
-                    monthlySalary = questionnaireAdaptor.getDataForPosition(1).question.answer.get(),
-                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).question.answer.get()
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(1).getAnswer(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).getAnswer()
                 )
             }
             EmploymentStatus.NONE -> TODO()

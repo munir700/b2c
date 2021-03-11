@@ -52,6 +52,9 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@null"
                 android:gravity="bottom"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:hint="@{viewModel.questionUiFields.question.placeholder}"
                 android:imeOptions="actionDone"
                 android:lines="1"
@@ -61,7 +64,7 @@
                 android:paddingBottom="@dimen/margin_extra_small"
                 android:text="@={viewModel.questionUiFields.question.answer}"
                 android:textColorHint="@color/colorPrimaryDark"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textColor="@color/colorPrimaryDark" />
             <include
                 layout="@layout/content_input_field_selector"
                 app:isFocus="@{viewModel.questionUiFields.isFocusInput}"/>

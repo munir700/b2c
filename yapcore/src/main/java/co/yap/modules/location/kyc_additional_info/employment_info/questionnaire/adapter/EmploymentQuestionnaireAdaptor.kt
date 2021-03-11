@@ -13,6 +13,7 @@ import co.yap.yapcore.databinding.LayoutQuestionTypeDropDownBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
 import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextWithAmountBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EmploymentQuestionnaireAdaptor(private val list: MutableList<QuestionUiFields>) :
@@ -110,8 +111,8 @@ class QuestionTypeEditTextWithAmountItemViewHolder(private val binding: LayoutQu
                 onItemClickListener
             )
         binding.ivSupport.setOnClickListener {
-            binding.etAmount.clearFocus()
-            onItemClickListener?.onItemClick(binding.etAmount, questionUiFields, -1)
+            binding.etAmount.hideKeyboard()
+            onItemClickListener?.onItemClick(binding.ivSupport, questionUiFields, -1)
         }
         binding.etAmount.afterTextChanged {
             onItemClickListener?.onItemClick(

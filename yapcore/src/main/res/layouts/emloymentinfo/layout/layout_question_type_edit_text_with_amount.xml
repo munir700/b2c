@@ -13,6 +13,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.extentions.ParseExtenstionKt" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +64,7 @@
                 <co.yap.widgets.currency.CoreEditText
                     android:id="@+id/etAmount"
                     style="@style/ALarge"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:focusableInTouchMode="true"
@@ -74,6 +76,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="@color/colorPrimaryDark"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivSupport"
                     app:layout_constraintStart_toEndOf="@+id/appCompatTextView"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="1234567891" />

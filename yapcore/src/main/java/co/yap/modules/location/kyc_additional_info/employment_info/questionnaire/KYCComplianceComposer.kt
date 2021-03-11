@@ -44,8 +44,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                 )
 
             )
-            SELF_EMPLOYED -> arrayListOf()
-            SALARIED_AND_SELF_EMPLOYED -> arrayListOf(
+            SALARIED_AND_SELF_EMPLOYED, SELF_EMPLOYED -> arrayListOf(
                 QuestionUiFields(
                     question = Question(
                         questionTitle = "Tell us the name of your company?",

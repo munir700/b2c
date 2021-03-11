@@ -28,6 +28,7 @@ interface IEmploymentQuestionnaire {
         var selectedQuestionItemPosition: Int
         val industrySegmentsList: ArrayList<IndustrySegment>
         var employmentStatus: EmploymentStatus
+        val selectedBusinessCountries: ArrayList<String>
         fun handleOnPressView(id: Int)
         fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
         fun employmentTypes(): MutableList<EmploymentType>
