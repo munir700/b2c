@@ -39,7 +39,10 @@ class POBSelectionViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(70)
+        if (parentViewModel?.isOnBoarding == true) {
+            progressToolBarVisibility(true)
+            setProgress(40)
+        }
     }
 
     override fun getAllCountries() {

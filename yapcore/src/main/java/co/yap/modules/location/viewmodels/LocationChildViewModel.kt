@@ -12,4 +12,8 @@ abstract class LocationChildViewModel<S : IBase.State>(application: Application)
     fun setProgress(percent: Int) {
         parentViewModel?.state?.currentProgress = percent
     }
+
+    fun progressToolBarVisibility(visibility: Boolean) {
+        parentViewModel?.state?.toolbarVisibility?.set(visibility)
+    }
 }
