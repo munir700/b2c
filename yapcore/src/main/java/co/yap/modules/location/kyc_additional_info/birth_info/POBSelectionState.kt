@@ -23,7 +23,7 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
     override var selectedSecondCountry: ObservableField<Country?> = ObservableField()
     override var eidNationality: String = ""
     override var valid: ObservableField<Boolean> = ObservableField(false)
-    override var dualNationalitySelectedOption: ObservableBoolean = ObservableBoolean()
+    override var isDualNational: ObservableBoolean = ObservableBoolean()
 
     override fun validate() {
         valid.set(
@@ -31,7 +31,7 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
                 cityOfBirth,
                 "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$"
                 , 2
-            ) && selectedCountry.get() != null && (dualNationalitySelectedOption.get() == (selectedSecondCountry.get() != null))
+            ) && selectedCountry.get() != null && (isDualNational.get() == (selectedSecondCountry.get() != null))
         )
     }
 }

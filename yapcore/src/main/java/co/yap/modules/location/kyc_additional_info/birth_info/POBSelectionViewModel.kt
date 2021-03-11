@@ -32,7 +32,7 @@ class POBSelectionViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
-        state.dualNationalitySelectedOption.set(false)
+        state.isDualNational.set(false)
         state.eidNationality = SessionManager.getCountries()
             .first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }.getName()
     }
@@ -74,10 +74,10 @@ class POBSelectionViewModel(application: Application) :
             if (data is String) {
                 if (data.equals(dualNationalityQuestionOptions.get(0))) {
                     state.selectedSecondCountry.set(null)
-                    state.dualNationalitySelectedOption.set(false)
+                    state.isDualNational.set(false)
                     state.validate()
                 } else {
-                    state.dualNationalitySelectedOption.set(true)
+                    state.isDualNational.set(true)
                     state.validate()
                 }
             }
@@ -91,8 +91,8 @@ class POBSelectionViewModel(application: Application) :
                 BirthInfoRequest(
                     countryOfBirth = state.selectedCountry.get()?.getName() ?: "",
                     cityOfBirth = state.cityOfBirth,
-                    isDualNationality = state.dualNationalitySelectedOption.get(),
-                    dualNationality = state.selectedSecondCountry.get()?.getName() ?: ""
+                    isDualNationality = state.isDualNational.get(),
+                    dualNationality = state.selectedSecondCountry.get()?.isoCountryCode2Digit ?: ""
                 )
             )) {
                 is RetroApiResponse.Success -> {
