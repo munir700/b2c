@@ -9,11 +9,8 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
-import co.yap.yapcore.helpers.DateUtils.GMT
-import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_FORMAT
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.UTC
-import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.DateUtils.getCurrentDateWithFormat
 import co.yap.yapcore.helpers.extentions.getNotificationOfBlockedFeature
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
@@ -65,9 +62,11 @@ object NotificationHelper {
                 )
             )
         }
-        if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
+        if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
+                    || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
                     || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
                     || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                    || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
                     || accountInfo?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
             && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
         ) {
@@ -151,7 +150,8 @@ object NotificationHelper {
                         description = description,
                         action = NotificationAction.CARD_FEATURES_BLOCKED,
                         imgResId = R.raw.gif_notification_bel,
-                        createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
+                        createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC),
+                        isRead = true,
                         btnTitle = Translator.getString(
                             context,
                             Strings.screen_help_support_display_text_call_us

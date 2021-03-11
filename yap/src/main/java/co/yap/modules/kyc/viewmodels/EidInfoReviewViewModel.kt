@@ -227,7 +227,8 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender.mrz.toString(),
                         nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo = it.citizenNumber,
+                        identityNo =  if (YAPApplication.configManager?.buildType == "debug") (700000000000000..800000000000000).random()
+                            .toString() else it.citizenNumber,
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
