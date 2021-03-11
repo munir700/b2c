@@ -9,6 +9,10 @@
             name="viewModel"
             type="co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionnaireItemViewModel" />
 
+        <variable
+            name="businessCountriesAdapter"
+            type="co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.BusinessCountriesAdapter" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
@@ -16,9 +20,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCountries"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_normal">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/lyTinNumber"
@@ -26,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
             android:gravity="center_vertical"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,29 +46,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
                 tools:text="Add all the countries your company does business with" />
 
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBusinessCountries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{viewModel.questionUiFields.question.countriesAnswer.size == 0? View.GONE : View.VISIBLE}"
-                android:layout_marginTop="@dimen/margin_normal_large"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:scrollbars="none"
-                tools:visibility="gone"
+                recycleViewAdapter="@{businessCountriesAdapter}"
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_small"
                 app:layout_constraintStart_toStartOf="@+id/tvCategoriesTitle"
-                app:layout_constraintTop_toBottomOf="@+id/tvCategoriesTitle">
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:theme="@style/Theme.MaterialComponents.Light"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:singleSelection="false">
-
-                </com.google.android.material.chip.ChipGroup>
-            </HorizontalScrollView>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategoriesTitle"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_business_country" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/searchCountries"
@@ -74,6 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark"
                 android:drawableEnd="@drawable/ic_search_grey"
                 android:text="Search countries" />
 

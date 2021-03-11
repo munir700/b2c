@@ -16,6 +16,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clQuestionTypeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -37,7 +38,6 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_normal"
                 android:gravity="center"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@null"
                 android:gravity="bottom"
@@ -57,11 +56,12 @@
                 android:imeOptions="actionDone"
                 android:lines="1"
                 android:maxLength="20"
-                android:paddingStart="@dimen/_6sdp"
                 android:paddingTop="@dimen/margin_extra_small"
                 android:paddingEnd="@dimen/margin_extra_small"
                 android:paddingBottom="@dimen/margin_extra_small"
-                android:text="@={viewModel.questionUiFields.question.answer}" />
+                android:text="@={viewModel.questionUiFields.question.answer}"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryDark"/>
             <include
                 layout="@layout/content_input_field_selector"
                 app:isFocus="@{viewModel.questionUiFields.isFocusInput}"/>

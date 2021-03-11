@@ -228,7 +228,6 @@ class TaxInfoViewModel(application: Application) :
                                 addOIndex = false
                             ) as ArrayList<Country>
                         )
-
                     }
 
                     is RetroApiResponse.Error -> {
