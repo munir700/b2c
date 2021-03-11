@@ -2,8 +2,11 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
@@ -49,8 +52,10 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.rvQuestionItemListener.onItemClick(view, data, pos)
             when (view.id) {
-                R.id.etAmount -> viewModel.onInfoClick(data as QuestionUiFields) { title, message ->
-                    showInfoDialog(title, message)
+                R.id.ivSupport -> {
+                    viewModel.onInfoClick(data as QuestionUiFields) { title, message ->
+                        showInfoDialog(title, message)
+                    }
                 }
 
                 R.id.searchCountries -> {
@@ -117,4 +122,17 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             buttonText = getString(Strings.screen_employment_information_dialog_button_text_close)
         )
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        viewModel.parentViewModel?.countries?.unSelectAllCountries(viewModel.selectedBusinessCountries)
+    }
 }
+
+fun List<Country>.f(fooApiList: List<String>) = filter { m -> fooApiList.any { it == m.getName() } }

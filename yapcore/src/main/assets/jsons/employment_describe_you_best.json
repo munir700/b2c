@@ -10,9 +10,5 @@
   {
     "employmentType": "I am a pensioner",
     "employmentTypeCode": "PENSIONER "
-  },
-  {
-    "employmentType": "Other",
-    "employmentTypeCode": "OTHER "
   }
 ]
