@@ -10,13 +10,19 @@ import co.yap.widgets.CounterFloatingActionButton
 import co.yap.yapcore.R
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
-import com.liveperson.infra.*
+import com.liveperson.infra.ConversationViewParams
+import com.liveperson.infra.ICallback
+import com.liveperson.infra.InitLivePersonProperties
+import com.liveperson.infra.LPConversationsHistoryStateToDisplay
+import com.liveperson.infra.auth.LPAuthenticationParams
+import com.liveperson.infra.auth.LPAuthenticationType
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 
 const val BRAND_ID: String = "17038977"
 private val appInstallId = SessionManager.user?.uuid
@@ -80,11 +86,12 @@ fun Activity.chatSetup() {
 
 private fun Activity.openChatActivity() {
     SessionManager.user?.currentCustomer?.let {
-        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
+        val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
         authParams.hostAppJWT = AuthRepository.getJwtToken()
 //        authParams.hostAppJWT = CookiesManager.jwtToken
         val params = ConversationViewParams(false)
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
+            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
+            .setHistoryConversationsMaxDays(180)
             .setReadOnlyMode(false)
         LivePerson.showConversation(this, authParams, params)
         val consumerProfile = ConsumerProfile.Builder()

@@ -109,7 +109,7 @@ project.ext {
             expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
             // Live chat
-            livechat                 : 'com.liveperson.android:lp_messaging_sdk:4.2.1',
+            livechat                 : 'com.liveperson.android:lp_messaging_sdk:5.5.1',
 
             //phone lib
             phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:8.12.10',

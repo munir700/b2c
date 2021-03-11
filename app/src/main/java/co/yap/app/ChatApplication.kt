@@ -10,8 +10,7 @@ import com.liveperson.api.LivePersonIntents
 import com.liveperson.api.response.types.CloseReason
 import com.liveperson.api.sdk.LPConversationData
 import com.liveperson.api.sdk.PermissionType
-import com.liveperson.infra.LPAuthenticationParams
-import com.liveperson.infra.log.LPMobileLog
+import com.liveperson.infra.auth.LPAuthenticationParams
 import com.liveperson.messaging.TaskType
 import com.liveperson.messaging.model.AgentData
 import com.liveperson.messaging.sdk.api.LivePerson
@@ -234,7 +233,6 @@ open class ChatApplication : YAPApplication() {
         if (showToastOnCallback) {
             Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
         } else {
-            LPMobileLog.d(atg + "_CALLBACK", message)
         }
     }
 
