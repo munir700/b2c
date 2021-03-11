@@ -9,7 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.widgets.bottomsheet.CoreBottomSheet
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants

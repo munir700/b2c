@@ -147,7 +147,7 @@ class QuestionTypeCountriesItemViewHolder(private val binding: LayoutQuestionTyp
         onItemClickListener: OnItemClickListener?
     ) {
         businessAdapter.setList(
-            questionUiFields.question.countriesAnswer
+            questionUiFields.question.multipleAnswers
         )
         binding.businessCountriesAdapter = businessAdapter
         binding.viewModel =

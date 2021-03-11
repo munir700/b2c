@@ -1,14 +1,14 @@
 [
   {
-    "subSegmentDesc": "I am a homemaker",
-    "subSegmentCode": "HOUSEWIFE"
+    "employmentType": "I am a homemaker",
+    "employmentTypeCode": "HOUSEWIFE"
   },
   {
-    "subSegmentDesc": "I am retired",
-    "subSegmentCode": "RETIRED"
+    "employmentType": "I am retired",
+    "employmentTypeCode": "RETIRED"
   },
   {
-    "subSegmentDesc": "I am a pensioner",
-    "subSegmentCode": "PENSIONER "
+    "employmentType": "I am a pensioner",
+    "employmentTypeCode": "PENSIONER "
   }
 ]

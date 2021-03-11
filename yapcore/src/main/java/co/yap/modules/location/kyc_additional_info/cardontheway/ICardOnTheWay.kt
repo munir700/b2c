@@ -1,8 +1,9 @@
-package co.yap.modules.kyc.cardontheway
+package co.yap.modules.location.kyc_additional_info.cardontheway
 
 import androidx.databinding.ObservableField
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface ICardOnTheWay {
     interface State : IBase.State {
@@ -10,6 +11,8 @@ interface ICardOnTheWay {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
+        val clickEvent: SingleClickEvent
+        fun handlePressOnView(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

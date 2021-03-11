@@ -44,7 +44,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                 )
 
             )
-            SELF_EMPLOYED -> TODO()
+            SELF_EMPLOYED -> arrayListOf()
             SALARIED_AND_SELF_EMPLOYED -> arrayListOf(
                 QuestionUiFields(
                     question = Question(
@@ -96,7 +96,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                         placeholder = "Select from list",
                         questionType = QuestionType.DROP_DOWN_FIELD,
                         answer = ObservableField()
-                    )
+                    ), key = EmploymentQuestionIdentifier.EMPLOYMENT_TYPE
                 ), QuestionUiFields(
                     question = Question(
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
@@ -115,6 +115,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                     key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
             )
+            NONE -> TODO()
         }
     }
 }

@@ -2,7 +2,6 @@ package co.yap.modules.location.kyc_additional_info.birth_info
 
 import android.app.Application
 import android.view.View
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.viewmodels.LocationChildViewModel
@@ -24,7 +23,6 @@ class POBSelectionViewModel(application: Application) :
         POBSelectionState()
     override val dualNationalityQuestionOptions: ArrayList<String> = arrayListOf("No", "Yes")
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
-    override var dualNationalitySelectedOption: ObservableField<String> = ObservableField()
     override val repository: CustomersRepository = CustomersRepository
 
     override fun handleOnPressView(id: Int) {
@@ -34,6 +32,7 @@ class POBSelectionViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
+        state.dualNationalitySelectedOption.set(false)
         state.eidNationality = SessionManager.getCountries()
             .first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }.getName()
     }
@@ -73,10 +72,14 @@ class POBSelectionViewModel(application: Application) :
     override val dualNatioanlitySpinnerItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is String) {
-                if (data.equals(dualNationalityQuestionOptions.get(0)))
-                    dualNationalitySelectedOption.set(data)
-                else
-                    dualNationalitySelectedOption.set(data)
+                if (data.equals(dualNationalityQuestionOptions.get(0))) {
+                    state.selectedSecondCountry.set(null)
+                    state.dualNationalitySelectedOption.set(false)
+                    state.validate()
+                } else {
+                    state.dualNationalitySelectedOption.set(true)
+                    state.validate()
+                }
             }
         }
     }
@@ -87,7 +90,9 @@ class POBSelectionViewModel(application: Application) :
             when (val response = repository.saveBirthInfo(
                 BirthInfoRequest(
                     countryOfBirth = state.selectedCountry.get()?.getName() ?: "",
-                    cityOfBirth = state.cityOfBirth
+                    cityOfBirth = state.cityOfBirth,
+                    isDualNationality = state.dualNationalitySelectedOption.get(),
+                    dualNationality = state.selectedSecondCountry.get()?.getName() ?: ""
                 )
             )) {
                 is RetroApiResponse.Success -> {
