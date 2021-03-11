@@ -46,6 +46,7 @@
     <string name="common_display_text_search_hint">Search</string>
     <string name="common_display_text_no_results">No results</string>
     <string name="common_display_text_no_country_found">No country found</string>
+    <string name="common_yap_share_content">Hey! I\'ve started using the UAE\'s newest banking app – YAP. Transform how you manage your money and join me in the banking revolution.\n\nDownload YAP here:\n\n%1$s</string>
 
 
     <!-- Home Screen -->
