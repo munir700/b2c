@@ -6,5 +6,9 @@ data class BirthInfoRequest(
     @SerializedName("countryOfBirth")
     val countryOfBirth: String,
     @SerializedName("cityOfBirth")
-    val cityOfBirth: String
+    val cityOfBirth: String,
+    @SerializedName("dualNationality")
+    val dualNationality: String,
+    @SerializedName("isDualNationality")
+    val isDualNationality: Boolean
 )
