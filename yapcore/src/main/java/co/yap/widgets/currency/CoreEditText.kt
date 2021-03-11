@@ -269,21 +269,14 @@ class CoreEditText : DrawableClickEditText {
                     originalString = getValueString()
                     longval = originalString.toLong()
                     val formattedString = getDecoratedStringFromNumber(longval)
-
-                    //setting text after format to EditText
-                    if (getValueInt() <= 0.0) {
-                        setText("")
-                        textToDisplay = text.toString()
-                    } else {
-                        textToDisplay = formattedString
-                        setText(textToDisplay)
-                    }
+                    textToDisplay = formattedString
+                    setText(textToDisplay)
                     setSelection(text?.length ?: 0)
                 } catch (nfe: java.lang.NumberFormatException) {
 //                    nfe.printStackTrace();
                     // setText(backupString)
                     val valStr = getValueString()
-                    if (valStr.isEmpty() || getValueInt() <= 0.0) {
+                    if (valStr.isEmpty()) {
                         setText("")
                         textToDisplay = text.toString()
                     } else {

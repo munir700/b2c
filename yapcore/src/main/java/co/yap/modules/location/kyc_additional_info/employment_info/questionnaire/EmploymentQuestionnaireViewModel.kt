@@ -5,6 +5,7 @@ import android.view.View
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.modules.location.viewmodels.LocationChildViewModel
@@ -150,6 +151,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is ArrayList<*>) {
                 setBusinessCountries(data as ArrayList<String>, selectedQuestionItemPosition)
+                validate()
             }
         }
     }
@@ -157,8 +159,14 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     val employmentTypeItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             val objQuestion = questionnaireAdaptor.getDataForPosition(selectedQuestionItemPosition)
-            objQuestion.question.answer.set((data as CoreBottomSheetData).subTitle)
+            val answerValue = when (data) {
+                is EmploymentType -> data.employmentType
+                is IndustrySegment -> data.segment
+                else -> ""
+            }
+            objQuestion.question.answer.set(answerValue)
             questionnaireAdaptor.setItemAt(selectedQuestionItemPosition, objQuestion)
+            validate()
         }
     }
 
@@ -166,9 +174,18 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             selectedQuestionItemPosition = pos
             when (view.id) {
-                R.id.etQuestionEditText -> {
-                }
+                R.id.etAmount, R.id.etQuestionEditText -> validate()
             }
+        }
+    }
+
+    private fun validate() {
+        questionnaireAdaptor.getDataList().forEach {
+            state.valid.set(
+                !(it.question.answer.get()
+                    .isNullOrBlank() || (it.question.questionType == QuestionType.COUNTRIES_FIELD && it.question.multipleAnswers.isNullOrEmpty()))
+            )
+            if (state.valid.get() == false) return
         }
     }
 
@@ -258,7 +275,11 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 EmploymentInfoRequest(
                     companyName = questionnaireAdaptor.getDataForPosition(0).question.answer.get(),
                     industrySegmentCodes = listOf(
-                        questionnaireAdaptor.getDataForPosition(1).question.answer.get() ?: ""
+                        industrySegmentsList.first {
+                            it.segment == questionnaireAdaptor.getDataForPosition(
+                                1
+                            ).question.answer.get() ?: ""
+                        }.segmentCode ?: ""
                     ),
                     businessCountries = questionnaireAdaptor.getDataForPosition(2).question.multipleAnswers,
                     monthlySalary = questionnaireAdaptor.getDataForPosition(3).question.answer.get(),
@@ -267,7 +288,11 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
             EmploymentStatus.OTHER -> {
                 EmploymentInfoRequest(
-                    employmentType = questionnaireAdaptor.getDataForPosition(0).question.answer.get(),
+                    employmentType = employmentTypes().first {
+                        it.employmentType == questionnaireAdaptor.getDataForPosition(
+                            0
+                        ).question.answer.get()
+                    }.employmentTypeCode,
                     monthlySalary = questionnaireAdaptor.getDataForPosition(1).question.answer.get(),
                     expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).question.answer.get()
                 )

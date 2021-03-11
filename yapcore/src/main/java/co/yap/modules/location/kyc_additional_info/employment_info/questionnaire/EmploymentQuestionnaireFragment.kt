@@ -49,8 +49,12 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.rvQuestionItemListener.onItemClick(view, data, pos)
             when (view.id) {
-                R.id.etAmount -> viewModel.onInfoClick(data as QuestionUiFields) { title, message ->
-                    showInfoDialog(title, message)
+                R.id.etAmount -> {
+                    when (data) {
+                        is QuestionUiFields -> viewModel.onInfoClick(data) { title, message ->
+                            showInfoDialog(title, message)
+                        }
+                    }
                 }
 
                 R.id.searchCountries -> {

@@ -123,6 +123,13 @@ class QuestionTypeEditTextWithAmountItemViewHolder(private val binding: LayoutQu
                 onItemClickListener?.onItemClick(binding.etAmount, questionUiFields, -1)
             }
         })
+        binding.etAmount.afterTextChanged {
+            onItemClickListener?.onItemClick(
+                binding.etAmount,
+                it,
+                -1
+            )
+        }
         setFocusListener(binding.etAmount, questionUiFields)
     }
 
