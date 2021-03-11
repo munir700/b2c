@@ -1,56 +1,38 @@
 package co.yap.modules.dashboard.store.cardplans.fragments
 
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.navOptions
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentCardPlansBinding
 import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.interfaces.ICardPlans
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansViewModel
+import co.yap.repositories.InviteFriendRepository
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_card_plans.*
 
 class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPlans.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_card_plans
 
-    override val viewModel: ICardPlans.ViewModel
+    override val viewModel: CardPlansViewModel
         get() = ViewModelProviders.of(this).get(CardPlansViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        eventListener()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iniVideoView()
+        setObservers()
+        viewModel.iniVideoView(getBindings().cardAnimation)
     }
 
-    private fun iniVideoView() {
-        val dimensions: Int = Utils.getDimensionInPercent(requireContext(), false, 25)
-        val params = cardAnimation.layoutParams as ConstraintLayout.LayoutParams
-        params.height = dimensions
-        cardAnimation.layoutParams = params
-        cardAnimation.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_all_card_plans))
-        cardAnimation.start()
-        cardAnimation.setOnCompletionListener { mediaPlayer ->
-            mediaPlayer.isLooping = true
-            cardAnimation.start()
-        }
-
-    }
-
-    private fun eventListener() {
+    override fun setObservers() {
+        viewModel.clickEvent.observe(this, onClickObserver)
         viewModel.cardAdapter.onItemClickListener = object :
             OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -59,35 +41,51 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         }
     }
 
+    private val onClickObserver = Observer<Int> { id ->
+        when (id) {
+            R.id.ivShare -> shareInfo()
+        }
+    }
+
     private fun clickOnCardPlan(data: Any, pos: Int) {
         if (data is CardPlans) {
             when (data.id) {
                 Constants.PRIME_CARD_PLAN -> {
-                    navigateToFragment(data, R.id.action_cardPlansFragment_to_primeCardFragment)
+                    navigateToFragment(data.id)
                 }
                 Constants.METAL_CARD_PLAN -> {
-                    navigateToFragment(data, R.id.action_cardPlansFragment_to_metalCardFragment)
+                    navigateToFragment(data.id)
                 }
             }
         }
     }
 
-    override fun navigateToFragment(data: CardPlans, actionId: Int) {
-        navigate(destinationId = actionId,
-            args = bundleOf(
-                "cardTag" to data.id
-            ),
-            navOptions = navOptions {
-                anim {
-                    enter = co.yap.yapcore.R.anim.slide_up_from_bottom
-                    exit = co.yap.yapcore.R.anim.abc_slide_out_top
-                    popEnter = co.yap.yapcore.R.anim.slide_in_left
-                    popExit = co.yap.yapcore.R.anim.slide_out_right
-                }
-            })
+    private fun shareInfo() {
+        InviteFriendRepository().inviteAFriend()
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext()))
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
+    }
+
+    override fun navigateToFragment(data: String) {
+        navigate(destinationId = R.id.action_cardPlansFragment_to_cardPlanViewerFragment,
+            args = bundleOf((viewModel.parentViewModel?.cardTag ?: "CARD-TAG") to data))
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(onClickObserver)
     }
 
     override fun getBindings(): FragmentCardPlansBinding =
         viewDataBinding as FragmentCardPlansBinding
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        removeObservers()
+    }
+    override fun onResume() {
+        super.onResume()
+        getBindings().cardAnimation.start()
+    }
 }

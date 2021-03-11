@@ -11,11 +11,23 @@
         android:label="CardPlansFragment"
         tools:layout="@layout/fragment_card_plans" >
         <action
-            android:id="@+id/action_cardPlansFragment_to_primeCardFragment"
+            android:id="@+id/action_cardPlansFragment_to_cardPlanViewerFragment"
+            app:destination="@id/cardPlanViewerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardPlanViewerFragment"
+        android:name="co.yap.modules.dashboard.store.cardplans.fragments.CardPlanViewerFragment"
+        android:label="CardPlansFragment"
+        tools:layout="@layout/fragment_viewer_card_plans" >
+        <action
+            android:id="@+id/action_cardPlanViewerFragment_to_primeCardFragment"
             app:destination="@id/primeCardFragment" />
         <action
-            android:id="@+id/action_cardPlansFragment_to_metalCardFragment"
+            android:id="@+id/action_cardPlanViewerFragment_to_metalCardFragment"
             app:destination="@id/metalCardFragment" />
+        <action
+            android:id="@+id/action_cardPlanViewerFragment_to_cardPlansFragment"
+            app:destination="@id/cardPlansFragment" />
     </fragment>
     <fragment
         android:id="@+id/primeCardFragment"
