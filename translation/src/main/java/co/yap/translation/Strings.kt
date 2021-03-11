@@ -64,6 +64,9 @@ object Strings {
     const val common_display_text_no_country_found: String =
         "common_display_text_no_country_found"
 
+    const val common_yap_share_content: String =
+        "common_yap_share_content"
+
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
     const val screen_home_display_text_account_selection: String =

@@ -5,12 +5,14 @@ import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.adaptors.PlanBenefitsAdapter
 import co.yap.modules.dashboard.store.cardplans.interfaces.IPrimeMetalCard
 import co.yap.modules.dashboard.store.cardplans.states.PrimeMetalCardState
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 
 class PrimeMetalCardViewModel(application: Application) :
     CardPlansBaseViewModel<IPrimeMetalCard.State>(application), IPrimeMetalCard.ViewModel {
     override val state: PrimeMetalCardState = PrimeMetalCardState()
     override var planBenefitsAdapter: PlanBenefitsAdapter = PlanBenefitsAdapter(arrayListOf(), null)
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onCreate() {
         super.onCreate()
@@ -18,6 +20,10 @@ class PrimeMetalCardViewModel(application: Application) :
             planBenefitsAdapter.setData(getCardBenefits(planTag))
             state.cardPlans.set(getCardPlan(planTag))
         }
+    }
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
     }
 
     override fun getCardPlan(tag: String): CardPlans? {

@@ -55,7 +55,9 @@
                 android:id="@+id/ivCross"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_margin="@dimen/margin_normal"
+                android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                 android:src="@drawable/ic_circle_cross"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,12 +74,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
-                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardPlanstext"
                 app:recycleViewAdapter="@{viewModel.planBenefitsAdapter}"
                 tools:itemCount="6"
@@ -91,8 +91,10 @@
                 android:text="Coming soon"
                 app:btn_size="small"
                 app:enableCoreButton="@{false}"
+                android:layout_marginTop="@dimen/margin_medium_large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvCardplans"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -41,4 +41,12 @@ class CardPlanViewerFragment : CardPlansBaseFragment<ICardViewer.ViewModel>(), I
 
     override fun getBindings(): FragmentViewerCardPlansBinding =
         viewDataBinding as FragmentViewerCardPlansBinding
+
+    override fun setObservers() {
+        TODO("Not yet implemented")
+    }
+
+    override fun removeObservers() {
+        TODO("Not yet implemented")
+    }
 }
