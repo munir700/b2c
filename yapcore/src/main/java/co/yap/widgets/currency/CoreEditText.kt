@@ -1,10 +1,9 @@
 package co.yap.widgets.currency
 
 import android.content.Context
-import android.os.Build
 import android.text.*
 import android.util.AttributeSet
-import android.view.View
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.TextViewCompat
 import co.yap.widgets.DrawableClickEditText
 import co.yap.yapcore.R
@@ -14,7 +13,7 @@ import co.yap.yapcore.managers.SessionManager
 import java.text.DecimalFormat
 import java.util.*
 
-class CoreEditText : DrawableClickEditText {
+class CoreEditText : AppCompatEditText {
     private var _currencySymbol: String? = null
     private var currency: String? = null
         set(value) {
@@ -27,7 +26,6 @@ class CoreEditText : DrawableClickEditText {
     private var decimalDigits: Int =
         Utils.getConfiguredDecimals(SessionManager.getDefaultCurrency())
     private var textToDisplay: String? = null
-    private var mBackgroundColor: Int = 0
     private var maxLength: Int = resources.getInteger(R.integer.unitsCount)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -40,20 +38,24 @@ class CoreEditText : DrawableClickEditText {
     ) {
         // Setting Default Parameters
         _currencySymbol = Currency.getInstance(Locale.getDefault()).symbol
-        _showCurrency = true
+        _showCurrency = false
         _showCommas = true
 
         // Check for the attributes
         if (attrs != null) {
             // Attribute initialization
             val attrArray =
-                context.obtainStyledAttributes(attrs, R.styleable.EasyMoneyWidgets, 0, 0)
+                context.obtainStyledAttributes(attrs, R.styleable.CoreEditText, 0, 0)
             try {
-                var currnecy =
-                    attrArray.getString(R.styleable.EasyMoneyWidgets_currency_symbol)
-                if (currnecy == null) currnecy =
-                    Currency.getInstance(Locale.getDefault()).symbol
-                currnecy?.let { setCurrencySymbol(currnecy) }
+
+                if (attrArray.hasValue(R.styleable.EasyMoneyWidgets_currency_symbol)) {
+                    var currnecy =
+                        attrArray.getString(R.styleable.EasyMoneyWidgets_currency_symbol)
+                    if (currnecy == null) currnecy =
+                        Currency.getInstance(Locale.getDefault()).symbol
+                    currnecy?.let { setCurrencySymbol(currnecy) }
+                }
+
                 _showCurrency =
                     attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_currency, false)
                 _showCommas = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_commas, true)
@@ -69,30 +71,11 @@ class CoreEditText : DrawableClickEditText {
                         resources.getInteger(R.integer.unitsCount)
                     )
                 }
-                mBackgroundColor =
-                    attrArray.getColor(
-                        R.styleable.EasyMoneyWidgets_em_setBackgroundColor,
-                        context.getColors(R.color.greySoft)
-                    )
             } finally {
                 attrArray.recycle()
             }
         }
-        maxLines = 1
-        inputType =
-            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
-        //setCursorColor(context.getColors(R.color.colorPrimary))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-        }
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(
-            this,
-            TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
-        )
-        inputType =
-            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
         setSingleLine()
-        maxLines = 1
 
         filters =
             arrayOf(InputFilter.LengthFilter(maxLength))//arrayOf<InputFilter>(LengthFilter(units))
