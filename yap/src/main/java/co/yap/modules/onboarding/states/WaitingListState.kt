@@ -1,9 +1,12 @@
 package co.yap.modules.onboarding.states
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.yapcore.BaseState
 
 class WaitingListState : BaseState(), IWaitingList.State {
-    override var rankNoInList: MutableLiveData<String>? = MutableLiveData()
+    override var waitingBehind: ObservableField<String>? = ObservableField("0")
+    override var jump: ObservableField<String>? = ObservableField("0")
+    override var rank: ObservableField<String>? = ObservableField("0")
 }

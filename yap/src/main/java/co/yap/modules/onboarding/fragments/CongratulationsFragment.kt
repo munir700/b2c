@@ -40,10 +40,12 @@ import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.leanplum.*
 import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.managers.SessionManager.sendFcmTokenToServer
@@ -57,12 +59,18 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_onboarding_congratulations
+    override fun getLayoutId(): Int =
+        R.layout.fragment_onboarding_congratulations           //Created new XML for this fragment. Old one still exists
 
     override val viewModel: CongratulationsViewModel
         get() = ViewModelProviders.of(this).get(CongratulationsViewModel::class.java)
 
     private val windowSize: Rect = Rect() // to hold the size of the visible window
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.state.isWaiting = arguments?.getBoolean(ExtraKeys.IS_WAITING.name)
+    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,18 +78,17 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
         rootContainer.children.forEach { it.alpha = 0f }
+
         SessionManager.onAccountInfoSuccess.observe(this, Observer {
             if (it)
                 viewModel.trackEventWithAttributes(SessionManager.user)
         })
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 500)
     }
-
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
@@ -91,38 +98,45 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         viewModel.clickEvent.removeObserver(clickObserver)
     }
 
-
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnCompleteVerification -> {
-                trackAdjustPlatformEvent(AdjustEvents.KYC_START.type)
-                trackEvent(SignupEvents.SIGN_UP_END.type)
-                trackEvent(
-                    SignupEvents.SIGN_UP_DATE.type,
-                    SimpleDateFormat("dd/MMM/yyyy").format(Calendar.getInstance().time)
-                )
-                trackEvent(
-                    SignupEvents.SIGN_UP_TIMESTAMP.type,
-                    SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(Calendar.getInstance().time)
-                )
-                trackEvent(
-                    SignupEvents.SIGN_UP_LENGTH.type,
-                    viewModel.elapsedOnboardingTime.toString()
-                )
-                trackEventWithScreenName(FirebaseEvent.COMPLETE_VERIFICATION)
-                val totalSecs = viewModel.elapsedOnboardingTime
-                val minutes = (totalSecs % 3600) / 60;
-                val seconds = totalSecs % 60;
+                if (viewModel.state.isWaiting == false) {
+                    trackAdjustPlatformEvent(AdjustEvents.KYC_START.type)
+                    trackEvent(SignupEvents.SIGN_UP_END.type)
+                    trackEvent(
+                        SignupEvents.SIGN_UP_DATE.type,
+                        SimpleDateFormat("dd/MMM/yyyy").format(Calendar.getInstance().time)
+                    )
+                    trackEvent(
+                        SignupEvents.SIGN_UP_TIMESTAMP.type,
+                        SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(Calendar.getInstance().time)
+                    )
+                    trackEvent(
+                        SignupEvents.SIGN_UP_LENGTH.type,
+                        viewModel.elapsedOnboardingTime.toString()
+                    )
+                    trackEventWithScreenName(FirebaseEvent.COMPLETE_VERIFICATION)
+                    val totalSecs = viewModel.elapsedOnboardingTime
+                    val minutes = (totalSecs % 3600) / 60
+                    val seconds = totalSecs % 60
+                    val timeString = String.format("%02d:%02d", minutes, seconds)
+                    trackEventInFragments(
+                        SessionManager.user,
+                        signup_length = timeString
+                    )
+                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                        putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
+                        putExtra(Constants.data, false)
+                    }
 
-                val timeString = String.format("%02d:%02d", minutes, seconds);
+                } else {
 
-                trackEventInFragments(
-                    SessionManager.user,
-                    signup_length = timeString
-                )
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                    putExtra(Constants.name, viewModel.state.nameList[0] ?: "")
-                    putExtra(Constants.data, false)
+                    startFragment(
+                        fragmentName = WaitingListFragment::class.java.name,
+                        clearAllPrevious = true
+                    )
+                    activity?.finishAffinity()
                 }
             }
         }
@@ -134,9 +148,9 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             when (requestCode) {
                 RequestCodes.REQUEST_KYC_DOCUMENTS -> handleKYCRequestResult(data)
                 RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
-                RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest(data)
+                RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest()
             }
-        }else{
+        } else {
             goToDashboard()
         }
     }
@@ -193,13 +207,12 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         } ?: goToDashboard()
     }
 
-    private fun handleMeetingConfirmationRequest(data: Intent?) {
+    private fun handleMeetingConfirmationRequest() {
         goToDashboard()
     }
 
-
     private fun goToDashboard() {
-        sendFcmTokenToServer(requireContext()){}
+        sendFcmTokenToServer(requireContext()) {}
         val action =
             CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
         findNavController().navigate(action)
@@ -309,6 +322,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     }
 
     override fun onBackPressed(): Boolean {
+        activity?.finishAffinity()
         return true
     }
 }

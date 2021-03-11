@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
 import androidx.core.animation.addListener
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -18,6 +19,7 @@ import co.yap.widgets.AnimatingProgressBar
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.helpers.ExtraKeys
 
 
 class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
@@ -50,7 +52,11 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         when (it) {
             viewModel.EVENT_NAVIGATE_NEXT -> {
                 trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_SUCCESS)
-                navigate(R.id.congratulationsFragment)
+                val bundle = bundleOf(ExtraKeys.IS_WAITING.name to viewModel.state.isWaiting)
+                navigate(
+                    destinationId = R.id.congratulationsFragment,
+                    args = bundle
+                )
             }
             viewModel.EVENT_POST_VERIFICATION_EMAIL -> {
                 viewModel.sendVerificationEmail()
@@ -59,7 +65,6 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
                 viewModel.postDemographicData()
             }
         }
-
     }
 
     private fun startAnimation() {
