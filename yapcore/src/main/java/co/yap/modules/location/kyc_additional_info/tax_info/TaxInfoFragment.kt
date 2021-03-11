@@ -97,13 +97,6 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
         return (viewDataBinding as FragmentTaxInfoBinding)
     }
 
-    private fun setIntentResult() {
-        val intent = Intent()
-        intent.putExtra(Constants.ADDRESS_SUCCESS, true)
-        activity?.setResult(Activity.RESULT_OK, intent)
-        activity?.finish()
-    }
-
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
     }

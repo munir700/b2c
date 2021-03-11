@@ -42,6 +42,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val state: IEmploymentQuestionnaire.State = EmploymentQuestionnaireState()
     override var selectedQuestionItemPosition: Int = -1
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
+    override var employmentStatus: EmploymentStatus = EmploymentStatus.NONE
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -220,7 +221,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         }
     }
 
-    private fun saveEmploymentInfo(
+    override fun saveEmploymentInfo(
         employmentInfoRequest: EmploymentInfoRequest,
         success: () -> Unit
     ) {
@@ -242,10 +243,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         }
     }
 
-    private fun getEmploymentInfoRequest(
+    override fun getEmploymentInfoRequest(
         status: EmploymentStatus
     ): EmploymentInfoRequest {
-        val infoRequest = EmploymentInfoRequest()
         return when (status) {
             EmploymentStatus.EMPLOYED -> {
                 EmploymentInfoRequest(
@@ -254,17 +254,25 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).question.answer.get()
                 )
             }
-            EmploymentStatus.SELF_EMPLOYED -> {
+            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
                     companyName = questionnaireAdaptor.getDataForPosition(0).question.answer.get(),
-                    industrySegmentCodes = questionnaireAdaptor.getDataForPosition(1).question.multipleAnswers,
+                    industrySegmentCodes = listOf(
+                        questionnaireAdaptor.getDataForPosition(1).question.answer.get() ?: ""
+                    ),
                     businessCountries = questionnaireAdaptor.getDataForPosition(2).question.multipleAnswers,
                     monthlySalary = questionnaireAdaptor.getDataForPosition(3).question.answer.get(),
                     expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(4).question.answer.get()
                 )
             }
-            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> TODO()
-            EmploymentStatus.OTHER -> TODO()
+            EmploymentStatus.OTHER -> {
+                EmploymentInfoRequest(
+                    employmentType = questionnaireAdaptor.getDataForPosition(0).question.answer.get(),
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(1).question.answer.get(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).question.answer.get()
+                )
+            }
+            EmploymentStatus.NONE -> TODO()
         }
     }
 }

@@ -54,5 +54,16 @@
         android:id="@+id/employmentQuestionnaireFragment"
         android:name="co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.EmploymentQuestionnaireFragment"
         tools:layout="@layout/fragment_employment_questionnaire"
-        android:label="EmploymentQuestionnaireFragment" />
+        android:label="EmploymentQuestionnaireFragment" >
+        <action
+            android:id="@+id/action_employmentQuestionnaireFragment_to_cardOnTheWayFragment"
+            app:destination="@id/cardOnTheWayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardOnTheWayFragment"
+        android:name="co.yap.modules.location.kyc_additional_info.cardontheway.CardOnTheWayFragment"
+        tools:layout="@layout/fragment_card_on_the_way"
+        android:label="CardOnTheWayFragment" />
+
+
 </navigation>

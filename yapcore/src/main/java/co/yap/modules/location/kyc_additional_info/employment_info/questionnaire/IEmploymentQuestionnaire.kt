@@ -6,6 +6,7 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -26,6 +27,7 @@ interface IEmploymentQuestionnaire {
         val questionnaireAdaptor: EmploymentQuestionnaireAdaptor
         var selectedQuestionItemPosition: Int
         val industrySegmentsList: ArrayList<IndustrySegment>
+        var employmentStatus: EmploymentStatus
         fun handleOnPressView(id: Int)
         fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
         fun employmentTypes(): MutableList<EmploymentType>
@@ -40,6 +42,15 @@ interface IEmploymentQuestionnaire {
 
         fun getCountriesAndSegments()
         fun isDataRequiredFromApi(forStatus: EmploymentStatus)
+        fun saveEmploymentInfo(
+            employmentInfoRequest: EmploymentInfoRequest,
+            success: () -> Unit
+        )
+
+        fun getEmploymentInfoRequest(
+            status: EmploymentStatus
+        ): EmploymentInfoRequest
+
     }
 
     interface State : IBase.State {

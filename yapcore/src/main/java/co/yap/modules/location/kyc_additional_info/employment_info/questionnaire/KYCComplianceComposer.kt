@@ -115,6 +115,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                     key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
             )
+            NONE -> TODO()
         }
     }
 }

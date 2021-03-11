@@ -7,13 +7,11 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.kyc.cardontheway.CardOnTheWayViewModel" />
+            type="co.yap.modules.location.kyc_additional_info.cardontheway.CardOnTheWayViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
-
-        <import type="co.yap.modules.kyc.enums.DocScanStatus" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,7 +81,8 @@
             android:layout_height="@dimen/eid_layout_size"
             android:layout_marginTop="@dimen/margin_large"
             android:background="@drawable/bg_round_eid_layout"
-            android:drawableRight="@drawable/path"
+            android:drawableRight="@drawable/ic_check"
+            android:drawableTint="@color/colorPrimary"
             android:gravity="center_vertical"
             android:padding="@dimen/margin_medium"
             app:layout_constraintEnd_toEndOf="@+id/tvCardOnWay"

@@ -29,12 +29,20 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
-        val status = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
-        viewModel.questionnaireAdaptor.setList(viewModel.questionnaires(status))
-        viewModel.isDataRequiredFromApi(forStatus = status)
+        viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
+        viewModel.employmentStatus
+        viewModel.questionnaireAdaptor.setList(viewModel.questionnaires(viewModel.employmentStatus))
+        viewModel.isDataRequiredFromApi(forStatus = viewModel.employmentStatus)
     }
 
     private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.btnSubmit -> {
+                viewModel.saveEmploymentInfo(viewModel.getEmploymentInfoRequest(viewModel.employmentStatus)) {
+                    navigate(R.id.action_employmentQuestionnaireFragment_to_cardOnTheWayFragment)
+                }
+            }
+        }
     }
 
     val listener = object : OnItemClickListener {
