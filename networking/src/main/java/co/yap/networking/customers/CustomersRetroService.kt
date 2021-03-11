@@ -284,6 +284,12 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_ADDITIONAL_SUBMIT)
     suspend fun submitAdditionalInfo(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
 
+    @GET(CustomersRepository.URL_GET_RANKING)
+    suspend fun getWaitingRanking(): Response<WaitingRankingResponse>
+
+    @POST(CustomersRepository.URL_COMPLETE_VERIFICATION)
+    suspend fun completeVerification(@Body completeVerificationRequest: CompleteVerificationRequest): Response<SignUpResponse>
+
     @GET(CustomersRepository.URL_GET_INDUSTRY_SEGMENTS)
     suspend fun getIndustriesSegments(): Response<IndustrySegmentsResponse>
 

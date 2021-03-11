@@ -19,6 +19,8 @@ import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.onboarding.fragments.WaitingListFragment
+import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -124,7 +126,23 @@ class PhoneVerificationSignInFragment :
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                             else {
                                 SessionManager.sendFcmTokenToServer(requireContext()) {}
-                                findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                                if (!this.isWaiting) {
+                                    if (this.iban.isNullOrBlank()) {
+                                        startFragment(
+                                            fragmentName = ReachedTopQueueFragment::class.java.name,
+                                            clearAllPrevious = true
+                                        )
+
+                                    } else {
+                                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                                    }
+                                } else {
+                                    startFragment(
+                                        fragmentName = WaitingListFragment::class.java.name,
+                                        clearAllPrevious = true
+                                    )
+                                }
+
                             }
 
                             activity?.finish()
@@ -141,8 +159,23 @@ class PhoneVerificationSignInFragment :
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         } else {
                             SessionManager.sendFcmTokenToServer(requireContext()) {}
-                            trackEvent(SignInEvents.SIGN_IN.type)
-                            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                            if (!this.isWaiting) {
+                                if (this.iban.isNullOrBlank()) {
+                                    startFragment(
+                                        fragmentName = ReachedTopQueueFragment::class.java.name,
+                                        clearAllPrevious = true
+                                    )
+
+                                } else {
+                                    trackEvent(SignInEvents.SIGN_IN.type)
+                                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                                }
+                            } else {
+                                startFragment(
+                                    fragmentName = WaitingListFragment::class.java.name,
+                                    clearAllPrevious = true
+                                )
+                            }
                         }
                         activity?.finish()
                     }
