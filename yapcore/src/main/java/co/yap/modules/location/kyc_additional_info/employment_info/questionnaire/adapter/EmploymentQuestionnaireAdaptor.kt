@@ -119,7 +119,7 @@ class QuestionTypeEditTextWithAmountItemViewHolder(private val binding: LayoutQu
         binding.etAmount.setDrawableClickListener(object :
             DrawableClickEditText.OnDrawableClickListener {
             override fun onClick(target: DrawableClickEditText.DrawablePosition) {
-                binding.etAmount.clearFocus()
+//                binding.etAmount.clearFocus()
                 onItemClickListener?.onItemClick(binding.etAmount, questionUiFields, -1)
             }
         })
@@ -127,9 +127,9 @@ class QuestionTypeEditTextWithAmountItemViewHolder(private val binding: LayoutQu
     }
 
     private fun setFocusListener(input: AppCompatEditText, questionUiFields: QuestionUiFields) {
-        input.onFocusChangeListener = View.OnFocusChangeListener { _, b ->
-            questionUiFields.isFocusInput.set(b)
-        }
+//        input.onFocusChangeListener = View.OnFocusChangeListener { _, b ->
+//            questionUiFields.isFocusInput.set(b)
+//        }
     }
 }
 
@@ -161,7 +161,7 @@ class QuestionTypeCountriesItemViewHolder(private val binding: LayoutQuestionTyp
         onItemClickListener: OnItemClickListener?
     ) {
         businessAdapter.setList(
-            questionUiFields.question.countriesAnswer
+            questionUiFields.question.multipleAnswers
         )
         binding.businessCountriesAdapter = businessAdapter
         binding.viewModel =

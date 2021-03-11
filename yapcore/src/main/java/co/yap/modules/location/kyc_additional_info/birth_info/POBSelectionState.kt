@@ -24,12 +24,12 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
     override var valid: ObservableField<Boolean> = ObservableField(false)
 
     private fun validate() {
-        valid.set(
-            StringUtils.validateRegix(
-                cityOfBirth,
-                "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$"
-                , 2
-            ) && selectedCountry.get() != null
-        )
+//        valid.set(
+//            StringUtils.validateRegex(
+//                cityOfBirth,
+//                "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$"
+//                , 2
+//            ) &&
+//        )
     }
 }

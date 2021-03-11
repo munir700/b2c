@@ -114,5 +114,6 @@ interface CustomersApi {
     suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse>
     suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
     suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse>
+    suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
 
 }

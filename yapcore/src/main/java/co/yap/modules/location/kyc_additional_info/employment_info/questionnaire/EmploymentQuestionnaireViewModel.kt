@@ -10,6 +10,7 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
@@ -139,8 +140,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         position: Int
     ) {
         val objQuestion = questionnaireAdaptor.getDataForPosition(position)
-        objQuestion.question.countriesAnswer.clear()
-        objQuestion.question.countriesAnswer.addAll(countries)
+        objQuestion.question.multipleAnswers.clear()
+        objQuestion.question.multipleAnswers.addAll(countries)
         questionnaireAdaptor.setItemAt(position, objQuestion)
     }
 
@@ -216,6 +217,54 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 }
                 state.viewState.value = false
             }
+        }
+    }
+
+    private fun saveEmploymentInfo(
+        employmentInfoRequest: EmploymentInfoRequest,
+        success: () -> Unit
+    ) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.saveEmploymentInfo(employmentInfoRequest)
+            launch(Dispatcher.Main) {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        success.invoke()
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        showToast(response.error.message)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getEmploymentInfoRequest(
+        status: EmploymentStatus
+    ): EmploymentInfoRequest {
+        val infoRequest = EmploymentInfoRequest()
+        return when (status) {
+            EmploymentStatus.EMPLOYED -> {
+                EmploymentInfoRequest(
+                    employerName = questionnaireAdaptor.getDataForPosition(0).question.answer.get(),
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(1).question.answer.get(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).question.answer.get()
+                )
+            }
+            EmploymentStatus.SELF_EMPLOYED -> {
+                EmploymentInfoRequest(
+                    companyName = questionnaireAdaptor.getDataForPosition(0).question.answer.get(),
+                    industrySegmentCodes = questionnaireAdaptor.getDataForPosition(1).question.multipleAnswers,
+                    businessCountries = questionnaireAdaptor.getDataForPosition(2).question.multipleAnswers,
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(3).question.answer.get(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(4).question.answer.get()
+                )
+            }
+            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> TODO()
+            EmploymentStatus.OTHER -> TODO()
         }
     }
 }
