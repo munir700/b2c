@@ -42,40 +42,56 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="What is your monthly salary? Don’t worry there is no minimum salary requirement." />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_small">
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView"
                     style="@style/ALargeGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="AED"
-                    />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <co.yap.widgets.currency.CoreEditText
                     android:id="@+id/etAmount"
                     style="@style/ALarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@null"
+                    android:focusableInTouchMode="true"
+                    android:hint="@{viewModel.questionUiFields.question.placeholder}"
                     android:paddingStart="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_extra_small"
                     android:paddingBottom="@dimen/margin_extra_small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_support"
-                    android:drawableRight="@drawable/ic_support"
-                    android:hint="@{viewModel.questionUiFields.question.placeholder}"
                     android:text="@={viewModel.questionUiFields.question.answer}"
-                    android:textColorHint="@color/colorPrimaryDark"
                     android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/appCompatTextView"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="1234567891" />
-            </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivSupport"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_support" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
                 layout="@layout/content_input_field_selector"
-                app:isFocus="@{viewModel.questionUiFields.isFocusInput}"/>
+                app:isFocus="@{viewModel.questionUiFields.isFocusInput}" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

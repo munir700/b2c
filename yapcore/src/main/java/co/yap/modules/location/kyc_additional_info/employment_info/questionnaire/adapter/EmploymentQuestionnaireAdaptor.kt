@@ -1,12 +1,11 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter
 
-import android.view.View
+import android.os.Handler
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
-import co.yap.widgets.DrawableClickEditText
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
@@ -73,38 +72,8 @@ class EmploymentQuestionnaireAdaptor(private val list: MutableList<QuestionUiFie
     }
 }
 
-class QuestionTypeEditTextItemViewHolder(private val layoutQuestionTypeEditTextBinding: LayoutQuestionTypeEditTextBinding) :
-    RecyclerView.ViewHolder(layoutQuestionTypeEditTextBinding.root) {
-    fun onBind(
-        questionUiFields: QuestionUiFields,
-        position: Int,
-        onItemClickListener: OnItemClickListener?
-    ) {
-        layoutQuestionTypeEditTextBinding.viewModel =
-            QuestionnaireItemViewModel(
-                questionUiFields,
-                position,
-                onItemClickListener
-            )
-        layoutQuestionTypeEditTextBinding.etQuestionEditText.afterTextChanged {
-            onItemClickListener?.onItemClick(
-                layoutQuestionTypeEditTextBinding.etQuestionEditText,
-                it,
-                -1
-            )
-        }
-        setFocusListener(layoutQuestionTypeEditTextBinding.etQuestionEditText, questionUiFields)
-    }
-
-    private fun setFocusListener(input: AppCompatEditText, questionUiFields: QuestionUiFields) {
-        input.onFocusChangeListener = View.OnFocusChangeListener { _, b ->
-            questionUiFields.isFocusInput.set(b)
-        }
-    }
-}
-
-class QuestionTypeEditTextWithAmountItemViewHolder(private val binding: LayoutQuestionTypeEditTextWithAmountBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+class QuestionTypeEditTextItemViewHolder(private val binding: LayoutQuestionTypeEditTextBinding) :
+    BaseQuestionsViewHolder(binding) {
     fun onBind(
         questionUiFields: QuestionUiFields,
         position: Int,
@@ -116,25 +85,42 @@ class QuestionTypeEditTextWithAmountItemViewHolder(private val binding: LayoutQu
                 position,
                 onItemClickListener
             )
-        binding.etAmount.setDrawableClickListener(object :
-            DrawableClickEditText.OnDrawableClickListener {
-            override fun onClick(target: DrawableClickEditText.DrawablePosition) {
-//                binding.etAmount.clearFocus()
-                onItemClickListener?.onItemClick(binding.etAmount, questionUiFields, -1)
-            }
-        })
-        setFocusListener(binding.etAmount, questionUiFields)
-    }
-
-    private fun setFocusListener(input: AppCompatEditText, questionUiFields: QuestionUiFields) {
-//        input.onFocusChangeListener = View.OnFocusChangeListener { _, b ->
-//            questionUiFields.isFocusInput.set(b)
-//        }
+        binding.etQuestionEditText.afterTextChanged {
+            onItemClickListener?.onItemClick(
+                binding.etQuestionEditText,
+                it,
+                -1
+            )
+        }
+        setFocusListener(binding.etQuestionEditText, questionUiFields)
     }
 }
 
+class QuestionTypeEditTextWithAmountItemViewHolder(private val binding: LayoutQuestionTypeEditTextWithAmountBinding) :
+    BaseQuestionsViewHolder(binding) {
+    fun onBind(
+        questionUiFields: QuestionUiFields,
+        position: Int,
+        onItemClickListener: OnItemClickListener?
+    ) {
+        binding.viewModel =
+            QuestionnaireItemViewModel(
+                questionUiFields,
+                position,
+                onItemClickListener
+            )
+        binding.ivSupport.setOnClickListener {
+            binding.etAmount.clearFocus()
+            onItemClickListener?.onItemClick(binding.etAmount, questionUiFields, -1)
+        }
+
+        setFocusListener(binding.etAmount, questionUiFields)
+    }
+
+}
+
 class QuestionTypeDropDownItemViewHolder(private val binding: LayoutQuestionTypeDropDownBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+    BaseQuestionsViewHolder(binding) {
     fun onBind(
         questionUiFields: QuestionUiFields,
         position: Int,
@@ -150,7 +136,7 @@ class QuestionTypeDropDownItemViewHolder(private val binding: LayoutQuestionType
 }
 
 class QuestionTypeCountriesItemViewHolder(private val binding: LayoutQuestionTypeCountriesBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+    BaseQuestionsViewHolder(binding) {
     private val businessAdapter: BusinessCountriesAdapter by lazy {
         BusinessCountriesAdapter(arrayListOf())
     }
@@ -171,5 +157,27 @@ class QuestionTypeCountriesItemViewHolder(private val binding: LayoutQuestionTyp
                 onItemClickListener
             )
     }
+}
 
+open class BaseQuestionsViewHolder(binding: ViewDataBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+
+    fun setFocusListener(input: AppCompatEditText, questionUiFields: QuestionUiFields) {
+        var lastFocusedPosition = -1
+        val handler = Handler()
+        input.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                handler.postDelayed({
+                    if (lastFocusedPosition == -1 || lastFocusedPosition == adapterPosition) {
+                        lastFocusedPosition = adapterPosition
+                        input.requestFocus()
+                        questionUiFields.isFocusInput.set(hasFocus)
+                    }
+                }, 100)
+            } else {
+                questionUiFields.isFocusInput.set(hasFocus)
+                lastFocusedPosition = -1
+            }
+        }
+    }
 }
