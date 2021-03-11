@@ -10,9 +10,5 @@
   {
     "subSegmentDesc": "I am a pensioner",
     "subSegmentCode": "PENSIONER "
-  },
-  {
-    "subSegmentDesc": "Other",
-    "subSegmentCode": "OTHER "
   }
 ]

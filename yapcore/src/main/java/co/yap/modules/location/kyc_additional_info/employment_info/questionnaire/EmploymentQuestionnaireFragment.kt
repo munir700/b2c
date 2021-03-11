@@ -1,7 +1,8 @@
-package co.yap.modules.location.kyc_additional_info.employment_info .questionnaire
+package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.fragments.LocationChildFragment
@@ -17,6 +18,7 @@ import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+
 
 class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestionnaire.ViewModel>(),
     IEmploymentQuestionnaire.View {
@@ -90,4 +92,13 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
 }
