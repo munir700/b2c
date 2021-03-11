@@ -17,7 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/margin_medium">
+        android:paddingStart="@dimen/margin_normal_large"
+        android:paddingEnd="@dimen/margin_medium_large">
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cardIcon"
             android:layout_width="@dimen/_60sdp"
@@ -35,7 +36,6 @@
             app:layout_constraintTop_toTopOf="parent"
             android:text="@{title}"
             app:layout_constraintStart_toEndOf="@+id/cardIcon"
-            android:layout_marginTop="@dimen/margin_extra_small"
             android:layout_marginStart="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Card Plans"/>
@@ -49,7 +49,7 @@
             android:text="@{description}"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_extra_small"
-            android:lineHeight="@dimen/_11sdp"
+            android:lineHeight="@dimen/_14sdp"
             app:layout_constraintTop_toBottomOf="@+id/cardLabel"
             tools:text="csicnfewonclcsnslcn csicnfewonclcsnslcn csicnfewonclcsnslcn csicnfewonclcsnslcn"/>
 

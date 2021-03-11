@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_cardPlanViewerFragment_to_metalCardFragment"
             app:destination="@id/metalCardFragment" />
+        <action
+            android:id="@+id/action_cardPlanViewerFragment_to_cardPlansFragment"
+            app:destination="@id/cardPlansFragment" />
     </fragment>
     <fragment
         android:id="@+id/primeCardFragment"

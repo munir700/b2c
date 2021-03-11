@@ -41,10 +41,8 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         }
     }
 
-    val onClickObserver = Observer<Int> { id ->
+    private val onClickObserver = Observer<Int> { id ->
         when (id) {
-            R.id.ivCross -> {
-            }
             R.id.ivShare -> shareInfo()
         }
     }
@@ -86,5 +84,8 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         super.onDestroyView()
         removeObservers()
     }
-
+    override fun onResume() {
+        super.onResume()
+        getBindings().cardAnimation.start()
+    }
 }

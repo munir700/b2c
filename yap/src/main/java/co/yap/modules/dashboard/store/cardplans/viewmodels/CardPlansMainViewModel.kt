@@ -9,6 +9,7 @@ import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.interfaces.IMainCardPlans
 import co.yap.modules.dashboard.store.cardplans.states.CardPlansMainState
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
@@ -18,6 +19,13 @@ class CardPlansMainViewModel(application: Application) :
     override var selectedPlan: ObservableField<String> = ObservableField()
 
     override val state: CardPlansMainState = CardPlansMainState()
+
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun onCreate() {
         super.onCreate()
         cards.addAll(getCardPlans())
