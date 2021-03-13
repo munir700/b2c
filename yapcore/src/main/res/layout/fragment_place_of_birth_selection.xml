@@ -141,14 +141,14 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvlabelOptions"
-                    style="@style/Small"
+                    style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
                     android:text="@string/screen_place_of_birth_display_text_select_country"
-                    android:textColor="@{viewModel.state.isDualNational? @color/greyDark : @color/colorPrimaryDark }"
+                    android:textColor="@color/greyDark"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCityHeading"
                     app:text="@{Strings.screen_place_of_birth_display_text_are_you_a_dual_national}"
