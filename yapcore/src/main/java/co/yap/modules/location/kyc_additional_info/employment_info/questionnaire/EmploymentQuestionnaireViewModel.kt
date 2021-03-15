@@ -2,6 +2,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 
 import android.app.Application
 import android.view.View
+import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.filterSelectedIsoCodes
 import co.yap.countryutils.country.utils.CurrencyUtils
@@ -40,7 +41,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override var selectedQuestionItemPosition: Int = -1
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
     override var employmentStatus: EmploymentStatus = EmploymentStatus.NONE
-    override val selectedBusinessCountries: ArrayList<String> = arrayListOf()
+    override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
+        ObservableField(arrayListOf())
 
     override fun onCreate() {
         super.onCreate()
@@ -147,8 +149,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         objQuestion.question.multipleAnswers.get()?.clear()
         objQuestion.question.multipleAnswers.get()?.addAll(countries)
         state.questionsList[position] = objQuestion
-        selectedBusinessCountries.clear()
-        selectedBusinessCountries.addAll(countries)
+        selectedBusinessCountries.get()?.clear()
+        selectedBusinessCountries.get()?.addAll(countries)
     }
 
     val countriesItemClickListener = object : OnItemClickListener {
@@ -183,7 +185,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         }
     }
 
-    private fun validate() {
+    fun validate() {
         var isValid = false
         state.questionsList.forEach {
             isValid = when (it.question.questionType) {

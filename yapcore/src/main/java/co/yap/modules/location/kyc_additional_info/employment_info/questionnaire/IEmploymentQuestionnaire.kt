@@ -1,8 +1,8 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 
+import android.view.LayoutInflater
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -27,7 +27,7 @@ interface IEmploymentQuestionnaire {
         var selectedQuestionItemPosition: Int
         val industrySegmentsList: ArrayList<IndustrySegment>
         var employmentStatus: EmploymentStatus
-        val selectedBusinessCountries: ArrayList<String>
+        val selectedBusinessCountries: ObservableField<ArrayList<String>>
         fun handleOnPressView(id: Int)
         fun questionnaires(forStatus: EmploymentStatus):ArrayList<QuestionUiFields>
         fun employmentTypes(): MutableList<EmploymentType>
