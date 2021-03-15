@@ -246,7 +246,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         }
 
         businessAdapter.setList(
-            questionUiFields.question.multipleAnswers
+            questionUiFields.question.multipleAnswers.get() ?: arrayListOf()
         )
         binding.businessCountriesAdapter = businessAdapter
         binding.viewModel =

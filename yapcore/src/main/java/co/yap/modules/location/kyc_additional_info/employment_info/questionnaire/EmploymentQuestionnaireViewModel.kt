@@ -147,8 +147,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         position: Int
     ) {
         val objQuestion = getDataForPosition(position)
-        objQuestion.question.multipleAnswers.clear()
-        objQuestion.question.multipleAnswers.addAll(countries)
+        objQuestion.question.multipleAnswers.get()?.clear()
+        objQuestion.question.multipleAnswers.get()?.addAll(countries)
         state.questionsList[position] = objQuestion
         selectedBusinessCountries.clear()
         selectedBusinessCountries.addAll(countries)
@@ -190,7 +190,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         var isValid = false
         state.questionsList.forEach {
             isValid = when (it.question.questionType) {
-                QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.isNotEmpty()
+                QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.get()
+                    ?.isNotEmpty() == true
                 else -> !it.question.answer.get().isNullOrBlank()
             }
 
@@ -298,7 +299,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         }.segmentCode ?: ""
                     ),
                     businessCountries = parentViewModel?.countries?.filterSelectedIsoCodes(
-                        getDataForPosition(2).question.multipleAnswers
+                        getDataForPosition(2).question.multipleAnswers.get() ?: arrayListOf()
                     ),
                     monthlySalary = getDataForPosition(3).getAnswer(),
                     expectedMonthlyCredit = getDataForPosition(4).getAnswer()
