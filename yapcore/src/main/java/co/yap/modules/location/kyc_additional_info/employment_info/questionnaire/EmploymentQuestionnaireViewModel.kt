@@ -61,10 +61,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun isDataRequiredFromApi(forStatus: EmploymentStatus) {
         when (forStatus) {
-            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
-                if (parentViewModel?.countries.isNullOrEmpty() && industrySegmentsList.isNullOrEmpty())
-                    getCountriesAndSegments()
-            }
+            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> getCountriesAndSegments()
             else -> {
             }
         }
