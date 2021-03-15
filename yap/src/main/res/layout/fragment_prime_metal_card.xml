@@ -28,7 +28,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_btn_side_xxl">
+         >
 
                 <androidx.constraintlayout.helper.widget.Flow
                     android:id="@+id/flow"
@@ -71,7 +71,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal_large"
-                    android:nestedScrollingEnabled="false"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/margin_medium"
                     android:paddingEnd="@dimen/margin_medium_large"
@@ -79,7 +78,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/cardPlanstext"
                     app:recycleViewAdapter="@{viewModel.planBenefitsAdapter}"
                     tools:itemCount="6"
-                    tools:listitem="@layout/item_card_benefits" />
+                    tools:listitem="@layout/item_card_benefits"
+                    android:layout_marginBottom="@dimen/margin_btn_side_xxl"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

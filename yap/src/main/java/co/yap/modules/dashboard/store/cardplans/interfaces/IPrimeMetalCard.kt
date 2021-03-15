@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.store.cardplans.interfaces
 
 import androidx.databinding.ObservableField
 import co.yap.databinding.FragmentPrimeMetalCardBinding
+import co.yap.modules.dashboard.store.cardplans.CardBenefits
 import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.adaptors.PlanBenefitsAdapter
 import co.yap.yapcore.IBase
@@ -14,7 +15,7 @@ interface IPrimeMetalCard {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun getCardPlan(tag: String): CardPlans?
-        fun getCardBenefits(tag: String): MutableList<String>
+        fun getCardBenefits(tag: String): MutableList<CardBenefits>
         var planBenefitsAdapter: PlanBenefitsAdapter
     }
 

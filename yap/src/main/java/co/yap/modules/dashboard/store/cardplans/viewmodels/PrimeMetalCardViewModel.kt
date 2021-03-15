@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.cardplans.viewmodels
 
 import android.app.Application
+import co.yap.modules.dashboard.store.cardplans.CardBenefits
 import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.adaptors.PlanBenefitsAdapter
 import co.yap.modules.dashboard.store.cardplans.interfaces.IPrimeMetalCard
@@ -32,34 +33,33 @@ class PrimeMetalCardViewModel(application: Application) :
         }
     }
 
-    override fun getCardBenefits(tag: String): MutableList<String> {
+    override fun getCardBenefits(tag: String): MutableList<CardBenefits> {
         return when (tag) {
             Constants.PRIME_CARD_PLAN -> {
                 arrayListOf(
-                    "Exclusive partner offers",
-                    "2 free virtual cards",
-                    "Unlimited multi-currency wallets with real-time exchange rates",
-                    "1 free international transfer per month to 40 countries",
-                    "Hold up to 3 physical cards",
-                    "1 free young subscription",
-                    "1 free household subscription",
-                    "Priority customer support",
-                    "Mastercard Platinum benefits"
-                )
+                    CardBenefits("Exclusive partner offers"),
+                    CardBenefits("2 free virtual cards"),
+                    CardBenefits("Unlimited multi-currency wallets with real-time exchange rates"),
+                    CardBenefits("1 free international transfer per month to 40 countries"),
+                    CardBenefits("Hold up to 3 physical cards"),
+                    CardBenefits("1 free young subscription"),
+                    CardBenefits("1 free household subscription"),
+                    CardBenefits("Priority customer support"),
+                    CardBenefits("Mastercard Platinum benefits", isLast = true))
             }
             Constants.METAL_CARD_PLAN -> {
                 arrayListOf(
-                    "Exclusive partner offers",
-                    "4 free virtual cards",
-                    "Unlimited multi-currency wallets with real-time exchange rates",
-                    "1 free international transfer per month to 40 countries",
-                    "Hold up to 5 physical cards",
-                    "Premier airport lounge access",
-                    "2 free young subscription",
-                    "2 free household subscription",
-                    "Priority customer support",
-                    "Travel insurance",
-                    "Mastercard World benefits")
+                    CardBenefits("Exclusive partner offers"),
+                    CardBenefits("4 free virtual cards"),
+                    CardBenefits("Unlimited multi-currency wallets with real-time exchange rates"),
+                    CardBenefits("1 free international transfer per month to 40 countries"),
+                    CardBenefits("Hold up to 5 physical cards"),
+                    CardBenefits("Premier airport lounge access"),
+                    CardBenefits("2 free young subscription"),
+                    CardBenefits("2 free household subscription"),
+                    CardBenefits("Priority customer support"),
+                    CardBenefits("Travel insurance"),
+                    CardBenefits("Mastercard World benefits", isLast = true))
             }
             else -> arrayListOf()
         }
