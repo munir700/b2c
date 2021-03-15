@@ -27,7 +27,7 @@ class EmploymentStatusSelectionViewModel(application: Application) :
         super.onResume()
         if (parentViewModel?.isOnBoarding == true) {
             progressToolBarVisibility(true)
-            setProgress(40)
+            setProgress(90)
         }
     }
 
