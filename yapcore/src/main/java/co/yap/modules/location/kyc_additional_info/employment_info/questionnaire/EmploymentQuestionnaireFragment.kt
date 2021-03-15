@@ -65,7 +65,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 listener
             )
             if (questionViews != null)
-                getBinding().llQuestions.addView(view)
+                getBinding().llQuestions.addView(questionViews)
         }
     }
 
