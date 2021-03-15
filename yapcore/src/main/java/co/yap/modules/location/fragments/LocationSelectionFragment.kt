@@ -146,7 +146,8 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         viewModel.state.addressTitle.addOnPropertyChangedCallback(stateObserver)
         viewModel.state.city.addOnPropertyChangedCallback(stateObserver)
         viewModel.isMapExpanded.observe(this, Observer {
-            viewModel.state.toolbarVisibility = !it
+            if (viewModel.parentViewModel?.isOnBoarding == false) viewModel.state.toolbarVisibility =
+                !it
             if (it) {
                 activity?.hideKeyboard()
                 rlCollapsedMapSection.visibility = View.GONE
