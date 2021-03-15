@@ -35,13 +35,9 @@ class MetalCardFragment : CardPlansBaseFragment<IPrimeMetalCard.ViewModel>(), IP
 
     override fun initVideoView() {
         getBindings().planVideo.layoutParams =
-            viewModel.parentViewModel?.setViewDimensions(45, getBindings().planVideo)
+            viewModel.parentViewModel?.setViewDimensions(50, getBindings().planVideo)
         getBindings().planVideo.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_metal_card_plan))
         getBindings().planVideo.start()
-        getBindings().planVideo.setOnCompletionListener { mediaPlayer ->
-            mediaPlayer.isLooping = true
-            getBindings().planVideo.start()
-        }
     }
 
     override fun onResume() {
