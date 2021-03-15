@@ -286,4 +286,7 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_INDUSTRY_SEGMENTS)
     suspend fun getIndustriesSegments(): Response<IndustrySegmentsResponse>
+
+    @POST(CustomersRepository.URL_SAVE_EMPLOYMENT_INFO)
+    suspend fun submitEmploymentInfo(@Body employmentInfoRequest: EmploymentInfoRequest): Response<ApiResponse>
 }

@@ -123,6 +123,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SEND_INVITE_FRIEND = "customers/api/save-invite"
     const val URL_ADDITIONAL_SUBMIT = "customers/api/update-notification-status"
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
+    const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -436,5 +437,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse> =
         executeSafely(call = {
             api.getIndustriesSegments()
+        })
+
+    override suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.submitEmploymentInfo(employmentInfoRequest)
         })
 }

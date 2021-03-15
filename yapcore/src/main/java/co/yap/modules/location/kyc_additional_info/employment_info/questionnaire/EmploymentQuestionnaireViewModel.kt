@@ -3,13 +3,16 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import android.app.Application
 import android.view.View
 import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.filterSelectedIsoCodes
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
@@ -41,6 +44,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val state: IEmploymentQuestionnaire.State = EmploymentQuestionnaireState()
     override var selectedQuestionItemPosition: Int = -1
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
+    override var employmentStatus: EmploymentStatus = EmploymentStatus.NONE
+    override val selectedBusinessCountries: ArrayList<String> = arrayListOf()
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -48,7 +53,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(95)
+        if (parentViewModel?.isOnBoarding == true) {
+            progressToolBarVisibility(true)
+            setProgress(95)
+        }
     }
 
     override fun isDataRequiredFromApi(forStatus: EmploymentStatus) {
@@ -139,15 +147,18 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         position: Int
     ) {
         val objQuestion = questionnaireAdaptor.getDataForPosition(position)
-        objQuestion.question.countriesAnswer.clear()
-        objQuestion.question.countriesAnswer.addAll(countries)
+        objQuestion.question.multipleAnswers.clear()
+        objQuestion.question.multipleAnswers.addAll(countries)
         questionnaireAdaptor.setItemAt(position, objQuestion)
+        selectedBusinessCountries.clear()
+        selectedBusinessCountries.addAll(countries)
     }
 
     val countriesItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is ArrayList<*>) {
                 setBusinessCountries(data as ArrayList<String>, selectedQuestionItemPosition)
+                validate()
             }
         }
     }
@@ -155,8 +166,14 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     val employmentTypeItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             val objQuestion = questionnaireAdaptor.getDataForPosition(selectedQuestionItemPosition)
-            objQuestion.question.answer.set((data as CoreBottomSheetData).subTitle)
+            val answerValue = when (data) {
+                is EmploymentType -> data.employmentType
+                is IndustrySegment -> data.segment
+                else -> ""
+            }
+            objQuestion.question.answer.set(answerValue)
             questionnaireAdaptor.setItemAt(selectedQuestionItemPosition, objQuestion)
+            validate()
         }
     }
 
@@ -164,10 +181,26 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             selectedQuestionItemPosition = pos
             when (view.id) {
-                R.id.etQuestionEditText -> {
-                }
+                R.id.etAmount, R.id.etQuestionEditText -> validate()
             }
         }
+    }
+
+    private fun validate() {
+        var isValid = false
+        questionnaireAdaptor.getDataList().forEach {
+            isValid = when (it.question.questionType) {
+                QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.isNotEmpty()
+                else -> !it.question.answer.get().isNullOrBlank()
+            }
+
+            if (!isValid) {
+                state.valid.set(isValid)
+                return
+            }
+        }
+
+        state.valid.set(isValid)
     }
 
     private fun fetchParallelAPIResponses(
@@ -216,6 +249,74 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 }
                 state.viewState.value = false
             }
+        }
+    }
+
+    override fun saveEmploymentInfo(
+        employmentInfoRequest: EmploymentInfoRequest,
+        success: () -> Unit
+    ) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.saveEmploymentInfo(employmentInfoRequest)
+            launch(Dispatcher.Main) {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        success.invoke()
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        showToast(response.error.message)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun getEmploymentInfoRequest(
+        status: EmploymentStatus
+    ): EmploymentInfoRequest {
+        return when (status) {
+            EmploymentStatus.EMPLOYED -> {
+                EmploymentInfoRequest(
+                    employmentStatus = status.name,
+                    employerName = questionnaireAdaptor.getDataForPosition(0).getAnswer(),
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(1).getAnswer(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).getAnswer()
+                )
+            }
+            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
+                EmploymentInfoRequest(
+                    employmentStatus = status.name,
+                    companyName = questionnaireAdaptor.getDataForPosition(0).getAnswer(),
+                    industrySegmentCodes = listOf(
+                        industrySegmentsList.first {
+                            it.segment == questionnaireAdaptor.getDataForPosition(
+                                1
+                            ).getAnswer()
+                        }.segmentCode ?: ""
+                    ),
+                    businessCountries = parentViewModel?.countries?.filterSelectedIsoCodes(
+                        questionnaireAdaptor.getDataForPosition(2).question.multipleAnswers
+                    ),
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(3).getAnswer(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(4).getAnswer()
+                )
+            }
+            EmploymentStatus.OTHER -> {
+                EmploymentInfoRequest(
+                    employmentStatus = status.name,
+                    employmentType = employmentTypes().first {
+                        it.employmentType == questionnaireAdaptor.getDataForPosition(
+                            0
+                        ).getAnswer()
+                    }.employmentTypeCode,
+                    monthlySalary = questionnaireAdaptor.getDataForPosition(1).getAnswer(),
+                    expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).getAnswer()
+                )
+            }
+            EmploymentStatus.NONE -> TODO()
         }
     }
 }

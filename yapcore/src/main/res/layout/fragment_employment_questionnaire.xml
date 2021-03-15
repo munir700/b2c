@@ -84,7 +84,7 @@
                 android:paddingEnd="@dimen/margin_normal"
                 android:text="@string/screen_tax_info_display_text_trs_conditions_disclaimer"
                 android:textColorLink="?attr/colorPrimaryAttr"
-                app:layout_constraintBottom_toTopOf="@+id/nextButton"
+                app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recycler"
@@ -93,7 +93,7 @@
                 tools:text="@string/screen_employment_questionnaire_display_text_user_information" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/nextButton"
+                android:id="@+id/btnSubmit"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

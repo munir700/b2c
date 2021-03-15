@@ -100,6 +100,7 @@ class TransactionsTests : BaseTestCase() {
     }
 
     private fun getExpectedStatusIcon(transaction: Transaction): Int {
+        if (transaction.isTransactionRejected()) return android.R.color.transparent
         if (transaction.isTransactionInProgress()) return R.drawable.ic_time
         else return when (transaction.productCode) {
             TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {

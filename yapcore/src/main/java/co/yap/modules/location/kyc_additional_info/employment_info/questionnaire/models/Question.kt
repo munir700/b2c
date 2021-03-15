@@ -8,5 +8,5 @@ data class Question(
     val placeholder: String?,
     val questionType: QuestionType,
     val answer: ObservableField<String>,
-    val countriesAnswer: ArrayList<String> = arrayListOf()
+    val multipleAnswers: ArrayList<String> = arrayListOf()
 )

@@ -25,7 +25,10 @@ class EmploymentStatusSelectionViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(90)
+        if (parentViewModel?.isOnBoarding == true) {
+            progressToolBarVisibility(true)
+            setProgress(90)
+        }
     }
 
     override fun handleOnPressNext(id: Int) {

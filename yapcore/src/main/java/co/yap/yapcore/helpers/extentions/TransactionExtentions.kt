@@ -130,6 +130,7 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
 
 fun Transaction?.getStatusIcon(): Int {
     this?.let { transaction ->
+        if (transaction.isTransactionRejected()) return android.R.color.transparent
         if (transaction.isTransactionInProgress()) return R.drawable.ic_time
         else return when (transaction.productCode) {
             TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
@@ -323,7 +324,7 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 }
 
 fun Transaction?.getAmount(): Double {
-    if (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode || (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode && this.currency != SessionManager.getDefaultCurrency()))
+    if (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode || this?.isNonAEDTransaction() == true)
         return this.amount ?: 0.0
 
     (return when (this?.txnType) {
@@ -398,4 +399,8 @@ fun List<Transaction>?.getTotalAmount(): String {
         }
     }
     return totalAmount
+}
+
+fun Transaction?.isNonAEDTransaction(): Boolean {
+   return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && this.currency != SessionManager.getDefaultCurrency()
 }

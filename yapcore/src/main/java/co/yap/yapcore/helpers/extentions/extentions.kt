@@ -280,7 +280,7 @@ fun Double?.roundValHalfEven(): Double {
 
 fun ImageView?.hasBitmap(): Boolean {
     return this?.let {
-        this.drawable != null && (this.drawable as BitmapDrawable).bitmap != null
+        this.drawable != null && (this.drawable is BitmapDrawable)
     } ?: false
 }
 
