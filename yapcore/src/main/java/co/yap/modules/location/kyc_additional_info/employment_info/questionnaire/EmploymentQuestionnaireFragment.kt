@@ -151,16 +151,16 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        viewModel.parentViewModel?.countries?.unSelectAllCountries(viewModel.selectedBusinessCountries)
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+//        viewModel.parentViewModel?.countries?.unSelectAllCountries(viewModel.selectedBusinessCountries)
+//    }
 
     /*new code*/
 
