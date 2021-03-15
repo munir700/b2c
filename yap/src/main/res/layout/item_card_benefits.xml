@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,14 +19,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_normal_large"
         android:orientation="horizontal">
+
         <androidx.appcompat.widget.AppCompatTextView
+            style="@style/ARegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{planBenefitsItemViewModel.item.toString()}"
-            android:maxLines="2"
-            android:gravity="center_vertical"
+            android:drawableStart="@drawable/ic_checked_icon"
             android:drawablePadding="@dimen/margin_medium_large"
-            android:drawableStart="@drawable/ic_checked_icon"/>
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="@{planBenefitsItemViewModel.item.toString()}"
+            android:textColor="@color/card_gradient_bottom_color"
+            tools:text="sjjdskd" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

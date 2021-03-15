@@ -50,16 +50,16 @@ class PrimeMetalCardViewModel(application: Application) :
             Constants.METAL_CARD_PLAN -> {
                 arrayListOf(
                     "Exclusive partner offers",
-                    "2 free virtual cards",
+                    "4 free virtual cards",
                     "Unlimited multi-currency wallets with real-time exchange rates",
                     "1 free international transfer per month to 40 countries",
                     "Hold up to 5 physical cards",
                     "Premier airport lounge access",
-                    "1 free young subscription",
-                    "1 free household subscription",
+                    "2 free young subscription",
+                    "2 free household subscription",
                     "Priority customer support",
                     "Travel insurance",
-                    "Mastercard Platinum benefits")
+                    "Mastercard World benefits")
             }
             else -> arrayListOf()
         }
