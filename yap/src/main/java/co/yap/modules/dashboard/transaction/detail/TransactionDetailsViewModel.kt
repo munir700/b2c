@@ -24,6 +24,7 @@ import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
 import co.yap.yapcore.helpers.extentions.isTransactionInProgress
 import co.yap.yapcore.helpers.extentions.isTransactionRejected
 import java.util.*
+import co.yap.yapcore.helpers.extentions.*
 
 
 class TransactionDetailsViewModel(application: Application) :

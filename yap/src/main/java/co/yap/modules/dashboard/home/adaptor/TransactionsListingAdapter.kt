@@ -84,15 +84,34 @@ class TransactionsListingAdapter(
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction, position)
 
-            transaction.remarks?.let {
-                itemTransactionListBinding.tvTransactionNote.text = it
-            }
+            //prod ticket YM-11574 fix start
+            if (transaction.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode) {
+                transaction.remarks?.let {
+                    itemTransactionListBinding.tvTransactionNote.text = it
 
-            itemTransactionListBinding.tvTransactionNote.visibility =
-                if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
-                        "null"
-                    )
-                ) View.GONE else View.VISIBLE
+                    itemTransactionListBinding.tvTransactionNote.visibility =
+                        if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
+                                "null"
+                            )
+                        ) View.GONE else View.VISIBLE
+                }
+
+            } else {
+                itemTransactionListBinding.tvTransactionNote.visibility = View.GONE
+            }
+            // prod ticket YM-11574 fix end
+            //due to fixes above commenting following code
+//            transaction.remarks?.let {
+//                itemTransactionListBinding.tvTransactionNote.text = it
+//            }
+
+//            itemTransactionListBinding.tvTransactionNote.visibility =
+//                if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
+//                        "null"
+//                    )
+//                ) View.GONE else View.VISIBLE
+
+
             itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
                 if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
@@ -121,7 +140,7 @@ class TransactionsListingAdapter(
             val categoryTitle: String =
                 transaction.getTransferType()
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it && !transaction.isTransactionRejected()) {
                     setY2YUserImage(transaction, itemTransactionListBinding, position)
                 } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
                     setVirtualCardIcon(transaction, itemTransactionListBinding)

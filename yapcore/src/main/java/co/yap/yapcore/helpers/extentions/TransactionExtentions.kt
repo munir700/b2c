@@ -289,7 +289,7 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 }
 
 fun Transaction?.getAmount(): Double {
-    if (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode || (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode && this.currency != SessionManager.getDefaultCurrency()))
+    if (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode || this?.isNonAEDTransaction() == true)
         return this.amount ?: 0.0
 
     (return when (this?.txnType) {
@@ -364,6 +364,10 @@ fun List<Transaction>?.getTotalAmount(): String {
         }
     }
     return totalAmount
+}
+
+fun Transaction?.isNonAEDTransaction(): Boolean {
+   return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && this.currency != SessionManager.getDefaultCurrency()
 }
 
 fun Transaction.getTransactionStatusMessage(context: Context): String {
