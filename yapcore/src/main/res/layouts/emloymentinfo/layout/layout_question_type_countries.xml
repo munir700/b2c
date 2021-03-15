@@ -48,13 +48,14 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBusinessCountries"
+                recycleViewAdapter="@{businessCountriesAdapter}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                recycleViewAdapter="@{businessCountriesAdapter}"
                 android:orientation="horizontal"
                 android:padding="@dimen/margin_small"
-                app:layout_constraintStart_toStartOf="@+id/tvCategoriesTitle"
+                android:visibility="@{viewModel.questionUiFields.question.multipleAnswers.size()>0?View.VISIBLE:View.GONE,default=gone}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="@+id/tvCategoriesTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvCategoriesTitle"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_business_country" />
@@ -62,14 +63,14 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/searchCountries"
                 style="@style/ALarge"
-                android:onClick="@{viewModel::onViewClicked}"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/colorPrimaryDark"
-                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:drawableEnd="@drawable/ic_search_grey"
-                android:text="Search countries" />
+                android:onClick="@{viewModel::onViewClicked}"
+                android:text="Search countries"
+                android:textColor="@color/colorPrimaryDark"
+                android:textColorHint="@color/colorPrimaryDark" />
 
             <View
                 android:layout_width="match_parent"
