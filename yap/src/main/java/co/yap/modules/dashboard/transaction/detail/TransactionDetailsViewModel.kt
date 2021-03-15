@@ -16,7 +16,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.SessionManager
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -111,7 +110,7 @@ class TransactionDetailsViewModel(application: Application) :
             state.receiptVisibility.set(isShowReceiptSection(transaction))
             state.categoryTitle.set(getTransferCategoryTitle(transaction))
             state.categoryIcon.set(getTransferCategoryIcon(transaction))
-            if (transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && transaction.currency != SessionManager.getDefaultCurrency()) {
+            if (transaction.isNonAEDTransaction()) {
                 state.exchangeRate?.set(getExchangeRate(transaction))
             } else {
                 state.exchangeRate?.set(null)
@@ -181,7 +180,8 @@ class TransactionDetailsViewModel(application: Application) :
                     }
                     TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                     TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName ?: ""
+                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName
+                        ?: ""
                     TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
                     TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                         if (transaction.category.equals(
@@ -229,7 +229,7 @@ class TransactionDetailsViewModel(application: Application) :
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: 0.00)
                 }
-                it.productCode == TransactionProductCode.POS_PURCHASE.pCode && it.currency != SessionManager.getDefaultCurrency() -> {
+                it.isNonAEDTransaction() -> {
                     it.cardHolderBillingAmount ?: 0.00
                 }
                 else -> it.amount ?: 0.00
@@ -239,18 +239,14 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun getCalculatedTotalAmount(transaction: Transaction?): Double {
         transaction?.let {
-            return when (it.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+            return when {
+                it.productCode == TransactionProductCode.RMT.pCode || it.productCode == TransactionProductCode.SWIFT.pCode -> {
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
                     (it.settlementAmount ?: 0.00).plus(totalFee)
                 }
-                TransactionProductCode.POS_PURCHASE.pCode -> {
-                    if (it.currency != SessionManager.getDefaultCurrency()) {
-                        (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
-                    } else {
-                        if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.0 else it.amount
-                            ?: 0.0
-                    }
+                it.isNonAEDTransaction() -> {
+                    (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
+                        .plus(it.vatAmount ?: 0.0)
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
                     ?: 0.00
