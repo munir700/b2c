@@ -42,8 +42,8 @@ class YapStoreViewModel(application: Application) :
                     id = Constants.ITEM_STORE_CARD_PLANS,
                     name = getString(Strings.screen_yap_store_card_plans_label_text),
                     desc = getString(Strings.screen_yap_store_card_plans_description_text),
-                    image = R.drawable.banner_card_plans,
-                    storeIcon = R.drawable.ic_card_plans
+                    image = R.drawable.ic_store_young,
+                    storeIcon = R.drawable.ic_young_smile
                 )
             )
             list.add(
