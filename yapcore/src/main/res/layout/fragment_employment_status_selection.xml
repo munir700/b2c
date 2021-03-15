@@ -39,7 +39,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvEmploymentStatusText"
-                style="@style/ARegular"
+                style="@style/RegularGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
@@ -66,7 +66,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBottomDescription"
-                style="@style/ASmall"
+                style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
