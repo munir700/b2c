@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.store.cardplans.viewmodels.PrimeMetalCardViewMod
 import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.fragment_prime_metal_card.*
 
+
 class PrimeCardFragment : CardPlansBaseFragment<IPrimeMetalCard.ViewModel>(), IPrimeMetalCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

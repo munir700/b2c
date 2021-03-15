@@ -10,13 +10,11 @@ import co.yap.databinding.FragmentPrimeMetalCardBinding
 import co.yap.modules.dashboard.store.cardplans.interfaces.IPrimeMetalCard
 import co.yap.modules.dashboard.store.cardplans.viewmodels.PrimeMetalCardViewModel
 import co.yap.yapcore.constants.Constants
-import kotlinx.android.synthetic.main.fragment_card_plans.*
 
 class MetalCardFragment : CardPlansBaseFragment<IPrimeMetalCard.ViewModel>(), IPrimeMetalCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_prime_metal_card
-
     override val viewModel: PrimeMetalCardViewModel
         get() = ViewModelProviders.of(this).get(PrimeMetalCardViewModel::class.java)
 

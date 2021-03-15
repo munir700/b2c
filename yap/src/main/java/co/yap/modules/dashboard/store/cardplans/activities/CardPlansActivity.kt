@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.cardplans.activities
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -9,10 +10,12 @@ import co.yap.modules.dashboard.store.cardplans.interfaces.IMainCardPlans
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansMainViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import kotlinx.android.synthetic.main.fragment_prime_metal_card.*
 
 class CardPlansActivity : BaseBindingActivity<IMainCardPlans.ViewModel>(), INavigator,
     IFragmentHolder, IMainCardPlans.View {
