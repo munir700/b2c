@@ -1,11 +1,11 @@
 package co.yap.modules.location.kyc_additional_info.tax_info
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.pdf.PDFActivity
@@ -13,11 +13,13 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
     ITaxInfo.View {
@@ -29,7 +31,14 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addObservers()
+        when (SessionManager.user?.notificationStatuses) {
+            AccountStatus.FATCA_GENERATED.name -> {
+                skipTaxInfoSelectionFragment()
+            }
+            else -> {
+                addObservers()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,11 +93,23 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
                 viewModel.saveInfoDetails(true) {
                     trackEventWithScreenName(FirebaseEvent.TAX_RESIDENCE_SUBMIT)
                     navigate(
-                        R.id.action_employmentStatusSelectionFragment_to_employmentQuestionnaireFragment
+                        R.id.action_taxInfoFragment_to_employmentStatusSelectionFragment
                     )
                 }
             }
         }
+    }
+
+    private fun skipTaxInfoSelectionFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.taxInfoFragment, true) // starting destination skipped
+            .build()
+
+        findNavController().navigate(
+            R.id.action_taxInfoFragment_to_employmentStatusSelectionFragment,
+            null,
+            navOptions
+        )
     }
 
     override fun onBackPressed(): Boolean = false

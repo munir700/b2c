@@ -18,10 +18,10 @@ import co.yap.modules.location.helper.MapSupportFragment
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.City
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.CoreBottomSheet
-import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
@@ -57,7 +57,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         super.onCreate(savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
             when (SessionManager.user?.notificationStatuses) {
-                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name, AccountStatus.FATCA_GENERATED.name -> {
                     skipLocationSelectionFragment()
                 }
                 else -> setObservers()
@@ -71,7 +71,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
             when (SessionManager.user?.notificationStatuses) {
-                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name, AccountStatus.FATCA_GENERATED.name -> {
                 }
                 else -> {
                     checkPermission()
@@ -122,7 +122,10 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private fun setAddress() {
         viewModel.address = viewModel.parentViewModel?.address
         viewModel.state.addressTitle.set(viewModel.address?.address1)
-        viewModel.state.headingTitle.set(viewModel.address?.address1?:getString(Strings.screen_meeting_location_display_text_add_new_address_title))
+        viewModel.state.headingTitle.set(
+            viewModel.address?.address1
+                ?: getString(Strings.screen_meeting_location_display_text_add_new_address_title)
+        )
         viewModel.state.addressSubtitle.set(viewModel.address?.address2)
         populateCardState(viewModel.address, true)
         getCurrentLocation()

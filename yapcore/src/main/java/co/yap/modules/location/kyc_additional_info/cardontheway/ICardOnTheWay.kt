@@ -15,5 +15,9 @@ interface ICardOnTheWay {
         fun handlePressOnView(id: Int)
     }
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        fun setCardAnimation()
+        fun setObservers()
+        fun removeObservers()
+    }
 }

@@ -44,7 +44,10 @@ class TaxInfoViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(80)
+        if (parentViewModel?.isOnBoarding == true) {
+            progressToolBarVisibility(true)
+            setProgress(40)
+        }
     }
 
     private fun setupRecycleView() {

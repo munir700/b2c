@@ -43,7 +43,10 @@ class LocationSelectionViewModel(application: Application) :
         super.onCreate()
         getCities()
         initializePlacesAdapter()
-        setProgress(40)
+        if (parentViewModel?.isOnBoarding == true) {
+            progressToolBarVisibility(true)
+            setProgress(40)
+        }
     }
 
     override fun handleOnPressView(id: Int) {

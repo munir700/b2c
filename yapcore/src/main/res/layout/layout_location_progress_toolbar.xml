@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.location.viewmodels.LocationViewModel" />
@@ -16,7 +18,8 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_8sdp"
+        android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE : View.GONE }">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tbBtnBack"
