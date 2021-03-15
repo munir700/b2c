@@ -24,13 +24,12 @@ interface IEmploymentQuestionnaire {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        val questionnaireAdaptor: EmploymentQuestionnaireAdaptor
         var selectedQuestionItemPosition: Int
         val industrySegmentsList: ArrayList<IndustrySegment>
         var employmentStatus: EmploymentStatus
         val selectedBusinessCountries: ArrayList<String>
         fun handleOnPressView(id: Int)
-        fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
+        fun questionnaires(forStatus: EmploymentStatus):ArrayList<QuestionUiFields>
         fun employmentTypes(): MutableList<EmploymentType>
         fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
         fun setBusinessCountries(countries: ArrayList<String>, position: Int)
@@ -51,11 +50,13 @@ interface IEmploymentQuestionnaire {
         fun getEmploymentInfoRequest(
             status: EmploymentStatus
         ): EmploymentInfoRequest
+        fun getDataForPosition(position:Int):QuestionUiFields
 
     }
 
     interface State : IBase.State {
         var valid: ObservableField<Boolean>
+        var questionsList:ArrayList<QuestionUiFields>
     }
 
 }
