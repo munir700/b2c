@@ -13,7 +13,7 @@ abstract class LocationSelectionBaseViewModel<S : IBase.State>(application: Appl
         parentViewModel?.state?.toolbarTitle = title
     }
 
-    fun toggleToolBarVisibility(visibility: Boolean) {
+    fun progressToolBarVisibility(visibility: Boolean) {
         parentViewModel?.state?.toolbarVisibility?.set(visibility)
     }
 

@@ -32,7 +32,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         requireActivity().window
             ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         when (SessionManager.user?.notificationStatuses) {
-            AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+            AccountStatus.BIRTH_INFO_COLLECTED.name, AccountStatus.FATCA_GENERATED.name -> {
                 skipPOBSelectionFragment()
             }
             else -> {

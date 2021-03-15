@@ -53,7 +53,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setProgress(95)
+        if (parentViewModel?.isOnBoarding == true) {
+            progressToolBarVisibility(true)
+            setProgress(95)
+        }
     }
 
     override fun isDataRequiredFromApi(forStatus: EmploymentStatus) {
@@ -277,6 +280,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         return when (status) {
             EmploymentStatus.EMPLOYED -> {
                 EmploymentInfoRequest(
+                    employmentStatus = status.name,
                     employerName = questionnaireAdaptor.getDataForPosition(0).getAnswer(),
                     monthlySalary = questionnaireAdaptor.getDataForPosition(1).getAnswer(),
                     expectedMonthlyCredit = questionnaireAdaptor.getDataForPosition(2).getAnswer()
@@ -284,6 +288,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
             EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
+                    employmentStatus = status.name,
                     companyName = questionnaireAdaptor.getDataForPosition(0).getAnswer(),
                     industrySegmentCodes = listOf(
                         industrySegmentsList.first {
@@ -301,6 +306,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
             EmploymentStatus.OTHER -> {
                 EmploymentInfoRequest(
+                    employmentStatus = status.name,
                     employmentType = employmentTypes().first {
                         it.employmentType == questionnaireAdaptor.getDataForPosition(
                             0
