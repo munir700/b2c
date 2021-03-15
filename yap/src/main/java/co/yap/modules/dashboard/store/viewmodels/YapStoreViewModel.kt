@@ -43,7 +43,8 @@ class YapStoreViewModel(application: Application) :
                     name = getString(Strings.screen_yap_store_card_plans_label_text),
                     desc = getString(Strings.screen_yap_store_card_plans_description_text),
                     image = R.drawable.banner_card_plans,
-                    storeIcon = R.drawable.ic_card_plans
+                    storeIcon = R.drawable.ic_card_plans,
+                    isComingSoon = false
                 )
             )
             list.add(
@@ -52,7 +53,8 @@ class YapStoreViewModel(application: Application) :
                     name = getString(Strings.screen_yap_store_young_label_text),
                     desc = getString(Strings.screen_yap_store_young_description_text),
                     image = R.drawable.ic_store_young,
-                    storeIcon = R.drawable.ic_young_smile
+                    storeIcon = R.drawable.ic_young_smile,
+                    isComingSoon = true
                 )
             )
             list.add(
@@ -61,7 +63,8 @@ class YapStoreViewModel(application: Application) :
                     name = getString(Strings.screen_yap_store_household_label_text),
                     desc = getString(Strings.screen_yap_store_household_description_text),
                     image = R.drawable.ic_store_household,
-                    storeIcon = R.drawable.ic_young_household
+                    storeIcon = R.drawable.ic_young_household,
+                    isComingSoon = true
                 )
             )
             storesLiveData.value = list

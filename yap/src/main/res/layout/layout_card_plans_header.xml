@@ -52,8 +52,5 @@
             android:lineHeight="@dimen/_14sdp"
             app:layout_constraintTop_toBottomOf="@+id/cardLabel"
             tools:text="csicnfewonclcsnslcn csicnfewonclcsnslcn csicnfewonclcsnslcn csicnfewonclcsnslcn"/>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

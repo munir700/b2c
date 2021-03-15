@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.store.cardplans.viewmodels.PrimeMetalCardViewMod
 import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.fragment_prime_metal_card.*
 
+
 class PrimeCardFragment : CardPlansBaseFragment<IPrimeMetalCard.ViewModel>(), IPrimeMetalCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -35,13 +36,9 @@ class PrimeCardFragment : CardPlansBaseFragment<IPrimeMetalCard.ViewModel>(), IP
 
     override fun initVideoView() {
         planVideo.layoutParams =
-            viewModel.parentViewModel?.setViewDimensions(40, getBindings().planVideo)
+            viewModel.parentViewModel?.setViewDimensions(50, getBindings().planVideo)
         planVideo.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_prime_card_plan))
         planVideo.start()
-        planVideo.setOnCompletionListener { mediaPlayer ->
-            mediaPlayer.isLooping = true
-            planVideo.start()
-        }
     }
 
     override fun onResume() {
