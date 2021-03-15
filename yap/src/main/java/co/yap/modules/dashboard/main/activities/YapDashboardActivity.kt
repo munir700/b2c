@@ -45,6 +45,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.store.fragments.YapStoreFragment
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
@@ -202,9 +203,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
                     when (subActionButtonId) {
                         1 -> {
-                            launchActivity<LocationSelectionActivity>()
-//                            trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
-//                            launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                            trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
+                            launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                             /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 checkPermission()
                             } else {
