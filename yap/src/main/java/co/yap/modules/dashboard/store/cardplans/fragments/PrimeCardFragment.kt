@@ -35,7 +35,7 @@ class PrimeCardFragment : CardPlansBaseFragment<IPrimeMetalCard.ViewModel>(), IP
 
     override fun initVideoView() {
         planVideo.layoutParams =
-            viewModel.parentViewModel?.setViewDimensions(40, getBindings().planVideo)
+            viewModel.parentViewModel?.setViewDimensions(45, getBindings().planVideo)
         planVideo.setVideoURI(Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.video_prime_card_plan))
         planVideo.start()
         planVideo.setOnCompletionListener { mediaPlayer ->
