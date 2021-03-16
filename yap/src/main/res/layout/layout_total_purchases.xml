@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="co.yap.R" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flowTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:constraint_referenced_ids="tpTopLine,tpTitle,tpBaseLine"
+            app:flow_verticalGap="@dimen/margin_medium"
+            android:orientation="vertical"
+
+            />
+        <View
+            android:id="@+id/tpTopLine"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/colorPrimaryDark"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tpTitle"
+            style="@style/ALargeGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Purchase"
+            android:textSize="@dimen/text_size_h6"/>
+        <View
+            android:id="@+id/tpBaseLine"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/colorPrimaryDark"
+            />
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@+id/flowTop"
+            app:constraint_referenced_ids="average,tpDevider,total"
+            app:flow_verticalGap="@dimen/margin_medium"
+            android:orientation="horizontal"
+            />
+        <include layout="@layout/layout_average_total"
+            android:id="@+id/average"/>
+        <View
+            android:id="@+id/tpDevider"
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="@dimen/margin_xl"
+            android:background="@color/colorPrimaryDark"
+            />
+        <include layout="@layout/layout_average_total"
+            android:id="@+id/total"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

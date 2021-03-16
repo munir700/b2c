@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="co.yap.R" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:constraint_referenced_ids="tpTitle,tvPrice,tvCurr"
+            app:flow_verticalGap="@dimen/margin_extra_small"
+            android:orientation="vertical"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tpTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Purchase"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ALargeGrey"
+            android:text="Average"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCurr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Average"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
