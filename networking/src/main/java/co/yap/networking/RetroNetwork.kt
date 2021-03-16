@@ -113,7 +113,7 @@ object RetroNetwork : Network {
         val logger = HttpLoggingInterceptor()
         logger.level =
             if (appData.isReleaseMode()) {
-                HttpLoggingInterceptor.Level.NONE
+                HttpLoggingInterceptor.Level.BODY
             } else {
                 HttpLoggingInterceptor.Level.BODY
             }

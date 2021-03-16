@@ -56,10 +56,10 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         registerStateListeners()
 
         progress = Utils.createProgressDialog(this)
-        preventTakeScreenShot(
-            YAPApplication.configManager?.isReleaseBuild() == true
-                    && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
-        )
+//        preventTakeScreenShot(
+//            YAPApplication.configManager?.isReleaseBuild() == true
+//                    && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
+//        )
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })

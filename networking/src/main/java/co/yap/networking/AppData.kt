@@ -9,6 +9,6 @@ data class AppData(
     var sslPin3: String?="",
     var sslHost: String?=""
 ) {
-    fun isReleaseMode(): Boolean = (build_type == "release")  && (flavor == "stg") || (flavor == "live")// need to check this
+    fun isReleaseMode(): Boolean = (build_type == "release")  && (flavor == "stg") // need to check this
     //fun isStgOrLiveMode(): Boolean = (flavor == "stg") || (flavor == "live")
 }
