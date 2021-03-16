@@ -1091,7 +1091,7 @@ Due to all the excitement of our official launch, we are gradually activating as
 
     <!--  Tax info screen -->
     <string name="screen_tax_info_display_text_heading">Tax Information</string>
-    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax committments</string>
+    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax commitments</string>
     <string name="screen_tax_info_display_text_select_country">Select country of tax residence</string>
     <string name="screen_tax_info_display_text_have_tin_number">Do you have a Tax Identification Number (TIN)?</string>
     <string name="screen_tax_info_display_text_reason_no_tin_number">Select the reason for not having a TIN</string>
