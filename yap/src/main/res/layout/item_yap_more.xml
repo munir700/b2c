@@ -14,14 +14,13 @@
         <import type="android.view.View" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/cornor_edges_gery"
         android:padding="@dimen/margin_medium">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgIcon"
             android:layout_width="@dimen/_43sdp"
             android:layout_height="@dimen/_43sdp"
@@ -53,19 +52,19 @@
             <co.yap.widgets.BadgeTextView
                 android:id="@+id/textBadge"
                 android:layout_width="wrap_content"
-                android:textSize="@dimen/_8sdp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorSecondaryMagenta"
                 android:text="@{Integer.toString(viewModel.moreOption.badgeCount)}"
                 android:textColor="@color/white"
+                android:textSize="@dimen/_8sdp"
+                app:mbtv_border_alpha="1"
                 app:mbtv_border_color="@color/white"
                 app:mbtv_border_width="@dimen/_1sdp"
                 app:mbtv_type="shadow_alpha"
-                app:mbtv_border_alpha="1"
                 tools:text="41" />
         </FrameLayout>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/ASmall"
             android:layout_width="match_parent"
