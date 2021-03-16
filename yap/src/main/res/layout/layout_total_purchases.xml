@@ -29,20 +29,21 @@
             android:id="@+id/tpTopLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorDisabledBtn"
             />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tpTitle"
-            style="@style/ALargeGrey"
+            style="@style/ASmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Total Purchase"
-            android:textSize="@dimen/text_size_h6"/>
+            />
         <View
             android:id="@+id/tpBaseLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorDisabledBtn"
             />
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow2"
@@ -59,7 +60,7 @@
             android:id="@+id/tpDevider"
             android:layout_width="@dimen/_1sdp"
             android:layout_height="@dimen/margin_xl"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorDisabledBtn"
             />
         <include layout="@layout/layout_average_total"
             android:id="@+id/total"/>

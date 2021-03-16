@@ -26,6 +26,8 @@
             android:id="@+id/tpTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/MicroGrey"
+            android:textColor="@color/greyDark"
             android:text="Total Purchase"
             />
         <androidx.appcompat.widget.AppCompatTextView
@@ -33,11 +35,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ALargeGrey"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Average"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/MicroGrey"
+            android:textColor="@color/greyDark"
             android:text="Average"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
