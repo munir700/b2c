@@ -50,5 +50,6 @@ interface ITransactionDetails {
         var isTransactionInProcessOrRejected: ObservableBoolean
         var transactionData: ObservableField<TransactionDetail>
         var coverImage: ObservableInt
+        var showTotalPurchases : ObservableBoolean
     }
 }

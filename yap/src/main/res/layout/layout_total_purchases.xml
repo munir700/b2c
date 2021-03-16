@@ -20,10 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:constraint_referenced_ids="tpTopLine,tpTitle,tpBaseLine,flow2,vBlank"
+            app:constraint_referenced_ids="tpTopLine,space,tpBaseLine,flow2,vBlank"
             app:flow_verticalGap="@dimen/margin_medium"
             android:orientation="vertical"
-
             />
         <View
             android:id="@+id/tpTopLine"
@@ -34,9 +33,29 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tpTitle"
             style="@style/ASmallGrey"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tpTopLine"
+            app:layout_constraintBottom_toTopOf="@+id/tpBaseLine"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="55"
+            />
+        <View
+            android:id="@+id/space"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_4sdp"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tpCount"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tpTopLine"
+            app:layout_constraintBottom_toTopOf="@+id/tpBaseLine"
             android:text="Total Purchase"
             />
         <View
@@ -55,7 +74,11 @@
             android:orientation="horizontal"
             />
         <include layout="@layout/layout_average_total"
-            android:id="@+id/average"/>
+            android:id="@+id/average"
+            app:title='@{"Average"}'
+            app:price='@{"21.70"}'
+            app:currency='@{"AED"}'
+            />
         <View
             android:id="@+id/tpDevider"
             android:layout_width="@dimen/_1sdp"
@@ -63,7 +86,11 @@
             android:background="@color/divider"
             />
         <include layout="@layout/layout_average_total"
-            android:id="@+id/total"/>
+            android:id="@+id/total"
+            app:title='@{"Total"}'
+            app:price='@{"55.60"}'
+            app:currency='@{"AED"}'
+            />
         <View
             android:id="@+id/vBlank"
             android:layout_width="match_parent"

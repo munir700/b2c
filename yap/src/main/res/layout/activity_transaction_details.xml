@@ -309,13 +309,14 @@
             <include
                 android:id="@+id/parentTotalPurchase"
                 layout="@layout/layout_total_purchases"
-                app:purchaseViewModel="@{viewModel}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_normal_large"
-                app:layout_constraintTop_toBottomOf="@+id/clReceiptParent" />
+                android:visibility="@{viewModel.state.showTotalPurchases?View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toBottomOf="@+id/clReceiptParent"
+                app:purchaseViewModel="@{viewModel}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvPaymentDetail"
@@ -323,6 +324,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:text="Payment details"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

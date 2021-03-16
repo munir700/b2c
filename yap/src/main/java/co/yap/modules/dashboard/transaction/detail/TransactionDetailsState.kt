@@ -25,5 +25,6 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var isTransactionInProcessOrRejected: ObservableBoolean = ObservableBoolean(false)
     override var transactionData: ObservableField<TransactionDetail> = ObservableField()
     override var coverImage: ObservableInt = ObservableInt()
+    override var showTotalPurchases: ObservableBoolean = ObservableBoolean(false)
 
 }

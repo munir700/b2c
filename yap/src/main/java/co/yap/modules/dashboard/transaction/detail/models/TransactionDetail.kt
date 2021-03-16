@@ -11,7 +11,8 @@ data class TransactionDetail(
     val categoryIcon: Int?,
     val statusIcon: Int?,
     val coverImage: Int,
-    val transactionItem: List<ItemTransactionDetail>
+    val transactionItem: List<ItemTransactionDetail>,
+    val showTotalPurchase : Boolean?
 )
 
 

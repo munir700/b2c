@@ -7,6 +7,15 @@
         <import type="co.yap.R" />
 
         <import type="android.view.View" />
+        <variable
+            name="title"
+            type="String" />
+        <variable
+            name="price"
+            type="String" />
+        <variable
+            name="currency"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +37,7 @@
             android:layout_height="wrap_content"
             style="@style/MicroGrey"
             android:textColor="@color/greyDark"
-            android:text="Total Purchase"
+            android:text="@{title}"
             />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPrice"
@@ -36,14 +45,14 @@
             android:layout_height="wrap_content"
             style="@style/ALargeGrey"
             android:textColor="@color/colorPrimaryDark"
-            android:text="Average"/>
+            android:text="@{price}"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/MicroGrey"
             android:textColor="@color/greyDark"
-            android:text="Average"/>
+            android:text="@{currency}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

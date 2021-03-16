@@ -27,7 +27,8 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 transferType = transactionDetailFactory?.getStatusType(),
                 statusIcon = transactionDetailFactory?.getTransactionStatusIcon(),
                 coverImage = transactionDetailFactory?.getMapImage() ?: -1,
-                transactionItem = listTransactionItem()
+                transactionItem = listTransactionItem(),
+                showTotalPurchase = transactionDetailFactory?.isTotalPurchaseAvailable()
             )
         } ?: return null
     }
