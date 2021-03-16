@@ -3,13 +3,16 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.location.fragments.LocationChildFragment
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
+import co.yap.widgets.skeletonlayout.views
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -25,7 +28,6 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     IEmploymentQuestionnaire.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_employment_questionnaire
-
     override val viewModel: EmploymentQuestionnaireViewModel
         get() = ViewModelProviders.of(this).get(EmploymentQuestionnaireViewModel::class.java)
 
@@ -33,9 +35,35 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         super.onCreate(savedInstanceState)
         addObservers()
         viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
-        viewModel.employmentStatus
-        viewModel.questionnaireAdaptor.setList(viewModel.questionnaires(viewModel.employmentStatus))
         viewModel.isDataRequiredFromApi(forStatus = viewModel.employmentStatus)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initQuestionViews()
+    }
+
+    private fun initQuestionViews() {
+        viewModel.questionsList.addAll(viewModel.questionnaires(viewModel.employmentStatus))
+        val questionItemViewHolders = QuestionItemViewHolders(viewModel)
+        viewModel.questionsList.forEachIndexed { position, questionUiField ->
+            val questionView: View?
+            val binding =
+                DataBindingUtil.inflate<ViewDataBinding>(
+                    layoutInflater,
+                    questionItemViewHolders.getItemViewType(position),
+                    null,
+                    false
+                )
+            questionView = questionItemViewHolders.getViewFromBinding(
+                binding,
+                questionUiField,
+                position,
+                listener
+            )
+            if (questionView != null)
+                getBinding().llQuestions.addView(questionView)
+        }
     }
 
     private val clickObserver = Observer<Int> {
@@ -60,7 +88,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
                 R.id.searchCountries -> {
                     requireActivity().launchMultiSelectionBottomSheet(
-                        viewModel.countriesItemClickListener,
+                        itemClickListener = object : OnItemClickListener {
+                            override fun onItemClick(view: View, data: Any, pos: Int) {
+                                onBusinessCountriesSelection(data as ArrayList<String>)
+                            }
+                        },
                         countriesList = viewModel.getSelectedStateCountries(
                             viewModel.parentViewModel?.countries ?: arrayListOf()
                         )
@@ -77,6 +109,16 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 }
             }
         }
+    }
+
+    private fun onBusinessCountriesSelection(list: ArrayList<String>) {
+        val viewCountriesLayout =
+            getBinding().llQuestions.views()[viewModel.selectedQuestionItemPosition]
+        viewModel.setBusinessCountries(
+            viewCountriesLayout,
+            list,
+            viewModel.selectedQuestionItemPosition
+        )
     }
 
     private fun openEmploymentTypeBottomSheet() {
@@ -99,7 +141,6 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.questionnaireAdaptor.setItemListener(listener)
     }
 
     override fun removeObservers() {
@@ -123,16 +164,16 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         )
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-//        viewModel.parentViewModel?.countries?.unSelectAllCountries(viewModel.selectedBusinessCountries)
-//    }
-}
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
 
-fun List<Country>.f(fooApiList: List<String>) = filter { m -> fooApiList.any { it == m.getName() } }
+    override fun onStop() {
+        super.onStop()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        viewModel.parentViewModel?.countries?.unSelectAllCountries(
+            viewModel.selectedBusinessCountries.get() ?: arrayListOf()
+        )
+    }
+}

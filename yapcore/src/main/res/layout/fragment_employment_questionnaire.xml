@@ -54,21 +54,23 @@
                 app:text="@{Strings.screen_employment_questionnaire_display_text_desc}"
                 tools:text="@string/screen_employment_questionnaire_display_text_desc" />
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                recycleViewAdapter="@{viewModel.questionnaireAdaptor}"
+            <ScrollView
+                android:id="@+id/svQuestions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:layout_marginTop="@dimen/margin_medium_large"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDescription"
-                tools:itemCount="5"
-                tools:listitem="@layout/layout_question_type_edit_text" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llQuestions"
+                    android:orientation="vertical"/>
+            </ScrollView>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTermsConditions"
@@ -87,7 +89,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler"
+                app:layout_constraintTop_toBottomOf="@+id/svQuestions"
                 app:layout_constraintVertical_bias="0.869"
                 app:text="@{Strings.screen_employment_questionnaire_display_text_user_information}"
                 tools:text="@string/screen_employment_questionnaire_display_text_user_information" />

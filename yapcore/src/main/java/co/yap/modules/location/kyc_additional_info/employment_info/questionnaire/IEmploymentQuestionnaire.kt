@@ -2,7 +2,6 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.EmploymentQuestionnaireAdaptor
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -24,16 +23,21 @@ interface IEmploymentQuestionnaire {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        val questionnaireAdaptor: EmploymentQuestionnaireAdaptor
         var selectedQuestionItemPosition: Int
         val industrySegmentsList: ArrayList<IndustrySegment>
         var employmentStatus: EmploymentStatus
-        val selectedBusinessCountries: ArrayList<String>
+        val selectedBusinessCountries: ObservableField<ArrayList<String>>
+        var questionsList: ArrayList<QuestionUiFields>
         fun handleOnPressView(id: Int)
-        fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
+        fun questionnaires(forStatus: EmploymentStatus):ArrayList<QuestionUiFields>
         fun employmentTypes(): MutableList<EmploymentType>
         fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
-        fun setBusinessCountries(countries: ArrayList<String>, position: Int)
+        fun setBusinessCountries(
+            lyCountries: android.view.View,
+            countries: ArrayList<String>,
+            position: Int
+        )
+
         fun parseEmploymentTypes(employmentTypes: MutableList<EmploymentType>): MutableList<CoreBottomSheetData>
         fun parseSegments(segments: MutableList<IndustrySegment>): MutableList<CoreBottomSheetData>
         fun onInfoClick(
@@ -51,6 +55,7 @@ interface IEmploymentQuestionnaire {
         fun getEmploymentInfoRequest(
             status: EmploymentStatus
         ): EmploymentInfoRequest
+        fun getDataForPosition(position:Int):QuestionUiFields
 
     }
 
