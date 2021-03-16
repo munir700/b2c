@@ -29,7 +29,7 @@
             android:id="@+id/tpTopLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/colorDisabledBtn"
+            android:background="@color/divider"
             />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tpTitle"
@@ -43,7 +43,7 @@
             android:id="@+id/tpBaseLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/colorDisabledBtn"
+            android:background="@color/divider"
             />
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow2"
@@ -60,7 +60,7 @@
             android:id="@+id/tpDevider"
             android:layout_width="@dimen/_1sdp"
             android:layout_height="@dimen/margin_xl"
-            android:background="@color/colorDisabledBtn"
+            android:background="@color/divider"
             />
         <include layout="@layout/layout_average_total"
             android:id="@+id/total"/>
