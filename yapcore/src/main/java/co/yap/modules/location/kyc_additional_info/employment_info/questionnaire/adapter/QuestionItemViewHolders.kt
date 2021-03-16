@@ -120,7 +120,7 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
     fun getLayoutIdForViewType(viewType: Int): Int = viewType
 
     fun getItemViewType(position: Int): Int {
-        return getLayoutId(viewModel.state.questionsList[position].question.questionType)
+        return getLayoutId(viewModel.questionsList[position].question.questionType)
     }
 
     fun getViewFromBinding(

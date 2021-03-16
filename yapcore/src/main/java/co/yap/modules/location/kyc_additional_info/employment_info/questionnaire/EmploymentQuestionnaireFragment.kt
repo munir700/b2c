@@ -7,10 +7,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.location.fragments.LocationChildFragment
-import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.BusinessCountriesAdapter
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
@@ -42,15 +40,14 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initQuestionViews()
+    }
+
+    private fun initQuestionViews() {
+        viewModel.questionsList.addAll(viewModel.questionnaires(viewModel.employmentStatus))
         val questionItemViewHolders = QuestionItemViewHolders(viewModel)
-
-        val layoutInflater = layoutInflater
-
-        val questions = viewModel.state.questionsList
-
-        questions.forEach { questionUiField ->
-            val questionViews: View?
-            val position = questions.indexOf(questionUiField)
+        viewModel.questionsList.forEachIndexed { position, questionUiField ->
+            val questionView: View?
             val binding =
                 DataBindingUtil.inflate<ViewDataBinding>(
                     layoutInflater,
@@ -58,14 +55,14 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                     null,
                     false
                 )
-            questionViews = questionItemViewHolders.getViewFromBinding(
+            questionView = questionItemViewHolders.getViewFromBinding(
                 binding,
                 questionUiField,
                 position,
                 listener
             )
-            if (questionViews != null)
-                getBinding().llQuestions.addView(questionViews)
+            if (questionView != null)
+                getBinding().llQuestions.addView(questionView)
         }
     }
 
@@ -91,22 +88,9 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
                 R.id.searchCountries -> {
                     requireActivity().launchMultiSelectionBottomSheet(
-                        object : OnItemClickListener {
+                        itemClickListener = object : OnItemClickListener {
                             override fun onItemClick(view: View, data: Any, pos: Int) {
-                                if (data is ArrayList<*>) {
-                                    viewModel.setBusinessCountries(
-                                        data as ArrayList<String>,
-                                        viewModel.selectedQuestionItemPosition
-                                    )
-                                    val viewCountriesLayout =
-                                        getBinding().llQuestions.views()[viewModel.selectedQuestionItemPosition]
-                                    val rvCountries =
-                                        viewCountriesLayout.findViewById<RecyclerView>(R.id.rvBusinessCountries)
-                                    (rvCountries?.adapter as BusinessCountriesAdapter).setList(
-                                        viewModel.selectedBusinessCountries.get() ?: arrayListOf()
-                                    )
-                                    viewModel.validate()
-                                }
+                                onBusinessCountriesSelection(data as ArrayList<String>)
                             }
                         },
                         countriesList = viewModel.getSelectedStateCountries(
@@ -125,6 +109,16 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 }
             }
         }
+    }
+
+    private fun onBusinessCountriesSelection(list: ArrayList<String>) {
+        val viewCountriesLayout =
+            getBinding().llQuestions.views()[viewModel.selectedQuestionItemPosition]
+        viewModel.setBusinessCountries(
+            viewCountriesLayout,
+            list,
+            viewModel.selectedQuestionItemPosition
+        )
     }
 
     private fun openEmploymentTypeBottomSheet() {

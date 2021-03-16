@@ -6,5 +6,4 @@ import co.yap.yapcore.BaseState
 
 class EmploymentQuestionnaireState : BaseState(), IEmploymentQuestionnaire.State {
     override var valid: ObservableField<Boolean> = ObservableField(false)
-    override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
 }

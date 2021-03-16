@@ -1,6 +1,5 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 
-import android.view.LayoutInflater
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentType
@@ -28,11 +27,17 @@ interface IEmploymentQuestionnaire {
         val industrySegmentsList: ArrayList<IndustrySegment>
         var employmentStatus: EmploymentStatus
         val selectedBusinessCountries: ObservableField<ArrayList<String>>
+        var questionsList: ArrayList<QuestionUiFields>
         fun handleOnPressView(id: Int)
         fun questionnaires(forStatus: EmploymentStatus):ArrayList<QuestionUiFields>
         fun employmentTypes(): MutableList<EmploymentType>
         fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
-        fun setBusinessCountries(countries: ArrayList<String>, position: Int)
+        fun setBusinessCountries(
+            lyCountries: android.view.View,
+            countries: ArrayList<String>,
+            position: Int
+        )
+
         fun parseEmploymentTypes(employmentTypes: MutableList<EmploymentType>): MutableList<CoreBottomSheetData>
         fun parseSegments(segments: MutableList<IndustrySegment>): MutableList<CoreBottomSheetData>
         fun onInfoClick(
@@ -56,7 +61,6 @@ interface IEmploymentQuestionnaire {
 
     interface State : IBase.State {
         var valid: ObservableField<Boolean>
-        var questionsList:ArrayList<QuestionUiFields>
     }
 
 }
