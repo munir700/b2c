@@ -55,6 +55,7 @@ class TransactionDetailsViewModel(application: Application) :
             state.txnNoteValue.set(it.noteValue)
             state.transactionNoteDate = it.noteAddedDate
             state.coverImage.set(it.coverImage)
+            it.showTotalPurchase?.let { it1 -> state.showTotalPurchases.set(it1) }
         }
     }
 
