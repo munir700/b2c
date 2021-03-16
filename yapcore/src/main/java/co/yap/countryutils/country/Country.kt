@@ -4,8 +4,7 @@ import android.content.Context
 import android.os.Parcelable
 import co.yap.countryutils.country.utils.Currency
 import co.yap.countryutils.country.utils.CurrencyUtils
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
-import kotlinx.android.parcel.IgnoredOnParcel
+import co.yap.networking.coreitems.CoreBottomSheetData
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -97,5 +96,18 @@ data class Country(
     fun setFlagDrawableResId(flagDrawableResId: Int) {
         this.flagDrawableResId = flagDrawableResId
     }
+}
 
+fun List<Country>.filterSelectedCountriesByNames(selectedCountriesNames: List<String>) =
+    filter { m -> selectedCountriesNames.any { it == m.getName() } }
+
+fun List<Country>.unSelectAllCountries(selectedCountriesNames: List<String>) {
+    filterSelectedCountriesByNames(selectedCountriesNames).forEach {
+        it.isSelected = false
+    }
+}
+fun List<Country>.filterSelectedIsoCodes(selectedCountriesNames: List<String>): List<String> {
+    return filterSelectedCountriesByNames(selectedCountriesNames).map {
+        it.isoCountryCode2Digit?:""
+    }
 }

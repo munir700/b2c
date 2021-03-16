@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -23,7 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class CoreBottomSheet(
+open class CoreBottomSheet(
     private val mListener: OnItemClickListener?,
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
     private val headingLabel: String? = null,
@@ -33,7 +34,7 @@ class CoreBottomSheet(
     override val viewModel: CoreBottomSheetViewModel
         get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
 
-    val adapter: CoreBottomSheetAdapter by lazy {
+   open val adapter: CoreBottomSheetAdapter by lazy {
         CoreBottomSheetAdapter(bottomSheetItems, viewType)
     }
 
@@ -52,6 +53,10 @@ class CoreBottomSheet(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
+    }
+
+    private fun initViews() {
         viewDataBinding.setVariable(BR.viewModel, viewModel)
         viewDataBinding.executePendingBindings()
         val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)

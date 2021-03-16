@@ -49,6 +49,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivi
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
+import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity

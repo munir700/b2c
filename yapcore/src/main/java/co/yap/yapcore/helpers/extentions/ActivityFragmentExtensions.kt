@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
@@ -31,6 +33,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -452,4 +455,22 @@ inline fun Activity.launchTourGuide(
         TourGuideManager.lockTourGuideScreen(screenName, viewed = true)
         return tour
     } else null
+}
+
+fun Fragment.launchBottomSheetSegment(
+    itemClickListener: OnItemClickListener?,
+    label: String,
+    viewType: Int,
+    listData: MutableList<CoreBottomSheetData>
+) {
+    fragmentManager.let {
+        val coreBottomSheet =
+            CoreBottomSheet(
+                itemClickListener,
+                bottomSheetItems = listData,
+                headingLabel = label,
+                viewType = viewType
+            )
+        it?.let { it1 -> coreBottomSheet.show(it1, "") }
+    }
 }

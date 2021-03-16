@@ -15,4 +15,6 @@ class CoreBottomSheetViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
+
+    override var selectedViewsList: ArrayList<String> = arrayListOf()
 }
