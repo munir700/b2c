@@ -142,4 +142,5 @@ class CardOnTheWayFragment : LocationChildFragment<ICardOnTheWay.ViewModel>(),
         removeObservers()
     }
 
+    override fun onBackPressed(): Boolean = true
 }
