@@ -12,6 +12,8 @@
         <variable
             name="viewModel"
             type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <LinearLayout
@@ -26,7 +28,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center_vertical"
             android:padding="@dimen/_8sdp"
-            android:visibility="@{viewModel.parentViewModel.skipFirstScreen? View.VISIBLE :View.GONE}">
+            android:visibility="@{!viewModel.parentViewModel.skipFirstScreen||(SessionManager.INSTANCE.user.notificationStatuses.equals(`ON_BOARDED`)||SessionManager.INSTANCE.user.notificationStatuses.equals(`ADDITIONAL_COMPLIANCE_INFO_REQ`))? View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:id="@+id/tbBtnBack"
@@ -427,15 +429,15 @@
                     style="@style/RectangleBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:btn_size="small"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvError"
                     app:layout_constraintVertical_bias="0.75"
                     app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
