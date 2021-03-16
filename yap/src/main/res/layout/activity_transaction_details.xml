@@ -27,7 +27,7 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.yapcore.managers.SessionManager"/>
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <ScrollView
@@ -306,6 +306,16 @@
                 app:layout_constraintTop_toBottomOf="@id/clNoteParent"
                 app:receiptViewModel="@{viewModel}" />
 
+            <include
+                android:id="@+id/parentTotalPurchase"
+                layout="@layout/layout_total_purchases"
+                app:purchaseViewModel="@{viewModel}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_normal_large"
+                app:layout_constraintTop_toBottomOf="@+id/clReceiptParent" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvPaymentDetail"
                 style="@style/ASmall"
@@ -317,7 +327,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clReceiptParent"
+                app:layout_constraintTop_toBottomOf="@+id/parentTotalPurchase"
                 tools:text="Payment detail" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

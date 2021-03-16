@@ -7,17 +7,20 @@
         <import type="co.yap.R" />
 
         <import type="android.view.View" />
+        <variable
+            name="purchaseViewModel"
+            type="co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flowTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:constraint_referenced_ids="tpTopLine,tpTitle,tpBaseLine"
+            app:constraint_referenced_ids="tpTopLine,tpTitle,tpBaseLine,flow2,vBlank"
             app:flow_verticalGap="@dimen/margin_medium"
             android:orientation="vertical"
 
@@ -42,9 +45,9 @@
             android:background="@color/colorPrimaryDark"
             />
         <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintTop_toBottomOf="@+id/flowTop"
             app:constraint_referenced_ids="average,tpDevider,total"
             app:flow_verticalGap="@dimen/margin_medium"
@@ -60,6 +63,11 @@
             />
         <include layout="@layout/layout_average_total"
             android:id="@+id/total"/>
+        <View
+            android:id="@+id/vBlank"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_small"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
