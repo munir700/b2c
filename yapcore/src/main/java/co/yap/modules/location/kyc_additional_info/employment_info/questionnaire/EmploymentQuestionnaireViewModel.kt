@@ -3,9 +3,11 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import android.app.Application
 import android.view.View
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.filterSelectedIsoCodes
 import co.yap.countryutils.country.utils.CurrencyUtils
+import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.BusinessCountriesAdapter
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
@@ -43,11 +45,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override var employmentStatus: EmploymentStatus = EmploymentStatus.NONE
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
-
-    override fun onCreate() {
-        super.onCreate()
-        state.questionsList.addAll(questionnaires(employmentStatus))
-    }
+    override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -142,24 +140,28 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     }
 
     override fun setBusinessCountries(
+        lyCountries: View,
         countries: ArrayList<String>,
         position: Int
     ) {
+
+        /*Update countries recycler view adapter*/
+        val rvCountries =
+            lyCountries.findViewById<RecyclerView>(R.id.rvBusinessCountries)
         val objQuestion = getDataForPosition(position)
         objQuestion.question.multipleAnswers.get()?.clear()
         objQuestion.question.multipleAnswers.get()?.addAll(countries)
-        state.questionsList[position] = objQuestion
+        questionsList[position] = objQuestion
         selectedBusinessCountries.get()?.clear()
         selectedBusinessCountries.get()?.addAll(countries)
-    }
+        (rvCountries?.adapter as BusinessCountriesAdapter).setList(
+            selectedBusinessCountries.get() ?: arrayListOf()
+        )
+        if (selectedBusinessCountries.get().isNullOrEmpty()) rvCountries.visibility =
+            View.GONE else rvCountries.visibility = View.VISIBLE
 
-    val countriesItemClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is ArrayList<*>) {
-                setBusinessCountries(data as ArrayList<String>, selectedQuestionItemPosition)
-                validate()
-            }
-        }
+        rvCountries.smoothScrollToPosition(rvCountries.adapter?.itemCount ?: 0)
+
     }
 
     val employmentTypeItemClickListener = object : OnItemClickListener {
@@ -171,7 +173,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 else -> ""
             }
             objQuestion.question.answer.set(answerValue)
-            state.questionsList[selectedQuestionItemPosition] = objQuestion
+            questionsList[selectedQuestionItemPosition] = objQuestion
             validate()
         }
     }
@@ -187,7 +189,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     fun validate() {
         var isValid = false
-        state.questionsList.forEach {
+        questionsList.forEach {
             isValid = when (it.question.questionType) {
                 QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.get()
                     ?.isNotEmpty() == true
@@ -321,6 +323,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     }
 
     override fun getDataForPosition(position: Int): QuestionUiFields {
-        return state.questionsList[position]
+        return questionsList[position]
     }
 }
