@@ -321,9 +321,11 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 (transaction.productCode == TransactionProductCode.UAEFTS.pCode && transaction.txnType == TxnType.DEBIT.type) ||
                 (transaction.productCode == TransactionProductCode.SWIFT.pCode && transaction.txnType == TxnType.DEBIT.type) ||
                 (transaction.productCode == TransactionProductCode.RMT.pCode && transaction.txnType == TxnType.DEBIT.type) ||
-                (transaction.productCode == TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode && transaction.txnType == TxnType.DEBIT.type) ||
+                (transaction.productCode == TransactionProductCode.DOMESTIC.pCode && transaction.txnType == TxnType.DEBIT.type) ||
                 (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) ||
+                (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
                 (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
                 (transaction.productCode == TransactionProductCode.ECOM.pCode)
     }
+
 }
