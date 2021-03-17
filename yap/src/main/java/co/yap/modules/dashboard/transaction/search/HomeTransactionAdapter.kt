@@ -167,15 +167,32 @@ class HomeTransactionAdapter(
             super.setItem(item, position)
             transaction = item
             handleProductBaseCases(itemView.context, item, position)
-            item.remarks?.let {
-                binding.tvTransactionNote.text = it
+
+            //prod ticket YM-11574 fix start
+            if (item?.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode) {
+                item?.remarks?.let {
+                    binding.tvTransactionNote.text = it
+
+                    binding.tvTransactionNote.visibility =
+                        if (item?.remarks.isNullOrEmpty() || item?.remarks.equals(
+                                "null"
+                            )
+                        ) View.GONE else View.VISIBLE
+                }
+
+            } else {
+                binding.tvTransactionNote.visibility = View.GONE
             }
 
-            binding.tvTransactionNote.visibility =
-                if (item.remarks.isNullOrEmpty() || item.remarks.equals(
-                        "null"
-                    )
-                ) View.GONE else View.VISIBLE
+//            item.remarks?.let {
+//                binding.tvTransactionNote.text = it
+//            }
+//
+//            binding.tvTransactionNote.visibility =
+//                if (item.remarks.isNullOrEmpty() || item.remarks.equals(
+//                        "null"
+//                    )
+//                ) View.GONE else View.VISIBLE
         }
 
         private fun handleProductBaseCases(
