@@ -7,7 +7,6 @@ import co.yap.R
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
 import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
-import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
@@ -93,14 +92,18 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun requestAllApis() {
         requestReceiptsAndTotalPurchases { totalPurchasesResponse, receiptResponse ->
-            launch (Dispatcher.Main){
-                when(totalPurchasesResponse){
-                    is RetroApiResponse.Success ->{}
-                }
-                when(receiptResponse){
-                    is RetroApiResponse.Success ->{
-                        responseReciept.value = receiptResponse.data.trxnReceiptList as ArrayList<String>?
+            launch(Dispatcher.Main) {
+                when (totalPurchasesResponse) {
+                    is RetroApiResponse.Success -> {
                     }
+                    is RetroApiResponse.Error ->{}
+                }
+                when (receiptResponse) {
+                    is RetroApiResponse.Success -> {
+                        responseReciept.value =
+                            receiptResponse.data.trxnReceiptList as ArrayList<String>?
+                    }
+                    is RetroApiResponse.Error ->{}
                 }
                 state.viewState.value = false
             }
@@ -131,24 +134,16 @@ class TransactionDetailsViewModel(application: Application) :
                         getTotalPurchaseEndpoint()
                     )
                 }
-                val response = totalPurchaseResponse.await()
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                        transaction.get()?.let { it ->
-                            val receiptResponse = if (isShowReceiptSection(transaction = it))
-                                async {
-                                    repository.getAllTransactionReceipts(
-                                        transactionId = it.transactionId ?: ""
-                                    )
-                                } else null
-                            responses(response, receiptResponse?.await())
+                val receiptsResponse = transaction.get()?.let { it ->
+                    if (isShowReceiptSection(transaction = it)) {
+                        return@let async {
+                            repository.getAllTransactionReceipts(
+                                transactionId = it.transactionId ?: ""
+                            )
                         }
-
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.viewState.postValue(false)
-                    }
+                    } else return@let null
                 }
+                responses(totalPurchaseResponse.await(), receiptsResponse?.await())
             }
         }
     }
@@ -187,7 +182,7 @@ class TransactionDetailsViewModel(application: Application) :
         adapter.removeItemAt(position)
     }
 
-/*    override fun getAllReceipts() {
+    override fun getAllReceipts() {
         launch {
             state.loading = true
             when (val response = repository.getAllTransactionReceipts(
@@ -203,7 +198,7 @@ class TransactionDetailsViewModel(application: Application) :
                 }
             }
         }
-    }*/
+    }
 
     override fun isShowReceiptSection(transaction: Transaction): Boolean {
         return when (transaction.productCode) {
