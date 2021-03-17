@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bill_payments_main_navigation"
+    app:startDestination="@id/payBillsFragment">
+
+    <fragment
+        android:id="@+id/payBillsFragment"
+        android:name="co.yap.billpayments.paybills.PayBillsFragment"
+        android:label="PayBillsFragment"
+        tools:layout="@layout/fragment_pay_bills"/>
+</navigation>

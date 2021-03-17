@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="co.yap.billpayments">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="co.yap.billpayments">
 
-    </manifest>
+    <application
+        android:allowBackup="false"
+        tools:remove="android:debuggable"
+        tools:replace="android:allowBackup">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name="co.yap.billpayments.home.BillPaymentsHomeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <nav-graph android:value="@navigation/bill_payments_main_navigation" />
+        </activity>
+    </application>
+</manifest>
