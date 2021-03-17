@@ -10,7 +10,7 @@ interface IWelcome {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        var onGetStartedPressEvent:SingleLiveEvent<Boolean>
+        var onGetStartedPressEvent: SingleLiveEvent<Boolean>
         fun getPages(): ArrayList<WelcomeContent>
         var accountType: AccountType
         fun handlePressOnGetStarted()

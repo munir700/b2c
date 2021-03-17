@@ -15,7 +15,8 @@ class SMHomeCountryBenefitsAdapter(
 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val v = LayoutInflater.from(p0.context).inflate(R.layout.item_home_country_benefits, p0, false)
+        val v =
+            LayoutInflater.from(p0.context).inflate(R.layout.item_home_country_benefits, p0, false)
         return ViewHolder(v)
     }
 

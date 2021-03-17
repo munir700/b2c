@@ -1,13 +1,10 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.statments.interfaces
 
-import androidx.databinding.Observable
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
 
 
 interface ICardStatments {

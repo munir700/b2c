@@ -21,7 +21,7 @@ interface IName {
         var firstName: String
         var firstNameError: MutableLiveData<String>
         var lastName: String
-        var lastNameError:  MutableLiveData<String>
+        var lastNameError: MutableLiveData<String>
         var valid: Boolean
         var drawbleRight: Drawable?
         var drawbleRightLastName: Drawable?

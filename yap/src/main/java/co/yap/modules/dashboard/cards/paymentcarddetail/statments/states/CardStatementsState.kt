@@ -12,6 +12,7 @@ class CardStatementsState : BaseState(), ICardStatments.State {
     override var year: ObservableField<String> = ObservableField()
     override var hasRecords: ObservableField<Boolean> = ObservableField()
     override var statementList: List<CardStatement>? = ArrayList()
+
     @get:Bindable
     override var previousMonth: Boolean? = false
         set(value) {

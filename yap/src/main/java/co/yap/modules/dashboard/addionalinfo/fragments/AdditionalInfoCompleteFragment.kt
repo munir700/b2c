@@ -9,8 +9,6 @@ import co.yap.R
 import co.yap.databinding.FragmentAdditionalInfoCompleteBinding
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoComplete
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoCompleteViewModel
-import co.yap.translation.Strings
-import co.yap.yapcore.managers.SessionManager
 
 class AdditionalInfoCompleteFragment :
     AdditionalInfoBaseFragment<IAdditionalInfoComplete.ViewModel>(),

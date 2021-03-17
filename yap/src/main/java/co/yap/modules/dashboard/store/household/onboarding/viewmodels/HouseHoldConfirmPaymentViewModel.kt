@@ -53,7 +53,8 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
             .format(
                 state.currencyType.get().toString(),
                 SessionManager.cardBalance.value?.availableBalance.toString()
-                    .toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())
+                    .toFormattedCurrency(showCurrency = false,
+                        currency = SessionManager.getDefaultCurrency())
             )
         state.availableBalance.set(
             Utils.getSppnableStringForAmount(

@@ -61,10 +61,10 @@ class SMHomeCountryViewModel(application: Application) :
         }
     }
 
-   override fun populateData(hc: Country) {
-       state.name?.set(hc.getName())
-       state.countryCode?.set(hc.isoCountryCode2Digit)
-   }
+    override fun populateData(hc: Country) {
+        state.name?.set(hc.getName())
+        state.countryCode?.set(hc.isoCountryCode2Digit)
+    }
 
     override fun getHomeCountryRecentBeneficiaries() {
         launch(Dispatcher.Background) {

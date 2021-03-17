@@ -18,7 +18,7 @@ interface IAddFunds {
         fun getFundTransferDenominations()
         fun getFundTransferLimits()
         fun getTransactionThresholds()
-        fun addFunds(success:()->Unit)
+        fun addFunds(success: () -> Unit)
         val clickEvent: SingleClickEvent
         var transactionThreshold: TransactionThresholdModel?
         var errorDescription: String

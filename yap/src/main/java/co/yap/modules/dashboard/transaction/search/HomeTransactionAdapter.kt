@@ -26,8 +26,7 @@ class HomeTransactionAdapter(
     internal var transactionData: MutableMap<String?, List<Transaction>>,
     val expandableItemManager: RecyclerViewExpandableItemManager
 ) :
-    BaseExpandableRVAdapter<Transaction, SearchTransactionChildItemVM, HomeTransactionAdapter.ChildViewHolder
-            , HomeTransactionListData, SearchTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
+    BaseExpandableRVAdapter<Transaction, SearchTransactionChildItemVM, HomeTransactionAdapter.ChildViewHolder, HomeTransactionListData, SearchTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
     var onItemClick: ((view: View, groupPosition: Int, childPosition: Int, data: Transaction?) -> Unit)? =
         null
 
@@ -230,6 +229,7 @@ class HomeTransactionAdapter(
             }
 
         }
+
         private fun setVirtualCardIcon(
             transaction: Transaction,
             itemSearchTransactionBinding: ItemSearchTransactionChildBinding
@@ -251,8 +251,10 @@ class HomeTransactionAdapter(
 
                 } catch (e: Exception) {
                 }
-            }?:itemSearchTransactionBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
+            }
+                ?: itemSearchTransactionBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
         }
+
         private fun setInitialsAsTxnImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemSearchTransactionChildBinding, position: Int?

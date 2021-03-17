@@ -9,9 +9,9 @@ import co.yap.yapcore.BaseState
 class AddTopUpCardState : BaseState(), IAddTopUpCard.State {
 
     @get:Bindable
-    override var url: String=""
+    override var url: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.url)
         }
 

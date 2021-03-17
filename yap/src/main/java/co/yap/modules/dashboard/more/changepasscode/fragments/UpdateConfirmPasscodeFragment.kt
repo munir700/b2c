@@ -59,7 +59,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                         getBinding().dialer.startAnimation()
                 }
                 R.id.tvForgotPasscode -> {
-                    viewModel.createForgotPassCodeOtp {username->
+                    viewModel.createForgotPassCodeOtp { username ->
                         startOtpFragment(username)
                     }
                 }
@@ -109,13 +109,13 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
 
     private fun navigateToForgotPassCodeFlow() {
         if (viewModel.isUserLoggedIn()) {
-                val action =
-                    UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
-                        viewModel.mobileNumber,
-                        viewModel.token,
-                        Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
-                    )
-            navigate(action,screenType = FeatureSet.FORGOT_PASSCODE)
+            val action =
+                UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
+                    viewModel.mobileNumber,
+                    viewModel.token,
+                    Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
+                )
+            navigate(action, screenType = FeatureSet.FORGOT_PASSCODE)
             findNavController().navigate(action)
         }
     }

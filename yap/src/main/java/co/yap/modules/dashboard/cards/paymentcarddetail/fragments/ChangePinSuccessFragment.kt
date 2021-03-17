@@ -22,8 +22,8 @@ class ChangePinSuccessFragment : BaseBindingFragment<IChangeCardPinSuccess.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(activity is ForgotCardPinActivity){
-            (activity as ForgotCardPinActivity).viewModel.state.toolBarVisibility=false
+        if (activity is ForgotCardPinActivity) {
+            (activity as ForgotCardPinActivity).viewModel.state.toolBarVisibility = false
         }
     }
 

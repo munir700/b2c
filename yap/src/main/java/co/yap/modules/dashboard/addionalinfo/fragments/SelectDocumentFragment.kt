@@ -13,14 +13,14 @@ import co.yap.R
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
 import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocumentImage
 import co.yap.modules.dashboard.addionalinfo.viewmodels.SelectDocumentViewModel
-import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
-import co.yap.modules.dashboard.more.profile.fragments.UpdatePhotoBottomSheet
-import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AdditionalInfoScreenType
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -33,11 +33,10 @@ import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
 
 class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewModel>(),
-    ISelectDocument.View, CardClickListener, EasyPermissions.PermissionCallbacks {
+    ISelectDocument.View, EasyPermissions.PermissionCallbacks {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_select_document
-    private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
     private val takePhoto = 1
     private val pickPhoto = 2
     internal var permissionHelper: PermissionHelper? = null
@@ -71,13 +70,12 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
 
     private fun openBottomSheet(name: String?) {
         this.fragmentManager?.let {
-            updatePhotoBottomSheet = UpdatePhotoBottomSheet(
-                mListener = this,
-                showRemove = false,
-                title = name + " " + getString(Strings.common_display_text_copy),
-                subTitle = getString(Strings.screen_additional_info_label_text_bottom_sheet_des) + " " + name
+            requireActivity().launchSheet(
+                itemClickListener = itemListener,
+                itemsList = viewModel.getUploadDocumentOptions(false),
+                heading = name + " " + getString(Strings.common_display_text_copy),
+                subHeading = getString(Strings.screen_additional_info_label_text_bottom_sheet_des) + " " + name
             )
-            updatePhotoBottomSheet.show(it, "")
         }
     }
 
@@ -99,17 +97,20 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
         }
     }
 
-    override fun onClick(eventType: Int) {
-        updatePhotoBottomSheet.dismiss()
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when ((data as BottomSheetItem).tag) {
+                PhotoSelectionType.CAMERA.name -> {
+                    openScanDocumentFragment(currentDocument?.name ?: "")
+                }
 
-        when (eventType) {
-            Constants.EVENT_ADD_PHOTO -> {
-                openScanDocumentFragment(currentDocument?.name ?: "")
-            }
-            Constants.EVENT_CHOOSE_PHOTO -> {
-                initEasyImage(pickPhoto)
-            }
-            Constants.EVENT_REMOVE_PHOTO -> {
+                PhotoSelectionType.GALLERY.name -> {
+                    initEasyImage(pickPhoto)
+                }
+
+                PhotoSelectionType.REMOVE_PHOTO.name -> {
+
+                }
 
             }
         }
@@ -271,4 +272,6 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     override fun onBackPressed(): Boolean {
         return true
     }
+
+
 }

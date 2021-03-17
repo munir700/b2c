@@ -2,12 +2,13 @@ package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.net.Uri
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.networking.authentication.AuthRepository
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import java.io.File
+import java.util.*
 
 interface IProfile {
     interface State : IBase.State {
@@ -29,8 +30,8 @@ interface IProfile {
         fun requestProfileDocumentsInformation()
         fun requestUploadProfilePicture(actualFile: File)
         fun logout()
-        fun requestRemoveProfilePicture(apiRes: (Boolean)-> Unit)
-
+        fun requestRemoveProfilePicture(apiRes: (Boolean) -> Unit)
+        fun getUploadProfileOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem>
     }
 
     interface View : IBase.View<ViewModel> {
