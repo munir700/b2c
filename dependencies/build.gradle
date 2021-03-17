@@ -28,7 +28,8 @@ project.ext {
             kyc             : ':identityscanner_v2',
             sendmoney       : ':sendmoney',
             security        : ':security',
-            qrcodereaderview: ':qrcodereaderview'
+            qrcodereaderview: ':qrcodereaderview',
+            billpayments: ':billpayments'
     ]
 
     // All libraries that any module can contain
@@ -242,6 +243,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.kyc)],
             [configuration: "implementation", dependency: project(modules.sendmoney)],
             [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
+            [configuration: "implementation", dependency: project(modules.billpayments)],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
@@ -339,6 +341,14 @@ project.ext {
             [configuration: "implementation", dependency: libraries.coroutineAndroid],
             [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics]
+    ]
+
+    // dependencies which need to be added in billpayments module only in conjunction with commonDependencies
+    billpaymentsDependencies = [
+            [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: project(modules.translation)],
+            [configuration: "implementation", dependency: project(modules.networking)],
     ]
 }
 
