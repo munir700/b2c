@@ -14,9 +14,9 @@ data class TotalPurchasesResponse(
 @Parcelize
 data class TotalPurchases(
     @SerializedName("txnCount")
-    val txnCount: String?,
+    val txnCount: Int?,
     @SerializedName("avgSpendAmount")
-    val avgSpendAmount: String?,
+    val avgSpendAmount: Double?,
     @SerializedName("totalSpendAmount")
-    val totalSpendAmount: String?
+    val totalSpendAmount: Double?
 ): Parcelable

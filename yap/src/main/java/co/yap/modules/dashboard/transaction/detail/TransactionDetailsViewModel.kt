@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
+import co.yap.networking.transactions.responsedtos.TotalPurchasesResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import co.yap.translation.Strings
@@ -72,12 +73,12 @@ class TransactionDetailsViewModel(application: Application) :
                 TransactionProductCode.Y2Y_TRANSFER.pCode -> {
                     TotalPurchaseRequest(txnType = data.txnType ?: "",
                         productCode = data.productCode ?: "",
-                        receiverCustomerId = data.customerId1 ?: "")
+                        receiverCustomerId = data.customerId2 ?: "")
                 }
                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode -> {
                     TotalPurchaseRequest(txnType = data.txnType ?: "",
                         productCode = data.productCode ?: "",
-                        beneficiaryId = data.customerId1 ?: "")
+                        beneficiaryId = data.beneficiaryId ?: "")
                 }
                 else -> {
                     TotalPurchaseRequest(txnType = data.txnType ?: "",
@@ -90,13 +91,26 @@ class TransactionDetailsViewModel(application: Application) :
             productCode = transaction.get()?.productCode ?: "")
     }
 
-    override fun requestTotalPurchases() {
+    override fun requestAllApis() {
+        requestReceiptsAndTotalPurchases { totalPurchasesResponse, receiptResponse ->
+            launch (Dispatcher.Main){
+                when(totalPurchasesResponse){
+                    is RetroApiResponse.Success ->{}
+                }
+                when(receiptResponse){
+                    is RetroApiResponse.Success ->{
+                        responseReciept.value = receiptResponse.data.trxnReceiptList as ArrayList<String>?
+                    }
+                }
+                state.viewState.value = false
+            }
+        }
 
     }
 
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
-            if (isShowReceiptSection(transaction)) getAllReceipts()
+            requestAllApis()
             setTransactionNoteDate()
             state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
             state.receiptVisibility.set(isShowReceiptSection(transaction))
@@ -108,7 +122,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     }
 
-    private fun requestReceiptsAndTotalPurchases(responses: (RetroApiResponse<ApiResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
+    private fun requestReceiptsAndTotalPurchases(responses: (RetroApiResponse<TotalPurchasesResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             coroutineScope {
@@ -173,7 +187,7 @@ class TransactionDetailsViewModel(application: Application) :
         adapter.removeItemAt(position)
     }
 
-    override fun getAllReceipts() {
+/*    override fun getAllReceipts() {
         launch {
             state.loading = true
             when (val response = repository.getAllTransactionReceipts(
@@ -189,7 +203,7 @@ class TransactionDetailsViewModel(application: Application) :
                 }
             }
         }
-    }
+    }*/
 
     override fun isShowReceiptSection(transaction: Transaction): Boolean {
         return when (transaction.productCode) {
