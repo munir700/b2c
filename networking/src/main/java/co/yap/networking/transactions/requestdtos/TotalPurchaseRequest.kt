@@ -7,11 +7,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class TotalPurchaseRequest(
     @SerializedName("txnType")
-    val txnType: String? = null,
+    val txnType: String,
     @SerializedName("beneficiaryId")
     val beneficiaryId: Int? = null,
     @SerializedName("receiverCustomerId")
     val receiverCustomerId: Int? = null,
     @SerializedName("productCode")
-    val productCode: String? = null
+    val productCode: String
 ) : Parcelable
