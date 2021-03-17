@@ -33,8 +33,6 @@ class POBSelectionViewModel(application: Application) :
         super.onCreate()
         getAllCountries()
         state.isDualNational.set(false)
-        state.eidNationality = SessionManager.getCountries()
-            .first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }.getName()
     }
 
     override fun onResume() {
@@ -47,7 +45,10 @@ class POBSelectionViewModel(application: Application) :
 
     override fun getAllCountries() {
         if (!parentViewModel?.countries.isNullOrEmpty()) {
-            populateSpinnerData.setValue(parentViewModel?.countries)
+            populateSpinnerData.value = parentViewModel?.countries
+            state.eidNationality.set(
+                parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
+                    ?.getName() ?: "")
         } else {
             launch(Dispatcher.Background) {
                 state.viewState.postValue(true)
@@ -59,6 +60,9 @@ class POBSelectionViewModel(application: Application) :
                                 Utils.parseCountryList(response.data.data, addOIndex = false)
                             parentViewModel?.countries =
                                 populateSpinnerData.value as ArrayList<Country>
+                            state.eidNationality.set(
+                                parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
+                                    ?.getName() ?: "")
                             state.viewState.value = false
                         }
 
