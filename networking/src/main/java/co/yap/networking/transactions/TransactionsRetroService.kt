@@ -236,4 +236,9 @@ interface TransactionsRetroService {
         @Query("receipt-image") receipt: String,
         @Query("transaction-id") transactionId: String
     ): Response<ApiResponse>
+
+    @GET(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
+    suspend fun getTotalPurchases(
+        @Body totalPurchaseRequest: TotalPurchaseRequest
+    ): Response<TotalPurchasesResponse>
 }
