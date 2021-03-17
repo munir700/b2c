@@ -33,6 +33,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
+import co.yap.billpayments.home.BillPaymentsHomeActivity
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
@@ -178,12 +179,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.drawable.ic_send_money,
                 R.layout.component_yap_menu_sub_button,
                 this, 1
-            )/*.addSubActionView(
+            ).addSubActionView(
                 getString(Strings.common_pay_bills),
                 R.drawable.ic_bill,
                 R.layout.component_yap_menu_sub_button,
                 this, 2
-            )*/.addSubActionView(
+            ).addSubActionView(
                 getString(Strings.common_add_money),
                 R.drawable.ic_add_sign_white,
                 R.layout.component_yap_menu_sub_button,
@@ -211,6 +212,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             }*/
                         }
                         2 -> {
+                            launchActivity<BillPaymentsHomeActivity>()
+
+//                            showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+
                             /* if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                  openTopUpScreen()
                              } else {

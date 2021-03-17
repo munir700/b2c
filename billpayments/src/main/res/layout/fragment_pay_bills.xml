@@ -38,18 +38,21 @@
             <include
                 android:id="@+id/lMyBills"
                 layout="@layout/layout_item_icon_text_vertical"
+                android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
                 app:icon="@{@drawable/ic_my_bills}"
                 app:title='@{"My bills"}' />
 
             <include
                 android:id="@+id/lAnalytics"
                 layout="@layout/layout_item_icon_text_vertical"
+                android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
                 app:icon="@{@drawable/ic_analytics}"
                 app:title='@{"Analytics"}' />
 
             <include
-                android:id="@+id/AddBill"
+                android:id="@+id/lAddBill"
                 layout="@layout/layout_item_icon_text_vertical"
+                android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
                 app:icon="@{@drawable/ic_add_sign}"
                 app:title='@{"Add a bill"}' />
 
