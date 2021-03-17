@@ -326,6 +326,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:text="Payment details"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -335,7 +336,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:background="@color/greySoftSelected"
                 android:paddingTop="@dimen/margin_extra_small"
@@ -353,19 +353,19 @@
                     android:paddingStart="@dimen/margin_medium"
                     android:paddingEnd="@dimen/margin_medium"
                     android:text="@{viewModel.transaction != null ? TransactionExtentionsKt.getTransactionStatusMessage(viewModel.transaction,context) : ``}"
-                    android:visibility="@{TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction) || TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.state.showErrorMessage? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="HardcodedText"
                     tools:text="cancel reasodja dhsajd h,asgdjsdas asdsa asdas asdas asdas asdsad asdsa sadsad adas asdsad a ghasd gjs aahsgd"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvTransactionDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_extra_small"
+                    android:layout_marginTop="@{viewModel.state.showErrorMessage? @dimen/margin_extra_small:@dimen/margin_medium_large}"
                     android:paddingStart="@dimen/margin_medium"
                     android:paddingEnd="@dimen/margin_medium"
                     android:paddingBottom="@dimen/margin_extra_small"

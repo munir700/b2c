@@ -328,4 +328,8 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 (transaction.productCode == TransactionProductCode.ECOM.pCode)
     }
 
+    fun isTransactionNotCompleted(): Boolean{
+     return transaction.isTransactionInProgress() || transaction.isTransactionRejected()
+    }
+
 }

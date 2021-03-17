@@ -51,5 +51,6 @@ interface ITransactionDetails {
         var transactionData: ObservableField<TransactionDetail>
         var coverImage: ObservableInt
         var showTotalPurchases : ObservableBoolean
+        var showErrorMessage : ObservableBoolean
     }
 }

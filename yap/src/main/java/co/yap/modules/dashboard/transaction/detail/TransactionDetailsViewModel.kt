@@ -24,7 +24,6 @@ import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
 import co.yap.yapcore.helpers.extentions.isTransactionInProgress
 import co.yap.yapcore.helpers.extentions.isTransactionRejected
 import java.util.*
-import co.yap.yapcore.helpers.extentions.*
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -38,8 +37,9 @@ class TransactionDetailsViewModel(application: Application) :
         TransactionReceiptAdapter(
             mutableListOf()
         )
-    override var transactionAdapter: TransactionDetailItemAdapter = TransactionDetailItemAdapter(arrayListOf()
-    )
+    override var transactionAdapter: TransactionDetailItemAdapter =
+        TransactionDetailItemAdapter(arrayListOf()
+        )
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
     override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
 
@@ -56,6 +56,7 @@ class TransactionDetailsViewModel(application: Application) :
             state.transactionNoteDate = it.noteAddedDate
             state.coverImage.set(it.coverImage)
             it.showTotalPurchase?.let { it1 -> state.showTotalPurchases.set(it1) }
+            it.showError?.let { bool -> state.showErrorMessage.set(bool) }
         }
     }
 
