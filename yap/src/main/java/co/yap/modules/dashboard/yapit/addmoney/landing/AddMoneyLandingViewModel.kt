@@ -4,7 +4,6 @@ import android.app.Application
 import co.yap.R
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 
@@ -34,30 +33,31 @@ class AddMoneyLandingViewModel(application: Application) :
         val list = mutableListOf<AddMoneyLandingOptions>()
         list.add(
             AddMoneyLandingOptions(
-                Constants.ADD_MONEY_TOP_UP_VIA_CARD,
-                getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card),
-                R.drawable.ic_icon_card_transfer
+                id = Constants.ADD_MONEY_TOP_UP_VIA_CARD,
+                name = getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card),
+                image = R.drawable.ic_icon_card_transfer,
+                isPadding = false
             )
         )
-      /*  list.add(
-            AddMoneyLandingOptions(
-                Constants.ADD_MONEY_GOOGLE_PAY,
-                getString(Strings.screen_fragment_yap_it_add_money_text_google_pay),
-                R.drawable.flag_ad
-            )
-        )
+        /*  list.add(
+              AddMoneyLandingOptions(
+                  Constants.ADD_MONEY_GOOGLE_PAY,
+                  getString(Strings.screen_fragment_yap_it_add_money_text_google_pay),
+                  R.drawable.flag_ad
+              )
+          )
+          list.add(
+              AddMoneyLandingOptions(
+                  Constants.ADD_MONEY_SAMSUNG_PAY,
+                  getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay),
+                  R.drawable.flag_ae
+              )
+          )*/
         list.add(
             AddMoneyLandingOptions(
-                Constants.ADD_MONEY_SAMSUNG_PAY,
-                getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay),
-                R.drawable.flag_ae
-            )
-        )*/
-        list.add(
-            AddMoneyLandingOptions(
-                Constants.ADD_MONEY_BANK_TRANSFER,
-                getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer),
-                R.drawable.ic_bank_transfer
+                id = Constants.ADD_MONEY_BANK_TRANSFER,
+                name = getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer),
+                image = R.drawable.ic_bank_transfer
             )
         )
         list.add(

@@ -59,13 +59,13 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
     }
 
     if (SessionManager.card.value != null) {
-        if (SessionManager.card.value?.status == CardStatus.PIN_BLOCKED.name) {
+        if (SessionManager.card.value?.pinStatus == CardPinStatus.BLOCKED.name) {
             restrictions.add(UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED)
             completion.invoke(restrictions)
         }
     } else {
         SessionManager.getDebitCard { card ->
-            if (card.status == CardStatus.PIN_BLOCKED.name) {
+            if (card?.pinStatus == CardPinStatus.BLOCKED.name) {
                 restrictions.add(UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED)
                 completion.invoke(restrictions)
             }
@@ -188,7 +188,14 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
             )
         }
         UserAccessRestriction.ACCOUNT_INACTIVE -> {
-            arrayListOf(FeatureSet.SEND_MONEY, FeatureSet.YAP_TO_YAP, FeatureSet.TOP_UP)
+            arrayListOf(
+                FeatureSet.SEND_MONEY,
+                FeatureSet.YAP_TO_YAP,
+                FeatureSet.TOP_UP,
+                FeatureSet.DEBIT_CARD_DETAIL,
+                FeatureSet.ANALYTICS
+
+            )
         }
         UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED -> {
             arrayListOf(FeatureSet.CHANGE_PIN, FeatureSet.FORGOT_PIN)
@@ -202,9 +209,7 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
 fun AccountInfo.getBlockedMessage(key: UserAccessRestriction, context: Context): String {
     return (when (key) {
         UserAccessRestriction.EID_EXPIRED, UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,
-        UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL
-            , UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD
-            , UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
+        UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD, UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
 
             Translator.getString(
                 context,
@@ -238,9 +243,7 @@ fun AccountInfo.getNotificationOfBlockedFeature(
 ): String? {
     return (when (key) {
         UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,
-        UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL
-            , UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD
-            , UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
+        UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD, UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
 
             Translator.getString(
                 context,

@@ -110,13 +110,15 @@
                 android:gravity="bottom|left"
                 android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                 app:layout_constraintBottom_toTopOf="@id/flAddressDetail"
-                app:layout_constraintTop_toBottomOf="@id/flTitle">
+                app:layout_constraintTop_toBottomOf="@id/flTitle"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="0dp">
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnLocation"
                     style="@style/AddressBtnStyle"
-                    android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_28sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_normal"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
@@ -124,10 +126,11 @@
                     android:textAllCaps="false"
                     android:textSize="@dimen/_11sdp"
                     app:btn_drawable="@drawable/location_group"
-                    app:btn_drawable_padding_left="15.5"
+                    app:btn_drawable_padding_left="25"
                     app:btn_drawable_padding_top="4.5"
                     app:btn_drawable_position="left"
                     app:btn_has_bold_text="true"
+                    app:btn_size="mini_large"
                     app:btn_text_alignment_from_left="1.9"
                     app:btn_text_size="@dimen/_11sdp"
                     tools:text="@string/screen_meeting_location_button_confirm_location" />
@@ -152,7 +155,7 @@
                     android:gravity="left|start"
                     android:textSize="@dimen/text_size_h2"
                     app:text="@{Strings.screen_meeting_location_input_text_address_title}"
-                    app:textColor="@{viewModel.state.addressTitle.empty ? true : false}"
+                    app:textColor="@{viewModel.state.addressTitle.empty || viewModel.state.addressTitle == null ? true : false}"
                     tools:ignore="MissingConstraints"
                     tools:text="@string/screen_meeting_location_input_text_address_title" />
 
@@ -178,6 +181,7 @@
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/text_size_h3"
                     android:theme="@style/Theme.EditText.GreySoft"
+                    app:deleteAddressField="@{`Address`}"
                     app:drawableClick="@{viewModel.state.addressTitle.isEmpty()?false : true}"
                     app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +202,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etAddressField"
                     app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
-                    app:textColor="@{viewModel.state.addressSubtitle.empty ? true : false}"
+                    app:textColor="@{viewModel.state.addressSubtitle.empty ||  viewModel.state.addressSubtitle == null ? true : false}"
                     tools:text="@string/screen_meeting_location_input_text_landmark_title" />
                 <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
 
@@ -217,6 +221,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="@color/grey"
                     android:textSize="@dimen/text_size_h3"
+                    app:deleteAddressField="@{`Building information`}"
                     app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
                     app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
                     app:textSelection="@{viewModel.state.addressSubtitle}"
@@ -244,6 +249,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="Emirate"
+                        app:textColor="@{viewModel.state.city.empty || viewModel.state.city == null ? true : false}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Emirate" />
@@ -255,6 +261,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/margin_extra_small"
                         android:paddingBottom="@dimen/margin_extra_small"
+                        android:hint="Select"
                         android:text="@{viewModel.state.city}"
                         app:layout_constraintStart_toStartOf="@+id/tvSelectCity"
                         app:layout_constraintTop_toBottomOf="@id/tvSelectCity"
@@ -286,18 +293,16 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/nextButton"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:background="@color/white"
                     android:gravity="bottom"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                    app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{Strings.common_button_next}"
                     tools:text="@string/common_button_next" />
             </LinearLayout>

@@ -3,10 +3,7 @@ package co.yap.yapcore
 import android.app.Application
 import android.content.Context
 import android.view.View
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import co.yap.translation.Translator
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.interfaces.CoroutineViewModel
@@ -19,7 +16,7 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     AndroidViewModel(application),
     IBase.ViewModel<S>, CoroutineViewModel {
 
-    override val context: Context = getApplication<Application>().applicationContext
+    override val context: Context = application
     final override val viewModelJob = Job()
     override val viewModelScope = CloseableCoroutineScope(viewModelJob + Dispatchers.Main)
     val viewModelBGScope = CloseableCoroutineScope(viewModelJob + Dispatchers.IO)
@@ -101,11 +98,20 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
 
     }
 
+    fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {
+        viewModelScope.launch(
+            when (dispatcher) {
+                Dispatcher.Main -> Dispatchers.Main
+                Dispatcher.Background -> Dispatchers.IO
+                Dispatcher.LongOperation -> Dispatchers.Default
+            }
+        ) { block() }
+    }
+
     override fun getString(resourceId: Int): String = Translator.getString(context, resourceId)
 
     override fun getString(resourceId: String): String = Translator.getString(context, resourceId)
 
     override val toolBarClickEvent = SingleClickEvent()
-
 }
 

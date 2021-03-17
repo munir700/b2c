@@ -16,10 +16,9 @@ interface ISelectCountry {
         var clickEvent: SingleClickEvent
         fun handlePressOnSeclectCountry(id: Int)
         fun onTransparentViewClick(id: Int)
-        var countries: ArrayList<Country>
         val populateSpinnerData: MutableLiveData<List<Country>>
-        fun onCountrySelected(pos: Int)
-
+        fun onCountrySelected(country: Country?)
+        fun getBeneficiaryTypeFromCurrency(country: Country?): String?
     }
 
     interface View : IBase.View<ViewModel>

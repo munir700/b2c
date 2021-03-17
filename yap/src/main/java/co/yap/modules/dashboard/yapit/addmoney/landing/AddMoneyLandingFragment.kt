@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.addmoney.landing
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -10,14 +12,18 @@ import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
-import co.yap.modules.dashboard.yapit.addmoney.qrcode.QRCodeFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.SUCCESS_BUTTON_LABEL
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.launchActivityForResult
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -51,7 +57,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private fun setupRecycleView() {
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal_large) ?: 16, 2, true
+                dimen(R.dimen.margin_normal_large), 2, true
             )
         )
         viewModel.landingAdapter.allowFullItemClickListener = true
@@ -69,9 +75,13 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private val observer = Observer<Int> {
         when (it) {
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
-//                RequestCodes.REQUEST_SHOW_BENEFICIARY
-                launchActivityForResult<TopUpBeneficiariesActivity>(completionHandler = { resultCode, data ->
-                })
+                trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_CARD)
+                launchActivity<TopUpBeneficiariesActivity>(requestCode = RequestCodes.REQUEST_SHOW_BENEFICIARY) {
+                    putExtra(
+                        SUCCESS_BUTTON_LABEL,
+                        getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
+                    )
+                }
             }
             Constants.ADD_MONEY_SAMSUNG_PAY -> {
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay))
@@ -80,6 +90,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_google_pay))
             }
             Constants.ADD_MONEY_BANK_TRANSFER -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_TRANSFER)
                 startFragment(
                     TopUpBankDetailsFragment::class.java.name,
                     false,
@@ -95,9 +106,26 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 )
             }
             Constants.ADD_MONEY_QR_CODE -> {
-                QRCodeFragment().let { fragment ->
+                QRCodeFragment {}.let { fragment ->
+                    trackEventWithScreenName(FirebaseEvent.TOPUP_QR_CODE)
                     if (isAdded)
                         fragment.show(requireActivity().supportFragmentManager, "")
+                }
+            }
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.REQUEST_SHOW_BENEFICIARY) {
+                if (RequestCodes.REQUEST_SHOW_BENEFICIARY == data?.getIntExtra(
+                        RequestCodes.REQUEST_SHOW_BENEFICIARY.toString(),
+                        0
+                    )
+                ) {
+                    requireActivity().finish()
                 }
             }
         }

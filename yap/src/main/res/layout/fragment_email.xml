@@ -87,17 +87,16 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/next_button"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
-                android:layout_marginRight="@dimen/margin_xxl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                app:btn_size="small"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{() -> emailViewModel.handlePressOnNext()}"
                 android:text="@{emailViewModel.state.emailBtnTitle}"
                 app:enableCoreButton="@{emailViewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="44dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

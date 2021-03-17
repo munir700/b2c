@@ -6,32 +6,27 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.notification.viewmodels.NotificationsViewModel" />
+            type="co.yap.modules.dashboard.more.notifications.main.NotificationsViewModel" />
 
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
     </data>
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/layout_more_notifications_toolbar"
-            app:viewModel="@{viewModel}" />
-
         <fragment
             android:id="@+id/more_notification_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             app:defaultNavHost="true"
             app:navGraph="@navigation/more_notifications_navigation" />
 
-    </LinearLayout>
+    </FrameLayout>
 </layout>

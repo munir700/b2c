@@ -13,17 +13,16 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cvNotification"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_120sdp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="@dimen/_10sdp"
         app:cardUseCompatPadding="true">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/_6sdp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivNotification"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
@@ -58,21 +57,20 @@
                 app:layout_constraintTop_toTopOf="@+id/ivCross"
                 tools:text="YAP service notice." />
 
-            <TextView
+            <co.yap.widgets.AutoResizeTextView
                 android:id="@+id/tvDescription"
                 style="@style/AMicroGrey"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_extra_small"
                 android:ellipsize="end"
-                android:lines="5"
                 android:lineSpacingExtra="0sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:maxLines="5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivNotification"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                tools:text="On May 24th, dds ssd asd asaksjldf laskdfjl;sadj flksadjflkjfdslkafj; alsdkjf;lasdjfl; asdjfkl;ja;sldjfasl;kdfj;lasjdf;ljsddddddddddddddadlfjlkasl;kdfjlsadjsdfasasdas y trandasd ansfer be available from 7 p.m. to 11 p.mdas ads.sdfsdfsdf" />
+                tools:text="Some features may appeassad asdas  Y sadsada ar bloc you made too many incorrect OTP attempts. Call or chat with us now to get full access." />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

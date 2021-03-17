@@ -11,9 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
+import androidx.databinding.BindingAdapter
 import co.yap.yapcore.R
 
 class MultiStateView
@@ -29,6 +31,13 @@ class MultiStateView
         ERROR,
         EMPTY
     }
+
+    var emptyViewText: String? = null
+        set(value) {
+            field = value
+            invalidate()
+
+        }
 
     private var contentView: View? = null
 
@@ -267,6 +276,10 @@ class MultiStateView
 
             ViewState.EMPTY -> {
                 requireNotNull(emptyView).apply {
+                    if (!emptyViewText.isNullOrEmpty()) {
+                        val tvNoResult = emptyView?.findViewById<TextView>(R.id.tvNoresult)
+                        tvNoResult?.text = emptyViewText
+                    }
                     contentView?.visibility = View.GONE
                     errorView?.visibility = View.GONE
                     loadingView?.visibility = View.GONE
@@ -331,7 +344,8 @@ class MultiStateView
                     previousView.visibility = View.GONE
                     val currentView = requireNotNull(getView(viewState))
                     currentView.visibility = View.VISIBLE
-                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f).setDuration(animateViewChangesDuration.toLong())
+                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f)
+                        .setDuration(animateViewChangesDuration.toLong())
                         .start()
                 }
             })
@@ -441,7 +455,7 @@ class State(
             return State(Status.LOADING, message)
         }
 
-        fun error(message: String): State {
+        fun error(message: String?): State {
             return State(Status.ERROR, message)
         }
 
@@ -459,6 +473,17 @@ class State(
 
         fun ideal(@Nullable message: String?): State {
             return State(Status.IDEAL, message)
+        }
+
+        @JvmStatic
+        @BindingAdapter("viewState", requireAll = true)
+        fun handleState(view: MultiStateView, state: State? = success(null)) {
+            when (state?.status) {
+                Status.LOADING -> view.viewState = MultiStateView.ViewState.LOADING
+                Status.EMPTY -> view.viewState = MultiStateView.ViewState.EMPTY
+                Status.ERROR -> view.viewState = MultiStateView.ViewState.ERROR
+                Status.SUCCESS -> view.viewState = MultiStateView.ViewState.CONTENT
+            }
         }
     }
 }

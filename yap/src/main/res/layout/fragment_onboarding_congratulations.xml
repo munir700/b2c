@@ -120,19 +120,13 @@
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnCompleteVerification"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xl"
-            android:layout_marginEnd="@dimen/margin_xl"
-            android:layout_marginBottom="8dp"
+            app:btn_size="small"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:drawablePadding="@dimen/_20sdp"
             android:gravity="center"
-            android:minHeight="@dimen/_52sdp"
             android:onClick="@{(v)-> viewModel.handlePressOnCompleteVerification(v.id)}"
-            android:paddingStart="@dimen/margin_large"
-            android:paddingTop="@dimen/_8sdp"
-            android:paddingEnd="@dimen/margin_large"
-            android:paddingBottom="@dimen/_8sdp"
             android:textColor="@color/colorWhite"
             app:btn_enable="true"
             app:btn_round_radius="@dimen/_26sdp"
@@ -142,7 +136,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:text="@{Strings.screen_onboarding_congratulations_button_complete_verification}"
-            tools:ignore="MissingConstraints"
             tools:text="@string/screen_onboarding_congratulations_button_complete_verification" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

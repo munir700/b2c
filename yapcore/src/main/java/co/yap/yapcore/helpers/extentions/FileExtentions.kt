@@ -10,7 +10,10 @@ import android.os.Build
 import android.os.Environment
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
+import co.yap.app.YAPApplication
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.managers.SessionManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -99,14 +102,9 @@ fun Context.storeBitmap(rootView: View, success: (filePath: String?) -> Unit) {
 fun Context.shareImage(rootView: View) {
     val bitmap: Bitmap = takeScreenshotForView(rootView)
     val imageName = "YAP-qrCode"
-    val root = Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_PICTURES
-    ).toString()
-    val myDir = File("$root/yap_qr_codes")
-    myDir.mkdirs()
+    var bmpUri: Uri? = null
     val fileName = "${imageName}.jpg"
-    val file = File(myDir, fileName)
-    if (file.exists()) file.delete()
+    val file = createTempFile(fileName)
     try {
         val out = FileOutputStream(file)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
@@ -115,14 +113,21 @@ fun Context.shareImage(rootView: View) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    val share = Intent(Intent.ACTION_SEND)
-    share.type = "image/jpeg"
-    share.putExtra(
-        Intent.EXTRA_STREAM,
-        Uri.parse(file.toString())
+    bmpUri = FileProvider.getUriForFile(
+        this,
+        YAPApplication.configManager?.applicationId + ".provider", file
+    );
+
+    val shareIntent = Intent()
+    shareIntent.action = Intent.ACTION_SEND
+    shareIntent.putExtra(
+        Intent.EXTRA_TEXT,
+        "Hi! its ${SessionManager.user?.currentCustomer?.getFullName() ?: "YAP User"}  \nHere is my YAP QR Code, please scan it for money transactions."
     )
-    this.startActivity(Intent.createChooser(share, "Share Image"))
-    file.deleteOnExit()
+    shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri)
+    shareIntent.type = "image/jpeg"
+    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    startActivity(Intent.createChooser(shareIntent, "YAP QR code"))
 }
 
 fun takeScreenshotForView(view: View): Bitmap {
@@ -142,8 +147,8 @@ fun takeScreenshotForView(view: View): Bitmap {
     return bitmap
 }
 
-fun getCurrentDateTime(): String {
+fun getCurrentDateTime(): String { // need to re verify
     val currentCalendar: Calendar = Calendar.getInstance()
-    val date = DateUtils.dateToString(currentCalendar.time, "dd-mm-yyyy")
+    val date = DateUtils.dateToString(currentCalendar.time, "dd-mm-yyyy",   DateUtils.TIME_ZONE_Default)
     return date
 }

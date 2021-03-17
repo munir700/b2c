@@ -16,6 +16,11 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.enums.CardStatus" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.yapcore.R" />
+
     </data>
 
 
@@ -25,17 +30,34 @@
 
         <ImageView
             android:id="@+id/imgCard"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_300sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_24sdp"
             android:background="@drawable/white_round_card_background"
             android:contentDescription="@string/empty_string"
+            tools:src="@drawable/card_spare"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/card_spare" />
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cardLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:rotation="-90"
+            android:text="VIRTUAL CARD"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_h1"
+            android:visibility="@{viewModel.paymentCard.cardType.equals(Constants.INSTANCE.CARD_TYPE_DEBIT) ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/imgCard"
+            app:layout_constraintEnd_toEndOf="@+id/imgCard"
+            app:layout_constraintHorizontal_bias="0.378"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.267"
+            tools:textColor="@color/colorPrimaryDark" />
         <ImageView
             android:id="@+id/imgStatus"
             android:layout_width="@dimen/_48sdp"
@@ -55,7 +77,6 @@
             style="@style/ASmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
             android:gravity="center"
             android:maxLines="2"
             android:ellipsize="end"
@@ -66,7 +87,7 @@
 
         <LinearLayout
             android:id="@+id/layoutStatusSection"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center"
@@ -80,13 +101,15 @@
             <TextView
                 android:id="@+id/tvCardStatus"
                 style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginStart="@dimen/margin_extra_large"
+                android:layout_marginEnd="@dimen/margin_extra_large"
                 android:maxLines="2"
                 android:ellipsize="end"
                 app:cardStatus="@{viewModel.paymentCard}"
-                tools:text="This card has expired" />
+                tools:text="We are now processing your account. Please wait for activation to be completed shortly" />
             <TextView
                 android:id="@+id/tvCardStatusAction"
                 android:layout_width="wrap_content"

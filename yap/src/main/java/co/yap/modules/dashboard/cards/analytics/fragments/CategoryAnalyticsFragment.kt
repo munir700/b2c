@@ -68,7 +68,6 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.parentViewModel?.selectedItemPosition?.value = pos
             navigateDetails(pos)
-
         }
     }
 

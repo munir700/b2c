@@ -9,6 +9,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
@@ -35,11 +36,12 @@ interface TransactionsApi {
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
     suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse>
     suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
+    suspend fun searchTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO>
     suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO>
     suspend fun check3DEnrollmentSession(check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): RetroApiResponse<Check3DEnrollmentSessionResponse>
-    suspend fun secureIdPooling(secureId: String = ""): RetroApiResponse<StringDataResponseDTO>
+    suspend fun secureIdPooling(secureId: String? = ""): RetroApiResponse<StringDataResponseDTO>
     suspend fun cardTopUpTransactionRequest(
         orderId: String,
         topUpTransactionRequest: TopUpTransactionRequest
@@ -82,4 +84,5 @@ interface TransactionsApi {
         cardSerialNo: String?,
         date: String?, merchantName: ArrayList<String>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
+    suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.AddSpareCardViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -40,68 +40,45 @@
 
             <TextView
                 android:id="@+id/tvPrice"
-                style="@style/Large"
+                style="@style/Title3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
                 android:gravity="top|center"
                 android:text="@{viewModel.state.virtualCardFee}"
                 android:textColor="?attr/colorPrimaryDarkAttr"
-                android:textSize="@dimen/text_size_h5"
+                tools:textColor="@color/colorPrimaryDark"
                 app:layout_constraintTop_toBottomOf="@+id/tvVirtualCardMonths"
                 tools:text="AED 6.00" />
 
             <TextView
                 android:id="@+id/tvAvailableBalanceTitle"
-                style="@style/RegularGrey"
-                android:layout_width="wrap_content"
+                style="@style/ASmallGrey"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_xl"
-                android:gravity="center_vertical"
-                android:text="@string/screen_add_spare_card_display_text_available_balance"
-                android:textSize="@dimen/text_size_h2"
-                app:layout_constraintStart_toStartOf="@+id/btnConfirmVirtualCardPurchase"
-                app:layout_constraintTop_toBottomOf="@id/glContent"
-                app:text="@{Strings.screen_add_spare_card_display_text_available_balance}" />
-
-            <TextView
-                android:id="@+id/tvAvailableBalance"
-                style="@style/Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_extra_small"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/_4sdp"
-                android:text="@{viewModel.state.avaialableCardBalance}"
-                android:textColor="?attr/colorPrimaryAttr"
-                android:textSize="@dimen/text_size_h2"
-                app:layout_constraintStart_toEndOf="@+id/tvAvailableBalanceTitle"
-                app:layout_constraintTop_toBottomOf="@id/glContent" />
+                android:gravity="center"
+                android:text="@{viewModel.state.availableBalance}"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Your available balance is AED 15.00.\n Top up to proceesd with this purchase asda."
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.15"
+                app:layout_constraintBottom_toTopOf="@+id/btnConfirmVirtualCardPurchase"
+                app:layout_constraintTop_toBottomOf="@id/tvPrice" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirmVirtualCardPurchase"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings"
-                android:layout_marginTop="@dimen/margin_btn_side_paddings"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:text="@string/screen_add_spare_card_button_confirm_purchase"
+                android:text="@{viewModel.state.coreButtonText}"
                 android:textAllCaps="false"
                 app:btn_enable="true"
+                app:btn_size="medium"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/glContent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/glContent"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/_100sdp"
-                app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include

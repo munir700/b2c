@@ -2,11 +2,11 @@ package co.yap.networking.customers.responsedtos.sendmoney
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Beneficiary(
-
     @SerializedName("id")
     var id: Int? = null,
     @SerializedName("beneficiaryId")
@@ -59,7 +59,56 @@ data class Beneficiary(
     @SerializedName("countryOfResidenceName")
     var countryOfResidenceName: String? = null,
     @SerializedName("beneficiaryCreationDate")
-    var beneficiaryCreationDate: String? = null
-) : Parcelable {
+    var beneficiaryCreationDate: String? = null,
+    @SerializedName("countryCode")
+    var countryCode: String? = ""
+) : CoreRecentBeneficiaryItem(
+    name = "$firstName $lastName",
+    profilePictureUrl = beneficiaryPictureUrl,
+    type = beneficiaryType, isoCountryCode = country
+), IBeneficiary, Parcelable {
+    @IgnoredOnParcel
+    override val fullName: String?
+        get() = title
+
+    @IgnoredOnParcel
+    override val subtitle: String?
+        get() = if (beneficiaryType == "Y2Y") mobileNo else fullName()
+
+    @IgnoredOnParcel
+    override val userType: String?
+        get() = beneficiaryType
+
+    override val flag: String?
+        get() = country
+
+    override val isYapUser: Boolean
+        get() = beneficiaryType == "Y2Y"
+
+    override val accountUUID: String
+        get() = beneficiaryUuid ?: ""
+
+    override val imgUrl: String?
+        get() = beneficiaryPictureUrl
+
+    override val creationDateOfBeneficiary: String
+        get() = beneficiaryCreationDate ?: ""
+
     fun fullName() = "$firstName $lastName"
+}
+
+interface IBeneficiary : IYapUser {
+    val fullName: String? get() = null
+    val subtitle: String? get() = null
+    val icon: String? get() = null
+    val flag: String? get() = null
+    val userType: String? get() = null
+    val imgUrl: String? get() = null
+    val sendMoneyType: String? get() = null
+}
+
+interface IYapUser {
+    val isYapUser: Boolean get() = false
+    val accountUUID: String get() = ""
+    val creationDateOfBeneficiary: String get() = ""
 }

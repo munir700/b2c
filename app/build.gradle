@@ -21,10 +21,15 @@ android {
         }
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+
     productFlavors {
         live {
-            versionCode 36
-            versionName "1.0.7"
+            versionCode 40
+            versionName "1.1.1"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -37,8 +42,8 @@ android {
         }
 
         Preprod {
-            versionCode 10
-            versionName "1.1.0"
+            versionCode 24
+            versionName "1.2.4"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -51,8 +56,8 @@ android {
         }
 
         stg {
-            versionCode 254
-            versionName "0.7.3"
+            versionCode 260
+            versionName "0.7.9"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -64,8 +69,8 @@ android {
         }
 
         yapinternal {
-            versionCode 30
-            versionName "0.3.0"
+            versionCode 79
+            versionName "0.7.8"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP Internal"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -77,8 +82,8 @@ android {
         }
 
         qa {
-            versionCode 68
-            versionName "0.6.8"
+            versionCode 85
+            versionName "0.8.5"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP QA"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"

@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+            type="co.yap.sendmoney.home.viewmodels.SMBeneficiariesViewModel" />
 
     </data>
 
@@ -51,18 +51,16 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/addContactsButton"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+            app:btn_size="small"
             android:layout_marginTop="@dimen/_60sdp"
-            android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@string/screen_send_money_no_contacts_button_title_add_now"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="44dp"
+            android:layout_gravity="center_horizontal"
             tools:text="@string/screen_send_money_no_contacts_button_title_add_now" />
     </LinearLayout>
 </layout>

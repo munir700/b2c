@@ -2,18 +2,18 @@ package co.yap.sendmoney.home.adapters
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.LayoutItemBeneficiaryBinding
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AllBeneficiariesAdapter(
-    private val list: MutableList<Beneficiary>
-) : BaseBindingSearchRecylerAdapter<Beneficiary, AllBeneficiariesAdapter.AllBeneficiariesItemViewHolder>(
+    private val list: MutableList<IBeneficiary>
+) : BaseBindingSearchRecylerAdapter<IBeneficiary, AllBeneficiariesAdapter.AllBeneficiariesItemViewHolder>(
     list
 ) {
-
+    var sendMoneyType: String?=null
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.layout_item_beneficiary
 
     override fun onCreateViewHolder(binding: ViewDataBinding): AllBeneficiariesItemViewHolder {
@@ -22,7 +22,7 @@ class AllBeneficiariesAdapter(
 
     override fun onBindViewHolder(holder: AllBeneficiariesItemViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-            holder.onBind(list[position], position, onItemClickListener)
+        holder.onBind(list[position], position, onItemClickListener, sendMoneyType)
     }
 
     class AllBeneficiariesItemViewHolder(
@@ -31,23 +31,22 @@ class AllBeneficiariesAdapter(
         RecyclerView.ViewHolder(itemContactsBinding.root) {
 
         fun onBind(
-            beneficiary: Beneficiary?,
+            beneficiary: IBeneficiary?,
             position: Int,
-            onItemClickListener: OnItemClickListener?
+            onItemClickListener: OnItemClickListener?,
+            sendMoneyType: String? = ""
         ) {
-
-            itemContactsBinding.viewModel = BeneficiaryItemViewModel(beneficiary, position, onItemClickListener)
+            itemContactsBinding.viewModel =
+                BeneficiaryItemViewModel(beneficiary, position, sendMoneyType, onItemClickListener)
             itemContactsBinding.executePendingBindings()
-
         }
     }
 
-    override fun filterItem(constraint: CharSequence?, item: Beneficiary): Boolean {
+    override fun filterItem(constraint: CharSequence?, item: IBeneficiary): Boolean {
         val filterString = constraint.toString().toLowerCase()
-        val nickname = item.title?.toLowerCase() ?: item.fullName()
-        val fullName = item.fullName().toLowerCase()
+        val nickname = item.subtitle?.toLowerCase() ?: ""
+        val fullName = item.fullName?.toLowerCase()?:""
 
         return nickname.contains(filterString) || fullName.contains(filterString)
     }
-
 }

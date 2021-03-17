@@ -12,6 +12,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -21,7 +23,6 @@ class TaxInfoViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITaxInfo.State = TaxInfoState()
     override var taxInfoList: MutableList<TaxModel> = mutableListOf()
-    //override var countries: ArrayList<Country>? = null
     override var taxInfoAdaptor: TaxInfoAdaptor = TaxInfoAdaptor(taxInfoList)
     override val repository: CustomersRepository = CustomersRepository
     override var reasonsList: ArrayList<String> = arrayListOf()
@@ -92,14 +93,12 @@ class TaxInfoViewModel(application: Application) :
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
                 R.id.lyAddCountry -> {
+                    trackEventWithScreenName(FirebaseEvent.ADD_TAX_COUNTRY)
                     createModel(
                         reasonsList,
                         options,
                         ObservableField(rowTitles[taxInfoList.size])
                     )
-                    state.valid.set(isTaxInfoValid(taxInfoList))
-                }
-                R.id.spinner_container -> { // on country selected login
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
                 R.id.etTinNumber -> { // on tin number change
@@ -111,8 +110,17 @@ class TaxInfoViewModel(application: Application) :
                 R.id.reasonsSpinner -> { // on reason selected
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
+                R.id.bcountries -> {
+                    state.viewState.value = ITaxInfo.CountryPicker(view, data, pos)
+                }
             }
         }
+    }
+
+    override fun onCountryPicked(view: View, country: Country, itemModel: TaxModel, pos: Int) {
+        taxInfoList[pos].selectedCountry = country
+        taxInfoAdaptor.notifyItemChanged(pos)
+        state.valid.set(isTaxInfoValid(taxInfoList))
     }
 
     override fun createModel(
@@ -126,7 +134,8 @@ class TaxInfoViewModel(application: Application) :
                 options = options,
                 canAddMore = ObservableField(taxInfoList.size in 0..1),
                 taxRowNumber = ObservableField(taxInfoList.isNotEmpty()),
-                taxRowTitle = title
+                taxRowTitle = title,
+                selectedCountry = if (taxInfoList.size in 0..0) parentViewModel?.countries?.first { country -> country.isoCountryCode2Digit == "AE" } else null
             )
         )
         taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
@@ -135,7 +144,9 @@ class TaxInfoViewModel(application: Application) :
     private fun isTaxInfoValid(taxInfoList: MutableList<TaxModel>): Boolean {
         var valid = false
         for (taxInfo: TaxModel in taxInfoList) {
-            valid = if (taxInfo.selectedCountry?.getName().equals("Select country")) {
+            valid = if (taxInfo.selectedCountry == null || taxInfo.selectedCountry?.getName()
+                    .equals("Select country")
+            ) {
                 false
             } else {
                 if (taxInfo.selectedOption.get().equals("No")) {
@@ -179,8 +190,12 @@ class TaxInfoViewModel(application: Application) :
                 TaxInfoDetailRequest(
                     country = taxInfo.selectedCountry?.getName() ?: "",
                     tinAvailable = taxInfo.selectedOption.get().equals("Yes"),
-                    reasonInCaseNoTin = if (taxInfo.selectedOption.get().equals("Yes")) "" else taxInfo.selectedReason,
-                    tinNumber = if (taxInfo.selectedOption.get().equals("Yes")) taxInfo.tinNumber.get()
+                    reasonInCaseNoTin = if (taxInfo.selectedOption.get()
+                            .equals("Yes")
+                    ) "" else taxInfo.selectedReason,
+                    tinNumber = if (taxInfo.selectedOption.get()
+                            .equals("Yes")
+                    ) taxInfo.tinNumber.get()
                         ?: "" else ""
                 )
             )
@@ -195,7 +210,7 @@ class TaxInfoViewModel(application: Application) :
             launch {
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
-                        success(Utils.parseCountryList(response.data.data) as ArrayList<Country>)
+                        success(Utils.parseCountryList(response.data.data, addOIndex = false) as ArrayList<Country>)
 
                     }
 

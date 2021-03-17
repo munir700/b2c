@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 
@@ -70,12 +72,12 @@ class BubbleMessageView : ConstraintLayout {
         showCaseMessageViewLayout = findViewById(R.id.showCaseMessageViewLayout)
     }
 
-    fun setAttributes(builder: Builder){
-        if(builder.mCloseAction!=null){
+    fun setAttributes(builder: Builder) {
+        if (builder.mCloseAction != null) {
             btnNext?.visibility = View.VISIBLE
         }
 
-        if(builder.mDisableCloseAction!=null && builder.mDisableCloseAction!!){
+        if (builder.mDisableCloseAction != null && builder.mDisableCloseAction!!) {
             btnNext?.visibility = View.INVISIBLE
         }
 
@@ -96,19 +98,31 @@ class BubbleMessageView : ConstraintLayout {
             textViewSubtitle?.setTextColor(builder.mTextColor!!)
         }
         builder.mTitleTextSize?.let {
-            textViewTitle?.setTextSize(TypedValue.COMPLEX_UNIT_SP, builder.mTitleTextSize!!.toFloat())
+            textViewTitle?.setTextSize(
+                TypedValue.COMPLEX_UNIT_SP,
+                builder.mTitleTextSize!!.toFloat()
+            )
         }
         builder.mSubtitleTextSize?.let {
-            textViewSubtitle?.setTextSize(TypedValue.COMPLEX_UNIT_SP, builder.mSubtitleTextSize!!.toFloat())
+            textViewSubtitle?.setTextSize(
+                TypedValue.COMPLEX_UNIT_SP,
+                builder.mSubtitleTextSize!!.toFloat()
+            )
         }
         builder.mBackgroundColor?.let { mBackgroundColor = builder.mBackgroundColor!! }
+
+        builder.mBtnText?.let { btnNext?.text = it }
+        builder.mPageNoShow?.let {
+            if (!it)
+                textViewCounter?.visibility = View.INVISIBLE
+        }
         arrowPositionList = builder.mArrowPosition
         targetViewScreenLocation = builder.mTargetViewScreenLocation
     }
 
-    private fun setBubbleListener(builder: Builder){
-        btnNext?.setOnClickListener {builder.mListener?.onCloseActionImageClick()}
-        itemView?.setOnClickListener {builder.mListener?.onBubbleClick()}
+    private fun setBubbleListener(builder: Builder) {
+        btnNext?.setOnClickListener { builder.mListener?.onCloseActionImageClick() }
+        itemView?.setOnClickListener { builder.mListener?.onBubbleClick() }
     }
 
 
@@ -145,32 +159,66 @@ class BubbleMessageView : ConstraintLayout {
     }
 
     private fun drawRectangle(canvas: Canvas) {
-        val rect = RectF(getMargin().toFloat(),
-                getMargin().toFloat(),
-                getViewWidth() - getMargin().toFloat(),
-                height - getMargin().toFloat())
-        canvas.drawRoundRect(rect, 10f, 10f, paint!!)
+        val rect = RectF(
+            getMargin().toFloat(),
+            getMargin().toFloat(),
+            getViewWidth() - getMargin().toFloat(),
+            height - getMargin().toFloat()
+        )
+        canvas.drawRoundRect(
+            rect,
+            context.resources.getDimension(R.dimen._10sdp),
+            context.resources.getDimension(R.dimen._10sdp),
+            paint!!
+        )
     }
 
-    private fun drawArrow(canvas: Canvas, arrowPosition: BubbleShowCase.ArrowPosition, targetViewLocationOnScreen: RectF?) {
+    private fun drawArrow(
+        canvas: Canvas,
+        arrowPosition: BubbleShowCase.ArrowPosition,
+        targetViewLocationOnScreen: RectF?
+    ) {
         val xPosition: Int
         val yPosition: Int
-
         when (arrowPosition) {
             BubbleShowCase.ArrowPosition.LEFT -> {
                 xPosition = getMargin()
-                yPosition = if(targetViewLocationOnScreen!=null) getArrowVerticalPositionDependingOnTarget(targetViewLocationOnScreen) else height / 2
+                yPosition =
+                    targetViewLocationOnScreen?.let {
+                        calculateMaxMinVerticalPositionTip(
+                            getArrowHorizontalPositionDependingOnTarget(it),
+                            height
+                        )
+                    } ?: height / 2
             }
             BubbleShowCase.ArrowPosition.RIGHT -> {
                 xPosition = getViewWidth() - getMargin()
-                yPosition = if(targetViewLocationOnScreen!=null) getArrowVerticalPositionDependingOnTarget(targetViewLocationOnScreen) else height / 2
+                yPosition =
+                    targetViewLocationOnScreen?.let {
+                        calculateMaxMinVerticalPositionTip(
+                            getArrowHorizontalPositionDependingOnTarget(it),
+                            height
+                        )
+                    } ?: height / 2
             }
             BubbleShowCase.ArrowPosition.TOP -> {
-                xPosition = if(targetViewLocationOnScreen!=null) getArrowHorizontalPositionDependingOnTarget(targetViewLocationOnScreen) else width / 2
+                xPosition =
+                    targetViewLocationOnScreen?.let {
+                        calculateMaxMinHorizontalPositionTip(
+                            getArrowHorizontalPositionDependingOnTarget(it),
+                            width
+                        )
+                    } ?: width / 2
                 yPosition = getMargin()
             }
             BubbleShowCase.ArrowPosition.BOTTOM -> {
-                xPosition = if(targetViewLocationOnScreen!=null) getArrowHorizontalPositionDependingOnTarget(targetViewLocationOnScreen) else width / 2
+                xPosition =
+                    targetViewLocationOnScreen?.let {
+                        calculateMaxMinHorizontalPositionTip(
+                            getArrowHorizontalPositionDependingOnTarget(it),
+                            width
+                        )
+                    } ?: width / 2
                 yPosition = height - getMargin()
             }
         }
@@ -186,6 +234,20 @@ class BubbleMessageView : ConstraintLayout {
                 this
             )).roundToInt()
         }
+    }
+
+    private fun calculateMaxMinHorizontalPositionTip(tipPos: Int, dim: Int): Int {
+        val leftOffSetX = dim.div(100).times(20)
+        val rightOffSetX = dim.div(100).times(20)
+        val safeLeft = max(leftOffSetX, tipPos)
+        return min((dim - rightOffSetX), safeLeft)
+    }
+
+    private fun calculateMaxMinVerticalPositionTip(tipPos: Int, dim: Int): Int {
+        val topOffSetX = dim.div(100).times(15)
+        val bottomOffSetX = dim.div(100).times(15)
+        val safeTop = max(topOffSetX, tipPos)
+        return min((dim - bottomOffSetX), safeTop)
     }
 
     private fun getArrowVerticalPositionDependingOnTarget(targetViewLocationOnScreen: RectF?): Int {
@@ -257,8 +319,13 @@ class BubbleMessageView : ConstraintLayout {
         var mTextColor: Int? = null
         var mTitleTextSize: Int? = null
         var mSubtitleTextSize: Int? = null
-        var mArrowPosition  = ArrayList<BubbleShowCase.ArrowPosition>()
+        var mArrowPosition = ArrayList<BubbleShowCase.ArrowPosition>()
         var mListener: OnBubbleMessageViewListener? = null
+
+        var mPageNoShow: Boolean? = null
+        var mSkipShow: Boolean? = null
+        var mBtnText: String? = null
+
 
         fun from(context: Context): Builder {
             mContext = WeakReference(context)
@@ -333,6 +400,21 @@ class BubbleMessageView : ConstraintLayout {
 
         fun build(): BubbleMessageView {
             return BubbleMessageView(mContext.get()!!, this)
+        }
+
+        fun showPageNo(isPageNoShow: Boolean): Builder {
+            mPageNoShow = isPageNoShow
+            return this
+        }
+
+        fun showSkip(isSkipShow: Boolean): Builder {
+            mSkipShow = isSkipShow
+            return this
+        }
+
+        fun btnText(btnText: String?): Builder {
+            mBtnText = btnText
+            return this
         }
 
         init {

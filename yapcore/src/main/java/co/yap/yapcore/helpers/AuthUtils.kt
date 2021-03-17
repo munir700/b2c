@@ -5,7 +5,6 @@ import android.content.Intent
 import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import java.util.*
 
@@ -21,20 +20,10 @@ object AuthUtils {
                 KEY_IS_FIRST_TIME_USER,
                 false
             )
-        val isFingerprintPermissionShown: Boolean =
-            sharedPreferenceManager.getValueBoolien(
-                KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                false
-            )
-        val isTouchIdEnabled: Boolean =
-            sharedPreferenceManager.getValueBoolien(
-                Constants.KEY_TOUCH_ID_ENABLED,
-                false
-            )
-        var userName:String?=""
-        val isRemember= sharedPreferenceManager.getValueBoolien(Constants.KEY_IS_REMEMBER,false)
+        var userName: String? = ""
+        val isRemember = sharedPreferenceManager.getValueBoolien(Constants.KEY_IS_REMEMBER, false)
         if (isRemember) {
-            userName=sharedPreferenceManager.getDecryptedUserName()
+            userName = sharedPreferenceManager.getDecryptedUserName()
         }
         //Removing it will take user to otp screen will login after logout
         //val uuid: String? =
@@ -48,21 +37,13 @@ object AuthUtils {
             KEY_APP_UUID,
             UUID.randomUUID().toString()
         )
-        if (isRemember){
-            sharedPreferenceManager.saveUserNameWithEncryption(userName?:"")
+        if (isRemember) {
+            sharedPreferenceManager.saveUserNameWithEncryption(userName ?: "")
         }
-        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER,isRemember)
-        sharedPreferenceManager.save(
-            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-            isFingerprintPermissionShown
-        )
+        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, isRemember)
         sharedPreferenceManager.save(
             KEY_IS_FIRST_TIME_USER,
             isFirstTimeUser
-        )
-        sharedPreferenceManager.save(
-            Constants.KEY_TOUCH_ID_ENABLED,
-            isTouchIdEnabled
         )
     }
 

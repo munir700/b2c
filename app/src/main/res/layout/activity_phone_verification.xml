@@ -17,8 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:paddingTop="@dimen/margin_normal">
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout2"
@@ -44,6 +43,7 @@
                 android:layout_height="0dp"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
@@ -129,20 +129,18 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/done"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xxl"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_xxl"
-                    android:layout_marginBottom="@dimen/_24sdp"
+                    app:btn_size="small"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnSendButton()}"
                     android:text="@string/screen_phone_number_button_send"
                     app:enableCoreButton="@{viewModel.state.validateBtn}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="44dp" />
+                    tools:ignore="MissingConstraints" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,7 +63,9 @@
             <TextView
                 android:id="@+id/tvBeneficiaryName"
                 style="@style/Large"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
@@ -77,15 +79,17 @@
             <TextView
                 android:id="@+id/tvTransferCaption"
                 style="@style/SmallGrey"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="center_horizontal"
                 android:text="@{viewModel.state.description}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBeneficiaryName"
-                tools:text="Bernard will recieve AED 314.50" />
+                tools:text="Bernardasdasdasdsadasdadasdasasdasdasdaadadssda will recieve AED 314.50" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransferFee"
@@ -154,19 +158,18 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/confirmButton"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:enabled="true"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="Confirm"
                 app:enableCoreButton="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="44dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@string/screen_crash_transfer_success_button_text_back" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

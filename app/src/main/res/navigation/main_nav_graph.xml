@@ -33,8 +33,15 @@
         tools:layout="@layout/fragment_account_selection">
         <action
             android:id="@+id/action_accountSelectionFragment_to_welcomeFragment"
-
             app:destination="@id/welcomeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out_long" />
+
+        <action
+            android:id="@+id/action_accountSelectionFragment_to_onBaordingActivity"
+            app:destination="@id/onboardingActivity"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"

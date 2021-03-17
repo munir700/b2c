@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -11,12 +12,14 @@ import android.os.Parcelable
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -25,6 +28,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
 import co.yap.modules.qrcode.BarcodeFormat
+import co.yap.translation.Strings
+import co.yap.translation.Translator
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -88,6 +94,14 @@ fun ImageView.loadImage(resourceId: Int, requestOptions: RequestOptions) {
 fun ImageView.loadImage(path: String) {
     Glide.with(this)
         .load(path).centerCrop()
+        .into(this)
+}
+
+fun ImageView.loadCardImage(path: String?) {
+    Glide.with(this)
+        .load(path)
+        .placeholder(R.drawable.card_place_holder)
+        .error(R.drawable.card_spare)
         .into(this)
 }
 
@@ -182,7 +196,12 @@ fun Context?.isNetworkAvailable(): Boolean {
     } ?: false
 }
 
-fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
+fun TextView.makeLinks(
+    vararg links: Pair<String, View.OnClickListener>,
+    @ColorInt color: Int = 0,
+    underline: Boolean = false,
+    isBold: Boolean = false
+) {
     val spannableString = SpannableString(this.text)
     for (link in links) {
         val clickableSpan = object : ClickableSpan() {
@@ -191,12 +210,27 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
                 view.invalidate()
                 link.second.onClick(view)
             }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = underline
+                if (isBold) ds.typeface = Typeface.DEFAULT_BOLD
+            }
         }
+
         val startIndexOfLink = this.text.toString().indexOf(link.first)
         spannableString.setSpan(
             clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
+        if (color != 0) {
+            spannableString.setSpan(
+                ForegroundColorSpan(color),
+                startIndexOfLink,
+                startIndexOfLink + link.first.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
     }
     this.movementMethod =
         LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
@@ -245,7 +279,7 @@ fun Double?.roundValHalfEven(): Double {
 
 fun ImageView?.hasBitmap(): Boolean {
     return this?.let {
-        this.drawable != null && (this.drawable as BitmapDrawable).bitmap != null
+        this.drawable != null && (this.drawable is BitmapDrawable)
     } ?: false
 }
 
@@ -284,4 +318,27 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     } catch (e: Exception) {
     }
     return drawable
+}
+
+fun Context.inviteFriendIntent() {
+    val sharingIntent = Intent(Intent.ACTION_SEND)
+    sharingIntent.type = "text/plain"
+    sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(this))
+    startActivity(Intent.createChooser(sharingIntent, "Share"))
+}
+
+private fun getBody(context: Context): String {
+    return Translator.getString(
+        context,
+        Strings.screen_invite_friend_display_text_share_url,
+        Utils.getAdjustURL()
+    )
+}
+
+fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
+    if (first.size != second.size) {
+        return false
+    }
+
+    return first.zip(second).all { (x, y) -> x == y }
 }

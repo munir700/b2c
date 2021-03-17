@@ -18,7 +18,9 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.enums.YAPThemes
+import co.yap.yapcore.firebase.trackScreenViewEvent
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
@@ -41,6 +43,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+        trackScreenViewEvent()
 //        setUpFirebaseAnalytics()
 
         applySelectedTheme(SharedPreferenceManager(this))
@@ -53,9 +56,29 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         registerStateListeners()
 
         progress = Utils.createProgressDialog(this)
-        preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
+        preventTakeScreenShot(
+            YAPApplication.configManager?.isReleaseBuild() == true
+                    && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
+        )
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
+        })
+
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
         })
     }
 
@@ -199,6 +222,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         cancelAllSnackBar()
         progress?.dismiss()
         viewModel.toolBarClickEvent.removeObservers(this)
+        viewModel.state.viewState.removeObservers(this)
         super.onDestroy()
     }
 
@@ -261,4 +285,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
     }
+
+    override fun getScreenName():String? = ""
 }

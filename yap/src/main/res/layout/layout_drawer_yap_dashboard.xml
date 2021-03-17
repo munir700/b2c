@@ -34,7 +34,7 @@
         app:elevation="4dp">
 
         <!-- Left Section -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_52sdp"
@@ -45,12 +45,15 @@
 
             <!-- Header -->
             <LinearLayout
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="0dp"
-                android:paddingTop="@dimen/margin_small">
+                android:paddingTop="@dimen/margin_small"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <RelativeLayout
                     android:id="@+id/lUserInfo"
@@ -98,6 +101,13 @@
                             android:layout_marginBottom="@dimen/_2sdp"
                             android:background="@color/greyLight" />
 
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivSub"
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
+                            android:layout_marginStart="@dimen/margin_small"
+                            app:srcCompat="@drawable/ic_package_standered" />
+
                         <TextView
                             android:id="@+id/tvAccountType"
                             style="@style/ARegular"
@@ -105,6 +115,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginEnd="@dimen/margin_small"
+                            android:visibility="gone"
                             android:text="Personal"
                             android:textColor="@color/colorPrimaryDarkIcons" />
 
@@ -118,6 +129,18 @@
                         android:layout_below="@id/lAccountContainer"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:text="@{viewModel.state.fullName}" />
+
+                    <TextView
+                        android:id="@+id/tvFounder"
+                        style="@style/ASmallGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvUserName"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/_11sdp"
+                        android:visibility="@{viewModel.state.isFounder() == true ? View.VISIBLE : View.GONE}"
+                        app:text="@{Strings.common_display_text_founder}" />
 
                 </RelativeLayout>
 
@@ -182,22 +205,19 @@
                             app:layout_constraintStart_toStartOf="@id/tvIbanHeading"
                             app:layout_constraintTop_toBottomOf="@id/tvIbanHeading" />
 
-                        <co.yap.widgets.CoreButton
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/btnCopy"
-                            android:layout_width="@dimen/_40sdp"
+                            android:layout_width="@dimen/_45sdp"
                             android:layout_height="@dimen/_18sdp"
                             android:layout_marginTop="@dimen/margin_small"
                             android:layout_marginEnd="@dimen/margin_small"
                             android:gravity="center"
                             android:onClick="@{v -> viewModel.handlePressOnNavigationItem(v.getId())}"
-                            android:text="Copy"
+                            android:text="Share"
                             android:visibility="@{SessionManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
-                            app:btn_pressed_color="@color/disabledLight"
-                            app:btn_round_radius="@dimen/_10sdp"
-                            app:btn_shape_type="rectangle"
-                            app:btn_text_color="?attr/colorPrimaryAttr"
-                            app:btn_text_size="@dimen/text_size_c3"
-                            app:btn_unpressed_color="@color/disabledLight"
+                            android:background="@drawable/tag_background"
+                            android:textSize="@dimen/text_size_c3"
+                            android:textColor="?attr/colorPrimaryAttr"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -205,37 +225,51 @@
 
                 </net.cachapa.expandablelayout.ExpandableLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingEnd="0dp">
+
+                    <include
+                        android:id="@+id/lAnalytics"
+                        layout="@layout/layout_item_icon_text"
+                        app:icon="@{@drawable/ic_analytics}"
+                        app:tint="@{@color/colorPrimary}"
+                        app:title='@{"Analytics"}' />
+
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:layout_marginTop="@dimen/margin_normal_large"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:background="@color/greyLight" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutRef"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="0dp"
-                android:paddingBottom="@dimen/margin_extra_small">
+                android:paddingBottom="@dimen/margin_extra_small"
+                android:layout_below="@+id/header"
+                app:layout_constraintTop_toBottomOf="@+id/header"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <include
                     android:id="@+id/lRefer"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/ic_gift}"
-                    app:title='@{"Refer a friend"}' />
+                    app:title='@{"Refer a friend"}'
+                    app:tint="@{@color/greyDark}"/>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:background="@color/greyLight" />
-
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
@@ -245,21 +279,17 @@
                 android:paddingBottom="@dimen/margin_extra_small">
 
                 <include
-                    android:id="@+id/lAnalytics"
+                    android:id="@+id/lAlert"
                     layout="@layout/layout_item_icon_text"
-                    app:icon="@{@drawable/ic_analytics}"
-                    app:title='@{"Analytics"}' />
+                    app:icon="@{@drawable/ic_notification_settings}"
+                    app:title='@{"Alerts and notifications"}'
+                    app:tint="@{@color/greyDark}"/>
 
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:background="@color/greyLight" />
+            </LinearLayout>-->
 
             <!-- Management -->
             <LinearLayout
+                android:id="@+id/layoutRefAFriend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -267,64 +297,80 @@
                 android:paddingEnd="0dp"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/layoutRef"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/gift}"
-                    app:title='@{"Refer a friend"}' />
+                    app:title='@{"Refer a friend"}'
+                    app:tint="@{@color/greyDark}" />
 
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/house}"
-                    app:title='@{"Household salary"}' />
+                    app:title='@{"Household salary"}'
+                    app:tint="@{@color/greyDark}"/>
 
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/mode}"
-                    app:title='@{"Yap Young"}' />
+                    app:title='@{"Yap Young"}'
+                    app:tint="@{@color/greyDark}" />
 
             </LinearLayout>
 
             <View
+                android:id="@+id/sep1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:background="@color/greyLight"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/layoutRefAFriend"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <!-- Info -->
             <LinearLayout
+                android:id="@+id/layoutStatements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="0dp"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
+                android:paddingBottom="@dimen/margin_small"
+                app:layout_constraintTop_toBottomOf="@+id/sep1"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <include
+               <!-- <include
                     layout="@layout/layout_item_icon_text"
                     android:visibility="gone"
                     app:icon="@{@drawable/notification}"
-                    app:title='@{"Alerts and notifications"}' />
-
+                    app:title='@{"Alerts and notifications"}'
+                    app:tint="@{@color/greyDark}" />
+-->
                 <include
                     android:id="@+id/lStatements"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/file}"
-                    app:title='@{"Statements"}' />
+                    app:title='@{"Statements"}'
+                    app:tint="@{@color/greyDark}" />
 
             </LinearLayout>
 
             <View
+                android:id="@+id/sep2"
                 android:layout_width="match_parent"
                 android:layout_height="2px"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:background="@color/greyLight" />
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@+id/layoutStatements"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <!-- Support -->
             <LinearLayout
+                android:id="@+id/layoutLiveChat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -332,20 +378,31 @@
                 android:paddingEnd="0dp"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:visibility="visible">
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/sep2"
+                app:layout_constraintStart_toStartOf="parent" >
+
+                <include
+                    android:id="@+id/lLiveChat"
+                    layout="@layout/layout_item_icon_text"
+                    app:icon="@{@drawable/ic_chat}"
+                    app:title='@{"Live chat"}'
+                    app:tint="@{@color/greyDark}" />
 
                 <include
                     android:id="@+id/lyContact"
                     layout="@layout/layout_item_icon_text"
                     android:visibility="gone"
                     app:icon="@{@drawable/phone}"
-                    app:title='@{"Contact us"}' />
+                    app:title='@{"Contact us"}'
+                    app:tint="@{@color/greyDark}" />
 
                 <include
                     android:id="@+id/lSupport"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/support}"
-                    app:title='@{"Help and support"}' />
+                    app:title='@{"Help and support"}'
+                    app:tint="@{@color/greyDark}" />
 
                 <View
                     android:layout_width="match_parent"
@@ -370,16 +427,19 @@
             <TextView
                 android:id="@+id/tvLogOut"
                 style="@style/ARegular"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="bottom|center"
                 android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
-                android:paddingBottom="@dimen/margin_medium"
+                android:padding="@dimen/margin_medium"
                 android:text="@string/screen_profile_settings_display_text_logout"
                 android:textColor="?attr/colorPrimaryAttr"
-                app:text="@{Strings.screen_profile_settings_display_text_logout}" />
-        </LinearLayout>
+                app:text="@{Strings.screen_profile_settings_display_text_logout}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="@dimen/_1sdp"
@@ -394,6 +454,22 @@
             android:layout_weight="22"
             android:paddingBottom="@dimen/margin_normal">
 
+<!--            <co.yap.widgets.CoreCircularImageView-->
+<!--                android:id="@+id/imgProfile"-->
+<!--                android:layout_width="@dimen/_44sdp"-->
+<!--                android:layout_height="@dimen/_44sdp"-->
+<!--                android:layout_alignParentTop="true"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:background="@drawable/circle_profile"-->
+<!--                android:contentDescription="@string/empty_string"-->
+<!--                android:gravity="center"-->
+<!--                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"-->
+<!--                android:padding="@dimen/_3sdp"-->
+<!--                app:beneficiaryPicture="@{viewModel.state.userNameImage}"-->
+<!--                app:fullName="@{viewModel.state.fullName}"-->
+<!--                tools:src="@color/quantum_yellow" />-->
+<!--            -->
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="@dimen/_44sdp"
@@ -401,14 +477,25 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/circle_profile"
-                android:contentDescription="@string/empty_string"
                 android:gravity="center"
-                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                 android:padding="@dimen/_3sdp"
-                app:beneficiaryPicture="@{viewModel.state.userNameImage}"
-                app:fullName="@{viewModel.state.fullName}"
-                tools:src="@color/quantum_yellow" />
+                android:background="@drawable/bg_round_white"
+                android:contentDescription="@string/empty_string"
+                tools:src="@drawable/lp_messaging_ui_icon_image_broken"
+                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
+                app:imageUrl="@{viewModel.state.userNameImage == null ? `` : viewModel.state.userNameImage}"
+                app:fullName="@{SessionManager.INSTANCE.user.currentCustomer.getFullName()}"
+                app:colorCode="@{SessionManager.INSTANCE.user.currentCustomer.parsedColor}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ASmallGrey"
+                android:textSize="@dimen/text_size_c1"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgProfile"
+                android:layout_centerHorizontal="true"
+                app:text="@{Strings.screen_dashboard_menu_display_text_my_profile}" />
 
             <ImageView
                 android:layout_width="@dimen/_42sdp"

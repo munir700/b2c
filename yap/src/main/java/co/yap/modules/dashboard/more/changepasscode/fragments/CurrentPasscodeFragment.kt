@@ -28,7 +28,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
 
-    override val viewModel: IPassCode.ViewModel
+    override val viewModel: PassCodeViewModel
         get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +38,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             title = getString(Strings.screen_current_passcode_display_text_heading),
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
-        parentActivity.viewModel.state.toolbarVisibility.set(true)
+        parentActivity.viewModel.state.toolbarVisibility= true
 
     }
 

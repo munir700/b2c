@@ -89,7 +89,7 @@ fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scal
 fun Context.dimen(resource: Int): Int = resources.getDimensionPixelSize(resource)
 /* Functions for Conversions */
 
-fun Fragment.dimen(resource: Int) = context?.dimen(resource)
+fun Fragment.dimen(resource: Int) = requireContext().dimen(resource)
 
 /** gets display size as a point. */
 internal fun Context.displaySize(): Point {
@@ -114,5 +114,5 @@ fun getScreenWidth(): Int {
     return Resources.getSystem().displayMetrics.widthPixels
 }
 fun getScreenHeight(): Int {
-    return Resources.getSystem().displayMetrics.widthPixels
+    return Resources.getSystem().displayMetrics.heightPixels
 }

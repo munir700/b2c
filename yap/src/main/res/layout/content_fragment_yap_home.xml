@@ -10,7 +10,7 @@
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
         <import type="android.view.View" />
-
+        <import type ="co.yap.R" />
     </data>
 
     <RelativeLayout
@@ -26,6 +26,8 @@
             android:orientation="vertical">
 
             <!--     Notification Center       -->
+
+            <!--     Content Graph Center       -->
             <com.yarolegovich.discretescrollview.DiscreteScrollView
                 android:id="@+id/rvNotificationList"
                 android:layout_width="match_parent"
@@ -34,24 +36,32 @@
                 tools:listitem="@layout/view_notifications" />
 
             <!--     Content Graph Center       -->
-            <include
-                android:id="@+id/vGraph"
-                layout="@layout/view_graph"
-                android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTransactionDate"
-                style="@style/Regular"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llGraph"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="6sp"
-                android:textColor="@color/greyDark"
-                android:textSize="14sp"
-                android:visibility="visible"
-                tools:text="April 2019" />
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/vGraph"
+                    layout="@layout/view_graph"
+                    android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTransactionDate"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="@color/greyDark"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    tools:text="April 2019" />
+            </LinearLayout>
+
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/lyHomeAction"
@@ -59,19 +69,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_7sdp"
-                android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
-                android:enabled="@{viewModel.state.isUserAccountActivated}"
+                android:alpha="@{viewModel.state.isPartnerBankStatusActivated ? 1f : 0.5f}"
+                android:enabled="@{viewModel.state.isPartnerBankStatusActivated}"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/lyAdd"
-                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
-                    android:enabled="@{viewModel.state.isUserAccountActivated}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginEnd="@dimen/_18sdp"
+                    android:alpha="@{viewModel.state.isPartnerBankStatusActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isPartnerBankStatusActivated}"
                     android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:orientation="vertical">
 
@@ -105,13 +115,13 @@
 
                 <LinearLayout
                     android:id="@+id/lyAnalytics"
-                     android:layout_width="wrap_content"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginEnd="@dimen/_18sdp"
-                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
-                    android:enabled="@{viewModel.state.isUserAccountActivated}"
+                    android:alpha="@{viewModel.state.isPartnerBankStatusActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isPartnerBankStatusActivated}"
                     android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:orientation="vertical">
 
@@ -150,9 +160,9 @@
                 android:id="@+id/rlTransactionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginStart="@dimen/margin_normal_large"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_normal_large"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.INVISIBLE}">
 
@@ -263,17 +273,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:lineSpacingExtra="3sp"
-                android:minWidth="@dimen/_100sdp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/text_size_h1"
-                tools:text="Tooltip" />
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCross"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/empty_string"
+                    android:src="@drawable/ic_ico_close" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:lineSpacingExtra="3sp"
+                    android:minWidth="@dimen/_80sdp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_h1"
+                    tools:text="Tooltip" />
+
+
+            </LinearLayout>
+
         </co.yap.widgets.tooltipview.TooltipView>
 
         <co.yap.widgets.tooltipview.TriangleView

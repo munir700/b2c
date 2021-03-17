@@ -9,24 +9,27 @@
             name="cardType"
             type="String" />
 
+        <variable
+            name="cardName"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/colorWhite">
 
         <ImageView
             android:id="@+id/cardView"
-            android:layout_width="@dimen/_121sdp"
-            android:layout_height="@dimen/_190sdp"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_240sdp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/card_spare"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/labelCardType"
@@ -38,6 +41,7 @@
             android:gravity="center"
             android:text="@{cardType}"
             android:textColor="?attr/colorPrimaryAttr"
+            tools:textColor="@color/colorPrimary"
             app:btn_unpressed_color="@color/disabledLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

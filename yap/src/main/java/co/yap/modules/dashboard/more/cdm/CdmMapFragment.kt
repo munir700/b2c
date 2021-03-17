@@ -42,7 +42,7 @@ class CdmMapFragment : LocationCheckFragment<ICdmMap.ViewModel>(), ICdmMap.View,
             viewModel.state.locationType?.value = it.getString(Constants.LOCATION_TYPE, "")
         }
         initMap()
-        viewModel.state.stateLiveData.observe(this, Observer { handleState(it) })
+        viewModel.state.stateLiveData?.observe(this, Observer { handleState(it) })
         viewModel.clickEvent.observe(this, Observer { handleClickEvent(it) })
         multiStateView.setOnReloadListener(object : MultiStateView.OnReloadListener {
             override fun onReload(view: View) {
@@ -73,7 +73,7 @@ class CdmMapFragment : LocationCheckFragment<ICdmMap.ViewModel>(), ICdmMap.View,
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-        viewModel.state.stateLiveData.removeObservers(this)
+        viewModel.state.stateLiveData?.removeObservers(this)
 
     }
 
