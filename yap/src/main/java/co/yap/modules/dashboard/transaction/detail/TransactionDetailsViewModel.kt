@@ -7,13 +7,17 @@ import co.yap.R
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
 import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
+import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.enums.TransactionProductCode
@@ -23,6 +27,8 @@ import co.yap.yapcore.helpers.extentions.getFormattedTime
 import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
 import co.yap.yapcore.helpers.extentions.isTransactionInProgress
 import co.yap.yapcore.helpers.extentions.isTransactionRejected
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import java.util.*
 
 
@@ -60,6 +66,34 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
+    override fun getTotalPurchaseEndpoint(): TotalPurchaseRequest {
+        transaction.get()?.let { data ->
+            return when (data.productCode) {
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> {
+                    TotalPurchaseRequest(txnType = data.txnType ?: "",
+                        productCode = data.productCode ?: "",
+                        receiverCustomerId = data.customerId1 ?: "")
+                }
+                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode -> {
+                    TotalPurchaseRequest(txnType = data.txnType ?: "",
+                        productCode = data.productCode ?: "",
+                        beneficiaryId = data.customerId1 ?: "")
+                }
+                else -> {
+                    TotalPurchaseRequest(txnType = data.txnType ?: "",
+                        productCode = data.productCode ?: "")
+                }
+            }
+
+        }
+        return TotalPurchaseRequest(txnType = transaction.get()?.txnType ?: "",
+            productCode = transaction.get()?.productCode ?: "")
+    }
+
+    override fun requestTotalPurchases() {
+
+    }
+
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
             if (isShowReceiptSection(transaction)) getAllReceipts()
@@ -72,6 +106,37 @@ class TransactionDetailsViewModel(application: Application) :
                 .isTransactionRejected() || transaction.get().isTransactionInProgress()
         )
 
+    }
+
+    private fun requestReceiptsAndTotalPurchases(responses: (RetroApiResponse<ApiResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            coroutineScope {
+                val totalPurchaseResponse = async {
+                    repository.getTotalPurchases(
+                        getTotalPurchaseEndpoint()
+                    )
+                }
+                val response = totalPurchaseResponse.await()
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        transaction.get()?.let { it ->
+                            val receiptResponse = if (isShowReceiptSection(transaction = it))
+                                async {
+                                    repository.getAllTransactionReceipts(
+                                        transactionId = it.transactionId ?: ""
+                                    )
+                                } else null
+                            responses(response, receiptResponse?.await())
+                        }
+
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.postValue(false)
+                    }
+                }
+            }
+        }
     }
 
     override fun getReceiptTitle(list: List<ReceiptModel>): String {

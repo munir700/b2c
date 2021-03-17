@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItem
 import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
+import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -35,6 +36,8 @@ interface ITransactionDetails {
         fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String
         fun composeTransactionDetail(transaction: Transaction)
+        fun getTotalPurchaseEndpoint() : TotalPurchaseRequest
+        fun requestTotalPurchases()
         var itemsComposer: TransactionDetailComposer
         var transactionAdapter: TransactionDetailItemAdapter
     }

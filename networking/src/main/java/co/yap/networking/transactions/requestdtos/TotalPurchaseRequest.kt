@@ -9,9 +9,9 @@ data class TotalPurchaseRequest(
     @SerializedName("txnType")
     val txnType: String,
     @SerializedName("beneficiaryId")
-    val beneficiaryId: Int? = null,
+    val beneficiaryId: String? = null,
     @SerializedName("receiverCustomerId")
-    val receiverCustomerId: Int? = null,
+    val receiverCustomerId: String? = null,
     @SerializedName("productCode")
     val productCode: String
 ) : Parcelable
