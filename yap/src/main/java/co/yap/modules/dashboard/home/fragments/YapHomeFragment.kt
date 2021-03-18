@@ -286,8 +286,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                                null
 //                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
 //                        )☻
-                        SessionManager.getAccountInfo()
-
+                        SessionManager.getAccountInfo {
+                            GlobalScope.launch(Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                     }
                     R.id.ivMenu -> {
 
