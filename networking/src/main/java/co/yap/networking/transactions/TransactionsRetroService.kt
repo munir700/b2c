@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
 import co.yap.networking.transactions.responsedtos.transaction.*
+import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -237,8 +238,15 @@ interface TransactionsRetroService {
         @Query("transaction-id") transactionId: String
     ): Response<ApiResponse>
 
-    @GET(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
+    @POST(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
     suspend fun getTotalPurchases(
-        @Body totalPurchaseRequest: TotalPurchaseRequest
+        @Query("txnType")
+         txnType: String,
+        @Query("beneficiaryId")
+         beneficiaryId: String? = null,
+        @Query("receiverCustomerId")
+         receiverCustomerId: String? = null,
+        @Query("productCode")
+         productCode: String
     ): Response<TotalPurchasesResponse>
 }

@@ -5,7 +5,6 @@ import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class TotalPurchasesResponse(
     @SerializedName("data")
     val data: TotalPurchases? = null

@@ -124,10 +124,12 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             callback = {
                 when (it) {
                     R.id.btnActionDone -> {
-                        viewModel.getAllReceipts()
+                        viewModel.requestAllApis()
+
                     }
                     R.id.tvAddAnother -> {
-                        viewModel.getAllReceipts()
+                        viewModel.requestAllApis()
+
                         showAddReceiptOptions()
                     }
                 }
@@ -240,7 +242,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 }
 
                 RequestCodes.REQUEST_DELETE_RECEIPT -> {
-                    viewModel.getAllReceipts()
+                    viewModel.requestAllApis()
+
                 }
             }
         }

@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
+import co.yap.networking.transactions.responsedtos.TotalPurchases
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
@@ -40,6 +41,7 @@ interface ITransactionDetails {
         fun requestAllApis()
         var itemsComposer: TransactionDetailComposer
         var transactionAdapter: TransactionDetailItemAdapter
+        var totalPurchase : ObservableField<TotalPurchases>
     }
 
     interface State : IBase.State {

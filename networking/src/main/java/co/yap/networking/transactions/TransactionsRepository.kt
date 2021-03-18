@@ -323,7 +323,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getTotalPurchases(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesResponse> =
         executeSafely(call = {
-            api.getTotalPurchases(totalPurchaseRequest)
+            api.getTotalPurchases(totalPurchaseRequest.txnType,totalPurchaseRequest.beneficiaryId,totalPurchaseRequest.receiverCustomerId,totalPurchaseRequest.productCode)
         })
 
 }
