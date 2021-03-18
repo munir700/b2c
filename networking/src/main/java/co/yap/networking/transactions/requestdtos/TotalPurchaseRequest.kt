@@ -13,5 +13,7 @@ data class TotalPurchaseRequest(
     @SerializedName("receiverCustomerId")
     val receiverCustomerId: String? = null,
     @SerializedName("productCode")
-    val productCode: String
+    val productCode: String,
+    @SerializedName("merchantName")
+    val merchantName: String? = null
 ) : Parcelable

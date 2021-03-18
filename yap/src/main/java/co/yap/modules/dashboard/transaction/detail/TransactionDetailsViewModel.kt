@@ -79,10 +79,12 @@ class TransactionDetailsViewModel(application: Application) :
                         productCode = data.productCode ?: "",
                         beneficiaryId = data.beneficiaryId ?: "")
                 }
-                else -> {
+                TransactionProductCode.ECOM.pCode, TransactionProductCode.POS_PURCHASE.pCode -> {
                     TotalPurchaseRequest(txnType = data.txnType ?: "",
-                        productCode = data.productCode ?: "")
+                        productCode = data.productCode ?: "", merchantName = data.merchantName)
                 }
+                else ->TotalPurchaseRequest(txnType = data.txnType ?: "",
+                    productCode = data.productCode ?: "")
             }
 
         }
