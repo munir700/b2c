@@ -68,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@{viewModel.questionUiFields.question.placeholder}"
-                    android:imeOptions="actionNext"
                     android:inputType="number"
                     android:paddingStart="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_extra_small"
