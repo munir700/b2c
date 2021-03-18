@@ -626,6 +626,17 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     }
                 }
             }
+
+            RequestCodes.REQUEST_CODE_MORE_ACTIVITY ->{
+                data?.let {
+                    val result =
+                        data.getBooleanExtra(Constants.result, false)
+                    if (result) {
+                        getViewBinding().viewPager.setCurrentItem(0, false)
+                        getViewBinding().bottomNav.selectedItemId = R.id.yapHome
+                    }
+                }
+            }
         }
     }
 
