@@ -318,12 +318,17 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
     fun isTotalPurchaseAvailable(): Boolean {
         return (transaction.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode && transaction.txnType == TxnType.DEBIT.type) ||
-                (transaction.productCode == TransactionProductCode.UAEFTS.pCode && transaction.txnType == TxnType.DEBIT.type) ||
-                (transaction.productCode == TransactionProductCode.SWIFT.pCode && transaction.txnType == TxnType.DEBIT.type) ||
+                (transaction.productCode == TransactionProductCode.UAEFTS.pCode && transaction.txnType == TxnType.DEBIT.type && !isTransactionNotCompleted()) ||
+                (transaction.productCode == TransactionProductCode.SWIFT.pCode && transaction.txnType == TxnType.DEBIT.type && !isTransactionNotCompleted()) ||
                 (transaction.productCode == TransactionProductCode.RMT.pCode && transaction.txnType == TxnType.DEBIT.type) ||
-                (transaction.productCode == TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode && transaction.txnType == TxnType.DEBIT.type) ||
+                (transaction.productCode == TransactionProductCode.DOMESTIC.pCode && transaction.txnType == TxnType.DEBIT.type) ||
                 (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) ||
                 (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
                 (transaction.productCode == TransactionProductCode.ECOM.pCode)
     }
+
+    fun isTransactionNotCompleted(): Boolean {
+        return transaction.isTransactionInProgress() || transaction.isTransactionRejected()
+    }
+
 }

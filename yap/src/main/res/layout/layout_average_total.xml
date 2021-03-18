@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -35,22 +36,26 @@
             android:id="@+id/tpTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/MicroGrey"
+            style="@style/ARegular"
             android:textColor="@color/greyDark"
             android:text="@{title}"
+            tools:text="Average"
             />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ALargeGrey"
+            style="@style/ATitle3Grey"
             android:textColor="@color/colorPrimaryDark"
-            android:text="@{price}"/>
+            android:text="@{price}"
+            tools:text="444.3"
+            />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/MicroGrey"
+            style="@style/ARegular"
+            tools:text="AED"
             android:textColor="@color/greyDark"
             android:text="@{currency}"/>
 
