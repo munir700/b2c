@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.R" />
+
+        <import type="android.view.View" />
+        <variable
+            name="title"
+            type="String" />
+        <variable
+            name="price"
+            type="String" />
+        <variable
+            name="currency"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:constraint_referenced_ids="tpTitle,tvPrice,tvCurr"
+            app:flow_verticalGap="@dimen/margin_extra_small"
+            android:orientation="vertical"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tpTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ARegular"
+            android:textColor="@color/greyDark"
+            android:text="@{title}"
+            tools:text="Average"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ATitle3Grey"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@{price}"
+            tools:text="444.3"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCurr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ARegular"
+            tools:text="AED"
+            android:textColor="@color/greyDark"
+            android:text="@{currency}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -9,22 +9,26 @@ import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailCom
 import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
+import co.yap.networking.transactions.responsedtos.TotalPurchases
+import co.yap.networking.transactions.responsedtos.TotalPurchasesResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.extentions.getFormattedTime
-import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
-import co.yap.yapcore.helpers.extentions.isTransactionInProgress
-import co.yap.yapcore.helpers.extentions.isTransactionRejected
-import java.util.*
 import co.yap.yapcore.helpers.extentions.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import java.util.*
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -38,8 +42,10 @@ class TransactionDetailsViewModel(application: Application) :
         TransactionReceiptAdapter(
             mutableListOf()
         )
-    override var transactionAdapter: TransactionDetailItemAdapter = TransactionDetailItemAdapter(arrayListOf()
-    )
+    override var transactionAdapter: TransactionDetailItemAdapter =
+        TransactionDetailItemAdapter(arrayListOf()
+        )
+    override var totalPurchase: ObservableField<TotalPurchases> = ObservableField()
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
     override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
 
@@ -55,12 +61,69 @@ class TransactionDetailsViewModel(application: Application) :
             state.txnNoteValue.set(it.noteValue)
             state.transactionNoteDate = it.noteAddedDate
             state.coverImage.set(it.coverImage)
+            it.showTotalPurchase?.let { it1 -> state.showTotalPurchases.set(it1) }
+            it.showError?.let { bool -> state.showErrorMessage.set(bool) }
         }
+    }
+
+    override fun getTotalPurchaseEndpoint(): TotalPurchaseRequest {
+        transaction.get()?.let { data ->
+            return when (data.productCode) {
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> {
+                    TotalPurchaseRequest(txnType = data.txnType ?: "",
+                        productCode = data.productCode ?: "",
+                        receiverCustomerId = data.customerId2 ?: "")
+                }
+                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode -> {
+                    TotalPurchaseRequest(txnType = data.txnType ?: "",
+                        productCode = data.productCode ?: "",
+                        beneficiaryId = data.beneficiaryId ?: "")
+                }
+                TransactionProductCode.ECOM.pCode, TransactionProductCode.POS_PURCHASE.pCode -> {
+                    TotalPurchaseRequest(txnType = data.txnType ?: "",
+                        productCode = data.productCode ?: "", merchantName = data.merchantName)
+                }
+                else ->TotalPurchaseRequest(txnType = data.txnType ?: "",
+                    productCode = data.productCode ?: "")
+            }
+
+        }
+        return TotalPurchaseRequest(txnType = transaction.get()?.txnType ?: "",
+            productCode = transaction.get()?.productCode ?: "")
+    }
+
+    override fun requestAllApis() {
+        requestReceiptsAndTotalPurchases { totalPurchasesResponse, receiptResponse ->
+            launch(Dispatcher.Main) {
+                when (totalPurchasesResponse) {
+                    is RetroApiResponse.Success -> {
+                        totalPurchasesResponse.data.data?.let { totalPurchases ->
+                            totalPurchase.set(totalPurchases)
+                        }
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast =
+                            "${totalPurchasesResponse.error.message}^${AlertType.DIALOG.name}"
+                    }
+                }
+                when (receiptResponse) {
+                    is RetroApiResponse.Success -> {
+                        responseReciept.value =
+                            receiptResponse.data.trxnReceiptList as ArrayList<String>?
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast = receiptResponse.error.message
+                    }
+                }
+                state.viewState.value = false
+            }
+        }
+
     }
 
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
-            if (isShowReceiptSection(transaction)) getAllReceipts()
+            requestAllApis()
             setTransactionNoteDate()
             state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
             state.receiptVisibility.set(isShowReceiptSection(transaction))
@@ -70,6 +133,35 @@ class TransactionDetailsViewModel(application: Application) :
                 .isTransactionRejected() || transaction.get().isTransactionInProgress()
         )
 
+    }
+
+    private fun requestReceiptsAndTotalPurchases(responses: (RetroApiResponse<TotalPurchasesResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            coroutineScope {
+                val totalPurchaseResponse = state.showTotalPurchases.get().let { showView ->
+                    if (showView) {
+                        return@let async {
+                            repository.getTotalPurchases(
+                                getTotalPurchaseEndpoint()
+                            )
+                        }
+
+                    } else return@let null
+                }
+
+                val receiptsResponse = transaction.get()?.let { it ->
+                    if (isShowReceiptSection(transaction = it)) {
+                        return@let async {
+                            repository.getAllTransactionReceipts(
+                                transactionId = it.transactionId ?: ""
+                            )
+                        }
+                    } else return@let null
+                }
+                responses(totalPurchaseResponse?.await(), receiptsResponse?.await())
+            }
+        }
     }
 
     override fun getReceiptTitle(list: List<ReceiptModel>): String {
