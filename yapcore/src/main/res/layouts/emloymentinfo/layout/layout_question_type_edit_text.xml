@@ -52,21 +52,23 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@null"
                 android:gravity="bottom"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:singleLine="true"
                 android:hint="@{viewModel.questionUiFields.question.placeholder}"
                 android:imeOptions="actionNext"
+                android:inputType="textPersonName"
                 android:lines="1"
+                android:maxLines="1"
                 android:paddingTop="@dimen/margin_extra_small"
                 android:paddingEnd="@dimen/margin_extra_small"
                 android:paddingBottom="@dimen/margin_extra_small"
+                android:singleLine="true"
                 android:text="@={viewModel.questionUiFields.question.answer}"
+                android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textSize="@dimen/text_size_h3" />
+
             <include
                 layout="@layout/content_input_field_selector"
-                app:isFocus="@{viewModel.questionUiFields.isFocusInput}"/>
+                app:isFocus="@{viewModel.questionUiFields.isFocusInput}" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

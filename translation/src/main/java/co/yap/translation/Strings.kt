@@ -24,6 +24,7 @@ object Strings {
     const val common_button_delete: String = "common_button_delete"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
+    const val common_percentage_hint: String = "common_percentage_hint"
     const val common_display_text_nothing_to_report: String =
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
@@ -62,6 +63,8 @@ object Strings {
         "common_display_text_search_hint"
     const val common_display_text_no_country_found: String =
         "common_display_text_no_country_found"
+    const val common_display_text_percentage: String =
+        "common_display_text_percentage"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -191,12 +194,17 @@ object Strings {
     const val screen_onboarding_congratulations_button_complete_verification: String =
         "screen_onboarding_congratulations_button_complete_verification"
 
+    const val screen_onboarding_congratulations_display_text_delay_detail_text: String =
+        "screen_onboarding_congratulations_display_text_delay_detail_text"
+
     const val screen_meeting_location_display_text_add_new_address_title: String =
         "screen_meeting_location_display_text_add_new_address_title"
     const val screen_meeting_location_display_text_add_new_address_subtitle: String =
         "screen_meeting_location_display_text_add_new_address_subtitle"
     const val screen_meeting_location_display_text_add_manual_address_subtitle: String =
         "screen_meeting_location_display_text_add_manual_address_subtitle"
+    const val screen_onboarding_congratulations_button_queue_up: String =
+        "screen_onboarding_congratulations_button_queue_up"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -982,7 +990,6 @@ object Strings {
         "screen_transaction_filter_display_text_balance"
     const val screen_transaction_filter_display_text_categories: String =
         "screen_transaction_filter_display_text_categories"
-
 
     //    Y2Y funds Transfer screen
     const val screen_y2y_funds_transfer_display_text_title: String =
@@ -1787,10 +1794,20 @@ object Strings {
         "screen_waiting_list_display_text_guide"
     const val screen_waiting_list_display_button_text: String =
         "screen_waiting_list_display_button_text"
-    const val screen_waiting_list_display_dialog_text: String =
-        "screen_waiting_list_display_dialog_text"
-    const val screen_waiting_list_display_dialog_button_text: String =
-        "screen_waiting_list_display_dialog_button_text"
+    const val screen_waiting_list_display_text_your_place_in_queue: String =
+        "screen_waiting_list_display_text_your_place_in_queue"
+    const val screen_waiting_list_display_text_waiting_behind_you: String =
+        "screen_waiting_list_display_text_waiting_behind_you"
+    const val screen_waiting_list_display_text_we_will_notify_you: String =
+        "screen_waiting_list_display_text_we_will_notify_you"
+    const val screen_waiting_list_display_text_want_to_jump: String =
+        "screen_waiting_list_display_text_want_to_jump"
+    const val screen_waiting_list_display_text_lead_the_bank_description: String =
+        "screen_waiting_list_display_text_lead_the_bank_description"
+    const val screen_waiting_list_display_text_log_back: String =
+        "screen_waiting_list_display_text_log_back"
+    const val screen_waiting_list_display_text_rank_hashtag: String =
+        "screen_waiting_list_display_text_rank_hashtag"
 
     //Change Card Pin screen
 
@@ -2130,6 +2147,14 @@ object Strings {
         "screen_additional_info_label_text_bottom_sheet_des"
     const val common_display_text_copy: String =
         "common_display_text_copy"
+
+    // Reached on the top of queue screen
+    const val screen_reached_top_queue_display_text=
+        "screen_reached_top_queue_display_text"
+    const val screen_reached_top_queue_display_text_subtitle=
+        "screen_reached_top_queue_display_text_subtitle"
+    const val screen_reached_top_queue_display_text_meeting_note=
+        "screen_reached_top_queue_display_text_meeting_note"
 
     // Employment information selection screen
     const val screen_employment_information_selection_display_text_title =

@@ -6,8 +6,9 @@ import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.yapcore.BaseState
 
 class CongratulationsState : BaseState(), ICongratulations.State {
-
     override val nameList: Array<String?> = arrayOfNulls(1)
+    override var countryCode: String = ""
+    override var mobileNo: String = ""
 
     @get:Bindable
     override var ibanNumber: String = ""
@@ -23,5 +24,5 @@ class CongratulationsState : BaseState(), ICongratulations.State {
             field = value
             notifyPropertyChanged(BR.onboardingTime)
         }
-
+    override var isWaiting: Boolean? = false
 }

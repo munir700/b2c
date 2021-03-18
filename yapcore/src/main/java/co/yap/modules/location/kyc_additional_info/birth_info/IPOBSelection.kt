@@ -33,7 +33,7 @@ interface IPOBSelection {
         var valid: ObservableField<Boolean>
         var selectedCountry: ObservableField<Country?>
         var selectedSecondCountry: ObservableField<Country?>
-        var eidNationality: String
+        var eidNationality: ObservableField<String>
         var isDualNational: ObservableBoolean
         fun validate()
     }
