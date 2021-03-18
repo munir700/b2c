@@ -247,6 +247,8 @@ interface TransactionsRetroService {
         @Query("receiverCustomerId")
          receiverCustomerId: String? = null,
         @Query("productCode")
-         productCode: String
+         productCode: String,
+        @Query("merchantName")
+        merchantName: String? = null
     ): Response<TotalPurchasesResponse>
 }
