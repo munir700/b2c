@@ -63,12 +63,13 @@
 
                 <co.yap.widgets.currency.CoreEditText
                     android:id="@+id/etAmount"
-                    style="@style/ALarge"
+                    style="@style/ARegular"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:inputType="number"
                     android:hint="@{viewModel.questionUiFields.question.placeholder}"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:paddingStart="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_extra_small"
                     android:paddingBottom="@dimen/margin_extra_small"
@@ -79,7 +80,6 @@
                     app:layout_constraintEnd_toStartOf="@+id/ivSupport"
                     app:layout_constraintStart_toEndOf="@+id/appCompatTextView"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:imeOptions="actionNext"
                     tools:text="1234567891" />
 
                 <androidx.appcompat.widget.AppCompatImageView

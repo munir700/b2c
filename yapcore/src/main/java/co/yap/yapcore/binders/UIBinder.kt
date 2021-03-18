@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
+import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -89,6 +90,37 @@ object UIBinder {
         val dataAdapter = ArrayAdapter<String>(
             spinner.context,
             android.R.layout.simple_spinner_item,
+            options
+        )
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = dataAdapter
+    }
+
+    @BindingAdapter(requireAll = true, value = ["adaptor", "selectedListener", "customSpinnerItem"])
+    @JvmStatic
+    fun setCustomSpinnerAdapter(
+        spinner: Spinner,
+        options: ArrayList<String>,
+        listener: OnItemClickListener?,
+        @LayoutRes customSpinnerItem: Int
+    ) {
+        val myListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                view?.let { listener?.onItemClick(view, options[position], position) }
+            }
+        }
+        spinner.onItemSelectedListener = myListener
+        val dataAdapter = ArrayAdapter<String>(
+            spinner.context,
+            customSpinnerItem,
             options
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
