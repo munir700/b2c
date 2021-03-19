@@ -321,21 +321,6 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     return drawable
 }
 
-fun Context.inviteFriendIntent() {
-    val sharingIntent = Intent(Intent.ACTION_SEND)
-    sharingIntent.type = "text/plain"
-    sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(this))
-    startActivity(Intent.createChooser(sharingIntent, "Share"))
-}
-
-private fun getBody(context: Context): String {
-    return Translator.getString(
-        context,
-        Strings.screen_invite_friend_display_text_share_url,
-        Utils.getAdjustURL()
-    )
-}
-
 fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
     if (first.size != second.size) {
         return false
