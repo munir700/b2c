@@ -98,7 +98,25 @@ class PhoneVerificationSignInFragment :
         viewModel.getAccountInfo()
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
-        it?.run {
+        if (!it.isWaiting) {
+            if (it.iban.isNullOrBlank()) {
+                startFragment(
+                    fragmentName = ReachedTopQueueFragment::class.java.name,
+                    clearAllPrevious = true
+                )
+            } else {
+                getCardAndTourInfo(it)
+            }
+        } else {
+            startFragment(
+                fragmentName = WaitingListFragment::class.java.name,
+                clearAllPrevious = true
+            )
+        }
+    }
+
+    private fun getCardAndTourInfo(accountInfo: AccountInfo?) {
+        accountInfo?.run {
             trackEventWithScreenName(FirebaseEvent.SIGN_IN_PIN)
             TourGuideManager.getTourGuides()
             SessionManager.getDebitCard { card ->
@@ -107,7 +125,7 @@ class PhoneVerificationSignInFragment :
                     val bundle = Bundle()
                     SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                     bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
-                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
+                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
                     startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                     activity?.finish()
                 } else {
@@ -122,7 +140,7 @@ class PhoneVerificationSignInFragment :
                                 false
                             )
                         ) {
-                            if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                            if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                             else {
                                 SessionManager.sendFcmTokenToServer(requireContext()) {}
@@ -144,7 +162,6 @@ class PhoneVerificationSignInFragment :
                                 }
 
                             }
-
                             activity?.finish()
                         } else {
                             val action =
@@ -155,7 +172,7 @@ class PhoneVerificationSignInFragment :
                         }
 
                     } else {
-                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
+                        if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         } else {
                             SessionManager.sendFcmTokenToServer(requireContext()) {}
