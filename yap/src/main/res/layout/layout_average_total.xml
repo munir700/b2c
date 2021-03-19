@@ -7,13 +7,20 @@
 
         <import type="co.yap.R" />
 
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
         <import type="android.view.View" />
+
         <variable
             name="title"
             type="String" />
+
         <variable
             name="price"
             type="String" />
+
         <variable
             name="currency"
             type="String" />
@@ -22,42 +29,43 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <androidx.constraintlayout.helper.widget.Flow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
             app:constraint_referenced_ids="tpTitle,tvPrice,tvCurr"
             app:flow_verticalGap="@dimen/margin_extra_small"
-            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
 
             />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tpTitle"
+            style="@style/ARegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ARegular"
-            android:textColor="@color/greyDark"
             android:text="@{title}"
-            tools:text="Average"
-            />
+            android:textColor="@color/greyDark"
+            tools:text="Average" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPrice"
+            style="@style/ATitle3Grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ATitle3Grey"
+            android:text="@{CurrencyExtensionsKt.toFormattedCurrency(price,false,SessionManager.INSTANCE.defaultCurrency,true)}"
             android:textColor="@color/colorPrimaryDark"
-            android:text="@{price}"
-            tools:text="444.3"
-            />
+            tools:text="444.3" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurr"
+            style="@style/ARegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ARegular"
-            tools:text="AED"
+            android:text="@{currency}"
             android:textColor="@color/greyDark"
-            android:text="@{currency}"/>
+            tools:text="AED" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
