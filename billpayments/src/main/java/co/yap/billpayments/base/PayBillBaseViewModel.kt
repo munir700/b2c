@@ -2,7 +2,6 @@ package co.yap.billpayments.base
 
 import android.app.Application
 import co.yap.billpayments.home.IBillPayments
-import co.yap.billpayments.paybills.IPayBills
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 
@@ -11,7 +10,7 @@ abstract class PayBillBaseViewModel<S : IBase.State>(application: Application) :
     var parentViewModel: IBillPayments.ViewModel? = null
 
     fun setToolBarTitle(title: String) {
-        parentViewModel?.state?.toolbarTitle = title
+        parentViewModel?.state?.toolbarTitleString?.set(title)
     }
 
     fun toggleToolBarVisibility(visibility: Boolean) {
