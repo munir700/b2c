@@ -30,7 +30,8 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 transactionItem = listTransactionItem(),
                 showTotalPurchase = transactionDetailFactory?.isTotalPurchaseAvailable(),
                 showError = transactionDetailFactory?.isTransactionNotCompleted(),
-                showReceipts = transactionDetailFactory?.isShowReceiptSection()
+                showReceipts = transactionDetailFactory?.isShowReceiptSection(),
+                isAtmTransaction = transactionDetailFactory?.isAtmTransaction()
             )
         } ?: return null
     }
