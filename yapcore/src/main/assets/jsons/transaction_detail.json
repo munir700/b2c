@@ -42,7 +42,7 @@
       "spentAmount": 100.00,
       "icon": "",
       "statusIcon": "",
-      "showTotalPurchase": false,
+      "showTotalPurchase": true,
       "items": [
         {
           "label": "Sender",

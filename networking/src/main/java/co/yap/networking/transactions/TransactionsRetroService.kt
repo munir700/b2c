@@ -246,6 +246,8 @@ interface TransactionsRetroService {
          beneficiaryId: String? = null,
         @Query("receiverCustomerId")
          receiverCustomerId: String? = null,
+        @Query("senderCustomerId")
+         senderCustomerId: String? = null,
         @Query("productCode")
          productCode: String,
         @Query("merchantName")

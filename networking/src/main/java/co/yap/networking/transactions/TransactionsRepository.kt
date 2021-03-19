@@ -326,6 +326,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.getTotalPurchases(txnType = totalPurchaseRequest.txnType,
                 beneficiaryId = totalPurchaseRequest.beneficiaryId,
                 receiverCustomerId = totalPurchaseRequest.receiverCustomerId,
+                senderCustomerId = totalPurchaseRequest.senderCustomerId,
                 productCode = totalPurchaseRequest.productCode,
                 merchantName = totalPurchaseRequest.merchantName)
         })
