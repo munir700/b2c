@@ -29,7 +29,8 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 coverImage = transactionDetailFactory?.getMapImage() ?: -1,
                 transactionItem = listTransactionItem(),
                 showTotalPurchase = transactionDetailFactory?.isTotalPurchaseAvailable(),
-                showError = transactionDetailFactory?.isTransactionNotCompleted()
+                showError = transactionDetailFactory?.isTransactionNotCompleted(),
+                showReceipts = transactionDetailFactory?.isShowReceiptSection()
             )
         } ?: return null
     }

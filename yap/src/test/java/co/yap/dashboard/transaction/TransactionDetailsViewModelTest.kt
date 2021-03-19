@@ -80,8 +80,10 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             "test_receipt_visibility_for_product_code_%s",
             transaction.productCode
         )
+        val transactionDetailComposer = TransactionDetailComposer()
+        val txnDetail = transactionDetailComposer.compose(transaction)
         return DynamicTest.dynamicTest(displayName) {
-            Assert.assertEquals(expectation, sut.isShowReceiptSection(transaction))
+            Assert.assertEquals(expectation, txnDetail?.showReceipts)
         }
     }
 

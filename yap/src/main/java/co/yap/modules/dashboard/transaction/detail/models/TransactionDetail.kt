@@ -13,7 +13,8 @@ data class TransactionDetail(
     val coverImage: Int,
     val transactionItem: List<ItemTransactionDetail>,
     val showTotalPurchase : Boolean?,
-    val showError : Boolean?
+    val showError : Boolean?,
+    val showReceipts : Boolean?
 )
 
 

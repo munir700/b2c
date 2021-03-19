@@ -29,15 +29,13 @@ interface ITransactionDetails {
         var adapter: TransactionReceiptAdapter
         var responseReciept: MutableLiveData<ArrayList<String>>
         fun deleteReceipt(position: Int)
-        fun getAllReceipts()
         fun getReceiptTitle(list: List<ReceiptModel>): String
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
         fun setAdapterList(receiptLis: List<String>)
         fun getReceiptItems(receiptList: List<String>): List<ReceiptModel>
-        fun isShowReceiptSection(transaction: Transaction): Boolean
         fun receiptItemName(index: Int): String
         fun composeTransactionDetail(transaction: Transaction)
-        fun getTotalPurchaseEndpoint() : TotalPurchaseRequest
+        fun getTotalPurchaseRequest() : TotalPurchaseRequest
         fun requestAllApis()
         var itemsComposer: TransactionDetailComposer
         var transactionAdapter: TransactionDetailItemAdapter

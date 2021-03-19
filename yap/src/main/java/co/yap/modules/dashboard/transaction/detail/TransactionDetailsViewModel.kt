@@ -63,16 +63,21 @@ class TransactionDetailsViewModel(application: Application) :
             state.coverImage.set(it.coverImage)
             it.showTotalPurchase?.let { it1 -> state.showTotalPurchases.set(it1) }
             it.showError?.let { bool -> state.showErrorMessage.set(bool) }
+            state.receiptVisibility.set(it.showReceipts ?: false)
         }
     }
 
-    override fun getTotalPurchaseEndpoint(): TotalPurchaseRequest {
+    override fun getTotalPurchaseRequest(): TotalPurchaseRequest {
         transaction.get()?.let { data ->
             return when (data.productCode) {
                 TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                    TotalPurchaseRequest(txnType = data.txnType ?: "",
-                        productCode = data.productCode ?: "",
-                        receiverCustomerId = data.customerId2 ?: "")
+                   if(data.txnType == TxnType.DEBIT.type)  TotalPurchaseRequest(txnType = data.txnType ?: "",
+                       productCode = data.productCode ?: "",
+                       receiverCustomerId = data.customerId2 ?: "")
+                   else
+                       TotalPurchaseRequest(txnType = data.txnType ?: "",
+                       productCode = data.productCode ?: "",
+                       senderCustomerId = data.customerId1 ?: "")
                 }
                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode -> {
                     TotalPurchaseRequest(txnType = data.txnType ?: "",
@@ -83,7 +88,7 @@ class TransactionDetailsViewModel(application: Application) :
                     TotalPurchaseRequest(txnType = data.txnType ?: "",
                         productCode = data.productCode ?: "", merchantName = data.merchantName)
                 }
-                else ->TotalPurchaseRequest(txnType = data.txnType ?: "",
+                else -> TotalPurchaseRequest(txnType = data.txnType ?: "",
                     productCode = data.productCode ?: "")
             }
 
@@ -126,7 +131,6 @@ class TransactionDetailsViewModel(application: Application) :
             requestAllApis()
             setTransactionNoteDate()
             state.toolbarTitle = transaction.getFormattedTime(FORMAT_LONG_OUTPUT)
-            state.receiptVisibility.set(isShowReceiptSection(transaction))
         }
         state.isTransactionInProcessOrRejected.set(
             transaction.get()
@@ -143,7 +147,7 @@ class TransactionDetailsViewModel(application: Application) :
                     if (showView) {
                         return@let async {
                             repository.getTotalPurchases(
-                                getTotalPurchaseEndpoint()
+                                getTotalPurchaseRequest()
                             )
                         }
 
@@ -151,7 +155,7 @@ class TransactionDetailsViewModel(application: Application) :
                 }
 
                 val receiptsResponse = transaction.get()?.let { it ->
-                    if (isShowReceiptSection(transaction = it)) {
+                    if (state.receiptVisibility.get()) {
                         return@let async {
                             repository.getAllTransactionReceipts(
                                 transactionId = it.transactionId ?: ""
@@ -196,31 +200,6 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun deleteReceipt(position: Int) {
         adapter.removeItemAt(position)
-    }
-
-    override fun getAllReceipts() {
-        launch {
-            state.loading = true
-            when (val response = repository.getAllTransactionReceipts(
-                transactionId = transaction.get()?.transactionId ?: ""
-            )) {
-                is RetroApiResponse.Success -> {
-                    responseReciept.value = response.data.trxnReceiptList as ArrayList<String>?
-                    state.loading = false
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }
-
-    override fun isShowReceiptSection(transaction: Transaction): Boolean {
-        return when (transaction.productCode) {
-            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode -> true
-            else -> false
-        }
     }
 
     override fun getAddReceiptOptions(): ArrayList<BottomSheetItem> {
