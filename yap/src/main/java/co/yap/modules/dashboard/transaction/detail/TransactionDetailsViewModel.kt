@@ -77,7 +77,7 @@ class TransactionDetailsViewModel(application: Application) :
                    else
                        TotalPurchaseRequest(txnType = data.txnType ?: "",
                        productCode = data.productCode ?: "",
-                       senderCustomerId = data.customerId1 ?: "")
+                       senderCustomerId = data.customerId2 ?: "")
                 }
                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode -> {
                     TotalPurchaseRequest(txnType = data.txnType ?: "",
