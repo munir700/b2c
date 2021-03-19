@@ -2,12 +2,10 @@ package co.yap.modules.dashboard.transaction.search
 
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.view.View
-import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
 import co.yap.BR
 import co.yap.R
@@ -166,15 +164,32 @@ class HomeTransactionAdapter(
             super.setItem(item, position)
             transaction = item
             handleProductBaseCases(itemView.context, item, position)
-            item.remarks?.let {
-                binding.tvTransactionNote.text = it
+
+            //prod ticket YM-11574 fix start
+            if (item?.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode) {
+                item?.remarks?.let {
+                    binding.tvTransactionNote.text = it
+
+                    binding.tvTransactionNote.visibility =
+                        if (item?.remarks.isNullOrEmpty() || item?.remarks.equals(
+                                "null"
+                            )
+                        ) View.GONE else View.VISIBLE
+                }
+
+            } else {
+                binding.tvTransactionNote.visibility = View.GONE
             }
 
-            binding.tvTransactionNote.visibility =
-                if (item.remarks.isNullOrEmpty() || item.remarks.equals(
-                        "null"
-                    )
-                ) View.GONE else View.VISIBLE
+//            item.remarks?.let {
+//                binding.tvTransactionNote.text = it
+//            }
+//
+//            binding.tvTransactionNote.visibility =
+//                if (item.remarks.isNullOrEmpty() || item.remarks.equals(
+//                        "null"
+//                    )
+//                ) View.GONE else View.VISIBLE
         }
 
         private fun handleProductBaseCases(
@@ -198,7 +213,7 @@ class HomeTransactionAdapter(
                     context.getDrawable(android.R.color.transparent)
             val txnIconResId = transaction.getIcon()
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it && !transaction.isTransactionRejected()) {
                     setY2YUserImage(transaction, binding, position)
                 } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
                     setVirtualCardIcon(transaction, binding)
@@ -210,11 +225,6 @@ class HomeTransactionAdapter(
                     }
                     if (transaction.isTransactionRejected()) binding.ivTransaction.background =
                         null
-
-                    ImageViewCompat.setImageTintList(
-                        binding.ivTransaction,
-                        ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
-                    )
                 }
             }
 
