@@ -149,7 +149,7 @@
                     android:maxLines="1"
                     android:text="@{viewModel.transaction != null?viewModel.state.transactionData.transferType : null}"
                     android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)==true || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
-                    android:visibility="@{viewModel.transaction != null? viewModel.state.transactionData.isAtmTransaction?View.VISIBLE : View.GONE : null}"
+                    android:visibility="@{viewModel.transaction != null? viewModel.state.transactionData.isAtmTransaction?View.VISIBLE : View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
