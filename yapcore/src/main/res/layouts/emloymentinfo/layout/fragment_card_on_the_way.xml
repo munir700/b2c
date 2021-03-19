@@ -39,7 +39,7 @@
                 <co.yap.widgets.video.AndExoPlayerView
                     android:id="@+id/andExoPlayerView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_200sdp"
+                    android:layout_height="@dimen/_160sdp"
                     android:visibility="invisible"
                     app:andexo_aspect_ratio="aspect_match"
                     app:andexo_play_when_ready="true"

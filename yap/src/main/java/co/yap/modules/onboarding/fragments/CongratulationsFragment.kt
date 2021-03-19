@@ -191,19 +191,12 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     private fun handleLocationRequestResult(data: Intent?) {
         data?.let {
-            val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-            if (result) {
-                startActivityForResult(
-                    FragmentPresenterActivity.getIntent(
-                        requireContext(),
-                        Constants.MODE_MEETING_CONFORMATION,
-                        null
-                    ), RequestCodes.REQUEST_MEETING_CONFIRMED
+            if (it.getBooleanExtra(
+                    Constants.ADDRESS_SUCCESS,
+                    false
                 )
-                trackEvent(KYCEvents.KYC_ORDERED.type)
-            } else {
-                goToDashboard()
-            }
+            ) trackEvent(KYCEvents.KYC_ORDERED.type)
+            goToDashboard()
         } ?: goToDashboard()
     }
 

@@ -12,7 +12,6 @@ interface IReachedQueueTop {
         fun setCardAnimation()
         fun handleKYCRequestResult(data: Intent?)
         fun handleLocationRequestResult(data: Intent?)
-        fun handleMeetingConfirmationRequest(data: Intent?)
         fun goToDashboard()
     }
 

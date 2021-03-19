@@ -11,7 +11,6 @@ import co.yap.R
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
-import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.widgets.video.ExoPlayerCallBack
@@ -111,7 +110,6 @@ class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(
             when (requestCode) {
                 RequestCodes.REQUEST_KYC_DOCUMENTS -> handleKYCRequestResult(data)
                 RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
-                RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest(data)
             }
         } else {
             goToDashboard()
@@ -154,24 +152,13 @@ class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(
 
     override fun handleLocationRequestResult(data: Intent?) {
         data?.let {
-            val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-            if (result) {
-                startActivityForResult(
-                    FragmentPresenterActivity.getIntent(
-                        requireContext(),
-                        Constants.MODE_MEETING_CONFORMATION,
-                        null
-                    ), RequestCodes.REQUEST_MEETING_CONFIRMED
+            if (it.getBooleanExtra(
+                    Constants.ADDRESS_SUCCESS,
+                    false
                 )
-                trackEvent(KYCEvents.KYC_ORDERED.type)
-            } else {
-                goToDashboard()
-            }
+            ) trackEvent(KYCEvents.KYC_ORDERED.type)
+            goToDashboard()
         } ?: goToDashboard()
-    }
-
-    override fun handleMeetingConfirmationRequest(data: Intent?) {
-        goToDashboard()
     }
 
     override fun goToDashboard() {

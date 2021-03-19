@@ -478,6 +478,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 showHomeTourGuide()
             }
         })
+
+        viewModel.parentViewModel?.isKycCompelted?.observe(this, Observer {
+            if(it)
+                viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
+        })
     }
 
     private fun getTransactionPosition(item: HomeTransactionListData): Int? {
