@@ -1327,4 +1327,17 @@
     <string name="screen_yfy_signup_to_hh_button_label">Get YAP Household now</string>
     <string name="screen_yfy_set_a_mission_description">Give your kids tasks that will help them earn money. Chores can be fun too! </string>
     <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
+
+    <!--    Bill Payment-->
+
+    <string name="screen_bill_payment_text_title">Bill Payment</string>
+    <string name="screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment">Set up or make a bill payment</string>
+    <string name="screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by">Which bank is your card issued by?</string>
+    <string name="screen_bill_payment_sub_heading_choose_from_the_list_below">Choose%1sfrom the list below</string>
+    <string name="screen_bill_payment_button_description_my_bills">My bills</string>
+    <string name="screen_bill_payment_button_description_analytics">Analytics</string>
+    <string name="screen_bill_payment_button_description_add_a_bill">Add a bill</string>
+    <string name="screen_bill_payment_text_title_add_a_credit_card">Add a credit card</string>
+    <string name="screen_bill_payment_text_title_add_a_provider">Add a %1s provider</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package co.yap.billpayments.billerlist.adapter
+package co.yap.billpayments.billers.adapter
 
 import android.view.View
 import co.yap.yapcore.interfaces.OnItemClickListener

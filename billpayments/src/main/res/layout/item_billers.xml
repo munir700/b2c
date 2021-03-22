@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.billerlist.adapter.BillerItemViewModel" />
+            type="co.yap.billpayments.billers.adapter.BillerItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
