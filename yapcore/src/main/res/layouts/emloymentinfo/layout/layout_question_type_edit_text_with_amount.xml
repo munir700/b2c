@@ -67,7 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:hint="@{viewModel.questionUiFields.question.placeholder}"
                     android:paddingStart="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_extra_small"
@@ -80,6 +80,7 @@
                     app:layout_constraintStart_toEndOf="@+id/appCompatTextView"
                     app:layout_constraintTop_toTopOf="parent"
                     android:imeOptions="actionNext"
+                    android:maxLength="@{19}"
                     tools:text="1234567891" />
 
                 <androidx.appcompat.widget.AppCompatImageView
