@@ -6,7 +6,7 @@ import co.yap.yapcore.SingleLiveEvent
 
 interface IAddPaymentCard {
 
-    interface State : IBase.State{
+    interface State : IBase.State {
         var tootlBarTitle: String
         var tootlBarVisibility: Int
     }

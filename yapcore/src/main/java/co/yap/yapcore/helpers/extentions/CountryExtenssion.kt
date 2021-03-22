@@ -11,7 +11,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
-
 fun FragmentActivity.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Change home country",

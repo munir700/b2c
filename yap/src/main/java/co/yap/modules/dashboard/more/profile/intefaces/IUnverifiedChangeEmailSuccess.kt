@@ -8,7 +8,7 @@ interface IUnverifiedChangeEmailSuccess {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnMailAppButton(id: Int)
-        val mailButtonClickEvent:SingleClickEvent
+        val mailButtonClickEvent: SingleClickEvent
     }
 
     interface State : IBase.State

@@ -15,7 +15,7 @@ data class TransactionFilters(
     var totalAppliedFilter: Int = 0,
     var categories: ArrayList<String>? = arrayListOf()
 
-    ) : Parcelable {
+) : Parcelable {
     override fun equals(other: Any?): Boolean {
         if (other is TransactionFilters) {
             return other.amountStartRange == amountStartRange

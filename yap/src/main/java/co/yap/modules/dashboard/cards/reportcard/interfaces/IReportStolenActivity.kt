@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.reportcard.interfaces
 
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleLiveEvent
 
 interface IReportStolenActivity {
 

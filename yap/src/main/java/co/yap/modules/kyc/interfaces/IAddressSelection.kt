@@ -48,7 +48,7 @@ interface IAddressSelection {
         fun setUpCardFields()
         fun requestUpdateAddress(updateAddressRequest: Address)
         var updateAddressRequest: Address
-        var mDefaultLocation : LatLng
+        var mDefaultLocation: LatLng
     }
 
     interface State : IBase.State {

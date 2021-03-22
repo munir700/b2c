@@ -38,7 +38,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             title = getString(Strings.screen_current_passcode_display_text_heading),
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
-        parentActivity.viewModel.state.toolbarVisibility= true
+        parentActivity.viewModel.state.toolbarVisibility = true
 
     }
 
@@ -116,7 +116,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
                         viewModel.token,
                         Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
                     )
-                navigate(action,screenType = FeatureSet.FORGOT_PASSCODE)
+                navigate(action, screenType = FeatureSet.FORGOT_PASSCODE)
             } ?: showToast("Invalid username found")
         }
     }
@@ -131,12 +131,11 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
     }
 
 
-
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                 activity?.onBackPressed()
-             }
+                activity?.onBackPressed()
+            }
         }
     }
 }

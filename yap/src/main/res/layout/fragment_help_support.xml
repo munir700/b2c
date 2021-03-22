@@ -60,7 +60,7 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
@@ -111,10 +111,10 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
-                    android:padding="@dimen/_10sdp"
+                    android:padding="@dimen/_8sdp"
                     app:srcCompat="@drawable/ic_chat"
                     app:tint="?attr/colorPrimaryAttr" />
 
@@ -157,16 +157,16 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgWhatsApp"
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_35sdp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
-                    android:padding="@dimen/_10sdp"
-                    app:srcCompat="@drawable/ic_whatsapp"
-                    app:tint="?attr/colorPrimaryAttr" />
+                    android:padding="@dimen/_13sdp"
+                    app:tint="?attr/colorPrimaryAttr"
+                    app:srcCompat="@drawable/ic_whatsapp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvWhatsApp"
@@ -211,7 +211,7 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
@@ -282,5 +282,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
+
 </layout>

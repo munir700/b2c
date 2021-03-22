@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.enums.AccountType
-import co.yap.modules.onboarding.fragments.EmailFragment
 import co.yap.modules.onboarding.interfaces.IOnboarding
 import co.yap.modules.onboarding.viewmodels.OnboardingViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -54,7 +53,7 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
     override fun onBackPressed() {
-        if(viewModel.state.emailError){
+        if (viewModel.state.emailError) {
             trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_FAILURE)
         }
         val fragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment)

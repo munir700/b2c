@@ -2,10 +2,10 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels
 
 import android.app.Application
 import android.content.Context
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpareCards
-import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states.SpareCardLandingState
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpareCards
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states.SpareCardLandingState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse

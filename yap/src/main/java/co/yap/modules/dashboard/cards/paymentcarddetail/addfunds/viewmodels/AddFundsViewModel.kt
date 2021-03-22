@@ -46,8 +46,7 @@ class AddFundsViewModel(application: Application) : SMFeeViewModel<IAddFunds.Sta
     private fun showDebitCardAvailableBalance() {
         state.availableBalance.set(
             context.resources.getText(
-                getString(Strings.common_display_text_available_balance)
-                ,
+                getString(Strings.common_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
                     SessionManager.cardBalance.value?.availableBalance.toString()

@@ -91,7 +91,7 @@ class GraphBarsAdapter(
             }
             transactionModel.amountPercentage =
                 calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance ?: 0.0)
-            transactionBar.barHeight = transactionModel.amountPercentage?.toFloat()?:0f
+            transactionBar.barHeight = transactionModel.amountPercentage?.toFloat() ?: 0f
 
 
 //            val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams

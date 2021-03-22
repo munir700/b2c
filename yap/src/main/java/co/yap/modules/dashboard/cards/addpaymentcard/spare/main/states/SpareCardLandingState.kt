@@ -6,7 +6,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpar
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.managers.SessionManager
 
-class SpareCardLandingState : BaseState(), ISpareCards.State{
+class SpareCardLandingState : BaseState(), ISpareCards.State {
 
 
     @get:Bindable

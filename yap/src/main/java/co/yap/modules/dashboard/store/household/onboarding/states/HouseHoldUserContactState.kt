@@ -166,8 +166,8 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                     if (mobile.length == 11) {
                         setSuccessUI()
 //                        if(confirmMobileNumber.isNullOrEmpty()){
-                            drawbleRight =
-                                context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
+                        drawbleRight =
+                            context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
 //                        }
 
                         validateFields()
@@ -201,9 +201,10 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                     confirmMobileNoLength = 11
                     if (confirmMobileNumber.length == 11) {
                         setSuccessUIConfirmMobile()
-                        if(mobile.isNullOrEmpty()){
+                        if (mobile.isNullOrEmpty()) {
                             drawbleRightConfirmMobile =
-                                context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
+                                context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path,
+                                    null)
                         }
 
                         validateFields()
@@ -283,14 +284,15 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
             drawbleRightConfirmMobile = context!!.resources.getDrawable(R.drawable.path, null)
             drawbleRight = context!!.resources.getDrawable(R.drawable.path, null)
             valid = true
-        } else if(!mobile.isNullOrEmpty() && !confirmMobileNumber.isNullOrEmpty()&& !mobile.equals(
+        } else if (!mobile.isNullOrEmpty() && !confirmMobileNumber.isNullOrEmpty() && !mobile.equals(
                 confirmMobileNumber
-            )){
+            )
+        ) {
 
             drawbleRightConfirmMobile = null
             drawbleRightConfirmMobile = context.getDrawable(R.drawable.ic_error)
 
-        }else {
+        } else {
             valid = false
         }
     }

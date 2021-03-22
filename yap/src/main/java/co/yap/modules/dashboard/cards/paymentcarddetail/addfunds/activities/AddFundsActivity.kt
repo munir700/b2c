@@ -46,7 +46,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         get() = ViewModelProviders.of(this).get(AddFundsViewModel::class.java)
 
     companion object {
-         const val CARD = "card"
+        const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, AddFundsActivity::class.java)
             intent.putExtra(CARD, card)

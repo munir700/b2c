@@ -1,7 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
 import android.graphics.drawable.Drawable
-import android.text.SpannableStringBuilder
 import android.widget.EditText
 import android.widget.TextView
 import co.yap.yapcore.IBase
