@@ -22,9 +22,8 @@ class LivePersonChat(private val context: Context) {
     private val authKey = "17038977"
     private val TAG = LivePersonChat::class.java.simpleName
     private var livePersonCallback: LivePersonCallbackImpl? = null
-    private var showToastOnCallback: Boolean = false
+    private var showToastOnCallback: Boolean = true
     fun registerToLivePersonEvents() {
-        createLivePersonReceiver()
         LocalBroadcastManager.getInstance(context)
             .registerReceiver(
                 createLivePersonReceiver(),
