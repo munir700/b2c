@@ -222,15 +222,3 @@ fun markReadLeanPlumMessage(messageId: String?) {
     } catch (e: Exception) {
     }
 }
-
-fun Context.toggleLeanPlumNotifications(isSwitchOn: Boolean) {
-    when (isSwitchOn) {
-        true -> {
-            // when user turn on the notification
-        }
-        else -> {
-            // when user turn off the notification
-        }
-    }
-    SharedPreferenceManager(this).save(ENABLE_LEAN_PLUM_NOTIFICATIONS,isSwitchOn)
-}

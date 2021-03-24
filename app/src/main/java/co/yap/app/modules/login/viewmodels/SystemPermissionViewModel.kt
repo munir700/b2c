@@ -14,7 +14,6 @@ import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.leanplum.KYCEvents
-import co.yap.yapcore.leanplum.toggleLeanPlumNotifications
 import co.yap.yapcore.leanplum.trackEvent
 
 class SystemPermissionViewModel(application: Application) :
@@ -54,11 +53,11 @@ class SystemPermissionViewModel(application: Application) :
         when (isGranted) {
             true -> {
                 trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
-                context.toggleLeanPlumNotifications(true)
+                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,true)
             }
             else -> {
                 trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
-                context.toggleLeanPlumNotifications(false)
+                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,true)
             }
         }
     }

@@ -35,7 +35,6 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.leanplum.toggleLeanPlumNotifications
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.exoplayer2.source.MediaSource
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -91,8 +90,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
             }
         }
-        layoutProfileSettings.swNotifications.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
-            requireContext().toggleLeanPlumNotifications(b)
+        layoutProfileSettings.swNotifications.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+            SharedPreferenceManager(requireContext()).save(ENABLE_LEAN_PLUM_NOTIFICATIONS,
+                b)
         }
     }
 
