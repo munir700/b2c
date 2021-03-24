@@ -11,12 +11,14 @@ class NotificationSettingsState : BaseState(), INotificationSettings.State {
             field = value
             notifyPropertyChanged(BR.inAppNotificationsAllowed)
         }
+
     @get:Bindable
     override var smsNotificationsAllowed: Boolean? = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.smsNotificationsAllowed)
         }
+
     @get:Bindable
     override var emailNotificationsAllowed: Boolean? = true
         set(value) {

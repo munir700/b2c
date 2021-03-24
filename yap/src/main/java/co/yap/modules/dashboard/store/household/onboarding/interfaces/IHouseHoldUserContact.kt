@@ -31,8 +31,8 @@ interface IHouseHoldUserContact {
     interface ViewModel : IBase.ViewModel<State> {
 
         val clickEvent: SingleClickEvent
-        var verifyMobileSuccess:MutableLiveData<Boolean>
-        var verifyMobileError:MutableLiveData<String>
+        var verifyMobileSuccess: MutableLiveData<Boolean>
+        var verifyMobileError: MutableLiveData<String>
         fun handlePressOnAdd(id: Int)
         fun handlePressOnBackButton()
         fun getCcp(etMobileNumber: EditText)

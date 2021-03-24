@@ -34,6 +34,7 @@ class HouseHoldSuccessState : BaseState(), IHouseHoldSuccess.State {
             field = value
             notifyPropertyChanged(BR.houseHoldUserPassCode)
         }
+
     @get:Bindable
     override var houseHoldDescription: String = ""
         set(value) {

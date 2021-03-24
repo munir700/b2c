@@ -50,16 +50,17 @@ class UnverifiedChangeEmailSuccessFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (context is UnVerifiedEmailActivity)
-        (context as UnVerifiedEmailActivity).hideToolbar()
+            (context as UnVerifiedEmailActivity).hideToolbar()
         if (context is MoreActivity)
             (context as MoreActivity).hideToolbar()
-        val email=SessionManager.user?.currentCustomer?.email
+        val email = SessionManager.user?.currentCustomer?.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
 
         val separatedPrimary =
             getString(Strings.screen_unverified_success_display_text_sub_heading).split(email!!)
-        val primaryStr = SpannableStringBuilder(getString(Strings.screen_unverified_success_display_text_sub_heading) + email)
+        val primaryStr =
+            SpannableStringBuilder(getString(Strings.screen_unverified_success_display_text_sub_heading) + email)
 
         primaryStr.setSpan(
             fcs,

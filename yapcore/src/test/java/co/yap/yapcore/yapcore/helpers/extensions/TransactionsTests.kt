@@ -100,22 +100,24 @@ class TransactionsTests : BaseTestCase() {
     }
 
     private fun getExpectedStatusIcon(transaction: Transaction): Int {
-        if (transaction.isTransactionRejected()) return android.R.color.transparent
-        if (transaction.isTransactionInProgress()) return R.drawable.ic_time
-        else return when (transaction.productCode) {
-            TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
-                R.drawable.ic_identifier_atm_withdrawl
+        when {
+            transaction.isTransactionInProgress() -> return R.drawable.ic_time
+            transaction.isTransactionRejected() -> return android.R.color.transparent
+            else -> return when (transaction.productCode) {
+                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
+                    R.drawable.ic_identifier_atm_withdrawl
+                }
+                TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                    R.drawable.ic_identifier_atm_deposite
+                }
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> {
+                    if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_outgoing_transaction_y2y else android.R.color.transparent
+                }
+                TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                    R.drawable.ic_outgoing_transaction_y2y
+                }
+                else -> android.R.color.transparent
             }
-            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
-                R.drawable.ic_identifier_atm_deposite
-            }
-            TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_outgoing_transaction_y2y else android.R.color.transparent
-            }
-            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                R.drawable.ic_outgoing_transaction_y2y
-            }
-            else -> android.R.color.transparent
         }
     }
 

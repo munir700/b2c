@@ -32,8 +32,9 @@ class LiteDashboardActivity : DefaultActivity(), INavigator, IFragmentHolder {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lite_dashboard)
     }
+
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById( R.id.main_nav_host_fragment)
+        val fragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }

@@ -7,40 +7,38 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.PointF
 import android.os.Bundle
-import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Strings
 import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.databinding.FragmentScanQrCodeBinding
-import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.getQRCode
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
-import pl.aprilapps.easyphotopicker.*
-import pub.devrel.easypermissions.AppSettingsDialog
-import pub.devrel.easypermissions.EasyPermissions
+import pl.aprilapps.easyphotopicker.MediaFile
 import java.io.BufferedInputStream
 import java.io.FileInputStream
 import java.io.InputStream
 
-class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
-    IScanQRCode.View, QRCodeReaderView.OnQRCodeReadListener, EasyPermissions.PermissionCallbacks {
+class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
+    IScanQRCode.View, QRCodeReaderView.OnQRCodeReadListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_scan_qr_code
     val cameraPer = 1
     var oneTimeCall = true;
     var qrCodeReaderView: QRCodeReaderView? = null
     var permissionHelper: PermissionHelper? = null
-    var easyImage: EasyImage? = null
 
     override val viewModel: ScanQRCodeViewModel
         get() = ViewModelProviders.of(this).get(
@@ -69,6 +67,10 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
     }
 
     private fun initQRCodeReaderView() {
+        ImageBinding.setImageDrawable(
+            getBindings().ivOverLay,
+            ContextCompat.getDrawable(requireContext(), R.drawable.bg_qr_scan)
+        )
         qrCodeReaderView = getBindings().qrCodeReaderView
         qrCodeReaderView?.setAutofocusInterval(2000L)
         qrCodeReaderView?.setOnQRCodeReadListener(this)
@@ -130,7 +132,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                 if (type == cameraPer) {
                     initQRCodeReaderView()
                 } else {
-                    initEasyImage()
+                    openImagePicker(PhotoSelectionType.GALLERY)
                 }
             }
 
@@ -139,6 +141,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                     if (grantedPermission.contains(Manifest.permission.CAMERA))
                         initQRCodeReaderView()
                 } else {
+                    openImagePicker(PhotoSelectionType.GALLERY)
 
                 }
             }
@@ -154,91 +157,6 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
 
             }
         })
-    }
-
-    private fun initEasyImage() {
-        if (hasCameraPermission()) {
-            easyImage = EasyImage.Builder(requireContext())
-                .setChooserTitle("Pick Image")
-                .setChooserType(ChooserType.CAMERA_AND_GALLERY)
-                .setFolderName("YAPImage")
-                .allowMultiple(false)
-                .build()
-            easyImage?.openGallery(this)
-        } else {
-            EasyPermissions.requestPermissions(
-                this, "This app needs access to your camera so you can take pictures.",
-                REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
-            )
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            handleImagePickerResult(requestCode, resultCode, data)
-        }
-
-    }
-
-    private fun handleImagePickerResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
-        easyImage?.handleActivityResult(
-            requestCode,
-            resultCode,
-            data,
-            requireActivity(),
-            object : DefaultCallback() {
-                override fun onMediaFilesPicked(
-                    imageFiles: Array<MediaFile>,
-                    source: MediaSource
-                ) {
-                    onPhotosReturned(imageFiles, source)
-                }
-
-                override fun onImagePickerError(
-                    @NonNull error: Throwable,
-                    @NonNull source: MediaSource
-                ) {
-                    qrCodeReaderView?.setQRDecodingEnabled(true)
-                    viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                    error.printStackTrace()
-                }
-
-                override fun onCanceled(@NonNull source: MediaSource) {
-                    qrCodeReaderView?.setQRDecodingEnabled(true)
-                    viewModel.state.toast = "No Image Selected^${AlertType.DIALOG.name}"
-                }
-            })
-    }
-
-    private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {
-        path.firstOrNull()?.let { mediaFile ->
-            val ext = mediaFile.file.extension
-            if (!ext.isBlank()) {
-                when (ext) {
-                    "png", "jpg", "jpeg" -> {
-                        val inputStream: InputStream =
-                            BufferedInputStream(FileInputStream(mediaFile.file))
-                        val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
-                        scanQRImage(bitmap)?.let {
-                            sendQrRequest(it.getQRCode())
-                        }
-                    }
-                    else -> {
-                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                        qrCodeReaderView?.setQRDecodingEnabled(true)
-                    }
-
-                }
-            } else {
-                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                qrCodeReaderView?.setQRDecodingEnabled(true)
-            }
-        }
     }
 
     override fun onToolBarClick(id: Int) {
@@ -272,26 +190,12 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        @NonNull permissions: Array<String>,
-        @NonNull grantResults: IntArray
-    ) {
-        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    private fun hasCameraPermission(): Boolean {
-        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            AppSettingsDialog.Builder(this).build().show()
+    override fun onImageReturn(mediaFile: MediaFile) {
+        val inputStream: InputStream =
+            BufferedInputStream(FileInputStream(mediaFile.file))
+        val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
+        scanQRImage(bitmap)?.let {
+            sendQrRequest(it.getQRCode())
         }
     }
 }

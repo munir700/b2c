@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.yapcore.R" />
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -132,8 +133,8 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvMonthlyAverage"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="@dimen/_2sdp"
-                        app:tabIndicatorColor="@color/colorPrimary"
-                        app:tabMaxWidth="0dp"
+                        app:tabIndicator="@android:color/transparent"
+                        app:tabBackground="@drawable/selector_tab_indicator"                        app:tabMaxWidth="0dp"
                         app:tabMode="fixed"
                         app:tabPaddingEnd="16dp"
                         app:tabRippleColor="@null"
@@ -146,8 +147,20 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/tabLayout"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvNoItem"
+                        style="@style/SmallGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:visibility="@{viewModel.parentViewModel.state.isNoDataFound ? View.GONE : View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:text="Nothing to report yet this month"
+                        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+                        />
+               </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -75,18 +75,16 @@ fun Transaction?.getIcon(): Int {
 }
 
 fun Transaction?.getStatus(): String {
-    when (this?.productCode) {
-        TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> return this.cardAcceptorLocation ?: ""
-        TransactionProductCode.FUND_LOAD.pCode -> return this.otherBankName ?: ""
-        else -> this?.let { txn ->
-                return (when (txn.status) {
-                    TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> "Rejected transaction"
-                    TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
-                        if (txn.getProductType() != TransactionProductType.IS_TRANSACTION_FEE) "Transaction in process" else ""
-                    }
-                    else -> ""
-                })
-        } ?: return ""
+    return when (this?.productCode) {
+        TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> this.cardAcceptorLocation
+            ?: ""
+        TransactionProductCode.FUND_LOAD.pCode -> this.otherBankName ?: ""
+        else ->
+            when {
+                this.isTransactionRejected() -> "Rejected transaction"
+                this.isTransactionInProgress() -> "Transaction in process"
+                else -> ""
+            }
     }
 }
 
@@ -130,22 +128,24 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
 
 fun Transaction?.getStatusIcon(): Int {
     this?.let { transaction ->
-        if (transaction.isTransactionRejected()) return android.R.color.transparent
-        if (transaction.isTransactionInProgress()) return R.drawable.ic_time
-        else return when (transaction.productCode) {
-            TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
-                R.drawable.ic_identifier_atm_withdrawl
+        when {
+            transaction.isTransactionInProgress() -> return R.drawable.ic_time
+            transaction.isTransactionRejected() -> return android.R.color.transparent
+            else -> return when (transaction.productCode) {
+                TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
+                    R.drawable.ic_identifier_atm_withdrawl
+                }
+                TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
+                    R.drawable.ic_identifier_atm_deposite
+                }
+                TransactionProductCode.Y2Y_TRANSFER.pCode -> {
+                    if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_outgoing_transaction_y2y else android.R.color.transparent
+                }
+                TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                    R.drawable.ic_outgoing_transaction_y2y
+                }
+                else -> android.R.color.transparent
             }
-            TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
-                R.drawable.ic_identifier_atm_deposite
-            }
-            TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_outgoing_transaction_y2y else android.R.color.transparent
-            }
-            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                R.drawable.ic_outgoing_transaction_y2y
-            }
-            else -> android.R.color.transparent
         }
     } ?: return android.R.color.transparent
 }
@@ -171,7 +171,7 @@ fun Transaction?.getMapImage(): Int {
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_brown_background
             TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
             TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
-            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_map
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_image_light_blue_background
             else -> -1
         })
     } ?: return -1
@@ -193,7 +193,7 @@ fun Transaction?.getSpentLabelText(): String {
                                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
                                     if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
                                 }
-                                 else -> "Amount"
+                                else -> "Amount"
                             }
                         }
                         else -> ""
@@ -311,7 +311,11 @@ fun Transaction?.isTransactionRejected(): Boolean {
 }
 
 fun Transaction?.isTransactionInProgress(): Boolean {
-    return (TransactionStatus.PENDING.name == this?.status || TransactionStatus.IN_PROGRESS.name == this?.status && this.getProductType() != TransactionProductType.IS_TRANSACTION_FEE)
+    return (TransactionStatus.IN_PROGRESS.name == this?.status
+            && (this.productCode == TransactionProductCode.SWIFT.pCode
+            || this.productCode == TransactionProductCode.UAEFTS.pCode)
+            && (this.txnState == TransactionState.FSS_START.name || this.txnState == TransactionState.FSS_NOTIFICATION_PENDING.name || this.txnState == TransactionState.RAK_CUT_OFF_TIME_HOLD.name || this.txnState == TransactionState.FSS_TIMEOUT.name || this.txnState == TransactionState.FSS_REVERSAL_PENDING.name)
+            )
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {

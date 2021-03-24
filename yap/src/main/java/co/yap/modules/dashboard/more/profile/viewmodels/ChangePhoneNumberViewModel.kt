@@ -19,7 +19,7 @@ class ChangePhoneNumberViewModel(application: Application) :
     MoreBaseViewModel<IChangePhoneNumber.State>(application), IChangePhoneNumber.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
-    override val changePhoneNumberSuccessEvent: SingleClickEvent= SingleClickEvent()
+    override val changePhoneNumberSuccessEvent: SingleClickEvent = SingleClickEvent()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val isPhoneNumberValid: MutableLiveData<Boolean> = MutableLiveData(false)
     override val state: ChangePhoneNumberState = ChangePhoneNumberState(application)
@@ -66,7 +66,8 @@ class ChangePhoneNumberViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.changeMobileNumber(countryCode = "00${state.countryCode}", mobileNumber = state.mobile.replace(" ", ""))) {
+                repository.changeMobileNumber(countryCode = "00${state.countryCode}",
+                    mobileNumber = state.mobile.replace(" ", ""))) {
                 is RetroApiResponse.Success -> {
                     changePhoneNumberSuccessEvent.call()
                 }
@@ -78,7 +79,6 @@ class ChangePhoneNumberViewModel(application: Application) :
             state.loading = false
         }
     }
-
 
 
     override fun onHandlePressOnNextButton(view: View) {

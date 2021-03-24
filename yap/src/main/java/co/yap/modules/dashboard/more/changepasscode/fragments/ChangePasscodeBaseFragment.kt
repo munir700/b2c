@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity
 import co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePassCodeBaseViewModel
 import co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePassCodeViewModel
-import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
-import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 

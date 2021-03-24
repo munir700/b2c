@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.more.changepasscode.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.more.changepasscode.interfaces.IChangePassCode
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 
