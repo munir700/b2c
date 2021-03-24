@@ -72,13 +72,15 @@ class BillersViewModel(application: Application) :
     override fun getBillerList(): MutableList<BillerModel> {
         return listOf(
             BillerModel(
-                name = "Abu Dhabi Commercial Bank"
+                name = "Abu Dhabi Commercial Bank",
+                iconUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
                 name = "Abu Dhabi Islamic Bank"
             ),
             BillerModel(
-                name = "Abu Dhabi Bank"
+                name = "Abu Dhabi Bank",
+                iconUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
                 name = "Barclays Bank"

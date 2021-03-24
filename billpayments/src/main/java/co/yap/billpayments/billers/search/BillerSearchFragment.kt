@@ -2,6 +2,7 @@ package co.yap.billpayments.billers.search
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
@@ -12,7 +13,6 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.searchwidget.SearchingListener
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 
 class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
@@ -24,8 +24,14 @@ class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
         get() = ViewModelProviders.of(this).get(BillerSearchViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         setObservers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 
     override fun setObservers() {
@@ -71,6 +77,11 @@ class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
     override fun onDestroy() {

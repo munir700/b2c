@@ -9,6 +9,6 @@ class BillPaymentsViewModel(application: Application) :
     BaseViewModel<IBillPayments.State>(application),
     IBillPayments.ViewModel {
     override var billers: MutableList<BillerModel> = mutableListOf()
-    override var selectedBillCategory: BillCategory? =BillCategory.UTILITIES
+    override var selectedBillCategory: BillCategory? =BillCategory.CREDIT_CARD
     override val state: IBillPayments.State = BillPaymentsState()
 }
