@@ -69,7 +69,9 @@
                     app:iconifiedByDefault="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:searchHintIcon="@null"
-                    app:searchIcon="@null" />
+                    app:searchIcon="@null"
+                    app:queryBackground="@android:color/transparent"
+                    />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
 
