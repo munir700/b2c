@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
@@ -27,6 +29,9 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 object ImageBinding {
     @JvmStatic
@@ -278,7 +283,13 @@ object ImageBinding {
         )
     }
 
-    fun loadGifImageView(imageView: AppCompatImageView, resource: Int) {
+    fun loadGifImageView(
+        imageView: AppCompatImageView,
+        resource: Int,
+        loopCount: Int = 1,
+        animationDelay: Long = 0L
+    ) {
+        var countPlay = 0
         if (resource > 0) {
             Glide.with(imageView.context).asGif().load(resource)
                 .listener(object : RequestListener<GifDrawable> {
@@ -298,7 +309,21 @@ object ImageBinding {
                         dataSource: DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        resource?.setLoopCount(1)
+                        resource?.setLoopCount(loopCount)
+                        resource?.registerAnimationCallback(object :
+                            Animatable2Compat.AnimationCallback() {
+                            override fun onAnimationStart(drawable: Drawable?) {
+                                super.onAnimationStart(drawable)
+                            }
+
+                            override fun onAnimationEnd(drawable: Drawable?) {
+                                super.onAnimationEnd(drawable)
+                                countPlay++
+                                if (animationDelay != 0L && countPlay < loopCount) {
+                                    GlobalScope.launch { delay(animationDelay) }
+                                }
+                            }
+                        })
                         return false
                     }
                 }).into(imageView)
@@ -396,9 +421,9 @@ object ImageBinding {
 
         val resId = getResId(
             "flag_${
-            getDrawableName(
-                countryName
-            )
+                getDrawableName(
+                    countryName
+                )
             }"
         )
         if (resId != -1) {
