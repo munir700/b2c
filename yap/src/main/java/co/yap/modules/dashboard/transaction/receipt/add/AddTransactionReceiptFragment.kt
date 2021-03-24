@@ -17,8 +17,6 @@ import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.createTempFile
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.permissions.PermissionEnum
-import co.yap.yapcore.helpers.permissions.PermissionUtils
 import com.digitify.identityscanner.camera.CameraException
 import com.digitify.identityscanner.camera.CameraListener
 import com.digitify.identityscanner.camera.CameraOptions
@@ -37,27 +35,6 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
         getBindingView().camera.open()
         getBindingView().camera.addCameraListener(this)
         registerObserver()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (PermissionUtils.isGranted(
-                requireContext(),
-                PermissionEnum.CAMERA,
-                PermissionEnum.WRITE_EXTERNAL_STORAGE
-            )
-        )
-            getBindingView().camera.open()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        getBindingView().camera.close()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        getBindingView().camera.destroy()
     }
 
     private fun getTransactionId(): String {
@@ -108,6 +85,7 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
     }
 
     private fun getBindingView() = (viewDataBinding as FragmentAddTransactionReceiptBinding)
+
     override fun onCaptureProcessCompleted(filename: String?) {
 
     }
@@ -131,7 +109,8 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
                     fragmentName = PreviewTransactionReceiptFragment::class.java.name,
                     bundle = bundleOf(
                         FILE_PATH to it.absolutePath,
-                        ExtraKeys.TRANSACTION_ID.name to getTransactionId()
+                        ExtraKeys.TRANSACTION_ID.name to getTransactionId(),
+                        ExtraKeys.TAKE_IMAGE_FROM.name to "CAMERA"
                     )
                 ) { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
@@ -160,5 +139,11 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
         bounds: FloatArray,
         fingers: Array<out PointF>?
     ) {
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        getBindingView().camera.close()
+        getBindingView().camera.destroy()
     }
 }

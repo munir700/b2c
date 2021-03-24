@@ -51,6 +51,8 @@ class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImag
 
             viewModel.state.imageReceiptTitle?.set("receipt ${currentImagePos.plus(1)}")
             viewPager.currentItem = currentImagePos
+            viewPager.setCurrentItem(currentImagePos,false)
+            viewModel.receiptId = selectedReceipt.receiptId
         } else {
             finish()
         }
@@ -80,7 +82,7 @@ class ImageViewerActivity : BaseBindingActivity<IImageViewer.ViewModel>(), IImag
             cancelable = false
         ) {
             viewModel.deleteReceipt {
-                if (viewModel.imagesViewerAdapter.itemCount <= 2) {
+                if (viewModel.imagesViewerAdapter.itemCount == 1) {
                     setResult()
                 } else {
                     viewModel.imagesViewerAdapter.removeItemAt(viewPager.currentItem)

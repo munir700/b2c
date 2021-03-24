@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000554">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: Switch to android build lane" time="0.00039">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: assembleYapinternalRelease" time="686.301513">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: appcenter_upload" time="189.371721">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

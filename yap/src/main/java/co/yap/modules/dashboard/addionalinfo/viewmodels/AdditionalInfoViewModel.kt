@@ -7,8 +7,8 @@ import co.yap.modules.dashboard.addionalinfo.states.AdditionalInfoState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.networking.customers.models.additionalinfo.AdditionalQuestion
+import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfo
-import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -34,10 +34,13 @@ class AdditionalInfoViewModel(application: Application) :
                     showToast(response.error.message)
                 }
             }
-//            additionalInfoResponse.value = getMockData()
-//            setSteps()
 //            delay(5000)
 //            state.loading = false
+//            success( getData())
+//            additionalInfoResponse.value = getMockData()
+//            setSteps()
+//
+//
 
         }
     }
@@ -74,9 +77,9 @@ class AdditionalInfoViewModel(application: Application) :
         state.screenType.set(screenType.name)
     }
 
-    private fun getMockData(): AdditionalInfoResponse {
-        return AdditionalInfoResponse(getData())
-    }
+//    private fun getMockData(): AdditionalInfo {
+//        return AdditionalInfo(getData() , listOf())
+//    }
 
     private fun getData(): AdditionalInfo {
         val documentList: ArrayList<AdditionalDocument> = arrayListOf()
@@ -92,5 +95,21 @@ class AdditionalInfoViewModel(application: Application) :
             )
         )
         return AdditionalInfo(documentList, questionList)
+    }
+
+    override fun submitAdditionalInfo(success: () -> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.submitAdditionalInfo(UploadAdditionalInfo())) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    success()
+                }
+                is RetroApiResponse.Error -> {
+                    showToast(response.error.message)
+                    state.loading = false
+                }
+            }
+        }
     }
 }
