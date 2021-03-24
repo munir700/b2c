@@ -62,12 +62,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
             R.id.done -> {
                 viewModel.verifyOtp {
                     trackEventWithScreenName(FirebaseEvent.VERIFY_NUMBER)
-                    viewModel.parentViewModel?.isWaitingList?.value?.let { isWaitingList ->
-                        if (isWaitingList) findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment) else launchActivity<CreatePasscodeActivity>(
-                            requestCode = RequestCodes.REQUEST_CODE_CREATE_PASSCODE
-                        )
-
-                    } ?: launchActivity<CreatePasscodeActivity>(
+                    launchActivity<CreatePasscodeActivity>(
                         requestCode = RequestCodes.REQUEST_CODE_CREATE_PASSCODE
                     )
                 }

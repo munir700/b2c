@@ -18,9 +18,10 @@ interface ICongratulations {
 
     interface State : IBase.State {
         val nameList: Array<String?>
-
-        // var name: String
         var ibanNumber: String
         var onboardingTime: String
+        var isWaiting: Boolean?
+        var countryCode: String
+        var mobileNo: String
     }
 }

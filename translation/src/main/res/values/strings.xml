@@ -20,6 +20,7 @@
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
+    <string name="common_percentage_hint">0</string>
     <string name="common_display_text_nothing_to_report">Start using your account to see all your transactions here</string>
     <string name="common_button_logout">Logout</string>
     <string name="error_view_text">No results found\ntab to retry</string>
@@ -46,6 +47,7 @@
     <string name="common_display_text_search_hint">Search</string>
     <string name="common_display_text_no_results">No results</string>
     <string name="common_display_text_no_country_found">No country found</string>
+    <string name="common_display_text_percentage">%</string>
 
 
     <!-- Home Screen -->
@@ -125,8 +127,13 @@
     <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for you in less than %1s seconds!</string>
     <string name="screen_onboarding_congratulations_display_text_sub_title_no_interval">A YAP Personal Account has been created for you!</string>
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
-    <string name="screen_onboarding_congratulations_display_text_meeting_note">This IBAN is currently inactive \n\n Make sure you have your Emirates ID at hand before we proceed</string>
+    <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
+    <string name="screen_onboarding_congratulations_display_text_delay_detail_text">
+Due to all the excitement of our official launch, we are gradually activating as many accounts as possible to keep the app running smoothly. In the meantime, until your account is ready to be fully activated you’ll be placed in a queue.
+
+</string>
+    <string name="screen_onboarding_congratulations_button_queue_up">Queue up!</string>
 
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
@@ -212,6 +219,7 @@
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_button_title_scan_eid">Scan Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
@@ -219,7 +227,6 @@
     <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from %1s</string>
     <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from %1s</string>
     <string name="screen_b2c_eid_info_review_display_expired_eid_text">Looks like your ID has expired. Please re-scan a valid ID</string>
-    <string name="screen_b2c_eid_info_review_button_title_scan_eid">Scan Emirates ID</string>
 
     <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First name</string>
     <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name (if applicable)</string>
@@ -1098,9 +1105,18 @@
     <!--    Waiting list screen-->
     <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
     <string name="screen_waiting_list_display_text_guide"> We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready. Should you wish to find out more in the meantime, our website has more information for you.</string>
-    <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
+    <string name="screen_waiting_list_display_button_text">Share with a friend</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+    <string name="screen_waiting_list_display_text_you_re">You’re</string>
+    <string name="screen_waiting_list_display_text_your_place_in_queue">Your place in the queue</string>
+    <string name="screen_waiting_list_display_text_waiting_behind_you">waiting behind you</string>
+    <string name="screen_waiting_list_display_text_we_will_notify_you">We will notify you when you\'ve reached the top!</string>
+    <string name="screen_waiting_list_display_text_want_to_jump">Grow your YAP network!</string>
+    <string name="screen_waiting_list_display_text_lead_the_bank_description">Lead the banking revolution and share YAP with your friends. Click the button below to share now 🚀</string>
+    <string name="screen_waiting_list_display_text_log_back">Log back in to see your rank in the queue.</string>
+    <string name="screen_waiting_list_display_text_rank_hashtag">#%1s</string>
+
     <!-- Blocked Screen-->
 
     <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
@@ -1325,11 +1341,10 @@
     <string name="screen_yfy_set_multi_currency_account_description">Traveling abroad? Set up multi-currency on YAP (available on Prime and Metal plans), create currency wallets for the countries you’re visiting, and spend locally when you get there! \nYou can forget about exchanging cash or running out mid-holiday :)</string>
     <string name="screen_yfy_set_multi_currency_account_button_label">Set up</string>
 
-    <!--    YFY You are a Pro-->
-    <string name="screen_yfy_invite_ten_friends_description">Show us your social skills! Invite 10 friends to YAP to complete this level. \n \nYou know the drill. </string>
-    <string name="screen_yfy_invite_ten_friends_button_label">Invite friend</string>
-    <string name="screen_yfy_spend_thousand_description">Make your next AED 1000 purchase a YAP one. Don’t forget to buy yourself something nice!</string>
-    <string name="screen_yfy_complete_renewal_description">365 days of any YAP membership calls for a celebration! We\'re glad you\'re enjoying YAP so far. </string>
+    <!--Reached on the top of queue screen-->
+    <string name="screen_reached_top_queue_display_text">%1s, you reached the top of the Queue!</string>
+    <string name="screen_reached_top_queue_display_text_subtitle">You are now ready to fully activate and begin using your YAP account.</string>
+    <string name="screen_reached_top_queue_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed.</string>
 
     <!--    YFY Yap Store-->
     <string name="screen_yfy_get_yap_young_description">Teach your kids how to be good with money. Set up a YAP Young account for your child and send them pocket money through the app into their YAP Young card! </string>
