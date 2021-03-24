@@ -1,7 +1,6 @@
 package co.yap.billpayments.paybills
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
@@ -17,8 +16,8 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
     override val viewModel: PayBillsViewModel
         get() = ViewModelProviders.of(this).get(PayBillsViewModel::class.java)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setObservers()
     }
 
@@ -32,13 +31,13 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
 
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.lMyBills->{
+            R.id.lMyBills -> {
+                navigate(R.id.action_payBillsFragment_to_myBillsFragment)
+            }
+            R.id.lAnalytics -> {
 
             }
-            R.id.lAnalytics->{
-
-            }
-            R.id.lAddBill->{
+            R.id.lAddBill -> {
 
             }
         }
