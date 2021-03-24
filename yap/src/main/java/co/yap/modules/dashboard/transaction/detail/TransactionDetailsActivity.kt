@@ -113,9 +113,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                     getBindings().tvTransactionSubheading.alpha = 0.5f
                     getBindings().ivCategoryIcon.alpha = 0.5f
-                    return@let if (it.isTransactionRejected()) getCancelReason() else getCutOffMsg(
-                        it
-                    )
+                    return@let when {
+                        it.isTransactionRejected() -> getCancelReason()
+                        it.showCutOffMsg() -> getString(
+                            R.string.screen_transaction_detail_text_cut_off_msg
+                        )
+                        else -> ""
+                    }
                 }
                 else -> ""
             }
@@ -125,10 +129,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         } else {
             getBindings().tvCanceReason.text = msg
         }
-    }
-
-    private fun getCutOffMsg(transaction: Transaction): String {
-        return if (transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
     }
 
     private fun getCancelReason(): String {
