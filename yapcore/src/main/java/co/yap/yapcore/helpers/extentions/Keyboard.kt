@@ -70,13 +70,8 @@ fun getActivityFromContext(@NonNull context: Context): Activity? {
 }
 
 fun String.copyTextToClipboard(context: Context){
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.text = this
-    } else {
-        val clipboard =
-            context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-        val clip = ClipData.newPlainText("Copied Text", this)
-        clipboard.setPrimaryClip(clip)
-    }
+    val clipboard =
+        context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+    val clip = ClipData.newPlainText("Copied Text", this)
+    clipboard.setPrimaryClip(clip)
 }
