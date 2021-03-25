@@ -4,12 +4,14 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.databinding.DialogCardDetailsCardSerialNumberBinding
 import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.extentions.toCamelCase
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialNumberBinding: DialogCardDetailsCardSerialNumberBinding) :
     RecyclerView.ViewHolder(dialogCardDetailsCardSerialNumberBinding.root) {
     fun onBind(
         cardDetailsModel: CardDetailsModel,
-        position: Int
+        position: Int, onItemClickListener: OnItemClickListener?
+
     ) {
         /*val params = dialogCardDetailsCardSerialNumberBinding.ivCard.layoutParams
         params.width = dimensions[0]
@@ -27,7 +29,7 @@ class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialN
         dialogCardDetailsCardSerialNumberBinding.viewModel =
             CardDetailsDialogItemViewModel(
                 position,
-                cardDetailsModel
+                cardDetailsModel, onItemClickListener
             )
         dialogCardDetailsCardSerialNumberBinding.executePendingBindings()
     }

@@ -1,11 +1,15 @@
 package com.ezaka.customer.app.utils
 
 import android.app.Activity
+import android.content.ClipData
 import android.content.Context
 import android.content.ContextWrapper
+import android.os.Build
+import android.text.ClipboardManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.NonNull
+
 
 /**
  * Hides the soft keyboard
@@ -63,4 +67,11 @@ fun getActivityFromContext(@NonNull context: Context): Activity? {
             .baseContext
     }
     return null
+}
+
+fun String.copyTextToClipboard(context: Context){
+    val clipboard =
+        context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+    val clip = ClipData.newPlainText("Copied Text", this)
+    clipboard.setPrimaryClip(clip)
 }
