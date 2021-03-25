@@ -16,6 +16,7 @@ class ChartView(context: Context, private var barHeight: Int) : View(context),
 
 
     private var barWeight: Int = 26
+
     //private var barHeight: Int = 0
     //private var minBarHeight: Int = 0
     //private var maxBarHeight: Int = 100

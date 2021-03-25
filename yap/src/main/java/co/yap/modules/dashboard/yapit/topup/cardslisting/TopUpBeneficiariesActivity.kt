@@ -297,7 +297,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     }
 
     private fun startTopUpActivity(item: TopUpCard) {
-       // trackEventWithScreenName(FirebaseEvent.CLICK_MAIN_TOPUP)
+        // trackEventWithScreenName(FirebaseEvent.CLICK_MAIN_TOPUP)
         launchActivity<TopUpCardActivity>(
             requestCode = RequestCodes.REQUEST_TOP_UP_BENEFICIARY,
             type = FeatureSet.TOP_UP_BY_EXTERNAL_CARD
@@ -349,7 +349,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             "qa" -> {
                 "https://qa-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
-            "stg","yapinternal" -> {
+            "stg", "yapinternal" -> {
                 "https://stg-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
             else -> null

@@ -136,7 +136,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
                 RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest(data)
             }
-        }else{
+        } else {
             goToDashboard()
         }
     }
@@ -199,7 +199,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
 
     private fun goToDashboard() {
-        sendFcmTokenToServer(requireContext()){}
+        sendFcmTokenToServer(requireContext()) {}
         val action =
             CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
         findNavController().navigate(action)

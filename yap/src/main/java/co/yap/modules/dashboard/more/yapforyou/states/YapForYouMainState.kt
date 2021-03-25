@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.more.yapforyou.states
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
-import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
 import co.yap.yapcore.BaseState
 
 class YapForYouMainState : BaseState(), IYapForYouMain.State {

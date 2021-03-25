@@ -8,9 +8,7 @@ import co.yap.modules.dashboard.cards.analytics.adaptors.CategoryAnalyticsAdapto
 import co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 
 class CategoryAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnalyticsBinding) :
     RecyclerView.ViewHolder(itemAnalyticsBinding.root) {

@@ -7,6 +7,11 @@ import co.yap.networking.transactions.responsedtos.achievement.AchievementsRespo
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
+import okhttp3.MultipartBody
 import co.yap.networking.transactions.responsedtos.transaction.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -212,4 +217,23 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM)
     suspend fun getTransactionDetailForLeanplum(): Response<TransactionDataResponseForLeanplum>
 
+
+    @GET(TransactionsRepository.URL_TRANSACTIONS_RECEIPT + "/{transaction-id}")
+    suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String): Response<TransactionReceiptResponse>
+
+    @Multipart
+    @POST(TransactionsRepository.URL_TRANSACTIONS_RECEIPT_SAVE)
+    suspend fun addTransactionReceipt(
+        @Query("transaction-id") transactionId: String,
+        @Part TransactionReceipt: MultipartBody.Part
+    ): Response<ApiResponse>
+
+    @PUT(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
+    suspend fun updateTransactionReceipt(@Query("transaction-id") transactionId: String): Response<ApiResponse>
+
+    @DELETE(TransactionsRepository.URL_TRANSACTIONS_RECEIPT_DELETE)
+    suspend fun deleteTransactionReceipt(
+        @Query("receipt-image") receipt: String,
+        @Query("transaction-id") transactionId: String
+    ): Response<ApiResponse>
 }

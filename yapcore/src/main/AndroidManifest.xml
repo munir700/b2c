@@ -21,8 +21,8 @@
         tools:replace="android:allowBackup">
         <activity
             android:name="co.yap.modules.frame.FrameActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="co.yap.modules.frame.FrameDialogActivity"
             android:configChanges="screenSize|keyboard"

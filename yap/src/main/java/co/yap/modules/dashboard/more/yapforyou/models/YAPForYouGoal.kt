@@ -5,7 +5,7 @@ import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.enums.YapForYouGoalType
 
 data class YAPForYouGoal(
-    var type:YapForYouGoalType,
+    var type: YapForYouGoalType,
     var title: String,
     var action: YAPForYouGoalAction = YAPForYouGoalAction.None,
     var completed: Boolean,

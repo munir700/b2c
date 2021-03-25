@@ -94,7 +94,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditEmail -> {
-                    if (!FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_EMAIL)){
+                    if (!FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_EMAIL)) {
                         viewModel.toggleToolBar(true)
                         viewModel.updateToolBarText("")
                     }

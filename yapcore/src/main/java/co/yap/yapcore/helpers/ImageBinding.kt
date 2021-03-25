@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
@@ -36,6 +37,15 @@ object ImageBinding {
     }
 
     @JvmStatic
+    @BindingAdapter("drawable")
+    fun setImageDrawable(imageView: AppCompatImageView, drawable: Drawable?) {
+        drawable?.let {
+            setImage(imageView, drawable)
+        }
+
+    }
+
+    @JvmStatic
     @BindingAdapter("circularImageUrl")
     fun setCircularImageUrl(imageView: ImageView, url: String?) {
         url?.let {
@@ -59,8 +69,9 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter("circularImageUrl")
-    fun setCircularImageUrl(imageView: AppCompatImageView, uri: Uri) {
-        setImage(imageView, uri)
+    fun setCircularImageUrl(imageView: AppCompatImageView, uri: Uri?) {
+        uri?.let { setImage(imageView, uri) }
+
     }
 
     @JvmStatic

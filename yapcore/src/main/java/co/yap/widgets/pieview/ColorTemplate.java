@@ -3,6 +3,9 @@ package co.yap.widgets.pieview;
 
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +64,13 @@ public class ColorTemplate {
      * @param hex
      * @return
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static int rgb(String hex) {
         int color = (int) Long.parseLong(hex.replace("#", ""), 16);
         int r = (color >> 16) & 0xFF;
         int g = (color >> 8) & 0xFF;
         int b = (color >> 0) & 0xFF;
-        return Color.rgb(r, g, b);
+        return Color.argb(60,r, g, b);
     }
 
     /**
@@ -74,8 +78,9 @@ public class ColorTemplate {
      *
      * @return
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static int getEmptyColor() {
-        return rgb("#5cdae0f0");
+        return rgb("#A682FF");
     }
 
     /**

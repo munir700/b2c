@@ -10,7 +10,7 @@ import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State

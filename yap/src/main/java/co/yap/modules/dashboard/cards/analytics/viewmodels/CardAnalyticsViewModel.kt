@@ -37,7 +37,7 @@ class CardAnalyticsViewModel(application: Application) :
         val startDate = SessionManager.user?.creationDate ?: ""
         val endDate = DateUtils.dateToString(
             Date(),
-            SIMPLE_DATE_FORMAT,DateUtils.TIME_ZONE_Default
+            SIMPLE_DATE_FORMAT, DateUtils.TIME_ZONE_Default
         )
         listOfMonths = DateUtils.geMonthsBetweenTwoDates(
             startDate,
@@ -74,6 +74,7 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardCategoryAnalytics(currentMonth: String) {
+        parentViewModel?.categoryAnalyticsItemLiveData?.value?.clear()
         launch {
             state.loading = true
             when (val response = repository.getAnalyticsByCategoryName(
@@ -93,6 +94,8 @@ class CardAnalyticsViewModel(application: Application) :
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
                         parentViewModel?.categoryAnalyticsItemLiveData?.value =
                             analyticsDTO.txnAnalytics
+                        parentViewModel?.state?.isNoDataFound?.set(isDataAvailableForSelectedMonth(0))
+
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)
@@ -109,22 +112,27 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
+        parentViewModel?.merchantAnalyticsItemLiveData?.value?.clear()
         launch {
             when (val response = repository.getAnalyticsByMerchantName(
                 SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    state.monthlyMerchantAvgAmount =
-                        response.data.data?.monthlyAvgAmount?.toString()
-                    state.totalMerchantSpent = response.data.data?.totalTxnAmount.toString()
-                        .toFormattedCurrency(
-                            showCurrency = true,
-                            currency = state.currencyType ?: SessionManager.getDefaultCurrency()
-                        )
+                    response.data.data?.let { merchantResponse ->
+                        state.monthlyMerchantAvgAmount =
+                            merchantResponse.monthlyAvgAmount?.toString()
+                        state.totalMerchantSpent = merchantResponse.totalTxnAmount.toString()
+                            .toFormattedCurrency(
+                                showCurrency = true,
+                                currency = state.currencyType ?: SessionManager.getDefaultCurrency()
+                            )
 
-                    parentViewModel?.merchantAnalyticsItemLiveData?.value =
-                        response.data.data?.txnAnalytics
+                        parentViewModel?.merchantAnalyticsItemLiveData?.value =
+                            merchantResponse.txnAnalytics
+
+                    }
                     state.loading = false
+                    parentViewModel?.state?.isNoDataFound?.set(isDataAvailableForSelectedMonth(1))
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -132,6 +140,15 @@ class CardAnalyticsViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun isDataAvailableForSelectedMonth(tab: Int): Boolean {
+        return when {
+            tab == 0 && parentViewModel?.categoryAnalyticsItemLiveData?.value?.size == 0 -> false
+            tab == 1 && parentViewModel?.merchantAnalyticsItemLiveData?.value?.size == 0 -> false
+            else -> true
+        }
+
     }
 
     private fun isPreviousIconEnabled(listOfMonths: List<Date>, currentDate: Date?): Boolean {
