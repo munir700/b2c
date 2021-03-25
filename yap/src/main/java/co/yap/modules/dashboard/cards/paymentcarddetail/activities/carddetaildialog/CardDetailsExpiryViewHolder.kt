@@ -9,8 +9,7 @@ class CardDetailsExpiryViewHolder(private val dialogCardDetailsCardExpiryBinding
     RecyclerView.ViewHolder(dialogCardDetailsCardExpiryBinding.root) {
     fun onBind(
         cardDetailsModel: CardDetailsModel,
-        position: Int,
-        onItemClickListener: OnItemClickListener?
+        position: Int
     ) {
         dialogCardDetailsCardExpiryBinding.ivCard.loadCardImage(cardDetailsModel.cardImg)
         dialogCardDetailsCardExpiryBinding.tvCardType.text = cardDetailsModel.cardType
@@ -24,7 +23,7 @@ class CardDetailsExpiryViewHolder(private val dialogCardDetailsCardExpiryBinding
         dialogCardDetailsCardExpiryBinding.viewModel =
             CardDetailsDialogItemViewModel(
                 position,
-                cardDetailsModel, onItemClickListener
+                cardDetailsModel
             )
         dialogCardDetailsCardExpiryBinding.executePendingBindings()
     }

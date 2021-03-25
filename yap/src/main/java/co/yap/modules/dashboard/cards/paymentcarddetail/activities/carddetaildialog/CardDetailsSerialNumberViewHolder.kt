@@ -10,7 +10,7 @@ class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialN
     RecyclerView.ViewHolder(dialogCardDetailsCardSerialNumberBinding.root) {
     fun onBind(
         cardDetailsModel: CardDetailsModel,
-        position: Int, onItemClickListener: OnItemClickListener?
+        position: Int
 
     ) {
         /*val params = dialogCardDetailsCardSerialNumberBinding.ivCard.layoutParams
@@ -29,7 +29,7 @@ class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialN
         dialogCardDetailsCardSerialNumberBinding.viewModel =
             CardDetailsDialogItemViewModel(
                 position,
-                cardDetailsModel, onItemClickListener
+                cardDetailsModel
             )
         dialogCardDetailsCardSerialNumberBinding.executePendingBindings()
     }

@@ -1,14 +1,18 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog
 
 import android.view.View
+import android.widget.Toast
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.ezaka.customer.app.utils.copyTextToClipboard
 
 class CardDetailsDialogItemViewModel(
     var position: Int?,
-    var cardDetailsModel: CardDetailsModel,
-    private val onItemClickListener: OnItemClickListener?
+    var cardDetailsModel: CardDetailsModel
 ) {
     fun onViewClicked(view: View) {
-        onItemClickListener?.onItemClick(view, cardDetailsModel, position ?: 0)
+            cardDetailsModel.cardNumber?.copyTextToClipboard(view.context)
+            view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
+
     }
 }
