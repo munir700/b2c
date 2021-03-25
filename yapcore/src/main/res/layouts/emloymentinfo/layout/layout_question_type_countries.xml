@@ -29,7 +29,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_small"
             android:gravity="center_vertical"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +40,10 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:lineHeight="@dimen/_16sdp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
+                android:textColor="@color/darkSlateBlue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
                 tools:text="Add all the countries your company does business with" />
@@ -65,17 +67,18 @@
                 style="@style/ARegular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/_3sdp"
                 android:drawableEnd="@drawable/ic_search_grey"
+                android:lineHeight="@dimen/_16sdp"
                 android:onClick="@{viewModel::onViewClicked}"
                 android:text="Search countries"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/greyLight" />
+            <include
+                layout="@layout/content_input_field_selector"
+                app:isFocus="@{viewModel.questionUiFields.isFocusInput}" />
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
