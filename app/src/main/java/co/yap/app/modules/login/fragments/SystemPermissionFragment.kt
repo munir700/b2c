@@ -18,6 +18,7 @@ import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
 import co.yap.yapcore.helpers.extentions.navigateToNotificationSettings
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
@@ -79,11 +80,18 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 navigateFromTouchScreen()
             }
             Constants.NOTIFICATION_SCREEN_TYPE -> {
-                requireActivity().navigateToNotificationSettings()
+                navigateToNotificationSettings()
             }
             else -> {
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun navigateToNotificationSettings() {
+        val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+        startActivityForResult(intent, REQUEST_NOTIFICATION_SETTINGS)
     }
 
     private fun navigateFromTouchScreen() {

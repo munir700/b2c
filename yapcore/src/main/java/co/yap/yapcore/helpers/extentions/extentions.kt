@@ -346,10 +346,3 @@ fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
 
     return first.zip(second).all { (x, y) -> x == y }
 }
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun Activity.navigateToNotificationSettings() {
-    val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-        .putExtra(Settings.EXTRA_APP_PACKAGE, this.packageName)
-    startActivityForResult(intent, 100)
-}

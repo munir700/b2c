@@ -1,9 +1,11 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
-import android.widget.CompoundButton
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
@@ -21,9 +23,9 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
-import co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PhotoSelectionType
@@ -32,14 +34,15 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.hasBitmap
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchSheet
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.exoplayer2.source.MediaSource
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
-import kotlinx.android.synthetic.main.layout_profile_settings.view.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
@@ -199,11 +202,18 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 viewModel.EVENT_LOGOUT_SUCCESS -> {
                     doLogout()
                 }
-                R.id.llNotification ->{
-                    requireActivity().navigateToNotificationSettings()
+                R.id.llNotification -> {
+                    navigateToNotificationSettings()
                 }
             }
         })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun navigateToNotificationSettings() {
+        val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+        startActivityForResult(intent, REQUEST_NOTIFICATION_SETTINGS)
     }
 
     private fun showRemovePhoto(): Boolean {
@@ -285,7 +295,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             ) {
                 viewModel.getNotificationScreenValues(true)
 
-            }else {
+            } else {
                 viewModel.getNotificationScreenValues(false)
             }
         }
