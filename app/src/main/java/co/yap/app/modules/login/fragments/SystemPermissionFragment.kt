@@ -1,7 +1,12 @@
 package co.yap.app.modules.login.fragments
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +18,7 @@ import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.extentions.navigateToNotificationSettings
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
@@ -73,8 +79,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 navigateFromTouchScreen()
             }
             Constants.NOTIFICATION_SCREEN_TYPE -> {
-                viewModel.getNotificationScreenValues(isGranted)
-                navigateToDashboard()
+                requireActivity().navigateToNotificationSettings()
             }
             else -> {
             }
@@ -102,5 +107,16 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
         removeObservers()
         super.onDestroyView()
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100) {
+            if (NotificationManagerCompat.from(requireContext())
+                    .areNotificationsEnabled()
+            ) viewModel.getNotificationScreenValues(true) else viewModel.getNotificationScreenValues(
+                false)
+            navigateToDashboard()
+        }
     }
 }

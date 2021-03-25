@@ -80,7 +80,7 @@
                         android:layout_height="@dimen/_14sdp"
                         android:layout_gravity="center_vertical|center"
                         android:src="@drawable/ic_exclamation"
-                        android:tint="@color/colorPrimaryDark"
+                        app:tint="@color/colorPrimaryDark"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
@@ -201,6 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -239,6 +240,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:gravity="end"
+                    android:clickable="false"
                     android:checked="@{viewModel.state.isNotificationsEnabled}"
                     android:paddingStart="0dp"
                     android:paddingEnd="-2dp"

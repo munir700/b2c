@@ -34,6 +34,7 @@ interface IProfile {
         fun logout()
         fun requestRemoveProfilePicture(apiRes: (Boolean) -> Unit)
         fun getUploadProfileOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem>
+        fun getNotificationScreenValues(isGranted : Boolean)
     }
 
     interface View : IBase.View<ViewModel> {

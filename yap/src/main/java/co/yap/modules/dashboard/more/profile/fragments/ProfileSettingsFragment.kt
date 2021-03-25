@@ -1,9 +1,11 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -30,10 +32,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.hasBitmap
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.launchSheet
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.exoplayer2.source.MediaSource
@@ -89,10 +88,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             if (it.currentCustomer.getPicture() != null) {
                 ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
             }
-        }
-        layoutProfileSettings.swNotifications.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
-            SharedPreferenceManager(requireContext()).save(ENABLE_LEAN_PLUM_NOTIFICATIONS,
-                b)
         }
     }
 
@@ -204,6 +199,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 viewModel.EVENT_LOGOUT_SUCCESS -> {
                     doLogout()
                 }
+                R.id.llNotification ->{
+                    requireActivity().navigateToNotificationSettings()
+                }
             }
         })
     }
@@ -277,5 +275,19 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         //                        }
         //                    }
         //                }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100) {
+            if (NotificationManagerCompat.from(requireContext())
+                    .areNotificationsEnabled()
+            ) {
+                viewModel.getNotificationScreenValues(true)
+
+            }else {
+                viewModel.getNotificationScreenValues(false)
+            }
+        }
     }
 }

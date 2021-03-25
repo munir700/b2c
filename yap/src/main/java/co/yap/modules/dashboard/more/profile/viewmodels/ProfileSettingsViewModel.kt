@@ -20,6 +20,8 @@ import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.leanplum.KYCEvents
@@ -247,5 +249,21 @@ class ProfileSettingsViewModel(application: Application) :
             )
 
         return list
+    }
+
+    override fun getNotificationScreenValues(isGranted: Boolean) {
+        when (isGranted) {
+            true -> {
+                trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
+                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS,true)
+                state.isNotificationsEnabled.set(isGranted)
+
+            }
+            else -> {
+                trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
+                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS,false)
+                state.isNotificationsEnabled.set(isGranted)
+            }
+        }
     }
 }

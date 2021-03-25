@@ -57,7 +57,7 @@ class SystemPermissionViewModel(application: Application) :
             }
             else -> {
                 trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
-                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,true)
+                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,false)
             }
         }
     }
