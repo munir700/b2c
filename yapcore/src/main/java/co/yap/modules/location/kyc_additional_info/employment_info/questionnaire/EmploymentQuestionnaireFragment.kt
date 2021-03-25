@@ -134,7 +134,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         launchBottomSheetSegment(
             viewModel.employmentTypeItemClickListener,
             label = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_segments),
-            viewType = Constants.VIEW_WITHOUT_FLAG,
+            viewType = Constants.VIEW_FIXED_HEIGHT,
             listData = viewModel.parseSegments(viewModel.industrySegmentsList)
         )
     }

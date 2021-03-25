@@ -34,7 +34,7 @@ open class CoreBottomSheet(
     override val viewModel: CoreBottomSheetViewModel
         get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
 
-   open val adapter: CoreBottomSheetAdapter by lazy {
+    open val adapter: CoreBottomSheetAdapter by lazy {
         CoreBottomSheetAdapter(bottomSheetItems, viewType)
     }
 
@@ -62,7 +62,7 @@ open class CoreBottomSheet(
         val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
         adapter.onItemClickListener = myListener
         adapter.allowFullItemClickListener = true
-        viewModel.state.searchBarVisibility.set(viewType != Constants.VIEW_WITHOUT_FLAG)
+        viewModel.state.searchBarVisibility.set(viewType == Constants.VIEW_WITH_FLAG)
         headingLabel?.let {
             getBinding().tvlabel.text = it
         }
@@ -78,7 +78,7 @@ open class CoreBottomSheet(
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
         val params = getBinding().rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
         params.height =
-            if (viewType == Constants.VIEW_WITH_FLAG) (getScreenHeight() / 2) + 100 else params.height
+            if (viewType == Constants.VIEW_WITH_FLAG || viewType == Constants.VIEW_FIXED_HEIGHT) (getScreenHeight() / 2) + 100 else params.height
         getBinding().rvBottomSheet.layoutParams = params
         getBinding().rvBottomSheet.adapter = adapter
     }
@@ -123,6 +123,6 @@ open class CoreBottomSheet(
     }
 
     private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
-    override fun getScreenName(): String? =null
+    override fun getScreenName(): String? = null
 
 }
