@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildi
 import android.view.View
 import android.widget.Toast
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.interfaces.OnItemClickListener
 import com.ezaka.customer.app.utils.copyTextToClipboard
 
 class CardDetailsDialogItemViewModel(
@@ -11,8 +10,7 @@ class CardDetailsDialogItemViewModel(
     var cardDetailsModel: CardDetailsModel
 ) {
     fun onViewClicked(view: View) {
-            cardDetailsModel.cardNumber?.copyTextToClipboard(view.context)
-            view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
-
+        cardDetailsModel.cardNumber?.copyTextToClipboard(view.context)
+        view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
     }
 }
