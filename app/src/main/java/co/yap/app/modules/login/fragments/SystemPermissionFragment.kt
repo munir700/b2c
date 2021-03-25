@@ -19,7 +19,6 @@ import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
-import co.yap.yapcore.helpers.extentions.navigateToNotificationSettings
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
