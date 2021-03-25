@@ -29,9 +29,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 object ImageBinding {
     @JvmStatic
@@ -284,49 +281,54 @@ object ImageBinding {
     }
 
     fun loadGifImageView(
-        imageView: AppCompatImageView,
+        imageView: AppCompatImageView?,
         resource: Int,
         loopCount: Int = 1,
-        animationDelay: Long = 0L
+        delayBetweenLoop: Long = 100L
     ) {
         var countPlay = 0
         if (resource > 0) {
-            Glide.with(imageView.context).asGif().load(resource)
-                .listener(object : RequestListener<GifDrawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<GifDrawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return true
-                    }
+            imageView?.let {
+                Glide.with(it.context).asGif().load(resource)
+                    .listener(object : RequestListener<GifDrawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<GifDrawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            return true
+                        }
 
-                    override fun onResourceReady(
-                        resource: GifDrawable?,
-                        model: Any?,
-                        target: Target<GifDrawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        resource?.setLoopCount(loopCount)
-                        resource?.registerAnimationCallback(object :
-                            Animatable2Compat.AnimationCallback() {
-                            override fun onAnimationStart(drawable: Drawable?) {
-                                super.onAnimationStart(drawable)
-                            }
-
-                            override fun onAnimationEnd(drawable: Drawable?) {
-                                super.onAnimationEnd(drawable)
-                                countPlay++
-                                if (animationDelay != 0L && countPlay < loopCount) {
-                                    GlobalScope.launch { delay(animationDelay) }
+                        override fun onResourceReady(
+                            resource: GifDrawable?,
+                            model: Any?,
+                            target: Target<GifDrawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            resource?.setLoopCount(1)
+                            resource?.registerAnimationCallback(object :
+                                Animatable2Compat.AnimationCallback() {
+                                override fun onAnimationStart(drawable: Drawable?) {
+                                    super.onAnimationStart(drawable)
                                 }
-                            }
-                        })
-                        return false
-                    }
-                }).into(imageView)
+
+                                override fun onAnimationEnd(drawable: Drawable?) {
+                                    super.onAnimationEnd(drawable)
+                                    countPlay++
+                                    if (countPlay < loopCount) {
+                                        it.postDelayed({
+                                            resource.startFromFirstFrame()
+                                        }, delayBetweenLoop)
+                                    }
+                                }
+
+                            })
+                            return false
+                        }
+                    }).into(it)
+            }
         }
     }
 
