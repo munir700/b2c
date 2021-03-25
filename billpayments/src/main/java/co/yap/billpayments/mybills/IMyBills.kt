@@ -1,5 +1,6 @@
 package co.yap.billpayments.mybills
 
+import androidx.databinding.ObservableField
 import co.yap.billpayments.mybills.adapter.MyBillsAdapter
 import co.yap.billpayments.mybills.adapter.MyBillsModel
 import co.yap.yapcore.IBase
@@ -13,6 +14,6 @@ interface IMyBills {
     }
 
     interface State : IBase.State {
-        var screenTitle: String
+        var screenTitle: ObservableField<String>
     }
 }

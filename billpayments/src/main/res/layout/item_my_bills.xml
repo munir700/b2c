@@ -8,16 +8,19 @@
         <variable
             name="viewModel"
             type="co.yap.billpayments.mybills.adapter.MyBillsItemViewModel" />
+
+        <import type="co.yap.yapcore.enums.BillStatus" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
         android:background="@drawable/card_border_container"
         android:paddingHorizontal="@dimen/margin_normal_large"
         android:paddingVertical="@dimen/margin_medium_large">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivIcon"
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
@@ -28,30 +31,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:position="@{viewModel.position}" />
 
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/fwNameAndDesc"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal_large"
-            android:orientation="vertical"
-            app:constraint_referenced_ids="tvBillerName,tvDescription"
-
-            app:flow_horizontalAlign="start"
-            app:flow_horizontalBias="0"
-            app:flow_horizontalStyle="packed"
-            app:flow_wrapMode="aligned"
-            app:layout_constraintBottom_toBottomOf="@id/ivIcon"
-            app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
-            app:layout_constraintStart_toEndOf="@+id/ivIcon"
-            app:layout_constraintTop_toTopOf="@id/ivIcon" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBillerName"
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.myBillsModel.name}"
+            app:layout_constrainedWidth="true"
             tools:text="Etsilat" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -59,8 +45,30 @@
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{viewModel.myBillsModel.description}"
+            app:layout_constrainedWidth="true"
             tools:text="Etsilat" />
+
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/fwNameAndDesc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="tvBillerName,tvDescription"
+            app:flow_horizontalAlign="start"
+            app:flow_horizontalBias="0"
+            app:flow_verticalAlign="center"
+            app:flow_verticalGap="@dimen/_1sdp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@id/ivIcon"
+            app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
+            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintTop_toTopOf="@id/ivIcon" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwAmountAndStatus"
@@ -78,8 +86,10 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAmount"
+            style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.myBillsModel.currency+` `+viewModel.myBillsModel.amount}"
             tools:text="AED 200" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -87,8 +97,8 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.myBillsModel.billStatus}"
+            android:textColor="@{viewModel.myBillsModel.billStatus==BillStatus.OVERDUE.title?@color/red: @color/greyDark}"
             tools:text="Paid" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

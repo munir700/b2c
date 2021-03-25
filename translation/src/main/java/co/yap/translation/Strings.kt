@@ -480,7 +480,7 @@ object Strings {
         "screen_create_new_passcode_button_text"
     const val screen_create_passcode_display_heading: String =
         "screen_create_passcode_display_heading"
- const val screen_create_passcode_onboarding_button_create_passcode: String =
+    const val screen_create_passcode_onboarding_button_create_passcode: String =
         "screen_create_passcode_onboarding_button_create_passcode"
 
     //Yap Store screen
@@ -972,13 +972,12 @@ object Strings {
         "screen_transaction_filter_display_text_incoming_transactions"
     const val screen_transaction_filter_display_text_outgoing_transactions: String =
         "screen_transaction_filter_display_text_outgoing_transactions"
-    const val screen_transaction_filter_display_text_pending_transactions:String =
+    const val screen_transaction_filter_display_text_pending_transactions: String =
         "screen_transaction_filter_display_text_pending_transactions"
     const val screen_transaction_filter_display_text_balance: String =
         "screen_transaction_filter_display_text_balance"
     const val screen_transaction_filter_display_text_categories: String =
         "screen_transaction_filter_display_text_categories"
-
 
 
     //    Y2Y funds Transfer screen
@@ -1896,19 +1895,19 @@ object Strings {
 
     // Send Money Home Screen
     const val screen_send_money_home_display_text_send_money: String =
-            "screen_send_money_home_display_text_send_money"
+        "screen_send_money_home_display_text_send_money"
     const val screen_send_money_home_display_text_recent_transfers: String =
-            "screen_send_money_home_display_text_recent_transfers"
+        "screen_send_money_home_display_text_recent_transfers"
     const val screen_send_money_home_display_text_send_money_home: String =
-            "screen_send_money_home_display_text_send_money_home"
+        "screen_send_money_home_display_text_send_money_home"
     const val screen_send_money_home_display_text_get_best_rates: String =
-            "screen_send_money_home_display_text_get_best_rates"
+        "screen_send_money_home_display_text_get_best_rates"
     const val screen_send_money_home_display_text_change_home_country: String =
-            "screen_send_money_home_display_text_change_home_country"
+        "screen_send_money_home_display_text_change_home_country"
     const val screen_send_money_home_display_text_hide: String =
-            "screen_send_money_home_display_text_hide"
+        "screen_send_money_home_display_text_hide"
     const val screen_send_money_home_title: String =
-            "screen_send_money_home_title"
+        "screen_send_money_home_title"
     const val screen_send_money_home_display_text_compare: String =
         "screen_send_money_home_display_text_compare"
 
@@ -2120,4 +2119,8 @@ object Strings {
         "screen_additional_info_label_text_bottom_sheet_des"
     const val common_display_text_copy: String =
         "common_display_text_copy"
+
+    //Bill Payment
+    const val screen_my_bills_text_title_you_have_n_bills_registered: String =
+        "screen_my_bills_text_title_you_have_n_bills_registered"
 }
