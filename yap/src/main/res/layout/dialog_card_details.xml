@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_normal"
     android:background="@drawable/bg_white_round">
-
 
     <ImageView
         android:id="@+id/ivCross"
@@ -21,7 +19,6 @@
         app:layout_constraintBottom_toTopOf="@+id/cardsPager"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/cardsPager"
