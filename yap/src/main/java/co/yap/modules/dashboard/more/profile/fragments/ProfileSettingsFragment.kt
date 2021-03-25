@@ -289,7 +289,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 100) {
+        if (requestCode == REQUEST_NOTIFICATION_SETTINGS) {
             if (NotificationManagerCompat.from(requireContext())
                     .areNotificationsEnabled()
             ) {
