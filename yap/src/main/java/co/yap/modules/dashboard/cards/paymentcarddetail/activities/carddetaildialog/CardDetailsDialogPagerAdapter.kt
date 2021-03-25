@@ -26,9 +26,9 @@ class CardDetailsDialogPagerAdapter(private val list: MutableList<CardDetailsMod
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is CardDetailsSerialNumberViewHolder) {
-            holder.onBind(list[position], position, onItemClickListener)
+            holder.onBind(list[position], position)
         } else if (holder is CardDetailsExpiryViewHolder) {
-            holder.onBind(list[position], position,onItemClickListener)
+            holder.onBind(list[position], position)
         }
     }
 

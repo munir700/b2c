@@ -717,23 +717,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
         viewPager?.adapter = cardDetailsPagerAdapter
-        cardDetailsPagerAdapter.setItemListener(onItemListener)
         indicator?.setViewPager2(viewPager)
         dialog.show()
-    }
-
-    private val onItemListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            when (view.id) {
-                R.id.tvCopyCard -> {
-                    if (data is CardDetailsModel)
-                    {
-                        data.cardNumber?.copyTextToClipboard(this@PaymentCardDetailActivity)
-                        toast("Text copied to clipboard",Toast.LENGTH_SHORT)
-                    }
-                }
-            }
-        }
     }
 
     private fun setUpTransactionsListRecyclerView() {
