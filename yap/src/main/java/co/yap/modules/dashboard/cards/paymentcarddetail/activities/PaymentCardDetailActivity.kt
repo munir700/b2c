@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -66,6 +67,7 @@ import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
+import com.ezaka.customer.app.utils.copyTextToClipboard
 import com.google.android.material.snackbar.Snackbar
 import com.liveperson.infra.configuration.Configuration
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -360,7 +362,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.state.cardTypeText =
                     getString(Strings.screen_spare_card_landing_display_text_virtual_card)
             }
-            viewModel.state.cardNameText = viewModel.card.value?.cardName?:""
+            viewModel.state.cardNameText = viewModel.card.value?.cardName ?: ""
             viewModel.getCardBalance { balance ->
                 llAddFunds.alpha = 1f
                 llAddFunds.isEnabled = true
@@ -715,10 +717,24 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
         viewPager?.adapter = cardDetailsPagerAdapter
+        cardDetailsPagerAdapter.setItemListener(onItemListener)
         indicator?.setViewPager2(viewPager)
         dialog.show()
     }
 
+    private val onItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when (view.id) {
+                R.id.tvCopyCard -> {
+                    if (data is CardDetailsModel)
+                    {
+                        data.cardNumber?.copyTextToClipboard(this@PaymentCardDetailActivity)
+                        toast("Text copied to clipboard",Toast.LENGTH_SHORT)
+                    }
+                }
+            }
+        }
+    }
 
     private fun setUpTransactionsListRecyclerView() {
         rvTransaction.setHasFixedSize(true)
