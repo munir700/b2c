@@ -32,10 +32,10 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
 
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.lMyBills->{
-
+            R.id.lMyBills -> {
+                navigate(R.id.action_payBillsFragment_to_myBillsFragment)
             }
-            R.id.lAnalytics->{
+            R.id.lAnalytics -> {
 
             }
             R.id.lAddBill->{

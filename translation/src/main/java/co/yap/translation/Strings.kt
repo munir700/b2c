@@ -2191,6 +2191,8 @@ object Strings {
         "screen_bill_payment_button_description_analytics"
     const val screen_bill_payment_button_description_add_a_bill: String =
         "screen_bill_payment_button_description_add_a_bill"
+
+    //Biller Screen
     const val screen_bill_payment_text_title_add_a_credit_card: String =
         "screen_bill_payment_text_title_add_a_credit_card"
     const val screen_bill_payment_text_title_add_a_provider: String =
@@ -2199,6 +2201,12 @@ object Strings {
         "screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by"
     const val screen_bill_payment_sub_heading_choose_from_the_list_below: String =
         "screen_bill_payment_sub_heading_choose_from_the_list_below"
+
+    //My Bills Screen
+    const val screen_my_bills_text_title_you_have_n_bills_registered: String =
+        "screen_my_bills_text_title_you_have_n_bills_registered"
+    const val screen_my_bills_toolbar_text_title: String =
+        "screen_my_bills_toolbar_text_title"
 
     // Bill payment
     const val screen_add_bill_toolbar_title: String =
