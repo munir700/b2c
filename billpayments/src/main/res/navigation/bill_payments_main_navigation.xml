@@ -10,20 +10,19 @@
         android:name="co.yap.billpayments.paybills.PayBillsFragment"
         android:label="PayBillsFragment"
         tools:layout="@layout/fragment_pay_bills">
-    <action
-        android:id="@+id/action_payBillsFragment_to_billersFragment"
-        app:destination="@id/billersFragment" />
-
         <action
             android:id="@+id/action_payBillsFragment_to_myBillsFragment"
             app:destination="@id/myBillsFragment" />
+        <action
+            android:id="@+id/action_payBillsFragment_to_billersFragment"
+            app:destination="@id/billersFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/billersFragment"
         android:name="co.yap.billpayments.billers.BillersFragment"
         android:label="BillersFragment"
-        tools:layout="@layout/fragment_billers" >
+        tools:layout="@layout/fragment_billers">
         <action
             android:id="@+id/action_billersFragment_to_billerSearchFragment"
             app:destination="@id/billerSearchFragment" />
@@ -33,7 +32,7 @@
         android:id="@+id/billerSearchFragment"
         android:name="co.yap.billpayments.billers.search.BillerSearchFragment"
         android:label="BillerSearchFragment"
-        tools:layout="@layout/fragment_biller_search"/>
+        tools:layout="@layout/fragment_biller_search" />
 
     <fragment
         android:id="@+id/myBillsFragment"
