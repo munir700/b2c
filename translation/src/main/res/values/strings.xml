@@ -1370,6 +1370,9 @@
     <string name="screen_bill_payment_button_description_my_bills">My bills</string>
     <string name="screen_bill_payment_button_description_analytics">Analytics</string>
     <string name="screen_bill_payment_button_description_add_a_bill">Add a bill</string>
+    <string name="screen_bill_payment_bill_due_section_title">Bill payments</string>
+    <string name="screen_bill_payment_bill_due_button_pay_all">Pay all</string>
+
 
     <!--    Biller Screen-->
     <string name="screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by">Which bank is your card issued by?</string>

@@ -60,6 +60,9 @@
                 app:icon="@{@drawable/ic_add_sign}"
                 app:title="@{Translator.INSTANCE.getString(context,Strings.screen_bill_payment_button_description_add_a_bill)}" />
 
+
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
