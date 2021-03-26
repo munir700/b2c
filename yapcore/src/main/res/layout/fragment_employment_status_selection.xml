@@ -74,6 +74,7 @@
                 android:lineSpacingExtra="6sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/darkBlue"
                 app:layout_constraintTop_toBottomOf="@+id/rvEmploymentStatus"
                 app:text="@{Strings.screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose}"
                 tools:text="@string/screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose" />
