@@ -28,8 +28,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
 import co.yap.modules.qrcode.BarcodeFormat
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
