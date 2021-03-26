@@ -45,5 +45,6 @@ interface IEmail {
         var deactivateField: Boolean
 
         var verificationCompleted: Boolean
+        var isWaiting: Boolean
     }
 }

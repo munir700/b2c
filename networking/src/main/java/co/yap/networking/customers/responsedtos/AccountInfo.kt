@@ -78,5 +78,7 @@ class AccountInfo(
     @SerializedName("partnerBankApprovalDate")
     var partnerBankApprovalDate: String? = null,
     @SerializedName("additionalDocSubmitionDate")
-    var additionalDocSubmitionDate: String? = null
+    var additionalDocSubmitionDate: String? = null,
+    @SerializedName("isWaiting")
+    var isWaiting: Boolean = false
 ) : Parcelable

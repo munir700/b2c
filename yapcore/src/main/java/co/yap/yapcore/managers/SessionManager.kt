@@ -186,11 +186,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch(Dispatchers.Main) {
             when (val response = repository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        getDebitFromList(it)?.let { debitCard ->
+                    if (response.data.data.isNullOrEmpty()) {
+                        success.invoke(null)
+                    } else {
+                        getDebitFromList(response.data.data)?.let { debitCard ->
                             card.postValue(debitCard)
                             success.invoke(debitCard)
-                        } ?: "Debit card not found"
+                        } ?: success.invoke(null)
                     }
                 }
                 is RetroApiResponse.Error -> {
