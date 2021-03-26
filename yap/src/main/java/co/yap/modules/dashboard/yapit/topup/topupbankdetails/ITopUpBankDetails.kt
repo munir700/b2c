@@ -6,7 +6,7 @@ import co.yap.yapcore.SingleClickEvent
 interface ITopUpBankDetails {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
-        var clickEvent:SingleClickEvent
+        var clickEvent: SingleClickEvent
         fun handlePressOnButton(id: Int)
     }
 

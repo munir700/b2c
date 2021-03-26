@@ -23,13 +23,14 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
     }
 
 
     productFlavors {
         live {
-            versionCode 40
-            versionName "1.1.1"
+            versionCode 44
+            versionName "1.1.5"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -42,8 +43,8 @@ android {
         }
 
         Preprod {
-            versionCode 24
-            versionName "1.2.4"
+            versionCode 27
+            versionName "1.2.7"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -56,8 +57,8 @@ android {
         }
 
         stg {
-            versionCode 260
-            versionName "0.7.9"
+            versionCode 262
+            versionName "0.8.2"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -69,10 +70,10 @@ android {
         }
 
         yapinternal {
-            versionCode 79
-            versionName "0.7.8"
+            versionCode 93
+            versionName "0.9.3"
             applicationIdSuffix ".internal"
-            resValue "string", "app_name", "YAP Internal"
+            resValue "string", "app_name", "YAP Mock"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
@@ -82,8 +83,8 @@ android {
         }
 
         qa {
-            versionCode 85
-            versionName "0.8.5"
+            versionCode 90
+            versionName "0.9.0"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP QA"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"

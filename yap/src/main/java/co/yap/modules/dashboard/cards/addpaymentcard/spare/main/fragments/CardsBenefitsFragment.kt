@@ -6,9 +6,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ICardBenefit
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.CardBenfitsDetailViewModel
-import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 
 

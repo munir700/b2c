@@ -13,7 +13,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import co.yap.app.YAPApplication
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.managers.SessionManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -99,9 +98,13 @@ fun Context.storeBitmap(rootView: View, success: (filePath: String?) -> Unit) {
     }
 }
 
-fun Context.shareImage(rootView: View) {
+fun Context.shareImage(
+    rootView: View,
+    imageName: String,
+    shareText: String? = null,
+    chooserTitle: String
+) {
     val bitmap: Bitmap = takeScreenshotForView(rootView)
-    val imageName = "YAP-qrCode"
     var bmpUri: Uri? = null
     val fileName = "${imageName}.jpg"
     val file = createTempFile(fileName)
@@ -120,14 +123,16 @@ fun Context.shareImage(rootView: View) {
 
     val shareIntent = Intent()
     shareIntent.action = Intent.ACTION_SEND
-    shareIntent.putExtra(
-        Intent.EXTRA_TEXT,
-        "Hi! its ${SessionManager.user?.currentCustomer?.getFullName() ?: "YAP User"}  \nHere is my YAP QR Code, please scan it for money transactions."
-    )
+    if (!shareText.isNullOrBlank()) {
+        shareIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            shareText
+        )
+    }
     shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri)
     shareIntent.type = "image/jpeg"
     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    startActivity(Intent.createChooser(shareIntent, "YAP QR code"))
+    startActivity(Intent.createChooser(shareIntent, chooserTitle))
 }
 
 fun takeScreenshotForView(view: View): Bitmap {

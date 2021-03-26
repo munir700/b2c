@@ -48,7 +48,8 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
     private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
-//    private val EVENT_CARD_ADDED: Int get() = 12
+
+    //    private val EVENT_CARD_ADDED: Int get() = 12
     private var selectedCardPosition: Int = 0
 
     //lateinit var adapter: YapCardsAdaptor
@@ -108,8 +109,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         updateCardCount()
     }
 
-    private fun updateCardCount()
-    {
+    private fun updateCardCount() {
         viewModel.updateCardCount(getCardAdaptor().itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
 

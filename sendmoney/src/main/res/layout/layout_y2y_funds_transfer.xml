@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.sendmoney.y2y.transfer.viewmodels.Y2YFundsTransferViewModel" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -26,14 +28,14 @@
                 android:layout_height="@dimen/_62sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_large"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:contentDescription="@string/empty_string"
-                app:imageUrl="@{viewModel.state.imageUrl}"
                 app:colorType="@{``}"
                 app:fullName="@{viewModel.state.fullName}"
-                app:position="@{viewModel.state.position}"/>
+                app:imageUrl="@{viewModel.state.imageUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{viewModel.state.position}" />
 
             <TextView
                 android:id="@+id/tvFullName"
@@ -83,15 +85,26 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName"
                 tools:text="1234567891" />
 
+            <TextView
+                android:id="@+id/tvFee"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:text="@{viewModel.state.transferFee}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etAmount"
+                tools:text="Fee: AED 500" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clAvailableAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_medium_large"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etAmount">
+                android:layout_marginTop="@dimen/margin_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFee">
 
                 <TextView
                     android:id="@+id/tvAvailableBalanceGuide"
@@ -115,17 +128,6 @@
                     tools:text="AED 500" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tvFee"
-                style="@style/MicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:text="@{viewModel.state.transferFee}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
-                tools:text="Fee: AED 500" />
 
             <co.yap.widgets.AlphaNumericEditText
                 android:id="@+id/etNote"
@@ -141,7 +143,7 @@
                 android:text="@={viewModel.state.noteValue}"
                 android:textColorHint="@color/colorPrimaryDarkFadedLight"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/tvFee"
+                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
                 tools:hint="@string/screen_y2y_funds_transfer_display_text_note_placeholder" />
 
             <View
@@ -158,10 +160,10 @@
                 style="@style/RectangleBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:btn_size="small"
                 android:layout_marginTop="@dimen/_18sdp"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

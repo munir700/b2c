@@ -12,7 +12,7 @@ interface IEmail {
 
     interface ViewModel : IBase.ViewModel<State> {
         val EVENT_POST_DEMOGRAPHIC: Int
-        get() = 1
+            get() = 1
         val EVENT_POST_VERIFICATION_EMAIL: Int
             get() = 2
         val EVENT_NAVIGATE_NEXT: Int
@@ -45,5 +45,6 @@ interface IEmail {
         var deactivateField: Boolean
 
         var verificationCompleted: Boolean
+        var isWaiting: Boolean
     }
 }

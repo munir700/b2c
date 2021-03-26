@@ -4,6 +4,7 @@ package co.yap.translation
 object Strings {
 
     // Common
+    const val rationale_camera: String = "rationale_camera"
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_empty_string: String = "common_empty_string"
     const val common_button_next: String = "common_button_next"
@@ -24,6 +25,7 @@ object Strings {
     const val common_button_delete: String = "common_button_delete"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
+    const val common_percentage_hint: String = "common_percentage_hint"
     const val common_display_text_nothing_to_report: String =
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
@@ -62,6 +64,8 @@ object Strings {
         "common_display_text_search_hint"
     const val common_display_text_no_country_found: String =
         "common_display_text_no_country_found"
+    const val common_display_text_percentage: String =
+        "common_display_text_percentage"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -190,6 +194,8 @@ object Strings {
         "screen_onboarding_congratulations_display_text_meeting_note"
     const val screen_onboarding_congratulations_button_complete_verification: String =
         "screen_onboarding_congratulations_button_complete_verification"
+    const val screen_onboarding_congratulations_display_text_delay_detail_text: String =
+        "screen_onboarding_congratulations_display_text_delay_detail_text"
 
     const val screen_meeting_location_display_text_add_new_address_title: String =
         "screen_meeting_location_display_text_add_new_address_title"
@@ -197,6 +203,8 @@ object Strings {
         "screen_meeting_location_display_text_add_new_address_subtitle"
     const val screen_meeting_location_display_text_add_manual_address_subtitle: String =
         "screen_meeting_location_display_text_add_manual_address_subtitle"
+    const val screen_onboarding_congratulations_button_queue_up: String =
+        "screen_onboarding_congratulations_button_queue_up"
 
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -804,6 +812,10 @@ object Strings {
         "screen_update_profile_photo_display_text_open_camera"
     const val screen_update_profile_photo_display_text_choose_photo: String =
         "screen_update_profile_photo_display_text_choose_photo"
+    const val screen_update_profile_photo_display_text_take_photo: String =
+        "screen_update_profile_photo_display_text_take_photo"
+    const val screen_update_profile_photo_display_text_remove_photo: String =
+        "screen_update_profile_photo_display_text_remove_photo"
 
 
 //  personal detail screen
@@ -1045,6 +1057,18 @@ object Strings {
         "screen_transaction_details_display_text_exchange_rate"
     const val screen_transaction_details_display_text_exchange_rate_value: String =
         "screen_transaction_details_display_text_exchange_rate_value"
+    const val screen_transaction_details_display_sheet_text_upload_from_files: String =
+        "screen_transaction_details_display_sheet_text_upload_from_files"
+    const val screen_transaction_details_display_sheet_heading: String =
+        "screen_transaction_details_display_sheet_heading"
+    const val screen_transaction_details_display_sheet_sub_heading: String =
+        "screen_transaction_details_display_sheet_sub_heading"
+    const val screen_transaction_details_display_receipt_item: String =
+        "screen_transaction_details_display_receipt_item"
+    const val screen_transaction_details_added_receipt_label: String =
+        "screen_transaction_details_added_receipt_label"
+    const val screen_transaction_details_single_added_receipt_label: String =
+        "screen_transaction_details_single_added_receipt_label"
 
 
     //     Send Money no contacts Screen
@@ -1776,10 +1800,20 @@ object Strings {
         "screen_waiting_list_display_text_guide"
     const val screen_waiting_list_display_button_text: String =
         "screen_waiting_list_display_button_text"
-    const val screen_waiting_list_display_dialog_text: String =
-        "screen_waiting_list_display_dialog_text"
-    const val screen_waiting_list_display_dialog_button_text: String =
-        "screen_waiting_list_display_dialog_button_text"
+    const val screen_waiting_list_display_text_your_place_in_queue: String =
+        "screen_waiting_list_display_text_your_place_in_queue"
+    const val screen_waiting_list_display_text_waiting_behind_you: String =
+        "screen_waiting_list_display_text_waiting_behind_you"
+    const val screen_waiting_list_display_text_we_will_notify_you: String =
+        "screen_waiting_list_display_text_we_will_notify_you"
+    const val screen_waiting_list_display_text_want_to_jump: String =
+        "screen_waiting_list_display_text_want_to_jump"
+    const val screen_waiting_list_display_text_lead_the_bank_description: String =
+        "screen_waiting_list_display_text_lead_the_bank_description"
+    const val screen_waiting_list_display_text_log_back: String =
+        "screen_waiting_list_display_text_log_back"
+    const val screen_waiting_list_display_text_rank_hashtag: String =
+        "screen_waiting_list_display_text_rank_hashtag"
 
     //Change Card Pin screen
 
@@ -2119,6 +2153,52 @@ object Strings {
         "screen_additional_info_label_text_bottom_sheet_des"
     const val common_display_text_copy: String =
         "common_display_text_copy"
+
+    //  image previewer dialogue
+    const val screen_image_previewer_display_text_delete_message: String =
+        "screen_image_previewer_display_text_delete_message"
+    const val screen_image_previewer_button_text_delete: String =
+        "screen_image_previewer_button_text_delete"
+
+    //Transaction Details
+    const val screen_transaction_details_receipt_text: String =
+        "screen_transaction_details_receipt_text"
+    const val screen_transaction_details_receipt_label: String =
+        "screen_transaction_details_receipt_label"
+    const val screen_transaction_add_another_receipt: String =
+        "screen_transaction_add_another_receipt"
+    const val screen_transaction_details_receipt_success_label: String =
+        "screen_transaction_details_receipt_success_label"
+
+    // Reached on the top of queue screen
+    const val screen_reached_top_queue_display_text =
+        "screen_reached_top_queue_display_text"
+    const val screen_reached_top_queue_display_text_subtitle =
+        "screen_reached_top_queue_display_text_subtitle"
+    const val screen_reached_top_queue_display_text_meeting_note =
+        "screen_reached_top_queue_display_text_meeting_note"
+
+
+    // Bill Payment
+
+    const val screen_bill_payment_text_title: String =
+        "screen_bill_payment_text_title"
+    const val screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment: String =
+        "screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment"
+    const val screen_bill_payment_button_description_my_bills: String =
+        "screen_bill_payment_button_description_my_bills"
+    const val screen_bill_payment_button_description_analytics: String =
+        "screen_bill_payment_button_description_analytics"
+    const val screen_bill_payment_button_description_add_a_bill: String =
+        "screen_bill_payment_button_description_add_a_bill"
+    const val screen_bill_payment_text_title_add_a_credit_card: String =
+        "screen_bill_payment_text_title_add_a_credit_card"
+    const val screen_bill_payment_text_title_add_a_provider: String =
+        "screen_bill_payment_text_title_add_a_provider"
+    const val screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by: String =
+        "screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by"
+    const val screen_bill_payment_sub_heading_choose_from_the_list_below: String =
+        "screen_bill_payment_sub_heading_choose_from_the_list_below"
 
     //Bill Payment
     const val screen_my_bills_text_title_you_have_n_bills_registered: String =

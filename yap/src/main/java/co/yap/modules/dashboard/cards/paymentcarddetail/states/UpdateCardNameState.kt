@@ -17,6 +17,7 @@ class UpdateCardNameState : BaseState(), IUpdateCardName.State {
             notifyPropertyChanged(BR.cardName)
             validateName()
         }
+
     @get:Bindable
     override var valid: Boolean = false
         set(value) {

@@ -1,6 +1,7 @@
 package co.yap.billpayments.paybills
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
@@ -37,8 +38,8 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
             R.id.lAnalytics -> {
 
             }
-            R.id.lAddBill -> {
-
+            R.id.lAddBill->{
+                navigate(R.id.action_payBillsFragment_to_billersFragment)
             }
         }
     }

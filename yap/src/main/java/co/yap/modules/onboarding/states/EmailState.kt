@@ -120,6 +120,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             notifyPropertyChanged(BR.refreshField)
 
         }
+
     @get:Bindable
     override var handleBackPress: Int = 0
         set(value) {
@@ -127,6 +128,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             notifyPropertyChanged(BR.handleBackPress)
         }
 
+    override var isWaiting: Boolean = false
 
     fun setSuccessUI() {
         refreshField = true
@@ -153,7 +155,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
     fun settwoWayTextWatcher() {
 
         if (!twoWayTextWatcher.isNullOrEmpty() && twoWayTextWatcher.length >= 5) {
-            if (Utils.validateEmail(twoWayTextWatcher.toString())) {
+            if (Utils.validateEmail(twoWayTextWatcher)) {
                 setSuccessUI()
             } else {
                 setDefaultUI()

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.billerlist.adapter.BillerItemViewModel" />
+            type="co.yap.billpayments.billers.adapter.BillerItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,10 +20,12 @@
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
             android:src="@drawable/flag_za"
-            app:imageUrl="@{viewModel.billerModel.iconUrl}"
+            app:fullName="@{viewModel.billerModel.name}"
+            app:imageUrl="@{viewModel.billerModel.logoUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:position="@{viewModel.position}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
