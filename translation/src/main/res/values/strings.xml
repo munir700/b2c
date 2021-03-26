@@ -820,7 +820,7 @@
     <string name="screen_topup_transfer_display_text_screen_title">Add money using a card</string>
     <string name="screen_topup_transfer_display_text_amount_title">How much would you like to add?</string>
     <string name="screen_topup_transfer_display_text_available_balance">Your available balance is %1s %2s</string>
-    <string name="screen_topup_transfer_display_text_transaction_fee">Transaction fee: %1s</string>
+    <string name="screen_topup_transfer_display_text_transaction_fee">Fee: %1s</string>
     <string name="screen_topup_transfer_display_text_transaction_no_fee">No Fee</string>
     <string name="screen_topup_funds_display_button_text">Next</string>
 
