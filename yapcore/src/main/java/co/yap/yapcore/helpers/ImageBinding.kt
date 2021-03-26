@@ -496,4 +496,14 @@ object ImageBinding {
             }
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("setImageByDrawableName")
+    fun setImageByDrawableName(imageView: CoreCircularImageView, drawableName: String) {
+        val resId = getResId(drawableName)
+        if (resId != -1) {
+            imageView.setImageResource(resId)
+        }
+    }
+
 }

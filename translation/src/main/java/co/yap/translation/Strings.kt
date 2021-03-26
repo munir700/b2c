@@ -2208,7 +2208,7 @@ object Strings {
     const val screen_my_bills_toolbar_text_title: String =
         "screen_my_bills_toolbar_text_title"
 
-    // Bill payment
+    // Add Bill
     const val screen_add_bill_toolbar_title: String =
         "screen_add_bill_toolbar_title"
     const val screen_add_bill_description_text: String =
