@@ -1,9 +1,10 @@
 package co.yap.billpayments.mybills
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.mybills.adapter.BillModel
 import co.yap.billpayments.mybills.adapter.MyBillsAdapter
-import co.yap.billpayments.mybills.adapter.MyBillsModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.enums.BillStatus
@@ -13,7 +14,7 @@ class MyBillsViewModel(application: Application) :
     PayBillBaseViewModel<IMyBills.State>(application), IMyBills.ViewModel {
     override val state: IMyBills.State = MyBillsState()
     override var adapter: MyBillsAdapter = MyBillsAdapter(mutableListOf())
-    override var myBills: MutableList<MyBillsModel> = mutableListOf()
+    override var myBills: MutableLiveData<MutableList<BillModel>> = MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
@@ -22,62 +23,62 @@ class MyBillsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("My Bills")
+        setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
         toolgleRightIconVisibility(true)
     }
 
-    private fun getMyBillList(): MutableList<MyBillsModel> {
+    private fun getMyBillList(): MutableList<BillModel> {
         return mutableListOf(
-            MyBillsModel(
-                iconUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
+            BillModel(
+                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
                 description = "29 Sept 2020 - Burj Telecom Residences",
                 currency = "AED",
                 amount = "100",
                 billStatus = BillStatus.OVERDUE.title
             ),
-            MyBillsModel(
-                iconUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
+            BillModel(
+                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
                 description = "29 Sept 2020 - Burj Telecom  29 Sept 2020 - Burj Telecom Residences 29 Sept 2020 - Burj Telecom Residences 29 Sept 2020 - Burj Telecom Residences",
                 currency = "AED",
                 amount = "100",
                 billStatus = BillStatus.OVERDUE.title
             ),
-            MyBillsModel(
-                iconUrl = "",
+            BillModel(
+                logoUrl = "",
                 name = "Salik",
                 description = "29 Sept 2020 - Burj Telecom Residences",
                 currency = "AED",
                 amount = "100",
                 billStatus = BillStatus.BILL_DUE.title
             ),
-            MyBillsModel(
-                iconUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
+            BillModel(
+                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
                 description = "29 Sept 2020 - Burj Telecom Residences",
                 currency = "AED",
                 amount = "100",
                 billStatus = BillStatus.OVERDUE.title
             ),
-            MyBillsModel(
-                iconUrl = "",
+            BillModel(
+                logoUrl = "",
                 name = "Etsilat",
                 description = "29 Sept 2020 - Burj Telecom Residences",
                 currency = "USD",
                 amount = "100",
                 billStatus = BillStatus.BILL_DUE.title
             ),
-            MyBillsModel(
-                iconUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
+            BillModel(
+                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
                 description = "29 Sept 2020 - Burj Telecom Residences",
                 currency = "USD",
                 amount = "100",
                 billStatus = BillStatus.PAID.title
             ),
-            MyBillsModel(
-                iconUrl = "",
+            BillModel(
+                logoUrl = "",
                 name = "Etsilat",
                 description = "29 Sept 2020 - Burj Telecom Residences",
                 currency = "USD",
@@ -91,15 +92,7 @@ class MyBillsViewModel(application: Application) :
         launch {
             state.loading = true
             delay(1000L)
-            myBills = getMyBillList()
-            state.screenTitle.set(
-                Translator.getString(
-                    context,
-                    Strings.screen_my_bills_text_title_you_have_n_bills_registered,
-                    myBills.size.toString()
-                )
-            )
-            adapter.setList(myBills)
+            myBills.postValue(getMyBillList())
             state.loading = false
         }
     }

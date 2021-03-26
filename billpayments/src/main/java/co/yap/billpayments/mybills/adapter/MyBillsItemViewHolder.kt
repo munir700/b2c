@@ -13,15 +13,15 @@ class MyBillsItemViewHolder(private val itemMyBillsBinding: ItemMyBillsBinding) 
     RecyclerView.ViewHolder(itemMyBillsBinding.root) {
 
     fun onBind(
-        myBillsModel: MyBillsModel?,
+        billModel: BillModel?,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {
-        if (myBillsModel?.billStatus == BillStatus.OVERDUE.title) {
-            val amountSpan = SpannableString("${myBillsModel.currency} ${myBillsModel.amount}")
+        if (billModel?.billStatus == BillStatus.OVERDUE.title) {
+            val amountSpan = SpannableString("${billModel.currency} ${billModel.amount}")
             itemMyBillsBinding.tvAmount.text = Utils.setSpan(
                 0,
-                myBillsModel.currency.length,
+                billModel.currency.length,
                 amountSpan,
                 ContextCompat.getColor(
                     itemMyBillsBinding.tvAmount.context,
@@ -30,7 +30,7 @@ class MyBillsItemViewHolder(private val itemMyBillsBinding: ItemMyBillsBinding) 
             )
         }
         itemMyBillsBinding.viewModel =
-            MyBillsItemViewModel(myBillsModel, position, onItemClickListener)
+            MyBillsItemViewModel(billModel, position, onItemClickListener)
         itemMyBillsBinding.executePendingBindings()
     }
 }

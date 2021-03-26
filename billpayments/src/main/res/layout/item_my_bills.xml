@@ -25,8 +25,8 @@
             android:id="@+id/ivIcon"
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
-            app:fullName="@{viewModel.myBillsModel.name}"
-            app:imageUrl="@{viewModel.myBillsModel.iconUrl}"
+            app:fullName="@{viewModel.billModel.name}"
+            app:imageUrl="@{viewModel.billModel.logoUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +37,7 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.myBillsModel.name}"
+            android:text="@{viewModel.billModel.name}"
             app:layout_constrainedWidth="true"
             tools:text="Etsilat" />
 
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{viewModel.myBillsModel.description}"
+            android:text="@{viewModel.billModel.description}"
             app:layout_constrainedWidth="true"
             tools:text="Etsilat" />
 
@@ -90,7 +90,7 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.myBillsModel.currency+` `+viewModel.myBillsModel.amount}"
+            android:text="@{viewModel.billModel.currency+` `+viewModel.billModel.amount}"
             tools:text="AED 200" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -98,8 +98,8 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.myBillsModel.billStatus}"
-            android:textColor="@{viewModel.myBillsModel.billStatus==BillStatus.OVERDUE.title?@color/red: @color/greyDark}"
+            android:text="@{viewModel.billModel.billStatus}"
+            android:textColor="@{viewModel.billModel.billStatus==BillStatus.OVERDUE.title?@color/red: @color/greyDark}"
             tools:text="Paid" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

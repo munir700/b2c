@@ -1,7 +1,7 @@
 package co.yap.billpayments.mybills.adapter
 
-data class MyBillsModel(
-    var iconUrl: String,
+data class BillModel(
+    var logoUrl: String,
     var name: String,
     var description: String,
     var currency: String,

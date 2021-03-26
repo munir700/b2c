@@ -6,8 +6,8 @@ import co.yap.billpayments.R
 import co.yap.billpayments.databinding.ItemMyBillsBinding
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class MyBillsAdapter(private val list: MutableList<MyBillsModel>) :
-    BaseBindingRecyclerAdapter<MyBillsModel, RecyclerView.ViewHolder>(list) {
+class MyBillsAdapter(private val list: MutableList<BillModel>) :
+    BaseBindingRecyclerAdapter<BillModel, RecyclerView.ViewHolder>(list) {
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return MyBillsItemViewHolder(binding as ItemMyBillsBinding)
     }
