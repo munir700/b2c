@@ -6,7 +6,8 @@ import co.yap.billpayments.billers.adapter.BillerModel
 import co.yap.billpayments.billers.adapter.BillersAdapter
 import co.yap.yapcore.SingleClickEvent
 
-class BillerSearchViewModel(application: Application) : PayBillBaseViewModel<IBillerSearch.State>(application), IBillerSearch.ViewModel  {
+class BillerSearchViewModel(application: Application) :
+    PayBillBaseViewModel<IBillerSearch.State>(application), IBillerSearch.ViewModel {
     override val state: IBillerSearch.State = BillerSearchState()
     override var adapter: BillersAdapter = BillersAdapter(mutableListOf())
     override var billers: MutableList<BillerModel> = mutableListOf()

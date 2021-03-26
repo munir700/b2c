@@ -21,7 +21,7 @@
             android:layout_height="@dimen/_36sdp"
             android:src="@drawable/flag_za"
             app:fullName="@{viewModel.billerModel.name}"
-            app:imageUrl="@{viewModel.billerModel.iconUrl}"
+            app:imageUrl="@{viewModel.billerModel.logoUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

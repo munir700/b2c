@@ -19,14 +19,10 @@ class BillersViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.billers=getBillerList()
+        parentViewModel?.billers = getBillerList()
         adapter.setList(parentViewModel?.billers?.toList() as List<BillerModel>)
-        state.screenTitle.set(getScreenTitle(parentViewModel?.selectedBillCategory!!))
-        if(parentViewModel?.selectedBillCategory == BillCategory.CREDIT_CARD){
-            state.searchEnabled.set(true)
-        }else{
-            state.searchEnabled.set(false)
-        }
+        state.screenTitle.set(getScreenTitle(parentViewModel?.selectedBillCategory))
+        state.showSearchView.set(parentViewModel?.selectedBillCategory == BillCategory.CREDIT_CARD)
     }
 
     override fun onResume() {
@@ -34,19 +30,20 @@ class BillersViewModel(application: Application) :
         setToolBarTitle(getToolbarString(parentViewModel?.selectedBillCategory!!))
         toggleToolBarVisibility(true)
     }
-    override fun getToolbarString(billCategory: BillCategory): String {
+
+    override fun getToolbarString(billCategory: BillCategory?): String {
         return if (billCategory == BillCategory.CREDIT_CARD) {
             getString(Strings.screen_bill_payment_text_title_add_a_credit_card)
         } else {
             Translator.getString(
                 context,
                 Strings.screen_bill_payment_text_title_add_a_provider,
-                billCategory.title
+                billCategory?.title.toString()
             )
         }
     }
 
-    override fun getScreenTitle(billCategory: BillCategory): String {
+    override fun getScreenTitle(billCategory: BillCategory?): String {
         return if (billCategory == BillCategory.CREDIT_CARD) {
             getString(Strings.screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by)
         } else if (billCategory == BillCategory.RTA) {
@@ -73,14 +70,14 @@ class BillersViewModel(application: Application) :
         return listOf(
             BillerModel(
                 name = "Abu Dhabi Commercial Bank",
-                iconUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
+                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
                 name = "Abu Dhabi Islamic Bank"
             ),
             BillerModel(
                 name = "Abu Dhabi Bank",
-                iconUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
+                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
                 name = "Barclays Bank"

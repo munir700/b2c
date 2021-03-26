@@ -1,15 +1,13 @@
 package co.yap.billpayments.billers.search
 
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import co.yap.billpayments.billers.adapter.BillerModel
 import co.yap.billpayments.billers.adapter.BillersAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillCategory
 
 interface IBillerSearch {
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
     }

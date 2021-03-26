@@ -9,7 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
 
 interface IBillers {
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
     }
@@ -20,13 +20,13 @@ interface IBillers {
         fun getBillerList(): MutableList<BillerModel>
         fun handlePressOnView(id: Int)
         val clickEvent: SingleClickEvent
-        fun getToolbarString(billCategory: BillCategory): String
-        fun getScreenTitle(billCategory: BillCategory): String
+        fun getToolbarString(billCategory: BillCategory?): String
+        fun getScreenTitle(billCategory: BillCategory?): String
     }
 
     interface State : IBase.State {
         var screenTitle: ObservableField<String>
-        var searchEnabled: ObservableBoolean
-        var nextButtonEnabled: ObservableBoolean
+        var showSearchView: ObservableBoolean
+        var valid: ObservableBoolean
     }
 }

@@ -1,6 +1,6 @@
 package co.yap.billpayments.billers.adapter
 
 data class BillerModel(
-    var iconUrl: String="",
+    var logoUrl: String = "",
     var name: String
 )
