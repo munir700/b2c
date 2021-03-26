@@ -61,13 +61,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:buttonVisibility="@{false}"
-                    app:cardName="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Virtual card` : `Virtual card`}"
-                    app:cardNumber="@{viewModel.state.card.maskedCardNo}"
                     app:cardImgUrl="@{viewModel.state.card.frontImage == null ? `` : viewModel.state.card.frontImage}"
-                    app:virtualCardName="@{viewModel.state.card.cardName}"
+                    app:cardName="@{viewModel.state.card.cardName}"
+                    app:cardNameVisibility="@{true}"
+                    app:cardNumber="@{viewModel.state.card.maskedCardNo}"
+                    app:cardType="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Virtual card` : `Virtual card`}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:virtualCardName="@{viewModel.state.card.cardName}" />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -304,15 +306,15 @@
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:btn_size="small"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v)-> viewModel.handleOnPressView(v.id)}"
                     android:text="@string/screen_remove_funds_button_remove"
+                    app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clBottom"
                     app:layout_constraintVertical_bias="0.967"
                     tools:text="Add" />

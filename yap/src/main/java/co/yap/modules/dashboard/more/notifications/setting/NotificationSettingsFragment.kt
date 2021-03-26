@@ -31,10 +31,10 @@ class NotificationSettingsFragment : BaseBindingFragment<INotificationSettings.V
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-        when(buttonView.id){
-            R.id.swNotifications-> viewModel.state.inAppNotificationsAllowed = isChecked
-            R.id.swEmail->  viewModel.state.emailNotificationsAllowed = isChecked
-            R.id.swSms-> viewModel.state.smsNotificationsAllowed = isChecked
+        when (buttonView.id) {
+            R.id.swNotifications -> viewModel.state.inAppNotificationsAllowed = isChecked
+            R.id.swEmail -> viewModel.state.emailNotificationsAllowed = isChecked
+            R.id.swSms -> viewModel.state.smsNotificationsAllowed = isChecked
         }
         viewModel.saveNotificationSettings()
     }

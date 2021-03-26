@@ -91,8 +91,6 @@ class PhoneVerificationViewModel(application: Application) :
                     parentViewModel?.onboardingData?.token = response.data.data?.token
                     trackEvent(SignupEvents.SIGN_UP_OTP_CORRECT.type)
                     trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
-                    parentViewModel?.isWaitingList?.value = response.data.data?.isWaiting
-                    parentViewModel?.rankNo?.value = response.data.data?.rankNo
                     success.invoke()
                 }
                 is RetroApiResponse.Error -> {

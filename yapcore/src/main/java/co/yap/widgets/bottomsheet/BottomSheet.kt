@@ -1,20 +1,21 @@
-package co.yap.modules.location
+package co.yap.widgets.bottomsheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.networking.customers.responsedtos.City
 import co.yap.yapcore.R
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.util.*
 
-class CitiesListBottomSheet(
-    private val mListener: OnItemClickListener,
-    private val citiesList: ArrayList<City>
+class BottomSheet(
+    private val mListener: OnItemClickListener? = null,
+    private val bottomSheetItems: MutableList<BottomSheetItem>,
+    private val headingLabel: String? = null,
+    private val subHeadingLabel: String? = null
 ) : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
@@ -22,8 +23,19 @@ class CitiesListBottomSheet(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val adapter = CitiesAdapter(citiesList.toMutableList())
-        val view = inflater.inflate(R.layout.bottom_sheet_cities, container, false)
+        val adapter = BottomSheetAdapter(bottomSheetItems)
+        val view = inflater.inflate(R.layout.core_bottom_sheet, container, false)
+        val tvHeading: TextView = view.findViewById(R.id.tvHeadingTitle)
+        val tvSubHeading: TextView = view.findViewById(R.id.tvSubTitle)
+        headingLabel?.let {
+            tvHeading.visibility = View.VISIBLE
+            tvHeading.text = it
+        }
+        subHeadingLabel?.let {
+            tvSubHeading.visibility = View.VISIBLE
+            tvSubHeading.text = it
+        }
+
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter.allowFullItemClickListener = true
@@ -34,8 +46,8 @@ class CitiesListBottomSheet(
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            mListener.onItemClick(view, this@CitiesListBottomSheet, pos)
+            mListener?.onItemClick(view, data, pos)
+            dismiss()
         }
     }
-
 }

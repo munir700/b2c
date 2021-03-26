@@ -10,11 +10,8 @@
             type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel" />
 
         <import type="co.yap.R" />
-
         <import type="android.view.View" />
-
         <import type="co.yap.translation.Strings" />
-
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

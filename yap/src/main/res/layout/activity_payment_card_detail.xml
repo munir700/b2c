@@ -422,13 +422,15 @@
                             android:layout_marginTop="@dimen/margin_small"
                             android:layout_marginBottom="@dimen/margin_medium"
                             app:buttonVisibility="@{true}"
-                            app:virtualCardName="@{viewModel.state.cardName}"
-                            app:cardName="@{viewModel.state.cardTypeText}"
-                            app:cardNumber="@{viewModel.state.cardPanNumber}"
                             app:cardImgUrl="@{viewModel.state.cardImageUrl}"
+                            app:cardName="@{viewModel.state.cardName}"
+                            app:cardNameVisibility="@{false}"
+                            app:cardNumber="@{viewModel.state.cardPanNumber}"
+                            app:cardType="@{viewModel.state.cardTypeText}"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ctToolbar" />
+                            app:layout_constraintTop_toBottomOf="@+id/ctToolbar"
+                            app:virtualCardName="@{viewModel.state.cardName}" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>

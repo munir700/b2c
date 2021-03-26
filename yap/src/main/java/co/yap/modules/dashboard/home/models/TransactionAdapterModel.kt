@@ -10,4 +10,4 @@ data class TransactionAdapterModel(
     var category: String,
     var amount: String,
     var currency: String
-    )
+)

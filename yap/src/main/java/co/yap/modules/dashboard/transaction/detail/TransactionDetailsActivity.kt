@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.activities
+package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Activity
 import android.content.Intent
@@ -8,28 +8,35 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
-import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
-import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
+import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
+import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
+import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
 import co.yap.modules.others.note.activities.TransactionNoteActivity
+import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionProductType
-import co.yap.yapcore.enums.TransactionStatus
-import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.constants.Constants.FILE_PATH
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showReceiptSuccessDialog
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import pl.aprilapps.easyphotopicker.MediaFile
 
-class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
+class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -41,14 +48,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEvent)
-        if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
-            intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
-                viewModel.transaction.set(
-                    it
-                )
-            }
-        }
+        addObservers()
         setSpentLabel()
         setAmount()
         setMapImageView()
@@ -61,6 +61,17 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
         setStatusIcon()
+    }
+
+    private fun addObservers() {
+        viewModel.clickEvent.observe(this, clickEvent)
+        if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
+            intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
+                viewModel.transaction.set(
+                    it
+                )
+            }
+        }
     }
 
     private fun setStatusIcon() {
@@ -77,6 +88,14 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     currency = viewModel.transaction.get().getCurrency(),
                     withComma = true
                 )
+        setReceiptListener()
+        setObserver()
+    }
+
+    private fun setObserver() {
+        viewModel.responseReciept.observe(this, Observer {
+            viewModel.setAdapterList(it)
+        })
     }
 
     private fun setAmount() {
@@ -123,15 +142,15 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
-            totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
             }" else "+ ${
-            totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
             }"
 
         viewModel.transaction.get()?.let {
@@ -168,7 +187,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         maskCardNo?.let {
             getBindings().tvCardMask.text = "*${maskCardNo}"
         }
-
     }
 
     private fun setSpentLabel() {
@@ -179,6 +197,19 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
+    private fun setReceiptListener() {
+        viewModel.adapter.setItemListener(onReceiptClickListener)
+    }
+
+    private val onReceiptClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when (data) {
+                is BottomSheetItem -> handleReceiptOptionClick(data)
+                is ReceiptModel -> openAddedReceipt(data)
+            }
+        }
+    }
+
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.clNote, R.id.clEditIcon ->
@@ -186,6 +217,64 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     openNoteScreen()
                 } else
                     openNoteScreen(noteValue = viewModel.state.txnNoteValue.get() ?: "")
+
+            R.id.clRecipt -> {
+                showAddReceiptOptions()
+            }
+        }
+    }
+
+    private fun showAddReceiptOptions() {
+        launchSheet(
+            itemClickListener = onReceiptClickListener,
+            itemsList = viewModel.getAddReceiptOptions(),
+            heading = getString(Strings.screen_transaction_details_display_sheet_heading),
+            subHeading = getString(Strings.screen_transaction_details_display_sheet_sub_heading)
+        )
+    }
+
+    private fun handleReceiptOptionClick(bottomSheetItem: BottomSheetItem) {
+        when (bottomSheetItem.tag) {
+            PhotoSelectionType.CAMERA.name -> {
+                startFragmentForResult<AddTransactionReceiptFragment>(
+                    fragmentName = AddTransactionReceiptFragment::class.java.name,
+                    bundle = bundleOf(ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId)
+                ) { resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK)
+                        showAddReceiptSuccessDialog()
+                }
+            }
+
+            PhotoSelectionType.GALLERY.name -> openImagePicker(PhotoSelectionType.GALLERY)
+        }
+    }
+
+    private fun showAddReceiptSuccessDialog() {
+        this.showReceiptSuccessDialog(
+            description = getString(Strings.screen_transaction_details_receipt_success_label),
+            addAnotherText = getString(Strings.screen_transaction_add_another_receipt),
+            callback = {
+                when (it) {
+                    R.id.btnActionDone -> {
+                        viewModel.getAllReceipts()
+                    }
+                    R.id.tvAddAnother -> {
+                        viewModel.getAllReceipts()
+                        showAddReceiptOptions()
+                    }
+                }
+            }
+        )
+    }
+
+    private fun openAddedReceipt(receiptModel: ReceiptModel) {
+        launchActivity<ImageViewerActivity>(requestCode = RequestCodes.REQUEST_DELETE_RECEIPT) {
+            putExtra(ExtraKeys.TRANSACTION_RECEIPT.name, receiptModel)
+            putExtra(ExtraKeys.TRANSACTION_ID.name, viewModel.transaction.get()?.transactionId)
+            putExtra(
+                ExtraKeys.TRANSACTION_RECEIPT_LIST.name,
+                viewModel.adapter.getDataList() as ArrayList<ReceiptModel>
+            )
         }
     }
 
@@ -265,31 +354,35 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
-                viewModel.state.txnNoteValue.set(
-                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                )
-                if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) {
-                    viewModel.transaction.get()?.transactionNote =
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                Constants.INTENT_ADD_NOTE_REQUEST -> {
+                    viewModel.state.txnNoteValue.set(
                         data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                    viewModel.transaction.get()?.receiverTransactionNoteDate =
-                        DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
-                } else {
-                    viewModel.transaction.get()?.receiverTransactionNote =
-                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                    viewModel.transaction.get()?.receiverTransactionNoteDate =
-                        DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                    )
+                    if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) {
+                        viewModel.transaction.get()?.transactionNote =
+                            data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                        viewModel.transaction.get()?.receiverTransactionNoteDate =
+                            DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                    } else {
+                        viewModel.transaction.get()?.receiverTransactionNote =
+                            data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                        viewModel.transaction.get()?.receiverTransactionNoteDate =
+                            DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                    }
+
+                    viewModel.state.transactionNoteDate =
+                        viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                            DateUtils.FORMAT_LONG_OUTPUT
+                        )
                 }
 
-                viewModel.state.transactionNoteDate =
-                    viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
-                        DateUtils.FORMAT_LONG_OUTPUT
-                    )
+                RequestCodes.REQUEST_DELETE_RECEIPT -> {
+                    viewModel.getAllReceipts()
+                }
             }
-
         }
-
     }
 
     private fun setVirtualCardIcon(
@@ -316,8 +409,17 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         } ?: imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
     }
 
-    fun getBindings(): ActivityTransactionDetailsBinding {
-        return viewDataBinding as ActivityTransactionDetailsBinding
+    override fun onImageReturn(mediaFile: MediaFile) {
+        startFragmentForResult<PreviewTransactionReceiptFragment>(
+            fragmentName = PreviewTransactionReceiptFragment::class.java.name,
+            bundle = bundleOf(
+                FILE_PATH to mediaFile.file.absolutePath,
+                ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId
+            )
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK)
+                showAddReceiptSuccessDialog()
+        }
     }
 
     override fun onToolBarClick(id: Int) {
@@ -328,7 +430,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
-    fun setResult() {
+    private fun setResult() {
         val intent = Intent()
         if (viewModel.transaction.get() is Transaction) {
             intent.putExtra(
@@ -349,6 +451,10 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             setResult(Activity.RESULT_OK, intent)
         }
         finish()
+    }
+
+    fun getBindings(): ActivityTransactionDetailsBinding {
+        return viewDataBinding as ActivityTransactionDetailsBinding
     }
 
     override fun onBackPressed() {
