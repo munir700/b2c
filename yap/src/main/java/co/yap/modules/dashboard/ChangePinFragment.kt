@@ -16,7 +16,7 @@ import co.yap.yapcore.BaseBindingFragment
 class ChangePinFragment : BaseBindingFragment<IChangePin.ViewModel>(), IChangePin.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_change_pin
-    var cardSerialNumber:String = ""
+    var cardSerialNumber: String = ""
     override val viewModel: IChangePin.ViewModel
         get() = ViewModelProviders.of(this).get(ChangePinViewModel::class.java)
 
@@ -39,8 +39,7 @@ class ChangePinFragment : BaseBindingFragment<IChangePin.ViewModel>(), IChangePi
                     }
 
                 }
-                R.id.tvForgotPasscode->
-                {
+                R.id.tvForgotPasscode -> {
                     startActivity(
                         ForgotCardPinActivity.newIntent(requireContext(), cardSerialNumber)
                     )
@@ -50,8 +49,7 @@ class ChangePinFragment : BaseBindingFragment<IChangePin.ViewModel>(), IChangePi
         })
     }
 
-    private fun visiblityListener()
-    {
+    private fun visiblityListener() {
 
     }
 }

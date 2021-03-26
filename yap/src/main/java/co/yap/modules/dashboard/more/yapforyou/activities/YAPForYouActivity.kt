@@ -49,9 +49,10 @@ class YAPForYouActivity : BaseBindingActivity<IYapForYouMain.ViewModel>(), INavi
             super.onBackPressed()
         }
     }
+
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
-        when(id){
+        when (id) {
             R.id.ivLeftIcon -> onBackPressed()
         }
     }

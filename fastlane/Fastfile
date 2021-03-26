@@ -1,0 +1,49 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+  # load variables from .env file in the root if it exists
+  if File.exist?('../.env')
+    open('../.env', 'r').readlines.each do |l|
+      kv = l.split('=')
+      ENV[kv[0]] = kv[1].chomp
+    end
+  end
+
+  desc "Build"
+  lane :build do
+
+    gradle(
+      task: 'assemble',
+      flavor: 'Yapinternal',
+      build_type: 'Release'
+    )
+ end
+
+ desc "Upload build to appcenter"
+  lane :upload_to_appcenter do
+    build
+  appcenter_upload(
+    api_token: "ed82e56a02e7f997dfc207c52d0db23934f5a961",
+    owner_name: "android-yap.com",
+    app_name: "YAP-Internal",
+    file: "./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk",
+    notify_testers: false
+  )
+ end
+end

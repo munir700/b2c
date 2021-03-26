@@ -51,7 +51,12 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                context?.shareImage(qrContainer)
+                context?.shareImage(
+                    qrContainer,
+                    imageName = shareQRImageName,
+                    shareText = shareQRText,
+                    chooserTitle = shareQRTitle
+                )
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
@@ -124,7 +129,11 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
             }
             R.id.tvShareMyCode -> {
                 trackEventWithScreenName(FirebaseEvent.SHARE_QR_CODE)
-                context?.shareImage(qrContainer)
+                context?.shareImage(
+                    qrContainer, imageName = shareQRImageName,
+                    shareText = shareQRText,
+                    chooserTitle = shareQRTitle
+                )
             }
             R.id.ivBack -> {
                 callBack()

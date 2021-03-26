@@ -59,7 +59,7 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                                     viewModel.state.pincode,
                                     viewModel.state.cardSerialNumber
                                 ) {
-                                  //  findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
+                                    //  findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
                                 }
                             }
                         }
@@ -102,8 +102,7 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
-            )
-        ,showToolBar = true
+            ), showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =

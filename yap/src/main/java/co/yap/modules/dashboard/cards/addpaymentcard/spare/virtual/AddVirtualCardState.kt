@@ -4,7 +4,6 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
-import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
 import co.yap.networking.cards.responsedtos.VirtualCardDesigns
 import co.yap.yapcore.BaseState
 
