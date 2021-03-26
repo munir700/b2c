@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
@@ -22,11 +21,6 @@ class PersonalDetailsViewModel(application: Application) :
     IRepositoryHolder<CardsRepository> {
 
     override var UPDATE_ADDRESS_UI: Int = 10
-    override var onUpdateAddressSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
-
-
-
     override val repository: CardsRepository = CardsRepository
     var address: Address? = null
 
@@ -118,40 +112,21 @@ class PersonalDetailsViewModel(application: Application) :
         setToolBarTitle(heading)
     }
 
-    override fun requestUpdateAddress(address: Address) {
+    override fun requestUpdateAddress(
+        updateAddressRequest: Address,
+        success: (updateAddressSuccess: Boolean) -> Unit
+    ) {
         launch {
             state.loading = true
-            when (val response = repository.editAddressRequest(address)) {
+            when (val response = repository.editAddressRequest(updateAddressRequest)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    onUpdateAddressSuccess.value = true
-
+                    success.invoke(true)
                 }
                 is RetroApiResponse.Error -> {
-                    onUpdateAddressSuccess.value = false
+                    success.invoke(true)
                     state.error = response.error.message
                     state.loading = false
-                }
-            }
-        }
-    }
-
-    override fun requestOrderCard(address: Address?) {
-        address?.let {
-            it.cardName = ""
-            launch {
-                state.loading = true
-                when (val response = repository.orderCard(it)) {
-                    is RetroApiResponse.Success -> {
-                        orderCardSuccess.value = true
-                        state.loading = false
-                    }
-
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        orderCardSuccess.value = false
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    }
                 }
             }
         }
