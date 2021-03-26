@@ -1,4 +1,4 @@
-package co.yap.billpayments.billerlist.adapter
+package co.yap.billpayments.billers.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +23,8 @@ class BillersAdapter(private val list: MutableList<BillerModel>) :
     }
 
     override fun filterItem(constraint: CharSequence?, item: BillerModel): Boolean {
-        TODO("Not yet implemented")
+        val filterString = constraint.toString().toLowerCase()
+        val name = item.name?.toLowerCase()
+        return name.contains(filterString)
     }
 }

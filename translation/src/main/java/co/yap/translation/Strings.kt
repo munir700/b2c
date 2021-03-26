@@ -2120,4 +2120,25 @@ object Strings {
         "screen_additional_info_label_text_bottom_sheet_des"
     const val common_display_text_copy: String =
         "common_display_text_copy"
+
+    // Bill Payment
+
+    const val screen_bill_payment_text_title: String =
+        "screen_bill_payment_text_title"
+    const val screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment: String =
+        "screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment"
+    const val screen_bill_payment_button_description_my_bills: String =
+        "screen_bill_payment_button_description_my_bills"
+    const val screen_bill_payment_button_description_analytics: String =
+        "screen_bill_payment_button_description_analytics"
+    const val screen_bill_payment_button_description_add_a_bill: String =
+        "screen_bill_payment_button_description_add_a_bill"
+    const val screen_bill_payment_text_title_add_a_credit_card: String =
+        "screen_bill_payment_text_title_add_a_credit_card"
+    const val screen_bill_payment_text_title_add_a_provider: String =
+        "screen_bill_payment_text_title_add_a_provider"
+    const val screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by: String =
+        "screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by"
+    const val screen_bill_payment_sub_heading_choose_from_the_list_below: String =
+        "screen_bill_payment_sub_heading_choose_from_the_list_below"
 }

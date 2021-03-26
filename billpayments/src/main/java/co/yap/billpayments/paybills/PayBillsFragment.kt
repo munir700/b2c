@@ -17,8 +17,8 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
     override val viewModel: PayBillsViewModel
         get() = ViewModelProviders.of(this).get(PayBillsViewModel::class.java)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setObservers()
     }
 
@@ -39,7 +39,7 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
 
             }
             R.id.lAddBill->{
-
+                navigate(R.id.action_payBillsFragment_to_billersFragment)
             }
         }
     }

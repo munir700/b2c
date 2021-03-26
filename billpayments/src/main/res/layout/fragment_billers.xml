@@ -7,17 +7,22 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.billerlist.BillersViewModel" />
+            type="co.yap.billpayments.billers.BillersViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Strings" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/margin_medium">
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/screenTitle"
+            android:id="@+id/tvScreenTitle"
             style="@style/ATitle3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,17 +33,49 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Which bank is your card issued by?" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvBillerList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
+        <include
+            android:id="@+id/includedSearchView"
+            layout="@layout/layout_bill_payment_search"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:visibility="@{viewModel.state.showSearchView ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/tvScreenTitle"
+            app:viewModel="@{viewModel}" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBillerList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/screenTitle"
-            app:adapter="@{viewModel.adapter}" />
+            android:paddingTop="@dimen/margin_extra_small"
+            android:paddingBottom="@dimen/margin_xxl"
+            app:adapter="@{viewModel.adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/includedSearchView"
+            tools:listitem="@layout/item_billers" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnNext"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_normal_large"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+            app:btn_size="small"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.common_button_next}"
+            tools:text="Next" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
