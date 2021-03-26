@@ -1,8 +1,13 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -20,6 +25,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PhotoSelectionType
@@ -196,8 +202,18 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 viewModel.EVENT_LOGOUT_SUCCESS -> {
                     doLogout()
                 }
+                R.id.llNotification -> {
+                    navigateToNotificationSettings()
+                }
             }
         })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun navigateToNotificationSettings() {
+        val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+        startActivityForResult(intent, REQUEST_NOTIFICATION_SETTINGS)
     }
 
     private fun showRemovePhoto(): Boolean {
@@ -269,5 +285,19 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         //                        }
         //                    }
         //                }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_NOTIFICATION_SETTINGS) {
+            if (NotificationManagerCompat.from(requireContext())
+                    .areNotificationsEnabled()
+            ) {
+                viewModel.getNotificationScreenValues(true)
+
+            } else {
+                viewModel.getNotificationScreenValues(false)
+            }
+        }
     }
 }

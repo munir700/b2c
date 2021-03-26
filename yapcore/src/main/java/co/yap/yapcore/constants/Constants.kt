@@ -162,6 +162,7 @@ object Constants {
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
     const val SUCCESS_BUTTON_LABEL = "successButtonLabel"
+    const val ENABLE_LEAN_PLUM_NOTIFICATIONS = "enableLeanPlumNotifications"
 
     //Sms consent
     const val SMS_CONSENT_REQUEST = 2

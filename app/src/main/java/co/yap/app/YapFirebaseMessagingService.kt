@@ -31,7 +31,9 @@ class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        sendNotification(remoteMessage)
+        if (SharedPreferenceManager(this).getValueBoolien(Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,
+                false)
+        ) sendNotification(remoteMessage)
     }
 
     private fun sendNotification(

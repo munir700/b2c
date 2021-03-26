@@ -10,33 +10,58 @@ import co.yap.app.modules.login.states.SystemPermissionState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 
-class SystemPermissionViewModel(application: Application) : BaseViewModel<ISystemPermission.State>(application),
+class SystemPermissionViewModel(application: Application) :
+    BaseViewModel<ISystemPermission.State>(application),
     ISystemPermission.ViewModel {
 
-    override val permissionGrantedPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val permissionNotGrantedPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val handlePressOnTermsAndConditionsPressEvent: SingleClickEvent = SingleClickEvent()
-
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var screenType: String = ""
+    private var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
 
     override fun onCreate() {
         super.onCreate()
         setupViews()
     }
 
-    override fun permissionGranted() {
-        permissionGrantedPressEvent.value = true
+    override fun handleOnPressView(id: Int) {
+        clickEvent.setValue(id)
     }
 
-    override fun permissionNotGranted() {
-        permissionNotGrantedPressEvent.value = true
+    override fun getTouchScreenValues(isGranted: Boolean) {
+        when (isGranted) {
+            true -> {
+                sharedPreferenceManager.save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                    true)
+                trackEvent(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type, "TouchID")
+                trackEventWithScreenName(FirebaseEvent.SETUP_TOUCH_ID)
+            }
+            else -> {
+                trackEventWithScreenName(FirebaseEvent.NO_TOUCH_ID)
+                sharedPreferenceManager.save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                    false)
+            }
+        }
     }
 
-    override fun handlePressOnTermsAndConditions(id: Int) {
-        handlePressOnTermsAndConditionsPressEvent.postValue(id)
+    override fun getNotificationScreenValues(isGranted: Boolean) {
+        when (isGranted) {
+            true -> {
+                trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
+                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,true)
+            }
+            else -> {
+                trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
+                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,false)
+            }
+        }
     }
+
 
     fun setupViews() {
         if (screenType == Constants.TOUCH_ID_SCREEN_TYPE) touchIdViews() else notificationViews()
