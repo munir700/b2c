@@ -1327,4 +1327,8 @@
     <string name="screen_yfy_signup_to_hh_button_label">Get YAP Household now</string>
     <string name="screen_yfy_set_a_mission_description">Give your kids tasks that will help them earn money. Chores can be fun too! </string>
     <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
+
+    <!--    YFY You are a Pro-->
+    <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>
+    <string name="screen_add_bill_description_text">Find bill providers by choosing any category below and set up one-time or recurring payments</string>
 </resources>

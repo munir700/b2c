@@ -2120,4 +2120,10 @@ object Strings {
         "screen_additional_info_label_text_bottom_sheet_des"
     const val common_display_text_copy: String =
         "common_display_text_copy"
+
+    // Bill payment
+    const val screen_add_bill_toolbar_title: String =
+        "screen_add_bill_toolbar_title"
+    const val screen_add_bill_description_text: String =
+        "screen_add_bill_description_text"
 }
