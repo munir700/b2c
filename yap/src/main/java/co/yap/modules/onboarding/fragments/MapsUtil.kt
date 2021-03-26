@@ -31,7 +31,8 @@ import java.io.IOException
 import java.util.*
 
 
-class MapsUtil : OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+class MapsUtil : OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+    GoogleApiClient.OnConnectionFailedListener,
     com.google.android.gms.location.LocationListener {
     internal lateinit var mLastLocation: Location
     internal lateinit var start: Location
@@ -61,8 +62,8 @@ class MapsUtil : OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, Google
         this.context = context
         this.supportMapFragment = supportMapFragment
         supportMapFragment.getMapAsync(this)
-         buildGoogleApiClient()
-         locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        buildGoogleApiClient()
+        locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         geocoder = Geocoder(context, Locale.getDefault())
     }
 
@@ -70,12 +71,12 @@ class MapsUtil : OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, Google
     @Synchronized
     protected fun buildGoogleApiClient() {
 //        if (ca.isConnectingToInternet()) {
-            mGoogleApiClient = GoogleApiClient.Builder(Objects.requireNonNull(context))
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build()
-            mGoogleApiClient!!.connect()
+        mGoogleApiClient = GoogleApiClient.Builder(Objects.requireNonNull(context))
+            .addConnectionCallbacks(this)
+            .addOnConnectionFailedListener(this)
+            .addApi(LocationServices.API)
+            .build()
+        mGoogleApiClient!!.connect()
 //        } else {
 //            ca.showToast(context.resources.getString(R.string.err_network_connection))
 //        }

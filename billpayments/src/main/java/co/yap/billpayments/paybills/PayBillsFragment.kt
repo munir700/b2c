@@ -37,8 +37,8 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
             R.id.lAnalytics -> {
 
             }
-            R.id.lAddBill -> {
-
+            R.id.lAddBill->{
+                navigate(R.id.action_payBillsFragment_to_billersFragment)
             }
         }
     }

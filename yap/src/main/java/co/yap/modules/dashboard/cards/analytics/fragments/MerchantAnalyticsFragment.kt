@@ -16,7 +16,6 @@ import co.yap.modules.dashboard.cards.analytics.viewmodels.MerchantAnalyticsView
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.item_analytics.view.*
 
 class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.ViewModel>(),
     IMerchantAnalytics.View {
@@ -36,6 +35,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     override fun setObservers() {
         viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.observe(
             this,
+
             Observer { txnAnalytics ->
                 if (txnAnalytics == null) {
                     return@Observer

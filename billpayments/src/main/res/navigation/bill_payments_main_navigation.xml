@@ -17,9 +17,20 @@
 
     <fragment
         android:id="@+id/billersFragment"
-        android:name="co.yap.billpayments.billerlist.BillersFragment"
+        android:name="co.yap.billpayments.billers.BillersFragment"
         android:label="BillersFragment"
-        tools:layout="@layout/fragment_billers" />
+        tools:layout="@layout/fragment_billers">
+        <action
+            android:id="@+id/action_billersFragment_to_billerSearchFragment"
+            app:destination="@id/billerSearchFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/billerSearchFragment"
+        android:name="co.yap.billpayments.billers.search.BillerSearchFragment"
+        android:label="BillerSearchFragment"
+        tools:layout="@layout/fragment_biller_search" />
+
     <fragment
         android:id="@+id/myBillsFragment"
         android:name="co.yap.billpayments.mybills.MyBillsFragment"

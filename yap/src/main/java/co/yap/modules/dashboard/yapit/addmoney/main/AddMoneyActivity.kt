@@ -27,7 +27,6 @@ class AddMoneyActivity : BaseBindingActivity<IAddMoney.ViewModel>(), INavigator,
     }
 
 
-
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {

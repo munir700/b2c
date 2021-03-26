@@ -1,6 +1,7 @@
 <resources>
 
     <!-- Common -->
+    <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
     <string name="common_display_text_retry">Retry</string>
     <string name="common_empty_string"> </string>
     <string name="common_button_next">Next</string>
@@ -19,6 +20,7 @@
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
+    <string name="common_percentage_hint">0</string>
     <string name="common_display_text_nothing_to_report">Start using your account to see all your transactions here</string>
     <string name="common_button_logout">Logout</string>
     <string name="error_view_text">No results found\ntab to retry</string>
@@ -45,6 +47,7 @@
     <string name="common_display_text_search_hint">Search</string>
     <string name="common_display_text_no_results">No results</string>
     <string name="common_display_text_no_country_found">No country found</string>
+    <string name="common_display_text_percentage">%</string>
 
 
     <!-- Home Screen -->
@@ -124,8 +127,10 @@
     <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for you in less than %1s seconds!</string>
     <string name="screen_onboarding_congratulations_display_text_sub_title_no_interval">A YAP Personal Account has been created for you!</string>
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
-    <string name="screen_onboarding_congratulations_display_text_meeting_note">This IBAN is currently inactive \n\n Make sure you have your Emirates ID at hand before we proceed</string>
+    <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
+    <string name="screen_onboarding_congratulations_display_text_delay_detail_text">Due to all the excitement of our official launch, we are gradually activating as many accounts as possible to keep the app running smoothly. In the meantime, until your account is ready to be fully activated you’ll be placed in a queue.</string>
+    <string name="screen_onboarding_congratulations_button_queue_up">Queue up!</string>
 
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
@@ -211,6 +216,7 @@
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_button_title_scan_eid">Scan Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
@@ -218,7 +224,6 @@
     <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from %1s</string>
     <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from %1s</string>
     <string name="screen_b2c_eid_info_review_display_expired_eid_text">Looks like your ID has expired. Please re-scan a valid ID</string>
-    <string name="screen_b2c_eid_info_review_button_title_scan_eid">Scan Emirates ID</string>
 
     <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First name</string>
     <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name (if applicable)</string>
@@ -619,7 +624,7 @@
 
     <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
-    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark here</string>
+    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark (optional)</string>
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
@@ -647,6 +652,10 @@
     <string name="screen_transaction_details_display_text_exchange_rate">Exchange rate</string>
     <string name="screen_transaction_details_display_text_exchange_rate_value">1 %1$s = %2$s</string>
     <string name="screen_add_note_display_text_save">Save</string>
+    <string name="screen_transaction_details_display_sheet_heading">Add a receipt</string>
+    <string name="screen_transaction_details_display_sheet_sub_heading">Take a photo or upload your receipt</string>
+    <string name="screen_transaction_details_display_sheet_text_upload_from_files">Upload from files</string>
+    <string name="screen_transaction_details_display_receipt_item">Receipt %1s</string>
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
@@ -778,7 +787,7 @@
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
     <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
-    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark here</string>
+    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark (optional)</string>
     <string name="screen_international_funds_transfer_input_text_reason">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
     <string name="screen_international_funds_transfer_display_text_note">Note that the recipient\'s bank may have its own charges.</string>
@@ -1093,9 +1102,18 @@
     <!--    Waiting list screen-->
     <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
     <string name="screen_waiting_list_display_text_guide"> We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready. Should you wish to find out more in the meantime, our website has more information for you.</string>
-    <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
+    <string name="screen_waiting_list_display_button_text">Share with a friend</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+    <string name="screen_waiting_list_display_text_you_re">You’re</string>
+    <string name="screen_waiting_list_display_text_your_place_in_queue">Your place in the queue</string>
+    <string name="screen_waiting_list_display_text_waiting_behind_you">waiting behind you</string>
+    <string name="screen_waiting_list_display_text_we_will_notify_you">We will notify you when you\'ve reached the top!</string>
+    <string name="screen_waiting_list_display_text_want_to_jump">Grow your YAP network!</string>
+    <string name="screen_waiting_list_display_text_lead_the_bank_description">Lead the banking revolution and share YAP with your friends. Click the button below to share now 🚀</string>
+    <string name="screen_waiting_list_display_text_log_back">Log back in to see your rank in the queue.</string>
+    <string name="screen_waiting_list_display_text_rank_hashtag">#%1s</string>
+
     <!-- Blocked Screen-->
 
     <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
@@ -1169,6 +1187,12 @@
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
     <string name="screen_transaction_detail_text_cancelled_reason">Sorry! We\'re unable to complete your transfer at this point. Don\'t worry, we\'ve gone ahead and cancelled it for you.</string>
+    <string name="screen_transaction_add_another_receipt">Add another receipt</string>
+    <string name="screen_transaction_details_receipt_text">Keep track of your spendings</string>
+    <string name="screen_transaction_details_receipt_label">Add a receipt</string>
+    <string name="screen_transaction_details_single_added_receipt_label">%1s receipt added</string>
+    <string name="screen_transaction_details_added_receipt_label">%1s receipts added</string>
+    <string name="screen_transaction_details_receipt_success_label">Your receipt has been added!</string>
 
     <!-- Live Chat Strings-->
     <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
@@ -1328,6 +1352,31 @@
     <string name="screen_yfy_set_a_mission_description">Give your kids tasks that will help them earn money. Chores can be fun too! </string>
     <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
 
+    <!--Reached on the top of queue screen-->
+
+    <string name="screen_reached_top_queue_display_text">%1s, you reached the top of the Queue!</string>
+    <string name="screen_reached_top_queue_display_text_subtitle">You are now ready to fully activate and begin using your YAP account.</string>
+    <string name="screen_reached_top_queue_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed.</string>
+
+    <!-- image previewer dialogue -->
+
+    <string name="screen_image_previewer_display_text_delete_message">This photo will be deleted from your saved receipts.</string>
+    <string name="screen_image_previewer_button_text_delete">Delete Photo</string>
+
+
     <!--    Bill Payment-->
+
+    <string name="screen_bill_payment_text_title">Bill Payment</string>
+    <string name="screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment">Set up or make a bill payment</string>
+    <string name="screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by">Which bank is your card issued by?</string>
+    <string name="screen_bill_payment_sub_heading_choose_from_the_list_below">Choose%1sfrom the list below</string>
+    <string name="screen_bill_payment_button_description_my_bills">My bills</string>
+    <string name="screen_bill_payment_button_description_analytics">Analytics</string>
+    <string name="screen_bill_payment_button_description_add_a_bill">Add a bill</string>
+    <string name="screen_bill_payment_text_title_add_a_credit_card">Add a credit card</string>
+    <string name="screen_bill_payment_text_title_add_a_provider">Add a %1s provider</string>
+
+
+    <!--    My Bills Screen-->
     <string name="screen_my_bills_text_title_you_have_n_bills_registered">You have %1s bills registered</string>
 </resources>

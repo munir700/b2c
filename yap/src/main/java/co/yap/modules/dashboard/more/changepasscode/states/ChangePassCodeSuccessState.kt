@@ -12,6 +12,7 @@ class ChangePassCodeSuccessState : BaseState(), IChangePassCodeSuccess.State {
             field = value
             notifyPropertyChanged(BR.title)
         }
+
     @get:Bindable
     override var topSubHeading: String = ""
         set(value) {

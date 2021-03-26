@@ -8,6 +8,10 @@
             name="viewModel"
             type="co.yap.billpayments.paybills.PayBillsViewModel" />
 
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="Set up or make a bill payment"
+            android:text="@string/screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,21 +44,21 @@
                 layout="@layout/layout_item_icon_text_vertical"
                 android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
                 app:icon="@{@drawable/ic_my_bills}"
-                app:title='@{"My bills"}' />
+                app:title="@{Translator.INSTANCE.getString(context,Strings.screen_bill_payment_button_description_my_bills)}" />
 
             <include
                 android:id="@+id/lAnalytics"
                 layout="@layout/layout_item_icon_text_vertical"
                 android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
                 app:icon="@{@drawable/ic_analytics}"
-                app:title='@{"Analytics"}' />
+                app:title="@{Translator.INSTANCE.getString(context,Strings.screen_bill_payment_button_description_analytics)}" />
 
             <include
                 android:id="@+id/lAddBill"
                 layout="@layout/layout_item_icon_text_vertical"
                 android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
                 app:icon="@{@drawable/ic_add_sign}"
-                app:title='@{"Add a bill"}' />
+                app:title="@{Translator.INSTANCE.getString(context,Strings.screen_bill_payment_button_description_add_a_bill)}" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

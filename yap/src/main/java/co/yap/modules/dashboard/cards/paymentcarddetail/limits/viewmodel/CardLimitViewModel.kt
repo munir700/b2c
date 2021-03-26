@@ -12,7 +12,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.leanplum.CardEvents
-import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 
 class CardLimitViewModel(application: Application) :
@@ -64,9 +63,9 @@ class CardLimitViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.card.get()?.atmAllowed = !state.card.get()!!.atmAllowed
-                    if(state.card.get()?.atmAllowed == true){
+                    if (state.card.get()?.atmAllowed == true) {
                         trackEvent(CardEvents.CARD_CONTROL_ATM_ON.type)
-                    }else{
+                    } else {
                         trackEvent(CardEvents.CARD_CONTROL_ATM_OFF.type)
                     }
                 }
@@ -92,9 +91,9 @@ class CardLimitViewModel(application: Application) :
                     state.loading = false
                     state.card.get()?.onlineBankingAllowed =
                         !state.card.get()!!.onlineBankingAllowed
-                    if(state.card.get()?.onlineBankingAllowed == true){
+                    if (state.card.get()?.onlineBankingAllowed == true) {
                         trackEvent(CardEvents.CARD_CONTROL_ONLINE_ON.type)
-                    }else{
+                    } else {
                         trackEvent(CardEvents.CARD_CONTROL_ONLINE_OFF.type)
                     }
                 }
@@ -121,9 +120,9 @@ class CardLimitViewModel(application: Application) :
                     state.loading = false
                     state.card.get()?.retailPaymentAllowed =
                         !state.card.get()!!.retailPaymentAllowed
-                    if(state.card.get()?.retailPaymentAllowed == true){
+                    if (state.card.get()?.retailPaymentAllowed == true) {
                         trackEvent(CardEvents.CARD_CONTROL_POS_ON.type)
-                    }else{
+                    } else {
                         trackEvent(CardEvents.CARD_CONTROL_POS_OFF.type)
                     }
                 }
@@ -149,9 +148,9 @@ class CardLimitViewModel(application: Application) :
                     state.loading = false
                     state.card.get()?.paymentAbroadAllowed =
                         !state.card.get()!!.paymentAbroadAllowed
-                    if(state.card.get()?.paymentAbroadAllowed == true){
+                    if (state.card.get()?.paymentAbroadAllowed == true) {
                         trackEvent(CardEvents.CARD_CONTROL_INTERNATIONAL_ON.type)
-                    }else{
+                    } else {
                         trackEvent(CardEvents.CARD_CONTROL_INTERNATIONAL_OFF.type)
                     }
                 }

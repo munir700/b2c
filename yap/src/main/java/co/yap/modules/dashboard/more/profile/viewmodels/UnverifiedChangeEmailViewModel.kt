@@ -33,7 +33,8 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
                     }
                 }
             } else {
-                state.setErrors(Translator.getString(context, Strings.screen_change_email_display_text_email_match_error))
+                state.setErrors(Translator.getString(context,
+                    Strings.screen_change_email_display_text_email_match_error))
             }
         }
     }

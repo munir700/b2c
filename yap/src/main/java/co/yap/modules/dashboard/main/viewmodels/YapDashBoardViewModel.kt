@@ -63,7 +63,7 @@ class YapDashBoardViewModel(application: Application) :
         super.onCreate()
         updateVersion()
         getHelpPhoneNo()
-      if(  SessionManager.deepLinkFlowId.value==null){
+        if (SessionManager.deepLinkFlowId.value == null) {
             launch {
                 delay(1500)
                 showUnverifedscreen.value =
@@ -105,7 +105,7 @@ class YapDashBoardViewModel(application: Application) :
         populateState()
     }
 
-    private fun populateState() {
+    override fun populateState() {
         SessionManager.user?.let { it ->
             it.accountNo?.let { state.accountNo = it.maskAccountNumber() }
             it.iban?.let { state.ibanNo = it.maskIbanNumber() }

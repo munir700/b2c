@@ -15,6 +15,7 @@ class TopUpCardDetailViewModel(application: Application) :
     override val state: ITopUpCardDetail.State =
         TopUpCardDetailState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+
     init {
         state.title.set(getString(R.string.screen_topup_card_detail_display_text_title))
     }

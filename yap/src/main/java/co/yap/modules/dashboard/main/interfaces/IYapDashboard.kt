@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.main.interfaces
 
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.authentication.AuthRepository
@@ -40,13 +39,14 @@ interface IYapDashboard {
         var isYapMoreFragmentVisible: MutableLiveData<Boolean>
         var isUnverifiedScreenNotVisible: MutableLiveData<Boolean>
         var isShowHomeTour: MutableLiveData<Boolean>
+        fun populateState()
     }
 
     interface View : IBase.View<ViewModel> {
         fun closeDrawer()
         fun openDrawer()
         fun toggleDrawer()
-        fun isDrawerOpen():Boolean
+        fun isDrawerOpen(): Boolean
         fun enableDrawerSwipe(enable: Boolean)
         val YAP_HOME_FRAGMENT: Int get() = 0
         val YAP_STORE_FRAGMENT: Int get() = 1

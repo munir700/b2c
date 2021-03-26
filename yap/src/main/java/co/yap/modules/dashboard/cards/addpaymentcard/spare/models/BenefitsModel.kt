@@ -10,8 +10,8 @@ data class BenefitsModel(
     var benfitDetail: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString()?:"",
-        parcel.readString()?:""
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
     ) {
     }
 

@@ -10,8 +10,8 @@ interface INotificationDetails {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         val repository: NotificationsApi
-        fun handlePressOnView(id:Int)
-        fun deleteFcmNotifications(item : HomeNotification? , onComplete:(Boolean)->Unit)
+        fun handlePressOnView(id: Int)
+        fun deleteFcmNotifications(item: HomeNotification?, onComplete: (Boolean) -> Unit)
     }
 
     interface State : IBase.State {

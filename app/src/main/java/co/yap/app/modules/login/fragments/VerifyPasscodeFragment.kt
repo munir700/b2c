@@ -19,9 +19,11 @@ import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
@@ -306,59 +308,77 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             trackEventWithScreenName(if (viewModel.isFingerprintLogin) FirebaseEvent.SIGN_IN_TOUCH else FirebaseEvent.SIGN_IN_PIN)
-            TourGuideManager.getTourGuides()
-            SessionManager.getDebitCard { card ->
-                SessionManager.updateCardBalance { }
-                viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
-                if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
-                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                        false
-                    ) != true
-                ) {
-                    if (BiometricUtil.hasBioMetricFeature(requireContext())) {
-                        val action =
-                            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-                                Constants.TOUCH_ID_SCREEN_TYPE
-                            )
-                        navigate(action)
-                        viewModel.parentViewModel?.shardPrefs?.save(
-                            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                            true
-                        )
-                    } else {
-                        viewModel.parentViewModel?.shardPrefs?.save(
-                            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                            true
-                        )
-                        val action =
-                            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-                                Constants.NOTIFICATION_SCREEN_TYPE
-                            )
-                        navigate(action)
-                    }
+            if (!this.isWaiting) {
+                if (this.iban.isNullOrBlank()) {
+                    startFragment(
+                        fragmentName = ReachedTopQueueFragment::class.java.name,
+                        clearAllPrevious = true
+                    )
                 } else {
-                    if (accountType == AccountType.B2C_HOUSEHOLD.name) {
-                        SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                        val bundle = Bundle()
-                        bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
-                        bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
-                        startActivity(
-                            OnBoardingHouseHoldActivity.getIntent(
-                                requireContext(),
-                                bundle
-                            )
-                        )
-                        activity?.finish()
-                    } else {
-                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                        else {
-                            SessionManager.sendFcmTokenToServer(requireContext()) {}
-                            navigate(R.id.action_goto_yapDashboardActivity)
-                        }
+                    getCardAndTourInfo(it)
+                }
+            } else {
+                startFragment(
+                    fragmentName = WaitingListFragment::class.java.name,
+                    clearAllPrevious = true
+                )
+            }
+        }
+    }
 
-                        activity?.finish()
+    private fun getCardAndTourInfo(accountInfo: AccountInfo?) {
+        TourGuideManager.getTourGuides()
+        SessionManager.getDebitCard { card ->
+            SessionManager.updateCardBalance { }
+            viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
+            if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
+                    KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                    false
+                ) != true
+            ) {
+                if (BiometricUtil.hasBioMetricFeature(requireContext())) {
+                    val action =
+                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+                            Constants.TOUCH_ID_SCREEN_TYPE
+                        )
+                    navigate(action)
+                    viewModel.parentViewModel?.shardPrefs?.save(
+                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        true
+                    )
+                } else {
+                    viewModel.parentViewModel?.shardPrefs?.save(
+                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        true
+                    )
+                    val action =
+                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+                            Constants.NOTIFICATION_SCREEN_TYPE
+                        )
+                    navigate(action)
+                }
+            } else {
+                if (accountInfo?.accountType == AccountType.B2C_HOUSEHOLD.name) {
+                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    val bundle = Bundle()
+                    bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
+                    startActivity(
+                        OnBoardingHouseHoldActivity.getIntent(
+                            requireContext(),
+                            bundle
+                        )
+                    )
+                    activity?.finish()
+                } else {
+                    if (accountInfo?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                    else {
+                        SessionManager.sendFcmTokenToServer(requireContext()) {}
+                        navigate(R.id.action_goto_yapDashboardActivity)
                     }
+                    activity?.finish()
+
                 }
             }
         }
