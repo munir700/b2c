@@ -23,6 +23,7 @@ import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.liveperson.infra.utils.UIUtils.hideKeyboard
 
 class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestionnaire.ViewModel>(),
     IEmploymentQuestionnaire.View {
@@ -87,6 +88,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 }
 
                 R.id.searchCountries -> {
+                    hideKeyboard(requireActivity())
                     requireActivity().launchMultiSelectionBottomSheet(
                         itemClickListener = object : OnItemClickListener {
                             override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -100,6 +102,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 }
 
                 R.id.tvDropDown -> {
+                    hideKeyboard(requireActivity())
                     when ((data as QuestionUiFields).key) {
                         EmploymentQuestionIdentifier.EMPLOYMENT_TYPE -> openEmploymentTypeBottomSheet()
                         EmploymentQuestionIdentifier.INDUSTRY_SEGMENT -> openSegmentsBottomSheet()

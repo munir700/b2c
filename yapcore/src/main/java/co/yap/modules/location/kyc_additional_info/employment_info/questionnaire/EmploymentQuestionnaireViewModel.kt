@@ -26,8 +26,10 @@ import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -193,6 +195,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             isValid = when (it.question.questionType) {
                 QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.get()
                     ?.isNotEmpty() == true
+                QuestionType.EDIT_TEXT_FIELD -> {
+                    StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
+                }
                 else -> !it.question.answer.get().isNullOrBlank()
             }
 
@@ -201,8 +206,15 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 return
             }
         }
+        val depositAmount =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                ?.getAnswer()
+        val salaryAmount =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                ?.getAnswer()
+        state.valid.set(isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble())
 
-        state.valid.set(isValid)
+//        state.valid.set(isValid)
     }
 
     private fun fetchParallelAPIResponses(
