@@ -93,6 +93,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                         itemClickListener = object : OnItemClickListener {
                             override fun onItemClick(view: View, data: Any, pos: Int) {
                                 onBusinessCountriesSelection(data as ArrayList<String>)
+                                viewModel.validate()
                             }
                         },
                         countriesList = viewModel.getSelectedStateCountries(
