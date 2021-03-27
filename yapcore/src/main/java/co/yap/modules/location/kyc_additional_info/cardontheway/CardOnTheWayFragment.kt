@@ -20,6 +20,8 @@ import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Player.REPEAT_MODE_OFF
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -59,7 +61,10 @@ class CardOnTheWayFragment : LocationChildFragment<ICardOnTheWay.ViewModel>(),
 
     private val clickListener = Observer<Int> {
         when (it) {
-            R.id.btnGoToDashboard -> setIntentResult()
+            R.id.btnGoToDashboard -> {
+                if (viewModel.parentViewModel?.isOnBoarding == true) trackEvent(KYCEvents.KYC_ORDERED.type)
+                setIntentResult()
+            }
         }
     }
 

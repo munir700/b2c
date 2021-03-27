@@ -11,5 +11,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/_13sdp"
         android:background="@{isFocus?@color/colorPrimaryLight:@color/greyLight,default=@color/greyLight}" />
 </layout>

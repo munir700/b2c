@@ -2,19 +2,15 @@ package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
-import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
 
 class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWaitingList.View {
@@ -32,7 +28,7 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ImageBinding.loadGifImageView(ivYapAnimation,R.raw.gif_yap_waiting_animation)
+        ImageBinding.loadGifImageView(ivYapAnimation, R.raw.gif_yap_waiting_animation,2,3000L)
     }
 
     override fun setObservers() {
@@ -41,12 +37,8 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
 
     var clickEvent = Observer<Int> {
         when (it) {
-            R.id.btnBumbpMeUp -> {
-                startFragment(
-                    fragmentName = InviteFriendFragment::class.java.name,
-                    clearAllPrevious = false,
-                    showToolBar = false
-                )
+            R.id.btnShare -> {
+                context?.inviteFriendIntent()
             }
         }
     }

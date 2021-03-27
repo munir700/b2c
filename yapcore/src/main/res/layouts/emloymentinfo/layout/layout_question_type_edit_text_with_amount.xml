@@ -27,8 +27,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center_vertical"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,26 +35,31 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTinNumber"
-                style="@style/ASmallGrey"
+                style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="2sp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
+                android:textColor="@color/darkSlateBlue"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="What is your monthly salary? Don’t worry there is no minimum salary requirement." />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginTop="@dimen/_3sdp"
+
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/appCompatTextView"
-                    style="@style/ALargeGrey"
+                    style="@style/ARegularGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:lineSpacingExtra="0dp"
                     android:text="AED"
+                    android:textColor="@color/darkSlateBlue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -68,7 +71,9 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@{viewModel.questionUiFields.question.placeholder}"
-                    android:inputType="number"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="@{15}"
                     android:paddingStart="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_extra_small"
                     android:paddingBottom="@dimen/margin_extra_small"
@@ -83,8 +88,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivSupport"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

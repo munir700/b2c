@@ -58,18 +58,18 @@
                 android:id="@+id/svQuestions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llQuestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/llQuestions"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
             </ScrollView>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -77,14 +77,16 @@
                 style="@style/ASmallGrey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
-                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:gravity="center"
+                android:lineSpacingExtra="2sp"
                 android:paddingStart="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_normal"
                 android:text="@string/screen_tax_info_display_text_trs_conditions_disclaimer"
+                android:textColor="@color/darkBlue"
                 android:textColorLink="?attr/colorPrimaryAttr"
                 app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
                 app:layout_constraintEnd_toEndOf="parent"
