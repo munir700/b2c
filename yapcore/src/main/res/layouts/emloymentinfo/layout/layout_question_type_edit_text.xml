@@ -58,7 +58,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
                 android:maxLength="@{250}"
-                android:digits="1234567890abcdefghijklmnopqrstuvwxyz "
+                android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:lines="1"
                 android:maxLines="1"
                 android:paddingTop="@dimen/margin_extra_small"
