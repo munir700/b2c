@@ -105,6 +105,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 context,
                 it.isoCountryCode2Digit.toString()
             )
+            val a = selectedBusinessCountries.get()?.firstOrNull { selectedCountryName ->
+                selectedCountryName == it.getName()
+            }
+            it.isSelected = a != null
         }
 
         return countries
