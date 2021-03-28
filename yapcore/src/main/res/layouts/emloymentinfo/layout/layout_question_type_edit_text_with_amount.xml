@@ -71,7 +71,6 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@{viewModel.questionUiFields.question.placeholder}"
-                    android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
                     android:maxLength="@{15}"
                     android:paddingStart="@dimen/margin_small"
