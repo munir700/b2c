@@ -2,7 +2,7 @@ package co.yap.billpayments.billers
 
 import android.app.Application
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.billers.adapter.BillerModel
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.billpayments.billers.adapter.BillersAdapter
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -69,42 +69,112 @@ class BillersViewModel(application: Application) :
     override fun getBillerList(): MutableList<BillerModel> {
         return listOf(
             BillerModel(
-                name = "Abu Dhabi Commercial Bank",
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Abu Dhabi Islamic Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Abu Dhabi Bank",
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Barclays Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Abu Dhabi Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Barclays Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Abu Dhabi Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Barclays Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Abu Dhabi Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Barclays Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Abu Dhabi Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             ),
             BillerModel(
-                name = "Barclays Bank"
+                billerID = "1",
+                billerName = "Etisalat",
+                billerType = "Utility",
+                countryName = "Dubai",
+                countryCode = "UAE",
+                billerDescription = "Electricity",
+                logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             )
         ).toMutableList()
     }

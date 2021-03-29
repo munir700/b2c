@@ -3,6 +3,7 @@ package co.yap.billpayments.billcategory
 import android.app.Application
 import androidx.databinding.ObservableField
 import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.networking.customers.responsedtos.billpayment.BillCategoryModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
@@ -14,11 +15,6 @@ class BillCategoryViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override var billcategories: ObservableField<MutableList<BillCategoryModel>> = ObservableField()
-
-    override fun onCreate() {
-        super.onCreate()
-        getBillCategoriesApi()
-    }
 
     override fun onResume() {
         super.onResume()
@@ -33,22 +29,22 @@ class BillCategoryViewModel(application: Application) :
                 icon = "icon_biller_type_utility_creditcard"
             ),
             BillCategoryModel(
-                categoryId = "1",
+                categoryId = "2",
                 categoryName = "Telecom",
                 icon = "icon_biller_type_telecom"
             ),
             BillCategoryModel(
-                categoryId = "1",
+                categoryId = "3",
                 categoryName = "Utilities",
                 icon = "icon_biller_type_utility"
             ),
             BillCategoryModel(
-                categoryId = "1",
+                categoryId = "4",
                 categoryName = "RTA",
                 icon = "icon_biller_type_rta"
             ),
             BillCategoryModel(
-                categoryId = "1",
+                categoryId = "5",
                 categoryName = "Dubai Police",
                 icon = "icon_biller_type_police"
             )
@@ -59,11 +55,13 @@ class BillCategoryViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    private fun getBillCategoriesApi() {
+    override fun getBillCategoriesApi() {
         launch {
+
             state.loading = true
             delay(1000L)
             billcategories.set(getBillCategories())
+            state.dataPopulated.set(true)
             state.loading = false
         }
     }

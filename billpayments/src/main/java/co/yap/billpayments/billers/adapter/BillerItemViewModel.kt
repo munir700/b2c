@@ -1,6 +1,7 @@
 package co.yap.billpayments.billers.adapter
 
 import android.view.View
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class BillerItemViewModel(

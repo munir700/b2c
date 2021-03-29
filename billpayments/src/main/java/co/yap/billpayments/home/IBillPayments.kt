@@ -2,7 +2,7 @@ package co.yap.billpayments.home
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import co.yap.billpayments.billers.adapter.BillerModel
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.enums.BillCategory
 

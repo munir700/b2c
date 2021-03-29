@@ -1,7 +1,7 @@
 package co.yap.billpayments.home
 
 import android.app.Application
-import co.yap.billpayments.billers.adapter.BillerModel
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.BillCategory
 
