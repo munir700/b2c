@@ -39,6 +39,8 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
                 clickOnCardPlan(data, pos)
             }
         }
+        viewModel.parentViewModel?.setViewDimensions(50,getBindings().rvCardplans)
+
     }
 
     private val onClickObserver = Observer<Int> { id ->

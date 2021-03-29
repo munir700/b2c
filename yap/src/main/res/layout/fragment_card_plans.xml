@@ -58,7 +58,7 @@
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:lineHeight="@dimen/margin_large"
                 android:maxLines="2"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/text_size_h6"
                 android:paddingHorizontal="@dimen/margin_normal_large"
                 android:text="Upgrade to a Prime \nor Metal plan"
                 android:textColor="@color/colorPrimaryDark"
@@ -67,7 +67,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCardplans"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_230sdp"
+                android:layout_height="@dimen/_280sdp"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:orientation="horizontal"

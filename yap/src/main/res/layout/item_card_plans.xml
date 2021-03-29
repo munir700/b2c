@@ -19,14 +19,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_extra_small"
+        android:layout_marginEnd="@dimen/margin_medium"
         android:background='@{cardPlansItemViewModel.item.type.equals("Prime")?@drawable/bg_card_plan_purple:@drawable/bg_card_plan_blue}'
         android:paddingVertical="@dimen/margin_small"
         tools:background="@drawable/bg_card_plan_purple">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/banner"
-            android:layout_width="@dimen/_160sdp"
+            android:layout_width="@dimen/_195sdp"
             android:layout_height="wrap_content"
             android:src='@{cardPlansItemViewModel.item.type.equals("Prime")?@drawable/ic_banner_prime_card:@drawable/ic_banner_metal_card}'
             app:layout_constraintEnd_toEndOf="parent"
