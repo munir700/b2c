@@ -653,7 +653,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun showCardDetailsPopup() {
-        val dialog = Dialog(this)
+        val dialog = Dialog(this,R.style.DialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_card_details)
@@ -715,7 +715,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardImg = viewModel.card.value?.frontImage
             )
         )
-        val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
+        val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList,this)
         viewPager?.adapter = cardDetailsPagerAdapter
         indicator?.setViewPager2(viewPager)
         dialog.show()
