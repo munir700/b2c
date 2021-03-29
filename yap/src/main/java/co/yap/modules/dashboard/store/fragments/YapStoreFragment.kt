@@ -80,6 +80,7 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
                 when (data.id) {
                     Constants.ITEM_STORE_CARD_PLANS -> {
                         launchActivity<CardPlansActivity> { }
+                        requireActivity().overridePendingTransition(R.anim.slide_in_right_slow,R.anim.slide_out_left_slow)
                     }
                     /*Constants.ITEM_STORE_HOUSE_HOLD -> startActivityForResult(
                         HouseHoldLandingActivity.newIntent(requireContext()),
