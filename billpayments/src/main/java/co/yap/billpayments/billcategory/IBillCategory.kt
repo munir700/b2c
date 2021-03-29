@@ -1,9 +1,8 @@
 package co.yap.billpayments.billcategory
 
-import androidx.lifecycle.MutableLiveData
-import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
-import co.yap.billpayments.billcategory.adapter.BillCategoryModel
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface IBillCategory {
     interface View : IBase.View<ViewModel> {
@@ -12,10 +11,10 @@ interface IBillCategory {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val adapter: BillCategoryAdapter
-        var billcategories: MutableLiveData<MutableList<BillCategoryModel>>
+        var billcategories: ObservableField<MutableList<BillCategoryModel>>
+        fun handlePressView(id: Int)
+        val clickEvent: SingleClickEvent
     }
 
-    interface State : IBase.State {
-    }
+    interface State : IBase.State
 }

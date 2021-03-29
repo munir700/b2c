@@ -1,24 +1,28 @@
 package co.yap.billpayments.billcategory
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
-import co.yap.billpayments.billcategory.adapter.BillCategoryModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.SingleClickEvent
 import kotlinx.coroutines.delay
 
 class BillCategoryViewModel(application: Application) :
     PayBillBaseViewModel<IBillCategory.State>(application), IBillCategory.ViewModel {
     override val state: IBillCategory.State = BillCategoryState()
-    override val adapter: BillCategoryAdapter = BillCategoryAdapter(mutableListOf())
-    override var billcategories: MutableLiveData<MutableList<BillCategoryModel>> = MutableLiveData()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
+
+    override var billcategories: ObservableField<MutableList<BillCategoryModel>> = ObservableField()
+
+    override fun onCreate() {
+        super.onCreate()
+        getBillCategoriesApi()
+    }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_add_bill_toolbar_title))
-        getBillCategoriesApi()
     }
 
     private fun getBillCategories(): MutableList<BillCategoryModel> {
@@ -51,11 +55,15 @@ class BillCategoryViewModel(application: Application) :
         )
     }
 
+    override fun handlePressView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     private fun getBillCategoriesApi() {
         launch {
             state.loading = true
             delay(1000L)
-            billcategories.postValue(getBillCategories())
+            billcategories.set(getBillCategories())
             state.loading = false
         }
     }

@@ -499,11 +499,10 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter("setImageByDrawableName")
-    fun setImageByDrawableName(imageView: CoreCircularImageView, drawableName: String) {
-        val resId = getResId(drawableName)
+    fun setImageByDrawableName(imageView: ImageView, drawableName: String?) {
+        val resId = drawableName?.let { getResId(it) }
         if (resId != -1) {
-            imageView.setImageResource(resId)
+            resId?.let { imageView.setImageResource(it) }
         }
     }
-
 }

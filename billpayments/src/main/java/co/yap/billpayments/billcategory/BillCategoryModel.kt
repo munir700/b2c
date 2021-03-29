@@ -1,4 +1,4 @@
-package co.yap.billpayments.billcategory.adapter
+package co.yap.billpayments.billcategory
 
 data class BillCategoryModel(
     var categoryId: String,
