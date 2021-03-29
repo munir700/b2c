@@ -15,11 +15,12 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_my_bills
-    override val viewModel: IMyBills.ViewModel
+    override val viewModel: MyBillsViewModel
         get() = ViewModelProviders.of(this).get(MyBillsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getMyBillsAPI()
         setObservers()
     }
 
@@ -34,12 +35,18 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
             )
             viewModel.adapter.setList(viewModel.myBills.value?.toMutableList() as MutableList<BillModel>)
         })
+        viewModel.parentViewModel?.toolBarClickEvent?.observe(this, toolbarClickObserver)
+    }
+
+    val toolbarClickObserver = Observer<Int> {
+        when (it) {
+            R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
+        }
     }
 
     override fun removeObservers() {
         viewModel.myBills.removeObservers(this)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

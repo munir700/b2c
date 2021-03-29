@@ -496,4 +496,13 @@ object ImageBinding {
             }
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("setImageByDrawableName")
+    fun setImageByDrawableName(imageView: ImageView, drawableName: String?) {
+        val resId = drawableName?.let { getResId(it) }
+        if (resId != -1) {
+            resId?.let { imageView.setImageResource(it) }
+        }
+    }
 }
