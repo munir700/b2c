@@ -7,98 +7,108 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.mybills.adapter.MyBillsItemViewModel" />
+            type="co.yap.billpayments.paybills.adapter.DueBillsItemViewModel" />
 
-        <import type="co.yap.yapcore.enums.BillStatus" />
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:onClick="@{(v)->viewModel.onViewClicked(v)}"
-        android:paddingHorizontal="@dimen/margin_normal_large"
-        android:paddingVertical="@dimen/margin_medium_large">
+        android:layout_height="wrap_content">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivIcon"
+            tools:src="@drawable/ic_round_badge_dark_blue"
+
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
-            app:fullName="@{viewModel.billModel.name}"
-            app:imageUrl="@{viewModel.billModel.logoUrl}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:fullName="@{viewModel.dueBill.billerName}"
+            app:imageUrl="@{viewModel.dueBill.logoUrl}"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:position="@{viewModel.position}" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvBillerName"
-            style="@style/ASmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.billModel.name}"
-            app:layout_constrainedWidth="true"
-            tools:text="Etsilat" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDescription"
-            style="@style/MicroGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="@{viewModel.billModel.description}"
-            app:layout_constrainedWidth="true"
-            tools:text="Etsilat" />
 
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwNameAndDesc"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:orientation="vertical"
-            app:constraint_referenced_ids="tvBillerName,tvDescription"
-            app:flow_horizontalAlign="start"
+            app:flow_wrapMode="chain"
             app:flow_horizontalBias="0"
-            app:flow_verticalAlign="center"
+            app:constraint_referenced_ids="tvBillerName,tvDescription"
+            app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
+            app:flow_horizontalAlign="start"
+            app:flow_verticalAlign="top"
             app:flow_verticalGap="@dimen/_1sdp"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@id/ivIcon"
-            app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
             app:layout_constraintStart_toEndOf="@+id/ivIcon"
             app:layout_constraintTop_toTopOf="@id/ivIcon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBillerName"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.dueBill.billerName+` - `+viewModel.dueBill.billNickName}"
+            app:layout_constrainedWidth="true"
+            tools:text="Etsiast" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDescription"
+            style="@style/MicroGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{`Due - `+viewModel.dueBill.billDueDate}"
+            app:layout_constrainedWidth="true"
+            tools:text="Etsilat" />
+
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwAmountAndStatus"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:constraint_referenced_ids="tvAmount,tvBillStatus"
+            android:layout_marginEnd="@dimen/margin_medium"
             app:flow_horizontalAlign="end"
-            app:flow_horizontalBias="0"
+            app:constraint_referenced_ids="tvAmount,tvCurrency"
             app:flow_verticalAlign="center"
             app:layout_constraintBottom_toBottomOf="@id/fwNameAndDesc"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/fwNameAndDesc"
             app:layout_constraintTop_toTopOf="@id/fwNameAndDesc" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAmount"
             style="@style/ASmall"
+            android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.dueBill.amount,false,viewModel.dueBill.currency,true)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.billModel.currency+` `+viewModel.billModel.amount}"
-            tools:text="AED 200" />
+            tools:text="200.00" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvBillStatus"
+            android:id="@+id/tvCurrency"
             style="@style/ASmallGrey"
+            android:text="@{viewModel.dueBill.currency}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.billModel.billStatus}"
-            android:textColor="@{viewModel.billModel.billStatus == BillStatus.OVERDUE.title? @color/red: @color/greyDark}"
-            tools:text="Paid" />
+            tools:text="AED" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@color/divider"
+            app:layout_constraintEnd_toEndOf="@id/tvAmount"
+            app:layout_constraintStart_toStartOf="@id/tvBillerName"
+            app:layout_constraintTop_toBottomOf="@id/fwNameAndDesc" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

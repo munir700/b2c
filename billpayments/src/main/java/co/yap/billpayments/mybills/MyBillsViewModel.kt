@@ -32,7 +32,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
-                description = "29 Sept 2020 - Burj Telecom Residences",
+                description = "29 Sept 2020",
                 currency = "AED",
                 amount = "100",
                 billStatus = BillStatus.OVERDUE.title
