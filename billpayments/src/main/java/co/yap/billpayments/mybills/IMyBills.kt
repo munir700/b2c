@@ -15,6 +15,7 @@ interface IMyBills {
     interface ViewModel : IBase.ViewModel<State> {
         var adapter: MyBillsAdapter
         var myBills: MutableLiveData<MutableList<BillModel>>
+        fun getMyBillsAPI()
     }
 
     interface State : IBase.State {

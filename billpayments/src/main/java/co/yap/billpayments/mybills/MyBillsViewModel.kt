@@ -16,11 +16,6 @@ class MyBillsViewModel(application: Application) :
     override var adapter: MyBillsAdapter = MyBillsAdapter(mutableListOf())
     override var myBills: MutableLiveData<MutableList<BillModel>> = MutableLiveData()
 
-    override fun onCreate() {
-        super.onCreate()
-        getMyBillsAPI()
-    }
-
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
@@ -88,7 +83,7 @@ class MyBillsViewModel(application: Application) :
         )
     }
 
-    private fun getMyBillsAPI() {
+    override fun getMyBillsAPI() {
         launch {
             state.loading = true
             delay(1000L)

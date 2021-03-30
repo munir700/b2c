@@ -1383,4 +1383,8 @@
     <!--    My Bills Screen-->
     <string name="screen_my_bills_toolbar_text_title">My Bills</string>
     <string name="screen_my_bills_text_title_you_have_n_bills_registered">You have %1s bills registered</string>
+
+    <!--    Add Bill Screen-->
+    <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>
+    <string name="screen_add_bill_description_text">Find bill providers by choosing any category below and set up one-time or recurring payments</string>
 </resources>
