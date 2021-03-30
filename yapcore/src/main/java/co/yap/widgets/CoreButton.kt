@@ -303,6 +303,10 @@ class CoreButton : AppCompatButton {
             ButtonSize.MINI_SMALL.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 30, 4) // used in card details
             }
+            ButtonSize.MINI_NORMAL.type -> {
+                dimensions =
+                    Utils.getDimensionsByPercentage(context, 32, 3) // used in pay bills dashboard
+            }
             ButtonSize.MINI_MEDIUM.type -> {
                 dimensions =
                     Utils.getDimensionsByPercentage(context, 43, 4) // used in more home screen
@@ -338,9 +342,10 @@ class CoreButton : AppCompatButton {
         MEDIUM(1),
         LARGE(2),
         MINI_SMALL(3),
-        MINI_MEDIUM(4),
-        MINI_LARGE(5),
-        MINI(6),
-        DYNAMIC(7)
+        MINI_NORMAL(4),
+        MINI_MEDIUM(5),
+        MINI_LARGE(6),
+        MINI(7),
+        DYNAMIC(8)
     }
 }

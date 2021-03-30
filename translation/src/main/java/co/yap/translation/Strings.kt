@@ -2191,8 +2191,15 @@ object Strings {
         "screen_bill_payment_button_description_analytics"
     const val screen_bill_payment_button_description_add_a_bill: String =
         "screen_bill_payment_button_description_add_a_bill"
+    const val screen_bill_payment_bill_due_section_title: String =
+        "screen_bill_payment_bill_due_section_title"
+    const val screen_bill_payment_bill_due_button_pay_all: String =
+        "screen_bill_payment_bill_due_button_pay_all"
+    const val screen_bill_payment_bill_total_due_label: String =
+        "screen_bill_payment_bill_total_due_label"
 
     //Biller Screen
+
     const val screen_bill_payment_text_title_add_a_credit_card: String =
         "screen_bill_payment_text_title_add_a_credit_card"
     const val screen_bill_payment_text_title_add_a_provider: String =
