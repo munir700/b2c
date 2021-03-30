@@ -37,7 +37,6 @@
                 style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:lineSpacingExtra="2sp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
