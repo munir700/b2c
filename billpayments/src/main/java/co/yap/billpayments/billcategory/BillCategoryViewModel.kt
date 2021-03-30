@@ -13,7 +13,6 @@ class BillCategoryViewModel(application: Application) :
     PayBillBaseViewModel<IBillCategory.State>(application), IBillCategory.ViewModel {
     override val state: IBillCategory.State = BillCategoryState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-
     override var billcategories: ObservableField<MutableList<BillProviderModel>> = ObservableField()
 
     override fun onResume() {

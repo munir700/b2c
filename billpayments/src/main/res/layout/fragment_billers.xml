@@ -47,8 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvScreenTitle"
             app:viewModel="@{viewModel}" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
+        <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
             android:id="@+id/rvBillerList"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -56,12 +55,14 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/margin_extra_small"
             android:paddingBottom="@dimen/margin_xxl"
-            app:adapter="@{viewModel.adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/includedSearchView"
+            app:recycleViewAdapter="@{viewModel.adapter}"
+            app:rvAdapter="@{viewModel.adapter}"
+            app:shimmerLayoutId="@layout/layout_item_biller_shimmer"
             tools:listitem="@layout/layout_item_biller" />
 
         <co.yap.widgets.CoreButton
