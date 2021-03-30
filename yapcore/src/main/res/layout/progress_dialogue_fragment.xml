@@ -27,7 +27,7 @@
         app:cpb_progress="50"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
-        app:cpb_progressbar_color="?attr/colorPrimaryAttr"
+        app:cpb_progressbar_color="@color/colorPrimary"
         app:cpb_progressbar_width="4dp"
         app:cpb_round_border="false"
         app:cpb_start_angle="-90" />
