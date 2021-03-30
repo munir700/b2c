@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.navOptions
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentCardPlansBinding
@@ -39,7 +40,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
                 clickOnCardPlan(data, pos)
             }
         }
-        viewModel.parentViewModel?.setViewDimensions(50,getBindings().rvCardplans)
+        viewModel.parentViewModel?.setViewDimensions(50, getBindings().rvCardplans)
 
     }
 
@@ -72,7 +73,13 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
     override fun navigateToFragment(data: String) {
         navigate(destinationId = R.id.action_cardPlansFragment_to_cardPlanViewerFragment,
-            args = bundleOf((viewModel.parentViewModel?.cardTag ?: "CARD-TAG") to data))
+            args = bundleOf((viewModel.parentViewModel?.cardTag ?: "CARD-TAG") to data),
+            navOptions = navOptions {
+                anim {
+                    enter = co.yap.yapcore.R.anim.slide_up_from_bottom
+                    popExit = R.anim.slide_out_to_bottom
+                }
+            })
     }
 
     override fun removeObservers() {
@@ -86,6 +93,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         super.onDestroyView()
         removeObservers()
     }
+
     override fun onResume() {
         super.onResume()
         getBindings().cardAnimation.start()

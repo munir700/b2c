@@ -31,7 +31,7 @@
                 android:paddingBottom="16dp"
                 app:constraint_referenced_ids="cardAnimation,cardPlanstext,tvTitle"
                 app:flow_horizontalGap="20dp"
-                app:flow_verticalGap="20dp"
+                app:flow_verticalGap="@dimen/margin_large"
                 app:flow_verticalStyle="spread"
                 app:flow_wrapMode="aligned"
                 app:layout_constraintEnd_toEndOf="parent"
