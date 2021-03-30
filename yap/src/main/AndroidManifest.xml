@@ -216,18 +216,26 @@
             android:name=".modules.dashboard.addionalinfo.activities.AdditionalInfoActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity"
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity"
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".sendmoney.home.main.SMBeneficiaryParentActivity"
+        <activity
+            android:name=".sendmoney.home.main.SMBeneficiaryParentActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".modules.dashboard.transaction.receipt.viewer.ImageViewerActivity"
+        <activity
+            android:name=".modules.dashboard.transaction.receipt.viewer.ImageViewerActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".modules.dashboard.store.cardplans.activities.CardPlansActivity"
+        <activity
+            android:name=".modules.dashboard.store.cardplans.activities.CardPlansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.store.cardplans.activities.CardPlanViewerActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>
