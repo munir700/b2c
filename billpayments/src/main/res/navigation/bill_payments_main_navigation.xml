@@ -38,6 +38,15 @@
         android:id="@+id/myBillsFragment"
         android:name="co.yap.billpayments.mybills.MyBillsFragment"
         android:label="MyBillsFragment"
-        tools:layout="@layout/fragment_my_bills" />
+        tools:layout="@layout/fragment_my_bills">
+        <action
+            android:id="@+id/action_myBillsFragment_to_payBillFragment"
+            app:destination="@id/payBillFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/payBillFragment"
+        android:name="co.yap.billpayments.paybill.PayBillFragment"
+        android:label="PayBillFragment"
+        tools:layout="@layout/fragment_pay_bill" />
 
 </navigation>

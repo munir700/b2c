@@ -2,7 +2,9 @@ package co.yap.billpayments.home
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.billers.adapter.BillerModel
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.enums.BillCategory
 
@@ -17,6 +19,7 @@ interface IBillPayments {
     interface ViewModel : IBase.ViewModel<State>{
         var billers: MutableList<BillerModel>
         var selectedBillCategory: BillCategory?
+        var beneficiary: MutableLiveData<Beneficiary>
     }
 
     interface View : IBase.View<ViewModel>

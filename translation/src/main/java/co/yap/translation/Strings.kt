@@ -2207,4 +2207,10 @@ object Strings {
         "screen_my_bills_text_title_you_have_n_bills_registered"
     const val screen_my_bills_toolbar_text_title: String =
         "screen_my_bills_toolbar_text_title"
+
+    //PayBill
+    const val screen_pay_bill_text_title: String =
+        "screen_pay_bill_text_title"
+    const val screen_pay_bill_input_text_note_hint: String =
+        "screen_pay_bill_input_text_note_hint"
 }
