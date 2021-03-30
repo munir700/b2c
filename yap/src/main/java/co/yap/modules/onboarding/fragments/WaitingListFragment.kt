@@ -28,7 +28,7 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ImageBinding.loadGifImageView(ivYapAnimation, R.raw.gif_yap_waiting_animation)
+        ImageBinding.loadGifImageView(ivYapAnimation, R.raw.gif_yap_waiting_animation,2,3000L)
     }
 
     override fun setObservers() {
