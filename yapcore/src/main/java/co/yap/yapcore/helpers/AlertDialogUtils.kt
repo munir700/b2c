@@ -4,8 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -263,4 +261,35 @@ fun Activity.showAlertDialogAndExitApp(
     alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     alertDialog.show()
 
+}
+
+
+fun Activity.showReceiptSuccessDialog(
+    description: String? = null,
+    addOtherVisibility: Boolean? = true,
+    addAnotherText: String? = "",
+    callback: (Int) -> Unit = {}
+) {
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.layout_receipt_success_dialog)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvDescrip)
+    val addAnother = dialogLayout.findViewById<TextView>(R.id.tvAddAnother)
+    val coreButton = dialogLayout.findViewById<TextView>(R.id.btnActionDone)
+    label.text = description
+    addAnother.text = addAnotherText
+    addAnother.visibility = if (addOtherVisibility == true) View.VISIBLE else View.GONE
+    coreButton.setOnClickListener {
+        dialogLayout.dismiss()
+        callback.invoke(coreButton.id)
+    }
+
+    addAnother.setOnClickListener {
+        callback.invoke(addAnother.id)
+        dialogLayout.dismiss()
+    }
+
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
 }

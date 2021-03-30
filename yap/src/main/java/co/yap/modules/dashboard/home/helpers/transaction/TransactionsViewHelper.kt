@@ -147,7 +147,8 @@ class TransactionsViewHelper(
                     DateUtils.FORMAT_DATE_MON_YEAR
                 ),
                 data.closingBalance.toString()
-                    .toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())
+                    .toFormattedCurrency(showCurrency = false,
+                        currency = SessionManager.getDefaultCurrency())
             )
             tooltip?.apply {
                 visibility = View.VISIBLE
@@ -178,14 +179,14 @@ class TransactionsViewHelper(
 //                            screen.widthPixels.toFloat() - this.width-10
 //                    }else {
                     translationX =
-                        screen.widthPixels.toFloat() - this.width - rightPadding/2
+                        screen.widthPixels.toFloat() - this.width - rightPadding / 2
 
 //                    }
 
                     // Adjust position of arrow of tooltip
-                    arrowX = viewPosition[0] - x + (it.width / 2) - rightPadding/2
+                    arrowX = viewPosition[0] - x + (it.width / 2) - rightPadding / 2
                     tooltip?.arrowView?.translationX =
-                        ((viewPosition[0].toFloat() - (it.width / 2))) + context.dimen(R.dimen.tooltip_default_corner_radius) - rightPadding/2 // translationX-it.width / 2//viewPosition[0] - x + (it.width / 2)
+                        ((viewPosition[0].toFloat() - (it.width / 2))) + context.dimen(R.dimen.tooltip_default_corner_radius) - rightPadding / 2 // translationX-it.width / 2//viewPosition[0] - x + (it.width / 2)
                 } else {
                     val viewWidth = it.width + (context.dimen(R.dimen.margin_one_dp) * 2)
                     if ((viewPosition[0] - viewWidth) > 0) {

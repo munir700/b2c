@@ -26,7 +26,7 @@ class AddTopUpCardViewModel(application: Application) :
             when (val response = repository.createBeneficiary(
                 CreateBeneficiaryRequest(
                     alias, color,
-                    Session(sessionId,number)
+                    Session(sessionId, number)
                 )
             )) {
                 is RetroApiResponse.Success -> {

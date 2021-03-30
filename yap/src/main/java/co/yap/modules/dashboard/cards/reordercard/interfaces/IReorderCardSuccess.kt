@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.reordercard.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+
 class IReorderCardSuccess {
     interface State : IBase.State
 

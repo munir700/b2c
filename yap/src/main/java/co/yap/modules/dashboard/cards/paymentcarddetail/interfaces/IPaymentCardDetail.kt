@@ -25,10 +25,11 @@ interface IPaymentCardDetail {
         var card: MutableLiveData<Card>
         var cardDetail: CardDetail
         fun handlePressOnView(id: Int)
-        fun getCardBalance(updatedBalance: (balance:String) -> Unit)
+        fun getCardBalance(updatedBalance: (balance: String) -> Unit)
         fun freezeUnfreezeCard()
         fun getCardDetails()
         fun removeCard()
+
         //
         val cardTransactionRequest: CardTransactionRequest
         val EVENT_SET_CARD_PIN: Int get() = 1
@@ -58,5 +59,6 @@ interface IPaymentCardDetail {
         var cardStatus: ObservableField<String>
         var isTxnsEmpty: ObservableField<Boolean>
         var cardImageUrl: String
+        var cardNameText: String
     }
 }

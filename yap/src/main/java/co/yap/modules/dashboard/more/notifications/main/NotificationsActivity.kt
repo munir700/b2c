@@ -25,7 +25,8 @@ class NotificationsActivity : BaseBindingActivity<INotifications.ViewModel>(),
     override fun getLayoutId(): Int = R.layout.activity_notification
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.more_notification_nav_host_fragment)
+        val fragment =
+            supportFragmentManager.findFragmentById(R.id.more_notification_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }

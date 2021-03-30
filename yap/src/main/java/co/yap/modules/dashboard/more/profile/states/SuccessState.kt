@@ -16,7 +16,8 @@ class SuccessState : BaseState(), ISuccess.State {
         }
 
     @get:Bindable
-    override var topSubHeading: String = "Your email address has been changed to newemail@website.com"
+    override var topSubHeading: String =
+        "Your email address has been changed to newemail@website.com"
         set(value) {
             field = value
             notifyPropertyChanged(BR.topSubHeading)

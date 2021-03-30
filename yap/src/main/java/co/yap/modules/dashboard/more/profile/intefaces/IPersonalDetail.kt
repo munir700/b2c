@@ -21,9 +21,9 @@ interface IPersonalDetail {
 
         val clickEvent: SingleClickEvent
 
-        var UPDATE_ADDRESS_UI : Int
-        var onUpdateAddressSuccess:MutableLiveData<Boolean>
-        val orderCardSuccess:MutableLiveData<Boolean>
+        var UPDATE_ADDRESS_UI: Int
+        var onUpdateAddressSuccess: MutableLiveData<Boolean>
+        val orderCardSuccess: MutableLiveData<Boolean>
 
         fun handlePressOnBackButton()
 

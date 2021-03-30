@@ -14,6 +14,6 @@ data class Achievement(
     val lastUpdated: Date = Date(0),
     val achievementImage: Int? = null,
     val achievementStatusIcon: Int? = null
-)  {
+) {
     val isCompleted: Boolean get() = completedPercentage == 100
 }

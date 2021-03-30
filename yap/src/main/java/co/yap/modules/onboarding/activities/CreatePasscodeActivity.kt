@@ -38,7 +38,8 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
             getString(Strings.screen_create_passcode_onboarding_button_create_passcode)
 
         getBinding().clTermsAndConditions.visibility = View.VISIBLE
-        getBinding().tvTermsAndConditionsTitle.text =  getString(Strings.screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions)
+        getBinding().tvTermsAndConditionsTitle.text =
+            getString(Strings.screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions)
 
         getBinding().dialer.hideFingerprintView()
         viewModel.clickEvent.observe(this, Observer {

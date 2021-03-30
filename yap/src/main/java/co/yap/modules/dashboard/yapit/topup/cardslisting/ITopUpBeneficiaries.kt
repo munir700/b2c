@@ -15,9 +15,9 @@ interface ITopUpBeneficiaries {
         var tootlBarVisibility: Int
         var rightButtonVisibility: Int
         var leftButtonVisibility: Int
-        val valid :ObservableField<Boolean>
-        val responseReceived :ObservableField<Boolean>
-        val enableAddCard :ObservableBoolean
+        val valid: ObservableField<Boolean>
+        val responseReceived: ObservableField<Boolean>
+        val enableAddCard: ObservableBoolean
         var noOfCard: ObservableField<String>
         var alias: ObservableField<String>
         var message: ObservableField<String>
@@ -30,10 +30,10 @@ interface ITopUpBeneficiaries {
         fun updateCardCount()
         val clickEvent: SingleClickEvent
         val topUpCards: MutableLiveData<List<TopUpCard>>
-        var cardLimits : CardLimits?
+        var cardLimits: CardLimits?
     }
 
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         var successButtonLabel: String
     }
 }
