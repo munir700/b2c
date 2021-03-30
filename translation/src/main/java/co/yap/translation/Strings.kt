@@ -2195,6 +2195,8 @@ object Strings {
         "screen_bill_payment_bill_due_section_title"
     const val screen_bill_payment_bill_due_button_pay_all: String =
         "screen_bill_payment_bill_due_button_pay_all"
+    const val screen_bill_payment_bill_total_due_label: String =
+        "screen_bill_payment_bill_total_due_label"
 
     //Biller Screen
 
