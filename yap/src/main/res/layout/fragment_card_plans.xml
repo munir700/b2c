@@ -29,7 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                app:constraint_referenced_ids="cardAnimation,cardPlanstext,tvTitle"
+                app:constraint_referenced_ids="collapsingToolbar,cardPlanstext,tvTitle"
                 app:flow_horizontalGap="20dp"
                 app:flow_verticalGap="@dimen/margin_large"
                 app:flow_verticalStyle="spread"
@@ -37,11 +37,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <VideoView
-                android:id="@+id/cardAnimation"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/_160sdp" />
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <VideoView
+               android:id="@+id/cardAnimation"
+               android:layout_width="fill_parent"
+               android:layout_height="@dimen/_160sdp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"/>
+       </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             <include
                 android:id="@+id/cardPlanstext"
