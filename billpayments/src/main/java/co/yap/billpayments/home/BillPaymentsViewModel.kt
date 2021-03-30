@@ -1,14 +1,14 @@
 package co.yap.billpayments.home
 
 import android.app.Application
+import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.yapcore.BaseViewModel
-import co.yap.yapcore.enums.BillCategory
 
 class BillPaymentsViewModel(application: Application) :
     BaseViewModel<IBillPayments.State>(application),
     IBillPayments.ViewModel {
     override var billers: MutableList<BillerModel> = mutableListOf()
-    override var selectedBillCategory: BillCategory? =BillCategory.CREDIT_CARD
+    override var selectedBillProvider: BillProviderModel? = null
     override val state: IBillPayments.State = BillPaymentsState()
 }

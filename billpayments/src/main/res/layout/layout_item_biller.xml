@@ -32,7 +32,7 @@
             style="@style/ASmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginStart="@dimen/margin_medium"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.billerModel.billerName}"

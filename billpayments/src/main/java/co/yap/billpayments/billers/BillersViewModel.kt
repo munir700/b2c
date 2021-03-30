@@ -2,8 +2,8 @@ package co.yap.billpayments.billers
 
 import android.app.Application
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.billpayments.billers.adapter.BillersAdapter
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
@@ -21,13 +21,13 @@ class BillersViewModel(application: Application) :
         super.onCreate()
         parentViewModel?.billers = getBillerList()
         adapter.setList(parentViewModel?.billers?.toList() as List<BillerModel>)
-        state.screenTitle.set(getScreenTitle(parentViewModel?.selectedBillCategory))
-        state.showSearchView.set(parentViewModel?.selectedBillCategory == BillCategory.CREDIT_CARD)
+        state.screenTitle.set(getScreenTitle(BillCategory.valueOf(parentViewModel?.selectedBillProvider?.categoryType.toString())))
+        state.showSearchView.set(parentViewModel?.selectedBillProvider?.categoryType == BillCategory.CREDIT_CARD.name)
     }
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(getToolbarString(parentViewModel?.selectedBillCategory!!))
+        setToolBarTitle(getToolbarString(BillCategory.valueOf(parentViewModel?.selectedBillProvider?.categoryType.toString())))
         toggleToolBarVisibility(true)
     }
 
@@ -60,7 +60,6 @@ class BillersViewModel(application: Application) :
             )
         }
     }
-
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -177,5 +176,14 @@ class BillersViewModel(application: Application) :
                 logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg"
             )
         ).toMutableList()
+    }
+
+    override fun getBillers() {
+        launch {
+            state.loading = true
+            parentViewModel?.billers = getBillerList()
+            adapter.setList(parentViewModel?.billers?.toList() as List<BillerModel>)
+            state.loading = false
+        }
     }
 }

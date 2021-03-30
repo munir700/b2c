@@ -3,7 +3,7 @@ package co.yap.billpayments.billcategory
 import android.app.Application
 import androidx.databinding.ObservableField
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.networking.customers.responsedtos.billpayment.BillCategoryModel
+import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
@@ -14,38 +14,43 @@ class BillCategoryViewModel(application: Application) :
     override val state: IBillCategory.State = BillCategoryState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
-    override var billcategories: ObservableField<MutableList<BillCategoryModel>> = ObservableField()
+    override var billcategories: ObservableField<MutableList<BillProviderModel>> = ObservableField()
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_add_bill_toolbar_title))
     }
 
-    private fun getBillCategories(): MutableList<BillCategoryModel> {
+    private fun getBillCategories(): MutableList<BillProviderModel> {
         return mutableListOf(
-            BillCategoryModel(
+            BillProviderModel(
                 categoryId = "1",
                 categoryName = "Credit Card",
+                categoryType = "CREDIT_CARD",
                 icon = "icon_biller_type_utility_creditcard"
             ),
-            BillCategoryModel(
+            BillProviderModel(
                 categoryId = "2",
                 categoryName = "Telecom",
+                categoryType = "TELECOM",
                 icon = "icon_biller_type_telecom"
             ),
-            BillCategoryModel(
+            BillProviderModel(
                 categoryId = "3",
                 categoryName = "Utilities",
+                categoryType = "UTILITIES",
                 icon = "icon_biller_type_utility"
             ),
-            BillCategoryModel(
+            BillProviderModel(
                 categoryId = "4",
                 categoryName = "RTA",
+                categoryType = "RTA",
                 icon = "icon_biller_type_rta"
             ),
-            BillCategoryModel(
+            BillProviderModel(
                 categoryId = "5",
                 categoryName = "Dubai Police",
+                categoryType = "DUBAI_POLICE",
                 icon = "icon_biller_type_police"
             )
         )
