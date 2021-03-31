@@ -23,6 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:animateLayoutChanges="true"
             android:background="@color/white"
             android:padding="@dimen/margin_medium">
 
@@ -129,36 +130,78 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
                 tools:hint="@string/screen_pay_bill_input_text_note_hint" />
 
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/fAutoPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:orientation="horizontal"
+                app:constraint_referenced_ids="tvAutoPayment,swAutoPayment"
+                app:flow_horizontalStyle="spread_inside"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etNote" />
+
             <TextView
                 android:id="@+id/tvAutoPayment"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="Make this an auto-payment"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etNote"
-                tools:text="Make this an auto-payment" />
+                android:text="@string/screen_pay_bill_selection_text"
+                tools:text="@string/screen_pay_bill_selection_text" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/swAutoPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:theme="@style/CustomSwitch"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvAutoPayment" />
+                android:theme="@style/CustomSwitch" />
 
             <include
+                android:id="@+id/iAutoPayment"
+                layout="@layout/content_pay_bill_auto_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                layout="@layout/content_pay_bill_auto_payment"
+                app:layout_constraintTop_toBottomOf="@+id/fAutoPayment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAutoPayment"
-                android:animateLayoutChanges="true"
                 app:viewModel="@{viewModel}" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/fBillReminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:orientation="horizontal"
+                app:constraint_referenced_ids="tvBillReminder,swBillReminder"
+                app:flow_horizontalStyle="spread_inside"
+                app:layout_constraintTop_toBottomOf="@+id/iAutoPayment" />
+
+            <TextView
+                android:id="@+id/tvBillReminder"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/screen_pay_bill_selection_text"
+                tools:text="@string/screen_pay_bill_selection_text" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swBillReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/CustomSwitch" />
+
+            <include
+                android:id="@+id/iBillReminder"
+                layout="@layout/content_pay_bill_set_bill_reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:layout_constraintTop_toBottomOf="@id/fBillReminder"
+                app:viewModel="@{viewModel}" />
+
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnPay"
@@ -167,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_normal_large"
                 android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
+                android:visibility="gone"
                 app:btn_size="small"
                 app:enableCoreButton="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"

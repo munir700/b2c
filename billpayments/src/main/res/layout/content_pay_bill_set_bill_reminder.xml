@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:visibility="@{viewModel.state.isAutoPaymentOn ? View.VISIBLE:View.GONE}">
+        android:visibility="@{viewModel.state.isBillReminderOn ? View.VISIBLE:View.GONE}">
 
         <TextView
             android:id="@+id/tvPayType"
@@ -28,82 +28,62 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="@string/screen_pay_bill_payment_type_text"
+            android:text="@string/screen_pay_bill_selection_remind_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/screen_pay_bill_payment_type_text" />
+            tools:text="@string/screen_pay_bill_selection_remind_text" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
             android:orientation="horizontal"
             android:theme="@style/Theme.MaterialComponents.Light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPayType"
-            android:layout_marginTop="@dimen/margin_normal"
             app:selectionRequired="true"
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/cDay"
+                android:id="@+id/cThreeDays"
                 style="@style/ChipsTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
                 android:padding="@dimen/margin_small"
-                android:text="Day"
+                android:text="3 days"
                 android:textColor="@color/colorPrimary"
                 android:theme="@style/Theme.MaterialComponents.Light" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/cWeek"
+                android:id="@+id/cOneWeek"
                 style="@style/ChipsTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
                 android:padding="@dimen/margin_small"
-                android:text="Week"
+                android:text="1 week"
                 android:textColor="@color/colorPrimary"
                 android:theme="@style/Theme.MaterialComponents.Light" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/cMonth"
+                android:id="@+id/cTwoWeeks"
                 style="@style/ChipsTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
                 android:padding="@dimen/margin_small"
-                android:text="Month"
+                android:text="2 weeks"
                 android:textColor="@color/colorPrimary"
                 android:theme="@style/Theme.MaterialComponents.Light" />
 
         </com.google.android.material.chip.ChipGroup>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintTop_toBottomOf="@+id/chipGroup"
-            android:orientation="vertical">
-
-            <include
-                layout="@layout/content_pay_bill_week_days"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:viewModel="@{viewModel}" />
-
-            <include
-                layout="@layout/content_pay_bill_month"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:viewModel="@{viewModel}" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

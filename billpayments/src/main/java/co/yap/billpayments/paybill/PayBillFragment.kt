@@ -33,6 +33,7 @@ class PayBillFragment : PayBillBaseFragment<IPayBill.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
+        getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
     }
 
     override fun setObservers() {
@@ -85,7 +86,7 @@ class PayBillFragment : PayBillBaseFragment<IPayBill.ViewModel>(),
 
     override fun composeWeekDaysList(): MutableList<CoreBottomSheetData> {
         val list: MutableList<CoreBottomSheetData> = arrayListOf()
-        weekDaysList?.forEach { weekDay ->
+        weekDaysList.forEach { weekDay ->
             list.add(
                 CoreBottomSheetData(
                     content = weekDay,
@@ -101,7 +102,10 @@ class PayBillFragment : PayBillBaseFragment<IPayBill.ViewModel>(),
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         when (buttonView.id) {
             R.id.swAutoPayment -> {
-                viewModel.state.isAutoPaymentOn?.set(isChecked)
+                viewModel.state.isAutoPaymentOn.set(isChecked)
+            }
+            R.id.swBillReminder -> {
+                viewModel.state.isBillReminderOn.set(isChecked)
             }
         }
     }

@@ -1389,5 +1389,8 @@
     <string name="screen_pay_bill_auto_payment_day_week">Week</string>
     <string name="screen_pay_bill_auto_payment_day_month">Month</string>
     <string name="screen_pay_bill_select_week_day_text">Select day in week</string>
+    <string name="screen_pay_bill_selection_text">Make this an auto-payment</string>
+    <string name="screen_pay_bill_selection_remind_text">Remind me in advance by</string>
+    <string name="screen_pay_bill_payment_type_text">Pay every</string>
 
 </resources>

@@ -11,8 +11,8 @@ interface IPayBill {
     interface State : IBase.State {
         var availableBalanceString: ObservableField<CharSequence>
         var noteValue: ObservableField<String>
-        var isAutoPaymentOn: ObservableBoolean?
-        var isBillReminderOn: Boolean
+        var isAutoPaymentOn: ObservableBoolean
+        var isBillReminderOn: ObservableBoolean
         var selectedWeekDay: ObservableField<String>
         var selectedMonthDay: ObservableField<String>
         var autoPaymentScheduleType: ObservableField<String>
