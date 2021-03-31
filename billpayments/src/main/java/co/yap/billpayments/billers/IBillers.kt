@@ -2,8 +2,8 @@ package co.yap.billpayments.billers
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import co.yap.billpayments.billers.adapter.BillerModel
 import co.yap.billpayments.billers.adapter.BillersAdapter
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
@@ -22,6 +22,7 @@ interface IBillers {
         val clickEvent: SingleClickEvent
         fun getToolbarString(billCategory: BillCategory?): String
         fun getScreenTitle(billCategory: BillCategory?): String
+        fun getBillers()
     }
 
     interface State : IBase.State {

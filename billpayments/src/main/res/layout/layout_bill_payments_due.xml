@@ -10,6 +10,7 @@
             type="co.yap.billpayments.paybills.PayBillsViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,11 +46,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             app:btn_enable="true"
             app:btn_size="mini_normal"
-            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
             app:layout_constraintBottom_toBottomOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvTitle"
@@ -83,25 +84,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:text="@{viewModel.state.totalDueAmount}"
             app:layout_constraintBottom_toBottomOf="@id/tvLabelDue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvLabelDue"
-            app:text="@{Strings.screen_bill_payment_bill_total_due_label}"
             tools:text="@string/screen_bill_payment_bill_total_due_label" />
-
 
         <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
             android:id="@+id/rvAllBeneficiaries"
+            recycleViewAdapter="@{viewModel.dueBillsAdapter}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/small"
+            app:itemCount="@integer/skeleton_layout_item_count"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvLabelDue"
-            recycleViewAdapter="@{viewModel.dueBillsAdapter}"
-            app:itemCount="@integer/skeleton_layout_item_count"
             app:rvAdapter="@{viewModel.dueBillsAdapter}"
             app:shimmerLayoutId="@layout/item_bill_due_shimmer"
             tools:listitem="@layout/layout_item_bill_due" />

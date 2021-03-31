@@ -2,7 +2,7 @@ package co.yap.billpayments.billers.search
 
 import android.app.Application
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.billers.adapter.BillerModel
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.billpayments.billers.adapter.BillersAdapter
 import co.yap.yapcore.SingleClickEvent
 

@@ -10,6 +10,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <import type="co.yap.translation.Translator" />
 
     </data>
@@ -63,16 +65,28 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ViewStub
-            android:id="@+id/vsBillPayment"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lyBillPaymentAction"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toBottomOf="@+id/lyBillPaymentAction">
+
+            <include
+                android:id="@+id/lbillCategory"
+                layout="@layout/layout_bill_categories"
+                android:visibility="@{viewModel.state.showBillCategory?View.VISIBLE:View.GONE}"
+                app:viewModel="@{viewModel}" />
+
+            <include
+                android:id="@+id/lbillPaymentDue"
+                layout="@layout/layout_bill_payments_due"
+                android:visibility="@{viewModel.state.showBillCategory?View.GONE:View.VISIBLE}"
+                app:viewModel="@{viewModel}" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
