@@ -7,6 +7,8 @@ data class EmploymentInfoRequest(
     val employmentStatus: String? = null,
     @SerializedName("employerName")
     val employerName: String? = null,
+    @SerializedName("sponsorName")
+    val sponsorName: String? = null,
     @SerializedName("monthlySalary")
     val monthlySalary: String? = null,
     @SerializedName("expectedMonthlyCredit")
