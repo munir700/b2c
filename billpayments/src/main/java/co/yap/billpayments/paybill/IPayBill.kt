@@ -1,5 +1,6 @@
 package co.yap.billpayments.paybill
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.billpayments.databinding.FragmentPayBillBinding
 import co.yap.yapcore.IBase
@@ -9,7 +10,7 @@ interface IPayBill {
     interface State : IBase.State {
         var availableBalanceString: ObservableField<CharSequence>
         var noteValue: ObservableField<String>
-        var isAutoPaymentOn: Boolean?
+        var isAutoPaymentOn: ObservableBoolean?
         var isBillReminderOn: Boolean?
     }
 
@@ -21,7 +22,6 @@ interface IPayBill {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
-        fun initViewStub()
         fun getViewBinding(): FragmentPayBillBinding
     }
 }

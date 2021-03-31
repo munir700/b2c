@@ -2213,4 +2213,6 @@ object Strings {
         "screen_pay_bill_text_title"
     const val screen_pay_bill_input_text_note_hint: String =
         "screen_pay_bill_input_text_note_hint"
+    const val screen_pay_bill_pay_button_text: String =
+        "screen_pay_bill_pay_button_text"
 }

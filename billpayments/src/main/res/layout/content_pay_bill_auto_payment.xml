@@ -13,11 +13,13 @@
 
         <import type="co.yap.translation.Translator" />
 
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="@{viewModel.state.isAutoPaymentOn ? View.VISIBLE:View.GONE}">
 
         <TextView
             android:id="@+id/tvPayType"

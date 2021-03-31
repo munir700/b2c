@@ -31,8 +31,9 @@ class PayBillViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_pay_bill_text_title))
-        toolgleRightIconVisibility(true)
         toggleToolBarVisibility(true)
+        toolgleRightIconVisibility(true)
+        toogleLeftIconVisibility(false)
     }
 
     override fun handlePressView(id: Int) {

@@ -148,19 +148,31 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvAutoPayment" />
 
-            <ViewStub
-                android:id="@+id/vsAutoPayment"
+            <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:inflatedId="@+id/content_auto_payment"
-                android:layout="@layout/content_pay_bill_auto_payment"
+                layout="@layout/content_pay_bill_auto_payment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAutoPayment"
                 app:viewModel="@{viewModel}" />
 
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnPay"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal_large"
+                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
+                app:btn_size="small"
+                app:enableCoreButton="@{true}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:text="@{Strings.screen_pay_bill_pay_button_text}"
+                tools:text="@string/screen_pay_bill_pay_button_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -2,7 +2,6 @@ package co.yap.billpayments.paybill
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewStub
 import android.widget.CompoundButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,9 +18,6 @@ class PayBillFragment : PayBillBaseFragment<IPayBill.ViewModel>(),
 
     override val viewModel: PayBillViewModel
         get() = ViewModelProviders.of(this).get(PayBillViewModel::class.java)
-    private val vsAutoPayment: ViewStub by lazy {
-        getViewBinding().root.findViewById<ViewStub>(R.id.vsAutoPayment)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +27,6 @@ class PayBillFragment : PayBillBaseFragment<IPayBill.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
-        initViewStub()
-    }
-
-
-    override fun initViewStub() {
-        vsAutoPayment.layoutResource =
-            R.layout.content_pay_bill_auto_payment
     }
 
     override fun setObservers() {
@@ -55,11 +44,12 @@ class PayBillFragment : PayBillBaseFragment<IPayBill.ViewModel>(),
             }
             R.id.cWeek -> {
                 showToast("cWeek clicked")
-
             }
             R.id.cMonth -> {
                 showToast("cMonth clicked")
-
+            }
+            R.id.btnPay -> {
+                showToast("btnPay clicked")
             }
         }
     }
@@ -68,12 +58,7 @@ class PayBillFragment : PayBillBaseFragment<IPayBill.ViewModel>(),
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         when (buttonView.id) {
             R.id.swAutoPayment -> {
-                viewModel.state.isAutoPaymentOn = isChecked
-                if (isChecked) {
-                    vsAutoPayment.visibility = View.VISIBLE
-                } else {
-                    vsAutoPayment.visibility = View.GONE
-                }
+                viewModel.state.isAutoPaymentOn?.set(isChecked)
             }
         }
     }
