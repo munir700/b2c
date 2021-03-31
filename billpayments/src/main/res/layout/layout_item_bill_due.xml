@@ -47,7 +47,8 @@
             app:layout_constraintBottom_toBottomOf="@id/ivIcon"
             app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
             app:layout_constraintStart_toEndOf="@+id/ivIcon"
-            app:layout_constraintTop_toTopOf="@id/ivIcon" />
+            app:layout_constraintTop_toTopOf="@id/ivIcon"
+            />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBillerName"
@@ -91,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.dueBill.amount,false,viewModel.dueBill.currency,true)}"
+            android:textColor="@{viewModel.calculateIsOverDue() ? @color/red : @color/colorPrimaryDark }"
             tools:text="200.00" />
 
         <androidx.appcompat.widget.AppCompatTextView

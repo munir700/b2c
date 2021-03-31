@@ -48,17 +48,7 @@ class PayBillsViewModel(application: Application) :
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 billerName = "Etisalat",
                 billNickName = "My iPhoneX",
-                billDueDate = "2020-08-12T06:53:35",
-                amount = "250.010",
-                currency = "AED"
-            )
-        )
-        arr.add(
-            DueBill(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                billerName = "Etisalat",
-                billNickName = "My iPhoneX",
-                billDueDate = "2020-08-12T06:53:35",
+                billDueDate = "2021-08-12T06:53:35",
                 amount = "250.000",
                 currency = "AED"
             )
@@ -79,6 +69,16 @@ class PayBillsViewModel(application: Application) :
                 billerName = "Etisalat",
                 billNickName = "My iPhoneX",
                 billDueDate = "2020-08-12T06:53:35",
+                amount = "250.000",
+                currency = "AED"
+            )
+        )
+        arr.add(
+            DueBill(
+                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
+                billerName = "Etisalat",
+                billNickName = "My iPhoneX",
+                billDueDate = "2021-08-12T06:53:35",
                 amount = "250.000",
                 currency = "AED"
             )
