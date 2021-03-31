@@ -2215,4 +2215,12 @@ object Strings {
         "screen_pay_bill_input_text_note_hint"
     const val screen_pay_bill_pay_button_text: String =
         "screen_pay_bill_pay_button_text"
+    const val screen_pay_bill_auto_payment_day_text: String =
+        "screen_pay_bill_auto_payment_day_text"
+    const val screen_pay_bill_auto_payment_day_week: String =
+        "screen_pay_bill_auto_payment_day_week"
+    const val screen_pay_bill_auto_payment_day_month: String =
+        "screen_pay_bill_auto_payment_day_month"
+    const val screen_pay_bill_select_week_day_text: String =
+        "screen_pay_bill_select_week_day_text"
 }

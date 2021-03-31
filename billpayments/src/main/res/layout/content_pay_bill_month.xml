@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:visibility="@{viewModel.state.autoPaymentScheduleTypeWeek ? View.VISIBLE:View.GONE}">
+        android:visibility="@{viewModel.state.autoPaymentScheduleTypeMonth ? View.VISIBLE:View.GONE}">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTinNumber"
@@ -30,13 +30,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="@string/screen_pay_bill_select_week_day_text"
+            android:text="Select day in month"
             android:textColor="#80272262"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/screen_pay_bill_select_week_day_text" />
+            tools:text="Select day in month" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDropDownWeekDays"
+            android:id="@+id/tvDropDown"
             style="@style/ARegular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,9 +48,9 @@
             android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
             android:paddingTop="@dimen/margin_extra_small"
             android:paddingBottom="@dimen/margin_extra_small"
-            android:text="@{viewModel.state.selectedWeekDay}"
+            android:text="@{viewModel.state.selectedMonthDay}"
             android:textColor="@color/colorPrimaryDark"
-            tools:text="Monday" />
+            tools:text="1" />
 
         <View
             android:layout_width="match_parent"

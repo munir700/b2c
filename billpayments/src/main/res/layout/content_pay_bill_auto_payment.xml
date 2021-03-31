@@ -83,6 +83,22 @@
 
         </com.google.android.material.chip.ChipGroup>
 
+        <include
+            layout="@layout/content_pay_bill_week_days"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            layout="@layout/content_pay_bill_month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+            app:viewModel="@{viewModel}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
