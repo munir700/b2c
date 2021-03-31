@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
-import co.yap.yapcore.enums.BillCategory
 
 
 class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
@@ -28,12 +27,12 @@ class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
     }
 
     val clickObserver = Observer<Int> {
-        viewModel.parentViewModel?.selectedBillCategory = when (it) {
-            R.id.includeCreditCard -> BillCategory.CREDIT_CARD
-            R.id.includeTelecom -> BillCategory.TELECOM
-            R.id.includeUtilities -> BillCategory.UTILITIES
-            R.id.includeRTA -> BillCategory.RTA
-            R.id.includeDubaiPolice -> BillCategory.DUBAI_POLICE
+        viewModel.parentViewModel?.selectedBillProvider = when (it) {
+            R.id.includeCreditCard -> viewModel.billcategories.get()?.get(0)
+            R.id.includeTelecom -> viewModel.billcategories.get()?.get(1)
+            R.id.includeUtilities -> viewModel.billcategories.get()?.get(2)
+            R.id.includeRTA -> viewModel.billcategories.get()?.get(3)
+            R.id.includeDubaiPolice -> viewModel.billcategories.get()?.get(4)
             else -> null
         }
         navigate(R.id.action_billCategoryFragment_to_billersFragment)

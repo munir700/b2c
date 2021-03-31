@@ -8,6 +8,10 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.databinding.FragmentPayBillsBinding
+import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import com.yarolegovich.discretescrollview.transform.Pivot
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import co.yap.billpayments.databinding.FragmentPayBillsBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -76,12 +80,19 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
                 navigate(R.id.action_payBillsFragment_to_myBillsFragment)
             }
             R.id.lAnalytics -> {
-
             }
-            R.id.lAddBill -> {
-                navigate(R.id.action_payBillsFragment_to_addBillFragment)
-            }
+            R.id.lAddBill -> navigate(R.id.action_payBillsFragment_to_addBillFragment)
+            R.id.includeCreditCard -> onCategorySelection(viewModel.billcategories.get()?.get(0))
+            R.id.includeTelecom -> onCategorySelection(viewModel.billcategories.get()?.get(1))
+            R.id.includeUtilities -> onCategorySelection(viewModel.billcategories.get()?.get(2))
+            R.id.includeRTA -> onCategorySelection(viewModel.billcategories.get()?.get(3))
+            R.id.includeDubaiPolice -> onCategorySelection(viewModel.billcategories.get()?.get(4))
         }
+    }
+
+    private fun onCategorySelection(billCategory: BillProviderModel?) {
+        viewModel.parentViewModel?.selectedBillProvider = billCategory
+        navigate(R.id.action_payBillsFragment_to_billersFragment)
     }
 
     override fun onDestroy() {

@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.billcategory.BillCategoryViewModel" />
+            type="co.yap.billpayments.paybills.PayBillsViewModel" />
 
         <import type="co.yap.translation.Strings" />
-
-        <import type="android.view.View" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_with_hint_of_blue"
         android:paddingHorizontal="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_extra_large"
-        android:visibility="@{viewModel.state.dataPopulated? View.VISIBLE : View.GONE}">
+        android:paddingTop="@dimen/margin_extra_small">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvScreenTitle"
@@ -31,8 +29,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:text="@{Strings.screen_add_bill_description_text}" />
-
+            app:text="@{Strings.screen_add_bill_description_text}"
+            tools:text="@string/screen_add_bill_description_text" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwFirstRow"
@@ -44,7 +42,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvScreenTitle" />
-
 
         <include
             android:id="@+id/includeCreditCard"
@@ -67,7 +64,6 @@
             android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
             app:categoryName="@{viewModel.billcategories.get(2).categoryName}"
             app:iconName="@{viewModel.billcategories.get(2).icon}" />
-
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwSecondRow"

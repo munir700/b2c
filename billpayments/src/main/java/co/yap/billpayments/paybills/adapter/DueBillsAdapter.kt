@@ -3,7 +3,6 @@ package co.yap.billpayments.paybills.adapter
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
-import co.yap.billpayments.databinding.ItemMyBillsBinding
 import co.yap.billpayments.databinding.LayoutItemBillDueBinding
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
