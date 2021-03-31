@@ -11,14 +11,7 @@ class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialN
     fun onBind(
         cardDetailsModel: CardDetailsModel,
         position: Int
-
-    ) {
-        /*val params = dialogCardDetailsCardSerialNumberBinding.ivCard.layoutParams
-        params.width = dimensions[0]
-        params.height = dimensions[1]
-        dialogCardDetailsCardSerialNumberBinding.ivCard.layoutParams = params*/
-
-        //dialogCardDetailsCardSerialNumberBinding.ivCard.loadImage(houseHoldCardsDesignModel.frontSideDesignImage?:"")
+        ) {
         dialogCardDetailsCardSerialNumberBinding.ivCard.loadCardImage(cardDetailsModel.cardImg)
         dialogCardDetailsCardSerialNumberBinding.tvCardType.text = cardDetailsModel.cardType
         dialogCardDetailsCardSerialNumberBinding.tvCardNumberValue.text =

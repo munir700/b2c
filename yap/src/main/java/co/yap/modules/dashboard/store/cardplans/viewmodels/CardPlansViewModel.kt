@@ -7,10 +7,10 @@ import co.yap.R
 import co.yap.modules.dashboard.store.cardplans.adaptors.CardPlansAdapter
 import co.yap.modules.dashboard.store.cardplans.interfaces.ICardPlans
 import co.yap.modules.dashboard.store.cardplans.states.CardPlansState
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CardPlansViewModel(application: Application) :
     CardPlansBaseViewModel<ICardPlans.State>(application), ICardPlans.ViewModel {
@@ -28,13 +28,20 @@ class CardPlansViewModel(application: Application) :
     }
 
     override fun iniVideoView(video: VideoView) {
-        video.layoutParams =
-            parentViewModel?.setViewDimensions(32, video)
-        video.setVideoURI(Uri.parse("android.resource://" + context.packageName + "/" + R.raw.video_all_card_plans))
-        video.start()
-        video.setOnCompletionListener { mediaPlayer ->
-            mediaPlayer.isLooping = true
+        CoroutineScope(Dispatchers.Default).launch {
+            val uri =
+                Uri.parse("android.resource://" + context.packageName + "/" + R.raw.video_all_card_plans)
+            video.layoutParams =
+                parentViewModel?.setViewDimensions(32, video)
+            video.setVideoURI(uri)
             video.start()
+            launch {
+                video.setOnCompletionListener { mediaPlayer ->
+                    mediaPlayer.isLooping = true
+                    video.start()
+                }
+            }
         }
+
     }
 }
