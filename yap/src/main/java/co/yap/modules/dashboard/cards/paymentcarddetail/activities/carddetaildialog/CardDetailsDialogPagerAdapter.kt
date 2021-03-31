@@ -1,15 +1,13 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog
 
-import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.DialogCardDetailsCardExpiryBinding
 import co.yap.databinding.DialogCardDetailsCardSerialNumberBinding
 import co.yap.yapcore.BaseBindingRecyclerAdapter
-import co.yap.yapcore.helpers.Utils
 
-class CardDetailsDialogPagerAdapter(private val list: MutableList<CardDetailsModel>,context : Context) :
+class CardDetailsDialogPagerAdapter(private val list: MutableList<CardDetailsModel>) :
     BaseBindingRecyclerAdapter<CardDetailsModel, RecyclerView.ViewHolder>(list) {
     private val serialNumber = 0
     private val expiryDetails = 1

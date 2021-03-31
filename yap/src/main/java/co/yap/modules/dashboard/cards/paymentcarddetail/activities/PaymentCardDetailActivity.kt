@@ -14,7 +14,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -67,7 +66,6 @@ import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
-import com.ezaka.customer.app.utils.copyTextToClipboard
 import com.google.android.material.snackbar.Snackbar
 import com.liveperson.infra.configuration.Configuration
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -653,7 +651,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun showCardDetailsPopup() {
-        val dialog = Dialog(this,R.style.DialogTheme)
+        val dialog = Dialog(this, R.style.DialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_card_details)
@@ -715,7 +713,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardImg = viewModel.card.value?.frontImage
             )
         )
-        val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList,this)
+        val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
         viewPager?.adapter = cardDetailsPagerAdapter
         indicator?.setViewPager2(viewPager)
         dialog.show()
