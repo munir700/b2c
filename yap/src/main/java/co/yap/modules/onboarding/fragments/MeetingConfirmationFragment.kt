@@ -13,7 +13,8 @@ import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.firebase.*
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.managers.SessionManager
 
 class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.viewModel>() {

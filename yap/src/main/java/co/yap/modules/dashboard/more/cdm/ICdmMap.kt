@@ -9,7 +9,7 @@ import com.google.android.gms.maps.GoogleMap
 
 interface ICdmMap {
     interface State : IBase.State {
-//        var stateLiveData: MutableLiveData<co.yap.widgets.State>
+        //        var stateLiveData: MutableLiveData<co.yap.widgets.State>
         var atmCdmData: AtmCdmData?
         var locationType: MutableLiveData<String>?
 

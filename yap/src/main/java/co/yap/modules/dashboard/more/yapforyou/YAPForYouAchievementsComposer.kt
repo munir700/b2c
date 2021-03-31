@@ -17,7 +17,7 @@ import java.util.*
 
 
 interface YAPForYouItemsComposer {
-    fun compose(response: ArrayList<AchievementResponse>):ArrayList<Achievement>
+    fun compose(response: ArrayList<AchievementResponse>): ArrayList<Achievement>
 }
 
 class YAPForYouAchievementsComposer : YAPForYouItemsComposer {

@@ -1,6 +1,7 @@
 <resources>
 
     <!-- Common -->
+    <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
     <string name="common_display_text_retry">Retry</string>
     <string name="common_empty_string"> </string>
     <string name="common_button_next">Next</string>
@@ -628,7 +629,7 @@ Due to all the excitement of our official launch, we are gradually activating as
 
     <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
-    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark here</string>
+    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark (optional)</string>
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
@@ -656,6 +657,10 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_transaction_details_display_text_exchange_rate">Exchange rate</string>
     <string name="screen_transaction_details_display_text_exchange_rate_value">1 %1$s = %2$s</string>
     <string name="screen_add_note_display_text_save">Save</string>
+    <string name="screen_transaction_details_display_sheet_heading">Add a receipt</string>
+    <string name="screen_transaction_details_display_sheet_sub_heading">Take a photo or upload your receipt</string>
+    <string name="screen_transaction_details_display_sheet_text_upload_from_files">Upload from files</string>
+    <string name="screen_transaction_details_display_receipt_item">Receipt %1s</string>
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
@@ -787,7 +792,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
     <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
-    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark here</string>
+    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark (optional)</string>
     <string name="screen_international_funds_transfer_input_text_reason">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
     <string name="screen_international_funds_transfer_display_text_note">Note that the recipient\'s bank may have its own charges.</string>
@@ -1190,6 +1195,12 @@ Due to all the excitement of our official launch, we are gradually activating as
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
     <string name="screen_transaction_detail_text_cancelled_reason">Sorry! We\'re unable to complete your transfer at this point. Don\'t worry, we\'ve gone ahead and cancelled it for you.</string>
+    <string name="screen_transaction_add_another_receipt">Add another receipt</string>
+    <string name="screen_transaction_details_receipt_text">Keep track of your spendings</string>
+    <string name="screen_transaction_details_receipt_label">Add a receipt</string>
+    <string name="screen_transaction_details_single_added_receipt_label">%1s receipt added</string>
+    <string name="screen_transaction_details_added_receipt_label">%1s receipts added</string>
+    <string name="screen_transaction_details_receipt_success_label">Your receipt has been added!</string>
 
     <!-- Live Chat Strings-->
     <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
@@ -1347,6 +1358,10 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_yfy_signup_to_hh_button_label">Get YAP Household now</string>
     <string name="screen_yfy_set_a_mission_description">Give your kids tasks that will help them earn money. Chores can be fun too! </string>
     <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
+
+    <!-- image previewer dialogue -->
+    <string name="screen_image_previewer_display_text_delete_message">This photo will be deleted from your saved receipts.</string>
+    <string name="screen_image_previewer_button_text_delete">Delete Photo</string>
 
     <!--KYC Employment information selection screen-->
     <string name="screen_employment_information_selection_display_text_title">Employment Information</string>

@@ -21,7 +21,7 @@ class CategoryAnalyticsAdaptor(private val list: MutableList<TxnAnalytic>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is CategoryAnalyticsItemViewHolder) {
-            holder.onBind(this,list[position], position, onItemClickListener)
+            holder.onBind(this, list[position], position, onItemClickListener)
         }
     }
 }

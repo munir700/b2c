@@ -123,12 +123,15 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             backgroundConfirm =
                 context.getDrawable(R.drawable.bg_edit_text_red_under_line)
             drawableConfirm = context.getDrawable(R.drawable.ic_error)
-            errorMessage = Translator.getString(context,Strings.screen_change_email_display_text_email_match_error)
+            errorMessage = Translator.getString(context,
+                Strings.screen_change_email_display_text_email_match_error)
         }
     }
 
     fun setErrors(errorMesage: String) {
-        if (errorMesage == Translator.getString(context,Strings.screen_change_email_display_text_email_match_error)) {
+        if (errorMesage == Translator.getString(context,
+                Strings.screen_change_email_display_text_email_match_error)
+        ) {
             backgroundConfirm =
                 context.getDrawable(R.drawable.bg_edit_text_red_under_line)
             drawableConfirm = context.getDrawable(R.drawable.ic_error)

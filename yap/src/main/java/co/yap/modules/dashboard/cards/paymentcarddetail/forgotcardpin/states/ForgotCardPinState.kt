@@ -13,6 +13,7 @@ class ForgotCardPinState : BaseState(), IForgotCardPin.State {
             field = value
             notifyPropertyChanged(BR.toolBarVisibility)
         }
+
     @get:Bindable
     override var toolBarTitle: String = ""
         set(value) {
@@ -21,9 +22,9 @@ class ForgotCardPinState : BaseState(), IForgotCardPin.State {
         }
 
     @get:Bindable
-    override var currentScreen: String=""
+    override var currentScreen: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.currentScreen)
         }
 }

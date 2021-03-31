@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.more.bankdetails.interfaces
 import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface IBankDetail {
     interface State : IBase.State {

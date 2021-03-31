@@ -26,7 +26,7 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
             return intent
         }
 
-        var onBackPressCheck: Boolean =true
+        var onBackPressCheck: Boolean = true
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -51,14 +51,14 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
-    fun hideToolbar(){
+    fun hideToolbar() {
         viewModel.state.tootlBarVisibility = View.INVISIBLE
     }
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_cards_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
-            if (onBackPressCheck)  {
+            if (onBackPressCheck) {
                 super.onBackPressed()
             }
 

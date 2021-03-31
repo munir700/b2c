@@ -4,6 +4,7 @@ package co.yap.translation
 object Strings {
 
     // Common
+    const val rationale_camera: String = "rationale_camera"
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_empty_string: String = "common_empty_string"
     const val common_button_next: String = "common_button_next"
@@ -816,6 +817,10 @@ object Strings {
         "screen_update_profile_photo_display_text_open_camera"
     const val screen_update_profile_photo_display_text_choose_photo: String =
         "screen_update_profile_photo_display_text_choose_photo"
+    const val screen_update_profile_photo_display_text_take_photo: String =
+        "screen_update_profile_photo_display_text_take_photo"
+    const val screen_update_profile_photo_display_text_remove_photo: String =
+        "screen_update_profile_photo_display_text_remove_photo"
 
 
 //  personal detail screen
@@ -1056,6 +1061,18 @@ object Strings {
         "screen_transaction_details_display_text_exchange_rate"
     const val screen_transaction_details_display_text_exchange_rate_value: String =
         "screen_transaction_details_display_text_exchange_rate_value"
+    const val screen_transaction_details_display_sheet_text_upload_from_files: String =
+        "screen_transaction_details_display_sheet_text_upload_from_files"
+    const val screen_transaction_details_display_sheet_heading: String =
+        "screen_transaction_details_display_sheet_heading"
+    const val screen_transaction_details_display_sheet_sub_heading: String =
+        "screen_transaction_details_display_sheet_sub_heading"
+    const val screen_transaction_details_display_receipt_item: String =
+        "screen_transaction_details_display_receipt_item"
+    const val screen_transaction_details_added_receipt_label: String =
+        "screen_transaction_details_added_receipt_label"
+    const val screen_transaction_details_single_added_receipt_label: String =
+        "screen_transaction_details_single_added_receipt_label"
 
 
     //     Send Money no contacts Screen
@@ -2148,13 +2165,30 @@ object Strings {
     const val common_display_text_copy: String =
         "common_display_text_copy"
 
+    //  image previewer dialogue
+    const val screen_image_previewer_display_text_delete_message: String =
+        "screen_image_previewer_display_text_delete_message"
+    const val screen_image_previewer_button_text_delete: String =
+        "screen_image_previewer_button_text_delete"
+
+    //Transaction Details
+    const val screen_transaction_details_receipt_text: String =
+        "screen_transaction_details_receipt_text"
+    const val screen_transaction_details_receipt_label: String =
+        "screen_transaction_details_receipt_label"
+    const val screen_transaction_add_another_receipt: String =
+        "screen_transaction_add_another_receipt"
+    const val screen_transaction_details_receipt_success_label: String =
+        "screen_transaction_details_receipt_success_label"
+
     // Reached on the top of queue screen
-    const val screen_reached_top_queue_display_text=
+    const val screen_reached_top_queue_display_text =
         "screen_reached_top_queue_display_text"
-    const val screen_reached_top_queue_display_text_subtitle=
+    const val screen_reached_top_queue_display_text_subtitle =
         "screen_reached_top_queue_display_text_subtitle"
-    const val screen_reached_top_queue_display_text_meeting_note=
+    const val screen_reached_top_queue_display_text_meeting_note =
         "screen_reached_top_queue_display_text_meeting_note"
+
 
     // Employment information selection screen
     const val screen_employment_information_selection_display_text_title =

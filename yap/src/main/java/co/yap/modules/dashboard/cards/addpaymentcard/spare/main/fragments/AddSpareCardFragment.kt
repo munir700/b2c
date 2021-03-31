@@ -27,7 +27,6 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.leanplum.CardEvents
-import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
@@ -81,16 +80,16 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     }
 
     private fun handleCoreButtonNavigation() {
-        if (btnConfirmVirtualCardPurchase.text.contains("Top up")){
+        if (btnConfirmVirtualCardPurchase.text.contains("Top up")) {
             launchActivity<AddMoneyActivity>()
-        }else{
+        } else {
             onPressConfirmPurchaseVirtual()
         }
     }
 
     private fun onAddVirtualCard() {
         updateTransactionOnHome()
-        SessionManager.updateCardBalance(){}
+        SessionManager.updateCardBalance() {}
         cardAdded = true
         view?.let {
             this.activity?.let { activity ->
@@ -156,8 +155,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             getBinding().layoutVirtualCardConfirmPurchase.tvAvailableBalanceTitle.makeLinks(
                 Pair("Top up", View.OnClickListener {
                     launchActivity<AddMoneyActivity>()
-                })
-                , color = requireContext().getColor(R.color.colorPrimary),
+                }), color = requireContext().getColor(R.color.colorPrimary),
                 underline = true,
                 isBold = true
             )
@@ -204,8 +202,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         val builder = AlertDialog.Builder(this.requireActivity())
         builder.setMessage(
             Translator.getString(
-                requireContext(), Strings.
-                    screen_add_spare_card_display_text_alert_title
+                requireContext(), Strings.screen_add_spare_card_display_text_alert_title
             )
         )
         builder.setPositiveButton(

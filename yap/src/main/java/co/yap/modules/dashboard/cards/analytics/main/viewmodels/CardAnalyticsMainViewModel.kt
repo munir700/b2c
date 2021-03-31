@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.states.CardAnalyticsMainState
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
-import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -25,6 +24,7 @@ class CardAnalyticsMainViewModel(application: Application) :
         state.toolbarVisibility.set(true)
         state.leftButtonVisibility.set(true)
     }
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }

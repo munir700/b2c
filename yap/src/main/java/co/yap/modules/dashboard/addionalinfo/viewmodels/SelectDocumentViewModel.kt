@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.addionalinfo.viewmodels
 
 import android.app.Application
 import android.os.Build
+import co.yap.R
 import co.yap.modules.dashboard.addionalinfo.adapters.UploadAdditionalDocumentAdapter
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
 import co.yap.modules.dashboard.addionalinfo.states.SelectDocumentState
@@ -11,10 +12,13 @@ import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.managers.SessionManager
 import id.zelory.compressor.Compressor
 import java.io.File
+import java.util.*
 
 class SelectDocumentViewModel(application: Application) :
     AdditionalInfoBaseViewModel<ISelectDocument.State>(application),
@@ -101,4 +105,33 @@ class SelectDocumentViewModel(application: Application) :
             )
         }
     }
+
+    override fun getUploadDocumentOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem> {
+        val list = arrayListOf<BottomSheetItem>()
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_camera,
+                title = getString(Strings.screen_update_profile_photo_display_text_open_camera),
+                tag = PhotoSelectionType.CAMERA.name
+            )
+        )
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_choose_photo,
+                title = getString(Strings.screen_update_profile_photo_display_text_choose_photo),
+                tag = PhotoSelectionType.GALLERY.name
+            )
+        )
+        if (isShowRemovePhoto)
+            list.add(
+                BottomSheetItem(
+                    icon = R.drawable.ic_remove,
+                    title = getString(Strings.screen_update_profile_photo_display_text_remove_photo),
+                    tag = PhotoSelectionType.REMOVE_PHOTO.name
+                )
+            )
+
+        return list
+    }
+
 }

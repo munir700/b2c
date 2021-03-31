@@ -43,6 +43,7 @@
     <color name="dialogTitleColor">#de000000</color>
     <color name="disabledPurple">#297c4dff</color>
     <color name="subMenuColor">#4DD8D8D8</color>
+    <color name="analyticsGraphColor">#66A682FF</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>
     <color name="colorSecondaryOrange">#F57F17</color>
