@@ -330,8 +330,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             0
                         ).getAnswer()
                     }.employmentTypeCode,
-                    monthlySalary = getDataForPosition(1).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(2).getAnswer()
+                    sponsorName = getDataForPosition(1).getAnswer(),
+                    monthlySalary = getDataForPosition(2).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(3).getAnswer()
                 )
             }
             EmploymentStatus.NONE -> TODO()

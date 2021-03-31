@@ -96,7 +96,16 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                         questionType = QuestionType.DROP_DOWN_FIELD,
                         answer = ObservableField()
                     ), key = EmploymentQuestionIdentifier.EMPLOYMENT_TYPE
-                ), QuestionUiFields(
+                ),
+                QuestionUiFields(
+                    question = Question(
+                        questionTitle = "Please enter the name of your sponsor",
+                        placeholder = "Enter here",
+                        questionType = QuestionType.EDIT_TEXT_FIELD,
+                        answer = ObservableField()
+                    )
+                ),
+                QuestionUiFields(
                     question = Question(
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                         placeholder = "Enter the amount",
@@ -110,8 +119,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField()
-                    ),
-                    key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
+                    ), key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
             )
             NONE -> TODO()
