@@ -9,9 +9,6 @@ import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.databinding.FragmentPayBillsBinding
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
-import com.yarolegovich.discretescrollview.transform.Pivot
-import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import co.yap.billpayments.databinding.FragmentPayBillsBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
