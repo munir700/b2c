@@ -4,6 +4,7 @@ import android.app.Application
 import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.paybills.adapter.DueBill
 import co.yap.billpayments.paybills.adapter.DueBillsAdapter
+import co.yap.billpayments.paybills.notification.DueBillsNotificationAdapter
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,6 +15,8 @@ class PayBillsViewModel(application: Application) :
     override val state: IPayBills.State = PayBillsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val dueBillsAdapter: DueBillsAdapter = DueBillsAdapter(arrayListOf())
+    override val notificationAdapter: DueBillsNotificationAdapter =
+        DueBillsNotificationAdapter(context, arrayListOf())
 
     override fun onResume() {
         super.onResume()
@@ -24,7 +27,10 @@ class PayBillsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        dueBillsAdapter.setList(getDueBills())
+        val list = getDueBills()
+        list.addAll(getDueBills())
+        dueBillsAdapter.setList(list)
+        notificationAdapter.setList(list)
     }
 
     override fun handlePressView(id: Int) {

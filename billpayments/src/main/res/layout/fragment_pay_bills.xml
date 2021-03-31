@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data>
-
         <variable
             name="viewModel"
             type="co.yap.billpayments.paybills.PayBillsViewModel" />
-
         <import type="co.yap.translation.Strings" />
-
+        <import type="android.view.View" />
         <import type="co.yap.translation.Translator" />
-
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextView"
             style="@style/ATitle3"
@@ -28,7 +22,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyBillPaymentAction"
             android:layout_width="wrap_content"
@@ -38,21 +31,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView">
-
             <include
                 android:id="@+id/lMyBills"
                 layout="@layout/layout_item_icon_text_vertical"
                 android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
                 app:icon="@{@drawable/ic_my_bills}"
                 app:title="@{Translator.INSTANCE.getString(context,Strings.screen_bill_payment_button_description_my_bills)}" />
-
             <include
                 android:id="@+id/lAnalytics"
                 layout="@layout/layout_item_icon_text_vertical"
                 android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
                 app:icon="@{@drawable/ic_analytics}"
                 app:title="@{Translator.INSTANCE.getString(context,Strings.screen_bill_payment_button_description_analytics)}" />
-
             <include
                 android:id="@+id/lAddBill"
                 layout="@layout/layout_item_icon_text_vertical"
@@ -60,19 +50,22 @@
                 app:icon="@{@drawable/ic_add_sign}"
                 app:title="@{Translator.INSTANCE.getString(context,Strings.screen_bill_payment_button_description_add_a_bill)}" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ViewStub
-            android:id="@+id/vsBillPayment"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lyBillPaymentAction"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toBottomOf="@+id/lyBillPaymentAction">
 
+            <include
+                android:id="@+id/lbillPaymentDue"
+                layout="@layout/layout_bill_payments_due"
+                app:viewModel="@{viewModel}" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
