@@ -20,8 +20,9 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.InitLivePersonProperties
-import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.infra.LPConversationsHistoryStateToDisplay
+import com.liveperson.infra.auth.LPAuthenticationParams
+import com.liveperson.infra.auth.LPAuthenticationType
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
@@ -101,10 +102,11 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     }
 
     private fun openActivity() {
-        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
+        val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
         authParams.hostAppJWT = viewModel.state.token.get()
         val params = ConversationViewParams(false)
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
+            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
+            .setHistoryConversationsMaxDays(180)
             .setReadOnlyMode(false)
         LivePerson.showConversation(requireActivity(), authParams, params)
         val consumerProfile = ConsumerProfile.Builder()
