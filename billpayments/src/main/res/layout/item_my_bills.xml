@@ -32,13 +32,29 @@
             app:layout_constraintTop_toTopOf="parent"
             app:position="@{viewModel.position}" />
 
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/fwNameAndDesc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="tvBillerName,tvDescription"
+            app:flow_verticalGap="@dimen/_1sdp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
+            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBillerName"
             style="@style/ASmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{viewModel.billModel.name}"
-            app:layout_constrainedWidth="true"
             tools:text="Etsilat" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -49,28 +65,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@{viewModel.billModel.description}"
-            app:layout_constrainedWidth="true"
-            tools:text="Etsilat" />
-
-
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/fwNameAndDesc"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal_large"
-            android:orientation="vertical"
-            app:constraint_referenced_ids="tvBillerName,tvDescription"
-            app:flow_horizontalAlign="start"
-            app:flow_horizontalBias="0"
-            app:flow_verticalAlign="center"
-            app:flow_verticalGap="@dimen/_1sdp"
-            app:flow_wrapMode="aligned"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="@id/ivIcon"
-            app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
-            app:layout_constraintStart_toEndOf="@+id/ivIcon"
-            app:layout_constraintTop_toTopOf="@id/ivIcon" />
+            tools:text="Etsilatkdsjf;kdsjfskadjfksdjfl;askdjfl;kasdjflkasdjfl;kasdjf;laskdjfsfsdfsadf" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwAmountAndStatus"

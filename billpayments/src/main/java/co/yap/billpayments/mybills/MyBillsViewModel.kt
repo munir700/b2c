@@ -43,7 +43,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "",
                 name = "Salik",
-                description = "29 Sept 2020 - Burj Telecom Residences",
+                description = "29 Sept 2020",
                 currency = "AED",
                 amount = "100",
                 billStatus = BillStatus.BILL_DUE.title
