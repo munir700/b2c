@@ -52,6 +52,7 @@ class CardPlansActivity : BaseBindingActivity<IMainCardPlans.ViewModel>(), INavi
         val fragment = supportFragmentManager.findFragmentById(R.id.card_plans_navigation)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
+            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right)
         }
     }
 
@@ -59,4 +60,4 @@ class CardPlansActivity : BaseBindingActivity<IMainCardPlans.ViewModel>(), INavi
         super.onDestroy()
         removeObservers()
     }
-}
+    }
