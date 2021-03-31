@@ -39,6 +39,7 @@ interface IYapDashboard {
         var isYapMoreFragmentVisible: MutableLiveData<Boolean>
         var isUnverifiedScreenNotVisible: MutableLiveData<Boolean>
         var isShowHomeTour: MutableLiveData<Boolean>
+        fun populateState()
     }
 
     interface View : IBase.View<ViewModel> {

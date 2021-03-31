@@ -12,6 +12,7 @@ import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SaveReferalRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
@@ -201,11 +202,13 @@ class EmailViewModel(application: Application) :
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        parentViewModel?.onboardingData?.ibanNumber = response.data.data[0].iban
+                        val accountInfo: AccountInfo = response.data.data[0]
+                        parentViewModel?.onboardingData?.ibanNumber = accountInfo.iban
                         delay(500)
-                        SessionManager.user = response.data.data[0]
+                        SessionManager.user = accountInfo
                         SessionManager.setupDataSetForBlockedFeatures()
                         state.valid = true
+                        state.isWaiting = accountInfo.isWaiting
                         state.loading = false
                         nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                     }

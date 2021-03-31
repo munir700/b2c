@@ -32,8 +32,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
 import co.yap.modules.qrcode.BarcodeFormat
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
@@ -322,21 +320,6 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     } catch (e: Exception) {
     }
     return drawable
-}
-
-fun Context.inviteFriendIntent() {
-    val sharingIntent = Intent(Intent.ACTION_SEND)
-    sharingIntent.type = "text/plain"
-    sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(this))
-    startActivity(Intent.createChooser(sharingIntent, "Share"))
-}
-
-private fun getBody(context: Context): String {
-    return Translator.getString(
-        context,
-        Strings.screen_invite_friend_display_text_share_url,
-        Utils.getAdjustURL()
-    )
 }
 
 fun <T> isEqual(first: List<T>, second: List<T>): Boolean {

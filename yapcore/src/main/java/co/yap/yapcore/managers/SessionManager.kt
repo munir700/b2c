@@ -25,7 +25,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
-import com.liveperson.infra.LPAuthenticationParams
+import com.liveperson.infra.auth.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
 import kotlinx.coroutines.Dispatchers
@@ -186,11 +186,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch(Dispatchers.Main) {
             when (val response = repository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        getDebitFromList(it)?.let { debitCard ->
+                    if (response.data.data.isNullOrEmpty()) {
+                        success.invoke(null)
+                    } else {
+                        getDebitFromList(response.data.data)?.let { debitCard ->
                             card.postValue(debitCard)
                             success.invoke(debitCard)
-                        } ?: "Debit card not found"
+                        } ?: success.invoke(null)
                     }
                 }
                 is RetroApiResponse.Error -> {
