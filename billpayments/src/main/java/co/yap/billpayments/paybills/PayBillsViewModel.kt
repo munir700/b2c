@@ -8,6 +8,8 @@ import co.yap.billpayments.paybills.adapter.DueBillsAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
 
 class PayBillsViewModel(application: Application) :
     PayBillBaseViewModel<IPayBills.State>(application),
@@ -27,10 +29,12 @@ class PayBillsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        if (state.showBillCategory)
+        if (state.showBillCategory.get()) {
             billcategories.set(getBillCategories())
-        else
-            dueBillsAdapter.setList(getDueBills())
+            parentViewModel?.billcategories = billcategories.get() as MutableList<BillProviderModel>
+        } else {
+            getBillCategoriesApi()
+        }
     }
 
     override fun handlePressView(id: Int) {
@@ -45,7 +49,7 @@ class PayBillsViewModel(application: Application) :
                 billerName = "Etisalat",
                 billNickName = "My iPhoneX",
                 billDueDate = "2020-08-12T06:53:35",
-                amount = "250.000",
+                amount = "250.010",
                 currency = "AED"
             )
         )
@@ -115,5 +119,20 @@ class PayBillsViewModel(application: Application) :
                 icon = "icon_biller_type_police"
             )
         )
+    }
+
+    override fun getBillCategoriesApi() {
+        launch {
+            state.loading = true;
+            dueBillsAdapter.setList(getDueBills())
+            var total = 0.00;
+            dueBillsAdapter.getDataList().forEach {
+                total = total.plus(it.amount.toDouble())
+            }
+            state.totalDueAmount.set(
+                total.toString().toFormattedCurrency(true, SessionManager.getDefaultCurrency())
+            )
+            state.loading = false
+        }
     }
 }

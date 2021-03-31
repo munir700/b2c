@@ -15,6 +15,16 @@ class BillCategoryViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var billcategories: ObservableField<MutableList<BillProviderModel>> = ObservableField()
 
+    override fun onCreate() {
+        super.onCreate()
+        if (parentViewModel?.billcategories.isNullOrEmpty())
+            getBillCategoriesApi()
+        else {
+            billcategories.set(parentViewModel?.billcategories)
+            state.dataPopulated.set(true)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_add_bill_toolbar_title))
