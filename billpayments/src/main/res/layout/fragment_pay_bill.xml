@@ -157,6 +157,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAutoPayment"
+                android:animateLayoutChanges="true"
                 app:viewModel="@{viewModel}" />
 
             <co.yap.widgets.CoreButton
