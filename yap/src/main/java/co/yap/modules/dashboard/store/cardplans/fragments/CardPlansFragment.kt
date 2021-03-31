@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.VideoView
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -44,7 +43,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
 
     override fun setObservers() {
-        viewModel.parentViewModel?.setViewDimensions(40,getBindings().cardAnimation)
+        viewModel.parentViewModel?.setViewDimensions(40, getBindings().cardAnimation)
         viewModel.clickEvent.observe(this, onClickObserver)
         viewModel.cardAdapter.onItemClickListener = object :
             OnItemClickListener {
@@ -57,7 +56,8 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
     private fun setCardPlansDimensions() {
         val dimensions: Int = Utils.getDimensionInPercent(requireContext(), false, 50)
-        val params = getBindings().description.rvCardplans.layoutParams as LinearLayoutCompat.LayoutParams
+        val params =
+            getBindings().description.rvCardplans.layoutParams as LinearLayoutCompat.LayoutParams
         params.height = dimensions
     }
 
