@@ -257,9 +257,17 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
                     when {
                         true == removed -> {
-                            getCardAdaptor().removeItemAt(selectedCardPosition)
-                            getCardAdaptor().notifyDataSetChanged()
-                            updateCardCount()
+                            val cardExist = viewModel.cards.value?.find { card ->
+                               card.cardSerialNumber == updatedCard?.cardSerialNumber
+                            }
+                            if (cardExist != null) {
+                                selectedCardPosition = getCardAdaptor().getDataList().indexOf(cardExist)
+                                getCardAdaptor().removeItemAt(selectedCardPosition)
+                                getCardAdaptor().notifyDataSetChanged()
+                                updateCardCount()
+
+                            }
+
                         }
                         true == cardBlocked -> {
                             getCardAdaptor().removeAllItems()
