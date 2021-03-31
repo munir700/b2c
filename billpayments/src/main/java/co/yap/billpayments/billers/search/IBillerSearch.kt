@@ -1,7 +1,7 @@
 package co.yap.billpayments.billers.search
 
 import androidx.databinding.ObservableBoolean
-import co.yap.billpayments.billers.adapter.BillerModel
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.billpayments.billers.adapter.BillersAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

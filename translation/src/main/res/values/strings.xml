@@ -1365,7 +1365,7 @@
 
 
     <!--    Bill Payment-->
-    <string name="screen_bill_payment_text_title">Bill Payment</string>
+    <string name="screen_bill_payment_text_title">Pay bills</string>
     <string name="screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment">Set up or make a bill payment</string>
     <string name="screen_bill_payment_button_description_my_bills">My bills</string>
     <string name="screen_bill_payment_button_description_analytics">Analytics</string>

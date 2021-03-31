@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_payBillsFragment_to_addBillFragment"
             app:destination="@id/billCategoryFragment" />
+        <action
+            android:id="@+id/action_payBillsFragment_to_billersFragment"
+            app:destination="@id/billersFragment" />
     </fragment>
 
     <fragment

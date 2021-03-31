@@ -39,14 +39,15 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_26sdp"
             android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginBottom="@dimen/margin_small"
             android:visibility="@{viewModel.state.showSearchView ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@id/rvBillerList"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvScreenTitle"
             app:viewModel="@{viewModel}" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
+        <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
             android:id="@+id/rvBillerList"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -54,13 +55,15 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/margin_extra_small"
             android:paddingBottom="@dimen/margin_xxl"
-            app:adapter="@{viewModel.adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/includedSearchView"
-            tools:listitem="@layout/item_billers" />
+            app:recycleViewAdapter="@{viewModel.adapter}"
+            app:rvAdapter="@{viewModel.adapter}"
+            app:shimmerLayoutId="@layout/layout_item_biller_shimmer"
+            tools:listitem="@layout/layout_item_biller" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
