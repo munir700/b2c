@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.VideoView
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,6 +19,7 @@ import co.yap.modules.dashboard.store.cardplans.interfaces.ICardPlans
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansViewModel
 import co.yap.repositories.InviteFriendRepository
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.coroutines.CoroutineScope
@@ -41,6 +44,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
 
     override fun setObservers() {
+        viewModel.parentViewModel?.setViewDimensions(40,getBindings().cardAnimation)
         viewModel.clickEvent.observe(this, onClickObserver)
         viewModel.cardAdapter.onItemClickListener = object :
             OnItemClickListener {
@@ -48,8 +52,13 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
                 clickOnCardPlan(data, pos)
             }
         }
-        viewModel.parentViewModel?.setViewDimensions(50, getBindings().rvCardplans)
+        setCardPlansDimensions()
+    }
 
+    private fun setCardPlansDimensions() {
+        val dimensions: Int = Utils.getDimensionInPercent(requireContext(), false, 50)
+        val params = getBindings().description.rvCardplans.layoutParams as LinearLayoutCompat.LayoutParams
+        params.height = dimensions
     }
 
     private val onClickObserver = Observer<Int> { id ->
