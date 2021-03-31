@@ -18,8 +18,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium_large"
+        android:layout_marginEnd="@dimen/margin_normal"
         android:background='@{cardPlansItemViewModel.item.type.equals("Prime")?@drawable/bg_card_plan_purple:@drawable/bg_card_plan_blue}'
         android:paddingVertical="@dimen/margin_small"
         tools:background="@drawable/bg_card_plan_purple">

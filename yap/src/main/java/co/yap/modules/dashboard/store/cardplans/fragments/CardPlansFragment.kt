@@ -1,8 +1,11 @@
 package co.yap.modules.dashboard.store.cardplans.fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.VideoView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,8 +18,12 @@ import co.yap.modules.dashboard.store.cardplans.interfaces.ICardPlans
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansViewModel
 import co.yap.repositories.InviteFriendRepository
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPlans.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -28,11 +35,15 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        CoroutineScope(Dispatchers.Default).launch {
+            iniVideoView(getBindings().cardAnimation)
+        }
         setObservers()
-        viewModel.iniVideoView(getBindings().cardAnimation)
     }
 
+
     override fun setObservers() {
+        viewModel.parentViewModel?.setViewDimensions(40, getBindings().cardAnimation)
         viewModel.clickEvent.observe(this, onClickObserver)
         viewModel.cardAdapter.onItemClickListener = object :
             OnItemClickListener {
@@ -40,8 +51,14 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
                 clickOnCardPlan(data, pos)
             }
         }
-        viewModel.parentViewModel?.setViewDimensions(50, getBindings().rvCardplans)
+        setCardPlansDimensions()
+    }
 
+    private fun setCardPlansDimensions() {
+        val dimensions: Int = Utils.getDimensionInPercent(requireContext(), false, 50)
+        val params =
+            getBindings().description.rvCardplans.layoutParams as LinearLayoutCompat.LayoutParams
+        params.height = dimensions
     }
 
     private val onClickObserver = Observer<Int> { id ->
@@ -92,6 +109,24 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
     override fun onDestroyView() {
         super.onDestroyView()
         removeObservers()
+    }
+
+    private suspend fun iniVideoView(video: VideoView) {
+        CoroutineScope(Dispatchers.Default).launch {
+            val uri =
+                Uri.parse("android.resource://" + requireContext().packageName + "/" + R.raw.video_all_card_plans)
+            video.layoutParams =
+                viewModel.parentViewModel?.setViewDimensions(32, video)
+            video.setVideoURI(uri)
+            video.start()
+            launch {
+                video.setOnCompletionListener { mediaPlayer ->
+                    mediaPlayer.isLooping = true
+                    video.start()
+                }
+            }
+        }
+
     }
 
     override fun onResume() {
