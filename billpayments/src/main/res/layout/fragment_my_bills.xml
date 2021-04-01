@@ -14,11 +14,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingHorizontal="@dimen/margin_medium_large"
         android:paddingTop="@dimen/margin_medium">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/screenTitle"
+            android:id="@+id/tvScreenTitle"
             style="@style/ATitle3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/screenTitle" />
+            app:layout_constraintTop_toBottomOf="@id/tvScreenTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

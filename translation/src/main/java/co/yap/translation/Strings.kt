@@ -2220,4 +2220,11 @@ object Strings {
         "screen_add_bill_toolbar_title"
     const val screen_add_bill_description_text: String =
         "screen_add_bill_description_text"
+
+
+    // Biller Detail Screen
+    const val screen_biller_detail_title_text_credit_card: String =
+        "screen_biller_detail_title_text_credit_card"
+    const val screen_biller_detail_title_text_enter_you_account_details: String =
+        "screen_biller_detail_title_text_enter_you_account_details"
 }

@@ -1388,4 +1388,8 @@
     <!--    Add Bill Screen-->
     <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>
     <string name="screen_add_bill_description_text">Find bill providers by choosing any category below and set up one-time or recurring payments</string>
+
+    <!-- Biller Detail Screen-->
+    <string name="screen_biller_detail_title_text_credit_card">Enter your credit card details</string>
+    <string name="screen_biller_detail_title_text_enter_you_account_details">Enter your account details</string>
 </resources>

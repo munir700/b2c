@@ -30,16 +30,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="btnAdd"
             android:padding="@dimen/_5sdp"
+            android:src="@{icon}"
             android:tint="@color/white"
             app:backgroundTint="?attr/colorPrimaryAttr"
             app:elevation="0dp"
             app:fabCustomSize="@dimen/_32sdp"
             app:fabSize="mini"
             app:maxImageSize="@dimen/_18sdp"
-            android:src="@{icon}"
-            tools:srcCompat="@drawable/ic_add_sign"
-            android:contentDescription="btnAdd" />
+            tools:srcCompat="@drawable/ic_my_bills" />
 
         <TextView
             style="@style/AppFontRegular"

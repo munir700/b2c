@@ -9,18 +9,20 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.databinding.FragmentBillerSearchBinding
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.helpers.extentions.hideKeyboard
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
     IBillerSearch.View, SearchingListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_biller_search
 
-    override val viewModel: IBillerSearch.ViewModel
+    override val viewModel: BillerSearchViewModel
         get() = ViewModelProviders.of(this).get(BillerSearchViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +44,14 @@ class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
             viewModel.state.stateLiveData?.value =
                 if (it == 0) State.empty("") else State.success("")
         })
+        viewModel.adapter.setItemListener(onItemClickListener)
+    }
+
+    val onItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.parentViewModel?.selectedBiller = (data as BillerModel)
+            navigate(R.id.action_billerSearchFragment_to_billerDetailFragment)
+        }
     }
 
     private fun handleState(state: State?) {

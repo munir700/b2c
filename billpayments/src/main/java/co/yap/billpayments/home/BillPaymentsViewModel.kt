@@ -11,5 +11,6 @@ class BillPaymentsViewModel(application: Application) :
     override var billers: MutableList<BillerModel> = mutableListOf()
     override var selectedBillProvider: BillProviderModel? = null
     override var billcategories: MutableList<BillProviderModel> = mutableListOf()
+    override var selectedBiller: BillerModel? = null
     override val state: IBillPayments.State = BillPaymentsState()
 }

@@ -18,6 +18,7 @@ interface IBillPayments {
         var billers: MutableList<BillerModel>
         var selectedBillProvider: BillProviderModel?
         var billcategories: MutableList<BillProviderModel>
+        var selectedBiller: BillerModel?
     }
 
     interface View : IBase.View<ViewModel>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.billerdetail.BillerDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/margin_large"
+        android:paddingTop="@dimen/margin_large">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvScreenTitle"
+            style="@style/ATitle3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{viewModel.state.screenTitle}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Enter your credit card details?" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:background="@drawable/card_border_container"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_medium_large"
+            android:paddingBottom="@dimen/margin_medium_large"
+            app:constraint_referenced_ids="ivIcon,tvBillerName"
+            app:flow_horizontalAlign="center"
+            app:flow_verticalGap="@dimen/margin_extra_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvScreenTitle" />
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            app:fullName="@{viewModel.parentViewModel.selectedBiller.billerName}"
+            app:imageUrl="@{viewModel.parentViewModel.selectedBiller.logo}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBillerName"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@{viewModel.parentViewModel.selectedBiller.billerName}"
+            tools:text="Etsilat" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
