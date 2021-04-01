@@ -13,6 +13,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 
 
 class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IInviteFriend.View {

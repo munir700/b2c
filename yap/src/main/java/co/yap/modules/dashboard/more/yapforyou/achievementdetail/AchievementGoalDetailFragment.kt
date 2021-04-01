@@ -65,7 +65,7 @@ class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDeta
     private fun performActionOnClick(controller: String) {
         when (controller) {
             YapForYouGoalType.INVITE_FRIEND.name -> {
-                context?.inviteFriendIntent()
+                requireContext().inviteFriendIntent()
                 InviteFriendRepository().inviteAFriend {
                     viewModel.parentViewModel?.getAchievements()
                 }
