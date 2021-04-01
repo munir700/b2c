@@ -15,7 +15,7 @@ import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -57,17 +57,17 @@ interface CustomersRetroService {
     @Multipart
     @POST(CustomersRepository.URL_UPLOAD_DOCUMENTS)
     suspend fun uploadDocuments(
-            @Part files: List<MultipartBody.Part>,
-            @Part("documentType") documentType: RequestBody,
-            @Part("firstName") firstName: RequestBody,
-            @Part("middleName") middleName: RequestBody? = null,
-            @Part("lastName") lastName: RequestBody? = null,
-            @Part("nationality") nationality: RequestBody,
-            @Part("dateExpiry") dateExpiry: RequestBody,
-            @Part("dob") dob: RequestBody,
-            @Part("fullName") fullName: RequestBody,
-            @Part("gender") gender: RequestBody,
-            @Part("identityNo") identityNo: RequestBody
+        @Part files: List<MultipartBody.Part>,
+        @Part("documentType") documentType: RequestBody,
+        @Part("firstName") firstName: RequestBody,
+        @Part("middleName") middleName: RequestBody? = null,
+        @Part("lastName") lastName: RequestBody? = null,
+        @Part("nationality") nationality: RequestBody,
+        @Part("dateExpiry") dateExpiry: RequestBody,
+        @Part("dob") dob: RequestBody,
+        @Part("fullName") fullName: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("identityNo") identityNo: RequestBody
     ): Response<ApiResponse>
 
     // Get Documents
@@ -91,14 +91,14 @@ interface CustomersRetroService {
     // Get More Documents on profile settings fragment
     @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
     suspend fun validatePhoneNumber(
-            @Query("country-code") countryCode: String,
-            @Query("mobile-number") mobileNumber: String
+        @Query("country-code") countryCode: String,
+        @Query("mobile-number") mobileNumber: String
     ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
     suspend fun changeMobileNumber(
-            @Path("country-code") countryCode: String,
-            @Path("mobile-number") mobileNumber: String
+        @Path("country-code") countryCode: String,
+        @Path("mobile-number") mobileNumber: String
     ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_VERIFIED_EMAIL)
@@ -134,8 +134,8 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
     suspend fun getCountryTransactionLimits(
-            @Query("countryCode") countryCode: String,
-            @Query("currencyCode") currencyCode: String
+        @Query("countryCode") countryCode: String,
+        @Query("currencyCode") currencyCode: String
     ): Response<CountryLimitsResponseDTO>
 
     /*  send money */
@@ -182,8 +182,8 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
     suspend fun verifyHouseholdParentMobile(
-            @Query("mobileNo") mobileNumber: String?,
-            @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+        @Query("mobileNo") mobileNumber: String?,
+        @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
     ): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
@@ -252,8 +252,8 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
     suspend fun getCoolingPeriod(
-            @Query("beneficiaryId") beneficiaryId: String,
-            @Query("productCode") productCode: String
+        @Query("beneficiaryId") beneficiaryId: String,
+        @Query("productCode") productCode: String
     ): Response<SMCoolingPeriodResponseDTO>
 
     @POST(CustomersRepository.URL_GET_QR_CONTACT)
@@ -279,8 +279,8 @@ interface CustomersRetroService {
     @Multipart
     @POST(CustomersRepository.URL_ADDITIONAL_DOCUMENT_UPLOAD)
     suspend fun uploadAdditionalDocuments(
-            @Part files: MultipartBody.Part,
-            @Part("documentType") documentType: RequestBody
+        @Part files: MultipartBody.Part,
+        @Part("documentType") documentType: RequestBody
     ): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)

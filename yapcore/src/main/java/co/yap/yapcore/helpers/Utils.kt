@@ -424,7 +424,8 @@ object Utils {
             context.startActivity(intent)
         } catch (e: Exception) {
             // no Twitter app, revert to browser
-            context.startActivity(Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
+            context.startActivity(
+                Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
             )
         }
     }
@@ -1030,7 +1031,6 @@ object Utils {
         }
         return str
     }
-}
 
     fun setLightStatusBar(activity: Activity, color: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1042,4 +1042,14 @@ object Utils {
             activity.window.statusBarColor = color
         }
     }
+
+    fun hideKeyboard(view: View?) {
+        view?.let { v ->
+            val imm =
+                view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(v.windowToken, 0)
+        }
+    }
 }
+
+ 

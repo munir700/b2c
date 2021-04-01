@@ -3,7 +3,7 @@ package co.yap.networking.transactions
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
@@ -24,16 +24,16 @@ interface TransactionsApi {
     suspend fun getCardFee(cardType: String): RetroApiResponse<RemittanceFeeResponse>
     suspend fun getDebitCardFee(): RetroApiResponse<RemittanceFeeResponse>
     suspend fun getTransactionFeeWithProductCode(
-            productCode: String?,
-            mRemittanceFeeRequest: RemittanceFeeRequest?
+        productCode: String?,
+        mRemittanceFeeRequest: RemittanceFeeRequest?
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>
     suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse>
     suspend fun getAccountStatements(): RetroApiResponse<CardStatementsResponse>
     suspend fun getTransactionInternationalRXList(
-            productCode: String?,
-            mRxListRequest: RxListRequest
+        productCode: String?,
+        mRxListRequest: RxListRequest
     ): RetroApiResponse<ApiResponse>
 
     suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse>
@@ -48,18 +48,18 @@ interface TransactionsApi {
     suspend fun check3DEnrollmentSession(check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): RetroApiResponse<Check3DEnrollmentSessionResponse>
     suspend fun secureIdPooling(secureId: String? = ""): RetroApiResponse<StringDataResponseDTO>
     suspend fun cardTopUpTransactionRequest(
-            orderId: String,
-            topUpTransactionRequest: TopUpTransactionRequest
+        orderId: String,
+        topUpTransactionRequest: TopUpTransactionRequest
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getAnalyticsByMerchantName(
-            cardSerialNo: String? = "",
-            date: String? = ""
+        cardSerialNo: String? = "",
+        date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 
     suspend fun getAnalyticsByCategoryName(
-            cardSerialNo: String? = "",
-            date: String? = ""
+        cardSerialNo: String? = "",
+        date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 
     suspend fun cashPayoutTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
@@ -69,42 +69,46 @@ interface TransactionsApi {
     suspend fun swiftTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun getTransactionThresholds(): RetroApiResponse<TransactionThresholdResponseDTO>
     suspend fun getCutOffTimeConfiguration(
-            productCode: String?,
-            currency: String?,
-            amount: String?,
-            isCbwsi: Boolean? = null
+        productCode: String?,
+        currency: String?,
+        amount: String?,
+        isCbwsi: Boolean? = null
     ): RetroApiResponse<CutOffTime>
 
     suspend fun getAchievements(): RetroApiResponse<ApiResponse>
     suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO>
     suspend fun checkCoolingPeriodRequest(
-            beneficiaryId: String?,
-            beneficiaryCreationDate: String?,
-            beneficiaryName: String?,
-            amount: String?
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransactionsOfMerchant(
-            merchantType: String,
-            cardSerialNo: String?,
-            date: String?, merchantName: ArrayList<String>?
+        merchantType: String,
+        cardSerialNo: String?,
+        date: String?, merchantName: ArrayList<String>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
 
 
     suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
-    suspend fun addTransactionReceipt(transactionId: String, transactionReceipt: MultipartBody.Part): RetroApiResponse<ApiResponse>
+    suspend fun addTransactionReceipt(
+        transactionId: String,
+        transactionReceipt: MultipartBody.Part
+    ): RetroApiResponse<ApiResponse>
+
     suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse>
     suspend fun deleteTransactionReceipt(
-            transactionId: String,
-            receipt: String
+        transactionId: String,
+        receipt: String
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
 
     //    House Hold API calls fees/subscriptions
     suspend fun getPrepaidUserSubscriptionsPlans(
-            productPlan: String,
-            feeFrequency: String
+        productPlan: String,
+        feeFrequency: String
     ): RetroApiResponse<RemittanceFeeResponse>
 
     //    House Hold Pay Salary Now

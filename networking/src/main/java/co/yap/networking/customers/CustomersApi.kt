@@ -14,10 +14,10 @@ import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
-import co.yap.networking.notification.HomeNotification
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
