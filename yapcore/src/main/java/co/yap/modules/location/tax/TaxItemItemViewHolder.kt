@@ -1,5 +1,11 @@
 package co.yap.modules.location.tax
 
+import android.graphics.Color
+import android.view.View
+import android.view.ViewTreeObserver
+import android.widget.AdapterView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -36,6 +42,15 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
                 R.drawable.bg_spinner
             )
         itemTaxInfoBinding.optionsSpinner.isEnabled = (position != 0)
+        itemTaxInfoBinding.optionsSpinner.viewTreeObserver.addOnGlobalLayoutListener {
+            (itemTaxInfoBinding.optionsSpinner.selectedView as TextView).setTextColor(
+                ContextCompat.getColor(
+                    itemTaxInfoBinding.optionsSpinner.context,
+                    R.color.colorPrimaryDark
+                )
+            )
+        }
+
 
         //Disable TIN for UAE
         itemTaxInfoBinding.tvReason.text =
@@ -49,6 +64,15 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
                 R.drawable.bg_spinner
             )
         itemTaxInfoBinding.reasonsSpinner.isEnabled = (position != 0)
+
+        itemTaxInfoBinding.reasonsSpinner.viewTreeObserver.addOnGlobalLayoutListener {
+            (itemTaxInfoBinding.reasonsSpinner.selectedView as? TextView)?.setTextColor(
+                ContextCompat.getColor(
+                    itemTaxInfoBinding.reasonsSpinner.context,
+                    R.color.colorPrimaryDark
+                )
+            )
+        }
     }
 
 }

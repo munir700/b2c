@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.TypedValue
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +21,8 @@ import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.isNetworkAvailable
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
@@ -39,7 +42,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             context: Context,
             txnFilters: TransactionFilters
         ): Intent {
-
             val intent = Intent(context, TransactionFiltersActivity::class.java)
             intent.putExtra(KEY_FILTER_TXN_FILTERS, txnFilters)
             return intent
@@ -49,7 +51,9 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        generateChipViews(viewModel.getCategoriesList())
         intent?.let {
+            viewModel.txnFilters.value?.categories?.clear()
             if (it.hasExtra(KEY_FILTER_TXN_FILTERS)) {
                 viewModel.txnFilters.value = it.getParcelableExtra(KEY_FILTER_TXN_FILTERS)
             }
@@ -67,12 +71,36 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).addOnPropertyChangedCallback(stateObserver)
         }
+        setChipListener()
+    }
+
+    private fun setChipListener() {
+        for (index in 0 until chipGroup.childCount) {
+            val chip: Chip = chipGroup.getChildAt(index) as Chip
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                if (isChecked && !viewModel.txnFilters.value?.categories?.contains(view.text.toString())!!) {
+                    viewModel.txnFilters.value?.categories?.add(view.text.toString())
+                } else {
+                    viewModel.txnFilters.value?.categories?.remove(view.text.toString())
+                }
+            }
+        }
     }
 
     private fun initViews() {
         viewModel.txnFilters.value?.let {
             cbInTransFilter.isChecked = it.incomingTxn ?: false
             cbOutTransFilter.isChecked = it.outgoingTxn ?: false
+            cbPenTransFilter.isChecked = it.pendingTxn ?: false
+            viewModel.txnFilters.value?.categories?.addAll(it.categories ?: arrayListOf())
+            setCheckedCategories(it)
+        }
+    }
+
+    private fun setCheckedCategories(it: TransactionFilters) {
+        for (index in 0 until chipGroup.childCount) {
+            val chip: Chip = chipGroup.getChildAt(index) as Chip
+            chip.isChecked = it.categories?.contains(chip.text.toString()) ?: false
         }
     }
 
@@ -114,7 +142,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
                 override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
             })
-
         } catch (ex: Exception) {
             showToast("Max and Min range error")
             ex.printStackTrace()
@@ -159,7 +186,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     private fun resetAllFilters() {
         val request = TransactionFilters(
             null,
-            null, false, outgoingTxn = false
+            null, false, pendingTxn = false, outgoingTxn = false, categories = arrayListOf()
         )
         val intent = Intent()
         intent.putExtra("txnRequest", request)
@@ -169,16 +196,17 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun setIntentAction() {
         var appliedFilter = 0
-        if (cbInTransFilter.isChecked) {
-            appliedFilter++
-        }
-        if (cbOutTransFilter.isChecked) {
-            appliedFilter++
-        }
+        if (cbInTransFilter.isChecked) appliedFilter++
+        if (cbOutTransFilter.isChecked) appliedFilter++
+        if (cbPenTransFilter.isChecked) appliedFilter++
+        if (viewModel.txnFilters.value?.categories?.size ?: 0 >= 1) appliedFilter++
         viewModel.txnFilters.value?.amountEndRange?.let {
             if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
             setIntentRequest(appliedFilter)
-        } ?: setIntentRequest(appliedFilter + 1)
+        }
+            ?: if (rsbAmount.leftSeekBar.progress == rsbAmount.rightSeekBar.progress) setIntentRequest(
+                appliedFilter + 1
+            ) else setIntentRequest(appliedFilter)
     }
 
     private fun setIntentRequest(appliedFilter: Int) {
@@ -187,6 +215,8 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             amountEndRange = Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
             incomingTxn = cbInTransFilter.isChecked,
             outgoingTxn = cbOutTransFilter.isChecked,
+            categories = viewModel.txnFilters.value?.categories,
+            pendingTxn = cbPenTransFilter.isChecked,
             totalAppliedFilter = appliedFilter
         )
         val param = Bundle()
@@ -216,6 +246,28 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             R.id.ivLeftIcon -> {
                 finish()
             }
+        }
+    }
+
+    private fun generateChipViews(categoriesList: MutableList<String>) {
+        val chipGroup = findViewById<ChipGroup>(R.id.chipGroup)
+        for (index in categoriesList.indices) {
+            val categoryName = categoriesList[index]
+            val chip = layoutInflater.inflate(R.layout.item_category_chip, chipGroup, false) as Chip
+            val paddingDp = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 10f,
+                resources.displayMetrics
+            ).toInt()
+            chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+            chip.text = categoryName
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                if (isChecked && !viewModel.txnFilters.value?.categories?.contains(view.text.toString())!!) {
+                    viewModel.txnFilters.value?.categories?.add(view.text.toString())
+                } else {
+                    viewModel.txnFilters.value?.categories?.remove(view.text.toString())
+                }
+            }
+            chipGroup.addView(chip)
         }
     }
 }

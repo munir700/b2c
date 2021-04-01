@@ -1,17 +1,22 @@
 package co.yap.yapcore.helpers
 
+import android.content.Context
+import co.yap.yapcore.R
 import java.text.DateFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
 
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
+    const val SIMPLE_DATE_FORMAT: String = "yyyy-MM-dd"
     val GMT: TimeZone = TimeZone.getTimeZone("GMT")
     val UTC: TimeZone = TimeZone.getTimeZone("UTC")
-     val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
+    val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
     const val FORMAT_LONG_OUTPUT = "MMM dd, yyyy・hh:mm a"//2015-11-28 10:17:18//2016-12-12 12:23:00
     const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm"//2015-11-28 10:17:18
+    const val SERVER_DATE_FULL_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
     const val LEAN_PLUM_EVENT_FORMAT = "yyyy-MM-dd HH:mm:ss"//2015-11-28 10:17:18
     const val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
     const val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
@@ -61,9 +66,9 @@ object DateUtils {
     }
 
     fun reformatStringDate(
-        date: String,
-        inputFormatter: String? = DEFAULT_DATE_FORMAT,
-        outFormatter: String? = DEFAULT_DATE_FORMAT
+            date: String,
+            inputFormatter: String? = DEFAULT_DATE_FORMAT,
+            outFormatter: String? = DEFAULT_DATE_FORMAT
     ): String {
         var result = ""
         val formatter = SimpleDateFormat(outFormatter, Locale.US)
@@ -76,11 +81,11 @@ object DateUtils {
     }
 
     fun reformatStringDate(
-        date: String?,
-        inputFormatter: String? = DEFAULT_DATE_FORMAT,
-        outFormatter: String? = DEFAULT_DATE_FORMAT,
-        inputTimeZone: TimeZone = GMT,
-        outTimeZone: TimeZone = TIME_ZONE_Default
+            date: String?,
+            inputFormatter: String? = DEFAULT_DATE_FORMAT,
+            outFormatter: String? = DEFAULT_DATE_FORMAT,
+            inputTimeZone: TimeZone = GMT,
+            outTimeZone: TimeZone = TIME_ZONE_Default
     ): String {
         var result = ""
         date?.let {
@@ -88,11 +93,11 @@ object DateUtils {
                 val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
                 formatter.timeZone = outTimeZone
                 result = formatter.format(
-                    stringToDate(
-                        dateStr = it,
-                        format = inputFormatter,
-                        timeZone = inputTimeZone
-                    )
+                        stringToDate(
+                                dateStr = it,
+                                format = inputFormatter,
+                                timeZone = inputTimeZone
+                        )
                 )
             } catch (e: Exception) {
             }
@@ -102,11 +107,11 @@ object DateUtils {
     }
 
     fun reformatDate(
-        date: String?,
-        inputFormatter: String = DEFAULT_DATE_FORMAT,
-        outFormatter: String = DEFAULT_DATE_FORMAT,
-        inputTimeZone: TimeZone = GMT,
-        outTimeZone: TimeZone = TIME_ZONE_Default
+            date: String?,
+            inputFormatter: String = DEFAULT_DATE_FORMAT,
+            outFormatter: String = DEFAULT_DATE_FORMAT,
+            inputTimeZone: TimeZone = GMT,
+            outTimeZone: TimeZone = TIME_ZONE_Default
     ): String {
         var result = ""
         date?.let {
@@ -114,11 +119,11 @@ object DateUtils {
                 val formatter = SimpleDateFormat(outFormatter, Locale.US)
                 formatter.timeZone = outTimeZone
                 result = formatter.format(
-                    stringToDate(
-                        dateStr = it,
-                        format = inputFormatter,
-                        timeZone = inputTimeZone
-                    )
+                        stringToDate(
+                                dateStr = it,
+                                format = inputFormatter,
+                                timeZone = inputTimeZone
+                        )!!
                 )
             } catch (e: Exception) {
             }
@@ -127,9 +132,9 @@ object DateUtils {
     }
 
     fun reformatLiveStringDate(
-        date: String,
-        inputFormatter: String? = DEFAULT_DATE_FORMAT,
-        outFormatter: String? = DEFAULT_DATE_FORMAT
+            date: String,
+            inputFormatter: String? = DEFAULT_DATE_FORMAT,
+            outFormatter: String? = DEFAULT_DATE_FORMAT
     ): String {
         var result = ""
         val formatter = SimpleDateFormat(outFormatter, Locale.US)
@@ -143,23 +148,22 @@ object DateUtils {
 
     }
 
-    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
+    fun dateToString(
+            date: Date?,
+            format: String = DEFAULT_DATE_FORMAT,
+            isApplyTimeZone: Boolean = true
+    ): String {
         return try {
             SimpleDateFormat(format, Locale.US).format(date)
             val sdf = SimpleDateFormat(format, Locale.US)
-            sdf.timeZone = TimeZone.getTimeZone("UTC")
+            if (isApplyTimeZone) sdf.timeZone = TimeZone.getTimeZone("UTC")
             return sdf.format(date)
         } catch (e: Exception) {
             " ";
         }
     }
 
-//    fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
-//        SimpleDateFormat(format, Locale.US).format(toDate(day, month, year))
-
-//    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT) = datetoString(date, format)
-
-    fun datetoString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
+    fun dateToString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
         date?.let {
             var result = ""
             val formatter = SimpleDateFormat(format, Locale.US)
@@ -206,7 +210,7 @@ object DateUtils {
         return d
     }
 
-    fun formatTime(format: String, date: String): String?{
+    fun formatTime(format: String, date: String): String? {
         val outputFormat: DateFormat = SimpleDateFormat(format, Locale.getDefault())
         val inputFormat: DateFormat = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US)
         val date: Date = inputFormat.parse(date)
@@ -224,9 +228,9 @@ object DateUtils {
     }
 
     fun reformatLocalDate(
-        date: String,
-        inputFormatter: String? = DEFAULT_DATE_FORMAT,
-        outputFormatter: String? = DEFAULT_DATE_FORMAT
+            date: String,
+            inputFormatter: String? = DEFAULT_DATE_FORMAT,
+            outputFormatter: String? = DEFAULT_DATE_FORMAT
     ): Date? {
         return try {
             val inFormatter = SimpleDateFormat(inputFormatter, Locale.US)
@@ -239,8 +243,8 @@ object DateUtils {
     }
 
     fun reformatToLocalString(
-        date: Date?,
-        outputFormatter: String
+            date: Date?,
+            outputFormatter: String
     ): String {
         return try {
             SimpleDateFormat(outputFormatter, Locale.US).format(date)
@@ -291,6 +295,12 @@ object DateUtils {
         return sdf.format(Date())
     }
 
+    fun getCurrentDateWithFormat(formal: String, timeZone: TimeZone): String {
+        val sdf = SimpleDateFormat(formal, Locale.US)
+        sdf.timeZone = timeZone
+        return sdf.format(Date())
+    }
+
     fun convertServerDateToLocalDate(serverDate: String): Date? {
         return try {
             val serverSdf = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US)
@@ -310,14 +320,181 @@ object DateUtils {
     }
 
     fun getStartAndEndOfMonthAndDay(
-        calendar: Calendar,
-        format: String = FORMATE_MONTH_DAY
+            currentDate: Date,
+            format: String = FORMATE_MONTH_DAY
     ): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
-        val startDay = dateToString(calendar.time, format)
+        val startDay = dateToString(calendar.time, format, false)
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-        val endDay = dateToString(calendar.time, format)
+        val endDay = dateToString(calendar.time, format, false)
         return "${startDay.replace("0", "")} - $endDay"
+    }
+
+    fun geMonthsBetweenTwoDates(startDate: String, endDate: String): List<Date> {
+        val dates = ArrayList<Date>()
+        val df1: DateFormat = SimpleDateFormat("yyyy-MM")
+        var parsedStartDate: Date? = null
+        var parsedEndDate: Date? = null
+        try {
+            parsedStartDate = df1.parse(startDate)
+            parsedEndDate = df1.parse(endDate)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        val cal1 = Calendar.getInstance()
+        cal1.time = parsedStartDate
+
+
+        val cal2 = Calendar.getInstance()
+        cal2.time = parsedEndDate
+
+        while (!cal1.after(cal2)) {
+            dates.add(cal1.time)
+            cal1.add(Calendar.MONTH, 1)
+        }
+        return dates
+    }
+
+    fun getPriviousMonthFromCurrentDate(listOfMonths: List<Date>, currentDate: Date?): Date? {
+        var index: Int = -1
+        currentDate?.let {
+            for (i in listOfMonths.indices) {
+                if (isDateMatched(listOfMonths[i], currentDate)) {
+                    index = i
+                    break
+                }
+            }
+        }
+
+        return if (index != -1) {
+            if (index - 1 >= 0 && listOfMonths.size > (index - 1)) listOfMonths[index - 1] else null
+        } else {
+            null
+        }
+    }
+
+    fun getNextMonthFromCurrentDate(listOfMonths: List<Date>, currentDate: Date?): Date? {
+        var index: Int = -1
+        currentDate?.let {
+            for (i in 0..listOfMonths.size) {
+                if (isDateMatched(listOfMonths[i], currentDate)) {
+                    index = i
+                    break
+                }
+            }
+        }
+
+        return if (index != -1) {
+            if (listOfMonths.size > (index + 1)) listOfMonths[index + 1] else null
+        } else {
+            null
+        }
+    }
+
+    fun isDateMatched(date1: Date, date2: Date): Boolean {
+        val calendar1 = Calendar.getInstance()
+        calendar1.time = date1
+        val calendar2 = Calendar.getInstance()
+        calendar2.time = date2
+        val sameYear = calendar1[Calendar.YEAR] == calendar2[Calendar.YEAR]
+        val sameMonth =
+                calendar1[Calendar.MONTH] == calendar2[Calendar.MONTH]
+        return sameMonth && sameYear
+    }
+
+
+    fun isToday(date: Date?) = date?.let { android.text.format.DateUtils.isToday(it.time) } ?: false
+
+    fun isToday(date: String, format: String, timeZone: TimeZone) =
+            android.text.format.DateUtils.isToday(
+                    stringToDate(date, format, timeZone)?.time ?: Date().time
+            )
+
+    fun isTomorrow(date: Date?): Boolean {
+        // Check if yesterday
+        val c1 = Calendar.getInstance() // today
+        c1.add(Calendar.DAY_OF_YEAR, 1) // yesterday
+        val c2 = Calendar.getInstance()
+        c2.time = date ?: Date()
+        return (c1[Calendar.YEAR] == c2[Calendar.YEAR]
+                && c1[Calendar.DAY_OF_YEAR] == c2[Calendar.DAY_OF_YEAR])
+    }
+
+    fun isTomorrow(date: Date?, timeZone: TimeZone) =
+            afterDay(timeZone) == dateToString(date, DEFAULT_DATE_FORMAT, timeZone)
+
+    fun isYesterday(date: Date?): Boolean {
+        // Check if yesterday
+        val c1 = Calendar.getInstance() // today
+        c1.add(Calendar.DAY_OF_YEAR, -1) // yesterday
+        val c2 = Calendar.getInstance()
+        c2.time = date ?: Date()
+        return (c1[Calendar.YEAR] == c2[Calendar.YEAR]
+                && c1[Calendar.DAY_OF_YEAR] == c2[Calendar.DAY_OF_YEAR])
+    }
+
+    fun isYesterday(date: Date?, timeZone: TimeZone) =
+            befoDay(timeZone) == dateToString(date, DEFAULT_DATE_FORMAT, timeZone)
+
+    fun isYesterday(date: String, format: String, timeZone: TimeZone) =
+            stringToDate(date, format, timeZone)?.let {
+                isYesterday(it)
+            } ?: false
+
+    fun afterDay(timeZone: TimeZone) = dateToString(
+            nextDay(Date(), 1),
+            DEFAULT_DATE_FORMAT, timeZone
+    )
+
+    fun befoDay(timeZone: TimeZone) = befoDay(DEFAULT_DATE_FORMAT, timeZone)
+
+    fun nextDay(date: Date?, day: Int): Date? {
+        val cal = Calendar.getInstance()
+        if (date != null) {
+            cal.time = date
+        }
+        cal.add(Calendar.DAY_OF_YEAR, day)
+        return cal.time
+    }
+
+    fun befoDay(format: String, timeZone: TimeZone): String? {
+        return dateToString(
+                nextDay(
+                        Date(),
+                        -1
+                ), format, timeZone
+        )
+    }
+
+    fun getFormattedLogDate(
+            context: Context,
+            date: String?,
+            inputFormatter: String = SERVER_DATE_FORMAT,
+            outFormatter: String = LEAN_PLUM_FORMAT,
+            inputTimeZone: TimeZone = GMT,
+            outTimeZone: TimeZone = TIME_ZONE_Default
+    ): String? {
+        return date?.let {
+            val dateTime = stringToDate(it, inputFormatter, inputTimeZone)
+            when {
+                isToday(dateTime) -> context.getString(
+                        R.string.today,
+                        dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                )
+                isTomorrow(dateTime) -> context.getString(
+                        R.string.tomorrow,
+                        dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                )
+                isYesterday(dateTime) -> context.getString(
+                        R.string.yesterday,
+                        dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                )
+                else -> dateToString(dateTime, outFormatter, outTimeZone)
+            }
+        } ?: reformatDate(date, inputFormatter, outFormatter, inputTimeZone, outTimeZone)
     }
 
     fun dayDiff(date1: Date, date2: Date) = (date2.time - date1.time) / 86400000

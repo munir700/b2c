@@ -1,7 +1,5 @@
 package co.yap.modules.dashboard.addionalinfo.fragments
 
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -35,38 +33,19 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
     }
 
     private fun moveNextScreen() {
-        val document =
-            viewModel.getDocumentList()
-                .filter { additionalDocument -> additionalDocument.status == "PENDING" }
-        val questions =
-            viewModel.getQuestionList()
-                .filter { additionalQuestion -> additionalQuestion.status == "PENDING" }
         when (viewModel.getScreenType()) {
             AdditionalInfoScreenType.BOTH_SCREENS.name -> {
-                if (document.isNotEmpty()) {
-                    navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
-                } else {
-                    viewModel.moveStep()
-                    navigateToQuestion(questions)
-                }
+                navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
             }
             AdditionalInfoScreenType.DOCUMENT_SCREEN.name -> {
                 navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
             }
             AdditionalInfoScreenType.QUESTION_SCREEN.name -> {
-                navigateToQuestion(questions)
+                navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
             }
             AdditionalInfoScreenType.SUCCESS_SCREEN.name -> {
                 navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoComplete)
             }
-        }
-    }
-
-    private fun navigateToQuestion(questions: List<AdditionalQuestion>) {
-        if (questions.isNotEmpty()) {
-            navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
-        } else {
-            navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoComplete)
         }
     }
 

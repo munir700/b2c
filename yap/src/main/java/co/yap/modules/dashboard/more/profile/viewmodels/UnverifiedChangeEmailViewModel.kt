@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.SessionManager
 
@@ -31,7 +33,8 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
                     }
                 }
             } else {
-                state.setErrors("Email is not matched.")
+                state.setErrors(Translator.getString(context,
+                    Strings.screen_change_email_display_text_email_match_error))
             }
         }
     }

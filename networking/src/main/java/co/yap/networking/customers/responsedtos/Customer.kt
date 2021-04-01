@@ -2,6 +2,7 @@ package co.yap.networking.customers.responsedtos
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.icu.util.TimeZone
 import android.os.Build
 import android.os.Parcelable
@@ -50,7 +51,9 @@ class Customer(
     @SerializedName("homeCountry")
     var homeCountry: String? = null,
     @SerializedName("founder")
-    var founder: Boolean? = false
+    var founder: Boolean? = false,
+    @SerializedName("customerColor")
+    var customerColor: String? = null
 
 ) :ApiResponse(), Parcelable {
 
@@ -102,5 +105,7 @@ class Customer(
     fun setPicture(picture: String?) {
         profilePictureName = picture
     }
+
+    val parsedColor: Int? get() = Color.parseColor(customerColor ?: "#5E35B1")
 
 }

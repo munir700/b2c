@@ -2,10 +2,10 @@ package co.yap.modules.dashboard.transaction.search
 
 
 import android.content.Context
-import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.view.View
-import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
 import co.yap.BR
 import co.yap.R
@@ -26,8 +26,7 @@ class HomeTransactionAdapter(
     internal var transactionData: MutableMap<String?, List<Transaction>>,
     val expandableItemManager: RecyclerViewExpandableItemManager
 ) :
-    BaseExpandableRVAdapter<Transaction, SearchTransactionChildItemVM, HomeTransactionAdapter.ChildViewHolder
-            , HomeTransactionListData, SearchTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
+    BaseExpandableRVAdapter<Transaction, SearchTransactionChildItemVM, HomeTransactionAdapter.ChildViewHolder, HomeTransactionListData, SearchTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
     var onItemClick: ((view: View, groupPosition: Int, childPosition: Int, data: Transaction?) -> Unit)? =
         null
 
@@ -165,6 +164,32 @@ class HomeTransactionAdapter(
             super.setItem(item, position)
             transaction = item
             handleProductBaseCases(itemView.context, item, position)
+
+            //prod ticket YM-11574 fix start
+            if (item?.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode) {
+                item?.remarks?.let {
+                    binding.tvTransactionNote.text = it
+
+                    binding.tvTransactionNote.visibility =
+                        if (item?.remarks.isNullOrEmpty() || item?.remarks.equals(
+                                "null"
+                            )
+                        ) View.GONE else View.VISIBLE
+                }
+
+            } else {
+                binding.tvTransactionNote.visibility = View.GONE
+            }
+
+//            item.remarks?.let {
+//                binding.tvTransactionNote.text = it
+//            }
+//
+//            binding.tvTransactionNote.visibility =
+//                if (item.remarks.isNullOrEmpty() || item.remarks.equals(
+//                        "null"
+//                    )
+//                ) View.GONE else View.VISIBLE
         }
 
         private fun handleProductBaseCases(
@@ -172,40 +197,62 @@ class HomeTransactionAdapter(
             transaction: Transaction,
             position: Int?
         ) {
+
             binding.tvTransactionAmount.setTextColor(
                 itemView.context.getColors(transaction.getTransactionAmountColor())
             )
             binding.tvTransactionAmount.paintFlags =
-                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) binding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) binding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
 
-            binding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
+            binding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             binding.ivIncoming.background =
-                if (transaction.getTransactionTypeIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
+                if (transaction.getStatusIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
                     R.drawable.bg_round_white
                 ) else
                     context.getDrawable(android.R.color.transparent)
-            val txnIconResId = transaction.getTransactionIcon()
+            val txnIconResId = transaction.getIcon()
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it && !transaction.isTransactionRejected()) {
                     setY2YUserImage(transaction, binding, position)
+                } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
+                    setVirtualCardIcon(transaction, binding)
                 } else {
                     if (txnIconResId != -1) {
                         binding.ivTransaction.setImageResource(txnIconResId)
-                        if (transaction.isTransactionCancelled())
-                            binding.ivTransaction.alpha = 0.5f
                     } else {
                         setInitialsAsTxnImage(transaction, binding, position)
-                        if (transaction.isTransactionCancelled())
-                            binding.ivTransaction.alpha = 0.5f
                     }
-                    if (txnIconResId != co.yap.yapcore.R.drawable.ic_package_standered)
-                        ImageViewCompat.setImageTintList(
-                            binding.ivTransaction,
-                            ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
-                        )
+                    if (transaction.isTransactionRejected()) binding.ivTransaction.background =
+                        null
                 }
             }
+
+        }
+
+        private fun setVirtualCardIcon(
+            transaction: Transaction,
+            itemSearchTransactionBinding: ItemSearchTransactionChildBinding
+        ) {
+            transaction.virtualCardDesign?.let {
+                try {
+                    val startColor = Color.parseColor(it.designCodeColors?.firstOrNull()?.colorCode)
+                    val endColor = Color.parseColor(
+                        if (it.designCodeColors?.size ?: 0 > 1) it.designCodeColors?.get(1)?.colorCode else it.designCodeColors?.firstOrNull()?.colorCode
+                    )
+                    val gd = GradientDrawable(
+                        GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(startColor, endColor)
+                    )
+                    gd.shape = GradientDrawable.OVAL
+
+                    itemSearchTransactionBinding.ivTransaction.background = null
+                    itemSearchTransactionBinding.ivTransaction.background = gd
+                    itemSearchTransactionBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
+
+                } catch (e: Exception) {
+                }
+            }
+                ?: itemSearchTransactionBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
         }
 
         private fun setInitialsAsTxnImage(

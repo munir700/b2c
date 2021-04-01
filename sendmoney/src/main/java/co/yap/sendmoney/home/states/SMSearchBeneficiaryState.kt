@@ -6,6 +6,6 @@ import co.yap.widgets.State
 import co.yap.yapcore.BaseState
 
 class SMSearchBeneficiaryState : BaseState(), ISMSearchBeneficiary.State {
-    override var stateLiveData: MutableLiveData<State> = MutableLiveData()
+    override var stateLiveData: MutableLiveData<State>? = MutableLiveData()
 
 }

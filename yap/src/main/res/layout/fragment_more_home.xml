@@ -12,6 +12,10 @@
             type="co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel" />
 
         <import type="android.view.View" />
+        <import type="android.R.dimen" />
+        <import type="co.yap.yapcore.R" />
+        <import type="co.yap.yapcore.managers.SessionManager"/>
+
     </data>
 
 
@@ -37,32 +41,19 @@
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
-            android:layout_marginTop="@dimen/_24sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:background="@drawable/bg_round_white"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:visibility="@{viewModel.state.image.empty ? View.INVISIBLE:View.VISIBLE}"
+            tools:src="@drawable/lp_messaging_ui_icon_image_broken"
+            app:imageUrl="@{viewModel.state.image == null ? `` : viewModel.state.image}"
+            app:fullName="@{SessionManager.INSTANCE.user.currentCustomer.getFullName()}"
+            app:colorCode="@{SessionManager.INSTANCE.user.currentCustomer.parsedColor}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:src="@{viewModel.state.image}" />
-
-        <TextView
-            android:id="@+id/tvNameInitials"
-            style="@style/ALarge"
-            android:layout_width="@dimen/_64sdp"
-            android:layout_height="@dimen/_64sdp"
-            android:background="@drawable/tag_background"
-            android:gravity="center"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:text="@{viewModel.state.initials}"
-            android:textColor="?attr/colorPrimaryAttr"
-            android:textSize="@dimen/_24sdp"
-            android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgProfile"
-            tools:text="NM" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView

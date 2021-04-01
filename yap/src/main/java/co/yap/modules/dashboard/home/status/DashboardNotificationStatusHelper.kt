@@ -16,6 +16,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
@@ -50,10 +51,14 @@ class DashboardNotificationStatusHelper(
                 list
             }
         }
+        initAdapter(onboardingStagesList)
+        setUpAdapter()
+    }
+
+    fun initAdapter(onboardingStagesList: MutableList<StatusDataModel>) {
         dashboardNotificationStatusAdapter =
             DashboardNotificationStatusAdapter(getContext(), onboardingStagesList)
         dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
-        setUpAdapter()
     }
 
     private fun setUpAdapter() {
@@ -122,7 +127,12 @@ class DashboardNotificationStatusHelper(
                     PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT,
                     getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT)
                 ),
-                statusAction = getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_action_title),
+                statusAction = when (SessionManager.user?.partnerBankStatus) {
+                    PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status, PartnerBankStatus.ADD_COMPLIANCE_INFO_SUBMITTED_BY_ADMIN.status -> {
+                        null
+                    }
+                    else -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_action_title)
+                },
                 statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT) == StageProgress.COMPLETED) getContext().resources.getDrawable(
                     R.drawable.ic_dashboard_finish
                 ) else getContext().resources.getDrawable(R.drawable.file),
@@ -169,8 +179,8 @@ class DashboardNotificationStatusHelper(
             when (stage) {
                 PaymentCardOnboardingStage.SHIPPING -> {
                     return (when {
-                        SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status -> {
-                            StageProgress.INACTIVE
+                        SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status || SessionManager.user?.partnerBankStatus == PartnerBankStatus.DOCUMENT_UPLOADED.status -> {
+                            if (SessionManager.user?.notificationStatuses == NotificationStatus.FATCA_GENERATED.name) StageProgress.ACTIVE else StageProgress.INACTIVE
                         }
                         card.deliveryStatus == CardDeliveryStatus.ORDERED.name || card.deliveryStatus == CardDeliveryStatus.BOOKED.name || card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
                             StageProgress.ACTIVE
@@ -188,6 +198,29 @@ class DashboardNotificationStatusHelper(
                                 || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status
                                 || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status
                                 || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status) -> {
+                            StageProgress.COMPLETED
+                        }
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
+                            StageProgress.INACTIVE
+                        }
+
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> {
+                            StageProgress.IN_PROGRESS
+                        }
+
+                        else -> StageProgress.INACTIVE
+                    })
+                }
+                PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> {
+                    return (when (SessionManager.user?.partnerBankStatus) {
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status -> {
+                            StageProgress.INACTIVE
+                        }
+                        PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status, PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status, PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status, PartnerBankStatus.ADD_COMPLIANCE_INFO_SUBMITTED_BY_ADMIN.status -> {
+                            StageProgress.IN_PROGRESS
+                        }
+
+                        PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.COMPLETED
                         }
                         else -> StageProgress.INACTIVE
@@ -214,20 +247,6 @@ class DashboardNotificationStatusHelper(
                     })
                 }
 
-                PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> {
-                    return (when (SessionManager.user?.partnerBankStatus) {
-                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status -> {
-                            StageProgress.INACTIVE
-                        }
-                        PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status -> {
-                            StageProgress.IN_PROGRESS
-                        }
-                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status -> {
-                            StageProgress.COMPLETED
-                        }
-                        else -> StageProgress.INACTIVE
-                    })
-                }
             }
         } ?: return StageProgress.INACTIVE
     }
@@ -275,7 +294,28 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.TOP_UP -> getStringHelper(Strings.dashboard_timeline_top_up_stage_description)
 
             PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> return (when (progress) {
-                StageProgress.IN_PROGRESS, StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                StageProgress.IN_PROGRESS -> {
+                    return when (SessionManager.user?.partnerBankStatus) {
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status, PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status -> {
+                            getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                        }
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status, PartnerBankStatus.ADD_COMPLIANCE_INFO_SUBMITTED_BY_ADMIN.status -> {
+                            getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_completed_description).format(
+                                DateUtils.reformatStringDate(
+                                    SessionManager.user?.additionalDocSubmitionDate ?: "",
+                                    SERVER_DATE_FORMAT,
+                                    DEFAULT_DATE_FORMAT
+                                )
+                            )
+                        }
+                        else -> {
+                            getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                        }
+                    }
+                }
+
+
                 StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_completed_description).format(
                     DateUtils.reformatStringDate(
                         SessionManager.user?.additionalDocSubmitionDate ?: "",
@@ -327,6 +367,7 @@ class DashboardNotificationStatusHelper(
             getStatusList()[2]
         )
     }
+
 
     private fun openAdditionalRequirementScreen() {
         getMyFragment().launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)

@@ -30,6 +30,7 @@ import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -75,6 +76,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     }
 
     private fun updateNotificationCounter() {
+//        Leanplum.forceContentUpdate()
         if (::adapter.isInitialized) {
             if (!adapter.getDataList().isNullOrEmpty()) {
                 val notificationCount: Int = NotificationHelper.getNotifications(
@@ -83,8 +85,19 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                     requireContext()
                 ).size
                 val item = adapter.getDataForPosition(0)
-                item.hasBadge = notificationCount > 0 //Leanplum.getInbox().unreadCount() > 0
-                item.badgeCount = Leanplum.getInbox().unreadCount().plus(notificationCount)
+                viewModel.getTransactionsNotificationsCount {
+                    item.badgeCount =
+                        Leanplum.getInbox().unreadCount().plus(notificationCount).plus(it ?: 0)
+                    //Leanplum.getInbox().unreadCount() > 0
+//                Leanplum.getInbox().addChangedHandler(object : InboxChangedCallback() {
+//                    override fun inboxChanged() {
+//                        item.badgeCount = item.badgeCount.plus(Leanplum.getInbox().unreadCount())
+//                        item.hasBadge = item.badgeCount > 0
+//                    }
+//                })
+                    item.hasBadge = item.badgeCount > 0
+                    adapter.setItemAt(0, item)
+                }
                 adapter.setItemAt(0, item)
             }
         }
@@ -184,24 +197,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.imgProfile -> {
+            R.id.imgProfile, R.id.imgSettings -> {
                 startActivity(MoreActivity.newIntent(requireContext()))
-            }
-            R.id.imgSettings -> {
-                /*activity?.let { activity ->
-                    val tour = TourSetup(activity, setViewsArray())
-                    tour.startTour()
-                }*/
-                startActivity(MoreActivity.newIntent(requireContext()))
-            }
-            R.id.tvName -> {
-                startActivity(MoreActivity.newIntent(requireContext()))
-            }
-
-            R.id.tvNameInitials -> {
-                startActivity(MoreActivity.newIntent(requireContext()))
-            }
-            R.id.tvIban -> {
             }
             R.id.btnBankDetails -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_BANK_DETAILS)
@@ -212,7 +209,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             }
             Constants.MORE_NOTIFICATION -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_NOTIFICATIONS)
-                launchActivity<NotificationsActivity> { }
+                requireActivity().launchActivity<NotificationsActivity>(requestCode = RequestCodes.REQUEST_NOTIFICATION_FLOW) {
+                }
             }
             Constants.MORE_LOCATE_ATM -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_ATM_LOCATION)

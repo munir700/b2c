@@ -36,8 +36,8 @@
             android:contentDescription="@string/empty_string"
             android:src="@drawable/ic_store_b2b"
             app:colorType="@{`y2y`}"
-            app:fullName="@{viewModel.contact.title}"
-            app:imageUrl="@{viewModel.contact.beneficiaryPictureUrl}"
+            app:fullName="@{viewModel.contact.fullName}"
+            app:imageUrl="@{viewModel.contact.imgUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:position="@{viewModel.position}" />
@@ -65,7 +65,7 @@
                 android:gravity="bottom"
                 android:lineSpacingExtra="0dp"
                 android:lines="1"
-                android:text="@{viewModel.contact.title}"
+                android:text="@{viewModel.contact.fullName}"
                 tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
             <TextView
@@ -76,7 +76,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text="@{Utils.INSTANCE.getFormattedPhoneNumber(context,viewModel.contact.countryCode+viewModel.contact.mobileNo)}"
+                android:text="@{viewModel.contact.subtitle}"
                 tools:text="+971 12 345 6" />
             <!--            android:text="@{Utils.INSTANCE.getFormattedPhone(viewModel.contact.countryCode+viewModel.contact.mobileNo)}"-->
 

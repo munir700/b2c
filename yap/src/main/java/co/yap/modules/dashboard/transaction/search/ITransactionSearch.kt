@@ -32,6 +32,6 @@ interface ITransactionSearch {
         var transactionMap: MutableLiveData<MutableMap<String?, List<Transaction>>>?
         var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>?
         var transactionRequest: HomeTransactionsRequest?
-        var stateLiveData: MutableLiveData<co.yap.widgets.State>?
+        // var stateLiveData: MutableLiveData<co.yap.widgets.State>?
     }
 }

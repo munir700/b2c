@@ -16,9 +16,9 @@ import kotlin.coroutines.CoroutineContext
 
 
 abstract class BaseViewModel<S : IBase.State>(application: Application) :
-    AndroidViewModel(application),
-    IBase.ViewModel<S>, CoroutineViewModel {
-    var isFirstTimeUiCreate = true
+        AndroidViewModel(application),
+        IBase.ViewModel<S>, CoroutineViewModel {
+
     override val context: Context = getApplication<Application>().applicationContext
     final override val viewModelJob = Job()
     override val viewModelScope = CloseableCoroutineScope(viewModelJob + Dispatchers.Main)
@@ -105,11 +105,11 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
 
     fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {
         viewModelScope.launch(
-            when (dispatcher) {
-                Dispatcher.Main -> Dispatchers.Main
-                Dispatcher.Background -> Dispatchers.IO
-                Dispatcher.LongOperation -> Dispatchers.Default
-            }
+                when (dispatcher) {
+                    Dispatcher.Main -> Dispatchers.Main
+                    Dispatcher.Background -> Dispatchers.IO
+                    Dispatcher.LongOperation -> Dispatchers.Default
+                }
         ) { block() }
     }
 
@@ -118,6 +118,5 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     override fun getString(resourceId: String): String = Translator.getString(context, resourceId)
 
     override val toolBarClickEvent = SingleClickEvent()
-
 }
 

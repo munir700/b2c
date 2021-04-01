@@ -5,13 +5,11 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,32 +22,24 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
 
     private EditText mEtSearch;
     private TextView tvCancel;
-    private ProgressBar pbLoadingIndicator;
     private boolean enableProgressbar;
-
-
     private boolean IsSearching;
     private boolean FireOnClick = true;
     private CountDownTimer timer = null;
 
-
     private SearchingListener searchingListener;
-
 
     public CoreSearchView(Context context) {
         super(context);
     }
 
-
     public CoreSearchView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-
     public CoreSearchView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
 
     public void initializeSearch(Context context, SearchingListener searchingListener, boolean IsSearching, boolean fireOnClickOnly) {
         this.searchingListener = searchingListener;
@@ -65,27 +55,11 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
         initComponents(view);
     }
 
-
-    public void enableLoadingIndicator(boolean enable) {
-        enableProgressbar = enable;
-        if (!enableProgressbar)
-            pbLoadingIndicator.setVisibility(GONE);
-    }
-
-
-    public void updateLoadingState(boolean isLoading) {
-        if (enableProgressbar)
-            pbLoadingIndicator.setVisibility(isLoading ? VISIBLE : View.GONE);
-    }
-
-
     private void initComponents(View view) {
-
         mEtSearch = view.findViewById(R.id.etSearch);
         tvCancel = view.findViewById(R.id.tvCancel);
-        pbLoadingIndicator = view.findViewById(R.id.pb_loading_indicator);
         if (searchingListener != null) {
-            mEtSearch.clearFocus();
+            //    mEtSearch.clearFocus();
             mEtSearch.setFocusable(false);
             mEtSearch.setOnClickListener(view12 -> {
                 tvCancel.setVisibility(VISIBLE);
@@ -107,17 +81,14 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
         }
     }
 
-
     public void clearInputField() {
         if (mEtSearch != null)
             mEtSearch.getText().clear();
     }
 
-
     public void addOnCancelListener(SearchingListener searchingListener) {
         this.searchingListener = searchingListener;
     }
-
 
     private void AddListeners() {
 
@@ -126,26 +97,21 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
 
     }
 
-
     public void registerTextChangeListener() {
         mEtSearch.addTextChangedListener(this);
     }
-
 
     public void unRegisterTextChangeListener() {
         mEtSearch.removeTextChangedListener(this);
     }
 
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
-
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
-
 
     @Override
     public void afterTextChanged(Editable s) {
@@ -162,14 +128,12 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
 
     private void searchData() {
         if (searchingListener != null)
-            searchingListener.onTypingSearch(IsSearching, mEtSearch.getText().toString());
+            searchingListener.onTypingSearch(mEtSearch.getText().toString());
     }
-
 
     private void searchDataOnSearchKeyPressed() {
         searchingListener.onSearchKeyPressed(mEtSearch.getText().toString());
     }
-
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -186,36 +150,30 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
         return false;
     }
 
-
     private void TimerLogic() {
         if (timer != null) {
             timer.cancel();
         }
         timer = new CountDownTimer(800, 800) {
 
-
             public void onTick(long millisUntilFinished) {
             }
-
 
             public void onFinish() {
                 if (IsSearching) {
                     if (searchingListener != null)
-                        searchingListener.onTypingSearch(IsSearching, mEtSearch.getText().toString());
+                        searchingListener.onTypingSearch(mEtSearch.getText().toString());
                 }
             }
         }.start();
     }
 
-
     public EditText getEditText() {
         return mEtSearch;
     }
-
 
     public void setFocus(View view) {
         mEtSearch.setFocusable(true);
         Utils.INSTANCE.requestKeyboard(view, true, true);
     }
-
 }

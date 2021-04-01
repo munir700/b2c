@@ -15,7 +15,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(), IFragmentHolder,
-    INavigator,IChangePassCode.View {
+    INavigator, IChangePassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_change_passcode
     override val passCodeData: PassCodeData = PassCodeData()
@@ -43,7 +43,7 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
 //        val fragment =
 //            supportFragmentManager.findFragmentById(R.id.change_passcode_nav_host_fragment)
 //        if (!BackPressImpl(fragment).onBackPressed()) {
-            super.onBackPressed()
+        super.onBackPressed()
 //        }
     }
 
@@ -51,6 +51,7 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
+
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {

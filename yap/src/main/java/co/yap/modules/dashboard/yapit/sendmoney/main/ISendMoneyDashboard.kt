@@ -1,8 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.main
 
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.databinding.ActivitySendMoneyDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapter
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary

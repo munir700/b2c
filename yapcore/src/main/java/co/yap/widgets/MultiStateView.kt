@@ -16,14 +16,13 @@ import androidx.annotation.Keep
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import androidx.databinding.BindingAdapter
-import androidx.viewpager.widget.ViewPager
 import co.yap.yapcore.R
 
 class MultiStateView
 @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = 0
 ) : FrameLayout(context, attrs, defStyle) {
     @Keep
     enum class ViewState {
@@ -70,7 +69,7 @@ class MultiStateView
 
         val loadingViewResId = a.getResourceId(R.styleable.MultiStateView_msv_loadingView, -1)
         animateViewChangesDuration =
-            a.getInteger(R.styleable.MultiStateView_msv_animateViewChangesDuration, 100)
+                a.getInteger(R.styleable.MultiStateView_msv_animateViewChangesDuration, 400)
         if (loadingViewResId > -1) {
             val inflatedLoadingView = inflater.inflate(loadingViewResId, this, false)
             loadingView = inflatedLoadingView
@@ -102,7 +101,7 @@ class MultiStateView
             else -> ViewState.CONTENT
         }
         animateLayoutChanges =
-            a.getBoolean(R.styleable.MultiStateView_msv_animateViewChanges, false)
+                a.getBoolean(R.styleable.MultiStateView_msv_animateViewChanges, false)
         a.recycle()
     }
 
@@ -172,8 +171,8 @@ class MultiStateView
      * @param switchToState If the [co.yap.widgets.MultiStateView.ViewState] should be switched to
      */
     fun setViewForState(
-        @LayoutRes layoutRes: Int, state: ViewState,
-        switchToState: Boolean = false
+            @LayoutRes layoutRes: Int, state: ViewState,
+            switchToState: Boolean = false
     ) {
         val view = LayoutInflater.from(context).inflate(layoutRes, this, false)
         setViewForState(view, state, switchToState)
@@ -235,10 +234,10 @@ class MultiStateView
     }
 
     override fun addViewInLayout(
-        child: View,
-        index: Int,
-        params: ViewGroup.LayoutParams,
-        preventRequestLayout: Boolean
+            child: View,
+            index: Int,
+            params: ViewGroup.LayoutParams,
+            preventRequestLayout: Boolean
     ): Boolean {
         if (isValidContentView(child)) contentView = child
         return super.addViewInLayout(child, index, params, preventRequestLayout)
@@ -346,8 +345,8 @@ class MultiStateView
                     val currentView = requireNotNull(getView(viewState))
                     currentView.visibility = View.VISIBLE
                     ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f)
-                        .setDuration(animateViewChangesDuration.toLong())
-                        .start()
+                            .setDuration(animateViewChangesDuration.toLong())
+                            .start()
                 }
             })
         }.start()
@@ -419,8 +418,8 @@ enum class Status(val value: Int) {
 }
 
 class State(
-    var status: Status,
-    var message: String?
+        var status: Status,
+        var message: String?
 ) {
 
     var hardAlert = false

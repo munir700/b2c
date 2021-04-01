@@ -18,6 +18,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.firebase.trackScreenViewEvent
 import co.yap.yapcore.helpers.*
@@ -27,8 +28,8 @@ import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
-    NetworkConnectionManager.OnNetworkStateChangeListener,
-    PermissionsManager.OnPermissionGrantedListener {
+        NetworkConnectionManager.OnNetworkStateChangeListener,
+        PermissionsManager.OnPermissionGrantedListener {
 
     private var snackbar: Snackbar? = null
     private var DURATION_CODE = -2
@@ -57,9 +58,30 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             registerStateListeners()
         }
         progress = Utils.createProgressDialog(this)
-        preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
+        preventTakeScreenShot(
+                YAPApplication.configManager?.isReleaseBuild() == true
+                        && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
+        )
+        viewModel.toolBarClickEvent.observe(this, Observer {
+            onToolBarClick(it)
+        })
 
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
 
+                    }
+                }
+
+            }
+        })
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -99,28 +121,28 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                     AlertType.TOAST.name -> toast(messages.first())
                     AlertType.DIALOG.name -> {
                         showAlertDialogAndExitApp(
-                            "",
-                            message = messages.first(),
-                            closeActivity = false
+                                "",
+                                message = messages.first(),
+                                closeActivity = false
                         )
                     }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
-                        "",
-                        message = messages.first(),
-                        closeActivity = true
+                            "",
+                            message = messages.first(),
+                            closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT.name -> showAlertDialogAndExitApp(
-                        "",
-                        message = messages.first(),
-                        rightButtonText = "CLOSE",
-                        closeActivity = true
+                            "",
+                            message = messages.first(),
+                            rightButtonText = "CLOSE",
+                            closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CLICKABLE.name -> {
                         showAlertDialogAndExitApp(
-                            Title = "",
-                            message = messages.first(),
-                            closeActivity = false,
-                            isOtpBlocked = true
+                                Title = "",
+                                message = messages.first(),
+                                closeActivity = false,
+                                isOtpBlocked = true
                         )
                     }
                 }
@@ -146,22 +168,22 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     private fun showNoInternetSnackBar() {
         snackbar = setSnackBar(
-            this,
-            getString(Strings.common_display_text_error_no_internet),
-            Snackbar.LENGTH_INDEFINITE
+                this,
+                getString(Strings.common_display_text_error_no_internet),
+                Snackbar.LENGTH_INDEFINITE
         )
-            .setAction(
-                "Settings"
-            ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            .setActionTextColor(Utils.getColor(this, R.color.colorDarkGreen))
+                .setAction(
+                        "Settings"
+                ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+                .setActionTextColor(Utils.getColor(this, R.color.colorDarkGreen))
         snackbar?.show()
     }
 
     private fun showInternetConnectedSnackBar() {
         val snackbarConnected = setSnackBar(
-            this,
-            "Internet connected.",
-            Snackbar.LENGTH_SHORT
+                this,
+                "Internet connected.",
+                Snackbar.LENGTH_SHORT
         )
         snackbarConnected.show()
         snackbar?.dismiss()
@@ -175,11 +197,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun setSnackBar(activity: Activity, message: String, duration: Int): Snackbar {
         val layout: View
         val snackbar = Snackbar
-            .make(activity.findViewById(android.R.id.content), message, duration)
+                .make(activity.findViewById(android.R.id.content), message, duration)
         layout = snackbar.view
         layout.setBackgroundColor(activity.getColor(R.color.colorDarkGreen))
         val text =
-            layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
+                layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
         text.setTextColor(activity.getColor(R.color.colorWhite))
 
         if (duration == DURATION_CODE) {
@@ -189,7 +211,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
             val snackbarView = snackbar.view
             val textView =
-                snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
+                    snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
             textView.setTextColor(Color.WHITE)
         }
         return snackbar
@@ -213,9 +235,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults)

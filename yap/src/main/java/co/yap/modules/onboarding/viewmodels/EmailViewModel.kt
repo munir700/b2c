@@ -12,6 +12,7 @@ import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SaveReferalRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
@@ -31,14 +32,14 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class EmailViewModel(application: Application) :
-    OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
-    IRepositoryHolder<CustomersRepository> {
+        OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
+        IRepositoryHolder<CustomersRepository> {
 
     override val state: EmailState = EmailState(application)
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
+    private val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override fun onResume() {
         super.onResume()
@@ -62,9 +63,10 @@ class EmailViewModel(application: Application) :
 
     override fun stopTimer() {
         parentViewModel?.onboardingData?.elapsedOnboardingTime =
-            TimeUnit.MILLISECONDS.toSeconds(
-                Date().time - (parentViewModel?.onboardingData?.startTime?.time ?: Date().time)
-            )
+                TimeUnit.MILLISECONDS.toSeconds(
+                        Date().time - (parentViewModel?.onboardingData?.startTime?.time
+                                ?: Date().time)
+                )
     }
 
 
@@ -72,21 +74,21 @@ class EmailViewModel(application: Application) :
         launch {
             state.refreshField = true
             when (val response = repository.signUp(
-                SignUpRequest(
-                    parentViewModel?.onboardingData?.firstName,
-                    parentViewModel?.onboardingData?.lastName,
-                    parentViewModel?.onboardingData?.countryCode,
-                    parentViewModel?.onboardingData?.mobileNo,
-                    state.twoWayTextWatcher,
-                    parentViewModel?.onboardingData?.passcode,
-                    parentViewModel?.onboardingData?.accountType.toString(),
-                    token = parentViewModel?.onboardingData?.token
-                )
+                    SignUpRequest(
+                            parentViewModel?.onboardingData?.firstName,
+                            parentViewModel?.onboardingData?.lastName,
+                            parentViewModel?.onboardingData?.countryCode,
+                            parentViewModel?.onboardingData?.mobileNo,
+                            state.twoWayTextWatcher,
+                            parentViewModel?.onboardingData?.passcode,
+                            parentViewModel?.onboardingData?.accountType.toString(),
+                            token = parentViewModel?.onboardingData?.token
+                    )
             )) {
                 is RetroApiResponse.Success -> {
                     sharedPreferenceManager.save(
-                        KEY_IS_USER_LOGGED_IN,
-                        true
+                            KEY_IS_USER_LOGGED_IN,
+                            true
                     )
 
                     parentViewModel?.onboardingData?.passcode?.let { passCode ->
@@ -117,16 +119,16 @@ class EmailViewModel(application: Application) :
         state.deactivateField = false
 
         val screen_email_verification_b2c_display_text_email_sent: String =
-            getString(R.string.screen_email_verification_b2c_display_text_email_sent)
+                getString(R.string.screen_email_verification_b2c_display_text_email_sent)
         val screen_email_verification_b2c_display_text_email_confirmation: String =
-            getString(R.string.screen_email_verification_b2c_display_text_email_confirmation)
+                getString(R.string.screen_email_verification_b2c_display_text_email_confirmation)
         val screen_email_verification_b2b_display_text_email_sent: String =
-            getString(R.string.screen_email_verification_b2b_display_text_email_sent)
+                getString(R.string.screen_email_verification_b2b_display_text_email_sent)
         val screen_email_verification_b2b_display_text_email_confirmation: String =
-            getString(R.string.screen_email_verification_b2b_display_text_email_confirmation)
+                getString(R.string.screen_email_verification_b2b_display_text_email_confirmation)
 
         val verificationText: String =
-            parentViewModel?.onboardingData?.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + " " + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
+                parentViewModel?.onboardingData?.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + " " + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
         state.emailVerificationTitle = verificationText
 
         // mark that we have completed all verification stuff to handle proper back navigation
@@ -141,11 +143,11 @@ class EmailViewModel(application: Application) :
             state.refreshField = true
             parentViewModel?.state?.emailError = false
             when (val response = repository.sendVerificationEmail(
-                SendVerificationEmailRequest(
-                    state.twoWayTextWatcher,
-                    parentViewModel?.onboardingData?.accountType.toString(),
-                    parentViewModel?.onboardingData?.token.toString()
-                )
+                    SendVerificationEmailRequest(
+                            state.twoWayTextWatcher,
+                            parentViewModel?.onboardingData?.accountType.toString(),
+                            parentViewModel?.onboardingData?.token.toString()
+                    )
             )) {
                 is RetroApiResponse.Error -> {
                     state.emailError = response.error.message
@@ -164,21 +166,21 @@ class EmailViewModel(application: Application) :
     override fun postDemographicData() {
 
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
+                sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {
             state.valid = false
             state.loading = true
             state.refreshField = true
             parentViewModel?.state?.emailError = false
             when (val response = repository.postDemographicData(
-                DemographicDataRequest(
-                    "SIGNUP",
-                    Build.VERSION.RELEASE,
-                    deviceId.toString(),
-                    Build.BRAND,
-                    if (Utils.isEmulator()) "generic" else Build.MODEL,
-                    "Android"
-                )
+                    DemographicDataRequest(
+                            "SIGNUP",
+                            Build.VERSION.RELEASE,
+                            deviceId.toString(),
+                            Build.BRAND,
+                            if (Utils.isEmulator()) "generic" else Build.MODEL,
+                            "Android"
+                    )
             )) {
                 is RetroApiResponse.Success -> {
                     getAccountInfo()
@@ -201,12 +203,15 @@ class EmailViewModel(application: Application) :
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        parentViewModel?.onboardingData?.ibanNumber = response.data.data[0].iban
+                        val accountInfo: AccountInfo = response.data.data[0]
+                        parentViewModel?.onboardingData?.ibanNumber = accountInfo.iban
                         delay(500)
                         SessionManager.user = response.data.data[0]
                         SessionManager.usersList?.value = response.data.data as ArrayList
+                        SessionManager.user = accountInfo
                         SessionManager.setupDataSetForBlockedFeatures()
                         state.valid = true
+                        state.isWaiting = accountInfo.isWaiting
                         state.loading = false
                         nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                     }
@@ -234,13 +239,13 @@ class EmailViewModel(application: Application) :
     }
 
     private fun requestSaveReferral() {
-        SharedPreferenceManager.getInstance(context).getReferralInfo()?.let {
+        SharedPreferenceManager(context).getReferralInfo()?.let {
             launch {
                 when (val response =
-                    repository.saveReferalInvitation(SaveReferalRequest(it.id, it.date))) {
+                        repository.saveReferalInvitation(SaveReferalRequest(it.id, it.date))) {
 
                     is RetroApiResponse.Success -> {
-                        SharedPreferenceManager.getInstance(context).setReferralInfo(null)
+                        SharedPreferenceManager(context).setReferralInfo(null)
                     }
                     is RetroApiResponse.Error -> {
                     }

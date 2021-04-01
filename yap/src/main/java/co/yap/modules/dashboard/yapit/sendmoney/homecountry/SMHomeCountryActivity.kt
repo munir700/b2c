@@ -79,7 +79,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (viewModel.homeCountry != (data as Country)) {
                 viewModel.homeCountry = data
-                viewModel.UpdateAndSyncHomeCountry()
+                viewModel.updateAndSyncHomeCountry()
             }
         }
     }
@@ -91,8 +91,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
             it.sheetImage = CurrencyUtils.getFlagDrawable(
                 context,
                 it.isoCountryCode2Digit.toString()
-            )
-        }
+            )        }
 
         val position =
             countriesWithoutUAE.indexOf(countries.find { it.isoCountryCode2Digit == viewModel.homeCountry?.isoCountryCode2Digit })

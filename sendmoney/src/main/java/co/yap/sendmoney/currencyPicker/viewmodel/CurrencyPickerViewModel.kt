@@ -30,62 +30,6 @@ class CurrencyPickerViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        //setUpDummyData()
-
         currencyAdapter.setList(availableCurrenciesList)
     }
-
- /*   fun setUpDummyData() {
-
-        availableCurrenciesList.add(
-            MultiCurrencyWallet(
-                "ae",
-                "5000",
-                SessionManager.getDefaultCurrency(),
-                "Dirham",
-                "2.5"
-            )
-        )
-
-        availableCurrenciesList.add(
-            MultiCurrencyWallet(
-                "CA",
-                "1000",
-                "CAD",
-                "Canadian Dollar",
-                "3.5"
-            )
-        )
-        availableCurrenciesList.add(
-            MultiCurrencyWallet(
-                "pk",
-                "5000",
-                "PKR",
-                "",
-                "2.5"
-            )
-        )
-
-        availableCurrenciesList.add(
-            MultiCurrencyWallet(
-                "in",
-                "1000",
-                "INR",
-                "",
-                "1.5"
-            )
-        )
-        availableCurrenciesList.add(
-            MultiCurrencyWallet(
-                "ae",
-                "5000",
-                SessionManager.getDefaultCurrency(),
-                "Dirham",
-                "4.5"
-            )
-        )
-
-
-    }*/
-
 }

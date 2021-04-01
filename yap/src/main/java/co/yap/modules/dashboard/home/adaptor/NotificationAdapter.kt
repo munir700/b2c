@@ -6,7 +6,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.databinding.ViewNotificationsBinding
 import co.yap.yapcore.helpers.ImageBinding
@@ -43,7 +43,7 @@ class NotificationAdapter(
 
             binding.tvTitle.text = notification.title
             notification.imgResId?.let {
-                ImageBinding.setGifImageViewResource(binding.ivNotification, it)
+                ImageBinding.loadGifImageView(binding.ivNotification, it)
             }
 
 

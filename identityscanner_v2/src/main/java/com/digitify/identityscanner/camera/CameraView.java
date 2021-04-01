@@ -781,12 +781,12 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
 
                 @Override
                 public void onIndividualPermissionGranted(@NotNull String[] grantedPermission) {
-                    ToastKt.toast(c , c.getString(R.string.permission_camera_denied));
+                    ToastKt.toast(c , c.getString(R.string.all_permission_msg));
                 }
 
                 @Override
                 public void onPermissionDenied() {
-                    ToastKt.toast(c , c.getString(R.string.permission_camera_denied));
+                    ToastKt.toast(c , c.getString(R.string.all_permission_msg));
 
                 }
 

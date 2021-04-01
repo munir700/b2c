@@ -6,101 +6,61 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentPhoneContactsBinding
-import co.yap.sendmoney.y2y.home.fragments.YapToYapFragment
-import co.yap.sendmoney.y2y.home.fragments.YapToYapFragmentDirections
-import co.yap.sendmoney.y2y.home.yapcontacts.YapContactsAdaptor
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
-import co.yap.translation.Strings
-import co.yap.translation.Translator
+import co.yap.widgets.State
+import co.yap.widgets.Status
+import co.yap.widgets.skeletonlayout.Skeleton
+import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-
-class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
-    InviteBottomSheet.OnItemClickListener {
-
+class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneContact.View {
+    private lateinit var skeleton: Skeleton
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_phone_contacts
     override val viewModel: PhoneContactViewModel
         get() = ViewModelProviders.of(this).get(PhoneContactViewModel::class.java)
 
-    lateinit var adaptor: YapContactsAdaptor
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initState()
         initComponents()
         setObservers()
-        viewModel.getY2YBeneficiaries()
     }
 
     private fun initComponents() {
-        adaptor =
-            YapContactsAdaptor(mutableListOf())
-        getBinding().recycler.adapter = adaptor
-        adaptor.setItemListener(listener)
+        viewModel.adaptor.setItemListener(listener)
+        skeleton = getBinding().recycler.applySkeleton(
+            R.layout.layout_item_contacts_shimmer,
+            5
+        )
     }
 
-    private fun initState() {
-        viewModel.getState().observe(this, Observer { state ->
-            if (viewModel.listIsEmpty()) {
-                getBinding().recycler.visibility = View.GONE
-                getBinding().tvContactListDescription.visibility = View.GONE
-                getBinding().txtError.visibility =
-                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
-                getBinding().progressBar.visibility =
-                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
-                if (state == PagingState.DONE || state == PagingState.ERROR) { // error type handling
-                    viewModel.parentViewModel?.yapContactLiveData?.postValue(mutableListOf())
-                }
-            } else {
-                getBinding().txtError.visibility = View.GONE
-                getBinding().progressBar.visibility = View.GONE
-                getBinding().recycler.visibility = View.VISIBLE
-                getBinding().tvContactListDescription.visibility = View.VISIBLE
-                viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
-            }
-        })
-    }
 
     private fun setObservers() {
-        viewModel.phoneContactLiveData.observe(this, Observer {
-            adaptor.setList(it)
-            getBinding().tvContactListDescription.visibility =
-                if (it.isEmpty()) {
-                    View.GONE
-                } else {
-                    View.VISIBLE
-                }
-            getBinding().txtError.text =
-                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
-                    requireContext(),
-                    Strings.screen_y2y_display_text_no_contacts
-                )
+        viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
+        viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
+            viewModel.adaptor.setList(it)
+            viewModel.state.stateLiveData?.value =
+                if (it.isNullOrEmpty()) State.error(null) else State.success(null)
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
-            adaptor.filter.filter(it)
+            viewModel.adaptor.filter.filter(it)
         })
-
-        viewModel.parentViewModel?.isSearching?.value?.let {
-            if (it)
-                adaptor.filterCount.observe(this, Observer { count ->
-                    getBinding().tvContactListDescription.visibility =
-                        if (count == 0) View.GONE else View.VISIBLE
-                    getBinding().txtError.visibility =
-                        if (count == 0 && viewModel.getState().value != PagingState.LOADING) View.VISIBLE else View.GONE
-                    getBinding().txtError.text =
-                        if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
-                            requireContext(),
-                            Strings.screen_y2y_display_text_no_contacts
-                        )
-                })
-        }
+        viewModel.adaptor.filterCount.observe(this, Observer {
+            if (it == 0 && viewModel.parentViewModel?.isSearching?.value == true && !viewModel.state.isNoContacts.get()) {
+                viewModel.state.stateLiveData?.value = State.empty(null)
+            } else {
+                viewModel.state.isNoSearchResult.set(false)
+            }
+            viewModel.state.isShowContactsCounter.set(it != 0)
+        })
     }
 
     val listener = object : OnItemClickListener {
@@ -113,37 +73,53 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     sendInvite((data as Contact))
                 }
                 R.id.lyContact -> {
-                    if (data is Contact && data.yapUser == true && data.accountDetailList != null && data.accountDetailList?.isNotEmpty() == true) {
-                        if (parentFragment is YapToYapFragment) {
-                            navigate(
-                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                    data.beneficiaryPictureUrl ?: "",
-                                    data.accountDetailList?.get(0)?.accountUuid ?: "",
-                                    data.title ?: "",
-                                    pos
-                                ), screenType = FeatureSet.Y2Y_TRANSFER
-                            )
-                        }
+                    if (data is IBeneficiary && data.isYapUser) {
+                        navigateToTransferScreen(
+                            viewModel.getBundle(data, pos),
+                            viewModel.getActionId(parentFragment)
+                        )
                     }
                 }
             }
         }
     }
 
+    override fun navigateToTransferScreen(args: Bundle, actionId: Int) {
+        navigate(
+            actionId,
+            args = args,
+            screenType = FeatureSet.Y2Y_TRANSFER
+        )
+    }
+
+    private fun handleShimmerState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> {
+                skeleton.showSkeleton()
+                viewModel.state.isShowContactsCounter.set(false)
+            }
+            Status.EMPTY -> {
+                viewModel.state.isNoSearchResult.set(true)
+                viewModel.state.isShowContactsCounter.set(false)
+            }
+            Status.ERROR -> {
+                viewModel.state.isNoContacts.set(true)
+                viewModel.state.isShowContactsCounter.set(false)
+            }
+            Status.SUCCESS -> {
+                viewModel.state.isShowContactsCounter.set(true)
+                skeleton.showOriginal()
+            }
+            else -> {
+                skeleton.showOriginal()
+            }
+        }
+    }
+
     private fun sendInvite(contact: Contact) {
-        shareInfo(contact)
+      Utils.shareText(requireContext(),getBody(requireContext(), contact))
     }
 
-    private fun shareInfo(contact: Contact) {
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext(), contact))
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
-    }
-
-    override fun onClick(viewId: Int, data: Any) {
-
-    }
     private fun getBinding(): FragmentPhoneContactsBinding {
         return (viewDataBinding as FragmentPhoneContactsBinding)
     }

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.fragments
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -49,7 +50,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.fetchCardCategoryAnalytics(
             DateUtils.dateToString(
                 Calendar.getInstance().time,
-                "yyyy-MM-dd"
+                "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
             )
         )
         setObservers()
@@ -83,7 +84,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.setTransparentCircleAlpha(200)
 //            chart.holeRadius = // 78f  For Rounded corner graph with spaces
             chart.holeRadius = 70f
-            chart.transparentCircleRadius = 70f
+            chart.transparentCircleRadius = 68f
             chart.setDrawCenterText(true)
             chart.rotationAngle = -90f
             chart.isRotationEnabled = false
@@ -101,6 +102,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     * In this set Data in Pie View.
     * */
 
+    @SuppressLint("NewApi")
     private fun setData(txnAnalytics: List<TxnAnalytic>?) {
         val entries: ArrayList<PieEntry> = ArrayList()
         val colors = ArrayList<Int>()
@@ -121,7 +123,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         dataSet.sliceSpace = 0f
 //        dataSet.sliceSpace = 5f   // For Rounded corner graph with spaces
         dataSet.iconsOffset = MPPointF(0f, 40f)
-        dataSet.selectionShift = 20f
+        dataSet.selectionShift = 12f
         dataSet.setDrawValues(false)
         dataSet.colors = colors
         val data = PieData(dataSet)
@@ -148,7 +150,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
             setupPieChart(selectedTabPos)
             setSelectedTabData(selectedTabPos, 0)
+            viewModel.parentViewModel?.state?.isNoDataFound?.set(viewModel.isDataAvailableForSelectedMonth(
+                1))
+
         })
+
         viewModel.parentViewModel?.selectedItemPosition?.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
@@ -221,6 +227,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             tab?.let { tabs ->
                 setSelectedTabData(tabs.position, 0)
                 setupPieChart(tabs.position)
+                viewModel.parentViewModel?.state?.isNoDataFound?.set(viewModel.isDataAvailableForSelectedMonth(
+                    tab.position))
             }
         }
     }
@@ -276,7 +284,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun onValueSelected(e: Entry?, h: Highlight?) {
 
         val selectedItem = getBindingView().tabLayout.selectedTabPosition
-        h?.let {highlight ->
+        h?.let { highlight ->
             setSelectedTabData(selectedItem, highlight.x.toInt())
             viewModel.parentViewModel?.selectedItemPositionParent?.value = highlight.x.toInt()
         }

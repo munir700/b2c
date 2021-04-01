@@ -57,17 +57,17 @@ interface CustomersRetroService {
     @Multipart
     @POST(CustomersRepository.URL_UPLOAD_DOCUMENTS)
     suspend fun uploadDocuments(
-        @Part files: List<MultipartBody.Part>,
-        @Part("documentType") documentType: RequestBody,
-        @Part("firstName") firstName: RequestBody,
-        @Part("middleName") middleName: RequestBody? = null,
-        @Part("lastName") lastName: RequestBody? = null,
-        @Part("nationality") nationality: RequestBody,
-        @Part("dateExpiry") dateExpiry: RequestBody,
-        @Part("dob") dob: RequestBody,
-        @Part("fullName") fullName: RequestBody,
-        @Part("gender") gender: RequestBody,
-        @Part("identityNo") identityNo: RequestBody
+            @Part files: List<MultipartBody.Part>,
+            @Part("documentType") documentType: RequestBody,
+            @Part("firstName") firstName: RequestBody,
+            @Part("middleName") middleName: RequestBody? = null,
+            @Part("lastName") lastName: RequestBody? = null,
+            @Part("nationality") nationality: RequestBody,
+            @Part("dateExpiry") dateExpiry: RequestBody,
+            @Part("dob") dob: RequestBody,
+            @Part("fullName") fullName: RequestBody,
+            @Part("gender") gender: RequestBody,
+            @Part("identityNo") identityNo: RequestBody
     ): Response<ApiResponse>
 
     // Get Documents
@@ -91,14 +91,14 @@ interface CustomersRetroService {
     // Get More Documents on profile settings fragment
     @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
     suspend fun validatePhoneNumber(
-        @Query("country-code") countryCode: String,
-        @Query("mobile-number") mobileNumber: String
+            @Query("country-code") countryCode: String,
+            @Query("mobile-number") mobileNumber: String
     ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
     suspend fun changeMobileNumber(
-        @Path("country-code") countryCode: String,
-        @Path("mobile-number") mobileNumber: String
+            @Path("country-code") countryCode: String,
+            @Path("mobile-number") mobileNumber: String
     ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_VERIFIED_EMAIL)
@@ -134,8 +134,8 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
     suspend fun getCountryTransactionLimits(
-        @Query("countryCode") countryCode: String,
-        @Query("currencyCode") currencyCode: String
+            @Query("countryCode") countryCode: String,
+            @Query("currencyCode") currencyCode: String
     ): Response<CountryLimitsResponseDTO>
 
     /*  send money */
@@ -146,6 +146,9 @@ interface CustomersRetroService {
     suspend fun getAllBeneficiaries(): Response<GetAllBeneficiaryResponse>
 
     @GET(CustomersRepository.URL_GET_COUNTRIES)
+    suspend fun getCountries(): Response<CountryModel>
+
+    @GET(CustomersRepository.URL_GET_ALL_COUNTRIES)
     suspend fun getAllCountries(): Response<CountryModel>
 
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
@@ -179,8 +182,8 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
     suspend fun verifyHouseholdParentMobile(
-        @Query("mobileNo") mobileNumber: String?,
-        @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+            @Query("mobileNo") mobileNumber: String?,
+            @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
     ): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
@@ -230,6 +233,7 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
+
     @GET(CustomersRepository.URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS)
     suspend fun getSubscriptionsNotifications(): Response<BaseListResponse<HomeNotification>>
 
@@ -248,8 +252,8 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
     suspend fun getCoolingPeriod(
-        @Query("beneficiaryId") beneficiaryId: String,
-        @Query("productCode") productCode: String
+            @Query("beneficiaryId") beneficiaryId: String,
+            @Query("productCode") productCode: String
     ): Response<SMCoolingPeriodResponseDTO>
 
     @POST(CustomersRepository.URL_GET_QR_CONTACT)
@@ -275,22 +279,22 @@ interface CustomersRetroService {
     @Multipart
     @POST(CustomersRepository.URL_ADDITIONAL_DOCUMENT_UPLOAD)
     suspend fun uploadAdditionalDocuments(
-        @Part files: MultipartBody.Part,
-        @Part("documentType") documentType: RequestBody
+            @Part files: MultipartBody.Part,
+            @Part("documentType") documentType: RequestBody
     ): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)
     suspend fun uploadAdditionalQuestion(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
 
-    @POST(CustomersRepository.URL_CUSTOMER_NOTIFICATIONS)
-    suspend fun getMsCustomerNotifications(@Body msCustomerNotifications: MsCustomerNotificationsRequest): Response<CustomerNotificationResponse>
+    @POST(CustomersRepository.URL_SEND_INVITE_FRIEND)
+    suspend fun sendInviteFriend(@Body sendInviteFriendRequest: SendInviteFriendRequest): Response<ApiResponse>
 
-    @PUT(CustomersRepository.URL_CUSTOMER_NOTIFICATION_READABLE)
-    suspend fun updateMsNotificationsRead(
-        @Query("notificationId") notificationId: String,
-        @Query("is_read") is_read: Boolean
-    ): Response<ApiResponse>
+    @POST(CustomersRepository.URL_ADDITIONAL_SUBMIT)
+    suspend fun submitAdditionalInfo(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
 
-    @DELETE(CustomersRepository.URL_DELETE_CUSTOMER_NOTIFICATION)
-    suspend fun deleteMsCustomerNotification(@Query("notificationId") notificationId: String): Response<ApiResponse>
+    @GET(CustomersRepository.URL_GET_RANKING)
+    suspend fun getWaitingRanking(): Response<WaitingRankingResponse>
+
+    @POST(CustomersRepository.URL_COMPLETE_VERIFICATION)
+    suspend fun completeVerification(@Body completeVerificationRequest: CompleteVerificationRequest): Response<SignUpResponse>
 }

@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.widgets.bottomsheet.BottomSheet
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
@@ -32,6 +34,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -42,9 +45,9 @@ import com.github.florent37.inlineactivityresult.kotlin.startForResult
  */
 
 inline fun <reified T : Any> Activity.launchActivity(
-    requestCode: Int = -1,
-    options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
-    noinline init: Intent.() -> Unit = {}
+        requestCode: Int = -1,
+        options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
+        noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
         showBlockedFeatureAlert(this, type)
@@ -59,11 +62,36 @@ inline fun <reified T : Any> Activity.launchActivity(
     }
 }
 
+inline fun <reified T : Any> FragmentActivity.launchActivityForResult(
+        requestCode: Int = -1,
+        options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
+        noinline init: Intent.() -> Unit = {},
+        noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    completionHandler?.let {
+        val intent = newIntent<T>(this)
+        intent.init()
+        intent.putExtra(EXTRA, options)
+        this@launchActivityForResult.startForResult(intent) { result ->
+            it.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            it.invoke(result.resultCode, result.data)
+        }
+    } ?: run {
+        launchActivity<T>(
+                requestCode = requestCode,
+                options = options,
+                type = type,
+                init = init
+        )
+    }
+}
+
 inline fun <reified T : Any> Fragment.launchActivity(
-    requestCode: Int = -1,
-    options: Bundle? = null,
-    type: FeatureSet = FeatureSet.NONE,
-    noinline init: Intent.() -> Unit = {}
+        requestCode: Int = -1,
+        options: Bundle? = null,
+        type: FeatureSet = FeatureSet.NONE,
+        noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
         showBlockedFeatureAlert(requireActivity(), type)
@@ -79,10 +107,10 @@ inline fun <reified T : Any> Fragment.launchActivity(
 }
 
 inline fun <reified T : Any> Fragment.launchActivity(
-    requestCode: Int = -1,
-    options: Bundle? = null, clearPrevious: Boolean = false,
-    type: FeatureSet = FeatureSet.NONE,
-    noinline init: Intent.() -> Unit = {}
+        requestCode: Int = -1,
+        options: Bundle? = null, clearPrevious: Boolean = false,
+        type: FeatureSet = FeatureSet.NONE,
+        noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
         showBlockedFeatureAlert(requireActivity(), type)
@@ -103,10 +131,10 @@ inline fun <reified T : Any> Fragment.launchActivity(
 }
 
 inline fun <reified T : Any> Fragment.launchActivityForActivityResult(
-    requestCode: Int = -1,
-    options: Bundle? = null,
-    type: FeatureSet = FeatureSet.NONE,
-    noinline init: Intent.() -> Unit = {}
+        requestCode: Int = -1,
+        options: Bundle? = null,
+        type: FeatureSet = FeatureSet.NONE,
+        noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
         showBlockedFeatureAlert(requireActivity(), type)
@@ -122,9 +150,9 @@ inline fun <reified T : Any> Fragment.launchActivityForActivityResult(
 }
 
 inline fun <reified T : Any> Context.launchActivity(
-    options: Bundle? = null,
-    type: FeatureSet = FeatureSet.NONE,
-    noinline init: Intent.() -> Unit = {}
+        options: Bundle? = null,
+        type: FeatureSet = FeatureSet.NONE,
+        noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
         showBlockedFeatureAlert(this as BaseActivity<*>, type)
@@ -140,27 +168,32 @@ inline fun <reified T : Any> Context.launchActivity(
 }
 
 inline fun <reified T : Any> Fragment.launchActivityForResult(
-    requestCode: Int = -1,
-    options: Bundle? = null,
-    noinline init: Intent.() -> Unit = {},
-    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+        requestCode: Int = -1,
+        options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
+        noinline init: Intent.() -> Unit = {},
+        noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
-    completionHandler?.let {
-        val intent = newIntent<T>(requireContext())
-        intent.init()
-        intent.putExtra(EXTRA, options)
-        this.startForResult(intent) { result ->
-            it.invoke(result.resultCode, result.data)
-        }.onFailed { result ->
-            it.invoke(result.resultCode, result.data)
+
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(requireActivity(), type)
+    } else {
+        completionHandler?.let {
+            val intent = newIntent<T>(requireContext())
+            intent.init()
+            intent.putExtra(EXTRA, options)
+            this.startForResult(intent) { result ->
+                it.invoke(result.resultCode, result.data)
+            }.onFailed { result ->
+                it.invoke(result.resultCode, result.data)
+            }
+        } ?: run {
+            launchActivity<T>(requestCode = requestCode, options = options, init = init)
         }
-    } ?: run {
-        launchActivity<T>(requestCode = requestCode, options = options, init = init)
     }
 }
 
 inline fun <reified T : Any> newIntent(context: Context): Intent =
-    Intent(context, T::class.java)
+        Intent(context, T::class.java)
 
 /**
  * Extension method to get a new Intent for an Activity class
@@ -178,13 +211,13 @@ inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
 
 fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
     val blockedMessage = SessionManager.user?.getBlockedMessage(
-        key = FeatureProvisioning.getUserAccessRestriction(type),
-        context = context
+            key = FeatureProvisioning.getUserAccessRestriction(type),
+            context = context
     )
     context.showAlertDialogAndExitApp(
-        message = blockedMessage,
-        isOtpBlocked = blockedMessage?.contains(SessionManager.helpPhoneNumber) ?: false,
-        closeActivity = false
+            message = blockedMessage,
+            isOtpBlocked = blockedMessage?.contains(SessionManager.helpPhoneNumber) ?: false,
+            closeActivity = false
     )
 }
 
@@ -192,14 +225,14 @@ fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
  * Extension method to startActivity for Context.
  */
 inline fun <reified T : Activity> Context?.startActivity() =
-    this?.startActivity(Intent(this, T::class.java))
+        this?.startActivity(Intent(this, T::class.java))
 
 
 fun <T : Fragment> FrameActivity.instantiateFragment(fragmentName: String) =
-    Fragment.instantiate(this, fragmentName)
+        Fragment.instantiate(this, fragmentName)
 
 fun <T : Fragment> FrameDialogActivity.instantiateFragment(fragmentName: String) =
-    Fragment.instantiate(this, fragmentName)
+        Fragment.instantiate(this, fragmentName)
 
 fun Fragment.instantiateFragment(fragmentName: String) {
     Fragment.instantiate(this.requireActivity(), fragmentName)
@@ -227,8 +260,8 @@ fun Fragment.removeFragmentById(id: Int) {
 }
 
 fun <T : Fragment> FragmentActivity.createFragmentInstance(
-    fragment: T,
-    bundle: Bundle = Bundle()
+        fragment: T,
+        bundle: Bundle = Bundle()
 ): T {
     fragment.arguments = bundle
     replaceFragment(fragment, R.id.container, bundle)
@@ -241,9 +274,9 @@ fun <T : Fragment> FragmentActivity.createFragmentInstance(fragment: T): T {
 }
 
 fun FragmentActivity.replaceFragment(
-    fragment: Fragment, @IdRes container: Int, bundle: Bundle = Bundle(),
-    addToBackStack: Boolean = false, backStackName: String = "",
-    @AnimRes inAnimationRes: Int = 0, @AnimRes outAnimationRes: Int = 0
+        fragment: Fragment, @IdRes container: Int, bundle: Bundle = Bundle(),
+        addToBackStack: Boolean = false, backStackName: String = "",
+        @AnimRes inAnimationRes: Int = 0, @AnimRes outAnimationRes: Int = 0
 ) {
     val ft = supportFragmentManager.beginTransaction()
     if (inAnimationRes != 0 && outAnimationRes != 0) {
@@ -259,9 +292,9 @@ fun FragmentActivity.replaceFragment(
 }
 
 fun FragmentActivity.addFragment(
-    fragment: Fragment, @IdRes container: Int,
-    addToBackStack: Boolean = false, backStackName: String = "",
-    @AnimRes inAnimationRes: Int = 0, @AnimRes outAnimationRes: Int = 0
+        fragment: Fragment, @IdRes container: Int,
+        addToBackStack: Boolean = false, backStackName: String = "",
+        @AnimRes inAnimationRes: Int = 0, @AnimRes outAnimationRes: Int = 0
 ) {
     val ft = supportFragmentManager.beginTransaction()
     if (inAnimationRes != 0 && outAnimationRes != 0) {
@@ -277,12 +310,12 @@ fun FragmentActivity.addFragment(
 }
 
 inline fun <reified T : Fragment> FragmentActivity.startFragment(
-    fragmentName: String = "",
-    clearAllPrevious: Boolean = false,
-    bundle: Bundle = Bundle(),
-    requestCode: Int = -1,
-    showToolBar: Boolean = false,
-    toolBarTitle: String = ""
+        fragmentName: String = "",
+        clearAllPrevious: Boolean = false,
+        bundle: Bundle = Bundle(),
+        requestCode: Int = -1,
+        showToolBar: Boolean = false,
+        toolBarTitle: String = ""
 ) {
     val intent = Intent(this, FrameActivity::class.java)
     intent.putExtra(FRAGMENT_CLASS, T::class.java.name)
@@ -324,12 +357,12 @@ inline fun <reified T : Fragment> FragmentActivity.startFragment(
 //}
 
 fun Fragment.startFragment(
-    fragmentName: String,
-    clearAllPrevious: Boolean = false,
-    bundle: Bundle = Bundle(),
-    requestCode: Int = -1,
-    showToolBar: Boolean = false,
-    toolBarTitle: String = ""
+        fragmentName: String,
+        clearAllPrevious: Boolean = false,
+        bundle: Bundle = Bundle(),
+        requestCode: Int = -1,
+        showToolBar: Boolean = false,
+        toolBarTitle: String = ""
 ) {
     val intent = Intent(requireActivity(), FrameActivity::class.java)
     intent.putExtra(FRAGMENT_CLASS, fragmentName)
@@ -348,11 +381,11 @@ fun Fragment.startFragment(
 
 
 fun <T : Fragment> FragmentActivity.startFragmentForResult(
-    fragmentName: String,
-    bundle: Bundle = Bundle(),
-    showToolBar: Boolean = false,
-    toolBarTitle: String = "",
-    completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+        fragmentName: String,
+        bundle: Bundle = Bundle(),
+        showToolBar: Boolean = false,
+        toolBarTitle: String = "",
+        completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
     val intent = Intent(this, FrameActivity::class.java)
     try {
@@ -375,11 +408,11 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
 }
 
 fun <T : Fragment> Fragment.startFragmentForResult(
-    fragmentName: String,
-    bundle: Bundle = Bundle(),
-    showToolBar: Boolean = false,
-    toolBarTitle: String = "",
-    completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+        fragmentName: String,
+        bundle: Bundle = Bundle(),
+        showToolBar: Boolean = false,
+        toolBarTitle: String = "",
+        completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
     val intent = Intent(requireActivity(), FrameActivity::class.java)
     try {
@@ -402,9 +435,9 @@ fun <T : Fragment> Fragment.startFragmentForResult(
 }
 
 fun <T : Fragment> Fragment.startFragmentDialogForResult(
-    fragmentName: String,
-    bundle: Bundle = Bundle(),
-    completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+        fragmentName: String,
+        bundle: Bundle = Bundle(),
+        completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
     val intent = Intent(requireActivity(), FrameDialogActivity::class.java)
     try {
@@ -426,7 +459,7 @@ fun <T : Fragment> Fragment.startFragmentDialogForResult(
 
 fun Activity.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
     val intent =
-        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     val uri: Uri = Uri.fromParts("package", packageName, null)
     intent.data = uri
     startActivityForResult(intent, requestCode)
@@ -434,15 +467,15 @@ fun Activity.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
 
 fun Fragment.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
     val intent =
-        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
     intent.data = uri
     startActivityForResult(intent, requestCode)
 }
 
 inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
-    factory: ViewModelProvider.Factory,
-    body: T.() -> Unit
+        factory: ViewModelProvider.Factory,
+        body: T.() -> Unit
 ): T {
     val vm = ViewModelProviders.of(this, factory)[T::class.java]
     vm.body()
@@ -456,8 +489,8 @@ fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
  *
  */
 inline fun Activity.launchTourGuide(
-    screenName: TourGuideType,
-    init: ArrayList<GuidedTourViewDetail>.() -> Unit = {}
+        screenName: TourGuideType,
+        init: ArrayList<GuidedTourViewDetail>.() -> Unit = {}
 ): TourSetup? {
     return if (!TourGuideManager.getBlockedTourGuideScreens.contains(screenName)) {
         val list = arrayListOf<GuidedTourViewDetail>()
@@ -470,22 +503,22 @@ inline fun Activity.launchTourGuide(
 }
 
 internal fun String.loadFragmentOrNull(): Fragment? =
-    try {
-        this.loadClassOrNull<Fragment>()?.newInstance()
-    } catch (e: ClassNotFoundException) {
-        null
-    }
+        try {
+            this.loadClassOrNull<Fragment>()?.newInstance()
+        } catch (e: ClassNotFoundException) {
+            null
+        }
 
 private inline fun <reified T : Any> Any.castOrNull() = this as? T
 private val classMap = mutableMapOf<String, Class<*>>()
 internal fun <T> String.loadClassOrNull(): Class<out T>? =
-    classMap.getOrPut(this) {
-        try {
-            Class.forName(this)
-        } catch (e: ClassNotFoundException) {
-            return null
-        }
-    }.castOrNull()
+        classMap.getOrPut(this) {
+            try {
+                Class.forName(this)
+            } catch (e: ClassNotFoundException) {
+                return null
+            }
+        }.castOrNull()
 
 /**
  * Applies the [handleExtras] method to each of the [Fragment]s
@@ -509,3 +542,22 @@ fun Fragment.handleExtras(extras: Bundle?) {
         this.fetchExtras(extras)
     }
 }
+
+fun FragmentActivity.launchSheet(
+        itemClickListener: OnItemClickListener? = null,
+        itemsList: ArrayList<BottomSheetItem>,
+        heading: String? = null,
+        subHeading: String? = null
+) {
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
+                BottomSheet(
+                        itemClickListener,
+                        bottomSheetItems = itemsList,
+                        headingLabel = heading,
+                        subHeadingLabel = subHeading
+                )
+        coreBottomSheet.show(it, "")
+    }
+}
+

@@ -94,7 +94,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditEmail -> {
-                    if (!FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_EMAIL)){
+                    if (!FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_EMAIL)) {
                         viewModel.toggleToolBar(true)
                         viewModel.updateToolBarText("")
                     }
@@ -293,7 +293,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     private fun handleLocationRequestResult(data: Intent?) {
         data?.let {
             val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-            photoPlacesId = it.getStringExtra(Constants.PLACES_PHOTO_ID)
+            photoPlacesId = it.getStringExtra(Constants.PLACES_PHOTO_ID) ?: ""
             if (result) {
                 val address = it.getParcelableExtra<Address>(ADDRESS)
                 SessionManager.userAddress = address

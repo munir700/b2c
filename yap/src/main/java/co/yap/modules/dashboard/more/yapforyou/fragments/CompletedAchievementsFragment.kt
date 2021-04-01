@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.FragmentCompletedAchievementsBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.ICompletedAchievements
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.CompletedAchievementsViewModel
 import co.yap.yapcore.BR
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CompletedAchievementsFragment : YapForYouBaseFragment<ICompletedAchievements.ViewModel>(),
     ICompletedAchievements.View {
@@ -20,7 +22,19 @@ class CompletedAchievementsFragment : YapForYouBaseFragment<ICompletedAchievemen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBinding().rvCompletedAchievements.adapter = viewModel.adapter
+        viewModel.adapter.setItemListener(itemClickListener)
+        viewModel.adapter.allowFullItemClickListener = true
+
+    }
+
+    private val itemClickListener = object :
+        OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Achievement) {
+                viewModel.setSelectedAchievement(achievement = data)
+                navigate(R.id.achievementFragment)
+            }
+        }
     }
 
     override fun getBinding(): FragmentCompletedAchievementsBinding {

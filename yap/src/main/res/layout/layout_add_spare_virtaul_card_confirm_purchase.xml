@@ -59,8 +59,9 @@
                 android:text="@{viewModel.state.availableBalance}"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Your available balance is AED 15.00.\n Top up to proceesd with this purchase asda."
-                android:layout_marginTop="@dimen/margin_xxl"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.15"
+                app:layout_constraintBottom_toTopOf="@+id/btnConfirmVirtualCardPurchase"
                 app:layout_constraintTop_toBottomOf="@id/tvPrice" />
 
             <co.yap.widgets.CoreButton

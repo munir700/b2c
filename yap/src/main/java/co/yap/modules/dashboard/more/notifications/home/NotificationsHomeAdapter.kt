@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.databinding.ItemNotificationV2Binding
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.widgets.advrecyclerview.swipeable.SwipeableItemAdapter
 import co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants
 import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultAction
@@ -14,13 +14,12 @@ import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultActionDefault
 import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultActionMoveToSwipedDirection
 import co.yap.widgets.advrecyclerview.utils.AbstractSwipeableItemViewHolder
 import co.yap.yapcore.BaseRVAdapter
-import co.yap.yapcore.helpers.extentions.parseToLong
 
 class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation: NavController?) :
-    BaseRVAdapter<HomeNotification, NotificationItemViewModel, NotificationsHomeAdapter.ViewHolder>(
-        mValue,
-        navigation
-    ), SwipeableItemAdapter<NotificationsHomeAdapter.ViewHolder> {
+        BaseRVAdapter<HomeNotification, NotificationItemViewModel, NotificationsHomeAdapter.ViewHolder>(
+                mValue,
+                navigation
+        ), SwipeableItemAdapter<NotificationsHomeAdapter.ViewHolder> {
     private var oldSwipePosition: Int = RecyclerView.NO_POSITION
 
     init {
@@ -34,23 +33,24 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
         holder.swipeItemHorizontalSlideAmount = if (datas[position].isPinned == true) -0.2f else 0f
     }
 
-    override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
-    override fun getItemId(position: Int) = datas[position].id.parseToLong()
+    override fun getItemViewType(position: Int) = position
+    override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
+    override fun getItemId(position: Int) = datas[position].id.hashCode().toLong()
     override fun getViewHolder(
-        view: View,
-        viewModel: NotificationItemViewModel,
-        mDataBinding: ViewDataBinding, viewType: Int
+            view: View,
+            viewModel: NotificationItemViewModel,
+            mDataBinding: ViewDataBinding, viewType: Int
     ) = ViewHolder(
-        view,
-        viewModel,
-        mDataBinding
+            view,
+            viewModel,
+            mDataBinding
     )
 
     override fun getViewModel(viewType: Int) = NotificationItemViewModel()
 
     override fun getVariableId() = BR.viewModel
     override fun onGetSwipeReactionType(holder: ViewHolder, position: Int, x: Int, y: Int) =
-        if (datas[position].isDeleteAble) SwipeableItemConstants.REACTION_CAN_SWIPE_LEFT else SwipeableItemConstants.REACTION_CAN_NOT_SWIPE_ANY
+            if (datas[position].isDeletable == true) SwipeableItemConstants.REACTION_CAN_SWIPE_LEFT else SwipeableItemConstants.REACTION_CAN_NOT_SWIPE_ANY
 
 
     override fun onSwipeItemStarted(holder: ViewHolder, position: Int) {
@@ -69,8 +69,8 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
         return when (result) {
             SwipeableItemConstants.RESULT_SWIPED_LEFT -> {
                 SwipeLeftResultAction(
-                    this,
-                    position
+                        this,
+                        position
                 )
             }
             else -> UnpinResultActionconstructor(this, position)
@@ -83,24 +83,24 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
     }
 
     class ViewHolder(
-        view: View,
-        viewModel: NotificationItemViewModel,
-        mDataBinding: ViewDataBinding
+            view: View,
+            viewModel: NotificationItemViewModel,
+            mDataBinding: ViewDataBinding
     ) :
-        AbstractSwipeableItemViewHolder<HomeNotification, NotificationItemViewModel>(
-            view,
-            viewModel,
-            mDataBinding
-        ) {
+            AbstractSwipeableItemViewHolder<HomeNotification, NotificationItemViewModel>(
+                    view,
+                    viewModel,
+                    mDataBinding
+            ) {
         val binding = mDataBinding as ItemNotificationV2Binding
         override fun getSwipeableContainerView() = binding.foregroundContainer
     }
 
     internal class SwipeLeftResultAction constructor(
-        private var mAdapter: NotificationsHomeAdapter?,
-        private val position: Int
+            private var mAdapter: NotificationsHomeAdapter?,
+            private val position: Int
     ) :
-        SwipeResultActionMoveToSwipedDirection() {
+            SwipeResultActionMoveToSwipedDirection() {
         private var mSetPinned = false
         override fun onPerformAction() {
             super.onPerformAction()
@@ -135,10 +135,10 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
     }
 
     internal class UnpinResultActionconstructor(
-        private var mAdapter: NotificationsHomeAdapter?,
-        private val position: Int
+            private var mAdapter: NotificationsHomeAdapter?,
+            private val position: Int
     ) :
-        SwipeResultActionDefault() {
+            SwipeResultActionDefault() {
 
         override fun onPerformAction() {
             super.onPerformAction()

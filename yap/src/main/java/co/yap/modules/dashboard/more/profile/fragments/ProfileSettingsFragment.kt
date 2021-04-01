@@ -1,12 +1,7 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
-import android.Manifest
-import android.app.Activity
-import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -15,51 +10,38 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
-import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
-import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.confirm
-import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.hasBitmap
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.livedata.LogOutLiveData
-import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.exoplayer2.source.MediaSource
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
-import pl.aprilapps.easyphotopicker.DefaultCallback
-import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.MediaFile
-import pl.aprilapps.easyphotopicker.MediaSource
-import pub.devrel.easypermissions.AppSettingsDialog
-import pub.devrel.easypermissions.EasyPermissions
 
-class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
-    CardClickListener, EasyPermissions.PermissionCallbacks {
+class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
-    internal var permissionHelper: PermissionHelper? = null
-    lateinit var easyImage: EasyImage
-    private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
-    private val takePhoto = 1
-    private val pickPhoto = 2
     override val viewModel: IProfile.ViewModel
         get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
 
@@ -70,28 +52,28 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
         viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
-            SharedPreferenceManager.getInstance(requireContext())
+                SharedPreferenceManager(requireContext())
 
         if (BiometricUtil.hasBioMetricFeature(requireContext())) {
             val isTouchIdEnabled: Boolean =
-                sharedPreferenceManager.getValueBoolien(
-                    KEY_TOUCH_ID_ENABLED,
-                    false
-                )
+                    sharedPreferenceManager.getValueBoolien(
+                            KEY_TOUCH_ID_ENABLED,
+                            false
+                    )
             swTouchId.isChecked = isTouchIdEnabled
             llSignInWithTouch.visibility = View.VISIBLE
 
             swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     sharedPreferenceManager.save(
-                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                        true
+                            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                            true
                     )
                     sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
                 } else {
                     sharedPreferenceManager.save(
-                        KEY_TOUCH_ID_ENABLED,
-                        false
+                            KEY_TOUCH_ID_ENABLED,
+                            false
                     )
                 }
             }
@@ -100,63 +82,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
 
         SessionManager.user?.let {
-            if(it.currentCustomer.getPicture() != null){
+            if (it.currentCustomer.getPicture() != null) {
                 ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
             }
         }
     }
 
-    override fun onClick(eventType: Int) {
-        updatePhotoBottomSheet.dismiss()
-
-        when (eventType) {
-            Constants.EVENT_ADD_PHOTO -> {
-                trackEventWithScreenName(FirebaseEvent.CLICK_OPEN_CAMERA)
-                initEasyImage(takePhoto)
-            }
-
-            Constants.EVENT_CHOOSE_PHOTO -> {
-                trackEventWithScreenName(FirebaseEvent.CLICK_CHOOSE_PHOTO)
-                initEasyImage(pickPhoto)
-            }
-
-            Constants.EVENT_REMOVE_PHOTO -> {
-                trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_PHOTO)
-                viewModel.requestRemoveProfilePicture {
-                    if (it) {
-                        ivProfilePic.setImageDrawable(null)
-                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initEasyImage(type: Int) {
-        if (hasCameraPermission()) {
-            easyImage = EasyImage.Builder(requireContext())
-                .setChooserTitle("Pick Image")
-                .setFolderName("YAPImage")
-                .allowMultiple(false)
-                .build()
-            when (type) {
-                takePhoto -> {
-                    easyImage.openCameraForImage(this)
-
-                }
-                pickPhoto -> {
-                    easyImage.openGallery(this)
-                }
-            }
-            //  easyImage.openChooser(this)
-        } else {
-            EasyPermissions.requestPermissions(
-                this, "This app needs access to your camera so you can take pictures.",
-                REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
-            )
-        }
-
-    }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
@@ -165,18 +96,19 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     private fun logoutAlert() {
         AlertDialog.Builder(this.requireActivity())
-            .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
-            .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
-            .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
-                DialogInterface.OnClickListener { dialog, which ->
+                .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
+                .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
+                .setPositiveButton(
+                        getString(R.string.screen_profile_settings_logout_display_text_alert_logout)
+                ) { _, _ ->
                     viewModel.logout()
-                })
+                }
 
-            .setNegativeButton(
-                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
-                null
-            )
-            .show()
+                .setNegativeButton(
+                        getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                        null
+                )
+                .show()
     }
 
     private fun doLogout() {
@@ -196,7 +128,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.tvPersonalDetailView -> {
                     val action =
-                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
+                            ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
                     findNavController().navigate(action)
                 }
 
@@ -213,20 +145,20 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
                 R.id.tvTermsAndConditionView -> {
                     startFragment(
-                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
                             co.yap.yapcore.constants.Constants.TOOLBAR_TITLE to getString(
-                                Strings.screen_profile_settings_display_terms_and_conditions
+                                    Strings.screen_profile_settings_display_terms_and_conditions
                             )
-                        ), showToolBar = false
+                    ), showToolBar = false
                     )
                 }
 
                 R.id.tvFeesAndPricingPlansView -> {
                     startFragment(
-                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_FEES_AND_PRICING_PLAN
-                        ), showToolBar = false
+                    ), showToolBar = false
                     )
                 }
                 R.id.tvFollowOnInstagram -> {
@@ -239,7 +171,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.tvLikeUsOnFaceBook -> {
                     Utils.getOpenFacebookIntent(requireContext())
-                        ?.let { startActivity(it) }
+                            ?.let { startActivity(it) }
                 }
 
                 R.id.ivProfilePic -> {
@@ -250,11 +182,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.rlAddNewProfilePic -> {
-                    this.fragmentManager?.let {
-                        trackEventWithScreenName(FirebaseEvent.CLICK_ADD_PHOTO)
-                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, showRemovePhoto())
-                        updatePhotoBottomSheet.show(it, "")
-                    }
+                    trackEventWithScreenName(FirebaseEvent.CLICK_ADD_PHOTO)
+                    requireActivity().launchSheet(
+                            itemClickListener = itemListener,
+                            itemsList = viewModel.getUploadProfileOptions(showRemovePhoto()),
+                            heading = getString(Strings.screen_update_profile_photo_display_text_title)
+                    )
                 }
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
@@ -271,42 +204,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            handleImagePickerResult(requestCode, resultCode, data)
-        }
-    }
-
-    private fun handleImagePickerResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
-        easyImage.handleActivityResult(
-            requestCode,
-            resultCode,
-            data,
-            requireActivity(),
-            object : DefaultCallback() {
-                override fun onMediaFilesPicked(
-                    imageFiles: Array<MediaFile>,
-                    source: MediaSource
-                ) {
-                    onPhotosReturned(imageFiles, source)
-                }
-
-                override fun onImagePickerError(
-                    @NonNull error: Throwable,
-                    @NonNull source: MediaSource
-                ) {
-                    viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                }
-
-                override fun onCanceled(@NonNull source: MediaSource) {
-                    viewModel.state.toast = "No image detected^${AlertType.DIALOG.name}"
-                }
-            })
+    override fun onImageReturn(mediaFile: MediaFile) {
+        viewModel.clickEvent.call()
+        viewModel.requestUploadProfilePicture(mediaFile.file)
+        viewModel.state.imageUri = mediaFile.file.toUri()
+        ivProfilePic.setImageURI(mediaFile.file.toUri())
     }
 
     private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {
@@ -317,7 +219,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     "png", "jpg", "jpeg" -> {
                         viewModel.clickEvent.call()
                         viewModel.requestUploadProfilePicture(mediaFile.file)
-                        viewModel.state.imageUri = mediaFile.file.toUri()
                         ivProfilePic.setImageURI(mediaFile.file.toUri())
                         ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
 
@@ -333,26 +234,40 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        @NonNull permissions: Array<String>,
-        @NonNull grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when ((data as BottomSheetItem).tag) {
+                PhotoSelectionType.CAMERA.name -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_OPEN_CAMERA)
+                    openImagePicker(PhotoSelectionType.CAMERA)
+                }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-    }
+                PhotoSelectionType.GALLERY.name -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_CHOOSE_PHOTO)
+                    openImagePicker(PhotoSelectionType.GALLERY)
+                }
 
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            AppSettingsDialog.Builder(this).build().show()
+                PhotoSelectionType.REMOVE_PHOTO.name -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_PHOTO)
+                    viewModel.requestRemoveProfilePicture {
+                        if (it) ivProfilePic.setImageDrawable(null)
+                    }
+                }
+            }
         }
-    }
-
-    private fun hasCameraPermission(): Boolean {
-        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
+        // viewModel.requestRemoveProfilePicture {
+        //                    if (it) {
+        //                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
+        //                        SessionManager.user?.let { user ->
+        //                            ImageBinding.loadAvatar(
+        //                                ivProfilePic,
+        //                                user.currentCustomer.getPicture(),
+        //                                user.currentCustomer.getFullName(),
+        //                                user.currentCustomer.parsedColor
+        //                            )
+        //
+        //                        }
+        //                    }
+        //                }
     }
 }

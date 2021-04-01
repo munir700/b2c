@@ -72,14 +72,14 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
                     android:visibility="gone"
-                    app:tint="?attr/colorPrimaryAttr"
-                    app:srcCompat="@drawable/ic_support" />
+                    app:srcCompat="@drawable/ic_support"
+                    app:tint="?attr/colorPrimaryAttr" />
 
                 <TextView
                     android:id="@+id/tvFaqs"
@@ -137,14 +137,14 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
-                    android:padding="@dimen/_10sdp"
+                    android:padding="@dimen/_8sdp"
                     android:tint="?attr/colorPrimaryAttr"
                     android:visibility="gone"
-                    app:tint="?attr/colorPrimaryAttr"
-                    app:srcCompat="@drawable/ic_chat" />
+                    app:srcCompat="@drawable/ic_chat"
+                    app:tint="?attr/colorPrimaryAttr" />
 
                 <TextView
                     android:id="@+id/tvChat"
@@ -197,18 +197,18 @@
 
                 <ImageView
                     android:id="@+id/imgWhatsApp"
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_35sdp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
-                    android:padding="@dimen/_10sdp"
+                    android:padding="@dimen/_13sdp"
                     android:tint="?attr/colorPrimaryAttr"
                     android:visibility="gone"
-                    app:tint="?attr/colorPrimaryAttr"
-                    app:srcCompat="@drawable/ic_whatsapp" />
+                    app:srcCompat="@drawable/ic_whatsapp"
+                    app:tint="?attr/colorPrimaryAttr" />
 
                 <TextView
                     android:id="@+id/tvWhatsApp"
@@ -265,14 +265,14 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
                     android:visibility="gone"
-                    app:tint="?attr/colorPrimaryAttr"
-                    app:srcCompat="@drawable/ic_phone_vector" />
+                    app:srcCompat="@drawable/ic_phone_vector"
+                    app:tint="?attr/colorPrimaryAttr" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"

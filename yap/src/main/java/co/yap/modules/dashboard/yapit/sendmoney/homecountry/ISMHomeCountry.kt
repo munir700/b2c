@@ -25,14 +25,14 @@ interface ISMHomeCountry {
         val clickEvent: SingleClickEvent
         var recentsAdapter: CoreRecentTransferAdapter
         var benefitsAdapter: SMHomeCountryBenefitsAdapter
-        var homeCountry:Country?
+        var homeCountry: Country?
         var benefitsList: ArrayList<String>
         fun populateData(hc: Country)
         fun getHomeCountryRecentBeneficiaries()
         fun handlePressOnView(id: Int)
-        fun getFxRates(iso2DigitCountryCode: String,fxRate: (FxRateResponse.Data) -> Unit)
+        fun getFxRates(iso2DigitCountryCode: String, fxRate: (FxRateResponse.Data) -> Unit)
         fun handleFxRateResponse(it: FxRateResponse.Data?)
-        fun UpdateAndSyncHomeCountry()
+        fun updateAndSyncHomeCountry()
     }
 
     interface View : IBase.View<ViewModel> {

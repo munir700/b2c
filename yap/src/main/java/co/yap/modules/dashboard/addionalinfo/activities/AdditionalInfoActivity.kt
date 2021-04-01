@@ -50,7 +50,8 @@ class AdditionalInfoActivity : BaseBindingActivity<IAdditionalInfo.ViewModel>(),
             if (it < getBindings().stepView.stepCount) {
                 step_view.go(it, true)
             } else {
-                step_view.done(true)
+                if (it > 0)
+                    step_view.done(true)
             }
         })
     }

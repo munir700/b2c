@@ -71,6 +71,14 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         fragment.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        fragment.onRequestPermissionsResult(requestCode,permissions,grantResults)
+    }
     override fun onBackPressed() {
         super.onBackPressed()
         fragment.onBackPressed()

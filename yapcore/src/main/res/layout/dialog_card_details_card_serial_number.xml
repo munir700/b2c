@@ -25,26 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            style="@style/AMicroGrey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_2sdp"
-            android:layout_marginEnd="@dimen/_2sdp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:lineSpacingExtra="0dp"
-            android:maxLength="26"
-            android:maxLines="2"
-            android:text="@{viewModel.cardDetailsModel.displayName}"
-            android:textColor="@color/colorLightGreyWithOpacity"
-            android:textSize="@dimen/_8sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/ivCard"
-            app:layout_constraintEnd_toEndOf="@id/ivCard"
-            app:layout_constraintStart_toStartOf="@+id/ivCard"
-            app:layout_constraintTop_toTopOf="@+id/ivCard"
-            tools:text="Amazone Card" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardType"
             android:layout_width="wrap_content"

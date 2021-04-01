@@ -7,7 +7,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IMoreHome {
-    interface State : IBase.State{
+    interface State : IBase.State {
         var image: ObservableField<String>
         var initials: ObservableField<String>
     }
@@ -17,9 +17,10 @@ interface IMoreHome {
         fun handlePressOnView(id: Int)
         fun handlePressOnYAPforYou(id: Int)
         fun getMoreOptions(): MutableList<MoreOption>
+        fun getTransactionsNotificationsCount(onComplete: (Int?) -> Unit)
     }
 
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun getBinding(): FragmentMoreHomeBinding
         fun setObservers()
         fun removeObservers()

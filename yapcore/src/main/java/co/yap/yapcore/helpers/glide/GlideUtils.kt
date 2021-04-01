@@ -162,3 +162,7 @@ fun setImage(imageView: ImageView, file: File, applyCircle: Boolean = false) {
 //    }
 }
 
+fun setImage(imageView: ImageView, drawable: Drawable) {
+    Glide.with(imageView).asDrawable().load(drawable).into(imageView)
+}
+

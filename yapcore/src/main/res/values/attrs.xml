@@ -5,6 +5,7 @@
     <attr name="colorPrimaryAttr" format="color|reference" />
     <attr name="colorPrimaryDarkAttr" format="color|reference" />
     <attr name="colorPrimaryAccentAttr" format="color|reference" />
+
     <attr name="colorPrimaryAccentWarmAttr" format="color|reference" />
     <attr name="colorPrimaryWarmAttr" format="color|reference" />
     <attr name="colorPrimaryLightAttr" format="color|reference" />
@@ -82,6 +83,7 @@
             <enum name="mini_medium" value="4" />
             <enum name="mini_large" value="5" />
             <enum name="mini" value="6" />
+            <enum name="dynamic" value="7" />
         </attr>
     </declare-styleable>
 
@@ -712,6 +714,7 @@
             <flag name="end" value="5" />
         </attr>
     </declare-styleable>
+     <declare-styleable name="CoreSearchView"></declare-styleable>
 
     <declare-styleable name="RoundedImageView">
         <attr name="rounded_radius" format="float" />
@@ -882,4 +885,9 @@
         <attr name="sv_nextStepCircleEnabled" format="boolean" />
         <attr name="sv_nextStepCircleColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="TouchImageView">
+        <attr name="zoom_enabled" format="boolean" />
+    </declare-styleable>
+
 </resources>

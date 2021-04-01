@@ -126,7 +126,9 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                if (viewModel.enteredAmount.value?.getValueWithoutComa().parseToDouble() ?: 0.0 < viewModel.state.minLimit) {
+                if (viewModel.enteredAmount.value?.getValueWithoutComa()
+                        .parseToDouble() ?: 0.0 < viewModel.state.minLimit
+                ) {
                     viewModel.state.amountBackground =
                         resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                     showUpperLowerLimitError()
@@ -198,10 +200,11 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         }
 
         getBindings().tvAvailableBalanceGuide.text = requireContext().resources.getText(
-            getString(Strings.screen_topup_transfer_display_text_transaction_fee),
+            getString(Strings.common_display_text_available_balance),
             requireContext().color(
                 R.color.colorPrimaryDark,
-                SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency(showCurrency = true)
+                SessionManager.cardBalance.value?.availableBalance.toString()
+                    .toFormattedCurrency(showCurrency = true)
             )
         )
     }

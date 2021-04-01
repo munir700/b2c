@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
-import android.util.Log
-import androidx.lifecycle.MediatorLiveData
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
 import co.yap.modules.sidemenu.ProfilePictureAdapter
@@ -24,14 +22,14 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class YapDashBoardViewModel(application: Application) :
-    YapDashboardChildViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel,
-    IRepositoryHolder<MessagesRepository> {
+        YapDashboardChildViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel,
+        IRepositoryHolder<MessagesRepository> {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapDashBoardState = YapDashBoardState()
     override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
     override val profilePictureAdapter: ObservableField<ProfilePictureAdapter>? =
-        ObservableField()
+            ObservableField()
     override val repository: MessagesRepository = MessagesRepository
     val customerRepository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
@@ -69,19 +67,21 @@ class YapDashBoardViewModel(application: Application) :
         super.onCreate()
         updateVersion()
         getHelpPhoneNo()
-        launch {
-            delay(1500)
-            showUnverifedscreen.value =
-                SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+        if (SessionManager.deepLinkFlowId.value == null) {
+            launch {
+                delay(1500)
+                showUnverifedscreen.value =
+                        SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+            }
         }
         state.isFounder.set(SessionManager.user?.currentCustomer?.founder)
-      }
+    }
 
     override fun resendVerificationEmail(callBack: () -> Unit) {
         launch {
             state.loading = true
             when (val response =
-                customerRepository.resendVerificationEmail()) {
+                    customerRepository.resendVerificationEmail()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                 }
@@ -95,11 +95,11 @@ class YapDashBoardViewModel(application: Application) :
 
     private fun updateVersion() {
         state.appVersion.set(
-            String.format(
-                "Version %s (%s)",
-                YAPApplication.configManager?.versionName ?: "",
-                YAPApplication.configManager?.versionCode ?: ""
-            )
+                String.format(
+                        "Version %s (%s)",
+                        YAPApplication.configManager?.versionName ?: "",
+                        YAPApplication.configManager?.versionCode ?: ""
+                )
         )
     }
 
@@ -109,7 +109,7 @@ class YapDashBoardViewModel(application: Application) :
         populateState()
     }
 
-    private fun populateState() {
+    override fun populateState() {
         SessionManager.user?.let { it ->
             it.accountNo?.let { state.accountNo = it.maskAccountNumber() }
             it.iban?.let { state.ibanNo = it.maskIbanNumber() }
@@ -122,7 +122,7 @@ class YapDashBoardViewModel(application: Application) :
     private fun getHelpPhoneNo() {
         launch {
             when (val response =
-                repository.getHelpDeskContact()) {
+                    repository.getHelpDeskContact()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         SessionManager.helpPhoneNumber = it
@@ -136,7 +136,7 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun logout() {
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+                sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = authRepository.logout(deviceId.toString())) {

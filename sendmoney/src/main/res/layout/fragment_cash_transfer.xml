@@ -131,22 +131,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvFee"
                 tools:text="Your available balance is " />
 
-
-            <co.yap.widgets.AlphaNumericEditText
-                android:id="@+id/etNote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium_large"
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
-                android:maxLength="@integer/notes_external_transfer_length"
-                android:singleLine="true"
-                android:text="@={viewModel.state.noteValue}"
-                app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
-                tools:hint="Type a note here" />
-
             <!--            android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLabelSpinner"
@@ -154,14 +138,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_large"
                 android:gravity="start"
                 android:text="@string/screen_add_beneficiary_display_text_transfer_type"
+                android:textColor="@color/colorDarkGrey"
                 android:textSize="@dimen/_12sdp"
                 android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"
-                app:layout_constraintTop_toBottomOf="@+id/etNote"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
                 app:text="@{Strings.screen_international_funds_transfer_display_text_reson}"
                 tools:text="@string/screen_international_funds_transfer_display_text_reson" />
+
+            <co.yap.widgets.AlphaNumericEditText
+                android:id="@+id/etNote"
+                style="@style/ARegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:background="@drawable/bg_edit_text_disable_grey_under_line"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+                android:maxLength="@integer/notes_external_transfer_length"
+                android:singleLine="true"
+                android:text="@={viewModel.state.noteValue}"
+                android:textColor="@color/colorDarkGrey"
+                android:textColorHint="@color/greyDark"
+                app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
+                app:layout_constraintTop_toBottomOf="@+id/rlSpinner"
+                tools:hint="@string/screen_international_funds_transfer_input_text_note_hint" />
 
             <RelativeLayout
                 android:id="@+id/rlSpinner"
@@ -184,6 +188,7 @@
                     android:layout_toStartOf="@+id/ivSelector"
                     android:alpha=".5"
                     android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+                    android:textColor="@color/colorDarkGrey"
                     app:text="@{Strings.screen_international_funds_transfer_dropdown_text_reason_hint}"
                     tools:text="@string/screen_international_funds_transfer_dropdown_text_reason_hint" />
 
@@ -212,8 +217,8 @@
                 android:id="@+id/btnConfirm"
                 style="@style/RectangleBtnStyle"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="@dimen/margin_extra_large"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 app:btn_size="small"
@@ -221,7 +226,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rlSpinner"
+                app:layout_constraintTop_toBottomOf="@+id/etNote"
                 app:layout_constraintVertical_bias="1"
                 app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
 

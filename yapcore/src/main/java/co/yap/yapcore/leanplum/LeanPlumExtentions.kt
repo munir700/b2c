@@ -1,7 +1,7 @@
 package co.yap.yapcore.leanplum
 
-import android.app.Activity
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -15,6 +15,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.leanplum.Leanplum
+import com.leanplum.callbacks.VariablesChangedCallback
 import java.text.SimpleDateFormat
 
 fun Fragment.trackEvent(eventName: String, value: String = "") {
@@ -34,110 +35,110 @@ fun BaseState.trackEvent(eventName: String, value: String = "") {
 }
 
 fun Fragment.trackEventInFragments(
-    user: AccountInfo?,
-    signup_length: String? = null,
-    account_active: String? = null,
-    context: Context? = null,
-    eidExpire: Boolean = false,
-    eidExpireDate: String = "",
-    city: String? = null,
-    isMainUser: Boolean = false,
-    isAccountActive: Boolean = false,
-    accountActiveMonthly: Boolean = false,
-    emailVerified: Boolean = false,
-    phoneNumberVerified: Boolean = false,
-    account_cancel_timestamp: String? = null,
-    expense_pots: String? = null,
-    card_color: String? = null
+        user: AccountInfo?,
+        signup_length: String? = null,
+        account_active: String? = null,
+        context: Context? = null,
+        eidExpire: Boolean = false,
+        eidExpireDate: String = "",
+        city: String? = null,
+        isMainUser: Boolean = false,
+        isAccountActive: Boolean = false,
+        accountActiveMonthly: Boolean = false,
+        emailVerified: Boolean = false,
+        phoneNumberVerified: Boolean = false,
+        account_cancel_timestamp: String? = null,
+        expense_pots: String? = null,
+        card_color: String? = null
 ) {
     trackAttributes(
-        user,
-        signup_length,
-        account_active,
-        context,
-        eidExpire,
-        eidExpireDate, city,
-        isMainUser,
-        isAccountActive,
-        accountActiveMonthly,
-        emailVerified,
-        phoneNumberVerified,
-        account_cancel_timestamp,
-        expense_pots,
-        card_color
+            user,
+            signup_length,
+            account_active,
+            context,
+            eidExpire,
+            eidExpireDate, city,
+            isMainUser,
+            isAccountActive,
+            accountActiveMonthly,
+            emailVerified,
+            phoneNumberVerified,
+            account_cancel_timestamp,
+            expense_pots,
+            card_color
     )
 }
 
 fun ViewModel.trackEventWithAttributes(
-    user: AccountInfo?,
-    signup_length: String? = null,
-    account_active: String? = null,
-    context: Context? = null,
-    eidExpire: Boolean = false,
-    eidExpireDate: String = "",
-    city: String? = null,
-    isMainUser:Boolean = false,
-    isAccountActive: Boolean = false,
-    accountActiveMonthly: Boolean = false,
-    emailVerified: Boolean = false,
-    phoneNumberVerified: Boolean = false,
-    account_cancel_timestamp: String? = null,
-    expense_pots: String? = null,
-    card_color: String? = null
+        user: AccountInfo?,
+        signup_length: String? = null,
+        account_active: String? = null,
+        context: Context? = null,
+        eidExpire: Boolean = false,
+        eidExpireDate: String = "",
+        city: String? = null,
+        isMainUser: Boolean = false,
+        isAccountActive: Boolean = false,
+        accountActiveMonthly: Boolean = false,
+        emailVerified: Boolean = false,
+        phoneNumberVerified: Boolean = false,
+        account_cancel_timestamp: String? = null,
+        expense_pots: String? = null,
+        card_color: String? = null
 ) {
     trackAttributes(
-        user,
-        signup_length,
-        account_active,
-        context,
-        eidExpire,
-        eidExpireDate, city,
-        isMainUser,
-        isAccountActive,
-        accountActiveMonthly,
-        emailVerified,
-        phoneNumberVerified,
-        account_cancel_timestamp,
-        expense_pots,
-        card_color
+            user,
+            signup_length,
+            account_active,
+            context,
+            eidExpire,
+            eidExpireDate, city,
+            isMainUser,
+            isAccountActive,
+            accountActiveMonthly,
+            emailVerified,
+            phoneNumberVerified,
+            account_cancel_timestamp,
+            expense_pots,
+            card_color
     )
 }
 
 fun trackEventWithAttributes(
-    user: AccountInfo?,
-    signup_length: String? = null,
-    account_active: String? = null,
-    context: Context? = null,
-    eidExpire: Boolean = false,
-    eidExpireDate: String = "",
-    city: String? = null
+        user: AccountInfo?,
+        signup_length: String? = null,
+        account_active: String? = null,
+        context: Context? = null,
+        eidExpire: Boolean = false,
+        eidExpireDate: String = "",
+        city: String? = null
 ) {
     trackAttributes(
-        user,
-        signup_length,
-        account_active,
-        context,
-        eidExpire,
-        eidExpireDate, city
+            user,
+            signup_length,
+            account_active,
+            context,
+            eidExpire,
+            eidExpireDate, city
     )
 }
 
 private fun trackAttributes(
-    user: AccountInfo?,
-    signup_length: String? = null,
-    account_active: String? = null,
-    context: Context? = null,
-    eidExpire: Boolean = false,
-    eidExpireDate: String = "",
-    city: String?,
-    isMainUser:Boolean = false,
-    isAccountActive:Boolean = false,
-    accountActiveMonthly: Boolean = false,
-    emailVerified: Boolean = false,
-    phoneNumberVerified: Boolean = false,
-    account_cancel_timestamp: String? = null,
-    expense_pots: String? = null,
-    card_color: String? = null
+        user: AccountInfo?,
+        signup_length: String? = null,
+        account_active: String? = null,
+        context: Context? = null,
+        eidExpire: Boolean = false,
+        eidExpireDate: String = "",
+        city: String?,
+        isMainUser: Boolean = false,
+        isAccountActive: Boolean = false,
+        accountActiveMonthly: Boolean = false,
+        emailVerified: Boolean = false,
+        phoneNumberVerified: Boolean = false,
+        account_cancel_timestamp: String? = null,
+        expense_pots: String? = null,
+        card_color: String? = null
 ) {
     user?.let { it ->
         val info: HashMap<String, Any> = HashMap()
@@ -157,9 +158,9 @@ private fun trackAttributes(
         info[UserAttributes().city] = city ?: "UNKNOWN"
         info[UserAttributes().signup_timestamp] = getFormattedDate(it.creationDate)
         info[UserAttributes().biometric_login_enabled] =
-            isBioMetricEnabled(context)
+                isBioMetricEnabled(context)
         info[UserAttributes().account_active] =
-            account_active ?: (PartnerBankStatus.ACTIVATED.status == it.partnerBankStatus)
+                account_active ?: (PartnerBankStatus.ACTIVATED.status == it.partnerBankStatus)
         info[UserAttributes().eid_expired] = eidExpire
         info[UserAttributes().eid_expiry_date] = eidExpireDate
         signup_length?.let {
@@ -179,6 +180,11 @@ private fun trackAttributes(
         expense_pots?.let { info[UserAttributes().expense_pots] = it }
         card_color?.let { info[UserAttributes().expense_pots] = it }
 
+        Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
+            override fun variablesChanged() {
+
+            }
+        })
     }
 }
 
@@ -187,26 +193,26 @@ fun getFormattedDate(creationDate: String?): String {
     creationDate?.let { createDate ->
         return try {
             SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(
-                DateUtils.stringToDate(
-                    createDate,
-                    DateUtils.SERVER_DATE_FORMAT
-                )?.time
+                    DateUtils.stringToDate(
+                            createDate,
+                            DateUtils.SERVER_DATE_FORMAT
+                    )?.time
             )
         } catch (e: Exception) {
             SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(
-                System.currentTimeMillis()
+                    System.currentTimeMillis()
             )
         }
     } ?: return SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(
-        System.currentTimeMillis()
+            System.currentTimeMillis()
     )
 }
 
 private fun isBioMetricEnabled(context: Context?): Boolean {
     return context?.let {
         return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it).getValueBoolien(
-            KEY_TOUCH_ID_ENABLED,
-            false
+                KEY_TOUCH_ID_ENABLED,
+                false
         ))
 
     } ?: false
@@ -225,16 +231,17 @@ fun fireEventWithAttribute(eventName: String, value: String) {
 }
 
 fun ViewModel.trackEventWithAttributes(
-    uuid: String?,
-    info:HashMap<String, Any?>
+        uuid: String?,
+        info: HashMap<String, Any?>
 ) {
     Leanplum.setUserAttributes(uuid, info)
 }
 
 fun Fragment.trackEvent(
-    eventName: String,
-    lastCountry: String? = null,
-    lastType: String? = null) {
+        eventName: String,
+        lastCountry: String? = null,
+        lastType: String? = null
+) {
 
     val params: HashMap<String, Any> = HashMap()
     params["LastCountry"] = lastCountry ?: ""
@@ -245,4 +252,26 @@ fun Fragment.trackEvent(
 
 fun fireEvent(eventName: String, params: Map<String, Any>) {
     Leanplum.track(eventName, params)
+}
+
+fun deleteLeanPlumMessage(messageId: String?) {
+    try {
+        messageId?.let {
+            val message = Leanplum.getInbox().messageForId(it)
+            message.remove()
+        }
+
+    } catch (e: Exception) {
+    }
+}
+
+fun markReadLeanPlumMessage(messageId: String?) {
+    try {
+        messageId?.let {
+            val message = Leanplum.getInbox().messageForId(it)
+            message.read()
+        }
+
+    } catch (e: Exception) {
+    }
 }

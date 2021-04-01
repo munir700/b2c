@@ -27,8 +27,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.managers.ChatManager
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import co.yap.yapcore.managers.SessionManager
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 /**
  * Display AlertDialog instantly with confirm
@@ -42,24 +42,24 @@ import co.yap.yapcore.managers.SessionManager
  */
 @JvmOverloads
 fun Context.confirm(
-    message: String,
-    title: String = "",
-    positiveButton: String? = null,
-    negativeButton: String? = null,
-    cancelable: Boolean = true,
-    callback: DialogInterface.() -> Unit
+        message: String,
+        title: String = "",
+        positiveButton: String? = null,
+        negativeButton: String? = null,
+        cancelable: Boolean = true,
+        callback: DialogInterface.() -> Unit
 ) =
-    AlertDialog.Builder(this).apply {
-        if (title.isEmpty().not())
-            setTitle(title)
-        setMessage(message)
-        setPositiveButton(
-            positiveButton ?: getString(android.R.string.ok)
-        ) { dialog, _ -> dialog.callback() }
-        setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
-        setCancelable(cancelable)
-        show()
-    }
+        AlertDialog.Builder(this).apply {
+            if (title.isEmpty().not())
+                setTitle(title)
+            setMessage(message)
+            setPositiveButton(
+                    positiveButton ?: getString(android.R.string.ok)
+            ) { dialog, _ -> dialog.callback() }
+            setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
+            setCancelable(cancelable)
+            show()
+        }
 
 /**
  * Display AlertDialog instantly with confirm
@@ -74,29 +74,29 @@ fun Context.confirm(
  */
 @JvmOverloads
 fun Context.confirm(
-    message: String,
-    title: String = "",
-    positiveButton: String? = null,
-    negativeButton: String? = null,
-    cancelable: Boolean = true,
-    positiveCallback: DialogInterface.() -> Unit,
-    negativeCallback: DialogInterface.() -> Unit
+        message: String,
+        title: String = "",
+        positiveButton: String? = null,
+        negativeButton: String? = null,
+        cancelable: Boolean = true,
+        positiveCallback: DialogInterface.() -> Unit,
+        negativeCallback: DialogInterface.() -> Unit
 ) =
-    AlertDialog.Builder(this).apply {
-        if (title.isEmpty().not())
-            setTitle(title)
-        setMessage(message)
-        setPositiveButton(
-            positiveButton ?: getString(android.R.string.ok)
-        )
-        { dialog, _ -> dialog.positiveCallback() }
-        setNegativeButton(
-            negativeButton ?: getString(android.R.string.no)
-        )
-        { dialog, _ -> dialog.negativeCallback() }
-        setCancelable(cancelable)
-        show()
-    }
+        AlertDialog.Builder(this).apply {
+            if (title.isEmpty().not())
+                setTitle(title)
+            setMessage(message)
+            setPositiveButton(
+                    positiveButton ?: getString(android.R.string.ok)
+            )
+            { dialog, _ -> dialog.positiveCallback() }
+            setNegativeButton(
+                    negativeButton ?: getString(android.R.string.no)
+            )
+            { dialog, _ -> dialog.negativeCallback() }
+            setCancelable(cancelable)
+            show()
+        }
 
 /**
  * Display AlertDialog instantly with confirm
@@ -110,83 +110,83 @@ fun Context.confirm(
  */
 @JvmOverloads
 fun Fragment.confirm(
-    message: String,
-    title: String? = "",
-    positiveButton: String? = "Yes",
-    negativeButton: String? = "No",
-    cancelable: Boolean = true,
-    callback: DialogInterface.() -> Unit
+        message: String,
+        title: String? = "",
+        positiveButton: String? = "Yes",
+        negativeButton: String? = "No",
+        cancelable: Boolean = true,
+        callback: DialogInterface.() -> Unit
 ) =
-    AlertDialog.Builder(requireContext()).apply {
-        if (title?.isEmpty()?.not() == true)
-            setTitle(title)
-        setMessage(message)
-        setPositiveButton(
-            positiveButton ?: getString(android.R.string.ok)
-        )
-        { dialog, _ -> dialog.callback() }
-        setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
-        setCancelable(cancelable)
-        show()
-    }
+        AlertDialog.Builder(requireContext()).apply {
+            if (title?.isEmpty()?.not() == true)
+                setTitle(title)
+            setMessage(message)
+            setPositiveButton(
+                    positiveButton ?: getString(android.R.string.ok)
+            )
+            { dialog, _ -> dialog.callback() }
+            setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
+            setCancelable(cancelable)
+            show()
+        }
 
 @JvmOverloads
 fun Fragment.confirm(
-    message: String,
-    title: String = "",
-    positiveButton: String? = "Yes",
-    negativeButton: String? = "No",
-    cancelable: Boolean = true, themeId: Int = R.style.AlertDialogTheme,
-    callback: DialogInterface.() -> Unit,
-    negativeCallback: DialogInterface.() -> Unit
+        message: String,
+        title: String = "",
+        positiveButton: String? = "Yes",
+        negativeButton: String? = "No",
+        cancelable: Boolean = true, themeId: Int = R.style.AlertDialogTheme,
+        callback: DialogInterface.() -> Unit,
+        negativeCallback: DialogInterface.() -> Unit
 ) =
-    AlertDialog.Builder(requireContext(), themeId).apply {
-        if (title.isEmpty().not())
-            setTitle(title)
-        setMessage(message)
-        setPositiveButton(
-            positiveButton ?: getString(android.R.string.ok)
-        )
-        { dialog, _ -> dialog.callback() }
-        setNegativeButton(
-            negativeButton ?: getString(android.R.string.no)
-        )
-        { dialog, _ -> dialog.negativeCallback() }
-        //setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
-        setCancelable(cancelable)
-        show()
-    }
+        AlertDialog.Builder(requireContext(), themeId).apply {
+            if (title.isEmpty().not())
+                setTitle(title)
+            setMessage(message)
+            setPositiveButton(
+                    positiveButton ?: getString(android.R.string.ok)
+            )
+            { dialog, _ -> dialog.callback() }
+            setNegativeButton(
+                    negativeButton ?: getString(android.R.string.no)
+            )
+            { dialog, _ -> dialog.negativeCallback() }
+            //setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
+            setCancelable(cancelable)
+            show()
+        }
 
 @JvmOverloads
 fun Fragment.confirm(
-    message: CharSequence,
-    title: String = "",
-    positiveButton: String? = "Yes",
-    negativeButton: String? = "No",
-    cancelable: Boolean = true, themeId: Int = R.style.AlertDialogTheme,
-    callback: DialogInterface.() -> Unit,
-    negativeCallback: DialogInterface.() -> Unit
+        message: CharSequence,
+        title: String = "",
+        positiveButton: String? = "Yes",
+        negativeButton: String? = "No",
+        cancelable: Boolean = true, themeId: Int = R.style.AlertDialogTheme,
+        callback: DialogInterface.() -> Unit,
+        negativeCallback: DialogInterface.() -> Unit
 ) =
-    AlertDialog.Builder(requireContext(), themeId).apply {
-        if (title.isEmpty().not())
-            setTitle(title)
-        setMessage(message)
-        setPositiveButton(
-            positiveButton ?: getString(android.R.string.ok)
-        )
-        { dialog, _ -> dialog.callback() }
-        setNegativeButton(
-            negativeButton ?: getString(android.R.string.no)
-        )
-        { dialog, _ -> dialog.negativeCallback() }
-        val alert =  create()
-        setCancelable(cancelable)
-        alert.show()
-        val msgView = alert.findViewById<TextView>(android.R.id.message)
-        msgView?.movementMethod = LinkMovementMethod.getInstance()
-        //setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
+        AlertDialog.Builder(requireContext(), themeId).apply {
+            if (title.isEmpty().not())
+                setTitle(title)
+            setMessage(message)
+            setPositiveButton(
+                    positiveButton ?: getString(android.R.string.ok)
+            )
+            { dialog, _ -> dialog.callback() }
+            setNegativeButton(
+                    negativeButton ?: getString(android.R.string.no)
+            )
+            { dialog, _ -> dialog.negativeCallback() }
+            val alert = create()
+            setCancelable(cancelable)
+            alert.show()
+            val msgView = alert.findViewById<TextView>(android.R.id.message)
+            msgView?.movementMethod = LinkMovementMethod.getInstance()
+            //setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
 
-    }
+        }
 
 /**
  * Display AlertDialog instantly
@@ -199,24 +199,24 @@ fun Fragment.confirm(
  */
 @JvmOverloads
 fun Context.alert(
-    message: String,
-    title: String = "",
-    positiveButton: String? = null,
-    cancelable: Boolean = true,
-    callback: (DialogInterface) -> Unit = {}
+        message: String,
+        title: String = "",
+        positiveButton: String? = null,
+        cancelable: Boolean = true,
+        callback: (DialogInterface) -> Unit = {}
 ) =
-    AlertDialog.Builder(this).apply {
-        if (title.isEmpty().not())
-            setTitle(title)
-        setMessage(message)
-        setPositiveButton(positiveButton ?: getString(android.R.string.ok)) { dialog, _ ->
-            callback(
-                dialog
-            )
+        AlertDialog.Builder(this).apply {
+            if (title.isEmpty().not())
+                setTitle(title)
+            setMessage(message)
+            setPositiveButton(positiveButton ?: getString(android.R.string.ok)) { dialog, _ ->
+                callback(
+                        dialog
+                )
+            }
+            setCancelable(cancelable)
+            show()
         }
-        setCancelable(cancelable)
-        show()
-    }
 
 /**
  * Display AlertDialog instantly
@@ -229,11 +229,11 @@ fun Context.alert(
  */
 @JvmOverloads
 fun Fragment.alert(
-    message: String,
-    title: String = "",
-    positiveButton: String? = null,
-    cancelable: Boolean = true,
-    callback: (DialogInterface) -> Unit = {}
+        message: String,
+        title: String = "",
+        positiveButton: String? = null,
+        cancelable: Boolean = true,
+        callback: (DialogInterface) -> Unit = {}
 ) = requireContext().alert(message, title, positiveButton, cancelable, callback)
 
 /**
@@ -247,11 +247,11 @@ fun Fragment.alert(
  */
 @JvmOverloads
 fun AppCompatActivity.alert(
-    message: String,
-    title: String = "",
-    positiveButton: String? = null,
-    cancelable: Boolean = true,
-    callback: (DialogInterface) -> Unit = {}
+        message: String,
+        title: String = "",
+        positiveButton: String? = null,
+        cancelable: Boolean = true,
+        callback: (DialogInterface) -> Unit = {}
 ) {
     this.alert(message, title, positiveButton, cancelable, callback)
 }
@@ -271,7 +271,7 @@ fun Context.showCardDetailsPopup(cardDetail: CardDetail?, card: Card?) {
         } else {
             if (cardDetail.cardNumber?.length == 16) {
                 val formattedCardNumber: StringBuilder =
-                    StringBuilder(cardDetail.cardNumber ?: "")
+                        StringBuilder(cardDetail.cardNumber ?: "")
                 formattedCardNumber.insert(4, " ")
                 formattedCardNumber.insert(9, " ")
                 formattedCardNumber.insert(14, " ")
@@ -284,7 +284,7 @@ fun Context.showCardDetailsPopup(cardDetail: CardDetail?, card: Card?) {
         cardType = "Primary card"
     } else {
         cardType = if (card?.nameUpdated == true) {
-            card.cardName?:""
+            card.cardName ?: ""
         } else {
             if (card?.physical == true) {
                 Constants.TEXT_SPARE_CARD_PHYSICAL
@@ -301,18 +301,18 @@ fun Context.showCardDetailsPopup(cardDetail: CardDetail?, card: Card?) {
     val viewPager = dialog.findViewById<ViewPager2>(R.id.cardsPager)
     val pagerList = mutableListOf<CardDetailsModel>()
     pagerList.add(
-        CardDetailsModel(
-            cardExpiry = cardDetail?.expiryDate,
-            cardType = cardType,
-            cardNumber = cardNumber, cardCvv = cardDetail?.cvv
-        )
+            CardDetailsModel(
+                    cardExpiry = cardDetail?.expiryDate,
+                    cardType = cardType,
+                    cardNumber = cardNumber, cardCvv = cardDetail?.cvv
+            )
     )
     pagerList.add(
-        CardDetailsModel(
-            cardExpiry = cardDetail?.expiryDate,
-            cardType = cardType,
-            cardNumber = cardNumber, cardCvv = cardDetail?.cvv
-        )
+            CardDetailsModel(
+                    cardExpiry = cardDetail?.expiryDate,
+                    cardType = cardType,
+                    cardNumber = cardNumber, cardCvv = cardDetail?.cvv
+            )
     )
     val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
     viewPager?.adapter = cardDetailsPagerAdapter
@@ -321,15 +321,15 @@ fun Context.showCardDetailsPopup(cardDetail: CardDetail?, card: Card?) {
 }
 
 fun Context.showYapAlertDialog(
-    title: String? = null,
-    message: String?
+        title: String? = null,
+        message: String?
 ) {
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
     val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     title?.let { builder.setTitle(title) }
     val dialogLayout: View =
-        inflater.inflate(R.layout.alert_dialogue, null)
+            inflater.inflate(R.layout.alert_dialogue, null)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
     val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
@@ -348,9 +348,9 @@ fun Context.showYapAlertDialog(
 }
 
 fun Activity.showAlertCustomDialog(
-    title: String? = "",
-    message: String? = "",
-    buttonText: String? = "OK"
+        title: String? = "",
+        message: String? = "",
+        buttonText: String? = "OK"
 ) {
     val dialogLayout = Dialog(this)
     dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -371,23 +371,23 @@ fun Activity.showAlertCustomDialog(
 }
 
 fun Activity.showAlertDialogAndExitApp(
-    Title: String? = null,
-    dialogTitle: String? = "",
-    message: String?,
-    leftButtonText: String = "OK",
-    rightButtonText: String = "Cancel",
-    callback: () -> Unit = {},
-    titleVisibility: Boolean = false,
-    closeActivity: Boolean = true,
-    isOtpBlocked: Boolean = false,
-    isTwoButton: Boolean = false
+        Title: String? = null,
+        dialogTitle: String? = "",
+        message: String?,
+        leftButtonText: String = "OK",
+        rightButtonText: String = "Cancel",
+        callback: () -> Unit = {},
+        titleVisibility: Boolean = false,
+        closeActivity: Boolean = true,
+        isOtpBlocked: Boolean = false,
+        isTwoButton: Boolean = false
 ) {
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
     val inflater: LayoutInflater = layoutInflater
     Title?.let { builder.setTitle(Title) }
     val dialogLayout: View =
-        inflater.inflate(R.layout.alert_dialogue, null)
+            inflater.inflate(R.layout.alert_dialogue, null)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
     val dTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
@@ -416,12 +416,12 @@ fun Activity.showAlertDialogAndExitApp(
     }
     if (isOtpBlocked) {
         label.makeLinks(
-            Pair(SessionManager.helpPhoneNumber, View.OnClickListener {
-                makeCall(SessionManager.helpPhoneNumber)
-            }),
-            Pair("live chat", View.OnClickListener {
-                ChatManager.config(ok.context as BaseActivity<*>)
-            })
+                Pair(SessionManager.helpPhoneNumber, View.OnClickListener {
+                    makeCall(SessionManager.helpPhoneNumber)
+                }),
+                Pair("live chat", View.OnClickListener {
+                    ChatManager.config(ok.context as BaseActivity<*>)
+                })
         )
     }
 
@@ -431,4 +431,35 @@ fun Activity.showAlertDialogAndExitApp(
 
     alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     alertDialog.show()
+}
+
+
+fun Activity.showReceiptSuccessDialog(
+        description: String? = null,
+        addOtherVisibility: Boolean? = true,
+        addAnotherText: String? = "",
+        callback: (Int) -> Unit = {}
+) {
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.layout_receipt_success_dialog)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvDescrip)
+    val addAnother = dialogLayout.findViewById<TextView>(R.id.tvAddAnother)
+    val coreButton = dialogLayout.findViewById<TextView>(R.id.btnActionDone)
+    label.text = description
+    addAnother.text = addAnotherText
+    addAnother.visibility = if (addOtherVisibility == true) View.VISIBLE else View.GONE
+    coreButton.setOnClickListener {
+        dialogLayout.dismiss()
+        callback.invoke(coreButton.id)
+    }
+
+    addAnother.setOnClickListener {
+        callback.invoke(addAnother.id)
+        dialogLayout.dismiss()
+    }
+
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
 }

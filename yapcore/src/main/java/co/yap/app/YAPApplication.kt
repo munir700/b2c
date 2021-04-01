@@ -18,7 +18,9 @@ abstract class YAPApplication : DaggerApplication() {
             null,
             null,
             null,
-            totalAppliedFilter = 0
+            totalAppliedFilter = 0,
+            categories = arrayListOf(),
+            statues = arrayListOf()
         )
 
         fun clearFilters() {
@@ -26,7 +28,9 @@ abstract class YAPApplication : DaggerApplication() {
                 0, pageSize,
                 null, null,
                 null, null,
-                0
+                0,
+                categories = null,
+                statues = null
             )
         }
     }

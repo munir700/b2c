@@ -17,16 +17,16 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
-    (
-    var datas: MutableList<T>,
-    private var navigation: NavController?
+(
+        var datas: MutableList<T>,
+        private var navigation: NavController?
 ) :
-    RecyclerView.Adapter<VH>() {
+        RecyclerView.Adapter<VH>() {
 
     @Nullable
     var onItemClickListener: OnItemClickListener? = null
     var onChildViewClickListener: ((view: View, position: Int, data: T?) -> Unit)? =
-        null
+            null
 
     override fun getItemCount() = datas.count()
 
@@ -43,9 +43,9 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
         val holder: VH = getViewHolder(view, viewModel, mDataBinding!!, viewType)
         holder.onClick { view, position, type ->
             onItemClickListener?.onItemClick(
-                view,
-                datas[holder.adapterPosition],
-                holder.adapterPosition
+                    view,
+                    datas[holder.adapterPosition],
+                    holder.adapterPosition
             )
         }
         return holder
@@ -68,10 +68,10 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
     abstract fun getLayoutId(viewType: Int): Int
 
     abstract fun getViewHolder(
-        view: View,
-        viewModel: VM,
-        mDataBinding: ViewDataBinding,
-        viewType: Int
+            view: View,
+            viewModel: VM,
+            mDataBinding: ViewDataBinding,
+            viewType: Int
     ): VH
 
     abstract fun getViewModel(viewType: Int): VM
@@ -115,9 +115,22 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
 
     fun change(newItem: T, oldItem: T) {
         val position = this.datas.indexOf(oldItem)
-        this.datas.set(position, newItem)
+        this.datas[position] = newItem
         notifyItemChanged(position)
         notifyDataSetChanged()
     }
 
+    fun update(item: T) {
+        val position = this.datas.indexOf(item)
+        this.datas[position] = item
+        notifyItemChanged(position)
+
+    }
+
+    fun update(position: Int) {
+        val item = this.datas[position]
+        this.datas[position] = item
+        notifyItemChanged(position)
+
+    }
 }

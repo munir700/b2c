@@ -83,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lySearchView"
             app:emptyViewText="@{@string/common_display_text_no_results}"
             app:msv_emptyView="@layout/layout_beneficiaries_no_results"
-            app:msv_errorView="@layout/layout_error_view"
+            app:msv_errorView="@layout/layout_beneficiaries_no_results"
             app:msv_viewState="content">
 
             <co.yap.widgets.skeletonlayout.ShimmerRecyclerView

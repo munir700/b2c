@@ -29,7 +29,7 @@
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_settings}"
-            app:rightIconVisibility="@{false}"
+            app:rightIconVisibility="@{true}"
             app:titleTranslator="@{Strings.screen_notification_listing_display_text_toolbar_title}" />
 
         <co.yap.widgets.MultiStateView
@@ -37,11 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:msv_loadingView="@layout/layout_loading_view"
-            app:msv_emptyView="@layout/layout_empty_view_no_results"
-            app:emptyViewText="@{`You dont't have any new notifications`}"
             android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:emptyViewText="@{`You dont't have any new notifications`}"
+            app:msv_emptyView="@layout/layout_empty_view_no_results"
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:viewState="@{viewModel.state.stateLiveData}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

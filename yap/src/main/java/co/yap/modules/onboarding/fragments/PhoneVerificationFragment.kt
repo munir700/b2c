@@ -16,8 +16,11 @@ import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.firebase.*
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -59,14 +62,8 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
             R.id.done -> {
                 viewModel.verifyOtp {
                     trackEventWithScreenName(FirebaseEvent.VERIFY_NUMBER)
-                    viewModel.parentViewModel?.isWaitingList?.value?.let { isWaitingList ->
-                        if (isWaitingList) findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment) else startActivityForResult(
-                            context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                            Constants.REQUEST_CODE_CREATE_PASSCODE
-                        )
-                    } ?: startActivityForResult(
-                        context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                        Constants.REQUEST_CODE_CREATE_PASSCODE
+                    launchActivity<CreatePasscodeActivity>(
+                        requestCode = RequestCodes.REQUEST_CODE_CREATE_PASSCODE
                     )
                 }
             }
@@ -108,7 +105,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            Constants.REQUEST_CODE_CREATE_PASSCODE -> {
+            RequestCodes.REQUEST_CODE_CREATE_PASSCODE -> {
                 if (null != data) {
                     //trackEvent(TrackEvents.OTP_CODE_ENTERED)
                     viewModel.setPasscode(data.getStringExtra("PASSCODE") ?: "")

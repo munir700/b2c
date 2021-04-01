@@ -89,10 +89,6 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
             R.id.ivBackBtn -> {
                 activity?.onBackPressed()
             }
-
-            R.id.tvSelectCountry -> {
-                this.launchBottomSheet()
-            }
         }
     }
 

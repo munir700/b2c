@@ -1,6 +1,7 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
@@ -15,15 +16,19 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.NotificationsRepository
+import co.yap.networking.notification.requestdtos.FCMTokenRequest
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
-import com.liveperson.infra.LPAuthenticationParams
+import com.liveperson.infra.auth.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
 import kotlinx.coroutines.Dispatchers
@@ -57,9 +62,16 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
     var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
-
+    var deepLinkFlowId: MutableLiveData<String?> = MutableLiveData(null)
+    val homeCountry2Digit: String
+        get() {
+            return if (user?.currentCustomer?.homeCountry?.count() == 3) countries.value?.find { it.isoCountryCode3Digit == user?.currentCustomer?.homeCountry }?.isoCountryCode2Digit
+                    ?: "AE"
+            else
+                user?.currentCustomer?.homeCountry ?: "AE"
+        }
     private val viewModelBGScope =
-        BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
+            BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
 
     fun getCurrenciesFromServer(response: (success: Boolean, currencies: ArrayList<CurrencyData>) -> Unit) {
         // feature disable for later enabling as RAK permit.
@@ -79,13 +91,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getCountriesFromServer(response: (success: Boolean, countries: ArrayList<Country>) -> Unit) {
         GlobalScope.launch(Dispatchers.IO) {
-            when (val apiResponse = customerRepository.getAllCountries()) {
+            when (val apiResponse = customerRepository.getCountries()) {
                 is RetroApiResponse.Success -> {
                     countries.postValue(
-                        Utils.parseCountryList(
-                            apiResponse.data.data,
-                            addOIndex = false
-                        )
+                            Utils.parseCountryList(
+                                    apiResponse.data.data,
+                                    addOIndex = false
+                            )
                     )
                     response.invoke(true, countries.value ?: arrayListOf())
                 }
@@ -142,8 +154,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 featuresList.addAll(user.getBlockedFeaturesList(userAccessRestriction))
             }
             FeatureProvisioning.configure(
-                featuresList,
-                it
+                    featuresList,
+                    it
             )
         }
     }
@@ -192,9 +204,9 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     fun isOnBoarded(): Boolean {
         // TODO Verify login with IOS team
         if (user?.notificationStatuses != AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name &&
-            user?.notificationStatuses != AccountStatus.INVITE_PENDING.name &&
-            user?.notificationStatuses != AccountStatus.EMAIL_PENDING.name &&
-            user?.notificationStatuses != AccountStatus.PASS_CODE_PENDING.name
+                user?.notificationStatuses != AccountStatus.INVITE_PENDING.name &&
+                user?.notificationStatuses != AccountStatus.EMAIL_PENDING.name &&
+                user?.notificationStatuses != AccountStatus.PASS_CODE_PENDING.name
         ) {
             return true
         }
@@ -205,14 +217,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch(Dispatchers.Main) {
             when (val response = repository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        getDebitFromList(it)?.let { debitCard ->
+                    if (response.data.data.isNullOrEmpty()) {
+                        success.invoke(null)
+                    } else {
+                        getDebitFromList(response.data.data)?.let { debitCard ->
                             card.postValue(debitCard)
                             success.invoke(debitCard)
-                        } ?: run {
-                            success.invoke(null)
-                            "Debit card not found"
-                        }
+                        } ?: success.invoke(null)
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -275,16 +286,24 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(success: () -> Unit = {}) {
+    fun sendFcmTokenToServer(context: Context, success: () -> Unit = {}) {
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
+        val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
-                    when (val response = customerRepository.getAccountInfo()) {
+                    when (val response = NotificationsRepository.sendFcmTokenToServer(
+                            FCMTokenRequest(
+                                    token = it,
+                                    deviceId = deviceId
+                            )
+                    )) {
                         is RetroApiResponse.Success -> {
                             success.invoke()
                         }
-
                         is RetroApiResponse.Error -> {
+                            Log.d("", "")
                         }
                     }
                 }

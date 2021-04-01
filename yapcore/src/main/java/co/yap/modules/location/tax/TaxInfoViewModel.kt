@@ -210,7 +210,7 @@ class TaxInfoViewModel(application: Application) :
             launch {
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
-                        success(Utils.parseCountryList(response.data.data) as ArrayList<Country>)
+                        success(Utils.parseCountryList(response.data.data, addOIndex = false) as ArrayList<Country>)
 
                     }
 

@@ -2,7 +2,9 @@ package co.yap.modules.dashboard.home.adaptor
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
@@ -82,23 +84,42 @@ class TransactionsListingAdapter(
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction, position)
 
-            transaction.transactionNote?.let {
-                itemTransactionListBinding.tvTransactionNote.text = it
-            }
+            //prod ticket YM-11574 fix start
+            if (transaction.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode) {
+                transaction.remarks?.let {
+                    itemTransactionListBinding.tvTransactionNote.text = it
 
-            itemTransactionListBinding.tvTransactionNote.visibility =
-                if (transaction.transactionNote.isNullOrEmpty() || transaction.transactionNote.equals(
-                        "null"
-                    )
-                ) View.GONE else View.VISIBLE
-            itemTransactionListBinding.tvTransactionStatus.text = transaction.getTransactionStatus()
+                    itemTransactionListBinding.tvTransactionNote.visibility =
+                        if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
+                                "null"
+                            )
+                        ) View.GONE else View.VISIBLE
+                }
+
+            } else {
+                itemTransactionListBinding.tvTransactionNote.visibility = View.GONE
+            }
+            // prod ticket YM-11574 fix end
+            //due to fixes above commenting following code
+//            transaction.remarks?.let {
+//                itemTransactionListBinding.tvTransactionNote.text = it
+//            }
+
+//            itemTransactionListBinding.tvTransactionNote.visibility =
+//                if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
+//                        "null"
+//                    )
+//                ) View.GONE else View.VISIBLE
+
+
+            itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
-                if (transaction.getTransactionStatus().isEmpty()) View.GONE else View.VISIBLE
+                if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
             itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
-            itemTransactionListBinding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
+            itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             itemTransactionListBinding.ivIncoming.background =
-                if (transaction.getTransactionTypeIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
+                if (transaction.getStatusIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
                     R.drawable.bg_round_white
                 ) else
                     context.getDrawable(android.R.color.transparent)
@@ -114,23 +135,23 @@ class TransactionsListingAdapter(
             transaction: Transaction,
             position: Int?
         ) {
-            val transactionTitle = transaction.getTransactionTitle()
-            val txnIconResId = transaction.getTransactionIcon()
+            val transactionTitle = transaction.getTitle()
+            val txnIconResId = transaction.getIcon()
             val categoryTitle: String =
-                transaction.getTransactionTypeTitle()
+                transaction.getTransferType()
             transaction.productCode?.let {
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it && !transaction.isTransactionRejected()) {
                     setY2YUserImage(transaction, itemTransactionListBinding, position)
+                } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
+                    setVirtualCardIcon(transaction, itemTransactionListBinding)
                 } else {
                     if (txnIconResId != -1) {
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
-                        if (transaction.isTransactionCancelled())
-                            itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     } else {
                         setInitialsAsTxnImage(transaction, itemTransactionListBinding, position)
-                        if (transaction.isTransactionCancelled())
-                            itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     }
+                    if (transaction.isTransactionRejected()) itemTransactionListBinding.ivTransaction.background =
+                        null
 
                     ImageViewCompat.setImageTintList(
                         itemTransactionListBinding.ivTransaction,
@@ -151,46 +172,24 @@ class TransactionsListingAdapter(
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding, position: Int?
         ) {
-            if (transaction.isTransactionRejected()) {
-                if (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
-                    transaction.productCode == TransactionProductCode.TOP_UP_VIA_CARD.pCode ||
-                    transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode
-                ) {
-                    itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_reverted)
-                } else {
-                    itemTransactionListBinding.ivTransaction.background = null
-                    ImageBinding.loadAvatar(
-                        imageView = itemTransactionListBinding.ivTransaction,
-                        imageUrl = if (TxnType.valueOf(
-                                transaction.txnType ?: ""
-                            ) == TxnType.DEBIT
-                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                        fullName = if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                        position = position ?: 0,
-                        colorType = "Beneficiary"
-                    )
-                    itemTransactionListBinding.ivTransaction.alpha = 0.5f
-                }
-            } else {
-                itemTransactionListBinding.ivTransaction.background = null
-                ImageBinding.loadAvatar(
-                    imageView = itemTransactionListBinding.ivTransaction,
-                    imageUrl = if (TxnType.valueOf(
-                            transaction.txnType ?: ""
-                        ) == TxnType.DEBIT
-                    ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                    fullName = if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                    position = position ?: 0,
-                    colorType = "Beneficiary"
-                )
-            }
+            itemTransactionListBinding.ivTransaction.background = null
+            ImageBinding.loadAvatar(
+                imageView = itemTransactionListBinding.ivTransaction,
+                imageUrl = if (TxnType.valueOf(
+                        transaction.txnType ?: ""
+                    ) == TxnType.DEBIT
+                ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                fullName = if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                position = position ?: 0,
+                colorType = "Beneficiary"
+            )
         }
-
 
         private fun setInitialsAsTxnImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding, position: Int?
         ) {
+
             itemTransactionListBinding.ivTransaction.background = null
             ImageBinding.loadAvatar(
                 imageView = itemTransactionListBinding.ivTransaction,
@@ -201,13 +200,38 @@ class TransactionsListingAdapter(
             )
         }
 
+        private fun setVirtualCardIcon(
+            transaction: Transaction,
+            itemTransactionListBinding: ItemTransactionListBinding
+        ) {
+            transaction.virtualCardDesign?.let {
+                try {
+                    val startColor = Color.parseColor(it.designCodeColors?.firstOrNull()?.colorCode)
+                    val endColor = Color.parseColor(
+                        if (it.designCodeColors?.size ?: 0 > 1) it.designCodeColors?.get(1)?.colorCode else it.designCodeColors?.firstOrNull()?.colorCode
+                    )
+                    val gd = GradientDrawable(
+                        GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(startColor, endColor)
+                    )
+                    gd.shape = GradientDrawable.OVAL
+
+                    itemTransactionListBinding.ivTransaction.background = null
+                    itemTransactionListBinding.ivTransaction.background = gd
+                    itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
+
+                } catch (e: Exception) {
+                }
+            }
+                ?: itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
+        }
+
         private fun setContentDataColor(
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
 
             val context = itemTransactionListBinding.ivIncoming.context
-            val isTxnCancelled = transaction.isTransactionCancelled()
+            val isTxnCancelled = transaction.isTransactionRejected()
             itemTransactionListBinding.tvTransactionName.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.colorMidnightExpress))
             itemTransactionListBinding.tvTransactionTimeAndCategory.setTextColor(
                 context.getColors(
@@ -221,7 +245,7 @@ class TransactionsListingAdapter(
 
             //strike-thru textview
             itemTransactionListBinding.tvTransactionAmount.paintFlags =
-                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
 }

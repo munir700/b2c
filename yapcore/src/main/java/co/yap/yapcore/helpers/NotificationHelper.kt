@@ -3,13 +3,17 @@ package co.yap.yapcore.helpers
 import android.content.Context
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.networking.notification.HomeNotification
-import co.yap.networking.notification.NotificationAction
+import co.yap.networking.notification.responsedtos.HomeNotification
+import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.helpers.DateUtils.GMT
 import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_FORMAT
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.DateUtils.UTC
+import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.DateUtils.getCurrentDateWithFormat
 import co.yap.yapcore.helpers.extentions.getNotificationOfBlockedFeature
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
@@ -53,7 +57,7 @@ object NotificationHelper {
                     ),
                     action = NotificationAction.HELP_AND_SUPPORT,
                     imgResId = R.raw.gif_notification_bel,
-                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                     btnTitle = "Open " + Translator.getString(
                         context,
                         Strings.screen_help_support_display_text_title
@@ -83,7 +87,7 @@ object NotificationHelper {
                     ),
                     action = NotificationAction.COMPLETE_VERIFICATION,
                     imgResId = R.raw.gif_general_notification,
-                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                     btnTitle = Translator.getString(
                         context,
                         Strings.screen_b2c_kyc_home_display_text_screen_title
@@ -106,7 +110,7 @@ object NotificationHelper {
                     description = Translator.getString(context, Strings.screen_home_set_pin_desc),
                     action = NotificationAction.SET_PIN,
                     imgResId = R.raw.gif_set_pin,
-                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                     btnTitle = Translator.getString(
                         context,
                         Strings.dashboard_timeline_set_pin_stage_action_title
@@ -131,7 +135,7 @@ object NotificationHelper {
                     ),
                     action = NotificationAction.UPDATE_EMIRATES_ID,
                     imgResId = R.raw.gif_general_notification,
-                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                     btnTitle = Translator.getString(
                         context,
                         Strings.screen_b2c_eid_info_review_button_title_scan_eid
@@ -147,7 +151,7 @@ object NotificationHelper {
                         description = description,
                         action = NotificationAction.CARD_FEATURES_BLOCKED,
                         imgResId = R.raw.gif_notification_bel,
-                        createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                        createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                         btnTitle = Translator.getString(
                             context,
                             Strings.screen_help_support_display_text_call_us
@@ -160,7 +164,7 @@ object NotificationHelper {
         return list
     }
 
-    private fun shouldShowSetPin(paymentCard: Card?): Boolean {
+    fun shouldShowSetPin(paymentCard: Card?): Boolean {
         return when {
             paymentCard?.status == PaymentCardStatus.INACTIVE.name && paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> true
             paymentCard?.status == PaymentCardStatus.ACTIVE.name && !paymentCard.pinCreated -> true
@@ -184,7 +188,7 @@ object NotificationHelper {
                 ),
                 action = NotificationAction.HELP_AND_SUPPORT,
                 imgResId = R.raw.gif_notification_bel,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                 btnTitle = "Open " + Translator.getString(
                     context,
                     Strings.screen_help_support_display_text_title
@@ -208,7 +212,7 @@ object NotificationHelper {
                 ),
                 action = NotificationAction.COMPLETE_VERIFICATION,
                 imgResId = R.raw.gif_general_notification,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_kyc_home_display_text_screen_title
@@ -228,7 +232,7 @@ object NotificationHelper {
                 description = Translator.getString(context, Strings.screen_home_set_pin_desc),
                 action = NotificationAction.SET_PIN,
                 imgResId = R.raw.gif_set_pin,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                 btnTitle = Translator.getString(
                     context,
                     Strings.dashboard_timeline_set_pin_stage_action_title
@@ -249,7 +253,7 @@ object NotificationHelper {
                 ),
                 action = NotificationAction.UPDATE_EMIRATES_ID,
                 imgResId = R.raw.gif_general_notification,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_eid_info_review_button_title_scan_eid
@@ -266,7 +270,7 @@ object NotificationHelper {
                 ).format(SessionManager.helpPhoneNumber),
                 action = NotificationAction.CARD_FEATURES_BLOCKED,
                 imgResId = R.raw.gif_notification_bel,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_help_support_display_text_call_us

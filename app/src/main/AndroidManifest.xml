@@ -79,8 +79,9 @@
             android:value="@string/facebook_app_id" />
 
         <service
-            android:name="co.yap.yapcore.firebase.YapFirebaseMessagingService"
+            android:name=".YapFirebaseMessagingService"
             android:exported="false"
+            android:directBootAware="true"
             android:permission="${applicationId}.permission">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

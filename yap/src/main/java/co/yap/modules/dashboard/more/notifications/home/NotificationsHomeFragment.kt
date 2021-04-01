@@ -9,11 +9,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.translation.Strings.screen_notification_listing_display_text_delete_alert_title
 import co.yap.translation.Strings.screen_notification_listing_display_text_delete_message
 import co.yap.widgets.DividerItemDecoration
 import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
@@ -51,11 +53,9 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
     }
 
     private fun initRecyclerView() {
-// touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
         mRecyclerViewTouchActionGuardManager = RecyclerViewTouchActionGuardManager().apply {
             setInterceptVerticalScrollingWhileAnimationRunning(true)
             isEnabled = true
-
         }
         mRecyclerViewSwipeManager = RecyclerViewSwipeManager().apply {
             mNotificationsAdapter = NotificationsHomeAdapter(
@@ -84,28 +84,46 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
                             screen_notification_listing_display_text_delete_alert_title
                         )
                     ) {
-                        mNotificationsAdapter.removeAt(position)
+                        viewModel.deleteFcmNotifications(data) {
+                            mNotificationsAdapter.removeAt(position)
+                        }
+
                     }
                 }
             mNotificationsAdapter.onItemClickListener = this@NotificationsHomeFragment
         }
-        viewModel.state.mNotifications?.observe(this, Observer {
-            if (it.isEmpty()) {
-                multiStateView.viewState = MultiStateView.ViewState.EMPTY
-            } else {
-                mNotificationsAdapter.setData(it)
-                multiStateView.viewState = MultiStateView.ViewState.CONTENT
-            }
+        viewModel.state.stateLiveData?.observe(this, Observer {
+            handleState(it)
 
         })
     }
 
+    private fun handleState(state: State?) {
+        when (state?.status) {
+            Status.EMPTY -> {
+                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+            }
+            Status.ERROR -> {
+                multiStateView.viewState = MultiStateView.ViewState.ERROR
+            }
+            Status.SUCCESS -> {
+                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            }
+            else -> multiStateView.viewState = MultiStateView.ViewState.LOADING
+        }
+    }
+
     override fun onItemClick(view: View, data: Any, pos: Int) {
         val item = data as HomeNotification
-        findNavController().navigate(
-            R.id.action_notificationHomeFragment_to_notificationDetailFragment,
-            bundleOf(Constants.data to item)
-        )
+        viewModel.markNotificationRead(item, true) {
+            item.isRead = it
+            mNotificationsAdapter.update(item)
+            findNavController().navigate(
+                R.id.action_notificationHomeFragment_to_notificationDetailFragment,
+                bundleOf(Constants.data to item)
+            )
+        }
+
     }
 
     override fun onDestroyView() {

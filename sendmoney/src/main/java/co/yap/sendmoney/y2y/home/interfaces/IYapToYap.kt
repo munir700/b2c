@@ -12,8 +12,6 @@ interface IYapToYap {
         val clickEvent: SingleClickEvent
         var recentsAdapter: CoreRecentTransferAdapter
         fun handlePressOnView(id: Int)
-        fun getRecentBeneficiaries()
-
     }
 
     interface State : IBase.State {

@@ -7,8 +7,10 @@ import android.content.Intent.EXTRA_EMAIL
 import android.content.Intent.createChooser
 import android.content.pm.PackageManager
 import android.net.Uri
-import co.yap.yapcore.constants.Constants
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants.URL_SHARE_PLAY_STORE
+import co.yap.yapcore.helpers.Utils
 
 
 /**
@@ -129,3 +131,18 @@ fun Context.sendSms(number: String, text: String = ""): Boolean {
 
 fun Context.openPlayStore(): Boolean =
     openUrl(URL_SHARE_PLAY_STORE)
+
+fun Context.inviteFriendIntent() {
+    val sharingIntent = Intent(Intent.ACTION_SEND)
+    sharingIntent.type = "text/plain"
+    sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(this))
+    startActivity(Intent.createChooser(sharingIntent, "Share"))
+}
+
+private fun getBody(context: Context): String {
+    return Translator.getString(
+        context,
+        Strings.screen_invite_friend_display_text_share_url,
+        Utils.getAdjustURL()
+    )
+}

@@ -32,7 +32,7 @@
             app:leftIcon="@{R.drawable.ic_back_arrow_left}"
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:titleString="@{viewModel.state.notification.title.empty?@string/screen_notification_listing_display_text_toolbar_title:viewModel.state.notification.title}" />
+            app:titleString="@{viewModel.state.notification.title.empty || viewModel.state.notification.title==null?@string/screen_notification_listing_display_text_toolbar_title:viewModel.state.notification.title}" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -51,15 +51,19 @@
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivNotificationImage"
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
                     android:layout_margin="@dimen/margin_large"
                     android:contentDescription="@string/empty_string"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:bgColor="@{R.color.bg_round_light_green}"
+                    app:fullName="@{viewModel.state.notification.firstName + ` ` + viewModel.state.notification.lastName}"
+                    app:imageSize="@{R.dimen._64sdp}"
+                    app:imageUrl="@{viewModel.state.notification.profilePicUrl}"
+                    app:initialTextColor="@{R.color.colorDarkAqua}"
+                    app:initialTextSize="@{R.dimen.text_size_h3}"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
                     app:srcCompatGif="@{viewModel.state.notification.imgResId}"
                     tools:src="@drawable/ic_store_b2b" />
 
@@ -70,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:gravity="center"
-                    android:text="@{viewModel.state.notification.createdAt}"
+                    android:text="@{DateUtils.INSTANCE.getFormattedLogDate(context,viewModel.state.notification.createdAt,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.LEAN_PLUM_FORMAT,DateUtils.INSTANCE.UTC,DateUtils.INSTANCE.TIME_ZONE_Default)}"
                     android:textColor="@color/greyNormalDark"
                     tools:text="03 July, 2019" />
 
@@ -106,6 +110,7 @@
                     android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:text="@{viewModel.state.notification.btnTitle}"
+                    android:visibility="@{viewModel.state.notification.btnTitle.empty ||  viewModel.state.notification.btnTitle==null?View.GONE:View.VISIBLE}"
                     app:btn_enable="true"
                     app:btn_size="medium"
                     tools:text="@string/screen_card_blocked_button_reorder_new_card" />
@@ -118,9 +123,10 @@
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:foregroundGravity="bottom"
                     android:gravity="center"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:padding="@dimen/margin_small"
                     android:textColor="@color/colorPrimary"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.state.notification.isDeletable?View.VISIBLE:View.GONE}"
                     app:text="@{Strings.screen_notification_detail_display_text_delete}"
                     tools:text="@string/screen_notification_detail_display_text_delete" />
 

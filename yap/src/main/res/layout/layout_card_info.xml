@@ -8,6 +8,10 @@
             type="String" />
 
         <variable
+            name="cardType"
+            type="String" />
+
+        <variable
             name="virtualCardName"
             type="String" />
 
@@ -22,6 +26,11 @@
         <variable
             name="cardImgUrl"
             type="String" />
+
+        <variable
+            name="cardNameVisibility"
+            type="Boolean" />
+
 
         <import type="android.view.View" />
 
@@ -44,26 +53,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvCardNameOnCardImage"
-            style="@style/AMicroGrey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_2sdp"
-            android:layout_marginEnd="@dimen/_2sdp"
-            android:gravity="center"
-            android:lineSpacingExtra="0dp"
-            android:maxLength="26"
-            android:maxLines="2"
-            android:text="@{virtualCardName}"
-            android:textColor="@color/colorLightGreyWithOpacity"
-            android:textSize="@dimen/_8sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/ivCustomCard"
-            app:layout_constraintEnd_toEndOf="@id/ivCustomCard"
-            app:layout_constraintStart_toStartOf="@+id/ivCustomCard"
-            app:layout_constraintTop_toTopOf="@+id/ivCustomCard"
-            tools:text="Amazone Card" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clRightData"
             android:layout_width="wrap_content"
@@ -77,12 +66,29 @@
             <TextView
                 android:id="@+id/tvCardName"
                 style="@style/Micro"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@{cardName}"
                 android:textSize="@dimen/_11sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:visibility="@{cardNameVisibility ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@+id/tvCardNumber"
+                app:layout_constraintStart_toStartOf="@+id/tvCardNumber"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:text="Jhon Wick dfbtrn n tdtyyjgntydj5ytj5kkytdjtkte" />
+
+            <TextView
+                android:id="@+id/tvCardType"
+                style="@style/Micro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:text="@{cardType}"
+                android:textSize="@dimen/_11sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCardName"
                 tools:text="Primary card" />
 
             <TextView
@@ -92,8 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:text="@{cardNumber}"
-                app:layout_constraintStart_toStartOf="@+id/tvCardName"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardName"
+                app:layout_constraintStart_toStartOf="@+id/tvCardType"
+                app:layout_constraintTop_toBottomOf="@+id/tvCardType"
                 tools:text="4040 3318 **** 3456" />
 
 
@@ -116,6 +122,7 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 app:layout_constraintBottom_toTopOf="@+id/btnCardDetails"
                 app:layout_constraintLeft_toRightOf="@+id/ivSecure"
+                app:layout_constraintTop_toBottomOf="@+id/tvCardNumber"
                 app:text="@{Strings.screen_payment_card_detail_text_secure}"
                 tools:text="@string/screen_payment_card_detail_text_secure" />
 
@@ -124,15 +131,16 @@
                 style="@style/RectangleBtnSmallStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:btn_size="mini_small"
                 android:layout_marginBottom="@dimen/margin_extra_small"
                 android:text="Card details"
                 android:textSize="@dimen/text_size_c1"
                 android:visibility="@{buttonVisibility? View.VISIBLE:View.GONE}"
                 app:btn_drawable_padding_top="5.5"
+                app:btn_size="mini_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                tools:visibility="gone" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

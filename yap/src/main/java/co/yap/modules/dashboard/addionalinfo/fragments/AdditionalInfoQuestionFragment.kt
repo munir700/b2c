@@ -48,8 +48,10 @@ class AdditionalInfoQuestionFragment :
                 id = viewModel.parentViewModel?.state?.questionList?.firstOrNull()?.id.toString()
             )
         ) {
-            viewModel.moveToNext()
-            navigate(R.id.action_additionalInfoQuestion_to_additionalInfoComplete)
+            viewModel.parentViewModel?.submitAdditionalInfo {
+                viewModel.moveToNext()
+                navigate(R.id.action_additionalInfoQuestion_to_additionalInfoComplete)
+            }
         }
     }
 

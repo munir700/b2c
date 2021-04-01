@@ -6,6 +6,8 @@ import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
 
@@ -121,12 +123,15 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             backgroundConfirm =
                 context.getDrawable(R.drawable.bg_edit_text_red_under_line)
             drawableConfirm = context.getDrawable(R.drawable.ic_error)
-            errorMessage = "email should match"
+            errorMessage = Translator.getString(context,
+                Strings.screen_change_email_display_text_email_match_error)
         }
     }
 
     fun setErrors(errorMesage: String) {
-        if (errorMesage == "email should match") {
+        if (errorMesage == Translator.getString(context,
+                Strings.screen_change_email_display_text_email_match_error)
+        ) {
             backgroundConfirm =
                 context.getDrawable(R.drawable.bg_edit_text_red_under_line)
             drawableConfirm = context.getDrawable(R.drawable.ic_error)

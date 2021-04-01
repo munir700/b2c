@@ -3,29 +3,33 @@ package co.yap.app
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.app.di.component.AppComponent
 import co.yap.app.di.component.AppInjector
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
+import co.yap.app.modules.refreal.DeepLinkNavigation
 import co.yap.household.app.HouseHoldApplication
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
+import co.yap.security.AppSignature
+import co.yap.security.SecurityHelper
+import co.yap.security.SignatureValidator
+import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.THEME_YAP
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.YAPThemes
-import co.yap.security.AppSignature
-import co.yap.security.SecurityHelper
-import co.yap.security.SignatureValidator
-import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -33,6 +37,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.initializeAdjustSdk
+import com.airbnb.deeplinkdispatch.DeepLinkHandler
 import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -47,19 +52,20 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
-class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInjector {
+
+class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
     lateinit var sAppComponent: AppComponent
-    lateinit var originalSign:AppSignature
+    lateinit var originalSign: AppSignature
 
     private external fun signatureKeysFromJNI(
-        name: String,
-        flavour: String,
-        buildVariant: String,
-        applicationId: String,
-        versionName: String,
-        versionCode: String
+            name: String,
+            flavour: String,
+            buildVariant: String,
+            applicationId: String,
+            versionName: String,
+            versionCode: String
     ): AppSignature
 
     init {
@@ -70,33 +76,33 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
         super.onCreate()
         sAppComponent = AppInjector.init(this)
         initFireBase()
-         originalSign =
-            signatureKeysFromJNI(
-                AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",
-                BuildConfig.FLAVOR,
-                BuildConfig.BUILD_TYPE,
-                BuildConfig.APPLICATION_ID,
-                BuildConfig.VERSION_NAME,
-                BuildConfig.VERSION_CODE.toString()
-            )
+        originalSign =
+                signatureKeysFromJNI(
+                        AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",
+                        BuildConfig.FLAVOR,
+                        BuildConfig.BUILD_TYPE,
+                        BuildConfig.APPLICATION_ID,
+                        BuildConfig.VERSION_NAME,
+                        BuildConfig.VERSION_CODE.toString()
+                )
 
         configManager = BuildConfigManager(
-            md5 = originalSign.md5,
-            sha1 = originalSign.sha1,
-            sha256 = originalSign.sha256,
-            leanPlumSecretKey = originalSign.leanPlumSecretKey,
-            leanPlumKey = originalSign.leanPlumKey,
-            adjustToken = originalSign.adjustToken,
-            baseUrl = originalSign.baseUrl,
-            buildType = originalSign.buildType,
-            flavor = originalSign.flavor,
-            versionName = originalSign.versionName,
-            versionCode = originalSign.versionCode,
-            applicationId = originalSign.applicationId,
-            sslPin1 = originalSign.sslPin1,
-            sslPin2 = originalSign.sslPin2,
-            sslPin3 = originalSign.sslPin3,
-            sslHost = originalSign.sslHost
+                md5 = originalSign.md5,
+                sha1 = originalSign.sha1,
+                sha256 = originalSign.sha256,
+                leanPlumSecretKey = originalSign.leanPlumSecretKey,
+                leanPlumKey = originalSign.leanPlumKey,
+                adjustToken = originalSign.adjustToken,
+                baseUrl = originalSign.baseUrl,
+                buildType = originalSign.buildType,
+                flavor = originalSign.flavor,
+                versionName = originalSign.versionName,
+                versionCode = originalSign.versionCode,
+                applicationId = originalSign.applicationId,
+                sslPin1 = originalSign.sslPin1,
+                sslPin2 = originalSign.sslPin2,
+                sslPin3 = originalSign.sslPin3,
+                sslHost = originalSign.sslHost
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -108,6 +114,8 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
     }
 
     private fun initAllModules() {
+        val intentFilter = IntentFilter(DeepLinkHandler.ACTION)
+        LocalBroadcastManager.getInstance(this).registerReceiver(DeepLinkReceiver(), intentFilter)
         initNetworkLayer()
 //        switchTheme(YAPThemes.HOUSEHOLD())
         switchTheme(YAPThemes.CORE())
@@ -150,13 +158,13 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
 
         if (configManager?.isReleaseBuild() == true) {
             Leanplum.setAppIdForProductionMode(
-                configManager?.leanPlumSecretKey,
-                configManager?.leanPlumKey
+                    configManager?.leanPlumSecretKey,
+                    configManager?.leanPlumKey
             )
         } else {
             Leanplum.setAppIdForDevelopmentMode(
-                configManager?.leanPlumSecretKey,
-                configManager?.leanPlumKey
+                    configManager?.leanPlumSecretKey,
+                    configManager?.leanPlumKey
             )
         }
         Leanplum.setIsTestModeEnabled(false)
@@ -189,8 +197,8 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
             }
 
             override fun startVerifyPassCodePresenterActivity(
-                activity: FragmentActivity, bundle: Bundle,
-                completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
+                    activity: FragmentActivity, bundle: Bundle,
+                    completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
             ) {
                 try {
                     val intent = Intent(activity, VerifyPassCodePresenterActivity::class.java)
@@ -205,10 +213,17 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
                     if (e is ClassNotFoundException) {
                         longToast("Something went wrong")
                         activity.startActivityForResult(
-                            Intent(activity, VerifyPassCodePresenterActivity::class.java),
-                            START_REQUEST_CODE
+                                Intent(activity, VerifyPassCodePresenterActivity::class.java),
+                                START_REQUEST_CODE
                         )
                     }
+                }
+
+            }
+
+            override fun handleDeepLinkFlow(activity: AppCompatActivity, flowId: String?) {
+                if (activity is YapDashboardActivity) {
+                    DeepLinkNavigation.getInstance(activity).handleDeepLinkFlow(flowId)
                 }
             }
 
@@ -232,16 +247,16 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
     }
 
     override fun activityInjector() = activityInjector
-
     private fun getAppDataForNetwork(configManager: BuildConfigManager?): AppData {
         return AppData(
-            flavor = configManager?.flavor ?: "",
-            build_type = configManager?.buildType ?: "",
-            baseUrl = configManager?.baseUrl ?: "",
-            sslPin1 = configManager?.sslPin1 ?: "",
-            sslPin2 = configManager?.sslPin2 ?: "",
-            sslPin3 = configManager?.sslPin3 ?: "",
-            sslHost = configManager?.sslHost ?: ""
+                flavor = configManager?.flavor ?: "",
+                build_type = configManager?.buildType ?: "",
+                baseUrl = configManager?.baseUrl ?: "",
+                sslPin1 = configManager?.sslPin1 ?: "",
+                sslPin2 = configManager?.sslPin2 ?: "",
+                sslPin3 = configManager?.sslPin3 ?: "",
+                sslHost = configManager?.sslHost ?: ""
         )
     }
 }
+

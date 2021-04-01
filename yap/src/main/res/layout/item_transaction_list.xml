@@ -26,7 +26,7 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
                 android:background="@drawable/bg_round_purple_enabled"
-                tools:src="@drawable/ic_cash_out_trasaction" />
+                tools:src="@drawable/icon_virtual_card_issuance" />
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivIncoming"
@@ -35,7 +35,7 @@
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:visibility="visible"
-                tools:src="@drawable/ic_outgoing_transaction" />
+                tools:src="@drawable/ic_identifier_atm_withdrawl" />
         </FrameLayout>
 
         <TextView

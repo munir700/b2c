@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -14,6 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
         <TextView
@@ -23,9 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_22sdp"
             android:layout_marginTop="@dimen/margin_normal_large"
-            android:visibility="visible"
+            android:text="@{viewModel.state.contactsCounts==1? viewModel.state.contactsCounts+` YAP contact`:viewModel.state.contactsCounts+` YAP contacts`}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{viewModel.state.isShowContactsCounter?View.VISIBLE:View.GONE}"
             tools:text="0 YAP contacts" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,82 +37,45 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvContactListDescription">
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
+            <include
+                layout="@layout/empty_view_no_yap_contact_found"
+                android:visibility="@{viewModel.state.isNoYapContacts?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                app:viewModel="@{viewModel}"
+                tools:visibility="invisible" />
 
-            <!-- Your Desired landing design-->
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivNoYapContact"
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                style="@style/LargeGrey"
+                android:text="@string/common_display_text_no_results"
+                android:visibility="@{viewModel.state.isNoSearchResult?View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.557"
+                app:layout_constraintVertical_bias="0.13999999"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.110000014"
-                app:srcCompat="@drawable/ic_no_transaction" />
+                tools:visibility="invisible" />
 
-            <TextView
-                android:id="@+id/txt_error"
-                style="@style/RegularGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xl"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:gravity="center"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivNoYapContact"
-                app:text="@{Strings.screen_y2y_display_text_no_yap_contacts}"
-                tools:text="@string/screen_y2y_display_text_no_yap_contacts"
-                tools:visibility="visible" />
 
-            <co.yap.widgets.CoreButton
-                android:id="@+id/btnInvite"
-                style="@style/FragmentsBtnStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:btn_size="small"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                android:text="Invite now"
-                app:btn_enable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_error" />
-
-            <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:dividerHeight="2dp"
-                android:visibility="visible"
+                android:visibility="@{viewModel.state.isNoYapContacts?View.GONE:View.VISIBLE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:recycleViewAdapter="@{viewModel.contactsAdapter}"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_contacts"
-                tools:visibility="gone"
-                app:recycleViewAdapter="@{viewModel.contactsAdapter}"
-                app:shimmerLayoutId="@layout/layout_item_contacts_shimmer"
-                app:itemCount = "@integer/skeleton_layout_item_count"
-                app:rvAdapter="@{viewModel.contactsAdapter}"/>
-
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

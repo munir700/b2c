@@ -18,6 +18,6 @@ interface ISMSearchBeneficiary {
     }
 
     interface State : IBase.State {
-        var stateLiveData: MutableLiveData<co.yap.widgets.State>
+//        var stateLiveData: MutableLiveData<co.yap.widgets.State>
     }
 }

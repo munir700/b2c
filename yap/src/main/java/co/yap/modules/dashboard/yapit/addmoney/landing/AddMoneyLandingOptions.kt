@@ -10,5 +10,5 @@ data class AddMoneyLandingOptions(
     val id: Int,
     var name: String,
     val image: Int,
-    var isPadding : Boolean = true
+    var isPadding: Boolean = true
 ) : Parcelable

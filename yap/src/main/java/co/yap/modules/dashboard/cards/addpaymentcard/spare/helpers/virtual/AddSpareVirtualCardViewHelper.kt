@@ -33,7 +33,7 @@ class AddSpareVirtualCardViewHelper(
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    onBackPressCheck=false
+                    onBackPressCheck = false
                     slideInTitle()
                 }
 

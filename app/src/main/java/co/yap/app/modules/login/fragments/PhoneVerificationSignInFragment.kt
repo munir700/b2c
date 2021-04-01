@@ -19,6 +19,8 @@ import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
+import co.yap.modules.onboarding.fragments.WaitingListFragment
+import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
@@ -42,7 +44,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PhoneVerificationSignInFragment :
-    MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
+        MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
     private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel
@@ -87,11 +89,11 @@ class PhoneVerificationSignInFragment :
 
     private fun initBroadcast() {
         appSMSBroadcastReceiver =
-            MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
-                override fun onReceive(code: Intent?) {
-                    startActivityForResult(code, SMS_CONSENT_REQUEST)
-                }
-            })
+                MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
+                    override fun onReceive(code: Intent?) {
+                        startActivityForResult(code, SMS_CONSENT_REQUEST)
+                    }
+                })
     }
 
     private val postDemographicDataObserver = Observer<Boolean> {
@@ -99,7 +101,25 @@ class PhoneVerificationSignInFragment :
     }
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
-        it?.run {
+        if (!it.isWaiting) {
+            if (it.iban.isNullOrBlank()) {
+                startFragment(
+                        fragmentName = ReachedTopQueueFragment::class.java.name,
+                        clearAllPrevious = true
+                )
+            } else {
+                getCardAndTourInfo(it)
+            }
+        } else {
+            startFragment(
+                    fragmentName = WaitingListFragment::class.java.name,
+                    clearAllPrevious = true
+            )
+        }
+    }
+
+    private fun getCardAndTourInfo(accountInfo: AccountInfo?) {
+        accountInfo?.run {
             trackEventWithScreenName(FirebaseEvent.SIGN_IN_PIN)
             TourGuideManager.getTourGuides()
             SessionManager.getDebitCard { card ->
@@ -107,43 +127,72 @@ class PhoneVerificationSignInFragment :
                 if (SessionManager.shouldGoToHousehold()) {
                     SessionManager.user?.uuid?.let { it1 ->
                         SwitchProfileLiveData.get(it1, this@PhoneVerificationSignInFragment)
-                            .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
+                                .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
                     }
                 } else {
                     if (BiometricUtil.hasBioMetricFeature(requireActivity())
                     ) {
+                        viewModel.parentViewModel?.shardPrefs?.save(
+                                co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                                true
+                        )
                         if (SharedPreferenceManager(requireContext()).getValueBoolien(
-                                co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
-                                false
-                            )
-                        ) {
-                            if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                                startFragment(
-                                    fragmentName = OtpBlockedInfoFragment::class.java.name,
-                                    clearAllPrevious = true
+                                        co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                                        false
                                 )
+                        ) {
+                            if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                                startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name, clearAllPrevious = true)
                             else {
-                                SessionManager.sendFcmTokenToServer() {}
-                                launchActivity<YapDashboardActivity>(clearPrevious = true)
+                                SessionManager.sendFcmTokenToServer(requireContext()) {}
+                                if (!this.isWaiting) {
+                                    if (this.iban.isNullOrBlank()) {
+                                        startFragment(
+                                                fragmentName = ReachedTopQueueFragment::class.java.name,
+                                                clearAllPrevious = true
+                                        )
+
+                                    } else {
+                                        launchActivity<YapDashboardActivity>(clearPrevious = true)
+                                    }
+                                } else {
+                                    startFragment(
+                                            fragmentName = WaitingListFragment::class.java.name,
+                                            clearAllPrevious = true
+                                    )
+                                }
+
                             }
                         } else {
                             val action =
-                                PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                                    Constants.TOUCH_ID_SCREEN_TYPE
-                                )
+                                    PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                                            Constants.TOUCH_ID_SCREEN_TYPE
+                                    )
                             findNavController().navigate(action)
                         }
 
                     } else {
-                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
-                            startFragment(
-                                fragmentName = OtpBlockedInfoFragment::class.java.name,
-                                clearAllPrevious = true
-                            )
+                        if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
+                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name, clearAllPrevious = true)
                         } else {
-                            SessionManager.sendFcmTokenToServer() {}
-                            trackEvent(SignInEvents.SIGN_IN.type)
-                            launchActivity<YapDashboardActivity>(clearPrevious = true)
+                            SessionManager.sendFcmTokenToServer(requireContext()) {}
+                            if (!this.isWaiting) {
+                                if (this.iban.isNullOrBlank()) {
+                                    startFragment(
+                                            fragmentName = ReachedTopQueueFragment::class.java.name,
+                                            clearAllPrevious = true
+                                    )
+
+                                } else {
+                                    trackEvent(SignInEvents.SIGN_IN.type)
+                                    launchActivity<YapDashboardActivity>(clearPrevious = true)
+                                }
+                            } else {
+                                startFragment(
+                                        fragmentName = WaitingListFragment::class.java.name,
+                                        clearAllPrevious = true
+                                )
+                            }
                         }
                     }
                 }
@@ -161,8 +210,8 @@ class PhoneVerificationSignInFragment :
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
                     putExtra(
-                        NAVIGATION_Graph_START_DESTINATION_ID,
-                        R.id.HHOnBoardingWelcomeFragment
+                            NAVIGATION_Graph_START_DESTINATION_ID,
+                            R.id.HHOnBoardingWelcomeFragment
                     )
                 }
 //                launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
@@ -174,14 +223,14 @@ class PhoneVerificationSignInFragment :
 
     private fun gotoYapDashboard() {
         if (BiometricUtil.isFingerprintSupported
-            && BiometricUtil.isHardwareSupported(requireActivity())
-            && BiometricUtil.isPermissionGranted(requireActivity())
-            && BiometricUtil.isFingerprintAvailable(requireActivity())
+                && BiometricUtil.isHardwareSupported(requireActivity())
+                && BiometricUtil.isPermissionGranted(requireActivity())
+                && BiometricUtil.isFingerprintAvailable(requireActivity())
         ) {
             val action =
-                PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                    Constants.TOUCH_ID_SCREEN_TYPE
-                )
+                    PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                            Constants.TOUCH_ID_SCREEN_TYPE
+                    )
             findNavController().navigate(action)
         } else {
             if (SessionManager.isExistingUser()) {
@@ -198,9 +247,9 @@ class PhoneVerificationSignInFragment :
 
     private fun getData() {
         viewModel.state.username =
-            arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).username } as String
+                arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).username } as String
         viewModel.state.passcode =
-            arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
+                arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

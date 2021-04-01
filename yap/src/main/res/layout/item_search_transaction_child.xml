@@ -20,6 +20,7 @@
         <import type="co.yap.yapcore.enums.TxnType" />
 
         <import type="co.yap.translation.Strings" />
+
         <import type="co.yap.yapcore.helpers.TransactionAdapterType" />
 
         <import type="android.view.View" />
@@ -73,8 +74,8 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/margin_normal"
             android:singleLine="true"
-            android:text="@{TransactionExtentionsKt.getTransactionTitle(homeTransactionChildItemVM.item)}"
-            android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/colorMidnightExpress}"
+            android:text="@{TransactionExtentionsKt.getTitle(homeTransactionChildItemVM.item)}"
+            android:textColor="@{TransactionExtentionsKt.isTransactionRejected(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/colorMidnightExpress}"
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toTopOf="parent"
@@ -98,8 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:alpha="0.5"
-            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransactionTypeTitle(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION))}"
-            android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/greyDark}"
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransferType(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION))}"
+            android:textColor="@{TransactionExtentionsKt.isTransactionRejected(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/greyDark}"
             app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
@@ -112,7 +113,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:text="@{TransactionExtentionsKt.getCurrency(homeTransactionChildItemVM.item)}"
-            android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/greyDark}"
+            android:textColor="@{TransactionExtentionsKt.isTransactionRejected(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/greyDark}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
             tools:text="AED" />
@@ -129,7 +130,6 @@
             android:maxLines="1"
             android:text="@{homeTransactionChildItemVM.item.transactionNote==null?``:homeTransactionChildItemVM.item.transactionNote}"
             android:textColor="@color/greyDark"
-            android:visibility="@{homeTransactionChildItemVM.item.transactionNote.empty?View.GONE :View.VISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionTimeAndCategory"
@@ -144,9 +144,9 @@
             android:layout_weight="1"
             android:alpha="0.5"
             android:maxLines="2"
-            android:text="@{TransactionExtentionsKt.getTransactionStatus(homeTransactionChildItemVM.item)}"
+            android:text="@{TransactionExtentionsKt.getStatus(homeTransactionChildItemVM.item)}"
             android:textColor="@color/greyDark"
-            android:visibility="@{TransactionExtentionsKt.getTransactionStatus(homeTransactionChildItemVM.item).empty?View.GONE :View.VISIBLE}"
+            android:visibility="@{TransactionExtentionsKt.getStatus(homeTransactionChildItemVM.item).empty?View.GONE :View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionNote"

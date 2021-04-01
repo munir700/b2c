@@ -1,12 +1,11 @@
 package co.yap.networking.authentication
 
 import co.yap.networking.authentication.requestdtos.LoginRequest
-import co.yap.networking.authentication.requestdtos.MsTokenRequest
 import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
-import co.yap.networking.authentication.responsedtos.MsTokenResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.responsedtos.MsTokenResponse
 
 interface AuthApi {
     suspend fun getCSRFToken(): RetroApiResponse<ApiResponse>

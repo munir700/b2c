@@ -267,7 +267,7 @@ fun Double?.roundValHalfEven(): Double {
 
 fun ImageView?.hasBitmap(): Boolean {
     return this?.let {
-        this.drawable != null && (this.drawable as BitmapDrawable).bitmap != null
+        this.drawable != null && (this.drawable is BitmapDrawable)
     } ?: false
 }
 
@@ -306,4 +306,12 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     } catch (e: Exception) {
     }
     return drawable
+}
+
+fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
+    if (first.size != second.size) {
+        return false
+    }
+
+    return first.zip(second).all { (x, y) -> x == y }
 }

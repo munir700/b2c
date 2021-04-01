@@ -9,10 +9,10 @@ import kotlinx.android.parcel.Parcelize
 @Keep
 @Parcelize
 data class MoreOption(
-    val id: Int,
-    var name: String,
-    val image: Int,
-    val bgColor: Int,
-    var hasBadge: Boolean,
-    var badgeCount:Int
+        val id: Int,
+        var name: String,
+        val image: Int,
+        val bgColor: Int,
+        var hasBadge: Boolean,
+        var badgeCount: Int
 ) : ApiResponse(), Parcelable

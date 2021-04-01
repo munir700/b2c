@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.DataBindingUtil.getBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -69,6 +68,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         params.height = linearLayout2.context.dimen(R.dimen._225sdp)
         linearLayout2.layoutParams = params
     }
+
     private fun gotoAddSpareVirtualCardConfirmScreen() {
         val action =
             SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(

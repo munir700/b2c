@@ -10,11 +10,8 @@
             type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel" />
 
         <import type="co.yap.R" />
-
         <import type="android.view.View" />
-
         <import type="co.yap.translation.Strings" />
-
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -33,7 +30,7 @@
             app:leftIcon="@{R.drawable.ic_closeicon}"
             app:rightIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_profile_search_benf}"
+            app:rightIcon="@{R.drawable.ic_user_search}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -19,6 +19,7 @@ import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.City
+import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.R
@@ -120,6 +121,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private fun setAddress() {
         viewModel.address = viewModel.parentViewModel?.address
         viewModel.state.addressTitle.set(viewModel.address?.address1)
+        viewModel.state.headingTitle.set(viewModel.address?.address1?:getString(Strings.screen_meeting_location_display_text_add_new_address_title))
         viewModel.state.addressSubtitle.set(viewModel.address?.address2)
         populateCardState(viewModel.address, true)
         getCurrentLocation()

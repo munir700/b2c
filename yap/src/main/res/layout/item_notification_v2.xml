@@ -11,7 +11,13 @@
 
         <import type="android.view.View" />
 
+        <import type="android.graphics.Typeface" />
+
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.R" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
 
 
     </data>
@@ -62,16 +68,23 @@
             android:paddingEnd="@dimen/margin_medium_large"
             android:paddingBottom="@dimen/margin_normal">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="@dimen/_36sdp"
-                android:layout_height="@dimen/_36sdp"
-                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center"
+                app:imageSize="@{R.dimen._35sdp}"
                 android:contentDescription="@string/empty_string"
+                app:bgColor="@{R.color.bg_round_light_green}"
+                app:fullName="@{viewModel.item.fullName}"
+                app:imageUrl="@{viewModel.item.profilePicUrl}"
+                app:initialTextColor="@{R.color.colorDarkAqua}"
+                app:initialTextSize="@{R.dimen.text_size_h3}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circleImageView"
                 app:srcCompatGif="@{viewModel.item.imgResId}"
-                tools:src="@drawable/ic_bank" />
+                tools:text="@drawable/ic_bank" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/content"
@@ -90,8 +103,9 @@
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
                     android:lines="1"
-                    android:text="@{viewModel.item.title.empty?viewModel.item.description:viewModel.item.title}"
+                    android:text="@{viewModel.item.title == null || viewModel.item.title.empty ?viewModel.item.description:viewModel.item.title}"
                     android:textSize="@dimen/text_size_h3"
+                    android:typeface="@{Typeface.defaultFromStyle(viewModel.item.isRead?Typeface.NORMAL: Typeface.BOLD)}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -101,9 +115,9 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:textSize="@dimen/text_size_h3"
-                    android:text="@{viewModel.item.createdAt}"
+                    android:text="@{DateUtils.INSTANCE.getFormattedLogDate(context,viewModel.item.createdAt,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.LEAN_PLUM_FORMAT,DateUtils.INSTANCE.UTC,DateUtils.INSTANCE.TIME_ZONE_Default)}"
                     android:textColor="@color/greyNormalDark"
+                    android:textSize="@dimen/text_size_h3"
                     tools:text="01 July, 2019" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>

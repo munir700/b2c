@@ -31,6 +31,7 @@ import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.loading.CircularProgressBar
@@ -418,26 +419,18 @@ object Utils {
         var intent: Intent?
         try {
             context.packageManager.getPackageInfo("com.twitter.android", 0)
-            intent = Intent(
-                ACTION_VIEW,
-                Uri.parse("twitter.com/intent/follow?screen_name=YapTweets")
-            )
+            intent = Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         } catch (e: Exception) {
             // no Twitter app, revert to browser
-            context.startActivity(
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://twitter.com/intent/follow?screen_name=YapTweets")
-                )
+            context.startActivity(Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
             )
         }
-
     }
 
     fun openInstagram(context: Context) {
-        val uri = Uri.parse("https://www.instagram.com/yapnow/")
+        val uri = Uri.parse(Constants.URL_INSTAGRAM)
         val likeIng = Intent(ACTION_VIEW, uri)
         likeIng.setPackage("com.instagram.android")
 
@@ -445,32 +438,22 @@ object Utils {
             context.startActivity(likeIng)
         } catch (e: ActivityNotFoundException) {
             context.startActivity(
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://www.instagram.com/yapnow/")
-                )
+                Intent(ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM))
             )
         }
-
     }
 
     fun getOpenFacebookIntent(context: Context): Intent? {
-
         return try {
             context.packageManager.getPackageInfo("com.facebook.katana", 0)
             Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
         } catch (e: Exception) {
             try {
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
-                )
+                Intent(ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK))
             } catch (e: Exception) {
                 null
             }
-
         }
-
     }
 
     fun getFormattedPhone(mobileNo: String): String {
@@ -641,6 +624,7 @@ object Utils {
     }
 
     fun shareText(context: Context, body: String) {
+        InviteFriendRepository().inviteAFriend()
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
@@ -885,9 +869,11 @@ object Utils {
     }
 
     fun getOtpBlockedMessage(context: Context): String {
-        return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            SessionManager.helpPhoneNumber
-        )}^${AlertType.DIALOG.name}"
+        return "${
+            context.getString(R.string.screen_blocked_otp_display_text_message).format(
+                SessionManager.helpPhoneNumber
+            )
+        }^${AlertType.DIALOG.name}"
     }
 
     fun parseCountryList(
@@ -907,7 +893,7 @@ object Utils {
             countries.addAll(it.map {
                 Country(
                     id = it.id,
-                    isoCountryCode3Digit = it.isoCountryCode2Digit,
+                    isoCountryCode3Digit = it.isoCountryCode3Digit,
                     isoCountryCode2Digit = it.isoCountryCode2Digit,
                     supportedCurrencies = it.currencyList?.filter { curr -> curr.active == true }
                         ?.map { cur ->
@@ -1026,6 +1012,25 @@ object Utils {
             context.resources.displayMetrics
         )
     }
+
+    fun getStringWithEmojiSupport(str: String): String {
+        val emo_regex =
+            "(?:[ @\"^[a-zA-Z]+\$]|[\\uD83C\\uDF00-\\uD83D\\uDDFF]|[\\uD83E\\uDD00-\\uD83E\\uDDFF]|[\\uD83D\\uDE00-\\uD83D\\uDE4F]|[\\uD83D\\uDE80-\\uD83D\\uDEFF]|[\\u2600-\\u26FF]\\uFE0F?|[\\u2700-\\u27BF]\\uFE0F?|\\u24C2\\uFE0F?|[\\uD83C\\uDDE6-\\uD83C\\uDDFF]{1,2}|[\\uD83C\\uDD70\\uD83C\\uDD71\\uD83C\\uDD7E\\uD83C\\uDD7F\\uD83C\\uDD8E\\uD83C\\uDD91-\\uD83C\\uDD9A]\\uFE0F?|[\\u0023\\u002A\\u0030-\\u0039]\\uFE0F?\\u20E3|[\\u2194-\\u2199\\u21A9-\\u21AA]\\uFE0F?|[\\u2B05-\\u2B07\\u2B1B\\u2B1C\\u2B50\\u2B55]\\uFE0F?|[\\u2934\\u2935]\\uFE0F?|[\\u3030\\u303D]\\uFE0F?|[\\u3297\\u3299]\\uFE0F?|[\\uD83C\\uDE01\\uD83C\\uDE02\\uD83C\\uDE1A\\uD83C\\uDE2F\\uD83C\\uDE32-\\uD83C\\uDE3A\\uD83C\\uDE50\\uD83C\\uDE51]\\uFE0F?|[\\u203C\\u2049]\\uFE0F?|[\\u25AA\\u25AB\\u25B6\\u25C0\\u25FB-\\u25FE]\\uFE0F?|[\\u00A9\\u00AE]\\uFE0F?|[\\u2122\\u2139]\\uFE0F?|\\uD83C\\uDC04\\uFE0F?|\\uD83C\\uDCCF\\uFE0F?|[\\u231A\\u231B\\u2328\\u23CF\\u23E9-\\u23F3\\u23F8-\\u23FA]\\uFE0F?)"
+
+        val cardFullName = str.trim { it <= ' ' }
+        if (cardFullName.isNotEmpty()) {
+            val firstNameMatcher = Pattern.compile(emo_regex).matcher(cardFullName)
+            var firstData = ""
+
+            while (firstNameMatcher.find()) {
+                firstData += firstNameMatcher.group()
+            }
+
+            return firstData
+        }
+        return str
+    }
+}
 
     fun setLightStatusBar(activity: Activity, color: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

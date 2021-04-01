@@ -40,7 +40,7 @@ import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCa
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
-import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
@@ -57,6 +57,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
@@ -88,7 +89,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private lateinit var mNavigator: ActivityNavigator
 
     companion object {
-        private const val CARD = "card"
+        const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, PaymentCardDetailActivity::class.java)
             intent.putExtra(CARD, card)
@@ -359,6 +360,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.state.cardTypeText =
                     getString(Strings.screen_spare_card_landing_display_text_virtual_card)
             }
+            viewModel.state.cardNameText = viewModel.card.value?.cardName?:""
             viewModel.getCardBalance { balance ->
                 llAddFunds.alpha = 1f
                 llAddFunds.isEnabled = true
@@ -617,6 +619,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             viewModel.cardTransactionRequest.amountEndRange = it.amountEndRange
             viewModel.cardTransactionRequest.title = null
             viewModel.cardTransactionRequest.totalAppliedFilter = it.totalAppliedFilter
+            viewModel.cardTransactionRequest.categories = it.categories
+            viewModel.cardTransactionRequest.statues =
+                if (it.pendingTxn == true) arrayListOf(
+                    TransactionStatus.PENDING.name,
+                    TransactionStatus.IN_PROGRESS.name
+                ) else null
+
             viewModel.state.filterCount.set(it.totalAppliedFilter)
         }
     }
@@ -664,6 +673,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
         }
+
 
         cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             "Primary card"

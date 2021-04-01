@@ -28,6 +28,7 @@ class VerifyCurrentPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>()
         )
         setObservers()
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.forgotTextVisibility = false

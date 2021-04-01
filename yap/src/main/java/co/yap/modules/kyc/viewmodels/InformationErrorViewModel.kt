@@ -5,7 +5,6 @@ import co.yap.modules.onboarding.interfaces.IInformationError
 import co.yap.modules.onboarding.states.InformationErrorState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.leanplum.trackEvent
 
 class InformationErrorViewModel(application: Application) :
     KYCChildViewModel<IInformationError.State>(application),
@@ -16,7 +15,7 @@ class InformationErrorViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.buttonTitle = getString(Strings.screen_kyc_information_error_button_go_to_dashboard)
+        state.buttonTitle = getString(Strings.screen_kyc_information_error_button_logout)
     }
 
     override fun onResume() {

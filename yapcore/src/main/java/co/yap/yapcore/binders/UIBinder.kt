@@ -26,6 +26,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
@@ -55,6 +56,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
+import co.yap.yapcore.helpers.glide.getUrl
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -63,6 +65,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -189,7 +193,7 @@ object UIBinder {
     fun setCardStatus(linearLayout: LinearLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE  -> {
+                CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             linearLayout.visibility = VISIBLE
@@ -211,7 +215,7 @@ object UIBinder {
     fun setCardStatus(imageView: ImageView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE-> {
+                CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                             imageView.visibility = VISIBLE
@@ -398,8 +402,10 @@ object UIBinder {
 
     @BindingAdapter("text")
     @JvmStatic
-    fun setText(view: TextView, text: String) {
-        view.text = Translator.getString(view.context, text)
+    fun setText(view: TextView, text: String?) {
+        text?.let {
+            view.text = Translator.getString(view.context, text)
+        }
     }
 
     @BindingAdapter("text")
@@ -1031,28 +1037,43 @@ object UIBinder {
     ) {
         val drawables: Array<Drawable> =
             textView.compoundDrawables
-        iso2DigitCode?.let {
-            val drawable: Drawable? =
-                textView.context.getDrawable(
-                    CurrencyUtils.getFlagDrawable(
-                        textView.context,
-                        it
-                    )
-                )
-
-            val drawableDropDown: Drawable? =
-                textView.context.getDrawable(
-                    R.drawable.iv_drown_down
-                )
-            drawable?.setBounds(0, 0, 70, 70)
-            drawableDropDown?.setBounds(0, 0, 123, 123)
-            textView.setCompoundDrawables(
-                drawable,
-                drawables[1],
-                if (showDropDown) drawableDropDown else null,
-                drawables[3]
+        val drawableDropDown: Drawable? =
+            textView.context.getDrawable(
+                R.drawable.iv_drown_down
             )
+        var drawable: Drawable? = null
+        iso2DigitCode?.let {
+            try {
+                drawable =
+                    textView.context.getDrawable(
+                        CurrencyUtils.getFlagDrawable(
+                            textView.context,
+                            it
+                        )
+                    )
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
         }
+        drawable?.setBounds(0, 0, 70, 70)
+        drawableDropDown?.setBounds(0, 0, 123, 123)
+        textView.setCompoundDrawables(
+            if (!iso2DigitCode.isNullOrEmpty()) drawable else null,
+            drawables[1],
+            if (showDropDown) drawableDropDown else null,
+            drawables[3]
+        )
+    }
+
+    @BindingAdapter("previewImageSrc")
+    @JvmStatic
+    fun setImageResUrl(view: AppCompatImageView, imageSrc: String?) {
+        imageSrc?.let {
+            val mUrl = getUrl(imageSrc)
+            Glide.with(view).load(mUrl)
+                .placeholder(R.color.white).into(view)
+        }
+
     }
 
 
@@ -1064,6 +1085,42 @@ object UIBinder {
         } else {
             view.setImageResource(R.drawable.card_spare)
 
+        }
+    }
+
+    @BindingAdapter("selectedListener")
+    @JvmStatic
+    fun getChipSelection(chipGroup: ChipGroup, listener: OnItemClickListener?) {
+        for (index in 0 until chipGroup.childCount) {
+            val chip: Chip = chipGroup.getChildAt(index) as Chip
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                listener?.onItemClick(view, isChecked, index)
+            }
+        }
+    }
+
+    @BindingAdapter("yapForYouAction", "isDone")
+    @JvmStatic
+    fun setYapForYouButton(
+        view: CoreButton,
+        action: YAPForYouGoalAction,
+        isDone: Boolean? = false
+    ) {
+        if (isDone == true) {
+            view.visibility = GONE
+        } else {
+            when (action) {
+                is YAPForYouGoalAction.Button -> {
+                    view.visibility = VISIBLE
+                    setText(view, action.title)
+                    view.enableButton(action.enabled)
+                    view.buttonSize = action.buttonSize
+                }
+
+                is YAPForYouGoalAction.None -> {
+                    view.visibility = GONE
+                }
+            }
         }
     }
 }

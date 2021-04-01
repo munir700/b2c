@@ -47,7 +47,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     override val viewModel: Y2YFundsTransferViewModel
         get() = ViewModelProviders.of(this).get(Y2YFundsTransferViewModel::class.java)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.availableBalance = SessionManager.cardBalance.value?.availableBalance
@@ -294,7 +293,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 SessionManager.getDefaultCurrency(),
                 viewModel.state.amount ?: "", args.position
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     override fun onDestroy() {

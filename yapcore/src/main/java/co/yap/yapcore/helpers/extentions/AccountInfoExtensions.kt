@@ -188,7 +188,14 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
             )
         }
         UserAccessRestriction.ACCOUNT_INACTIVE -> {
-            arrayListOf(FeatureSet.SEND_MONEY, FeatureSet.YAP_TO_YAP, FeatureSet.TOP_UP)
+            arrayListOf(
+                FeatureSet.SEND_MONEY,
+                FeatureSet.YAP_TO_YAP,
+                FeatureSet.TOP_UP,
+                FeatureSet.DEBIT_CARD_DETAIL,
+                FeatureSet.ANALYTICS
+
+            )
         }
         UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED -> {
             arrayListOf(FeatureSet.CHANGE_PIN, FeatureSet.FORGOT_PIN)
