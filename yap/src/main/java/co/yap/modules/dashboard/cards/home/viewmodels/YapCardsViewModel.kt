@@ -157,9 +157,9 @@ class YapCardsViewModel(application: Application) :
         }
     }
 
-    override fun removeCard(cardRemoved: Card?) {
-        val cardExist = cards.value?.find { card ->
-            card.cardSerialNumber == cardRemoved?.cardSerialNumber
+    override fun removeCard(card: Card?) {
+        val cardExist = cards.value?.find { cardRemoved ->
+            cardRemoved.cardSerialNumber == card?.cardSerialNumber
         }
         if (cardExist != null) {
             selectedCardPosition = adapter.getDataList().indexOf(cardExist)
