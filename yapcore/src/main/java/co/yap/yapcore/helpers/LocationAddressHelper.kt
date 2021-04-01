@@ -14,7 +14,7 @@ object LocationAddressHelper {
 
         var errorMessage: String? = null
         var status = 0
-        //val geocoder = Geocoder(context, Locale.getDefault())
+        //val geocoder = Geocoder(context, DateUtils.LOCAL)
         var result: String? = null
         val bundle = Bundle()
         bundle.putDouble(Constants.LONGITUDE, latitude)

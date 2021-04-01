@@ -5,6 +5,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionProductType
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.yapcore.base.BaseTestCase
 import com.google.gson.GsonBuilder
@@ -57,7 +58,7 @@ class TransactionsTests : BaseTestCase() {
         expectation: TransactionExpectation
     ): DynamicTest {
         val displayName: String = java.lang.String.format(
-            Locale.getDefault(),
+            DateUtils.LOCAL,
             "test_transaction_for_product_code_%s",
             transaction.productCode
         )
