@@ -366,8 +366,9 @@ fun Transaction?.getTransactionAmountColor(): Int {
 }
 
 fun Transaction?.showCutOffMsg(): Boolean {
-    return (this?.productCode == TransactionProductCode.SWIFT.pCode)
+    return (this?.productCode == TransactionProductCode.SWIFT.pCode && this.txnState == TransactionState.RAK_CUT_OFF_TIME_HOLD.name)
 }
+
 
 fun List<Transaction>?.getTotalAmount(): String {
     var total = 0.0
