@@ -229,18 +229,16 @@ public class AdvancedWebView extends WebView {
 
     @SuppressLint("NewApi")
     private static boolean openAppSettings(final Context context, final String packageName) {
-        if (Build.VERSION.SDK_INT < 9) {
-            throw new RuntimeException("Method requires API level 9 or above");
-        }
 
         try {
             final Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setData(Uri.parse("package:" + packageName));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            context.startActivity(intent);
-
-            return true;
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+                return true;
+            } else
+                return false;
         } catch (Exception e) {
             return false;
         }
@@ -1395,14 +1393,14 @@ public class AdvancedWebView extends WebView {
             final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             intent.setPackage(getAlternative(context));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
 
-            context.startActivity(intent);
-
-            if (withoutTransition) {
-                context.overridePendingTransition(0, 0);
+                if (withoutTransition) {
+                    context.overridePendingTransition(0, 0);
+                }
             }
+
         }
 
     }
-
-}

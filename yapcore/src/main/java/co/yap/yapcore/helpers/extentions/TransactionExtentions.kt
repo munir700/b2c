@@ -38,7 +38,7 @@ fun Transaction?.getTitle(): String {
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
             TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
-            TransactionProductCode.ATM_WITHDRAWL.pCode -> "Withdrawal"
+            TransactionProductCode.ATM_WITHDRAWL.pCode -> "Withdrawal" // TODO add check based on category fix YM-12333
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
             TransactionProductCode.FUND_LOAD.pCode -> if (transaction.initiator.isNullOrBlank()) transaction.title
                 ?: "Unknown" else "Received from ${transaction.initiator}"
