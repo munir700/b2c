@@ -2,8 +2,12 @@ package co.yap.billpayments.billerdetail
 
 import android.app.Application
 import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.BillCategory
+import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 
 class BillerDetailViewModel(application: Application) :
     PayBillBaseViewModel<IBillerDetail.State>(application), IBillerDetail.ViewModel {
@@ -28,13 +32,23 @@ class BillerDetailViewModel(application: Application) :
         }
     }
 
-//    override fun getBillerDetails(): MutableList<IoCatalogsModel> {
-//        val gson = GsonBuilder().create()
-//        return gson.fromJson<MutableList<IoCatalogsModel>>(
-//            context.getJsonDataFromAsset(
-//                "jsons/employment_describe_you_best.json"
-//            ), object : TypeToken<List<IoCatalogsModel>>() {}.type
-//        )
-//    }
+    override fun readBillerDetailsFromFile(): BillerDetailResponse {
+        val gson = GsonBuilder().create()
+        return gson.fromJson<BillerDetailResponse>(
+            context.getJsonDataFromAsset(
+                "jsons/biller_details.json"
+            ), object : TypeToken<BillerDetailResponse>() {}.type
+        )
+    }
+
+    override fun getBillerDetails() {
+        launch {
+            state.loading = true
+            val billerDetailResponse = readBillerDetailsFromFile()
+            state.loading = false
+
+        }
+    }
+
 
 }

@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
+import java.io.IOException
 import java.math.RoundingMode
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -324,4 +325,15 @@ fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
     }
 
     return first.zip(second).all { (x, y) -> x == y }
+}
+
+fun Context?.getJsonDataFromAsset(fileName: String): String? {
+    val jsonString: String
+    try {
+        jsonString = this?.assets?.open(fileName)?.bufferedReader().use { it?.readText() ?: "" }
+    } catch (ioException: IOException) {
+        ioException.printStackTrace()
+        return null
+    }
+    return jsonString
 }

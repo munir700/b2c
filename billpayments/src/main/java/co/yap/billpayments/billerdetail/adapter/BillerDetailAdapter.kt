@@ -6,8 +6,8 @@ import co.yap.billpayments.R
 import co.yap.billpayments.databinding.LayoutItemBillerDetailBinding
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class BillerDetailAdapter(private val list: MutableList<BillerDetailModel>) :
-    BaseBindingRecyclerAdapter<BillerDetailModel, RecyclerView.ViewHolder>(list) {
+class BillerDetailAdapter(private val list: MutableList<BillerDetailInputFieldModel>) :
+    BaseBindingRecyclerAdapter<BillerDetailInputFieldModel, RecyclerView.ViewHolder>(list) {
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return BillerDetailItemViewHolder(binding as LayoutItemBillerDetailBinding)
     }

@@ -8,12 +8,12 @@ class BillerDetailItemViewHolder(private val layoutItemBillerDetailBinding: Layo
     RecyclerView.ViewHolder(layoutItemBillerDetailBinding.root) {
 
     fun onBind(
-        billerDetailModel: BillerDetailModel?,
+        billerDetailInputFieldModel: BillerDetailInputFieldModel?,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {
         layoutItemBillerDetailBinding.viewModel =
-            BillerDetailItemViewModel(billerDetailModel, position, onItemClickListener)
+            BillerDetailItemViewModel(billerDetailInputFieldModel, position, onItemClickListener)
         layoutItemBillerDetailBinding.executePendingBindings()
     }
 }

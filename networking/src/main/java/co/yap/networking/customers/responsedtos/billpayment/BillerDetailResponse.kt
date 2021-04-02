@@ -2,7 +2,7 @@ package co.yap.networking.customers.responsedtos.billpayment
 
 import com.google.gson.annotations.SerializedName
 
-data class BillerInputsResponse(
+data class BillerDetailResponse(
     @SerializedName("SKU")
     var sku: String?,
     @SerializedName("BillerID")
