@@ -278,6 +278,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         (data as? CoreBottomSheet)?.dismiss()
                         viewModel.state.city.set(citiesList?.get(pos)?.name)
+                        viewModel.state.iata3Code.set(citiesList?.get(pos)?.iata3Code)
                     }
                 },
                 bottomSheetItems = getCities(citiesList),
@@ -422,7 +423,16 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private fun setIntentAction(isUpdated: Boolean) {
         if (viewModel.isValidAddress()) {
             val intent = Intent()
-            intent.putExtra(ADDRESS, viewModel.getUserAddress())
+            val cAddress = viewModel.getUserAddress()!!
+            val address = Address(
+                latitude = cAddress.latitude,
+                longitude = cAddress.longitude,
+                city = cAddress.city,
+                country = cAddress.country,
+                cityIATA3Code = cAddress.cityIATA3Code,
+                address1 = cAddress.address1, address2 = cAddress.address2
+            )
+            intent.putExtra(ADDRESS, if (isUpdated) address else viewModel.getUserAddress())
             intent.putExtra(ADDRESS_SUCCESS, isUpdated)
             intent.putExtra(Constants.PLACES_PHOTO_ID, viewModel.selectedPlaceId.value.toString())
             activity?.setResult(Activity.RESULT_OK, intent)

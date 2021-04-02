@@ -154,6 +154,11 @@ class LocationSelectionViewModel(application: Application) :
         address?.address1 = state.addressTitle.get()
         address?.address2 = state.addressSubtitle.get()
         address?.city = state.city.get()
+        address?.cityIATA3Code = if (state.iata3Code.get().isNullOrEmpty())
+            cities.value?.firstOrNull { it.name.equals(state.city.get(), true) }?.iata3Code
+        else state.iata3Code.get()
+
+//        address?.cityIATA3Code = state.iata3Code.get()
         // this needs to be update and addresse title 1,2,3 should remove only addresse object will pass and recived.
         address?.nearestLandMark = state.addressTitle.get()
         address?.country = "United Arab Emirates"
