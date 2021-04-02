@@ -132,7 +132,8 @@ fun Context.shareImage(
     shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri)
     shareIntent.type = "image/jpeg"
     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    startActivity(Intent.createChooser(shareIntent, chooserTitle))
+    if (shareIntent.resolveActivity(packageManager) != null)
+        startActivity(Intent.createChooser(shareIntent, chooserTitle))
 }
 
 fun takeScreenshotForView(view: View): Bitmap {
@@ -154,6 +155,7 @@ fun takeScreenshotForView(view: View): Bitmap {
 
 fun getCurrentDateTime(): String { // need to re verify
     val currentCalendar: Calendar = Calendar.getInstance()
-    val date = DateUtils.dateToString(currentCalendar.time, "dd-mm-yyyy",   DateUtils.TIME_ZONE_Default)
+    val date =
+        DateUtils.dateToString(currentCalendar.time, "dd-mm-yyyy", DateUtils.TIME_ZONE_Default)
     return date
 }
