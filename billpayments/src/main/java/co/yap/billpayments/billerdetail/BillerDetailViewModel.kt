@@ -27,4 +27,14 @@ class BillerDetailViewModel(application: Application) :
             getString(Strings.screen_biller_detail_title_text_enter_you_account_details)
         }
     }
+
+//    override fun getBillerDetails(): MutableList<IoCatalogsModel> {
+//        val gson = GsonBuilder().create()
+//        return gson.fromJson<MutableList<IoCatalogsModel>>(
+//            context.getJsonDataFromAsset(
+//                "jsons/employment_describe_you_best.json"
+//            ), object : TypeToken<List<IoCatalogsModel>>() {}.type
+//        )
+//    }
+
 }

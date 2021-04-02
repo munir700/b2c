@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.billerdetail.adapter.BillerDetailItemViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/tvInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:hint="@{viewModel.billerDetailModel.key}"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:hintTextAppearance="@style/LabelTextStyl"
+            app:hintTextColorSelected="@color/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:hint="Card Number">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNewEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@{viewModel.billerDetailModel.background}"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:drawableEnd="@{viewModel.billerDetailModel.drawableEnd}"
+                android:inputType="@{viewModel.billerDetailModel.billerDetailInputTypes.inputType}"
+                android:maxLength="@{viewModel.billerDetailModel.maxLength}"
+                android:singleLine="true"
+                android:text="@{viewModel.billerDetailModel.value}"
+                android:theme="@style/Theme.EditText.Primary"
+                app:hint="@{viewModel.billerDetailModel.placeHolder}"
+                tools:hint="Card Number" />
+
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:text="@{viewModel.billerDetailModel.errorText}"
+            android:textColor="@color/greyDark"
+            app:layout_constraintTop_toBottomOf="@+id/tvInputField"
+            tools:text="this email is registered with another account" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

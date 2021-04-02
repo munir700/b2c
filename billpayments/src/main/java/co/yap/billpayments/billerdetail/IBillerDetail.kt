@@ -13,6 +13,7 @@ interface IBillerDetail {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun getScreenTitle(billCategory: BillCategory?): String
+//        fun getBillerDetails(): MutableList<IoCatalogsModel>
     }
 
     interface State : IBase.State {
