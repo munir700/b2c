@@ -3,6 +3,7 @@ package co.yap.modules.kyc.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -20,6 +21,7 @@ import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import kotlinx.android.synthetic.main.activity_documents_dashboard.*
 import java.io.File
 
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
@@ -41,9 +43,12 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.name.value = intent.getValue(Constants.name, ExtraType.STRING.name) as? String
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
+        viewModel.gotoInformationErrorFragment?.value = intent?.getBooleanExtra("GO_ERROR", false)
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
-
+        if (viewModel.gotoInformationErrorFragment?.value == true) {
+            progressBar.visibility = View.GONE
+        }
         addObserver()
     }
 

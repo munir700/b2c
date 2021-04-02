@@ -19,7 +19,8 @@ class DocumentsDashboardViewModel(application: Application) :
     override var paths: ArrayList<String> = arrayListOf()
     override var name: MutableLiveData<String> = MutableLiveData("")
     override var skipFirstScreen: MutableLiveData<Boolean> = MutableLiveData(false)
-    override var clickEvent: SingleClickEvent= SingleClickEvent()
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override var gotoInformationErrorFragment: MutableLiveData<Boolean>? = MutableLiveData(false)
     override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
 
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =

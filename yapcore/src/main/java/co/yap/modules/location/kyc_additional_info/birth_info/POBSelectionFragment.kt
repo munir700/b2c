@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
@@ -22,6 +24,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
 class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
+    private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_place_of_birth_selection
     override val viewModel: POBSelectionViewModel
@@ -41,6 +44,11 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
+    }
+
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
     }
@@ -48,9 +56,15 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                viewModel.saveDOBInfo {
-                    trackEventWithScreenName(FirebaseEvent.BIRTH_LOCATION_SUBMIT)
-                    navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
+                if (viewModel.state.selectedSecondCountry.get()?.isoCountryCode2Digit == "US") {
+                    mNavigator.startDocumentDashboardActivity(
+                        requireActivity()
+                    )
+                } else {
+                    viewModel.saveDOBInfo {
+                        trackEventWithScreenName(FirebaseEvent.BIRTH_LOCATION_SUBMIT)
+                        navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
+                    }
                 }
             }
             R.id.tbBtnBack -> {
@@ -61,7 +75,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                     itemClickListener = selectCountryItemClickListener,
                     label = getString(Strings.screen_place_of_birth_display_text_select_country),
                     viewType = Constants.VIEW_WITH_FLAG,
-                    countriesList = viewModel.populateSpinnerData.value
+                    countriesList = viewModel.parentViewModel?.countries
                 )
             }
             R.id.bSecondcountry -> {
@@ -95,7 +109,6 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.POBSelectionFragment, true) // starting destination skipped
             .build()
-
         findNavController().navigate(
             R.id.action_POBSelectionFragment_to_taxInfoFragment,
             null,
