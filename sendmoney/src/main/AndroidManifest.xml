@@ -29,9 +29,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity
+ <!--       <activity
             android:name="co.yap.sendmoney.home.activities.SendMoneyLandingActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />-->
     </application>
 </manifest>

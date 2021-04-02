@@ -44,8 +44,7 @@ class RemoveFundsViewModel(application: Application) :
     fun showSpareCardAvailableBalance() {
         state.availableBalance.set(
             context.resources.getText(
-                getString(Strings.common_display_text_available_balance)
-                ,
+                getString(Strings.common_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
                     state.card.get()?.availableBalance.toString()

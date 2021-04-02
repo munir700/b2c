@@ -82,8 +82,9 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnNext"
                     style="@style/AddressBtnStyle"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_28sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:btn_size="mini_small"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_normal"

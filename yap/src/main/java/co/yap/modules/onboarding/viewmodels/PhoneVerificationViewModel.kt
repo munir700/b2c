@@ -14,6 +14,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -60,6 +62,7 @@ class PhoneVerificationViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
+                    trackEventWithScreenName(FirebaseEvent.RESEND_OTP)
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10, context)
@@ -88,8 +91,6 @@ class PhoneVerificationViewModel(application: Application) :
                     parentViewModel?.onboardingData?.token = response.data.data?.token
                     trackEvent(SignupEvents.SIGN_UP_OTP_CORRECT.type)
                     trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
-                    parentViewModel?.isWaitingList?.value = response.data.data?.isWaiting
-                    parentViewModel?.rankNo?.value = response.data.data?.rankNo
                     success.invoke()
                 }
                 is RetroApiResponse.Error -> {

@@ -267,18 +267,18 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/confirmButton"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                app:btn_size="medium"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:enabled="true"
                 android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
                 android:text="@{viewModel.state.buttonTitle}"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:ignore="MissingConstraints"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:layout_editor_absoluteX="44dp"
                 tools:text="@string/screen_crash_transfer_success_button_text_back" />
         </androidx.constraintlayout.widget.ConstraintLayout>

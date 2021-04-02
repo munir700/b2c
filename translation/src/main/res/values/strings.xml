@@ -1,7 +1,9 @@
 <resources>
 
     <!-- Common -->
+    <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
     <string name="common_display_text_retry">Retry</string>
+    <string name="common_empty_string"> </string>
     <string name="common_button_next">Next</string>
     <string name="common_display_text_error_no_internet">Looks like you\'re offline. Please reconnect and refresh to continue using YAP.</string>
     <string name="common_button_yes">Yes</string>
@@ -10,10 +12,15 @@
     <string name="common_button_settings">Settings</string>
     <string name="common_button_save">Save</string>
     <string name="common_button_confirm">Confirm</string>
+    <string name="common_button_delete">Delete</string>
+    <string name="common_button_continue">Continue</string>
     <string name="common_button_submit">Submit</string>
+    <string name="common_text_thanks">Thanks</string>
+    <string name="common_text_hey">Hey</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
+    <string name="common_percentage_hint">0</string>
     <string name="common_display_text_nothing_to_report">Start using your account to see all your transactions here</string>
     <string name="common_button_logout">Logout</string>
     <string name="error_view_text">No results found\ntab to retry</string>
@@ -36,6 +43,12 @@
     <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
     <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
     <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
+    <string name="common_display_text_show_recent_transfer">Show Recent transfers</string>
+    <string name="common_display_text_search_hint">Search</string>
+    <string name="common_display_text_no_results">No results</string>
+    <string name="common_display_text_no_country_found">No country found</string>
+    <string name="common_display_text_percentage">%</string>
+
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -82,7 +95,8 @@
     <string name="screen_verify_phone_number_button_send">Next</string>
 
     <!-- Create passcode screen -->
-    <string name="screen_create_passcode_display_heading">Create a new 4 to 6 digit passcode to access your account</string>
+    <string name="screen_create_passcode_display_heading">Create a 4- to 6- digit passcode to access your account</string>
+    <string name="screen_create_passcode_onboarding_button_create_passcode">Create passcode</string>
     <string name="screen_create_passcode_display_text_title">Create a new 4- to 6-digit passcode</string>
     <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
@@ -113,8 +127,13 @@
     <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for you in less than %1s seconds!</string>
     <string name="screen_onboarding_congratulations_display_text_sub_title_no_interval">A YAP Personal Account has been created for you!</string>
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
-    <string name="screen_onboarding_congratulations_display_text_meeting_note">This IBAN is currently inactive \n\n Make sure you have your Emirates ID at hand before we proceed</string>
+    <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
+    <string name="screen_onboarding_congratulations_display_text_delay_detail_text">
+Due to all the excitement of our official launch, we are gradually activating as many accounts as possible to keep the app running smoothly. In the meantime, until your account is ready to be fully activated you’ll be placed in a queue.
+
+</string>
+    <string name="screen_onboarding_congratulations_button_queue_up">Queue up!</string>
 
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
@@ -157,15 +176,20 @@
     <!--    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>-->
     <string name="screen_kyc_information_error_display_text_explanation_from_usa">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
     <string name="screen_kyc_information_error_display_text_title_under_age">Looks like you\'re under 21!</string>
-    <string name="screen_kyc_information_error_display_text_explanation_under_age">And while that\'s great, this YAP account is only for adults. Don\'t worry though, you can speak to your parents about getting you started with YAP Young or wait till you\'re 21 :)</string>
+    <string name="screen_kyc_information_error_display_text_title_sanctioned_country">We\'re sorry :(</string>
+    <string name="screen_kyc_information_error_text_description_sanctioned_country">Unfortunately, we\'re unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account.</string>
+    <string name="screen_kyc_information_error_display_text_title_from_us">Looks like you\'re from the United States</string>
+    <string name="screen_kyc_information_error_text_description_from_us">We\'re sorry, we aren\'t able to create bank accounts for US Citizens at this point. Stay tuned though, we\'ll announce it everywhere if this changes!</string>
+    <string name="screen_kyc_information_error_display_text_explanation_under_age">And while that\'s great, this YAP account is only for adults. Don\'t worry though, you can speak to your parents about getting you started with YAP Young or wait till you\'re 18 :)</string>
     <string name="screen_kyc_information_error_display_text_title_expired_card">YAP works best with a valid Emirates ID</string>
     <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
     <string name="screen_kyc_information_error_button_go_to_dashboard">Go to dashboard</string>
+    <string name="screen_kyc_information_error_button_logout">Log out</string>
 
     <!-- Meeting location selection screen -->
     <string name="screen_meeting_location_display_text_title">Your card is ready to be delivered!</string>
     <string name="screen_meeting_location_display_text_subtitle">Choose your location below. We will also call you to verify this address</string>
-    <string name="screen_meeting_location_button_confirm_location">Tap here to change location</string>
+    <string name="screen_meeting_location_button_confirm_location">Tap map to confirm location</string>
     <string name="screen_meeting_location_button_change_location">Tap here to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
     <string name="screen_meeting_location_input_text_address_hint">Enter your address</string>
@@ -175,7 +199,7 @@
     <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added successfully</string>
     <string name="screen_meeting_location_text_accept_terms">I accept the </string>
     <string name="screen_meeting_location_text_terms_and_conditions"> CRS and FATCA Terms and Conditions</string>
-    <string name="screen_meeting_location_display_text_add_new_address_title">Add new delivery address</string>
+    <string name="screen_meeting_location_display_text_add_new_address_title">Your card is ready to be delivered!</string>
     <string name="screen_meeting_location_display_text_add_new_address_subtitle">Where can we deliver your debit card?</string>
     <string name="screen_meeting_location_display_text_add_manual_address_subtitle">We’ll need you to enter your address below</string>
 
@@ -195,6 +219,7 @@
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_button_title_scan_eid">Scan Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
@@ -241,17 +266,19 @@
     <string name="screen_set_card_pin_welcome_button_create_pin_later">I’ll do it later</string>
 
     <!-- Set card PIN screen -->
-    <string name="screen_set_card_pin_display_text_title">Enter a new PIN</string>
+    <string name="screen_set_card_pin_display_text_title">Create your 4-digit PIN</string>
     <string name="screen_set_card_pin_button_create_pin">Next</string>
 
     <!-- Confirm card PIN screen -->
     <string name="screen_confirm_card_pin_display_text_title">Enter that one more time to confirm</string>
+    <string name="screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN you agree to our</string>
     <string name="screen_confirm_card_pin_display_text_terms_and_conditions">terms &amp; conditions</string>
     <string name="screen_confirm_card_pin_button_create_pin">Set PIN</string>
     <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
     <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
     <string name="screen_confirm_card_pin_display_text_error_pins_not_same">This doesn\'t match the previously entered PIN</string>
+    <string name="screen_confirm_card_pin_terms_condition_note">By creating a PIN you agree to our \n<b> %1s </b> </string>
 
     <!-- Set card PIN success screen -->
     <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>
@@ -273,7 +300,7 @@
     <string name="screen_passcode_success_button_sign_in">Sign in</string>
 
     <!-- Change Passcode screen -->
-    <string name="screen_change_passcode_success_display_text_sub_heading">Your new passcode has been updated \n successfully</string>
+    <string name="screen_change_passcode_success_display_text_sub_heading">Your passcode has been updated \n successfully</string>
 
     <!-- Create new Passcode screen -->
     <string name="screen_create_new_passcode_button_text">Set passcode</string>
@@ -285,7 +312,7 @@
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
 
     <!--    Card Home Screen-->
-    <string name="screen_cards_display_text_pending_delivery">This card is on the way</string>
+    <string name="screen_cards_display_text_inactive_description">We are now processing your account. Please wait for activation to be completed shortly.</string>
     <string name="screen_cards_display_text_expired_card">This card has expired</string>
     <string name="screen_cards_display_text_freeze_card">This card is frozen</string>
     <string name="screen_cards_display_text_freeze_card_action">Unfreeze now</string>
@@ -299,6 +326,9 @@
     <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
     <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
     <string name="screen_cards_display_text_card_removed_success">Card successfully removed!</string>
+    <string name="screen_cards_display_text_tour_add_card_heading">Add card</string>
+    <string name="screen_cards_display_text_tour_add_card_description">Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!</string>
+    <string name="screen_cards_display_text_tour_add_card_btn_text">OK</string>
 
 
     <!-- Spare Card Landing Screen -->
@@ -308,6 +338,7 @@
     <string name="screen_spare_card_landing_display_text_select_card_type">Select a type of card</string>
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
+    <string name="screen_spare_card_landing_display_tool_bar_title">Add a virtual card</string>
 
     <!-- Spare Card Benefit Screen -->
     <string name="screen_spare_card_benefit_display_text_title">Spare card benefits</string>
@@ -332,6 +363,9 @@
     <string name="screen_add_spare_card_display_button_block_alert_skip">Skip for now</string>
 
     <string name="screen_add_spare_card_display_text_fee">One time fee of AED %1$s</string>
+    <string name="screen_add_virtual_spare_card_edit_name_label">Name your virtual card</string>
+    <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
 
 
     <!-- Add Spare card location -->
@@ -342,7 +376,7 @@
     <string name="screen_card_status_display_text_ordered">Ordered</string>
     <string name="screen_card_status_display_text_building">Building</string>
     <string name="screen_card_status_display_text_shipping">Shipping</string>
-    <string name="screen_card_status_display_text_activate_card">Activate card</string>
+    <string name="screen_card_delivery_status_button_set_pin">Set PIN</string>
 
     <!--    Add funds Screen-->
     <string name="screen_add_funds_display_text_add_funds">Add funds</string>
@@ -420,11 +454,11 @@
     <string name="screen_current_card_pin_display_button_next">Next</string>
 
     <!--    Enter new pin screen-->
-    <string name="screen_create_card_pin_display_text_heading">Enter a new PIN</string>
+    <string name="screen_create_card_pin_display_text_heading">Create your 4-digit PIN</string>
     <string name="screen_create_card_pin_display_button_create_pin">Create new PIN</string>
 
     <!--    confirm PIN screen-->
-    <string name="screen_confirm_card_pin_display_text_heading">Enter it one more time</string>
+    <string name="screen_confirm_card_pin_display_text_heading">Enter that one more time to confirm</string>
     <string name="screen_confirm_card_pin_display_button_confirm_pin">Create new PIN</string>
 
     <!--    Change PIN success screen-->
@@ -439,6 +473,11 @@
     <!--   Yap More-->
     <string name="screen_more_display_text_bank_details">Account details</string>
     <string name="screen_more_detail_display_text_bank_details">YAP account details</string>
+    <string name="screen_more_detail_display_text_tour_bank_details_heading">Your bank details</string>
+    <string name="screen_more_detail_display_text_tour_bank_details_description">Tap here to view your complete bank account details, useful for topping up and sharing with contacts for transfer purposes.</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_heading">YAP for you</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_description">A fun way to track your progress on YAP, complete missions and explore all the different aspects of the YAP app and account.</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_btn_text">Finish</string>
 
 
     <!--   Profile Settings screen-->
@@ -502,18 +541,18 @@
     <!--    Change email screen-->
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
-    <string name="screen_change_email_placeholder_confirm_email_address">confirm email address</string>
-    <string name="screen_change_email_display_text_description">A verification email will be sent to this email address</string>
+    <string name="screen_change_email_placeholder_confirm_email_address">enter in one more time</string>
+    <string name="screen_change_email_display_text_description">A verification email will now be sent to this address​</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
-    <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
+    <string name="screen_change_email_display_text_confirm_email_title">Enter in one more time</string>
     <string name="screen_change_email_display_text_email_match_error">Email doesn\'t match what you first entered</string>
 
     <!--    Email Verification Screen-->
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
 
     <!--    Change Phone Number Screen-->
-    <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
-    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
+    <string name="screen_change_phone_number_display_text_heading">Change mobile number</string>
+    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new number</string>
     <string name="screen_change_phone_number_display_text_text_description">We\'ve sent a code to\n %1$s</string>
     <string name="screen_change_phone_number_display_text_country_code">+971</string>
 
@@ -568,7 +607,9 @@
     <string name="screen_transaction_filter_button_clear_filter">Clear filters</string>
     <string name="screen_transaction_filter_display_text_incoming_transactions">Incoming transactions</string>
     <string name="screen_transaction_filter_display_text_outgoing_transactions">Outgoing transactions</string>
-    <string name="screen_transaction_filter_display_text_balance">AED balance</string>
+    <string name="screen_transaction_filter_display_text_pending_transactions">Pending transactions</string>
+    <string name="screen_transaction_filter_display_text_balance">AED Balance</string>
+    <string name="screen_transaction_filter_display_text_categories">Categories</string>
 
     <!--Y2Y Contacts-->
     <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
@@ -586,7 +627,7 @@
 
     <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
-    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark here</string>
+    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark (optional)</string>
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
@@ -614,24 +655,35 @@
     <string name="screen_transaction_details_display_text_exchange_rate">Exchange rate</string>
     <string name="screen_transaction_details_display_text_exchange_rate_value">1 %1$s = %2$s</string>
     <string name="screen_add_note_display_text_save">Save</string>
+    <string name="screen_transaction_details_display_sheet_heading">Add a receipt</string>
+    <string name="screen_transaction_details_display_sheet_sub_heading">Take a photo or upload your receipt</string>
+    <string name="screen_transaction_details_display_sheet_text_upload_from_files">Upload from files</string>
+    <string name="screen_transaction_details_display_receipt_item">Receipt %1s</string>
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
-    <string name="screen_send_money_no_contacts_display_text_sub_heading">Who do you want to send money to?</string>
+    <string name="screen_send_money_no_contacts_display_text_sub_heading">Who would you like to send money to?</string>
     <string name="screen_send_money_no_contacts_display_text_detail">​You can send money to people around the world through your YAP account. Click below to start adding a beneficiary. You can also do this using the + button anytime.</string>
     <string name="screen_send_money_no_contacts_button_title_add_now">Add now</string>
 
     <!--  Send Money Screen-->
     <string name="screen_send_money_display_text_title">Send money</string>
+    <string name="screen_send_money_display_text_title_local">Send money locally</string>
+    <string name="screen_send_money_display_text_title_international">Send money internationally</string>
     <string name="screen_send_money_display_text_recent_transfer">Recent transfers</string>
     <string name="screen_send_money_input_text_search_hint">Search</string>
     <string name="screen_send_money_display_text_all_beneficiaries">All beneficiaries</string>
     <string name="screen_send_money_display_bottom_sheet_label">Select reason for transfer"</string>
-
+    <string name="screen_fragment_yap_it_send_money_label">Who do you want to send money to?</string>
     <string name="screen_send_money_display_text_edit">Edit</string>
     <string name="screen_send_money_display_text_delete">Delete</string>
-
+    <string name="screen_send_money_local_bank_label">Local Bank</string>
+    <string name="screen_send_money_international_label">International transfer</string>
+    <string name="screen_send_money_home_label">Home Country</string>
+    <string name="screen_send_show_recent">Show Recent Transfers</string>
     <string name="screen_send_money_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
+    <string name="screen_send_money_display_text_all_local_beneficiaries">All local beneficiaries</string>
+
 
     <!--  Edit Beneficiary Money Screen-->
     <string name="screen_edit_beneficiary_display_text_title">Edit beneficiary</string>
@@ -730,6 +782,7 @@
     <string name="screen_crash_transfer_success_display_text_share_code">Share this code</string>
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
     <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
+    <string name="screen_cash_transfer_display_text_required_topup_balance">Your available balance is %1s.\n Top up to proceed with this purchase.</string>
 
     <!-- International Funds Transfer -->
 
@@ -737,7 +790,7 @@
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
     <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
-    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark here</string>
+    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark (optional)</string>
     <string name="screen_international_funds_transfer_input_text_reason">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
     <string name="screen_international_funds_transfer_display_text_note">Note that the recipient\'s bank may have its own charges.</string>
@@ -779,7 +832,7 @@
     <string name="screen_topup_success_display_text_title">Top up successful</string>
     <string name="screen_topup_success_display_text_card_title">Citi Bank Card</string>
     <string name="screen_topup_success_display_text_success_transaction_message">You have now added %1s %2s to your account</string>
-    <string name="screen_topup_success_display_text_account_balance_title">Your new YAP balance is \n %1s %2s</string>
+    <string name="screen_topup_success_display_text_account_balance_title">Your new YAP balance is \n %1s</string>
     <string name="screen_topup_success_display_text_dashboard_action_button_title">Go to dashboard</string>
 
     <!--    Topup bank detail screen-->
@@ -1022,7 +1075,7 @@
     <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
-    <string name="screen_invite_friend_display_text_share_url">Hey! I just started using YAP and it’s great if you’re looking for a cool new banking app that helps manage money better. I’ve saved you a link so you can try it for yourself.\n\n%1s</string>
+    <string name="screen_invite_friend_display_text_share_url">Hey! I just joined the UAE\'s newest banking app – YAP. Transform the way you bank and reserve your place in the queue to be one of the first to join me in the banking revolution.\n\n%1s</string>
 
     <!--  OTP Blocked New screen -->
     <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
@@ -1052,9 +1105,18 @@
     <!--    Waiting list screen-->
     <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
     <string name="screen_waiting_list_display_text_guide"> We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready. Should you wish to find out more in the meantime, our website has more information for you.</string>
-    <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
+    <string name="screen_waiting_list_display_button_text">Share with a friend</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+    <string name="screen_waiting_list_display_text_you_re">You’re</string>
+    <string name="screen_waiting_list_display_text_your_place_in_queue">Your place in the queue</string>
+    <string name="screen_waiting_list_display_text_waiting_behind_you">waiting behind you</string>
+    <string name="screen_waiting_list_display_text_we_will_notify_you">We will notify you when you\'ve reached the top!</string>
+    <string name="screen_waiting_list_display_text_want_to_jump">Grow your YAP network!</string>
+    <string name="screen_waiting_list_display_text_lead_the_bank_description">Lead the banking revolution and share YAP with your friends. Click the button below to share now 🚀</string>
+    <string name="screen_waiting_list_display_text_log_back">Log back in to see your rank in the queue.</string>
+    <string name="screen_waiting_list_display_text_rank_hashtag">#%1s</string>
+
     <!-- Blocked Screen-->
 
     <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
@@ -1076,23 +1138,34 @@
     <string name="transaction_narration_y2y_transfer_detail">YTY transfer</string>
 
     <!--   Status Time line  -->
-    <string name="screen_time_line_display_text_status_card_on_the_way_title">Your card is on the way</string>
-    <string name="screen_time_line_display_text_status_card_on_the_way_description">Give us up to 48 hours for it to reach you</string>
-    <string name="screen_time_line_display_text_status_card_on_the_way_action">Track your delivery</string>
+    <string name="dashboard_timeline_shipping_stage_title">Your card is on the way</string>
+    <string name="dashboard_timeline_shipping_stage_description">Give us up to 48 hours for it to reach you</string>
+    <string name="dashboard_timeline_shipping_stage_completed_description">Your card was delivered on %1s</string>
+    <string name="dashboard_timeline_shipping_stage_action_title">Track your delivery</string>
 
-    <string name="screen_time_line_display_text_status_card_delivered_title">Your card is delivered</string>
-    <string name="screen_time_line_display_text_status_card_delivered_description">Your EID scan has been carried out</string>
+    <string name="dashboard_timeline_delivery_stage_title">Your card is delivered</string>
+    <string name="dashboard_timeline_delivery_stage_description">Your EID scan is required.</string>
+    <string name="dashboard_timeline_delivery_stage_active_description">Your EID scan has been carried out. We are now processing your account. Please wait for activation to be completed shortly.</string>
+    <string name="dashboard_timeline_delivery_stage_completed_description">Your EID scan was approved on %1s</string>
 
-    <string name="screen_time_line_display_text_status_set_card_pin_title">Set your card PIN</string>
-    <string name="screen_time_line_display_text_status_set_card_pin_description">You\’ll need this to begin using your card</string>
-    <string name="screen_time_line_display_text_status_set_card_pin_action">Set PIN</string>
+    <string name="dashboard_timeline_set_pin_stage_title">Set your card PIN</string>
+    <string name="dashboard_timeline_set_pin_stage_description">You’ll need this to begin using your card</string>
+    <string name="dashboard_timeline_set_pin_stage_completed_description">Your PIN was successfully set on %1s</string>
+    <string name="dashboard_timeline_set_pin_stage_action_title">Set PIN</string>
 
-    <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
-    <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
-    <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_title">Additional requirements</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_action">Check email</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
+    <string name="dashboard_timeline_top_up_stage_title">Time to top up</string>
+    <string name="dashboard_timeline_top_up_stage_description">Add money to your YAP card to start spending</string>
+    <string name="dashboard_timeline_top_up_stage_action_title">Top up now</string>
+
+    <string name="dashboard_timeline_additional_requirement_stage_title">Additional requirements</string>
+    <string name="dashboard_timeline_additional_requirement_stage_description">We’ll need some more additional information to proceed</string>
+    <string name="dashboard_timeline_additional_requirement_stage_completed_description">We are reviewing your documents submitted on %1s</string>
+    <string name="dashboard_timeline_additional_requirement_stage_action_title">Submit now</string>
+
+
+    <string name="dashboard_timeline_top_up_stage_completion_title">Completed</string>
+    <string name="dashboard_timeline_top_up_stage_in_process_title">In process</string>
+
 
     <!--  Yap It Add Money Screen-->
     <string name="screen_fragment_yap_it_add_money_title">Add money</string>
@@ -1109,12 +1182,181 @@
     <string name="screen_fragment_yap_it_qr_code_save_to_gallery">Save to Gallery</string>
     <string name="screen_fragment_yap_it_qr_code_text_share_to_proceed">Share your unique YAP QR payments code to proceed</string>
     <string name="screen_yap_analytics_detail_transaction_count">transactions</string>
+    <string name="screen_fragment_yap_it_qr_code_text_scan_to_proceed">Scan a YAP QR payments code to proceed</string>
+    <string name="screen_fragment_yap_it_qr_code_text_image_library">Image Library</string>
+    <string name="screen_fragment_yap_it_qr_code_text_my_qr_code">My QR Code</string>
+
 
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
+    <string name="screen_transaction_detail_text_cancelled_reason">Sorry! We\'re unable to complete your transfer at this point. Don\'t worry, we\'ve gone ahead and cancelled it for you.</string>
+    <string name="screen_transaction_add_another_receipt">Add another receipt</string>
+    <string name="screen_transaction_details_receipt_text">Keep track of your spendings</string>
+    <string name="screen_transaction_details_receipt_label">Add a receipt</string>
+    <string name="screen_transaction_details_single_added_receipt_label">%1s receipt added</string>
+    <string name="screen_transaction_details_added_receipt_label">%1s receipts added</string>
+    <string name="screen_transaction_details_receipt_success_label">Your receipt has been added!</string>
 
     <!-- Live Chat Strings-->
     <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
 
+    <!-- Additional Information Strings-->
+    <string name="screen_additional_info_label_text_do_it_later">Do it later</string>
+    <string name="screen_additional_info_label_text_question_hint">Answer to question goes here</string>
+    <string name="screen_additional_info_label_text_additional_info">Additional Information</string>
+    <string name="screen_additional_info_label_text_upload_document_complete">You have successfully uploaded your documents. Please click Next to continue</string>
+    <string name="screen_additional_info_label_text_upload_document">, please submit the following documents</string>
+    <string name="screen_additional_info_label_text_complete">Your application is back in process and we will inform you soon of when you can set your card pin</string>
+    <string name="screen_additional_info_label_text_final_question">Final Question</string>
+    <string name="screen_additional_info_label_text_required_des">We need additional information to be able to proceed with your application to get your YAP account activated</string>
+    <string name="screen_additional_info_label_text_bottom_sheet_des">Scan or upload your</string>
+    <string name="common_display_text_founder">FOUNDER</string>
+    <string name="common_display_text_copy">copy</string>
+
+    <!-- Send Money Home -->
+    <string name="screen_send_money_home_title">Send money home</string>
+    <string name="screen_send_money_home_display_text_send_money">Send money</string>
+    <string name="screen_send_money_home_display_text_recent_transfers">Recent %s transfers</string>
+    <string name="screen_send_money_home_display_text_send_money_home">Send money home to your friends and family quickly</string>
+    <string name="screen_send_money_home_display_text_get_best_rates">Get the best rates to your home country</string>
+    <string name="screen_send_money_home_display_text_change_home_country">Change home country</string>
+    <string name="screen_send_money_home_display_text_hide">Hide</string>
+    <string name="screen_send_money_home_display_text_compare">Compare</string>
+
+    <!-- QR Code Funds Transfer -->
+    <string name="screen_qr_transfer_display_text_button">Pay</string>
+    <string name="screen_qr_transfer_display_text_note_hint">Type a note here (Optional)</string>
+    <string name="screen_qr_transfer_display_title">Enter amount to send</string>
+
+    <string name="screen_qr_funds_transfer_display_text_available_balance">Your available balance is:</string>
+    <string name="screen_qr_code_own_uuid_error_message">Scanned QR code belongs to your own YAP account. Please scan another QR code.</string>
+
+    <!-- Dashboard Menu -->
+    <string name="screen_dashboard_menu_display_text_my_profile">My profile</string>
+
+    <!--    Tour guide-->
+
+    <string name="screen_dashboard_tour_guide_display_text_top_menu">Top menu</string>
+    <string name="screen_dashboard_tour_guide_display_text_top_menu_des">Get quick access to useful links related to your profile, account details, analytics, support and contacting YAP</string>
+    <string name="screen_dashboard_tour_guide_display_text_balance">Your current balance</string>
+    <string name="screen_dashboard_tour_guide_display_text_balance_des">This is an indicator of your available balance. It is always updated in real time and supported by a daily transaction graph.</string>
+    <string name="screen_dashboard_tour_guide_display_text_top_yap_it">YAP it</string>
+    <string name="screen_dashboard_tour_guide_display_text_top_yap_it_des">Launch the YAP it button to carry out important functions like sending money, adding funds to your account and paying bills. </string>
+    <string name="screen_dashboard_tour_guide_display_text_search">Search</string>
+    <string name="screen_dashboard_tour_guide_display_text_finish">Finish</string>
+    <string name="screen_dashboard_tour_guide_display_text_search_des">Click here to search for specific transactions in your account history</string>
+    <string name="screen_dashboard_tour_guide_display_text_graph">Daily transaction graph</string>
+    <string name="screen_dashboard_tour_guide_display_text_graph_des">View your transactions plotted on a graph and drag your fingers along the bars to view a specific date.</string>
+    <string name="screen_dashboard_tour_guide_display_text_packages">Purchased packages</string>
+    <string name="screen_dashboard_tour_guide_display_text_packages_des">View and manage all your purchased YAP packages and add-ons in a single place.</string>
+    <string name="screen_dashboard_tour_guide_display_text_more">More icon</string>
+    <string name="screen_dashboard_tour_guide_display_text_more_des">Click here to add a name to your card, view statements or remove it from your account. </string>
+    <string name="screen_dashboard_tour_guide_display_text_freeze_card">Freeze card</string>
+    <string name="screen_dashboard_tour_guide_display_text_freeze_card_des">You can temporarily block usage of your card by clicking on Freeze. Don’t worry though, you can always unfreeze your card instantly.</string>
+    <string name="screen_dashboard_tour_guide_display_text_limit">Set limits</string>
+    <string name="screen_dashboard_tour_guide_display_text_limit_des">Customize your card’s usage by setting limits on where and how it can be used.</string>
+    <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
+    <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
+    <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
+    <string name="screen_home_complete_verification_desc">Complete verification to activate your account.</string>
+    <string name="screen_home_set_pin_desc">This 4-digit code is yours to keep. Please don\'t share it with anyone</string>
+    <string name="screen_home_renewed_id_title">Renew ID</string>
+    <string name="screen_home_renewed_id_desc">Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.</string>
+    <string name="today">Today, %1$s</string>
+    <string name="tomorrow">Tomorrow, %1$s</string>
+    <string name="yesterday">Yesterday, %1$s</string>
+
+
+    <!--    Achievements screen get started-->
+    <string name="screen_yfy_get_started_text_title">Get started</string>
+    <string name="screen_yfy_get_started_text_open_account">Open your YAP account</string>
+    <string name="screen_yfy_get_started_text_set_pin">Set your PIN</string>
+    <string name="screen_yfy_get_started_text_add_money">Add money to your account</string>
+    <string name="screen_yfy_get_started_text_set_profile">Set a profile picture</string>
+    <string name="screen_yfy_text_locked">Locked</string>
+
+    <!--  Achievements up and running-->
+    <string name="screen_yfy_up_and_running_text_title">Up and running</string>
+    <string name="screen_yfy_up_and_running_text_use_yap_locally">Use YAP locally</string>
+    <string name="screen_yfy_up_and_running_text_freeze_unfreeze">Freeze and unfreeze your card</string>
+    <string name="screen_yfy_up_and_running_text_spend_money">Spend AED 100</string>
+    <string name="screen_yfy_up_and_running_text_explore_card_controls">Explore card controls</string>
+
+    <!--  Achievements better together-->
+    <string name="screen_yfy_better_together_text_title">Better Together</string>
+    <string name="screen_yfy_better_together_text_invite_friend">Invite a friend</string>
+    <string name="screen_yfy_better_together_text_y2y_transfer">Make a Y2Y transfer</string>
+    <string name="screen_yfy_better_together_text_split_bills">Split bills with YAP</string>
+    <string name="screen_yfy_better_together_text_send_money">Send money outside YAP</string>
+
+    <!--  Achievements take a leap-->
+    <string name="screen_yfy_take_a_leap_text_title">Take the leap</string>
+    <string name="screen_yfy_take_a_leap_text_send_money">Order a virtual card</string>
+    <string name="screen_yfy_take_a_leap_text_upgrade_to_prime">Upgrade to Prime</string>
+    <string name="screen_yfy_take_a_leap_text_go_metal">Go Metal</string>
+    <string name="screen_yfy_take_a_leap_text_set_mc_account">Set up a multi-currency account</string>
+
+    <!--  Achievements Yap store-->
+    <string name="screen_yfy_yap_store_text_title">YAP Store</string>
+    <string name="screen_yfy_yap_store_text_get_yap_young">Get YAP Young</string>
+    <string name="screen_yfy_yap_store_text_sign_up_house_hold">Sign up to Household</string>
+    <string name="screen_yfy_yap_store_text_set_mission">Set missions on YAP Young</string>
+    <string name="screen_yfy_yap_store_text_pay_your_help">Pay your help using Household</string>
+
+    <!--  Achievements You are a Pro-->
+    <string name="screen_yfy_you_are_pro_text_title">You\'re a Pro!</string>
+    <string name="screen_yfy_you_are_pro_text_invite_friends">Invite 10 friends to YAP</string>
+    <string name="screen_yfy_you_are_pro_text_spend_amount">Spend AED 1000</string>
+    <string name="screen_yfy_you_are_pro_text_complete_a_renewal">Complete a renewal</string>
+
+    <!--YAP For YOU GET Started-->
+    <string name="screen_yfy_open_yap_account_description">That first step was easy! Welcome to YAP. We\'re so happy you\'re here :)</string>
+    <string name="screen_yfy_get_started_success_description">You’ve completed this task! \nTime for a little celebration 🥳</string>
+    <string name="screen_yfy_set_your_pin_description">What are you waiting for? Go ahead and set a unique 4-digit PIN to start using your card</string>
+    <string name="screen_yfy_add_money_to_account_button_label">Add money now</string>
+    <string name="screen_yfy_add_money_to_account_description">Go on and add some money to your account so you can start spending! You can do this by using your existing bank card, make a wire transfer to this account or deposit cash at the nearest machine. </string>
+    <string name="screen_yfy_set_a_profile_photo_description">Personalize your profile with a picture of you (or your pet)</string>
+    <string name="screen_yfy_set_a_profile_photo_button_label">Set it now</string>
+
+    <!--YFY UP AND RUNNING-->
+    <string name="screen_yfy_use_yap_locally_description">Make heads turn the next time you’re out using your YAP card.</string>
+    <string name="screen_yfy_use_yap_locally_success_description">Go out and buy yourself something nice using your YAP card. We won’t tell anyone 😉</string>
+    <string name="screen_yfy_freeze_unfreeze_card_description">Try to freeze and unfreeze your card. You’ll know what to do if you misplace it or if your card has been stolen</string>
+    <string name="screen_yfy_freeze_unfreeze_card_button_label">Try freezing now</string>
+    <string name="screen_yfy_spend_aed_description">Make your next AED 100 purchase a YAP one. Don’t forget to buy yourself something nice!</string>
+    <string name="screen_yfy_explore_card_control_description">You have full control of your card! \n\nSet limits against spending online, abroad, retail and at an ATM</string>
+
+    <!-- YFY Better Together -->
+    <string name="screen_yfy_invite_a_friend_description">Once you\'re set, head over to the top right menu on your dashboard (or via More on the bottom navigation menu) to start inviting your friends to join YAP.\n\n The more the merrier!</string>
+    <string name="screen_yfy_invite_a_friend_button_label">Invite a friend</string>
+    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.\n\n Use the YAP It button and choose either bank transfer or cash pickup, so you can send money to even those who don\'t have a bank account! </string>
+    <string name="screen_yfy_send_money_to_someone_description">Send money to someone instantly within your YAP network. Tap on the YAP It button on your dashboard, select a friend from the list and enter the desired amount.\n\n Yes, It\'s that simple!</string>
+    <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends.\n\nTo split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly.\n\n Psst… you can also send reminders!</string>
+
+    <!--YFY Take a leap-->
+    <string name="screen_yfy_order_virtual_card_description">Virtual cards let you make online payments without sharing your main card details.\n \n You can order a virtual card through the Cards section. It is available immediately, so the next time you need to enter your card details online but aren\'t comfortable doing it, just use your virtual card! </string>
+    <string name="screen_yfy_upgrade_to_prime_description">A shiny new card available in 4 metallic shades and a world of perks! \n \nChoose from audacious amber, sparkly sterling, romantic rose or glorious granite.</string>
+    <string name="screen_yfy_upgrade_to_prime_button_label">Upgrade now</string>
+    <string name="screen_yfy_go_metal_description">The ultimate YAP card – a 100% metal card with exclusive benefits. \n \nThe Metal card – or experience – is available in Black, Rose Gold and Chrome.</string>
+    <string name="screen_yfy_set_multi_currency_account_description">Traveling abroad? Set up multi-currency on YAP (available on Prime and Metal plans), create currency wallets for the countries you’re visiting, and spend locally when you get there! \nYou can forget about exchanging cash or running out mid-holiday :)</string>
+    <string name="screen_yfy_set_multi_currency_account_button_label">Set up</string>
+
+    <!--Reached on the top of queue screen-->
+    <string name="screen_reached_top_queue_display_text">%1s, you reached the top of the Queue!</string>
+    <string name="screen_reached_top_queue_display_text_subtitle">You are now ready to fully activate and begin using your YAP account.</string>
+    <string name="screen_reached_top_queue_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed.</string>
+
+    <!--    YFY Yap Store-->
+    <string name="screen_yfy_get_yap_young_description">Teach your kids how to be good with money. Set up a YAP Young account for your child and send them pocket money through the app into their YAP Young card! </string>
+    <string name="screen_yfy_get_yap_young_button_label">Get YAP Young now</string>
+    <string name="screen_yfy_signup_to_hh_description">Equip your household help with a card of their own. Now you can send them salaries and household expenses directly into their card so you don’t always have to depend on cash. </string>
+    <string name="screen_yfy_signup_to_hh_button_label">Get YAP Household now</string>
+    <string name="screen_yfy_set_a_mission_description">Give your kids tasks that will help them earn money. Chores can be fun too! </string>
+    <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
+
+    <!-- image previewer dialogue -->
+
+    <string name="screen_image_previewer_display_text_delete_message">This photo will be deleted from your saved receipts.</string>
+    <string name="screen_image_previewer_button_text_delete">Delete Photo</string>
 
 </resources>

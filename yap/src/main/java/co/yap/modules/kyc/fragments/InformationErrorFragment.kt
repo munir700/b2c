@@ -5,9 +5,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
 import co.yap.modules.onboarding.interfaces.IInformationError
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.managers.SessionManager
 
 class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -19,7 +21,6 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         viewModel.state.errorTitle =
             arguments?.let { InformationErrorFragmentArgs.fromBundle(it).errorTitle }.toString()
 
@@ -32,7 +33,14 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 //        )
 
         viewModel.clickEvent.observe(this, Observer {
-            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+            if (viewModel.parentViewModel?.identity?.isDateOfBirthValid == true)
+                trackEventWithScreenName(FirebaseEvent.KYC_UNDERAGED)
+            else
+                trackEventWithScreenName(if (viewModel.state.isUSACitizen.get() == true) FirebaseEvent.KYC_US else FirebaseEvent.KYC_SANCTIONED)
+
+            // viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+            SessionManager.doLogout(requireContext())
+
         })
     }
 

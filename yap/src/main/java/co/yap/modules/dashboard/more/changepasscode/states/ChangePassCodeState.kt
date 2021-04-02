@@ -7,6 +7,12 @@ import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 
 class ChangePassCodeState : BaseState(), IChangePassCode.State {
+    @get:Bindable
+    override var toolbarVisibility: Boolean? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.toolbarVisibility)
+        }
 
     @get:Bindable
     override var toolBarTitle: String? = ""
@@ -15,7 +21,6 @@ class ChangePassCodeState : BaseState(), IChangePassCode.State {
             notifyPropertyChanged(BR.toolBarTitle)
         }
 
-    override var toolbarVisibility: ObservableBoolean = ObservableBoolean()
     override var rightIcon: ObservableBoolean = ObservableBoolean()
     override var leftIcon: ObservableBoolean = ObservableBoolean()
 

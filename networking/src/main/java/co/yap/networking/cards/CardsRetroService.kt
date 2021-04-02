@@ -100,4 +100,9 @@ interface CardsRetroService {
     @GET(CardsRepository.URL_ATM_CDM)
     suspend fun getCardsAtmCdm(): Response<AtmCdmResponse>
 
+    // Virtual card designs
+    @GET(CardsRepository.URL_GET_VIRTUAL_CARD_DESIGNS)
+    suspend fun getVirtualCardDesigns(): Response<VirtualCardDesignsResponse>
+
+
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.IUnverifiedChangeEmailSuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailSuccessViewModel
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
@@ -49,14 +50,17 @@ class UnverifiedChangeEmailSuccessFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (context is UnVerifiedEmailActivity)
-        (context as UnVerifiedEmailActivity).hideToolbar()
-        val email=SessionManager.user?.currentCustomer?.email
+            (context as UnVerifiedEmailActivity).hideToolbar()
+        if (context is MoreActivity)
+            (context as MoreActivity).hideToolbar()
+        val email = SessionManager.user?.currentCustomer?.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
 
         val separatedPrimary =
             getString(Strings.screen_unverified_success_display_text_sub_heading).split(email!!)
-        val primaryStr = SpannableStringBuilder(getString(Strings.screen_unverified_success_display_text_sub_heading) + email)
+        val primaryStr =
+            SpannableStringBuilder(getString(Strings.screen_unverified_success_display_text_sub_heading) + email)
 
         primaryStr.setSpan(
             fcs,

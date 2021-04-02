@@ -23,7 +23,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
-<!--        <action-->
+        <!--        <action-->
 <!--            android:id="@+id/action_profileSettingsFragment_to_termAndConditionsFragment"-->
 <!--            app:destination="@id/termAndConditionsFragment"-->
 <!--            app:enterAnim="@anim/slide_in_right"-->

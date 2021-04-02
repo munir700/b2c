@@ -16,10 +16,11 @@ import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.firebase.FirebaseEvents
-import co.yap.yapcore.firebase.FirebaseTagManagerModel
-import co.yap.yapcore.firebase.firebaseTagManagerEvent
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -44,7 +45,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.VERIFY_NUMBER.event))
+        //requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.VERIFY_NUMBER.event))
         viewModel.state.reverseTimer(10, requireContext())
     }
 
@@ -60,14 +61,9 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
         when (id) {
             R.id.done -> {
                 viewModel.verifyOtp {
-                    viewModel.parentViewModel?.isWaitingList?.value?.let { isWaitingList ->
-                        if (isWaitingList) findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment) else startActivityForResult(
-                            context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                            Constants.REQUEST_CODE_CREATE_PASSCODE
-                        )
-                    } ?: startActivityForResult(
-                        context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                        Constants.REQUEST_CODE_CREATE_PASSCODE
+                    trackEventWithScreenName(FirebaseEvent.VERIFY_NUMBER)
+                    launchActivity<CreatePasscodeActivity>(
+                        requestCode = RequestCodes.REQUEST_CODE_CREATE_PASSCODE
                     )
                 }
             }
@@ -109,11 +105,12 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            Constants.REQUEST_CODE_CREATE_PASSCODE -> {
+            RequestCodes.REQUEST_CODE_CREATE_PASSCODE -> {
                 if (null != data) {
                     //trackEvent(TrackEvents.OTP_CODE_ENTERED)
                     viewModel.setPasscode(data.getStringExtra("PASSCODE") ?: "")
                     findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+                    trackEventWithScreenName(FirebaseEvent.CREATE_PIN)
                     trackEvent(SignupEvents.SIGN_UP_PASSCODE_CREATED.type)
                 }
             }

@@ -18,14 +18,8 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
             validate()
         }
 
-    @Bindable
-    override var selectedCountry: Country? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.selectedCountry)
-            validate()
-        }
 
+    override var selectedCountry: ObservableField<Country?> = ObservableField()
     override var valid: ObservableField<Boolean> = ObservableField(false)
 
     private fun validate() {
@@ -34,9 +28,7 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
                 cityOfBirth,
                 "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$"
                 , 2
-            ) && !selectedCountry?.getName().equals("Select country")
+            ) && selectedCountry.get() != null
         )
     }
-
-    override var selectedCountryIndex: Int = -1
 }

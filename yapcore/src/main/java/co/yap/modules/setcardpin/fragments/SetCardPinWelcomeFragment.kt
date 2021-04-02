@@ -12,6 +12,8 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 
 class SetCardPinWelcomeFragment : SetPinChildFragment<ISetCardPinWelcome.ViewModel>(),
     ISetCardPinWelcome.View {
@@ -48,11 +50,14 @@ class SetCardPinWelcomeFragment : SetPinChildFragment<ISetCardPinWelcome.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnCreatePin -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_CARDPIN_NOW)
                     trackAdjustPlatformEvent(AdjustEvents.SET_PIN_START.type)
                     findNavController().navigate(R.id.action_setCardPinWelcomeFragment_to_setCardPinFragment)
 
                 }
-                R.id.tvCreatePinLater -> activity?.finish()
+                R.id.tvCreatePinLater -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_CARDPIN_LATER)
+                    activity?.finish()}
             }
         })
     }

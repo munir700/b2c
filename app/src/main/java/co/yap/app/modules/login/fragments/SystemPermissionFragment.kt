@@ -14,6 +14,8 @@ import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.leanplum.KYCEvents
@@ -60,18 +62,21 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
             trackEvent(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type,"TouchID")
+            trackEventWithScreenName(FirebaseEvent.SETUP_TOUCH_ID)
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
                     Constants.NOTIFICATION_SCREEN_TYPE
                 )
             findNavController().navigate(action)
         } else {
+            trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
             navigateToDashboard()
         }
     }
 
     private val permissionNotGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
+            trackEventWithScreenName(FirebaseEvent.NO_TOUCH_ID)
             sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, false)
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
@@ -79,6 +84,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 )
             findNavController().navigate(action)
         } else {
+            trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
             navigateToDashboard()
         }
     }

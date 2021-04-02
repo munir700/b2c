@@ -101,19 +101,18 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnActivateCard"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_62sdp"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/_60sdp"
-                android:layout_marginRight="@dimen/_62sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:text="@{Strings.screen_card_status_display_text_activate_card}"
-                tools:text="@string/screen_card_status_display_text_activate_card" />
+                app:text="@{Strings.screen_card_delivery_status_button_set_pin}"
+                tools:text="@string/screen_card_delivery_status_button_set_pin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

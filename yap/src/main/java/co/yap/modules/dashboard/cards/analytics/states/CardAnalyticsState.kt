@@ -33,6 +33,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             field = value
             notifyPropertyChanged(BR.selectedMonth)
         }
+
     @get:Bindable
     override var monthCount: Int = 0
         set(value) {
@@ -46,24 +47,28 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             field = value
             notifyPropertyChanged(BR.monthlyAverageString)
         }
+
     @get:Bindable
     override var monthlyMerchantAverageString: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.monthlyMerchantAverageString)
         }
+
     @get:Bindable
     override var currencyType: String? = SessionManager.getDefaultCurrency()
         set(value) {
             field = value
             notifyPropertyChanged(BR.currencyType)
         }
+
     @get:Bindable
     override var monthlyCategoryAvgAmount: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.monthlyCategoryAvgAmount)
         }
+
     @get:Bindable
     override var monthlyMerchantAvgAmount: String? = ""
         set(value) {
@@ -77,36 +82,42 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             field = value
             notifyPropertyChanged(BR.selectedItemSpentValue)
         }
+
     @get:Bindable
     override var selectedItemPercentage: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedItemPercentage)
         }
+
     @get:Bindable
     override var selectedItemName: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedItemName)
         }
+
     @get:Bindable
     override var selectedItemPosition: Int = -1
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedItemPosition)
         }
+
     @get:Bindable
     override var totalSpent: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.totalSpent)
         }
+
     @get:Bindable
     override var totalCategorySpent: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.totalCategorySpent)
         }
+
     @get:Bindable
     override var totalMerchantSpent: String? = ""
         set(value) {
@@ -115,11 +126,20 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
         }
 
     @get:Bindable
-    override var selectedTxnAnalyticsItem: TxnAnalytic? = TxnAnalytic("", "", "", 0.0, 0)
+    override var selectedTxnAnalyticsItem: TxnAnalytic? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedTxnAnalyticsItem)
         }
+
+
+    @get:Bindable
+    override var displayMonth: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.displayMonth)
+        }
+
 
     fun setUpString(currencyType: String?, amount: String?) {
         monthlyAverageString =

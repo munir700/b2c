@@ -17,7 +17,6 @@ import co.yap.yapcore.helpers.extentions.createFragmentInstance
 import co.yap.yapcore.helpers.extentions.instantiateFragment
 import kotlinx.android.synthetic.main.activity_frame.*
 
-
 class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
     IFrameActivity.View, IFragmentHolder {
 
@@ -69,13 +68,20 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         fragment.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        fragment.onRequestPermissionsResult(requestCode,permissions,grantResults)
+    }
     override fun onBackPressed() {
         super.onBackPressed()
         fragment.onBackPressed()
     }
 
-    fun setupToolbar(visibility: Boolean) {
-
+    private fun setupToolbar(visibility: Boolean) {
         getBinding().toolbar?.let {
             toolbar?.title = ""
             toolbar?.visibility = (if (visibility) View.VISIBLE else View.GONE)
@@ -98,9 +104,12 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
     override fun onOptionsItemSelected(item: MenuItem?) =
         when (item?.itemId) {
             android.R.id.home -> {
+                hideKeyboard()
                 onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    override fun getScreenName(): String? = null
 }

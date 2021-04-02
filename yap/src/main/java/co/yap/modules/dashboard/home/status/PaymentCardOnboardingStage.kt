@@ -4,5 +4,6 @@ enum class PaymentCardOnboardingStage {
     SHIPPING,
     SET_PIN,
     DELIVERY,
-    TOP_UP
+    TOP_UP,
+    ADDITIONAL_REQUIREMENT
 }

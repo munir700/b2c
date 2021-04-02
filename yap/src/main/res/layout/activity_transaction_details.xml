@@ -7,8 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel" />
-
+            type="co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -25,7 +24,6 @@
         <import type="co.yap.yapcore.helpers.Utils" />
 
         <import type="co.yap.R" />
-
 
         <import type="android.view.View" />
     </data>
@@ -64,16 +62,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivPicture"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+            <FrameLayout
+                android:id="@+id/flImageLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) || viewModel.transaction.status.equals(TransactionStatus.FAILED.name)? 0.5f : 1.0f}"
-                android:background="@drawable/bg_round_purple_enabled"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivMap" />
+                app:layout_constraintTop_toBottomOf="@+id/ivMap">
+
+                <co.yap.widgets.CoreCircularImageView
+                    android:id="@+id/ivPicture"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginBottom="@dimen/_12sdp"
+                    android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) || viewModel.transaction.status.equals(TransactionStatus.FAILED.name)? 0.5f : 1.0f}"
+                    android:background="@drawable/bg_round_purple_enabled"
+                    tools:src="@drawable/icon_virtual_card_issuance" />
+
+                <co.yap.widgets.CoreCircularImageView
+                    android:id="@+id/ivIncoming"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:visibility="visible"
+                    tools:src="@drawable/ic_identifier_atm_withdrawl" />
+            </FrameLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clAmount"
@@ -82,8 +97,8 @@
                 android:layout_marginEnd="@dimen/margin_normal_large"
                 app:layout_constraintBottom_toBottomOf="@+id/vLine"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ivPicture"
-                app:layout_constraintTop_toTopOf="@+id/ivPicture"
+                app:layout_constraintStart_toEndOf="@+id/flImageLayout"
+                app:layout_constraintTop_toTopOf="@+id/flImageLayout"
                 app:layout_constraintVertical_bias="0.0">
 
                 <TextView
@@ -96,7 +111,7 @@
                     android:ellipsize="end"
                     android:lineSpacingExtra="@dimen/_1sdp"
                     android:maxLines="2"
-                    android:text="@{viewModel.state.transactionTitle}"
+                    android:text="@{TransactionExtentionsKt.getTitle(viewModel.transaction)}"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -115,8 +130,8 @@
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading"
-                    tools:text="transaction rejected"
-                    tools:visibility="gone" />
+                    tools:text="The Dubai Mall"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tvTxnSubTitle"
@@ -145,7 +160,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvTxnSubTitle"
                     app:src="@{viewModel.state.categoryIcon}"
                     tools:ignore="UseAppTint"
-                    tools:src="@drawable/ic_send_money" />
+                    tools:src="@drawable/ic_other_outgoing" />
 
                 <TextView
                     android:id="@+id/tvTransactionSubheading"
@@ -200,10 +215,10 @@
                 android:id="@+id/clNoteParent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vLine">
+                app:layout_constraintTop_toBottomOf="@+id/vLine"
+                tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clEditIcon"
@@ -270,6 +285,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <include
+                android:id="@+id/clReceiptParent"
+                layout="@layout/layout_transaction_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.state.receiptVisibility ? View.VISIBLE : View.GONE }"
+                app:layout_constraintTop_toBottomOf="@id/clNoteParent"
+                app:receiptViewModel="@{viewModel}" />
+
             <TextView
                 android:id="@+id/tvPaymentDetail"
                 style="@style/ASmall"
@@ -281,7 +305,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clNoteParent"
+                app:layout_constraintTop_toBottomOf="@+id/clReceiptParent"
                 tools:text="Payment detail" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -329,11 +353,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Card"
-                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode) || viewModel.state.exchangeRate != null  ?  View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvCardMask"
                     tools:ignore="HardcodedText"
                     tools:text="Card" />
+<!--                // add same null check here as well done-->
 
                 <TextView
                     android:id="@+id/tvCardMask"
@@ -344,7 +369,7 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode) || viewModel.state.exchangeRate !=null ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvCardLabel"
                     app:layout_constraintTop_toBottomOf="@+id/cancelReasonLy"
@@ -355,12 +380,15 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Transfer amount"
-                    android:visibility="@{(viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))  ? View.VISIBLE : View.GONE}"
+                    android:text="@{viewModel.state.exchangeRate !=null?  `Spent amount` : `Transfer amount`}"
+                    android:visibility="@{(viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) || viewModel.state.exchangeRate !=null ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvDestinationAmount"
                     tools:ignore="HardcodedText"
                     tools:text="Transfer amount" />
+<!--&lt;!&ndash;                android:text="@{viewModel.transaction.get().getSpentLabelText()}"&ndash;&gt;Transfer amount-->
+<!--                android:text="@{viewModel.transaction.get().getSpentLabelText()} Transfer amount" : Spent amount-->
+
 
                 <TextView
                     android:id="@+id/tvDestinationAmount"
@@ -370,18 +398,18 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.amount.toString(),true,viewModel.transaction.currency,true)}"
-                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))  ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) || viewModel.state.exchangeRate != null  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardMask"
                     tools:text="CAD 50.00 " />
-
+<!--add null check on visibility  added-->
                 <TextView
                     android:id="@+id/tvFxRateLabel"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Exchange rate"
-                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))   ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) || viewModel.state.exchangeRate != null  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvFxRateValue"
                     tools:ignore="HardcodedText"
@@ -394,8 +422,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.currency+` 1.00 = AED `+viewModel.transaction.fxRate}"
-                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) ? View.VISIBLE : View.GONE}"
+                    android:text="@{viewModel.state.exchangeRate!=null ?  viewModel.transaction.currency+` 1.00 = AED `+ viewModel.state.exchangeRate.toString() :   viewModel.transaction.currency+` 1.00 = AED `+viewModel.transaction.fxRate}"
+                    android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) || viewModel.state.exchangeRate != null  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDestinationAmount"
                     tools:text="1 CAD =  2.3 AED " />
@@ -504,7 +532,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.postedFees!=null ?  CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.postedFees.toString(),true,`AED`,true) :  `AED 0.00`}"
+                    android:text="@{viewModel.state.exchangeRate !=null ? CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.markupFees.toString(),true,`AED`,true) : viewModel.transaction.postedFees!=null ?  CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.postedFees.toString(),true,`AED`,true) : `AED 0.00` }"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                     tools:text="1000" />
@@ -586,12 +614,12 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Note"
-                    android:visibility="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? View.GONE :View.VISIBLE }"
+                    android:text="Remarks"
+                    android:visibility="@{viewModel.transaction.remarks==null || viewModel.transaction.remarks.isEmpty()? View.GONE :View.VISIBLE }"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvRemarksValue"
                     tools:ignore="HardcodedText"
-                    tools:text="Note" />
+                    tools:text="Remarks" />
 
                 <TextView
                     android:id="@+id/tvRemarksValue"
@@ -601,8 +629,8 @@
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
-                    android:visibility="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? View.GONE :View.VISIBLE }"
+                    android:text="@{viewModel.transaction.remarks==null || viewModel.transaction.remarks.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.transaction.remarks}"
+                    android:visibility="@{viewModel.transaction.remarks==null || viewModel.transaction.remarks.isEmpty()? View.GONE :View.VISIBLE }"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvRemarks"

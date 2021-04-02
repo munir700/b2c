@@ -19,6 +19,8 @@ import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.exoplayer2.Player
@@ -157,8 +159,9 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     findNavController().navigate(R.id.action_accountSelectionFragment_to_loginFragment)
                 }
                 R.id.btnPersonal -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_GET_STARTED)
                     findNavController().navigate(
-                        R.id.action_accountSelectionFragment_to_welcomeFragment,
+                        R.id.action_accountSelectionFragment_to_onBaordingActivity,
                         Bundle().apply {
                             putSerializable(
                                 getString(R.string.arg_account_type),

@@ -1,31 +1,38 @@
 package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.states.YapCardsState
+import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
-class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.State>(application),
+class YapCardsViewModel(application: Application) :
+    YapDashboardChildViewModel<IYapCards.State>(application),
     IYapCards.ViewModel, IRepositoryHolder<CardsRepository> {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CardsRepository = CardsRepository
     override val state: YapCardsState = YapCardsState()
     override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
+    lateinit var adapter: YapCardsAdaptor
+
+    fun setupAdaptor(context: Context) {
+        adapter = YapCardsAdaptor(context, mutableListOf())
+    }
 
     override fun getCards() {
         launch {

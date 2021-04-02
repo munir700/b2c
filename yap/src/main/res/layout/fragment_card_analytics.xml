@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.yapcore.R" />
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -19,58 +20,56 @@
         android:animateLayoutChanges="true"
         android:background="@color/white">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.core.widget.NestedScrollView
+                android:fillViewport="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fillViewport="true">
+                >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                     <RelativeLayout
                         android:id="@+id/pieViewConstraintLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent">
-
-
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        >
                         <co.yap.widgets.pieview.PieChart
                             android:id="@+id/chart1"
                             android:layout_width="@dimen/_200sdp"
                             android:layout_height="@dimen/_200sdp"
                             android:layout_centerHorizontal="true" />
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:id="@+id/rlDetails"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:layout_centerInParent="true"
-                            android:layout_centerHorizontal="true"
                             android:clickable="true"
+                            android:gravity="center_vertical|center"
+                            android:orientation="vertical"
                             android:focusable="true"
                             android:soundEffectsEnabled="false">
 
                             <co.yap.widgets.CoreCircularImageView
                                 android:id="@+id/ivPieView"
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerInParent="true"
-                                android:layout_gravity="center_horizontal"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
                                 android:contentDescription="@string/empty_string"
                                 app:fullName="@{viewModel.state.selectedTxnAnalyticsItem.title}"
                                 app:imageUrl="@{viewModel.state.selectedTxnAnalyticsItem.logoUrl== null? ` ` : viewModel.state.selectedTxnAnalyticsItem.logoUrl}"
                                 app:isBackground="@{false}"
+                                app:showFirstInitials="@{true}"
                                 app:position="@{viewModel.state.selectedItemPosition}" />
 
                             <TextView
@@ -78,15 +77,13 @@
                                 style="@style/Regular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignBottom="@+id/ivPieView"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginEnd="@dimen/_14sdp"
-                                android:layout_marginBottom="-25dp"
                                 android:maxLines="1"
+                                android:layout_marginTop="@dimen/margin_extra_small"
                                 android:singleLine="true"
                                 android:text="@{viewModel.state.selectedItemName}"
                                 android:textColor="@color/colorSecondaryMagenta"
                                 android:textSize="@dimen/_10sdp"
+                                tools:text="Retail Stores"
                                 app:tvColor="@{viewModel.state.selectedItemPosition}" />
 
                             <TextView
@@ -94,30 +91,25 @@
                                 style="@style/Regular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignBottom="@+id/tvPieViewTitle"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginEnd="@dimen/_14sdp"
-                                android:layout_marginBottom="-15dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
+                                android:gravity="center"
                                 android:singleLine="true"
                                 android:text="@{viewModel.state.selectedItemSpentValue}"
                                 android:textColor="#272262"
+                                tools:text="AED 20"
                                 android:textSize="@dimen/_10sdp" />
-
-                <TextView
-                    android:id="@+id/tvPieViewPercentage"
-                    style="@style/Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/tvPieViewPrice"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginEnd="@dimen/_14sdp"
-                    android:layout_marginBottom="-15dp"
-                    android:text="@{viewModel.state.selectedItemPercentage}"
-                    android:textColor="#9391b1"
-                    android:textSize="@dimen/_10sdp" />
-            </RelativeLayout>
+                            <TextView
+                                android:id="@+id/tvPieViewPercentage"
+                                style="@style/Regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@{viewModel.state.selectedItemPercentage}"
+                                android:textColor="#9391b1"
+                                android:textSize="@dimen/_10sdp"
+                                tools:text="20.12%" />
+                        </LinearLayout>
 
                     </RelativeLayout>
 
@@ -128,6 +120,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="@dimen/margin_medium_large"
                         app:layout_constraintTop_toBottomOf="@+id/pieViewConstraintLayout"
                         tools:text="Monthly average is AED 1,600.47" />
 
@@ -140,7 +133,8 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvMonthlyAverage"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="@dimen/_2sdp"
-                        app:tabMaxWidth="0dp"
+                        app:tabIndicator="@android:color/transparent"
+                        app:tabBackground="@drawable/selector_tab_indicator"                        app:tabMaxWidth="0dp"
                         app:tabMode="fixed"
                         app:tabPaddingEnd="16dp"
                         app:tabRippleColor="@null"
@@ -153,8 +147,20 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/tabLayout"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvNoItem"
+                        style="@style/SmallGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:visibility="@{viewModel.parentViewModel.state.isNoDataFound ? View.GONE : View.VISIBLE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:text="Nothing to report yet this month"
+                        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+                        />
+               </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -233,7 +239,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="28dp"
-                            android:text="@{viewModel.state.selectedMonth}"
+                            android:text="@{viewModel.state.displayMonth}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.498"
                             app:layout_constraintStart_toStartOf="parent"
@@ -261,7 +267,6 @@
                             android:tint="@{viewModel.state.nextMonth ? @color/greyDark : @color/greySoft}"
                             app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
                             app:layout_constraintEnd_toEndOf="parent"
-
                             app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
                             app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
                             app:srcCompat="@drawable/ic_chevron_right" />

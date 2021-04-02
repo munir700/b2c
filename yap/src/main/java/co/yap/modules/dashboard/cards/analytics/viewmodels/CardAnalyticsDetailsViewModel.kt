@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.app.Application
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
@@ -13,13 +12,18 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.TransactionAnalyticsDetailsResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.managers.SessionManager
+import kotlin.math.abs
 
 class CardAnalyticsDetailsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalyticsDetails.State>(application),
     ICardAnalyticsDetails.ViewModel {
     override val state = CardAnalyticsDetailsState()
-    override val adapter: TransactionsListingAdapter = TransactionsListingAdapter(arrayListOf())
+    override val adapter: TransactionsListingAdapter = TransactionsListingAdapter(
+        arrayListOf(),
+        TransactionAdapterType.ANALYTICS_DETAILS
+    )
     override var transactionResponse: TransactionAnalyticsDetailsResponse =
         TransactionAnalyticsDetailsResponse()
     val repository: TransactionsRepository = TransactionsRepository
@@ -39,6 +43,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             parentViewModel?.state?.currentSelectedDate ?: ""
         )
         setToolBarTitle(state.title.get()?.trim() ?: "Analytics")
+        adapter.analyticsItemPosition = parentViewModel?.selectedItemPosition?.value ?: 0
     }
 
     override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
@@ -54,13 +59,22 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                     response.data.data?.let { resp ->
                         transactionResponse = resp
                         state.avgSpending.set("${transactionResponse.averageSpending}")
-                        state.currToLast.set("${transactionResponse.currentToLastMonth}%")
+                        transactionResponse.currentToLastMonth?.let {
+                            state.currToLast.set(
+                                when {
+                                    it < 0 -> "-${abs(it)}"
+                                    it > 0 -> "+${abs(it)}"
+                                    else -> "${abs(it)}"
+                                }
+                            )
+                        }
                         if (!transactionResponse.txnAnalytics.isNullOrEmpty()) {
                             viewState.value = Constants.EVENT_CONTENT
-                            list =transactionResponse.txnAnalytics?: arrayListOf()
-                            list.let { transactionList ->
-                                adapter.setList(transactionList)
+                            list = transactionResponse.txnAnalytics ?: arrayListOf()
+                            list.sortByDescending {
+                                it.creationDate
                             }
+                            adapter.setList(list)
                         } else viewState.value = Constants.EVENT_EMPTY
                         state.loading = false
                     }
@@ -68,6 +82,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
+                    viewState.value = Constants.EVENT_EMPTY
                 }
             }
         }

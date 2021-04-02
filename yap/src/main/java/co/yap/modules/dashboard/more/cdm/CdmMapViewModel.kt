@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.cdm
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
@@ -27,6 +28,7 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
     private val cardsRepository: CardsRepository = CardsRepository
     private var moveCameraToCurrentLocation = true
     override var currentLocation: Location? = null
+        @SuppressLint("MissingPermission")
         set(value) {
             field = value
             mMap?.run {
@@ -97,7 +99,7 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
 
     override fun getCardsAtmCdm(type: String?) {
         launch {
-            state.stateLiveData.postValue(State.loading(""))
+            state.stateLiveData?.postValue(State.loading(""))
             //state.loading = true
             when (val response = cardsRepository.getCardsAtmCdm()) {
                 is RetroApiResponse.Success -> {
@@ -108,43 +110,39 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
                             if (!state.locationType?.value.isNullOrBlank()) data = it.filter {
                                 it?.type == state.locationType?.value
                             }
-
-                            if (data.isNotEmpty()) {
-                                moveCameraToCurrentLocation = false
-                                state.stateLiveData.postValue(State.success(""))
-                                val latLans = ArrayList<LatLng>()
-                                var validLatLng: LatLng = LatLng(0.0, 0.0)
-                                for (i in data.indices) {
-                                    val latLan = LatLng(
-                                        data[i]?.latitude?.parseToDouble()!!,
-                                        data[i]?.longitude?.parseToDouble()!!
-                                    )
-                                    if (i == 0) {
-                                        state.atmCdmData = data[i]
-                                        //animateMapToLocation(latLan)
-                                    }
-                                    if (isValidLatLng(latLan.latitude, latLan.longitude)) {
-                                        addMarker(latLan, data[i], i)
-                                        latLans.add(latLan)
-                                        if (validLatLng.latitude == 0.0 && validLatLng.longitude == 0.0) {
-                                            moveCameraToCurrentLocation = false
-                                            validLatLng = latLan
-                                            animateMapToLocation(validLatLng)
-                                        }
-                                    }
-
-
+                            moveCameraToCurrentLocation = false
+                            state.stateLiveData?.postValue(State.success(""))
+                            val latLans = ArrayList<LatLng>()
+                            var validLatLng: LatLng = LatLng(0.0, 0.0)
+                            for (i in data.indices) {
+                                val latLan = LatLng(
+                                    data[i]?.latitude?.parseToDouble()!!,
+                                    data[i]?.longitude?.parseToDouble()!!
+                                )
+                                if (i == 0) {
+                                    state.atmCdmData = data[i]
+                                    //animateMapToLocation(latLan)
                                 }
+                                if (isValidLatLng(latLan.latitude, latLan.longitude)) {
+                                    addMarker(latLan, data[i], i)
+                                    latLans.add(latLan)
+                                    if (validLatLng.latitude == 0.0 && validLatLng.longitude == 0.0) {
+                                        moveCameraToCurrentLocation = false
+                                        validLatLng = latLan
+                                        animateMapToLocation(validLatLng)
+                                    }
+                                }
+
+
                             }
-                            //animateMapToLocation(latLans)
                         } else {
-                            state.stateLiveData.postValue(State.empty(""))
+                            state.stateLiveData?.postValue(State.empty(""))
                         }
                     }
 
                 }
                 is RetroApiResponse.Error ->
-                    state.stateLiveData.postValue(State.error(response.error.message))
+                    state.stateLiveData?.postValue(State.error(response.error.message))
             }
         }
 

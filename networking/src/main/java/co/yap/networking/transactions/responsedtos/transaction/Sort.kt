@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Sort(
     @SerializedName("sorted")
-    var sorted: Boolean,
+    var sorted: Boolean?=false,
     @SerializedName("unsorted")
-    var unsorted: Boolean
+    var unsorted: Boolean?=false
 )

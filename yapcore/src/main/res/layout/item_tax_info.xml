@@ -13,8 +13,9 @@
 
         <import type="co.yap.translation.Strings" />
 
-    </data>
+        <import type="co.yap.countryutils.country.utils.CurrencyUtils" />
 
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clContainer"
@@ -36,6 +37,7 @@
             android:text="@{viewModel.taxModel.taxRowTitle}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:textColor="@{viewModel.taxModel.selectedCountry == null || viewModel.taxModel.selectedCountry.name.empty? true : false}"
             app:text="@{Strings.screen_tax_info_display_text_select_country}"
             tools:text="@string/screen_tax_info_display_text_select_country" />
 
@@ -48,32 +50,40 @@
             android:src="@drawable/ic_close"
             android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry" />
+            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"
+            tools:visibility="visible" />
 
-        <co.yap.widgets.country_spinner.CountryAutoCompleteTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/bcountries"
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/margin_small"
-            android:drawableEnd="@drawable/ic_chevron_down"
-            android:drawablePadding="@dimen/_6sdp"
-            android:dropDownWidth="wrap_content"
-            android:dropDownHeight="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="textAutoComplete|textAutoCorrect"
-            android:nextFocusDown="@id/etTinNumber"
-            android:popupBackground="@color/white"
-            android:singleLine="true"
-            android:textColor="@color/colorPrimaryDark"
-            android:theme="@style/Theme.AutoCompleteTextView.GreyLight"
-            app:hint="@{Strings.screen_place_of_birth_display_text_select_country}"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:ellipsize="end"
+            android:layout_marginStart="@dimen/margin_normal_large"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry" />
+            android:background="@{viewModel.position == 0 ? null : @drawable/bg_spinner}"
+            android:drawablePadding="@dimen/_6sdp"
+            android:text="@{viewModel.taxModel.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.taxModel.selectedCountry.name}"
+            android:gravity="center|start"
+            android:onClick="@{v->viewModel.onViewClicked(v)}"
+            android:paddingTop="@dimen/margin_extra_small"
+            android:singleLine="true"
+            android:textColor="@{viewModel.taxModel.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:flagOnDrawableStart="@{viewModel.taxModel.selectedCountry == null ? null :  viewModel.taxModel.selectedCountry.isoCountryCode2Digit}"
+            app:showDropDown="@{false}"
+            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
+            tools:text="Select Country" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:background="@color/greyLight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bcountries"
+            app:layout_constraintTop_toBottomOf="@+id/bcountries"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvlabelOptions"
@@ -261,6 +271,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/screen_place_of_birth_display_text_select_country"
+                android:textColor="@color/colorDarkGrey"
                 app:text="@{Strings.screen_tax_info_display_text_add_another_country}"
                 tools:text="@string/screen_tax_info_display_text_add_another_country" />
         </LinearLayout>

@@ -3,6 +3,7 @@ package co.yap.modules.otp
 import android.content.Context
 import android.text.SpannableStringBuilder
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -23,6 +24,8 @@ interface IGenericOtp {
         fun initializeData(context: Context)
         fun isValidOtpLength(otp: String): Boolean
         fun verifyOtp(success: () -> Unit)
+        var requestKeyBoard: MutableLiveData<Boolean>
+        fun logFirebaseEvent(resend: Boolean?=false)
     }
 
     interface State : IBase.State {

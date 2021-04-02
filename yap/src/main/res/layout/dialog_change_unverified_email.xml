@@ -39,6 +39,8 @@
             style="@style/SmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium_large"
@@ -86,14 +88,15 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnOpenMailApp"
             style="@style/RectangleBtnSmallStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:btn_size="small"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_small"
             android:text="@string/screen_email_verified_popup_button_Take_me"
             app:btn_enable="true"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTroubleDescription"
             tools:text="Add" />
 

@@ -4,8 +4,8 @@ import android.animation.Animator
 import android.content.Context
 import android.view.View
 import androidx.navigation.NavController
-import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
+import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity.Companion.onBackPressCheck
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.view.*
@@ -33,7 +33,7 @@ class AddSpareVirtualCardViewHelper(
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    onBackPressCheck=false
+                    onBackPressCheck = false
                     slideInTitle()
                 }
 

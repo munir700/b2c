@@ -13,5 +13,5 @@ data class MoreOption(
     val image: Int,
     val bgColor: Int,
     var hasBadge: Boolean,
-    var badgeCount:Int
+    var badgeCount: Int
 ) : Parcelable

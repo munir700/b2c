@@ -46,5 +46,4 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 
     @LayoutRes
     abstract fun getLayoutId(): Int
-
 }

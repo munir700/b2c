@@ -9,5 +9,6 @@ import kotlinx.android.parcel.Parcelize
 data class AddMoneyLandingOptions(
     val id: Int,
     var name: String,
-    val image: Int
+    val image: Int,
+    var isPadding: Boolean = true
 ) : Parcelable

@@ -8,20 +8,9 @@
         <variable
             name="viewModel"
             type="co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel" />
-
         <import type="android.view.View" />
-
-        <import type="co.yap.yapcore.helpers.Utils" />
-
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.countryutils.country.utils.CurrencyUtils" />
-
-        <import type="co.yap.yapcore.R" />
-
-        <variable
-            name="dataCountry"
-            type="co.yap.countryutils.country.Country" />
     </data>
 
     <RelativeLayout
@@ -98,6 +87,7 @@
                 android:paddingBottom="@dimen/margin_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="@dimen/_40sdp"
@@ -106,12 +96,12 @@
                     android:contentDescription="@string/empty_string"
                     android:layout_marginTop="@dimen/margin_extra_small"
                     android:src="@drawable/ic_store_b2b"
+                    app:colorType="@{viewModel.beneficiary.userType.equals(`Y2Y`)? `Beneficiary` : `Beneficiary`}"
+                    app:fullName="@{viewModel.beneficiary.userType.equals(`Y2Y`)?viewModel.beneficiary.fullName:viewModel.beneficiary.subtitle}"
+                    app:imageUrl="@{viewModel.beneficiary.imgUrl}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:colorType="@{`Beneficiary`}"
-                    app:fullName="@{viewModel.beneficiary.fullName()}"
-                    app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
                     app:position="@{viewModel.position}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -137,7 +127,7 @@
                     android:ellipsize="end"
                     android:gravity="bottom"
                     android:lines="1"
-                    android:text="@{viewModel.beneficiary.title}"
+                    android:text="@{viewModel.beneficiary.fullName}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
                 <TextView
@@ -149,7 +139,7 @@
                     android:ellipsize="end"
                     android:gravity="bottom"
                     android:lines="1"
-                    android:text="@{viewModel.beneficiary.fullName()}"
+                    android:text="@{viewModel.beneficiary.subtitle}"
                     tools:text="Bril Lizzie " />
 
             </LinearLayout>
@@ -158,12 +148,12 @@
                 android:id="@+id/section"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="0dp"
-                android:gravity="center"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:gravity="center"
+                android:visibility="@{viewModel.beneficiary.flag.equals(`AE`) &amp;&amp; viewModel.sendMoneyType.equals(`LOCAL`) ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
 
                 <ImageView
                     android:id="@+id/ivTransferType"
@@ -173,8 +163,8 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
-                    android:tint="@{viewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`)?@color/greyDark:@color/greyDark}"
-                    app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
+                    android:tint="@{viewModel.beneficiary.userType.equals(`CASHPAYOUT`)?@color/greyDark:@color/greyDark}"
+                    app:setBeneficiaryImageSrc="@{viewModel.beneficiary.userType}"
                     tools:src="@drawable/ic_cash"
                     tools:visibility="visible" />
 
@@ -183,8 +173,9 @@
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
-                    tools:src="@drawable/flag_ae"
-                    app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
+                    android:src="@{viewModel.beneficiary.userType.equals(`Y2Y`)?@drawable/ic_package_standered : null}"
+                    app:setFlagDrawable="@{viewModel.beneficiary.userType.equals(`Y2Y`)?null : viewModel.beneficiary.flag}"
+                    tools:src="@drawable/flag_ae" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

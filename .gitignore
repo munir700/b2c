@@ -43,3 +43,5 @@ app/~/tmp/full-r8-config.txt
 /app/yapinternal/release
 /multicurrency
 /qrcodereaderview/build/*
+/.idea/gradle.xml
+/fastlane/*

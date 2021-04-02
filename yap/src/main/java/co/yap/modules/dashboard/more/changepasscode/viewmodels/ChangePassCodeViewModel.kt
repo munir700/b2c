@@ -6,7 +6,6 @@ import co.yap.modules.dashboard.more.changepasscode.states.ChangePassCodeState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-
 class ChangePassCodeViewModel(application: Application) :
     BaseViewModel<IChangePassCode.State>(application = application),
     IChangePassCode.ViewModel {
@@ -16,7 +15,7 @@ class ChangePassCodeViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.toolbarVisibility.set(true)
+        state.toolbarVisibility = false
         state.leftIcon.set(true)
         state.rightIcon.set(true)
     }

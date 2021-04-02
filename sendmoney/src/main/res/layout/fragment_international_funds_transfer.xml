@@ -215,6 +215,7 @@
                         android:layout_marginRight="@dimen/_2sdp"
                         android:text="@{viewModel.state.toFxRate}"
                         android:textColor="?attr/colorPrimaryDarkAttr"
+                        tools:textColor="@color/colorPrimaryDark"
                         tools:text="X AED" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -235,23 +236,9 @@
                         android:layout_marginRight="@dimen/_2sdp"
                         android:text="@{viewModel.state.fromFxRate}"
                         android:textColor="?attr/colorPrimaryDarkAttr"
+                        tools:textColor="@color/colorPrimaryDark"
                         tools:text="X CAD" />
                 </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAvailableBalance"
-                    style="@style/MicroGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium_large"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_medium_large"
-                    android:gravity="center"
-                    android:text="@{viewModel.state.availableBalanceString}"
-                    android:textAlignment="center"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFee"
-                    tools:text="Your available balance is " />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/SmallGrey"
@@ -276,6 +263,43 @@
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.VISIBLE : View.GONE}"
                     app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
                     tools:text="@string/screen_international_funds_transfer_display_text_note" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SmallGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_c1"
+                    android:text="@{viewModel.state.transferFeeSpannable}"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
+                    tools:text="@string/screen_international_funds_transfer_display_text_fee" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SmallGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_c1"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
+                    app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
+                    tools:text="@string/screen_international_funds_transfer_display_text_note" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAvailableBalance"
+                    style="@style/MicroGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:gravity="center"
+                    android:text="@{viewModel.state.availableBalanceString}"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFee"
+                    tools:text="Your available balance is " />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvReasonLbl"
@@ -293,7 +317,7 @@
                     android:id="@+id/layoutReasonsSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     app:layout_constraintTop_toBottomOf="@+id/etNote"
                     tools:ignore="NotSibling">
 
@@ -322,7 +346,7 @@
                     <View
                         android:id="@+id/breakLine"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivSelector"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:background="@color/colorDisabledBtn"
@@ -332,7 +356,7 @@
 
                 <co.yap.widgets.AlphaNumericEditText
                     android:id="@+id/etNote"
-                    style="@style/ALarge"
+                    style="@style/ARegular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -341,51 +365,26 @@
                     android:inputType="text"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                     android:maxLength="@integer/notes_external_transfer_length"
-                    android:minHeight="@dimen/_40sdp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.transactionNote}"
                     android:textColorHint="@color/greyDark"
+                    tools:hint="@string/screen_international_funds_transfer_input_text_note_hint"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                     app:layout_constraintBottom_toBottomOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/SmallGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_c1"
-                    android:text="@{viewModel.state.transferFeeSpannable}"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    tools:text="@string/screen_international_funds_transfer_display_text_fee" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/SmallGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_c1"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
-                    tools:text="@string/screen_international_funds_transfer_display_text_note" />
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnNext"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_xxl"
+                    app:btn_size="small"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginRight="@dimen/margin_xxl"
-                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v)->viewModel.handlePressOnButton(v.id)}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="44dp" />
+                    app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

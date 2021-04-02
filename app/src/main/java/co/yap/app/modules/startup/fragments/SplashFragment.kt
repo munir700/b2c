@@ -1,7 +1,10 @@
 package co.yap.app.modules.startup.fragments
 
+import android.animation.Animator
+import android.animation.AnimatorSet
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -11,10 +14,12 @@ import co.yap.app.R
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
+import co.yap.yapcore.animations.animators.ScaleAnimator
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.openPlayStore
+import kotlinx.android.synthetic.main.fragment_splash.*
 
 class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
 
@@ -46,8 +51,32 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                     activity?.finish()
                 }
             } else {
+                playAnimationAndMoveNext()
+            }
+        })
+    }
+
+    private fun playAnimationAndMoveNext() {
+        val scaleLogo =
+            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
+        val scaleDot =
+            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
+        scaleDot.startDelay = 400
+
+        val set = AnimatorSet()
+        set.play(scaleLogo).with(scaleDot)
+        set.interpolator = AccelerateDecelerateInterpolator()
+        set.start()
+
+        set.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
                 moveNext()
             }
+
+            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator?) {}
+
         })
     }
 

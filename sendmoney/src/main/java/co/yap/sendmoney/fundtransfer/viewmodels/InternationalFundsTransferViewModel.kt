@@ -180,11 +180,8 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     fun updateFees() {
         updateFees(
-            enterAmount = if (feeCurrency.equals(
-                    parentViewModel?.beneficiary?.value?.currency,
-                    true
-                )
-            ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+            enterAmount = getEnterAmountOnFeeCurrency(),
+            fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
         )
     }
 
@@ -192,21 +189,15 @@ class InternationalFundsTransferViewModel(application: Application) :
         return (when (feeType) {
             FeeType.TIER.name -> {
                 val transferFee = getFeeFromTier(
-                    enterAmount = if (feeCurrency.equals(
-                            parentViewModel?.beneficiary?.value?.currency,
-                            true
-                        )
-                    ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+                    enterAmount = getEnterAmountOnFeeCurrency(),
+                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
                 )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
                 val transferFee = getFlatFee(
-                    enterAmount = if (feeCurrency.equals(
-                            parentViewModel?.beneficiary?.value?.currency,
-                            true
-                        )
-                    ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+                    enterAmount = getEnterAmountOnFeeCurrency(),
+                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
                 )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
@@ -214,6 +205,14 @@ class InternationalFundsTransferViewModel(application: Application) :
                 0.00
             }
         })
+    }
+
+    private fun getEnterAmountOnFeeCurrency(): String {
+        return if (parentViewModel?.beneficiary?.value?.currency.equals(
+                slabCurrency,
+                true
+            )
+        ) state.etInputAmount.toString() else state.etOutputAmount.toString()
     }
 
     fun setDestinationAmount() {
@@ -247,8 +246,8 @@ class InternationalFundsTransferViewModel(application: Application) :
             when (val response =
                 mTransactionsRepository.checkCoolingPeriodRequest(
                     beneficiaryId = beneficiaryId,
-                    beneficiaryCreationDate =beneficiaryCreationDate,
-                    beneficiaryName =beneficiaryName,
+                    beneficiaryCreationDate = beneficiaryCreationDate,
+                    beneficiaryName = beneficiaryName,
                     amount = state.etOutputAmount
                 )) {
                 is RetroApiResponse.Success -> {
@@ -311,5 +310,4 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
         return null
     }
-
 }

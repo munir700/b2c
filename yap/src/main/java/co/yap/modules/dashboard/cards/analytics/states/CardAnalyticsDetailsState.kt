@@ -9,10 +9,10 @@ import co.yap.yapcore.BaseState
 class CardAnalyticsDetailsState : BaseState(), ICardAnalyticsDetails.State {
     override var title: ObservableField<String> = ObservableField("Title")
     override var totalSpendings: ObservableField<String> = ObservableField("Spendings")
-    override var monthlyTotalPercentage: ObservableField<String> = ObservableField("50%")
+    override var monthlyTotalPercentage: ObservableField<String> = ObservableField("")
     override var countWithDate: ObservableField<String> = ObservableField()
     override var avgSpending: ObservableField<String> = ObservableField()
-    override var currToLast: ObservableField<String> = ObservableField()
+    override var currToLast: ObservableField<String> = ObservableField("0.0")
     override var ImageUrl: ObservableField<String> = ObservableField("Url")
 
     @get:Bindable

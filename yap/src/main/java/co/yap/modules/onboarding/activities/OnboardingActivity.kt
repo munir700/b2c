@@ -12,6 +12,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -51,6 +53,9 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
     override fun onBackPressed() {
+        if (viewModel.state.emailError) {
+            trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_FAILURE)
+        }
         val fragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()

@@ -44,6 +44,8 @@ object Constants {
     //Add Note flow constants
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
+    const val TXN_TYPE = "TXN_TYPE"
+
 
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"
@@ -62,9 +64,12 @@ object Constants {
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
     const val URL_YAP_WEBSITE = "https://www.yap.com/"
-    const val URL_TERMS_CONDITION = "https://yap.com/terms"
+    const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
+    const val URL_INSTAGRAM = "https://www.instagram.com/yapbanking"
+    const val URL_FACEBOOK = "https://www.facebook.com/yapbanking"
+    const val URL_TWITTER = "https://twitter.com/yapbanking"
 
 
     //HTML Key
@@ -146,14 +151,17 @@ object Constants {
     const val KEY_THEME = "KEY_THEME"
     const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
     const val KEY_IS_REMEMBER = "IS_REMEMBER"
+    const val KEY_FCM_TOKEN = "fcm_token"
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
 
     const val REFERRAL_TIME = "time"
     const val REFERRAL_ID = "customer_id"
+    const val FILE_PATH = "imagePath"
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
+    const val SUCCESS_BUTTON_LABEL = "successButtonLabel"
 
     //Sms consent
     const val SMS_CONSENT_REQUEST = 2
@@ -175,5 +183,9 @@ object Constants {
     const val LOCATION_TYPE = "ATM_OR_CDM"
     const val LOCATION_ATM = "ATM"
     const val LOCATION_CDM = "CDM"
+
+    //Core Bottom Sheet
+    const val VIEW_WITHOUT_FLAG = 1
+    const val VIEW_WITH_FLAG = 2
 
 }

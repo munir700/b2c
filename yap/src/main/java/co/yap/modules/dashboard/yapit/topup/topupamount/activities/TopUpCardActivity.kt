@@ -29,6 +29,7 @@ class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
         cardInfo =
             (intent?.getValue(Constants.CARD, ExtraType.PARCEABLE.name) as? TopUpCard)
         successButtonLabel =
-            (intent?.getValue("successButtonLabel", ExtraType.STRING.name) as? String) ?: ""
+            (intent?.getValue(Constants.SUCCESS_BUTTON_LABEL, ExtraType.STRING.name) as? String)
+                ?: ""
     }
 }

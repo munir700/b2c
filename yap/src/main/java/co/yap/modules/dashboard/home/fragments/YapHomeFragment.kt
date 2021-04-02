@@ -29,16 +29,15 @@ import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
-import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
+import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -47,12 +46,16 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.notification.responsedtos.HomeNotification
+import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
+import co.yap.widgets.guidedtour.OnTourItemClickListener
+import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
@@ -62,15 +65,29 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.NotificationHelper
+import co.yap.yapcore.helpers.TourGuideManager
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.appbar.AppBarLayout
+import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -81,9 +98,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override var transactionViewHelper: TransactionsViewHelper? = null
     private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
     private lateinit var skeleton: Skeleton
-    private lateinit var tvBalanceSkeleton: Skeleton
+    private var tourStep: TourSetup? = null
 
-    override val viewModel: IYapHome.ViewModel
+    override val viewModel: YapHomeViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -92,18 +109,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
         parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
     }
 
-    private fun startFlowForSetPin() {
-        if (SessionManager.getPrimaryCard() != null) {
-            if (isShowSetPin(SessionManager.getPrimaryCard())) {
+    private fun startFlowForSetPin(card: Card?) {
+        card?.let {
+            if (viewModel.shouldShowSetPin(it)) {
                 if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
-        } else toast("Invalid card found")
+        } ?: toast("Invalid card found")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,6 +153,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         )
         viewModel.state.showTxnShimmer.observe(this, Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
+        //rvTransactionsBarChart.updatePadding(right = getScreenWidth()/2)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
         getBindings().lyInclude.rvTransaction.apply {
@@ -164,6 +183,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
+    override var drawerButtonEnabled: Boolean = true
+
     override fun onRefresh() {
         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
             viewModel.isRefreshing.value = true
@@ -190,7 +211,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTransactionFilters() {
-        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+            trackEventWithScreenName(FirebaseEvent.CLICK_FILTER_TRANSACTIONS)
             startActivityForResult(
                 TransactionFiltersActivity.newIntent(
                     requireContext(),
@@ -198,12 +220,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 ),
                 RequestCodes.REQUEST_TXN_FILTER
             )
+        }
     }
 
     override fun setObservers() {
         SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
             if (isSuccess) {
                 checkUserStatus()
+                viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             }
         })
         getBindings().ivSearch.setOnLongClickListener {
@@ -217,76 +241,89 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.lyTransaction -> {
-                    viewModel.clickEvent.getPayload()?.let {
-                        val childPosition = it.position
-                        val groupPosition = it.itemData as Int
-                        val transaction: Transaction? =
-                            getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
-                                childPosition
-                            )
-                        launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_STRING.name,
-                                transaction
-                            )
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
-                                groupPosition
-                            )
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
-                                childPosition
-                            )
-
+            if (drawerButtonEnabled)
+                when (it) {
+                    R.id.ivSearch -> startFragment(TransactionSearchFragment::class.java.name)
+                    R.id.lyTransaction -> {
+                        viewModel.clickEvent.getPayload()?.let {
+                            val childPosition = it.position
+                            val groupPosition = it.itemData as Int
+                            val transaction: Transaction? =
+                                getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                                    childPosition
+                                )
+                            launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                                    transaction
+                                )
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                                    groupPosition
+                                )
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                                    childPosition
+                                )
+                            }
                         }
+                        viewModel.clickEvent.setPayload(null)
                     }
-                    viewModel.clickEvent.setPayload(null)
-                }
-                viewModel.EVENT_SET_CARD_PIN -> {
-                    SessionManager.getPrimaryCard()?.let { card ->
+                    viewModel.EVENT_SET_CARD_PIN -> {
+                        SessionManager.getPrimaryCard()?.let { card ->
+                            startActivityForResult(
+                                SetCardPinWelcomeActivity.newIntent(
+                                    requireContext(),
+                                    card
+                                ), RequestCodes.REQUEST_FOR_SET_PIN
+                            )
+                        } ?: showToast("Debit card not found.")
+                    }
+                    viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
                         startActivityForResult(
-                            SetCardPinWelcomeActivity.newIntent(
+                            FragmentPresenterActivity.getIntent(
                                 requireContext(),
-                                card
-                            ), RequestCodes.REQUEST_FOR_SET_PIN
+                                MODE_MEETING_CONFORMATION,
+                                null
+                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
                         )
-                    } ?: showToast("Debit card not found.")
-                }
-                viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
-                    startActivityForResult(
-                        FragmentPresenterActivity.getIntent(
-                            requireContext(),
-                            MODE_MEETING_CONFORMATION,
-                            null
-                        ), RequestCodes.REQUEST_MEETING_CONFIRMED
-                    )
-                }
-                R.id.ivMenu -> parentView?.toggleDrawer()
-                R.id.rlFilter -> {
-                    if (viewModel.state.isTransEmpty.get() == false) {
-                        openTransactionFilters()
-                    } else {
-                        if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                    }
+                    R.id.ivMenu -> {
+
+                        parentView?.toggleDrawer()
+                    }
+                    R.id.rlFilter -> {
+
+                        if (viewModel.state.isTransEmpty.get() == false) {
                             openTransactionFilters()
                         } else {
-                            return@Observer
+                            if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                                openTransactionFilters()
+                            } else {
+                                return@Observer
+                            }
                         }
                     }
+                    R.id.lyAnalytics -> {
+                        launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
+                    }
+                    R.id.lyAdd -> {
+                        openTopUpScreen()
+                    }
                 }
-                R.id.lyAnalytics -> {
-                    launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
-                }
-                R.id.lyAdd -> {
-                    openTopUpScreen()
-                }
-            }
         })
+
+        SessionManager.card.value?.let {
+            startFlowForSetPin(it)
+            SessionManager.card.value?.let {
+                viewModel.fetchTransactionDetailsForLeanplum(it.status)
+            }
+        } ?: SessionManager.getDebitCard { card ->
+            startFlowForSetPin(card)
+        }
 
         SessionManager.card.observe(this, Observer { primaryCard ->
             primaryCard?.let {
-                startFlowForSetPin()
                 checkUserStatus()
             }
         })
@@ -295,58 +332,85 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             setAvailableBalance(value.availableBalance.toString())
         })
 
-        viewModel.transactionsLiveData.observe(this, Observer {
+        viewModel.transactionsLiveData.observe(this, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
-                if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
+                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().appbar.setExpanded(true)
 
-                if (getRecycleViewAdaptor()?.itemCount!! > 0)
-                    getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
+                getRecycleViewAdaptor()?.itemCount?.let { itemCount ->
+                    if (itemCount > 0) {
+                        getRecycleViewAdaptor()?.removeItemAt(position = itemCount - 1)
+                    }
+                }
 
                 val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
-                val oldData = getGraphRecycleViewAdapter()?.getDataList()
-                for (parentItem in it) {
-
-                    var shouldAppend = false
-                    for (i in 0 until oldData?.size!!) {
-                        if (parentItem.date == oldData[i].date) {
-                            if (parentItem.transaction.size != oldData[i].transaction.size) {
+                getGraphRecycleViewAdapter()?.getDataList()?.let { oldData ->
+                    for (parentItem in it) {
+                        var shouldAppend = false
+                        for (i in 0 until oldData.size) {
+                            if (parentItem.date == oldData[i].date) {
+                                if (parentItem.transaction.size != oldData[i].transaction.size) {
+                                    shouldAppend = true
+                                    parentItem.isNewItem = false
+                                    break
+                                }
+                                parentItem.isNewItem = true
                                 shouldAppend = true
                                 break
+                            } else {
+                                parentItem.isNewItem = true
                             }
-                            shouldAppend = true
-                            break
+                        }
+                        if (!shouldAppend)
+                            listToAppend.add(parentItem)
+                    }
+                }
+                listToAppend.partition { txn -> txn.isNewItem }.let { pair ->
+                    pair.second.forEach { data ->
+                        getTransactionPosition(data)?.let { index ->
+                            getRecycleViewAdaptor()?.setItemAt(index, data)
                         }
                     }
-                    if (!shouldAppend)
-                        listToAppend.add(parentItem)
+                    getRecycleViewAdaptor()?.addList(pair.first)
                 }
                 getGraphRecycleViewAdapter()?.addList(listToAppend)
-                getRecycleViewAdaptor()?.addList(listToAppend)
+                viewModel.isLoadMore.value = false
             } else {
-                if (it.isEmpty()) {
-                    //if transaction is empty and filter is applied then state would be Error where no transaction image show
-                    if (homeTransactionsRequest.totalAppliedFilter > 0) {
-                        getBindings().lyInclude.multiStateView.viewState =
-                            MultiStateView.ViewState.ERROR
-                    } else {
-                        //if transaction is empty and filter is not applied then state would be Empty where a single row appears welcome to yap
-//                        getBindings().lyInclude.multiStateView.viewState =
-//                            MultiStateView.ViewState.EMPTY
-                        viewModel.state.isUserAccountActivated.set(false)
-                        setUpDashBoardNotificationsView()
-                    }
-                    transactionViewHelper?.setTooltipVisibility(View.GONE)
-                    viewModel.state.isTransEmpty.set(true)
-                } else {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        viewModel.state.isUserAccountActivated.set(true)
-                        showTransactionsAndGraph()
-                    } else {
+                when {
+                    it.isEmpty() -> {
+                        //if transaction is empty and filter is applied then state would be Error where no transaction image show
+                        if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                            getBindings().lyInclude.multiStateView.viewState =
+                                MultiStateView.ViewState.ERROR
+                        } else {
+                            viewModel.state.isUserAccountActivated.set(false)
+                            SessionManager.getAccountInfo {
+                                GlobalScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
+                            }
+                        }
+                        transactionViewHelper?.setTooltipVisibility(View.GONE)
                         viewModel.state.isTransEmpty.set(true)
                     }
-                    getRecycleViewAdaptor()?.setList(it)
-                    getGraphRecycleViewAdapter()?.setList(it)
-                    transactionViewHelper?.setTooltipOnZero()
+                    it.size < 5 -> {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                            viewModel.state.isTransEmpty.set(false)
+                            viewModel.state.isUserAccountActivated.set(true)
+                            showTransactions()
+                        }
+                        getRecycleViewAdaptor()?.setList(it)
+                    }
+                    else -> {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                            viewModel.state.isUserAccountActivated.set(true)
+                            showTransactionsAndGraph()
+                        } else {
+                            viewModel.state.isTransEmpty.set(true)
+                        }
+                        getRecycleViewAdaptor()?.setList(it)
+                        getGraphRecycleViewAdapter()?.setList(it)
+                        transactionViewHelper?.setTooltipOnZero()
+                    }
                 }
             }
         })
@@ -361,11 +425,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val layoutManager =
                         getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
                     val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
-                            viewModel.isLoadMore.value = true
+                    if (viewModel.state.showTxnShimmer.value?.status == Status.SUCCESS)
+                        if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                            if (false == viewModel.isLoadMore.value && false == viewModel.isLast.value) {
+                                viewModel.isLoadMore.value = true
+                            }
                         }
-                    }
                 }
             })
 
@@ -383,6 +448,39 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
         })
+        viewModel.parentViewModel?.isYapHomeFragmentVisible?.observe(
+            this,
+            Observer { isHomeFragmentVisible ->
+                if (isHomeFragmentVisible) {
+                    viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
+                } else {
+                    tourStep?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
+                        }
+                    }
+                }
+            })
+        viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.observe(
+            this,
+            Observer { isUnverifiedScreenVisible ->
+                if (isUnverifiedScreenVisible) {
+                    viewModel.parentViewModel?.isShowHomeTour?.value = isUnverifiedScreenVisible
+                }
+            })
+
+        viewModel.parentViewModel?.isShowHomeTour?.observe(this, Observer {
+            if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true && viewModel.state.showTxnShimmer.value?.status != Status.LOADING) {
+                showHomeTourGuide()
+            }
+        })
+    }
+
+    private fun getTransactionPosition(item: HomeTransactionListData): Int? {
+        return getRecycleViewAdaptor()?.getDataList()
+            ?.indexOf(getRecycleViewAdaptor()?.getDataList()?.first {
+                it.date == item.date
+            })
     }
 
     private fun checkUserStatus() {
@@ -394,7 +492,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             paymentCard?.let { card ->
                 mAdapter = NotificationAdapter(
                     requireContext(),
-                    viewModel.getNotifications(account, card),
+                    NotificationHelper.getNotifications(account, card, requireContext()),
                     this
                 )
                 getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
@@ -423,10 +521,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         clearNotification()
     }
 
-    private fun isShowSetPin(paymentCard: Card?): Boolean {
-        return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
-    }
-
     private fun showTransactionsAndGraph() {
         if (viewModel.transactionsLiveData.value.isNullOrEmpty()) {
             if (0 >= viewModel.state.filterCount.get() ?: 0) {
@@ -446,6 +540,25 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
+    private fun showTransactions() {
+        if (viewModel.transactionsLiveData.value.isNullOrEmpty()) {
+            if (0 >= viewModel.state.filterCount.get() ?: 0) {
+                viewModel.state.isTransEmpty.set(true)
+            }
+        } else {
+            getBindings().lyInclude.multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            viewModel.state.isTransEmpty.set(false)
+            view?.let {
+                transactionViewHelper = TransactionsViewHelper(
+                    requireContext(),
+                    it,
+                    viewModel
+                )
+            }
+        }
+    }
+
+
     override fun onResume() {
         super.onResume()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
@@ -460,6 +573,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.parentViewModel?.isYapHomeFragmentVisible?.removeObservers(this)
         SessionManager.onAccountInfoSuccess.removeObservers(this)
         super.onDestroy()
 
@@ -543,6 +657,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     )
                 )
             }
+            NotificationAction.CARD_FEATURES_BLOCKED -> {
+                requireContext().makeCall(SessionManager.helpPhoneNumber)
+            }
         }
     }
 
@@ -615,10 +732,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val isSkip =
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
-                    if (isPinSet && isSkip) {
-                        SessionManager.getDebitCard()
+                    if (isPinSet) {
+                        SessionManager.getDebitCard {
+                            GlobalScope.launch(Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                     } else {
-                        SessionManager.getDebitCard()
+                        SessionManager.getDebitCard {
+                            GlobalScope.launch(Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                         launchActivity<AddMoneyActivity>()
                     }
                 }
@@ -644,6 +769,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         childPosition ?: 0
                     )?.transactionNote =
                         (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNote =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNote
+
                     getRecycleViewAdaptor()?.getDataForPosition(
                         groupPosition ?: 0
                     )?.transaction?.get(
@@ -657,6 +790,29 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         )?.transaction?.get(childPosition ?: 0)
                     )
 
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNoteDate =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNoteDate
+                    getRecycleViewAdaptor()?.notifyItemChanged(
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
+                    )
+
+                }
+            }
+
+            RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    SessionManager.getAccountInfo {
+                        GlobalScope.launch(Main) {
+                            dashboardNotificationStatusHelper?.notifyAdapter()
+                        }
+                    }
                 }
             }
         }
@@ -672,6 +828,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.amountEndRange = it.amountEndRange
             homeTransactionsRequest.title = null
             homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
+            homeTransactionsRequest.categories = it.categories
+            homeTransactionsRequest.statues =
+                if (it.pendingTxn == true) arrayListOf(
+                    TransactionStatus.PENDING.name,
+                    TransactionStatus.IN_PROGRESS.name
+                ) else null
         }
     }
 
@@ -721,49 +883,82 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTopUpScreen() {
-        launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+        launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
             GuidedTourViewDetail(
+                getBindings().ivMenu,
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_menu),
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_menu_des),
+                padding = -getDimension(R.dimen._20sdp),
+                circleRadius = getDimension(R.dimen._60sdp),
+                callBackListener = homeTourItemListener
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().tvAvailableBalance,
+                getString(R.string.screen_dashboard_tour_guide_display_text_balance),
+                getString(R.string.screen_dashboard_tour_guide_display_text_balance_des),
+                padding = getDimension(R.dimen._70sdp),
+                circleRadius = getDimension(R.dimen._70sdp),
+                callBackListener = homeTourItemListener
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
                 getParentActivity().cvYapIt,
-                "Your current balance",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                padding = 220f,
-                circleRadius = 300f
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it),
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it_des),
+                padding = getDimension(R.dimen._260sdp),
+                circleRadius = getDimension(R.dimen._70sdp),
+                callBackListener = homeTourItemListener
             )
         )
         list.add(
             GuidedTourViewDetail(
                 getBindings().ivSearch,
-                "Menu Type",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                padding = 170f,
-                circleRadius = 220f
-            )
-        )
-
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().tvAvailableBalance,
-                "Yap it",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                padding = 260f,
-                circleRadius = 260f
-            )
-        )
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().lyInclude.rlFilter,
-                "Yap it",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                padding = 150f,
-                circleRadius = 160f
+                getString(R.string.screen_dashboard_tour_guide_display_text_search),
+                getString(R.string.screen_dashboard_tour_guide_display_text_search_des),
+                padding = getDimension(R.dimen._45sdp),
+                circleRadius = getDimension(R.dimen._60sdp),
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
+                showSkip = false,
+                callBackListener = homeTourItemListener
             )
         )
         return list
+    }
+
+    private val homeTourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(TourGuideType.DASHBOARD_SCREEN, completed = true)
+            showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(TourGuideType.DASHBOARD_SCREEN, skipped = true)
+            showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+        }
+    }
+
+    private val graphTourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.DASHBOARD_GRAPH_SCREEN,
+                completed = true
+            )
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.DASHBOARD_GRAPH_SCREEN,
+                skipped = true
+            )
+        }
     }
 
     private fun getParentActivity(): ActivityYapDashboardBinding {
@@ -772,11 +967,59 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setUpDashBoardNotificationsView() {
         dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
-            requireContext(),
+            this,
             getBindings(),
-            viewModel,
-            activity
+            viewModel
         )
+    }
 
+
+    private fun setGraphViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().lyInclude.llGraph,
+                getString(R.string.screen_dashboard_tour_guide_display_text_graph),
+                getString(R.string.screen_dashboard_tour_guide_display_text_graph_des),
+                padding = getDimension(R.dimen._5sdp),
+                circleRadius = getDimension(R.dimen._80sdp),
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
+                showSkip = false,
+                showPageNo = false,
+                callBackListener = graphTourItemListener,
+                circlePadding = getDimension(R.dimen._25sdp)
+            )
+        )
+        return list
+    }
+
+    private suspend fun startGraphTour() {
+        if (parentView?.isDrawerOpen() == false && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
+            tourStep =
+                requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
+                    addAll(setGraphViewsArray())
+                }
+            delay(300)
+            drawerButtonEnabled = true
+        }
+    }
+
+    private fun showGraphTourGuide(listSize: Int) {
+        if (listSize >= 5)
+            CoroutineScope(Main).launch {
+                drawerButtonEnabled = false
+                delay(500)
+                startGraphTour()
+            }
+    }
+
+    private fun showHomeTourGuide() {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+            tourStep = requireActivity().launchTourGuide(TourGuideType.DASHBOARD_SCREEN) {
+                addAll(setViewsArray())
+            }
+            if (tourStep == null)
+                showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+        }
     }
 }
