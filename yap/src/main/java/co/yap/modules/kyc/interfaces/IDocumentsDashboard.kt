@@ -22,6 +22,7 @@ interface IDocumentsDashboard {
         var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation?
         fun handlePressOnView(id: Int)
         var clickEvent:SingleClickEvent
+        var gotoInformationErrorFragment :MutableLiveData<Boolean>?
     }
 
     interface View : IBase.View<ViewModel>

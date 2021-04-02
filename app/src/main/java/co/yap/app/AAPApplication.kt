@@ -13,6 +13,7 @@ import co.yap.household.onboard.otherscreens.InvalidEIDActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
@@ -206,6 +207,14 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                     }
                 }
 
+            }
+
+            override fun startDocumentDashboardActivity(
+                activity:FragmentActivity
+            ) {
+                var intent = Intent(activity, DocumentsDashboardActivity::class.java)
+                intent.putExtra("GO_ERROR",true)
+                activity.startActivity(intent)
             }
 
             override fun handleDeepLinkFlow(activity: AppCompatActivity, flowId: String?) {

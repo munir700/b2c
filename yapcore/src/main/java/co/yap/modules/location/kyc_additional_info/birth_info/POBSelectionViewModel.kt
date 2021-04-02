@@ -49,6 +49,8 @@ class POBSelectionViewModel(application: Application) :
             state.eidNationality.set(
                 parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                     ?.getName() ?: "")
+            populateSpinnerData.value =
+                parentViewModel?.countries?.filter { it.isoCountryCode2Digit != SessionManager.homeCountry2Digit } as ArrayList<Country>
         } else {
             launch(Dispatcher.Background) {
                 state.viewState.postValue(true)
@@ -63,6 +65,8 @@ class POBSelectionViewModel(application: Application) :
                             state.eidNationality.set(
                                 parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                                     ?.getName() ?: "")
+                            populateSpinnerData.value =
+                                parentViewModel?.countries?.filter { it.isoCountryCode2Digit != SessionManager.homeCountry2Digit } as ArrayList<Country>
                             state.viewState.value = false
                         }
 
