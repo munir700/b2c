@@ -124,7 +124,6 @@ class PersonalDetailsViewModel(application: Application) :
                     success.invoke(true)
                 }
                 is RetroApiResponse.Error -> {
-                    success.invoke(true)
                     state.error = response.error.message
                     state.loading = false
                 }
