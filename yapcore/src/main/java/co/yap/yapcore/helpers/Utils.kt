@@ -623,16 +623,6 @@ object Utils {
         }
     }
 
-    fun shareText(context: Context, body: String) {
-        InviteFriendRepository().inviteAFriend()
-        context.share(text = body)
-//        val sharingIntent = Intent(Intent.ACTION_SEND)
-//        sharingIntent.type = "text/plain"
-//        sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
-//        context.startActivity(Intent.createChooser(sharingIntent, "Share"))
-    }
-
-
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
