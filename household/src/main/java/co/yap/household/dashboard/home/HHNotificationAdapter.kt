@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import co.yap.household.BR
 import co.yap.household.databinding.ItemHhNotificationBinding
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 

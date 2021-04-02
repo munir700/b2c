@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.household.R
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseListItemViewModel
 
 class HHNotificationItemVM : BaseListItemViewModel<HomeNotification>() {

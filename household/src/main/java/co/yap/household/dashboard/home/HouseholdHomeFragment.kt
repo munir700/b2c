@@ -13,8 +13,8 @@ import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivi
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.notification.HomeNotification
-import co.yap.networking.notification.NotificationAction
+import co.yap.networking.notification.responsedtos.HomeNotification
+import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.networking.transactions.requestdtos.REQUEST_PAGE_SIZE
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
