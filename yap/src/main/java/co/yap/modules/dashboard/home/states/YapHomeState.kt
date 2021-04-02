@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.widgets.State
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.managers.SessionManager
