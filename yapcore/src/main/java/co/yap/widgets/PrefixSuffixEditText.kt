@@ -55,7 +55,7 @@ class PrefixSuffixEditText : AppCompatEditText {
     private var prefixBitmap: Bitmap? = null
     private var showPrefixDrawable: Boolean = true
     private var showHint: Boolean = false
-    // private val textFormatter = PhoneNumberFormatter(Locale.getDefault().country)
+    // private val textFormatter = PhoneNumberFormatter(DateUtils.LOCAL.country)
     var prefix: String?
         get() = this.mPrefix
         set(prefix) {

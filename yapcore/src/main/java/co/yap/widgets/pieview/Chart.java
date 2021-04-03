@@ -24,8 +24,6 @@ import android.view.ViewParent;
 
 import androidx.annotation.RequiresApi;
 
-import com.liveperson.infra.utils.Utils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -228,7 +226,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     // Calendar calendar = Calendar.getInstance();
     // for (int i = 0; i < 12; i++) {
     // xVals.add(calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT,
-    // Locale.getDefault()));
+    // DateUtils.LOCAL));
     // }
     //
     // ArrayList<DataSet> dataSets = new ArrayList<DataSet>();

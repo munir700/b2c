@@ -173,7 +173,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 viewModel.termsCheckedTime.value =
                     SimpleDateFormat(
                         DateUtils.LEAN_PLUM_EVENT_FORMAT,
-                        Locale.US
+                        Locale.ENGLISH
                     ).format(Calendar.getInstance().time)
             }
             viewModel.state.valid.set(

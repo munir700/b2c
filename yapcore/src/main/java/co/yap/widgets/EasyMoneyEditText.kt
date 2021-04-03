@@ -13,11 +13,11 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getConfiguredDecimals
 import co.yap.yapcore.helpers.extentions.dip2px
@@ -66,7 +66,7 @@ class EasyMoneyEditText : AppCompatEditText {
         attrs: AttributeSet?
     ) {
         // Setting Default Parameters
-        _currencySymbol = Currency.getInstance(Locale.getDefault()).symbol
+        _currencySymbol = Currency.getInstance(DateUtils.LOCAL).symbol
         _showCurrency = true
         _showCommas = true
 
@@ -79,7 +79,7 @@ class EasyMoneyEditText : AppCompatEditText {
                 var currnecy =
                     attrArray.getString(R.styleable.EasyMoneyWidgets_currency_symbol)
                 if (currnecy == null) currnecy =
-                    Currency.getInstance(Locale.getDefault()).symbol
+                    Currency.getInstance(DateUtils.LOCAL).symbol
                 currnecy?.let { setCurrencySymbol(currnecy) }
                 _showCurrency =
                     attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_currency, false)
@@ -272,7 +272,7 @@ class EasyMoneyEditText : AppCompatEditText {
         val numberPattern = "#,###,###,###"
         var decoStr = ""
         val formatter =
-            DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+            DecimalFormat.getInstance(DateUtils.LOCAL) as DecimalFormat
         if (_showCommas && !_showCurrency) formatter.applyPattern(numberPattern)
         else if (_showCommas && _showCurrency) formatter.applyPattern(
             "$_currencySymbol $numberPattern"
