@@ -1402,5 +1402,5 @@ public class AdvancedWebView extends WebView {
             }
 
         }
-
     }
+}
