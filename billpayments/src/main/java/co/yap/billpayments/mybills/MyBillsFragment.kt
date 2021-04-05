@@ -50,39 +50,45 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
             if (!bill.billStatus.equals(BillStatus.PAID.title)) {
                 bill.isSelected = !bill.isSelected
                 if (bill.isSelected) {
-                    viewModel.selectedBills.add(bill)
-                    viewModel.state.totalBillAmount =
-                        viewModel.state.totalBillAmount.plus(bill.amount.toDouble())
-                    viewModel.state.buttonText.set(
-                        Translator.getString(
-                            requireContext(),
-                            Strings.screen_my_bills_btn_text_pay,
-                            SessionManager.getDefaultCurrency(),
-                            viewModel.state.totalBillAmount.toString()
-                        )
-                    )
-                    viewModel.state.valid.set(true)
-                    viewModel.adapter.setItemAt(pos, bill)
+                    onItemSelected(pos, bill)
                 } else {
-                    viewModel.adapter.setItemAt(pos, bill)
-                    viewModel.selectedBills.remove(bill)
-                    viewModel.state.totalBillAmount =
-                        viewModel.state.totalBillAmount.minus(bill.amount.toDouble())
-                    viewModel.state.buttonText.set(
-                        Translator.getString(
-                            requireContext(),
-                            Strings.screen_my_bills_btn_text_pay,
-                            SessionManager.getDefaultCurrency(),
-                            viewModel.state.totalBillAmount.toString()
-                        )
-                    )
-                    if (viewModel.selectedBills.size == 0) {
-                        viewModel.state.valid.set(false)
-                    }
+                    onItemUnselected(pos, bill)
                 }
             }
         }
     }
+
+    override fun onItemSelected(pos: Int, bill: BillModel) {
+        viewModel.selectedBills.add(bill)
+        viewModel.state.totalBillAmount =
+            viewModel.state.totalBillAmount.plus(bill.amount.toDouble())
+        setButtonText()
+        viewModel.state.valid.set(true)
+        viewModel.adapter.setItemAt(pos, bill)
+    }
+
+    override fun onItemUnselected(pos: Int, bill: BillModel) {
+        viewModel.adapter.setItemAt(pos, bill)
+        viewModel.selectedBills.remove(bill)
+        viewModel.state.totalBillAmount =
+            viewModel.state.totalBillAmount.minus(bill.amount.toDouble())
+        setButtonText()
+        if (viewModel.selectedBills.size == 0) {
+            viewModel.state.valid.set(false)
+        }
+    }
+
+    override fun setButtonText() {
+        viewModel.state.buttonText.set(
+            Translator.getString(
+                requireContext(),
+                Strings.screen_my_bills_btn_text_pay,
+                SessionManager.getDefaultCurrency(),
+                viewModel.state.totalBillAmount.toString()
+            )
+        )
+    }
+
     val toolbarClickObserver = Observer<Int> {
         when (it) {
             R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)

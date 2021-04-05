@@ -12,6 +12,9 @@ interface IMyBills {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
+        fun onItemSelected(pos: Int, bill: BillModel)
+        fun onItemUnselected(pos: Int, bill: BillModel)
+        fun setButtonText()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
