@@ -13,7 +13,7 @@
             android:orientation="vertical">
 
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etCoreInput"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
@@ -21,8 +21,8 @@
                 android:focusableInTouchMode="true"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
-                android:paddingStart="@dimen/_15sdp"
-                android:paddingEnd="@dimen/_15sdp"
+                android:paddingStart="@dimen/_25sdp"
+                android:paddingEnd="@dimen/_25sdp"
                 android:tag="input"
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 android:textIsSelectable="true"

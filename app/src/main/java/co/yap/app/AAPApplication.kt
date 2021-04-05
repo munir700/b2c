@@ -3,6 +3,8 @@ package co.yap.app
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -93,6 +95,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                 //if (originalSign?.isLiveRelease() == true) isValid else true
             }
         })
+        setLocale("en")
     }
 
     private fun initAllModules() {
@@ -226,5 +229,14 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin3 = configManager?.sslPin3 ?: "",
             sslHost = configManager?.sslHost ?: ""
         )
+    }
+
+    private fun setLocale(languageCode: String?) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val resources: Resources = this.resources
+        val config: Configuration = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 }
