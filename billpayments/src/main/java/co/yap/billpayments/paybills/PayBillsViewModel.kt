@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.paybills.adapter.DueBill
 import co.yap.billpayments.paybills.adapter.DueBillsAdapter
+import co.yap.billpayments.paybills.notification.DueBillsNotificationAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
@@ -18,6 +19,8 @@ class PayBillsViewModel(application: Application) :
     override val state: IPayBills.State = PayBillsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val dueBillsAdapter: DueBillsAdapter = DueBillsAdapter(arrayListOf())
+    override val notificationAdapter: DueBillsNotificationAdapter =
+        DueBillsNotificationAdapter(context, arrayListOf())
     override var billcategories: ObservableField<MutableList<BillProviderModel>> = ObservableField()
 
     override fun onResume() {
@@ -124,7 +127,10 @@ class PayBillsViewModel(application: Application) :
     override fun getBillCategoriesApi() {
         launch {
             state.loading = true;
-            dueBillsAdapter.setList(getDueBills())
+            val list = getDueBills()
+            list.addAll(getDueBills())
+            dueBillsAdapter.setList(list)
+            notificationAdapter.setList(list)
             var total = 0.00;
             dueBillsAdapter.getDataList().forEach {
                 total = total.plus(it.amount.toDouble())
