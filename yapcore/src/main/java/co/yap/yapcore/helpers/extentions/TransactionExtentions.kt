@@ -38,8 +38,15 @@ fun Transaction?.getTitle(): String {
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
             TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
-            TransactionProductCode.ATM_WITHDRAWL.pCode -> "Withdrawal" // TODO add check based on category fix YM-12333
+            TransactionProductCode.ATM_WITHDRAWL.pCode -> {
+                if (transaction.category.equals(
+                        "DECLINE_FEE",
+                        true
+                    )
+                ) "ATM decline fee" else "Withdraw money"
+            }
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
+            TransactionProductCode.REFUND_MASTER_CARD.pCode -> "Refund from ${transaction.merchantName}"
             TransactionProductCode.FUND_LOAD.pCode -> if (transaction.initiator.isNullOrBlank()) transaction.title
                 ?: "Unknown" else "Received from ${transaction.initiator}"
 
@@ -100,7 +107,15 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
                 if (txn.category.equals("REVERSAL", true)) "Reversal" else "Deposit"
             }
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode || TransactionProductCode.FUND_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode == txn.productCode -> {
-                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Withdraw money"
+                if (txn.category.equals(
+                        "REVERSAL",
+                        true
+                    )
+                ) "Reversal" else if (txn.category.equals(
+                        "DECLINE_FEE",
+                        true
+                    )
+                ) "Cash withdraw" else "Withdraw money"
             }
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
@@ -406,5 +421,5 @@ fun List<Transaction>?.getTotalAmount(): String {
 }
 
 fun Transaction?.isNonAEDTransaction(): Boolean {
-   return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && this.currency != SessionManager.getDefaultCurrency()
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && this.currency != SessionManager.getDefaultCurrency()
 }
