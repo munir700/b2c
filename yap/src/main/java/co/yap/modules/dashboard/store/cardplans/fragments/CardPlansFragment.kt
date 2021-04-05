@@ -48,7 +48,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         viewModel.cardAdapter.onItemClickListener = object :
             OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                clickOnCardPlan(data, pos)
+                clickOnCardPlan(data)
             }
         }
         setCardPlansDimensions()
@@ -67,7 +67,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         }
     }
 
-    private fun clickOnCardPlan(data: Any, pos: Int) {
+    private fun clickOnCardPlan(data: Any) {
         if (data is CardPlans) {
             when (data.id) {
                 Constants.PRIME_CARD_PLAN -> {
@@ -111,7 +111,7 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         removeObservers()
     }
 
-    private suspend fun iniVideoView(video: VideoView) {
+    private fun iniVideoView(video: VideoView) {
         CoroutineScope(Dispatchers.Default).launch {
             val uri =
                 Uri.parse("android.resource://" + requireContext().packageName + "/" + R.raw.video_all_card_plans)

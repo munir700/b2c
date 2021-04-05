@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.core.app.NotificationManagerCompat
 import co.yap.R
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
@@ -66,7 +67,8 @@ class ProfileSettingsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         toggleToolBarVisibility(false)
-        state.isNotificationsEnabled.set(sharedPreferenceManager.getValueBoolien(ENABLE_LEAN_PLUM_NOTIFICATIONS,false))
+        state.isNotificationsEnabled.set(NotificationManagerCompat.from(context)
+            .areNotificationsEnabled())
         requestProfileDocumentsInformation()
         SessionManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()
@@ -255,13 +257,13 @@ class ProfileSettingsViewModel(application: Application) :
         when (isGranted) {
             true -> {
                 trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
-                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS,true)
+                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, true)
                 state.isNotificationsEnabled.set(isGranted)
 
             }
             else -> {
                 trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
-                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS,false)
+                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, false)
                 state.isNotificationsEnabled.set(isGranted)
             }
         }
