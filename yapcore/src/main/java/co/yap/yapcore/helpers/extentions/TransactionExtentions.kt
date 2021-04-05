@@ -107,15 +107,7 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
                 if (txn.category.equals("REVERSAL", true)) "Reversal" else "Deposit"
             }
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode || TransactionProductCode.FUND_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode == txn.productCode -> {
-                if (txn.category.equals(
-                        "REVERSAL",
-                        true
-                    )
-                ) "Reversal" else if (txn.category.equals(
-                        "DECLINE_FEE",
-                        true
-                    )
-                ) "Cash withdraw" else "Withdraw money"
+                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Withdraw money"
             }
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
