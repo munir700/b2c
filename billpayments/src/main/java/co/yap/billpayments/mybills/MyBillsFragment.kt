@@ -46,7 +46,6 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             val bill = data as BillModel
-
             if (!bill.billStatus.equals(BillStatus.PAID.title)) {
                 bill.isSelected = !bill.isSelected
                 if (bill.isSelected) {
@@ -105,6 +104,4 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
         super.onDestroy()
         removeObservers()
     }
-
-
 }
