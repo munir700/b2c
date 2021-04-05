@@ -1,6 +1,7 @@
 package co.yap.billpayments.mybills
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
@@ -9,6 +10,9 @@ import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.mybills.adapter.BillModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.enums.BillStatus
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
     IMyBills.View {
@@ -36,11 +40,54 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
             viewModel.adapter.setList(viewModel.myBills.value?.toMutableList() as MutableList<BillModel>)
         })
         viewModel.parentViewModel?.toolBarClickEvent?.observe(this, toolbarClickObserver)
+        viewModel.adapter.setItemListener(onItemClickListener)
     }
 
+    val onItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            val bill = data as BillModel
+
+            if (!bill.billStatus.equals(BillStatus.PAID.title)) {
+                bill.isSelected = !bill.isSelected
+                if (bill.isSelected) {
+                    viewModel.selectedBills.add(bill)
+                    viewModel.state.totalBillAmount =
+                        viewModel.state.totalBillAmount.plus(bill.amount.toDouble())
+                    viewModel.state.buttonText.set(
+                        Translator.getString(
+                            requireContext(),
+                            Strings.screen_my_bills_btn_text_pay,
+                            SessionManager.getDefaultCurrency(),
+                            viewModel.state.totalBillAmount.toString()
+                        )
+                    )
+                    viewModel.state.valid.set(true)
+                    viewModel.adapter.setItemAt(pos, bill)
+                } else {
+                    viewModel.adapter.setItemAt(pos, bill)
+                    viewModel.selectedBills.remove(bill)
+                    viewModel.state.totalBillAmount =
+                        viewModel.state.totalBillAmount.minus(bill.amount.toDouble())
+                    viewModel.state.buttonText.set(
+                        Translator.getString(
+                            requireContext(),
+                            Strings.screen_my_bills_btn_text_pay,
+                            SessionManager.getDefaultCurrency(),
+                            viewModel.state.totalBillAmount.toString()
+                        )
+                    )
+                    if (viewModel.selectedBills.size == 0) {
+                        viewModel.state.valid.set(false)
+                    }
+                }
+            }
+        }
+    }
     val toolbarClickObserver = Observer<Int> {
         when (it) {
             R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
+            R.id.btnPay -> {
+            }
         }
     }
 

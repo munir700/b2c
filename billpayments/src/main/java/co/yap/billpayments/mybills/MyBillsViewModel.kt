@@ -7,6 +7,7 @@ import co.yap.billpayments.mybills.adapter.BillModel
 import co.yap.billpayments.mybills.adapter.MyBillsAdapter
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
 import kotlinx.coroutines.delay
 
@@ -15,7 +16,8 @@ class MyBillsViewModel(application: Application) :
     override val state: IMyBills.State = MyBillsState()
     override var adapter: MyBillsAdapter = MyBillsAdapter(mutableListOf())
     override var myBills: MutableLiveData<MutableList<BillModel>> = MutableLiveData()
-
+    override var selectedBills: MutableList<BillModel> = mutableListOf()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
@@ -81,6 +83,10 @@ class MyBillsViewModel(application: Application) :
                 billStatus = BillStatus.OVERDUE.title
             )
         )
+    }
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
     }
 
     override fun getMyBillsAPI() {

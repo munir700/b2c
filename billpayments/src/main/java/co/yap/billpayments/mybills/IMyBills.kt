@@ -1,10 +1,12 @@
 package co.yap.billpayments.mybills
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.mybills.adapter.BillModel
 import co.yap.billpayments.mybills.adapter.MyBillsAdapter
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface IMyBills {
     interface View : IBase.View<ViewModel> {
@@ -15,10 +17,16 @@ interface IMyBills {
     interface ViewModel : IBase.ViewModel<State> {
         var adapter: MyBillsAdapter
         var myBills: MutableLiveData<MutableList<BillModel>>
+        fun handlePressOnView(id: Int)
+        val clickEvent: SingleClickEvent
         fun getMyBillsAPI()
+        var selectedBills: MutableList<BillModel>
     }
 
     interface State : IBase.State {
         var screenTitle: ObservableField<String>
+        var totalBillAmount: Double
+        var buttonText: ObservableField<String>
+        var valid: ObservableBoolean
     }
 }

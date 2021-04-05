@@ -6,5 +6,6 @@ data class BillModel(
     var description: String,
     var currency: String,
     var amount: String,
-    var billStatus: String
+    var billStatus: String,
+    var isSelected: Boolean = false
 )
