@@ -8,14 +8,18 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.databinding.FragmentPayBillsBinding
+import co.yap.billpayments.paybills.adapter.DueBill
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.layout_item_bill_due.*
 
 class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
     IPayBills.View {
-
+    private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pay_bills
 
@@ -30,6 +34,7 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initNotificationRecyclerView()
+        initSwipeListener()
     }
 
     private fun initNotificationRecyclerView() {
@@ -65,7 +70,9 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
                 R.id.ivCross -> {
                     viewModel.notificationAdapter.removeItemAt(pos)
                     getBindings().lbillPaymentDue.llNotification.visibility =
-                       if(viewModel.notificationAdapter.getDataList().isNullOrEmpty()) View.GONE else View.VISIBLE
+                        if (viewModel.notificationAdapter.getDataList()
+                                .isNullOrEmpty()
+                        ) View.GONE else View.VISIBLE
                 }
             }
         }
@@ -84,12 +91,79 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
             R.id.includeUtilities -> onCategorySelection(viewModel.billcategories.get()?.get(2))
             R.id.includeRTA -> onCategorySelection(viewModel.billcategories.get()?.get(3))
             R.id.includeDubaiPolice -> onCategorySelection(viewModel.billcategories.get()?.get(4))
+            R.id.btnPayNow -> {
+                viewModel.clickEvent.getPayload()?.let { payload ->
+                    startPayBillFlow(payload.itemData as DueBill)
+                }
+                viewModel.clickEvent.setPayload(null)
+            }
         }
+    }
+
+    private fun startPayBillFlow(dueBill: DueBill) {
+
     }
 
     private fun onCategorySelection(billCategory: BillProviderModel?) {
         viewModel.parentViewModel?.selectedBillProvider = billCategory
         navigate(R.id.action_payBillsFragment_to_billersFragment)
+    }
+
+    private fun initSwipeListener() {
+        activity?.let { activity ->
+            onTouchListener =
+                RecyclerTouchListener(
+                    requireActivity(),
+                    getBindings().lbillPaymentDue.rvAllDueBills
+                )
+                    .setClickable(
+                        object : RecyclerTouchListener.OnRowClickListener {
+                            override fun onRowClicked(position: Int) {
+                                viewModel.clickEvent.setPayload(
+                                    SingleClickEvent.AdaptorPayLoadHolder(
+                                        foregroundContainer,
+                                        viewModel.dueBillsAdapter.getDataForPosition(position),
+                                        position
+                                    )
+                                )
+                                viewModel.clickEvent.setValue(foregroundContainer.id)
+                            }
+
+                            override fun onIndependentViewClicked(
+                                independentViewID: Int,
+                                position: Int
+                            ) {
+                            }
+                        }).setSwipeOptionViews(R.id.btnPayNow)
+                    .setSwipeable(
+                        R.id.foregroundContainer, R.id.swipe
+                    )
+                    { viewID, position ->
+                        viewModel.clickEvent.setPayload(
+                            SingleClickEvent.AdaptorPayLoadHolder(
+                                activity.findViewById(viewID),
+                                viewModel.dueBillsAdapter.getDataForPosition(position),
+                                position
+                            )
+                        )
+                        viewModel.clickEvent.setValue(viewID)
+                    }
+            getBindings().lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(onTouchListener!!)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onTouchListener?.let { getBindings().lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(it) }
+    }
+
+    override fun onPause() {
+        onTouchListener?.let {
+            getBindings().lbillPaymentDue.rvAllDueBills.removeOnItemTouchListener(
+                it
+            )
+        }
+        super.onPause()
     }
 
     override fun onDestroy() {
