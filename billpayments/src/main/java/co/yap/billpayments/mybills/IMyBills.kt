@@ -3,8 +3,8 @@ package co.yap.billpayments.mybills
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.billpayments.mybills.adapter.BillModel
 import co.yap.billpayments.mybills.adapter.MyBillsAdapter
+import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -12,9 +12,7 @@ interface IMyBills {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
-        fun onItemSelected(pos: Int, bill: BillModel)
-        fun onItemUnselected(pos: Int, bill: BillModel)
-        fun setButtonText()
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -24,6 +22,9 @@ interface IMyBills {
         val clickEvent: SingleClickEvent
         fun getMyBillsAPI()
         var selectedBills: MutableList<BillModel>
+        fun onItemSelected(pos: Int, bill: BillModel)
+        fun onItemUnselected(pos: Int, bill: BillModel)
+        fun setButtonText()
     }
 
     interface State : IBase.State {
