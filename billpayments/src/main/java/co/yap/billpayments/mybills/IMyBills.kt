@@ -25,6 +25,7 @@ interface IMyBills {
         fun onItemSelected(pos: Int, bill: BillModel)
         fun onItemUnselected(pos: Int, bill: BillModel)
         fun setButtonText()
+        fun getScreenTitle()
     }
 
     interface State : IBase.State {

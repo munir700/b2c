@@ -1385,9 +1385,9 @@
     <!--    My Bills Screen-->
     <string name="screen_my_bills_toolbar_text_title">My Bills</string>
     <string name="screen_my_bills_text_title_you_have_n_bills_registered">You have %1s bills registered</string>
+    <string name="screen_my_bills_text_title_you_have_one_bill_registered">You have 1 bill registered</string>
     <string name="screen_my_bills_btn_text_pay">Pay %1s %2s</string>
-
-
+    <string name="screen_my_bills_text_title_on_selection">Select the bill you want to pay</string>
 
     <!--    Add Bill Screen-->
     <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>

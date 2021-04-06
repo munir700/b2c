@@ -8,8 +8,6 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -29,13 +27,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     override fun setObservers() {
         viewModel.myBills.observe(this, Observer {
-            viewModel.state.screenTitle.set(
-                Translator.getString(
-                    requireContext(),
-                    Strings.screen_my_bills_text_title_you_have_n_bills_registered,
-                    viewModel.myBills.value?.size.toString()
-                )
-            )
+            viewModel.getScreenTitle()
             viewModel.adapter.setList(viewModel.myBills.value?.toMutableList() as MutableList<BillModel>)
         })
         viewModel.parentViewModel?.toolBarClickEvent?.observe(this, toolbarClickObserver)

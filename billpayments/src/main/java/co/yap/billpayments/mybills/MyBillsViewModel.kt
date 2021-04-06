@@ -106,6 +106,14 @@ class MyBillsViewModel(application: Application) :
         setButtonText()
         state.valid.set(true)
         adapter.setItemAt(pos, bill)
+        if (selectedBills.size == 1) {
+            state.screenTitle.set(
+                Translator.getString(
+                    context,
+                    Strings.screen_my_bills_text_title_on_selection
+                )
+            )
+        }
     }
 
     override fun onItemUnselected(pos: Int, bill: BillModel) {
@@ -116,6 +124,26 @@ class MyBillsViewModel(application: Application) :
         setButtonText()
         if (selectedBills.size == 0) {
             state.valid.set(false)
+            getScreenTitle()
+        }
+    }
+
+    override fun getScreenTitle() {
+        if (myBills.value?.size == 1) {
+            state.screenTitle.set(
+                Translator.getString(
+                    context,
+                    Strings.screen_my_bills_text_title_you_have_one_bill_registered
+                )
+            )
+        } else if (2 <= myBills.value?.size ?: 0) {
+            state.screenTitle.set(
+                Translator.getString(
+                    context,
+                    Strings.screen_my_bills_text_title_you_have_n_bills_registered,
+                    myBills.value?.size.toString()
+                )
+            )
         }
     }
 

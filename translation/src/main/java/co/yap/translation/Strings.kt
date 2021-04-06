@@ -2214,10 +2214,14 @@ object Strings {
     //My Bills Screen
     const val screen_my_bills_text_title_you_have_n_bills_registered: String =
         "screen_my_bills_text_title_you_have_n_bills_registered"
+    const val screen_my_bills_text_title_you_have_one_bill_registered: String =
+        "screen_my_bills_text_title_you_have_one_bill_registered"
     const val screen_my_bills_toolbar_text_title: String =
         "screen_my_bills_toolbar_text_title"
     const val screen_my_bills_btn_text_pay: String =
         "screen_my_bills_btn_text_pay"
+    const val screen_my_bills_text_title_on_selection: String =
+        "screen_my_bills_text_title_on_selection"
 
     // Add Bill
     const val screen_add_bill_toolbar_title: String =
