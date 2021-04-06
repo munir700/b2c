@@ -66,6 +66,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     override fun removeObservers() {
         viewModel.myBills.removeObservers(this)
+        viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
     }
 
     override fun onDestroy() {

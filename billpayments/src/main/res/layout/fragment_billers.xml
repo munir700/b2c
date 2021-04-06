@@ -65,20 +65,5 @@
             app:shimmerLayoutId="@layout/layout_item_biller_shimmer"
             tools:listitem="@layout/layout_item_biller" />
 
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnNext"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal_large"
-            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
-            app:btn_size="small"
-            app:enableCoreButton="@{viewModel.state.valid}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.common_button_next}"
-            tools:text="Next" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

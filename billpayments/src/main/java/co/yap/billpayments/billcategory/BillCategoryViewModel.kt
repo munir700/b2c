@@ -17,12 +17,7 @@ class BillCategoryViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        if (parentViewModel?.billcategories.isNullOrEmpty())
-            getBillCategoriesApi()
-        else {
-            billcategories.set(parentViewModel?.billcategories)
-            state.dataPopulated.set(true)
-        }
+
     }
 
     override fun onResume() {
@@ -30,7 +25,7 @@ class BillCategoryViewModel(application: Application) :
         setToolBarTitle(Translator.getString(context, Strings.screen_add_bill_toolbar_title))
     }
 
-    private fun getBillCategories(): MutableList<BillProviderModel> {
+    private fun getBillCategoriesData(): MutableList<BillProviderModel> {
         return mutableListOf(
             BillProviderModel(
                 categoryId = "1",
@@ -69,14 +64,18 @@ class BillCategoryViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun getBillCategoriesApi() {
-        launch {
-
-            state.loading = true
-            delay(1000L)
-            billcategories.set(getBillCategories())
+    override fun getBillCategories() {
+        if (parentViewModel?.billcategories.isNullOrEmpty()) {
+            launch {
+                state.loading = true
+                delay(1000L)
+                billcategories.set(getBillCategoriesData())
+                state.dataPopulated.set(true)
+                state.loading = false
+            }
+        } else {
+            billcategories.set(parentViewModel?.billcategories)
             state.dataPopulated.set(true)
-            state.loading = false
         }
     }
 }

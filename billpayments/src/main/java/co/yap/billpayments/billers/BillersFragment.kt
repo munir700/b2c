@@ -31,8 +31,6 @@ class BillersFragment : PayBillBaseFragment<IBillers.ViewModel>(),
             R.id.includedSearchView -> {
                 navigate(R.id.action_billersFragment_to_billerSearchFragment)
             }
-            R.id.btnNext -> {
-            }
         }
     }
 
