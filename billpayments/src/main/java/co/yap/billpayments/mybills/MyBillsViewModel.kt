@@ -2,6 +2,7 @@ package co.yap.billpayments.mybills
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.mybills.adapter.MyBillsAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
@@ -22,7 +23,10 @@ class MyBillsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
-        toolgleRightIconVisibility(true)
+        toolgleRightFirstIconVisibility(true)
+        toolgleRightSecondIconVisibility(true)
+        context.getDrawable(R.drawable.ic_sort)?.let { setRightFirstIconDrawable(it) }
+        context.getDrawable(R.drawable.ic_add_sign)?.let { setRightSecondIconDrawable(it) }
     }
 
     private fun getMyBillList(): MutableList<BillModel> {
@@ -160,6 +164,7 @@ class MyBillsViewModel(application: Application) :
 
     override fun onStop() {
         super.onStop()
-        toolgleRightIconVisibility(false)
+        toolgleRightFirstIconVisibility(false)
+        toolgleRightSecondIconVisibility(false)
     }
 }

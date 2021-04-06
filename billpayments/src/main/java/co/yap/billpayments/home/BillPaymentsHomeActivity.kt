@@ -1,5 +1,7 @@
 package co.yap.billpayments.home
 
+import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
@@ -20,7 +22,10 @@ class BillPaymentsHomeActivity : BaseBindingActivity<IBillPayments.ViewModel>(),
         get() = ViewModelProviders.of(this).get(BillPaymentsViewModel::class.java)
 
     override val navigator: IBaseNavigator
-        get() = DefaultNavigator(this@BillPaymentsHomeActivity, R.id.bill_payments_nav_host_fragment)
+        get() = DefaultNavigator(
+            this@BillPaymentsHomeActivity,
+            R.id.bill_payments_nav_host_fragment
+        )
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.bill_payments_main_navigation)
@@ -29,9 +34,20 @@ class BillPaymentsHomeActivity : BaseBindingActivity<IBillPayments.ViewModel>(),
         }
     }
 
-    override fun onToolBarClick(id: Int) {
-        when (id) {
-            R.id.ivLeftIcon -> onBackPressed()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.onToolbarClickEvent.observe(this, onToolBarClick)
+    }
+
+    val onToolBarClick = Observer<Int> {
+        when (it) {
+            R.id.ivLeftIcon -> {
+                onBackPressed()
+            }
+            R.id.ivRightFirstIcon -> {
+            }
+            R.id.ivRightSecondIcon -> {
+            }
         }
     }
 }

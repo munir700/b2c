@@ -30,8 +30,16 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
             viewModel.getScreenTitle()
             viewModel.adapter.setList(viewModel.myBills.value?.toMutableList() as MutableList<BillModel>)
         })
-        viewModel.parentViewModel?.toolBarClickEvent?.observe(this, toolbarClickObserver)
+        viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
         viewModel.adapter.setItemListener(onItemClickListener)
+        viewModel.clickEvent.observe(this, onViewClickObserver)
+    }
+
+    val onViewClickObserver = Observer<Int> {
+        when (it) {
+            R.id.btnPay -> {
+            }
+        }
     }
 
     val onItemClickListener = object : OnItemClickListener {
@@ -43,6 +51,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
                     viewModel.onItemSelected(pos, bill)
                 } else {
                     viewModel.onItemUnselected(pos, bill)
+                    activity?.onBackPressed()
                 }
             }
         }
@@ -50,9 +59,10 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     val toolbarClickObserver = Observer<Int> {
         when (it) {
-            R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
-            R.id.btnPay -> {
+            R.id.ivRightFirstIcon -> {
+
             }
+            R.id.ivRightSecondIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
         }
     }
 
