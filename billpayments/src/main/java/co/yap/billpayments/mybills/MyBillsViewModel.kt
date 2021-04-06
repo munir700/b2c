@@ -3,11 +3,13 @@ package co.yap.billpayments.mybills
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.mybills.adapter.BillModel
 import co.yap.billpayments.mybills.adapter.MyBillsAdapter
+import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class MyBillsViewModel(application: Application) :
@@ -15,7 +17,8 @@ class MyBillsViewModel(application: Application) :
     override val state: IMyBills.State = MyBillsState()
     override var adapter: MyBillsAdapter = MyBillsAdapter(mutableListOf())
     override var myBills: MutableLiveData<MutableList<BillModel>> = MutableLiveData()
-
+    override var selectedBills: MutableList<BillModel> = mutableListOf()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
@@ -83,6 +86,10 @@ class MyBillsViewModel(application: Application) :
         )
     }
 
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun getMyBillsAPI() {
         launch {
             state.loading = true
@@ -90,6 +97,37 @@ class MyBillsViewModel(application: Application) :
             myBills.postValue(getMyBillList())
             state.loading = false
         }
+    }
+
+    override fun onItemSelected(pos: Int, bill: BillModel) {
+        selectedBills.add(bill)
+        state.totalBillAmount =
+            state.totalBillAmount.plus(bill.amount?.toDouble() ?: 0.0)
+        setButtonText()
+        state.valid.set(true)
+        adapter.setItemAt(pos, bill)
+    }
+
+    override fun onItemUnselected(pos: Int, bill: BillModel) {
+        adapter.setItemAt(pos, bill)
+        selectedBills.remove(bill)
+        state.totalBillAmount =
+            state.totalBillAmount.minus(bill.amount?.toDouble() ?: 0.0)
+        setButtonText()
+        if (selectedBills.size == 0) {
+            state.valid.set(false)
+        }
+    }
+
+    override fun setButtonText() {
+        state.buttonText.set(
+            Translator.getString(
+                context,
+                Strings.screen_my_bills_btn_text_pay,
+                SessionManager.getDefaultCurrency(),
+                state.totalBillAmount.toString()
+            )
+        )
     }
 
     override fun onStop() {

@@ -10,27 +10,41 @@
             type="co.yap.billpayments.mybills.adapter.MyBillsItemViewModel" />
 
         <import type="co.yap.yapcore.enums.BillStatus" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_small"
-        android:background="@drawable/card_border_container"
-        android:onClick="@{(v)->viewModel.onViewClicked(v)}"
-        android:paddingHorizontal="@dimen/margin_normal_large"
-        android:paddingVertical="@dimen/margin_medium_large">
+        android:background="@{viewModel.billModel.selected ? @drawable/bg_selected_border_with_grey_fill : @drawable/card_border_container}"
+        android:onClick="@{(v)->viewModel.onViewClicked(v)}">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivIcon"
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
+            android:layout_marginVertical="@dimen/margin_medium_large"
+            android:layout_marginStart="@dimen/margin_normal_large"
             app:fullName="@{viewModel.billModel.name}"
             app:imageUrl="@{viewModel.billModel.logoUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:position="@{viewModel.position}" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginVertical="@dimen/margin_medium_large"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:background="@drawable/ic_item_selected"
+            android:visibility="@{viewModel.billModel.selected? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_tick" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwNameAndDesc"
@@ -42,10 +56,10 @@
             app:constraint_referenced_ids="tvBillerName,tvDescription"
             app:flow_verticalGap="@dimen/_1sdp"
             app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ivIcon"
             app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
             app:layout_constraintStart_toEndOf="@+id/ivIcon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/ivIcon" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBillerName"
@@ -71,6 +85,7 @@
             android:id="@+id/fwAmountAndStatus"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/margin_medium_large"
             android:orientation="vertical"
             app:constraint_referenced_ids="tvAmount,tvBillStatus"
             app:flow_horizontalAlign="end"
