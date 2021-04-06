@@ -421,9 +421,9 @@ object TransactionBinding {
             transactionData: Transaction
     ) {
         transactionData.let { it ->
-            val txnIconResId = it.getTransactionIcon()
+            val txnIconResId = it.getIcon()
             it.productCode?.let { pCode ->
-                if (it.isTransactionCancelled()) {
+                if (it.isTransactionRejected()) {
                     ivTransaction.alpha = 0.4f
                     ivTransaction.setImageResource(txnIconResId)
                 } else {

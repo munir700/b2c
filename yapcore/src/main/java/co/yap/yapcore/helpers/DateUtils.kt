@@ -502,4 +502,32 @@ object DateUtils {
         return (date.time - Calendar.getInstance().time.time) / 86400000
     }
 
+    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
+        return try {
+            SimpleDateFormat(format, Locale.US).format(date)
+            val sdf = SimpleDateFormat(format, Locale.US)
+            sdf.timeZone = TimeZone.getTimeZone("UTC")
+            return sdf.format(date)
+        } catch (e: Exception) {
+            " ";
+        }
+    }
+
+    fun datetoString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
+        date?.let {
+            var result = ""
+            val formatter = SimpleDateFormat(format, Locale.US)
+            formatter.timeZone = timeZone
+//            val symbols = DateFormatSymbols(Locale.getDefault())
+//            symbols.amPmStrings = arrayOf("am", "pm")
+//            formatter.dateFormatSymbols = symbols
+            try {
+                result = formatter.format(it)
+            } catch (e: Exception) {
+            }
+
+            return result
+        } ?: return ""
+
+    }
 }

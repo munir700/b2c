@@ -79,8 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true"
-                android:text="@{TransactionExtentionsKt.getTransactionTitle(viewModel.item)}"
-                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:@color/colorMidnightExpress}"
+                android:text="@{TransactionExtentionsKt.getTitle(viewModel.item)}"
+                android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.item)? @color/greyNormalDark:@color/colorMidnightExpress}"
                 tools:text="Amazon" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{TransactionExtentionsKt.getFormattedTransactionAmount(viewModel.item)}"
-                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?@color/colorSecondaryGreen :@color/colorPrimaryDark )}"
+                android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.item)? @color/greyNormalDark:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?@color/colorSecondaryGreen :@color/colorPrimaryDark )}"
                 tools:text="18:25" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -110,8 +110,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(viewModel.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransactionTypeTitle(viewModel.item,TransactionAdapterType.TRANSACTION))}"
-                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:@color/greyDark}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(viewModel.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransferType(viewModel.item,TransactionAdapterType.TRANSACTION))}"
+                android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.item)? @color/greyNormalDark:@color/greyDark}"
                 tools:text="- 21.00" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{TransactionExtentionsKt.getCurrency(viewModel.item)}"
-                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:@color/greyDark}"
+                android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.item)? @color/greyNormalDark:@color/greyDark}"
                 tools:text="AED" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

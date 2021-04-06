@@ -115,7 +115,8 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha256Encoded = "";
 #endif
 #ifdef HHQA
-    api_endpoint = "https://qa-hh.yap.co/";
+//    api_endpoint = "https://qa-hh.yap.co/";
+    api_endpoint = "https://s1.yap.co/";
     adjustAppToken = "am0wjeshw5xc";
     sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
     sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";

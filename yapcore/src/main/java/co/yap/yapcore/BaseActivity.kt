@@ -62,26 +62,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                 YAPApplication.configManager?.isReleaseBuild() == true
                         && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
         )
-        viewModel.toolBarClickEvent.observe(this, Observer {
-            onToolBarClick(it)
-        })
-
-        viewModel.state.viewState.observe(this, Observer {
-            it?.let {
-                when (it) {
-                    is String -> {
-                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
-                    }
-                    is Boolean -> {
-                        viewModel.state.loading = it
-                    }
-                    else -> {
-
-                    }
-                }
-
-            }
-        })
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {

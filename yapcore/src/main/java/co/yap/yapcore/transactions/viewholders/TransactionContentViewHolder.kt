@@ -12,9 +12,9 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getTransactionIcon
-import co.yap.yapcore.helpers.extentions.getTransactionTypeIcon
-import co.yap.yapcore.helpers.extentions.getTransactionTypeTitle
+import co.yap.yapcore.helpers.extentions.getIcon
+import co.yap.yapcore.helpers.extentions.getStatusIcon
+import co.yap.yapcore.helpers.extentions.getTransferType
 import co.yap.yapcore.transactions.viewmodels.ItemTransactionContentViewModel
 
 class TransactionContentViewHolder(private val itemTransactionListBinding: ItemTransactionListContentBinding) :
@@ -32,13 +32,13 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
                 transaction.updatedDate ?: "",
                 DateUtils.SERVER_DATE_FORMAT,
                 DateUtils.FORMAT_TIME_24H
-            ), transaction.getTransactionTypeTitle()
+            ), transaction.getTransferType()
         )
         setTxnAmount(transaction)
         itemTransactionListBinding.viewModel =
             ItemTransactionContentViewModel(
                 transaction,
-                getTxnResId(transaction), transaction.getTransactionTypeIcon()
+                getTxnResId(transaction), transaction.getStatusIcon()
 
             )
         itemTransactionListBinding.executePendingBindings()
@@ -48,7 +48,7 @@ class TransactionContentViewHolder(private val itemTransactionListBinding: ItemT
         return if (TransactionProductCode.Y2Y_TRANSFER.pCode == transaction.productCode || TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode) {
             -1
         } else {
-            transaction.getTransactionIcon()
+            transaction.getIcon()
         }
     }
 

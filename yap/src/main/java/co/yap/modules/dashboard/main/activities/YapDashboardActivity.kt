@@ -679,7 +679,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                         data.uuid?.let {
                             SwitchProfileLiveData.get(it, this@YapDashboardActivity)
                                     .observe(this@YapDashboardActivity, Observer<AccountInfo?> {
-                                        mNavigator.startHouseHoldModule(this@YapDashboardActivity)
+                                        mNavigator?.startHouseHoldModule(this@YapDashboardActivity)
                                         finish()
                                     })
                         }

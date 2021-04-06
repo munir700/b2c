@@ -34,7 +34,7 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
     }
 
     override fun getItemViewType(position: Int) = position
-    override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
+    override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun getItemId(position: Int) = datas[position].id.hashCode().toLong()
     override fun getViewHolder(
             view: View,
