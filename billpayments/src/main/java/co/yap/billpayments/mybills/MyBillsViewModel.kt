@@ -8,8 +8,10 @@ import co.yap.billpayments.mybills.adapter.MyBillsAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
@@ -34,7 +36,8 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
-                description = "29 Sept 2020",
+                description = "Burj ul Dubai",
+                billDueDate = "2021-02-12T06:53:35",
                 currency = "AED",
                 amount = "100",
                 billStatus = BillStatus.OVERDUE.title
@@ -42,50 +45,77 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
-                description = "29 Sept 2020 - Burj Telecom  29 Sept 2020 - Burj Telecom Residences 29 Sept 2020 - Burj Telecom Residences 29 Sept 2020 - Burj Telecom Residences",
+                description = "Burj Telecom Residences",
                 currency = "AED",
+                billDueDate = "2021-05-12T06:53:35",
                 amount = "100",
                 billStatus = BillStatus.OVERDUE.title
             ),
             BillModel(
                 logoUrl = "",
                 name = "Salik",
-                description = "29 Sept 2020",
+                description = "Burj ul khalifa",
                 currency = "AED",
+                billDueDate = "2021-09-12T06:53:35",
                 amount = "100",
                 billStatus = BillStatus.BILL_DUE.title
             ),
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
-                description = "29 Sept 2020 - Burj Telecom Residences",
+                description = "Burj Telecom Residences",
                 currency = "AED",
+                billDueDate = "2020-08-12T06:53:35",
                 amount = "100",
                 billStatus = BillStatus.OVERDUE.title
             ),
             BillModel(
                 logoUrl = "",
                 name = "Etsilat",
-                description = "29 Sept 2020 - Burj Telecom Residences",
+                description = "Burj Telecom Residences",
                 currency = "USD",
+                billDueDate = "2022-08-12T06:53:35",
                 amount = "100",
                 billStatus = BillStatus.BILL_DUE.title
             ),
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Etsilat",
-                description = "29 Sept 2020 - Burj Telecom Residences",
+                description = "Burj Telecom Residences",
                 currency = "USD",
+                billDueDate = "2021-08-12T06:53:35",
                 amount = "100",
                 billStatus = BillStatus.PAID.title
             ),
             BillModel(
                 logoUrl = "",
                 name = "Etsilat",
-                description = "29 Sept 2020 - Burj Telecom Residences",
+                description = "Burj Telecom Residences",
                 currency = "USD",
+                billDueDate = "2021-18-12T06:53:35",
                 amount = "100",
                 billStatus = BillStatus.OVERDUE.title
+            )
+        )
+    }
+
+    override fun getFiltersList(): MutableList<CoreBottomSheetData> {
+        return mutableListOf(
+            CoreBottomSheetData(
+                subTitle = "Due date",
+                isSelected = false
+            ),
+            CoreBottomSheetData(
+                subTitle = "Recently added",
+                isSelected = false
+            ),
+            CoreBottomSheetData(
+                subTitle = "A-Z ascending",
+                isSelected = false
+            ),
+            CoreBottomSheetData(
+                subTitle = "Z-A descending",
+                isSelected = false
             )
         )
     }
@@ -98,7 +128,16 @@ class MyBillsViewModel(application: Application) :
         launch {
             state.loading = true
             delay(1000L)
-            myBills.postValue(getMyBillList())
+            val list = getMyBillList()
+            list.forEach {
+                it.billDueDate = DateUtils.reformatStringDate(
+                    it.billDueDate.toString(),
+                    DateUtils.SERVER_DATE_FULL_FORMAT,
+                    DateUtils.FORMATE_DATE_MONTH_YEAR
+                )
+            }
+            myBills.postValue(list)
+
             state.loading = false
         }
     }

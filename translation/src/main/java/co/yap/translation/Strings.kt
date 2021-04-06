@@ -2222,6 +2222,8 @@ object Strings {
         "screen_my_bills_btn_text_pay"
     const val screen_my_bills_text_title_on_selection: String =
         "screen_my_bills_text_title_on_selection"
+    const val screen_my_bills_text_title_bottom_sheet: String =
+        "screen_my_bills_text_title_bottom_sheet"
 
     // Add Bill
     const val screen_add_bill_toolbar_title: String =

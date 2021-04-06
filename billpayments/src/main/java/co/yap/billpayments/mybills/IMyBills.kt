@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.mybills.adapter.MyBillsAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -26,6 +27,7 @@ interface IMyBills {
         fun onItemUnselected(pos: Int, bill: BillModel)
         fun setButtonText()
         fun getScreenTitle()
+        fun getFiltersList(): MutableList<CoreBottomSheetData>
     }
 
     interface State : IBase.State {
