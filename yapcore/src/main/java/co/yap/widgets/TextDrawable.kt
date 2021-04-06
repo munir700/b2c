@@ -5,7 +5,7 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
-import co.yap.yapcore.helpers.DateUtils
+import java.util.*
 
 
 class TextDrawable private constructor(builder: Builder) : ShapeDrawable(builder.shape) {
@@ -29,7 +29,7 @@ class TextDrawable private constructor(builder: Builder) : ShapeDrawable(builder
 
         // text and color
         text =
-            if (builder.toUpperCase) builder.text!!.toUpperCase(DateUtils.LOCAL) else builder.text!!
+            if (builder.toUpperCase) builder.text!!.toUpperCase(Locale.getDefault()) else builder.text!!
         val color = builder.color
         // text paint settings
         fontSize = builder.fontSize

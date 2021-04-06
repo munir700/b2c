@@ -72,7 +72,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         expectation: Boolean
     ): DynamicTest {
         val displayName: String = java.lang.String.format(
-            DateUtils.LOCAL,
+            Locale.getDefault(),
             "test_receipt_visibility_for_product_code_%s",
             transaction.productCode
         )
@@ -95,7 +95,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         expectation: TransactionExpectation
     ): DynamicTest {
         val displayName: String = java.lang.String.format(
-            DateUtils.LOCAL,
+            Locale.getDefault(),
             "test_transaction_for_product_code_%s",
             transaction.productCode
         )

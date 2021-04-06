@@ -58,7 +58,7 @@ class TransactionsTests : BaseTestCase() {
         expectation: TransactionExpectation
     ): DynamicTest {
         val displayName: String = java.lang.String.format(
-            DateUtils.LOCAL,
+            Locale.getDefault(),
             "test_transaction_for_product_code_%s",
             transaction.productCode
         )

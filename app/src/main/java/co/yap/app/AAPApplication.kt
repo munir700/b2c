@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -12,6 +11,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
 import co.yap.app.modules.refreal.DeepLinkNavigation
 import co.yap.household.onboard.otherscreens.InvalidEIDActivity
+import co.yap.localization.LocaleManager
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
@@ -92,10 +92,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         SecurityHelper(this, originalSign, object : SignatureValidator {
             override fun onValidate(isValid: Boolean, originalSign: AppSignature?) {
                 configManager?.hasValidSignature = true
-                //if (originalSign?.isLiveRelease() == true) isValid else true
             }
         })
-        setLocale("en")
     }
 
     private fun initAllModules() {
@@ -231,12 +229,13 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         )
     }
 
-    private fun setLocale(languageCode: String?) {
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-        val resources: Resources = this.resources
-        val config: Configuration = resources.configuration
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
+    override fun attachBaseContext(base: Context?) {
+        base?.let { LocaleManager.setLocale(it) }
+        super.attachBaseContext(base)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        LocaleManager.setLocale(this);
     }
 }

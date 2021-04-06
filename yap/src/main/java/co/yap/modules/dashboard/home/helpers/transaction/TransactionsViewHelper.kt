@@ -25,6 +25,7 @@ import com.yarolegovich.discretescrollview.DiscreteScrollView
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
+import java.util.*
 
 class TransactionsViewHelper(
     val context: Context, val transactionsView: View,
@@ -138,7 +139,7 @@ class TransactionsViewHelper(
 
         view?.let {
             val text = String.format(
-                DateUtils.LOCAL,
+                Locale.getDefault(),
                 "%s \nAED %s",
                 DateUtils.reformatStringDate(
                     data.originalDate ?: "",

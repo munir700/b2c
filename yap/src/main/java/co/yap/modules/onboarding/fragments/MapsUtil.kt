@@ -12,7 +12,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import co.yap.yapcore.helpers.DateUtils
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationRequest
@@ -65,7 +64,7 @@ class MapsUtil : OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         supportMapFragment.getMapAsync(this)
         buildGoogleApiClient()
         locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        geocoder = Geocoder(context, DateUtils.LOCAL)
+        geocoder = Geocoder(context, Locale.getDefault())
     }
 
 

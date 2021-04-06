@@ -22,7 +22,6 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import java.text.SimpleDateFormat
@@ -338,12 +337,12 @@ class PaymentCardDetailViewModel(application: Application) :
 
     private fun convertDate(creationDate: String?): String? {
         creationDate?.let {
-            val parser = SimpleDateFormat("yyyy-MM-dd", DateUtils.LOCAL)
+            val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             parser.timeZone = TimeZone.getTimeZone("UTC")
             val convertedDate = parser.parse(creationDate)
             parser.timeZone = TimeZone.getDefault()
             val pattern = "MMMM dd, yyyy"
-            val simpleDateFormat = SimpleDateFormat(pattern, DateUtils.LOCAL)
+            val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())
             simpleDateFormat.timeZone = TimeZone.getDefault()
             return simpleDateFormat.format(convertedDate)
         }
