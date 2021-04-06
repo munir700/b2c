@@ -1,7 +1,5 @@
 package co.yap.billpayments.billerdetail.adapter
 
-import co.yap.yapcore.enums.BillerDetailInputTypes
-
 data class BillerDetailInputFieldModel(
     var background: Int? = 0,
     var drawableEnd: Int?,
@@ -14,7 +12,7 @@ data class BillerDetailInputFieldModel(
     var maxLength: Int?,
     var minLength: Int?,
     var validLengths: Int?,
-    var billerDetailInputTypes: BillerDetailInputTypes?,
+    var billerDetailInputType: Int?,
     var key: String?,
     var value: String?
 )

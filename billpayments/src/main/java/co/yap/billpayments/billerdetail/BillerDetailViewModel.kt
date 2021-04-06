@@ -1,8 +1,13 @@
 package co.yap.billpayments.billerdetail
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.billerdetail.adapter.BillerDetailAdapter
+import co.yap.billpayments.billerdetail.adapter.BillerDetailInputFieldModel
+import co.yap.billpayments.billerdetail.composer.BillerDetailInputComposer
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
+import co.yap.networking.customers.responsedtos.billpayment.IoCatalogsModel
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.BillCategory
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
@@ -12,10 +17,14 @@ import com.google.gson.reflect.TypeToken
 class BillerDetailViewModel(application: Application) :
     PayBillBaseViewModel<IBillerDetail.State>(application), IBillerDetail.ViewModel {
     override val state: IBillerDetail.State = BillerDetailState()
+    override var adapter: BillerDetailAdapter = BillerDetailAdapter(mutableListOf())
+    override var billInputs: MutableLiveData<MutableList<BillerDetailInputFieldModel>> =
+        MutableLiveData(mutableListOf())
+    override val billerDetailItemComposer: BillerDetailInputComposer = BillerDetailInputComposer()
 
     override fun onCreate() {
         super.onCreate()
-
+        getBillerDetails()
     }
 
     override fun onResume() {
@@ -45,6 +54,8 @@ class BillerDetailViewModel(application: Application) :
         launch {
             state.loading = true
             val billerDetailResponse = readBillerDetailsFromFile()
+            billInputs.value =
+                billerDetailItemComposer.compose(billerDetailResponse.ioCatalogs as ArrayList<IoCatalogsModel>)
             state.loading = false
 
         }

@@ -12,9 +12,9 @@ data class IoCatalogsModel(
     @SerializedName("ValidLengths")
     var validLengths: String?,
     @SerializedName("MinLength")
-    var minLength: String?,
+    var minLength: Int?,
     @SerializedName("MaxLength")
-    var maxLength: String?,
+    var maxLength: Int?,
     @SerializedName("IOID")
     var ioid: String?
 )

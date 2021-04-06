@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
             android:id="@+id/tvInputField"
@@ -26,8 +26,7 @@
             app:hintTextAppearance="@style/LabelTextStyl"
             app:hintTextColorSelected="@color/colorPrimary"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:hint="Card Number">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etNewEmail"
@@ -35,15 +34,14 @@
                 android:layout_height="wrap_content"
                 android:background="@{viewModel.billerDetailInputFieldModel.background}"
                 android:drawableEnd="@{viewModel.billerDetailInputFieldModel.drawableEnd}"
-                android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="@{viewModel.billerDetailInputFieldModel.billerDetailInputTypes.inputType}"
+                android:inputType="@{viewModel.billerDetailInputFieldModel.billerDetailInputType}"
                 android:maxLength="@{viewModel.billerDetailInputFieldModel.maxLength}"
                 android:singleLine="true"
                 android:text="@{viewModel.billerDetailInputFieldModel.value}"
                 android:theme="@style/Theme.EditText.Primary"
                 app:hint="@{viewModel.billerDetailInputFieldModel.placeHolder}"
-                tools:hint="Card Number" />
+                tools:hint="Email" />
 
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -56,7 +54,7 @@
             android:text="@{viewModel.billerDetailInputFieldModel.errorText}"
             android:textColor="@color/greyDark"
             app:layout_constraintTop_toBottomOf="@+id/tvInputField"
-            tools:text="this email is registered with another account" />
+            tools:text="Incorrect mobile number." />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

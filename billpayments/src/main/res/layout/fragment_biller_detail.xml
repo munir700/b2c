@@ -29,6 +29,7 @@
             tools:text="Enter your credit card details?" />
 
         <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/cardFlow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal_large"
@@ -60,6 +61,19 @@
             android:maxLines="1"
             android:text="@{viewModel.parentViewModel.selectedBiller.billerName}"
             tools:text="Etsilat" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            app:adapter="@{viewModel.adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardFlow"
+            tools:itemCount="5"
+            tools:listitem="@layout/layout_item_biller_detail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
