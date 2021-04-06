@@ -13,7 +13,7 @@ class DueBillsItemViewModel(
     fun calculateIsOverDue(): Boolean {
         if (DateUtils.isDatePassed(
                 dueBill.billDueDate,
-                SimpleDateFormat(DateUtils.SERVER_DATE_FULL_FORMAT)
+                SimpleDateFormat(DateUtils.FORMATE_DATE_MONTH_YEAR)
             )
         ) {
             return true
