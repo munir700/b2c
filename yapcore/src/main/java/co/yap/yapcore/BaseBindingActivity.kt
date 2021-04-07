@@ -47,8 +47,7 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
     @LayoutRes
     abstract fun getLayoutId(): Int
 
-    override fun attachBaseContext(base: Context?) {
-        base?.let { LocaleManager.setLocale(it) }
-        super.attachBaseContext(base)
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleManager.setLocale(base))
     }
 }

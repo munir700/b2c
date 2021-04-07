@@ -229,13 +229,12 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         )
     }
 
-    override fun attachBaseContext(base: Context?) {
-        base?.let { LocaleManager.setLocale(it) }
-        super.attachBaseContext(base)
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleManager.setLocale(base))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        LocaleManager.setLocale(this);
+        LocaleManager.setLocale(this)
     }
 }

@@ -3,47 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/rlTopMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/rlTopMain"
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etCoreInput"
             android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:drawablePadding="@dimen/margin_small"
+            android:focusableInTouchMode="true"
+            android:imeOptions="actionDone"
+            android:inputType="textEmailAddress"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:tag="input"
+            android:textColor="?attr/colorPrimaryDarkAttr"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/_15sdp"
+            tools:autofillHints="First name"
+            tools:hint="First name" />
+
+        <TextView
+            android:id="@+id/tvError"
+            style="@style/AMicroGrey"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center_horizontal"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etCoreInput"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:drawablePadding="@dimen/margin_small"
-                android:focusableInTouchMode="true"
-                android:imeOptions="actionDone"
-                android:inputType="textEmailAddress"
-                android:paddingStart="@dimen/_25sdp"
-                android:paddingEnd="@dimen/_25sdp"
-                android:tag="input"
-                android:textColor="?attr/colorPrimaryDarkAttr"
-                android:textIsSelectable="true"
-                android:textSize="@dimen/_15sdp"
-                tools:autofillHints="First name"
-                tools:hint="First name" />
-
-            <TextView
-                android:id="@+id/tvError"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:paddingStart="@dimen/_15sdp"
-                android:paddingEnd="@dimen/_15sdp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:textSize="12sp"
-                android:visibility="gone" />
-
-
-        </LinearLayout>
     </LinearLayout>
+
 </layout>
