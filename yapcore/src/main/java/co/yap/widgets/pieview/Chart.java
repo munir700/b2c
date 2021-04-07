@@ -226,7 +226,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     // Calendar calendar = Calendar.getInstance();
     // for (int i = 0; i < 12; i++) {
     // xVals.add(calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT,
-    // DateUtils.LOCAL));
+    // Locale.getDefault()));
     // }
     //
     // ArrayList<DataSet> dataSets = new ArrayList<DataSet>();

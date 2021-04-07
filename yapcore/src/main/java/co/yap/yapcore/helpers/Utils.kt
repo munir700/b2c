@@ -459,7 +459,7 @@ object Utils {
     fun getFormattedPhone(mobileNo: String): String {
         return try {
             val pnu = PhoneNumberUtil.getInstance()
-            val pn = pnu.parse(mobileNo, DateUtils.LOCAL.country)
+            val pn = pnu.parse(mobileNo, Locale.getDefault().country)
             return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
         } catch (e: Exception) {
             e.printStackTrace()

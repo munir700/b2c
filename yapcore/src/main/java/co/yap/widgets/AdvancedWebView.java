@@ -141,7 +141,7 @@ public class AdvancedWebView extends WebView {
 
     protected static String getLanguageIso3() {
         try {
-            return Locale.ENGLISH.getISO3Language().toLowerCase(Locale.ENGLISH);
+            return Locale.getDefault().getISO3Language().toLowerCase(Locale.getDefault());
         } catch (MissingResourceException e) {
             return LANGUAGE_DEFAULT_ISO3;
         }
