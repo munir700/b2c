@@ -6,8 +6,9 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.yapcore.helpers.extentions.toast
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.InitLivePersonProperties
-import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.infra.LPConversationsHistoryStateToDisplay
+import com.liveperson.infra.auth.LPAuthenticationParams
+import com.liveperson.infra.auth.LPAuthenticationType
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
@@ -33,6 +34,7 @@ object ChatManager {
                     override fun onInitSucceed() {
                         openChatConversation()
                     }
+
                     override fun onInitFailed(e: Exception) {
                         activity?.get()?.toast("Unable to open chat")
                     }
@@ -41,10 +43,11 @@ object ChatManager {
     }
 
     private fun openChatConversation() {
-        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
+        val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
         authParams.hostAppJWT = authRepository.getJwtToken()
         val params = ConversationViewParams(false)
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
+            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
+            .setHistoryConversationsMaxDays(180)
             .setReadOnlyMode(false)
         LivePerson.showConversation(activity?.get(), authParams, params)
         val consumerProfile = ConsumerProfile.Builder()

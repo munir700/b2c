@@ -13,8 +13,12 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopUpBankDetailsBinding
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.leanplum.TopUpEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel>(),
@@ -28,6 +32,7 @@ class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        trackEvent(TopUpEvents.ACCOUNT_TOP_UP_TRANSFER.type)
         viewModel.clickEvent.observe(this, clickEvent)
 
     }
@@ -68,6 +73,7 @@ class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel
     }
 
     private fun shareInfo() {
+        trackEventWithScreenName(FirebaseEvent.SHARE_BANK_DETAILS)
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         // not set because ios team is not doing this.

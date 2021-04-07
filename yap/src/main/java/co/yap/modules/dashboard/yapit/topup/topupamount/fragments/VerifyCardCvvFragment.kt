@@ -20,6 +20,8 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 
 class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), IVerifyCardCvv.View {
@@ -41,16 +43,17 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.state.cvvSpanableString.set(
-            getString(Strings.screen_topup_card_cvv_display_text_cvv).format(
-                args.currencyType,
-                args.amount.toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency())
+            resources.getText(
+                getString(Strings.screen_topup_card_cvv_display_text_cvv),
+                requireContext().color(
+                    R.color.colorPrimaryDark,
+                    args.amount.toFormattedCurrency(
+                        showCurrency = true,
+                        currency = SessionManager.getDefaultCurrency()
+                    )
+                )
             )
-        )
-        getBindings().tvTopUpDescription.text = Utils.getSppnableStringForAmount(
-            requireContext(),
-            viewModel.state.cvvSpanableString.get().toString(),
-            args.currencyType,
-            Utils.getFormattedCurrencyWithoutComma(args.amount)
+
         )
 
         if (context is TopUpCardActivity) {
@@ -59,7 +62,8 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
             viewModel.state.formattedCardNo.set(Utils.getFormattedCardNumber(cardInfo?.number.toString()))
             when (cardInfo?.logo) {
                 Constants.VISA,
-                Constants.MASTER -> {
+                Constants.MASTER
+                -> {
                     getBindings().cvvView.visibility = View.VISIBLE
                     getBindings().cvvAmericanView.visibility = View.GONE
                 }

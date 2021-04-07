@@ -88,8 +88,8 @@ class EidInfoReviewViewModel(application: Application) :
                     true
                 ) -> {
                     updateLabels(
-                        title = "Looks like you're from the United States",
-                        body = "We're sorry, we aren't able to create bank accounts for US Citizens at this point. Stay tuned though, we'll announce it everywhere if this changes!"
+                        title = getString(Strings.screen_kyc_information_error_display_text_title_from_us),
+                        body = getString(Strings.screen_kyc_information_error_text_description_from_us)
                     )
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
@@ -106,8 +106,8 @@ class EidInfoReviewViewModel(application: Application) :
                     true
                 ) -> {
                     updateLabels(
-                        title = "We're sorry :(",
-                        body = "Unfortunately, we're unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account."
+                        title = getString(Strings.screen_kyc_information_error_display_text_title_sanctioned_country),
+                        body = getString(Strings.screen_kyc_information_error_text_description_sanctioned_country)
                     )
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality

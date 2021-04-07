@@ -53,11 +53,10 @@
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/margin_extra_large"
-                android:layout_marginRight="@dimen/margin_xxl"
                 android:drawablePadding="@dimen/_20sdp"
                 android:gravity="center"
                 android:minHeight="@dimen/_52sdp"
@@ -71,6 +70,8 @@
                 app:btn_shape_type="rectangle"
                 app:btn_text_size="@dimen/text_size_h4"
                 app:layout_constraintTop_toBottomOf="@+id/tvName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="MissingConstraints" />
 
             <Switch
@@ -90,12 +91,11 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnCompleteVerification"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xl"
+            app:btn_size="small"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="@dimen/margin_xl"
-            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v) -> viewModel.handlePressOnCompleteVerification()}"
             android:visibility="@{NotificationStatus.valueOf(SessionManager.INSTANCE.getUser().notificationStatuses)==NotificationStatus.ON_BOARDED?View.VISIBLE:View.GONE}"
             app:btn_enable="true"
@@ -108,12 +108,11 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnSetCardPin"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xl"
+            app:btn_size="small"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="@dimen/margin_xl"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v) -> viewModel.handlePressOnsetCardPin()}"
             android:visibility="gone"
             app:btn_enable="true"

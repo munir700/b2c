@@ -10,7 +10,6 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -21,7 +20,7 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class YapDashBoardViewModel(application: Application) :
-    BaseViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel,
+    YapDashboardChildViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel,
     IRepositoryHolder<MessagesRepository> {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -32,6 +31,13 @@ class YapDashBoardViewModel(application: Application) :
     private val sharedPreferenceManager = SharedPreferenceManager(application)
     override val authRepository: AuthRepository = AuthRepository
     override var EVENT_LOGOUT_SUCCESS: Int = 101
+    override var isYapHomeFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isYapStoreFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isYapCardsFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isYapMoreFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isUnverifiedScreenNotVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isShowHomeTour: MutableLiveData<Boolean> = MutableLiveData(false)
+
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
@@ -43,18 +49,31 @@ class YapDashBoardViewModel(application: Application) :
         state.toast = "Copied to clipboard"
     }
 
+
+    override fun getAccountInfo(): String {
+        return "Name: ${SessionManager.user?.currentCustomer?.getFullName()}\n" +
+                "IBAN: ${SessionManager.user?.iban}\n" +
+                "Swift/BIC: ${SessionManager.user?.bank?.swiftCode}\n" +
+                "Account: ${SessionManager.user?.accountNo}\n" +
+                "Bank: ${SessionManager.user?.bank?.name}\n" +
+                "Address: ${SessionManager.user?.bank?.address}\n"
+    }
+
     override fun onCreate() {
         super.onCreate()
         updateVersion()
         getHelpPhoneNo()
-        launch {
-            delay(1500)
-            showUnverifedscreen.value =
-                SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+        if (SessionManager.deepLinkFlowId.value == null) {
+            launch {
+                delay(1500)
+                showUnverifedscreen.value =
+                    SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+            }
         }
+        state.isFounder.set(SessionManager.user?.currentCustomer?.founder)
     }
 
-    override fun resendVerificationEmail() {
+    override fun resendVerificationEmail(callBack: () -> Unit) {
         launch {
             state.loading = true
             when (val response =
@@ -86,7 +105,7 @@ class YapDashBoardViewModel(application: Application) :
         populateState()
     }
 
-    private fun populateState() {
+    override fun populateState() {
         SessionManager.user?.let { it ->
             it.accountNo?.let { state.accountNo = it.maskAccountNumber() }
             it.iban?.let { state.ibanNo = it.maskIbanNumber() }

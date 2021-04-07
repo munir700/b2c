@@ -25,6 +25,7 @@ interface ITaxInfo {
 
         fun saveInfoDetails(isSubmit: Boolean, success: (pdfUrl: String?) -> Unit)
         fun getAllCountries(success: (ArrayList<Country>) -> Unit)
+        fun onCountryPicked(view: android.view.View, country: Country,itemModel: TaxModel, pos: Int)
         var clickEvent: SingleClickEvent
         var taxInfoList: MutableList<TaxModel>
         var reasonsList: ArrayList<String>
@@ -38,4 +39,6 @@ interface ITaxInfo {
         var onSuccess: ObservableField<Boolean>
         var isAgreed: ObservableField<Boolean>
     }
+
+    data class CountryPicker(val view: android.view.View, val data: Any, val pos: Int)
 }

@@ -15,6 +15,7 @@ import co.yap.widgets.DividerItemDecoration
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import kotlinx.android.synthetic.main.fragment_card_analytics_details.*
 
 class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDetails.ViewModel>() {
@@ -39,7 +40,11 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 viewModel.state.countWithDate.set(getConcatinatedString(txnAnalytics.txnCount ?: 0))
                 viewModel.state.monthlyTotalPercentage.set("${txnAnalytics.totalSpendingInPercentage}%")
                 viewModel.state.categories = txnAnalytics.categories
-                if (txnAnalytics.title.equals("Other")) viewModel.state.percentCardVisibility  = false
+                if (txnAnalytics.title.equals("Other")) viewModel.state.percentCardVisibility =
+                    false
+                viewModel.adapter.analyticsItemTitle =
+                    if (txnAnalytics.title.getMerchantCategoryIcon() == -1) null else txnAnalytics.title
+                viewModel.adapter.analyticsItemImgUrl = txnAnalytics.logoUrl
             }
             bundle.getInt(Constants.TRANSACTION_POSITION).let { position ->
                 viewModel.state.position = position

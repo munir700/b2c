@@ -30,6 +30,12 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
     private var cardSizeTypeMedium: Int = 1
     private var cardSizeTypeLarge: Int = 2
 
+    var infoIconVisibility: Boolean = true
+        set(value) {
+            field = value
+            ivInfo.visibility = if (infoIconVisibility) View.VISIBLE else View.INVISIBLE
+        }
+
     var view: View = LayoutInflater.from(context)
         .inflate(R.layout.core_payment_card, this, true)
 

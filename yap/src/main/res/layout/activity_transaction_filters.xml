@@ -20,6 +20,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <co.yap.widgets.CoreToolbar
@@ -88,6 +89,27 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvOutTrans"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvOutTrans" />
+            <TextView
+                android:id="@+id/tvPenTrans"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOutTrans"
+                app:text="@{Strings.screen_transaction_filter_display_text_pending_transactions}"
+                tools:text="@string/screen_transaction_filter_display_text_pending_transactions" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbPenTransFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_selector_tint"
+                android:scaleX="1.20"
+                android:scaleY="1.20"
+                app:layout_constraintBottom_toBottomOf="@+id/tvPenTrans"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvPenTrans" />
 
             <View
                 android:id="@+id/vLineTrans"
@@ -95,7 +117,7 @@
                 android:layout_height="2px"
                 android:layout_marginTop="@dimen/_18sdp"
                 android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@id/tvOutTrans" />
+                app:layout_constraintTop_toBottomOf="@id/tvPenTrans" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,8 +126,9 @@
             android:layout_height="wrap_content"
             android:visibility="@{viewModel.state.hasInternet ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clTransContainer">
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
 
             <TextView
                 android:id="@+id/tvRangeTitle"
@@ -182,6 +205,40 @@
                 app:layout_constraintTop_toBottomOf="@id/rsbAmount" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tvCategoriesTitle"
+            style="@style/ARegularGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            app:layout_constraintTop_toBottomOf="@+id/clTransContainer"
+            app:text="@{Strings.screen_transaction_filter_display_text_categories}"
+            tools:text="@string/screen_transaction_filter_display_text_categories" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="@+id/tvCategoriesTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategoriesTitle">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:singleSelection="false">
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
         <View
             android:id="@+id/vButtonsLine"
             android:layout_width="match_parent"
@@ -205,16 +262,18 @@
 
         <TextView
             android:id="@+id/tvClearFilters"
-            style="@style/Large"
+            style="@style/ARegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:textColor="@color/colorPrimary"
             app:btn_enable="true"
+            android:lineSpacingExtra="10sp"
             app:layout_constraintBottom_toBottomOf="@id/btnApplyFilters"
             app:layout_constraintEnd_toStartOf="@+id/btnApplyFilters"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btnApplyFilters"
+            app:layout_constraintVertical_bias="0.521"
             app:text="@{Strings.screen_transaction_filter_button_clear_filter}"
             tools:text="@string/screen_transaction_filter_button_clear_filter" />
 

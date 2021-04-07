@@ -15,7 +15,7 @@ class InformationErrorViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.buttonTitle = getString(Strings.screen_kyc_information_error_button_go_to_dashboard)
+        state.buttonTitle = getString(Strings.screen_kyc_information_error_button_logout)
     }
 
     override fun onResume() {

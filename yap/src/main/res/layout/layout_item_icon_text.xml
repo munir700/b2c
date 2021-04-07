@@ -13,6 +13,10 @@
         <variable
             name="title"
             type="String" />
+
+        <variable
+            name="tint"
+            type="int" />
     </data>
 
     <LinearLayout
@@ -29,7 +33,7 @@
             android:layout_width="@dimen/_22sdp"
             android:layout_height="@dimen/_22sdp"
             android:src="@{icon}"
-            app:tint="@color/greyDark" />
+            android:tint="@{tint}" />
 
         <TextView
             style="@style/ASmall"
@@ -37,7 +41,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/margin_small"
             android:paddingEnd="@dimen/_2sdp"
-            android:text="@{title}" />
+            android:text="@{title}"  />
 
     </LinearLayout>
 

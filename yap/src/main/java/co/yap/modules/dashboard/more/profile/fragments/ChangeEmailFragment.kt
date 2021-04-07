@@ -13,7 +13,6 @@ import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
-import co.yap.translation.Strings
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.SessionManager
@@ -45,10 +44,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                 viewModel.state.newEmail
             )
             val action =
-                ChangeEmailFragmentDirections.actionChangeEmailFragmentToChangeEmailSuccessFragment(
-                    getString(Strings.screen_email_address_success_display_text_sub_heading),
-                    viewModel.state.newEmail
-                )
+                ChangeEmailFragmentDirections.actionChangeEmailFragmentToChangeEmailSuccessFragment()
             findNavController().navigate(action)
         })
 

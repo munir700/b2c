@@ -45,6 +45,9 @@ class TourSetup(
         skip = findViewById(R.id.skip)
         skip?.setOnClickListener {
             dismiss()
+            guidedTourViewViewsList[getCurrentItemPosition() ?: 0].callBackListener?.let {
+                it.onTourSkipped(getCurrentItemPosition() ?: 0)
+            }
         }
     }
 
@@ -53,7 +56,6 @@ class TourSetup(
         updateCircle()
         addDescBox()
         Handler().postDelayed({
-            skip?.visibility = View.VISIBLE
             updateSkipButtonPosition()
 //            skip!!.alpha = 0f
 //            skip!!.animate().alpha(1f).setDuration(500)
@@ -67,6 +69,7 @@ class TourSetup(
     }
 
     private fun updateSkipButtonPosition() {
+        skip?.visibility = if (getCurrentItem()?.showSkip == true) View.VISIBLE else View.GONE
         getCurrentItem()?.let {
             val isOnTop = TourUtils.isViewLocatedAtHalfTopOfTheScreen(context, it.view)
             val sh = TourUtils.getScreenHeight(context).toFloat()
@@ -89,8 +92,7 @@ class TourSetup(
             descBoxView?.layoutParams = showCaseParams
             val p = descBoxView?.layoutParams
             rootMain?.addView(
-                TourUtils.setAnimationToView(descBoxView!!, animation)
-                , 0
+                TourUtils.setAnimationToView(descBoxView!!, animation), 0
             )
             descBoxView?.bringToFront()
         }
@@ -101,16 +103,32 @@ class TourSetup(
             layer?.radius = it.circleRadius
             layer?.centerX = it.view.locationOnScreen.x.toFloat() + (it.view.width / 2)
             when {
-                TourUtils.isViewLocatedAtBottomOfTheScreen(context, it.view, 200) -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat() - 125
+                TourUtils.isViewLocatedAtBottomOfTheScreen(
+                    context,
+                    it.view,
+                    activity.resources.getDimension(R.dimen._50sdp).toInt()
+                ) -> {
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._10sdp)
+                            .toInt() + it.circlePadding
                 }
-                TourUtils.isViewLocatedAtTopOfTheScreen(context, it.view, 200) -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat() - 50
+                TourUtils.isViewLocatedAtTopOfTheScreen(
+                    context,
+                    it.view,
+                    activity.resources.getDimension(R.dimen._50sdp).toInt()
+                ) -> {
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._15sdp)
+                            .toInt() + it.circlePadding
                 }
                 else -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat()
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() + it.circlePadding
                 }
             }
+            layer?.isRectangle = it.isRectangle
+            layer?.viewTop = it.view.top.toFloat() - activity.resources.getDimension(R.dimen._10sdp)
+            layer?.viewBottom = it.view.bottom.toFloat() + activity.resources.getDimension(R.dimen._9sdp)
             layer?.invalidate()
         }
     }
@@ -126,6 +144,7 @@ class TourSetup(
                 ?.y(yPadding)
                 ?.setDuration(500)?.start()
             descBoxView?.setAttributes(builder)
+
         }
     }
 
@@ -139,6 +158,9 @@ class TourSetup(
                 updateSkipButtonPosition()
             } else {
                 dismiss()
+                guidedTourViewViewsList[pos].callBackListener?.let {
+                    it.onTourCompleted(pos)
+                }
             }
         }
     }
@@ -152,6 +174,9 @@ class TourSetup(
             .subtitle(tourDetail.description)
             .pageNo("${currentViewId + 1}/${guidedTourViewViewsList.size}")
             .targetViewScreenLocation(getTargetViewScreenLocation(tourDetail.view))
+            .showPageNo(tourDetail.showPageNo)
+            .showSkip(tourDetail.showSkip)
+            .btnText(tourDetail.btnText)
             .listener(object : OnBubbleMessageViewListener {
                 override fun onBubbleClick() {
                     listener.onItemClick(currentViewId)
@@ -201,8 +226,14 @@ class TourSetup(
     private fun getCurrentItem(): GuidedTourViewDetail? {
         return if (!guidedTourViewViewsList.isNullOrEmpty() && currentViewId < guidedTourViewViewsList.size) guidedTourViewViewsList[currentViewId] else null
     }
+
+    private fun getCurrentItemPosition(): Int? {
+        return if (!guidedTourViewViewsList.isNullOrEmpty() && currentViewId < guidedTourViewViewsList.size) currentViewId else null
+    }
 }
 
 interface OnTourItemClickListener {
-    fun onItemClick(pos: Int)
+    fun onTourSkipped(pos: Int) {}
+    fun onTourCompleted(pos: Int) {}
+    fun onItemClick(pos: Int) {}
 }

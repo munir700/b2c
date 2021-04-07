@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.fragments
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -19,10 +20,14 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.leanplum.AnalyticsEvents
+import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
@@ -41,10 +46,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        trackEvent(AnalyticsEvents.ANALYTICS_OPEN.type)
         viewModel.fetchCardCategoryAnalytics(
             DateUtils.dateToString(
                 Calendar.getInstance().time,
-                "yyyy-MM-dd"
+                "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
             )
         )
         setObservers()
@@ -78,7 +84,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.setTransparentCircleAlpha(200)
 //            chart.holeRadius = // 78f  For Rounded corner graph with spaces
             chart.holeRadius = 70f
-            chart.transparentCircleRadius = 70f
+            chart.transparentCircleRadius = 68f
             chart.setDrawCenterText(true)
             chart.rotationAngle = -90f
             chart.isRotationEnabled = false
@@ -96,6 +102,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     * In this set Data in Pie View.
     * */
 
+    @SuppressLint("NewApi")
     private fun setData(txnAnalytics: List<TxnAnalytic>?) {
         val entries: ArrayList<PieEntry> = ArrayList()
         val colors = ArrayList<Int>()
@@ -116,7 +123,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         dataSet.sliceSpace = 0f
 //        dataSet.sliceSpace = 5f   // For Rounded corner graph with spaces
         dataSet.iconsOffset = MPPointF(0f, 40f)
-        dataSet.selectionShift = 20f
+        dataSet.selectionShift = 12f
         dataSet.setDrawValues(false)
         dataSet.colors = colors
         val data = PieData(dataSet)
@@ -143,7 +150,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
             setupPieChart(selectedTabPos)
             setSelectedTabData(selectedTabPos, 0)
+            viewModel.parentViewModel?.state?.isNoDataFound?.set(viewModel.isDataAvailableForSelectedMonth(
+                1))
+
         })
+
         viewModel.parentViewModel?.selectedItemPosition?.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
@@ -216,6 +227,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             tab?.let { tabs ->
                 setSelectedTabData(tabs.position, 0)
                 setupPieChart(tabs.position)
+                viewModel.parentViewModel?.state?.isNoDataFound?.set(viewModel.isDataAvailableForSelectedMonth(
+                    tab.position))
             }
         }
     }
@@ -253,8 +266,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         item?.let { txnAnalytics ->
             viewModel.state.selectedItemName = txnAnalytics.title
             viewModel.state.selectedItemPercentage = "${txnAnalytics.totalSpendingInPercentage}%"
-            viewModel.state.selectedItemSpentValue =
-                "${viewModel.state.currencyType}${txnAnalytics.totalSpending}"
+            viewModel.state.selectedItemSpentValue = txnAnalytics.totalSpending.toFormattedCurrency(
+                true,
+                currency = viewModel.state.currencyType
+            )
         }
     }
 
@@ -269,7 +284,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun onValueSelected(e: Entry?, h: Highlight?) {
 
         val selectedItem = getBindingView().tabLayout.selectedTabPosition
-        h?.let {highlight ->
+        h?.let { highlight ->
             setSelectedTabData(selectedItem, highlight.x.toInt())
             viewModel.parentViewModel?.selectedItemPositionParent?.value = highlight.x.toInt()
         }
@@ -278,6 +293,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setSelectedTabData(TabPosition: Int, contentPos: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_CATEGORY_VIEW)
                 if (!viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
                         viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.get(
@@ -288,6 +304,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
             MERCHANT_ANALYTICS -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_MERCHANT_VIEW)
                 if (!viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
                         viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value?.get(

@@ -14,23 +14,7 @@
           <group>
             <clip-path android:pathData="M-5,47L47,47L47,-5L-5,-5Z M 0,0"/>
             <group>
-              <clip-path android:pathData="M0,42L42,42L42,0L0,0Z M 0,0"/>
-              <path
-                  android:pathData="M-5,-5L47,-5L47,47L-5,47Z"
-                  android:strokeAlpha="0.16"
-                  android:fillColor="#7c4dff"
-                  android:fillAlpha="0.0256"/>
-            </group>
-            <group>
               <clip-path android:pathData="M0,0L41.9672,0L41.9672,41.9672L0,41.9672L0,0Z M 0,0"/>
-              <group>
-                <clip-path android:pathData="M0,42L42,42L42,0L0,0Z M 0,0"/>
-                <path
-                    android:pathData="M-5,-5L46.9672,-5L46.9672,46.9672L-5,46.9672Z"
-                    android:strokeAlpha="0.16"
-                    android:fillColor="#00b9ae"
-                    android:fillAlpha="0.16"/>
-              </group>
             </group>
           </group>
         </group>

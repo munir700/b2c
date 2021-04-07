@@ -19,9 +19,11 @@ import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
@@ -31,12 +33,17 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.leanplum.SignInEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -251,6 +258,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
+                    trackEventWithScreenName(if (viewModel.state.isAccountLocked.get() == true) FirebaseEvent.FORGOT_PWD_BLOCKED else FirebaseEvent.CLICK_FORGOT_PWD)
                     if (!isUserLoginIn()) {
                         goToNext(viewModel.state.username)
                     } else {
@@ -299,7 +307,29 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
-            SessionManager.updateCardBalance {  }
+            trackEventWithScreenName(if (viewModel.isFingerprintLogin) FirebaseEvent.SIGN_IN_TOUCH else FirebaseEvent.SIGN_IN_PIN)
+            if (!this.isWaiting) {
+                if (this.iban.isNullOrBlank()) {
+                    startFragment(
+                        fragmentName = ReachedTopQueueFragment::class.java.name,
+                        clearAllPrevious = true
+                    )
+                } else {
+                    getCardAndTourInfo(it)
+                }
+            } else {
+                startFragment(
+                    fragmentName = WaitingListFragment::class.java.name,
+                    clearAllPrevious = true
+                )
+            }
+        }
+    }
+
+    private fun getCardAndTourInfo(accountInfo: AccountInfo?) {
+        TourGuideManager.getTourGuides()
+        SessionManager.getDebitCard { card ->
+            SessionManager.updateCardBalance { }
             viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
             if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -328,11 +358,11 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     navigate(action)
                 }
             } else {
-                if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                if (accountInfo?.accountType == AccountType.B2C_HOUSEHOLD.name) {
                     SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                     val bundle = Bundle()
                     bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
-                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
+                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
                     startActivity(
                         OnBoardingHouseHoldActivity.getIntent(
                             requireContext(),
@@ -341,12 +371,14 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     )
                     activity?.finish()
                 } else {
-                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                    if (accountInfo?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                    else
+                    else {
+                        SessionManager.sendFcmTokenToServer(requireContext()) {}
                         navigate(R.id.action_goto_yapDashboardActivity)
-
+                    }
                     activity?.finish()
+
                 }
             }
         }
@@ -367,6 +399,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun navigateToDashboard() {
+        trackEvent(SignInEvents.SIGN_IN.type)
         if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
             val intent = Intent()
             intent.putExtra("CheckResult", true)

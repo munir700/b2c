@@ -38,12 +38,7 @@ class CountryListAdapter(
         val label = row.findViewById(R.id.textView) as TextView
         val flag = row.findViewById(R.id.flag_img) as CoreCircularImageView
         label.text = objects[position].getName()
-        if (position == 0) {//Special style for dropdown header
-            label.setTextColor(label.context.resources.getColor(R.color.colorPrimaryDark))
-            flag.visibility = View.GONE
-        }else{
-            flag.setImageResource(objects[position].getFlagDrawableResId(label.context))
-        }
+        flag.setImageResource(objects[position].getFlagDrawableResId(label.context))
         return row
     }
 }

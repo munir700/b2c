@@ -2,11 +2,15 @@ package co.yap.app
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
+import co.yap.app.modules.refreal.DeepLinkNavigation
 import co.yap.household.onboard.otherscreens.InvalidEIDActivity
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
@@ -25,6 +29,7 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.initializeAdjustSdk
+import com.airbnb.deeplinkdispatch.DeepLinkHandler
 import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -33,6 +38,7 @@ import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import timber.log.Timber
 import java.util.*
+
 
 class AAPApplication : YAPApplication(), NavigatorProvider {
 
@@ -90,6 +96,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     }
 
     private fun initAllModules() {
+        val intentFilter = IntentFilter(DeepLinkHandler.ACTION)
+        LocalBroadcastManager.getInstance(this).registerReceiver(DeepLinkReceiver(), intentFilter)
         initNetworkLayer()
         setAppUniqueId(this)
         inItLeanPlum()
@@ -198,6 +206,12 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                     }
                 }
 
+            }
+
+            override fun handleDeepLinkFlow(activity: AppCompatActivity, flowId: String?) {
+                if (activity is YapDashboardActivity) {
+                    DeepLinkNavigation.getInstance(activity).handleDeepLinkFlow(flowId)
+                }
             }
         }
     }

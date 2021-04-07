@@ -1,6 +1,5 @@
 package co.yap.modules.onboarding.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -16,22 +15,13 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
-import co.yap.yapcore.helpers.extentions.ExtraType
-import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragment
 
 
 class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
     IPassCode.View {
-
-    companion object {
-        fun newIntent(context: Context, isSettingPin: Boolean): Intent {
-            val intent = Intent(context, CreatePasscodeActivity::class.java)
-            intent.putExtra("isSettingPin", isSettingPin)
-            return intent
-        }
-    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -43,16 +33,13 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.forgotTextVisibility = false
-        viewModel.state.title = getString(Strings.screen_create_passcode_display_text_title)
+        viewModel.state.title = getString(Strings.screen_create_passcode_display_heading)
         viewModel.state.buttonTitle =
-            getString(Strings.screen_create_passcode_button_create_passcode)
+            getString(Strings.screen_create_passcode_onboarding_button_create_passcode)
 
-        val isSettingPin = intent.getValue(
-            "isSettingPin",
-            ExtraType.BOOLEAN.name
-        ) as? Boolean
-        getBinding().clTermsAndConditions.visibility =
-            if (isSettingPin == true) View.VISIBLE else View.INVISIBLE
+        getBinding().clTermsAndConditions.visibility = View.VISIBLE
+        getBinding().tvTermsAndConditionsTitle.text =
+            getString(Strings.screen_confirm_onboarding_create_passcode_display_title_terms_and_conditions)
 
         getBinding().dialer.hideFingerprintView()
         viewModel.clickEvent.observe(this, Observer {
@@ -60,13 +47,14 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
                 R.id.tvTermsAndConditions -> {
                     startFragment<WebViewFragment>(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                            co.yap.yapcore.constants.Constants.PAGE_URL to URL_TERMS_CONDITION
+                            Constants.PAGE_URL to URL_TERMS_CONDITION
                         ), showToolBar = false
                     )
                 }
                 R.id.btnAction -> {
-                    if (viewModel.isValidPassCode())
+                    if (viewModel.isValidPassCode()) {
                         setIntentResults()
+                    }
                 }
             }
         })
@@ -75,7 +63,7 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
     private fun setIntentResults() {
         val intent = Intent()
         intent.putExtra("PASSCODE", viewModel.state.passCode)
-        setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
+        setResult(RequestCodes.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
     }
 

@@ -19,6 +19,10 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.leanplum.TopUpEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel>(),
@@ -31,6 +35,7 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        trackEvent(TopUpEvents.ACCOUNT_TOP_UP_CARD.type)
         viewModel.getAccountBalanceRequest()
         setObservers()
     }
@@ -46,21 +51,12 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         SessionManager.cardBalance.observe(this, Observer {
-            viewModel.state.availableBalanceSpanable.set(
-                getString(Strings.screen_topup_success_display_text_account_balance_title).format(
-                    args.currencyType,
-                    it.availableBalance?.toFormattedCurrency(
-                        showCurrency = false,
-                        currency = args.currencyType
-                    )
+            getBindings().tvNewSpareCardBalance.text = requireContext().resources.getText(
+                getString(Strings.screen_topup_success_display_text_account_balance_title),
+                requireContext().color(
+                    R.color.colorPrimaryDark,
+                    it.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
                 )
-            )
-
-            getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
-                requireContext(),
-                viewModel.state.availableBalanceSpanable.get().toString(),
-                args.currencyType,
-                Utils.getFormattedCurrencyWithoutComma(it.availableBalance)
             )
             getBindings().ivSuccessCheckMark.visibility = View.VISIBLE
             viewModel.state.loading = false

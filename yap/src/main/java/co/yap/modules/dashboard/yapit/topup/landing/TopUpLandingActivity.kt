@@ -27,7 +27,6 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewModel.clickEvent.observe(this, clickEventObserver)
     }
 

@@ -11,6 +11,8 @@ import co.yap.modules.setcardpin.viewmodels.SetCardPinSuccessViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 
 class SetCardPinSuccessFragment : SetPinChildFragment<ISetCardPinSuccess.ViewModel>(),
     ISetCardPinSuccess.View {
@@ -27,11 +29,13 @@ class SetCardPinSuccessFragment : SetPinChildFragment<ISetCardPinSuccess.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnTopUp -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_NOW)
                     setupActionsIntentForTopUp()
                     activity?.finish()
                 }
 
                 R.id.tvTopUpLater -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_TOPUP_LATER)
                     setupActionsIntent()
                     activity?.finish()
                 }

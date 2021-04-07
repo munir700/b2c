@@ -13,8 +13,9 @@ interface ITransactionNote {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
-        fun addEditNote(transactionId: String?, transactionDetail: String?)
+        fun addEditNote(transactionId: String?, transactionDetail: String?, receiverNote: String?)
         val addEditNoteSuccess: MutableLiveData<Boolean>
+        var txnType: String
     }
 
     interface State : IBase.State {

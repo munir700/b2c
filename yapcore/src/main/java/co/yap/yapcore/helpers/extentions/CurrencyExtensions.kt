@@ -36,7 +36,7 @@ fun String?.toFormattedCurrency(
     }
 }
 
-private fun getDecimalFormatUpTo(
+fun getDecimalFormatUpTo(
     selectedCurrencyDecimal: Int,
     amount: String,
     withComma: Boolean = true
@@ -73,6 +73,12 @@ private fun getDecimalFormatUpTo(
                     DecimalFormat("###,###,##0.0000").format(amountInDouble)
                 else
                     DecimalFormat("########0.0000").format(amountInDouble)
+            }
+            6 -> {
+                if (withComma)
+                    DecimalFormat("###,###,##0.000000").format(amountInDouble)
+                else
+                    DecimalFormat("########0.000000").format(amountInDouble)
             }
             else -> {
                 if (withComma)

@@ -51,7 +51,7 @@ class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
         if (data != null) {
             viewModel.state.title = data.name.toString()
             viewModel.state.subTitle = data.desc.toString()
-            viewModel.state.image = data.image?: 0
+            viewModel.state.image = data.image ?: 0
             viewModel.state.storeHeading =
                 "Allocate specific budget to your child, track and fully."
             viewModel.state.storeDetail =

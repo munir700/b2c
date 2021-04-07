@@ -25,7 +25,8 @@
             android:background="@color/white"
             android:orientation="vertical"
             android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium">
+            android:paddingRight="@dimen/margin_medium"
+            android:gravity="">
 
             <TextView
                 style="@style/Large"
@@ -224,12 +225,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_34sdp"
-                android:layout_marginBottom="@dimen/margin_medium_large"
-                android:minWidth="@dimen/_180sdp"
+                android:layout_marginTop="@dimen/margin_extra_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
+                app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.screen_add_beneficiary_button_next}"
                 tools:text="@string/screen_add_beneficiary_button_next" />
         </LinearLayout>

@@ -1,6 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
-import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,9 +14,12 @@ interface IWaitingList {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnNext(id: Int)
+        fun requestWaitingRanking()
     }
 
     interface State : IBase.State {
-        var rankNoInList: MutableLiveData<String>?
+        var waitingBehind: ObservableField<String>?
+        var rank: ObservableField<String>?
+        var jump: ObservableField<String>?
     }
 }

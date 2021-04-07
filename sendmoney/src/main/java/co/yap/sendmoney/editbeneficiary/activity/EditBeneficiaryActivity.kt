@@ -30,6 +30,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.isRMTAndSWIFT
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -44,7 +45,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     override fun getLayoutId() = R.layout.activity_edit_beneficiary
     private var currencyPopMenu: PopupMenu? = null
-    var terminateProcess: Boolean = false
 
     override val viewModel: IEditBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(EditBeneficiaryViewModel::class.java)
@@ -62,7 +62,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         bundleData.getParcelable(Beneficiary::class.java.name)
                     if (viewModel.state.beneficiary.isRMTAndSWIFT()) {
                         viewModel.getAllCountries(beneficiary = viewModel.state.beneficiary) { countries ->
-                            populateCountriesList(countries)
                         }
                     }
                 }
@@ -86,28 +85,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         }
     }
 
-    private fun populateCountriesList(countries: ArrayList<Country>?) {
-        getBinding().spinner.setItemSelectedListener(selectedItemListener)
-        getBinding().spinner.setAdapter(countries)
-        if (viewModel.state.selectedCountryOfResidence != null) {
-            getBinding().spinner.setSelectedItem(
-                countries?.indexOf(viewModel.state.selectedCountryOfResidence ?: Country()) ?: 0
-            )
-        }
-    }
-
-    private val selectedItemListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Country) {
-                if (data.getName() != "Select country") {
-                    viewModel.state.selectedCountryOfResidence = data
-                } else {
-                    viewModel.state.selectedCountryOfResidence = null
-                }
-            }
-        }
-    }
-
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
@@ -120,9 +97,15 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         viewModel.requestUpdateBeneficiary()
                     }
                 }
-                R.id.tvChangeCurrency ->
+                R.id.tvChangeCurrency -> {
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
-
+                }
+                R.id.bcountries -> {
+                    this.launchBottomSheet(
+                        itemClickListener = itemListener,
+                        label = "Select Country",
+                        viewType = Constants.VIEW_WITH_FLAG)
+                }
             }
         })
 
@@ -141,6 +124,19 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         viewModel.isBeneficiaryValid.observe(this, isBeneficiaryValidObserver)
         viewModel.onBeneficiaryCreatedSuccess.observe(this, onBeneficiaryCreatedSuccessObserver)
 
+    }
+
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Country) {
+                val country: Country = data as Country
+                if (country.getName() != "Select country") {
+                    viewModel.state.selectedCountryOfResidence = data
+                } else {
+                    viewModel.state.selectedCountryOfResidence = null
+                }
+            }
+        }
     }
 
     private val isBeneficiaryValidObserver = Observer<Boolean> { isValid ->
@@ -165,7 +161,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         emailOtp = false,
                         toolBarData = OtpToolBarData()
                     )
-                ), true
+                ), false
             ) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.createBeneficiaryRequest()

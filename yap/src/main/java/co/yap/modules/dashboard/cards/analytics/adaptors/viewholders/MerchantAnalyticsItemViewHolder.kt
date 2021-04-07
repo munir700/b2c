@@ -1,18 +1,20 @@
 package co.yap.modules.dashboard.cards.analytics.adaptors.viewholders
 
+import android.annotation.SuppressLint
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.databinding.ItemAnalyticsBinding
+import co.yap.databinding.ItemMarchentAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.MerchantAnalyticsAdaptor
 import co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class MerchantAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnalyticsBinding) :
+class MerchantAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemMarchentAnalyticsBinding) :
     RecyclerView.ViewHolder(itemAnalyticsBinding.root) {
 
+    @SuppressLint("SetTextI18n")
     fun onBind(
         adapter: MerchantAnalyticsAdaptor?,
         analyticsItem: TxnAnalytic?,

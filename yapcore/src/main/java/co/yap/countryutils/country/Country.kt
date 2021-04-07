@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Parcelable
 import co.yap.countryutils.country.utils.Currency
 import co.yap.countryutils.country.utils.CurrencyUtils
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
@@ -21,7 +22,7 @@ data class Country(
     private var flagDrawableResId: Int = -1,
     private var currency: Currency? = null,
     var ibanMandatory: Boolean? = false
-) : Parcelable {
+) : Parcelable , CoreBottomSheetData(){
     var isCashPickUpAllowed: Boolean?
         get() {
             val size = supportedCurrencies!!.size

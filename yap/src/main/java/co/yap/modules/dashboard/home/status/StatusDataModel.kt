@@ -7,7 +7,7 @@ data class StatusDataModel(
     val statusTitle: String? = null,
     val statusDescription: String? = null,
     val statusAction: String? = null,
-    val progressStatus: StageProgress,
+    var progressStatus: StageProgress,
     val statusDrawable: Drawable,
     val hideLine: Boolean = false
 )

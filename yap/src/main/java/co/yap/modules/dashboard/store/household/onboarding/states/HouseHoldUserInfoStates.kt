@@ -135,6 +135,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
             notifyPropertyChanged(BR.refreshField)
 
         }
+
     @get:Bindable
     override var handleBackPress: Int = 0
         set(value) {
@@ -185,7 +186,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
             if (StringUtils.validateName(value)) {
                 lastNameError = ""
                 notifyPropertyChanged(BR.lastNameError)
-                drawbleRightLastName =null
+                drawbleRightLastName = null
                 notifyPropertyChanged(BR.valid)
             } else {
                 valid = false

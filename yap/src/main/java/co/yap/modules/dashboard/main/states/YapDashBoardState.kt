@@ -11,6 +11,7 @@ class YapDashBoardState : BaseState(), IYapDashboard.State {
 
     override var userNameImage: ObservableField<String> = ObservableField("")
     override var appVersion: ObservableField<String> = ObservableField("")
+    override var isFounder: ObservableField<Boolean> = ObservableField()
 
     @get:Bindable
     override var accountType: AccountType = AccountType.B2C_ACCOUNT

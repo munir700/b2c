@@ -2,7 +2,6 @@ package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
-import co.yap.widgets.State
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -30,10 +29,10 @@ interface IEidInfoReview {
     }
 
     interface View : IBase.View<ViewModel> {
-        fun showUnderAgeAlert()
-        fun showExpiredEidAlert()
-        fun showInvalidEidAlert()
-        fun showUSACitizenAlert()
+        fun showUnderAgeScreen()
+        fun showExpiredEidScreen()
+        fun showInvalidEidScreen()
+        fun showUSACitizenScreen()
         fun openCardScanner()
     }
 

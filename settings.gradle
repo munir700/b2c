@@ -1,1 +1,1 @@
-include ':app', ':yapcore', ':networking', ':translation', ':yap', ':identityscanner_v2', ':household', ':sendmoney', ':security', ':wallet'
+include ':app', ':yapcore', ':networking', ':translation', ':yap', ':identityscanner_v2', ':household', ':sendmoney', ':security' , ':qrcodereaderview', ':wallet'

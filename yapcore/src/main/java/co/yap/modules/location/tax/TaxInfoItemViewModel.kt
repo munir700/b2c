@@ -2,12 +2,11 @@ package co.yap.modules.location.tax
 
 import android.view.View
 import co.yap.yapcore.R
-import co.yap.yapcore.databinding.ItemTaxInfoBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxInfoItemViewModel(
     val taxModel: TaxModel,
-    val position: Int,val itemTaxInfoBinding: ItemTaxInfoBinding?,
+    val position: Int,
     val onItemClickListener: OnItemClickListener?
 ) {
     val spinnerItemClickListener = object : OnItemClickListener {
@@ -28,7 +27,6 @@ class TaxInfoItemViewModel(
     fun onViewClicked(view: View) {
         when (view.id) {
             R.id.ivCross -> {
-                itemTaxInfoBinding?.bcountries?.reset()
                 taxModel.taxRowNumber.set(false)
             }
             R.id.lyAddCountry -> {
@@ -37,4 +35,5 @@ class TaxInfoItemViewModel(
         }
         onItemClickListener?.onItemClick(view, taxModel, position)
     }
+
 }

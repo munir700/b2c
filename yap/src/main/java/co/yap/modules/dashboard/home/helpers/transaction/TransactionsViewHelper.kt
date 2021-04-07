@@ -130,7 +130,7 @@ class TransactionsViewHelper(
     }
 
     fun addTooltip(view: View?, data: HomeTransactionListData, firstTime: Boolean = false) {
-        transactionsView.tvTransactionDate.visibility = View.VISIBLE
+        setTooltipVisibility(View.VISIBLE)
         transactionsView.tvTransactionDate.text = DateUtils.reformatStringDate(
             data.originalDate ?: "",
             "yyyy-MM-dd",
@@ -147,7 +147,8 @@ class TransactionsViewHelper(
                     DateUtils.FORMAT_DATE_MON_YEAR
                 ),
                 data.closingBalance.toString()
-                    .toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())
+                    .toFormattedCurrency(showCurrency = false,
+                        currency = SessionManager.getDefaultCurrency())
             )
             tooltip?.apply {
                 visibility = View.VISIBLE
@@ -162,6 +163,7 @@ class TransactionsViewHelper(
                         )
                     }
                 }
+                this.ivCross.setOnClickListener { setTooltipVisibility(View.GONE) }
 
                 val viewPosition = IntArray(2)
                 val arrowViewPosition = IntArray(2)
@@ -169,7 +171,7 @@ class TransactionsViewHelper(
                 tooltip?.arrowView?.getLocationInWindow(arrowViewPosition)
                 val screen = DisplayMetrics()
                 (context as Activity).windowManager.defaultDisplay.getMetrics(screen)
-
+                var rightPadding = 0
                 if (viewPosition[0] + this.width >= screen.widthPixels) {
                     // It is the end of the screen so adjust X
 //                    if((arrowViewPosition[0].minus(this.width))>screen.widthPixels/2){
@@ -177,13 +179,14 @@ class TransactionsViewHelper(
 //                            screen.widthPixels.toFloat() - this.width-10
 //                    }else {
                     translationX =
-                        screen.widthPixels.toFloat() - this.width
+                        screen.widthPixels.toFloat() - this.width - rightPadding / 2
+
 //                    }
 
                     // Adjust position of arrow of tooltip
-                    arrowX = viewPosition[0] - x + (it.width / 2)
+                    arrowX = viewPosition[0] - x + (it.width / 2) - rightPadding / 2
                     tooltip?.arrowView?.translationX =
-                        ((viewPosition[0].toFloat() - (it.width / 2))) + context.dimen(R.dimen.tooltip_default_corner_radius)// translationX-it.width / 2//viewPosition[0] - x + (it.width / 2)
+                        ((viewPosition[0].toFloat() - (it.width / 2))) + context.dimen(R.dimen.tooltip_default_corner_radius) - rightPadding / 2 // translationX-it.width / 2//viewPosition[0] - x + (it.width / 2)
                 } else {
                     val viewWidth = it.width + (context.dimen(R.dimen.margin_one_dp) * 2)
                     if ((viewPosition[0] - viewWidth) > 0) {

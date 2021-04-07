@@ -41,6 +41,7 @@
     <color name="dialogTitleColor">#de000000</color>
     <color name="disabledPurple">#297c4dff</color>
     <color name="subMenuColor">#4DD8D8D8</color>
+    <color name="analyticsGraphColor">#66A682FF</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>
     <color name="colorSecondaryOrange">#F57F17</color>
@@ -90,7 +91,7 @@
         <item>@color/colorSecondaryBlue</item>
         <item>@color/colorSecondaryOrange</item>
         <item>@color/colorSecondaryGreen</item>
-        <item>?attr/colorPrimaryAttr</item>
+        <item>@color/colorPrimarySoft</item>
     </array>
 
     <color name="textDarkColor">#1a1423</color>
@@ -134,7 +135,20 @@
     <color name="colorPlaceHolderGrey">#9391B3</color>
     <color name="colorOpaquAqua">#2400B9AE</color>
     <color name="colorOpaquSecondaryOrange">#24F57F17</color>
+    <color name="colorLightGreyWithOpacity">#f8f9fc</color>
     <color name="skeleton_mask">#E8ECF6</color>
     <color name="skeleton_shimmer">#d5d5d5</color>
 
+
+<!--    StepView-->
+
+    <color name="stepview_line_done">#4D272262</color>
+    <color name="stepview_line_next">#26ffffff</color>
+    <color name="stepview_text_next">#40ffffff</color>
+    <color name="stepview_text_done">#40ffffff</color>
+    <color name="stepview_text_selected">@android:color/white</color>
+    <color name="stepview_circle_done">@android:color/white</color>
+    <color name="stepview_circle_selected">@android:color/white</color>
+    <color name="stepview_selected_number">#25448a</color>
+    <color name="stepview_mark">@color/stepview_selected_number</color>
 </resources>

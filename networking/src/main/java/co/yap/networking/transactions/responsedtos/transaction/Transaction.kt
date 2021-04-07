@@ -1,6 +1,8 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
 import android.os.Parcelable
+import co.yap.networking.cards.responsedtos.VirtualCardDesigns
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -136,8 +138,12 @@ data class Transaction(
     val transactionId: String? = null,
     @SerializedName("transactionNote")
     var transactionNote: String? = null,
+    @SerializedName("receiverTransactionNote")
+    var receiverTransactionNote: String? = null,
     @SerializedName("transactionNoteDate")
     var transactionNoteDate: String? = null,
+    @SerializedName("receiverTransactionNoteDate")
+    var receiverTransactionNoteDate: String? = null,
     @SerializedName("txnRefNo")
     val txnRefNo: String? = null,
     @SerializedName("txnState")
@@ -159,6 +165,12 @@ data class Transaction(
     @SerializedName("receiverProfilePictureUrl")
     val receiverProfilePictureUrl: String? = null,
     @SerializedName("cancelReason")
-    val cancelReason: String? = null
+    val cancelReason: String? = null,
+    @SerializedName("designCodesDTO")
+    val virtualCardDesign: VirtualCardDesigns? = null,
+    @SerializedName("cardName1")
+    val cardName1: String? = null,
+    @SerializedName("cardName2")
+    val cardName2: String? = null
 
-) : Parcelable
+):ApiResponse() ,Parcelable

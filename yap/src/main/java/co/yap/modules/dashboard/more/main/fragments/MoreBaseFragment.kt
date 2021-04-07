@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel
-import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.BaseBindingImageFragment
 import co.yap.yapcore.IBase
 
-abstract class MoreBaseFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
+abstract class MoreBaseFragment<V : IBase.ViewModel<*>> : BaseBindingImageFragment<V>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,10 +18,6 @@ abstract class MoreBaseFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>
     }
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
-
-
     }
-
 }

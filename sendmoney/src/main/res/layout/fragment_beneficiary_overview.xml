@@ -541,18 +541,17 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/confirmButton"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/_60sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnConfirm(v.id)}"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.screen_beneficiary_overview_button_confirm}"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="44dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@string/screen_beneficiary_overview_button_confirm" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

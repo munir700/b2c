@@ -1,31 +1,32 @@
 package co.yap.yapcore.enums
 
 enum class FeatureSet {
-    DOMESTIC_TRANSFER, //done
-    UAEFTS_TRANSFER, // done
-    CBWSI_TRANSFER,  // done
-    RMT_TRANSFER, // done
-    SWIFT_TRANSFER, //done
-    TOP_UP_BY_EXTERNAL_CARD, // done
-    ADD_FUNDS,  //done
-    REMOVE_FUNDS, //done
-    Y2Y_TRANSFER, //done
-    UNFREEZE_CARD, //done
-    CHANGE_PIN, // done
-    FORGOT_PIN, // done
-    CHANGE_PASSCODE,  //done
-    FORGOT_PASSCODE, // done
-    ADD_SEND_MONEY_BENEFICIARY, // done
-    EDIT_SEND_MONEY_BENEFICIARY, // done
-    DELETE_SEND_MONEY_BENEFICIARY, // done
-    EDIT_PHONE_NUMBER, // done
-    EDIT_EMAIL, //done
-    UPDATE_EID, //done
-    REORDER_DEBIT_CARD,//done
-    ANALYTICS,// done
-    YAP_FOR_YOU, //done
-    YAP_TO_YAP, // done
-    TOP_UP,// done
-    SEND_MONEY,// done
+    DOMESTIC_TRANSFER,
+    UAEFTS_TRANSFER,
+    CBWSI_TRANSFER,
+    RMT_TRANSFER,
+    SWIFT_TRANSFER,
+    TOP_UP_BY_EXTERNAL_CARD,
+    ADD_FUNDS,
+    REMOVE_FUNDS,
+    Y2Y_TRANSFER,
+    UNFREEZE_CARD,
+    CHANGE_PIN,
+    FORGOT_PIN,
+    CHANGE_PASSCODE,
+    FORGOT_PASSCODE,
+    ADD_SEND_MONEY_BENEFICIARY,
+    EDIT_SEND_MONEY_BENEFICIARY,
+    DELETE_SEND_MONEY_BENEFICIARY,
+    EDIT_PHONE_NUMBER,
+    EDIT_EMAIL,
+    UPDATE_EID,
+    REORDER_DEBIT_CARD,
+    ANALYTICS,
+    YAP_FOR_YOU,
+    YAP_TO_YAP,
+    TOP_UP,
+    SEND_MONEY,
+    DEBIT_CARD_DETAIL,
     NONE
 }

@@ -42,7 +42,10 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 .format(
                     state.currencyType,
                     SessionManager.cardBalance.value?.availableBalance.toString()
-                        .toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency())
+                        .toFormattedCurrency(
+                            showCurrency = false,
+                            currency = SessionManager.getDefaultCurrency()
+                        )
                 )
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)
     }
@@ -59,7 +62,12 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.createTransactionSession(
-                CreateSessionRequest(Order(state.currencyType, enteredAmount.value.getValueWithoutComa()))
+                CreateSessionRequest(
+                    Order(
+                        state.currencyType,
+                        enteredAmount.value.getValueWithoutComa()
+                    )
+                )
             )) {
                 is RetroApiResponse.Success -> {
                     orderId = response.data.data.order.id
@@ -110,7 +118,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             if (showLoader)
                 state.loading = true
-            when (val response = transactionsRepository.secureIdPooling(secureId.toString())) {
+            when (val response = transactionsRepository.secureIdPooling(secureId ?: "")) {
                 is RetroApiResponse.Success -> {
                     when (response.data.data) {
                         null -> {

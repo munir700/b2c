@@ -5,7 +5,9 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
+import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -14,6 +16,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -66,12 +69,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SEARCH_BANK_PARAMS = "/customers/api/other_bank/params"
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
     const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
+    const val URL_GET_ALL_COUNTRIES = "customers/api/countries"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
     val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
     val URL_SEND_MONEY_UAEFT = "/transactions/api/uaefts"
     val URL_GET_FEE = "/transactions/api/product-codes/{product-code}/fees"
     val URL_BENEFICIARY_CHECK_OTP_STATUS = "customers/api/beneficiaries/bank-transfer/otp-req"
+    const val URL_HOME_COUNTRY_FX_RATE = "/transactions/api/fxRate"
 
 
     val URL_RMT = "transactions/api/rmt"
@@ -93,6 +98,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_TAX_INFO = "customers/api/tax-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
+    const val URL_GET_QR_CONTACT = "customers/api/customers-info"
 
     /*
    * Url's that comes from admin repo
@@ -108,6 +114,17 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
+    const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
+    const val URL_TOUR_GUIDES = "customers/api/tour-guides"
+
+    const val URL_GET_ADDITIONAL_DOCUMENT = "customers/api/additional/documents/required"
+    const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
+    const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
+    const val URL_SEND_INVITE_FRIEND = "customers/api/save-invite"
+    const val URL_ADDITIONAL_SUBMIT =
+        "customers/api/update-notification-status"
+    const val URL_GET_RANKING = "customers/api/fetch-ranking"
+    const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -238,6 +255,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getAllBeneficiaries() = executeSafely(call = { api.getAllBeneficiaries() })
 
+    override suspend fun getCountries() = executeSafely(call = { api.getCountries() })
+
     override suspend fun getAllCountries() = executeSafely(call = { api.getAllCountries() })
 
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
@@ -357,4 +376,73 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                 smCoolingPeriodRequest.productCode
             )
         })
+
+    override suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse> =
+        executeSafely(call = { api.getQRContact(qrContactRequest) })
+
+    override suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.updateHomeCountry(UpdateHomeCountryRequest(homeCountry)) })
+
+    override suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse> =
+        executeSafely(call = { api.updateFxRate(fxRate) })
+
+    override suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse> =
+        executeSafely(call = { api.updateTourGuideStatus(tourGuide) })
+
+    override suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse> =
+        executeSafely(call = { api.getTourGuides() })
+
+    override suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse> =
+        executeSafely(call = { api.getAdditionalInfoRequired() })
+
+    override suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        uploadAdditionalInfo.run {
+            val reqFile: RequestBody =
+                RequestBody.create(
+                    MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
+                    uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
+                )
+            val body =
+                MultipartBody.Part.createFormData(
+                    "files",
+                    uploadAdditionalInfo.files?.name,
+                    reqFile
+                )
+            executeSafely(call = {
+                api.uploadAdditionalDocuments(
+                    files = body,
+                    documentType = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        documentType ?: ""
+                    )
+                )
+            })
+        }
+
+
+    override suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.uploadAdditionalQuestion(uploadAdditionalInfo)
+        })
+
+    override suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.sendInviteFriend(sendInviteFriendRequest)
+        })
+    override suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.submitAdditionalInfo(uploadAdditionalInfo)
+        })
+
+    override suspend fun getWaitingRanking(): RetroApiResponse<WaitingRankingResponse> =
+        executeSafely(call = {
+            api.getWaitingRanking()
+        })
+
+    override suspend fun completeVerification(completeVerificationRequest: CompleteVerificationRequest): RetroApiResponse<SignUpResponse> =
+        executeSafely(call = {
+            api.completeVerification(completeVerificationRequest)
+        })
+
+
 }

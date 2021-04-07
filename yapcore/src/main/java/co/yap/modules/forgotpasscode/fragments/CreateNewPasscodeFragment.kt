@@ -69,7 +69,6 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
         getBindings().dialer.upDatedDialerPad(viewModel.state.passCode)
     }
 
-
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()

@@ -30,7 +30,8 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
-                android:paddingRight="@dimen/margin_medium">
+                android:paddingRight="@dimen/margin_medium"
+                android:gravity="center">
 
                 <TextView
                     style="@style/Large"
@@ -336,14 +337,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_34sdp"
-                    android:layout_marginBottom="@dimen/margin_medium_large"
-                    android:minWidth="@dimen/_180sdp"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
+                    app:btn_size="small"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
                     app:enableCoreButton="@{viewModel.state.valid}"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{Strings.common_button_next}"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="44dp"
                     tools:text="@string/common_button_next" />
             </LinearLayout>
         </LinearLayout>
