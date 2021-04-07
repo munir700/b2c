@@ -3,20 +3,20 @@ package co.yap.networking.customers.responsedtos.billpayment
 import com.google.gson.annotations.SerializedName
 
 data class BillModel(
-    @SerializedName("LogoUrl")
+    @SerializedName("logoUrl")
     var logoUrl: String?,
-    @SerializedName("Name")
+    @SerializedName("name")
     var name: String?,
-    @SerializedName("Description")
+    @SerializedName("description")
     var description: String?,
-    @SerializedName("Currency")
+    @SerializedName("currency")
     var currency: String?,
-    @SerializedName("Amount")
+    @SerializedName("amount")
     var amount: String?,
-    @SerializedName("BillStatus")
+    @SerializedName("billStatus")
     var billStatus: String?,
-    @SerializedName("DueDate")
-    var billDueDate: String?,
+    @SerializedName("creationDate")
+    var creationDate: String?,
     @Transient
     var isSelected: Boolean = false
 )

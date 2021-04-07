@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{viewModel.billModel.billDueDate + ` `+ viewModel.billModel.description}"
+            android:text="@{viewModel.billModel.creationDate + ` `+ viewModel.billModel.description}"
             tools:text="Etsilatkdsjf;kdsjfskadjfksdjfl;askdjfl;kasdjflkasdjfl;kasdjf;laskdjfsfsdfsadf" />
 
         <androidx.constraintlayout.helper.widget.Flow
