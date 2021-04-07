@@ -25,6 +25,7 @@ import static co.yap.wallet.encriptions.utils.EncodingUtils.encodeBytes;
 
 
 /**
+ *
  * Performs field level encryption on HTTP payloads.
  * <p>
  * The Encryption Process
@@ -40,10 +41,12 @@ import static co.yap.wallet.encriptions.utils.EncodingUtils.encodeBytes;
  * <p>
  * The AES session key is decrypted using the recipient’s RSA private key
  * Sensitive data are decrypted using the AES key
+ *
+ * @author Irfan Arshad
  */
 public class FieldLevelEncryption {
 
-    private static final String SYMMETRIC_CYPHER = "AES/CBC/PKCS7Padding";
+    private static final String SYMMETRIC_CYPHER = "AES/CBC/PKCS5Padding";
 
     private static JsonEngine jsonEngine;
     private static Configuration jsonPathConfig = withJsonEngine(JsonEngine.getDefault());
@@ -74,7 +77,7 @@ public class FieldLevelEncryption {
      * @return The complete  encrypt payload including TAV
      * @throws EncryptionException
      */
-    public static String encryptPayloadWithTAV(String payload, FieldLevelEncryptionConfig config, String base64TavDigitalSignature) throws EncryptionException {
+    public static String encryptPayloadWithTAV(String payload, FieldLevelEncryptionConfig config, String base64TavDigitalSignature) throws GeneralSecurityException, EncryptionException {
         String encryptPayload = encryptPayload(payload, config, null);
         DocumentContext payloadContext = JsonPath.parse(encryptPayload, jsonPathConfig);
         payloadContext.put("$", config.tokenizationAuthenticationValueFieldName, base64TavDigitalSignature.trim());
@@ -246,12 +249,12 @@ public class FieldLevelEncryption {
             Object ivJsonElement = readAndDeleteJsonKey(payloadContext, jsonPathIn, inJsonObject, config.ivFieldName);
             readAndDeleteJsonKey(payloadContext, jsonPathIn, inJsonObject, config.encryptionCertificateFingerprintFieldName);
             readAndDeleteJsonKey(payloadContext, jsonPathIn, inJsonObject, config.encryptionKeyFingerprintFieldName);
-            params = new FieldLevelEncryptionParams(jsonEngine.toJsonString(ivJsonElement), jsonEngine.toJsonString(encryptedKeyJsonElement), oaepDigestAlgorithm, config);
+            params = new FieldLevelEncryptionParams(config.includeIvFieldName ? jsonEngine.toJsonString(ivJsonElement) : null, jsonEngine.toJsonString(encryptedKeyJsonElement), oaepDigestAlgorithm, config);
         }
 
         // Decrypt data
         byte[] encryptedValueBytes = decodeValue(jsonEngine.toJsonString(encryptedValueJsonElement), config.fieldValueEncoding);
-        byte[] decryptedValueBytes = decryptBytes(params.getSecretKey(), params.getIvSpec(), encryptedValueBytes);
+        byte[] decryptedValueBytes = decryptBytes(params.getSecretKey(), config.includeIvFieldName ? params.getIvSpec() : null, encryptedValueBytes);
 
         // Add decrypted data at the given JSON path
         String decryptedValue = new String(decryptedValueBytes, StandardCharsets.UTF_8);

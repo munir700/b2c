@@ -17,6 +17,8 @@ import static java.security.spec.MGF1ParameterSpec.SHA512;
 
 /**
  * A builder class for {@link co.yap.wallet.encriptions.encryption.FieldLevelEncryptionConfig}.
+ *
+ * @author Irfan Arshad
  */
 public final class FieldLevelEncryptionConfigBuilder {
 

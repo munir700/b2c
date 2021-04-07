@@ -126,52 +126,9 @@ public class TAVSignatureMethod {
             String hashData = EncodingUtils.hexEncode(sha256digestBytes(signatureBaseString.getBytes(UTF_8)));
             System.out.println("TAVSignatureMethod HASH_DATA>>" + hashData);
             System.out.println("TAVSignatureMethod Signed_Hashed_Data>>" + EncodingUtils.hexEncode(signatureBytes));
-            // String hexEncode = EncodingUtils.base64Encode(signatureBytes);
-            // signatureBytes = Base64.encode(signatureBytes, Base64.DEFAULT);
-            // verify(signatureBaseString,signatureBytes);
             return EncodingUtils.base64Encode(signatureBytes);//new String(signatureBytes, UTF_8);
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new InvalidSignatureException("Invalid signature for signature method:" + e.getLocalizedMessage(), e);
-        }
-    }
-
-    @Deprecated
-    private String sign1(String signatureBaseString) throws InvalidSignatureException {
-        if (privateKey == null) {
-            throw new InvalidSignatureException("Cannot sign the base string: no private key supplied.");
-        }
-        try {
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            byte[] signatureBytes = cipher.doFinal(sha256digestBytes(signatureBaseString.getBytes(UTF_8)));
-            //verify2(signatureBaseString, signatureBytes);
-            String hashData = EncodingUtils.hexEncode(sha256digestBytes(signatureBaseString.getBytes(UTF_8)));
-            System.out.println("TAVSignatureMethod HASH_DATA>>" + hashData);
-            System.out.println("TAVSignatureMethod Signed_Hashed_Data>>" + EncodingUtils.hexEncode(signatureBytes));
-            return EncodingUtils.base64Encode(signatureBytes);//new String(signatureBytes, UTF_8);
-        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
-            throw new InvalidSignatureException("Invalid signature for signature method:" + e.getLocalizedMessage(), e);
-        }
-    }
-
-    @Deprecated
-    public boolean verify2(String signatureBaseString, byte[] signature) throws InvalidSignatureException {
-        if (publicKey == null) {
-            throw new UnsupportedOperationException("A public key must be provided to verify signatures.");
-        }
-        try {
-
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, publicKey);
-            byte[] decryptedMessageHash = cipher.doFinal(signature);
-            boolean isCorrect = Arrays.equals(decryptedMessageHash, sha256digestBytes(signatureBaseString.getBytes(UTF_8)));
-
-            if (!isCorrect) {
-                throw new InvalidSignatureException("Invalid signature for signature method " + getName());
-            }
-            return isCorrect;
-        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new IllegalStateException(e);
         }
     }
 

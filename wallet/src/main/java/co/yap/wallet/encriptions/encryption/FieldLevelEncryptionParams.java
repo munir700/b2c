@@ -17,6 +17,8 @@ import static co.yap.wallet.encriptions.utils.EncodingUtils.encodeBytes;
 
 /**
  * Encryption parameters for computing field level encryption/decryption.
+ *
+ * @author Irfan Arshad
  */
 public final class FieldLevelEncryptionParams {
 
@@ -144,7 +146,7 @@ public final class FieldLevelEncryptionParams {
             String asymmetricCipher = ASYMMETRIC_CYPHER.replace("{ALG}", mgf1ParameterSpec.getDigestAlgorithm());
             Cipher cipher = Cipher.getInstance(asymmetricCipher);
             cipher.init(Cipher.WRAP_MODE, publicEncryptionKey, getOaepParameterSpec(mgf1ParameterSpec));
-           return cipher.wrap(key);
+            return cipher.wrap(key);
         } catch (GeneralSecurityException e) {
             throw new EncryptionException("Failed to wrap secret key!", e);
         }
@@ -169,5 +171,6 @@ public final class FieldLevelEncryptionParams {
     private static OAEPParameterSpec getOaepParameterSpec(MGF1ParameterSpec mgf1ParameterSpec) {
         return new OAEPParameterSpec(mgf1ParameterSpec.getDigestAlgorithm(), "MGF1", mgf1ParameterSpec, PSource.PSpecified.DEFAULT);
     }
+
 }
 

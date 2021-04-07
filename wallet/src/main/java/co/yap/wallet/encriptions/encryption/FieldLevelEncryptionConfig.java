@@ -1,12 +1,15 @@
 package co.yap.wallet.encriptions.encryption;
 
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.util.Collections;
 import java.util.Map;
 
 /**
  * A POJO for storing the encryption/decryption configuration.
+ *
+ * @author Irfan Arshad
  */
 public class FieldLevelEncryptionConfig {
 

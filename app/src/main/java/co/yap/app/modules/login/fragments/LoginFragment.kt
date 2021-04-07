@@ -91,24 +91,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 }
             }
         })
-        tvSignUp.setOnClickListener {
-            requireContext().getTestPayloadForSamsung { paylaod ->
-                val data = paylaod.toByteArray(StandardCharsets.UTF_8)
-                val finalPayload = EncodingUtils.base64Encode(data)
-//                SamsungPayWalletManager.getInstance(requireContext())
-//                    .addYapCardToSamsungPay(finalPayload)
-            }
-
-//            SamsungPayWalletManager.getInstance(requireContext())
-//                .getWalletInfo { status, bundle ->
-//                    requireContext().getTestPayloadForSamsung { paylaod ->
-//                        val data = paylaod.toByteArray(StandardCharsets.UTF_8)
-//                        val finalPayload = EncodingUtils.base64Encode(data)
-//                        SamsungPayWalletManager.getInstance(requireContext())
-//                            .addYapCardToSamsungPay(finalPayload)
-//                    }
-//                }
-        }
     }
 
     override fun onDestroy() {

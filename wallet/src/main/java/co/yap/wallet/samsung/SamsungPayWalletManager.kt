@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.core.os.bundleOf
 import co.yap.yapcore.helpers.SingletonHolder
 import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.extentions.toast
 import com.samsung.android.sdk.samsungpay.v2.SamsungPay
 import com.samsung.android.sdk.samsungpay.v2.StatusListener
 import com.samsung.android.sdk.samsungpay.v2.card.*
@@ -86,7 +87,8 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
             )
             mCardManager?.addCard(addCardInfo, object : AddCardListener {
                 override fun onSuccess(status: Int, p1: Card?) {
-                    context.alert("Success")
+                    context.toast("Card added Success ")
+                    Log.d("","")
                 }
 
                 override fun onFail(errorCode: Int, errorData: Bundle?) {
@@ -94,6 +96,7 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
                 }
 
                 override fun onProgress(currentCount: Int, p1: Int, bundleData: Bundle?) {
+                    context.toast("Card adding in progress ") // when T and C showing the currentcount is 1 and p1 is 2
                     Log.d("","")
 //                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                 }
