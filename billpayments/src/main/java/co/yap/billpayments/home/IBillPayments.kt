@@ -13,10 +13,9 @@ interface IBillPayments {
         var toolbarVisibility: ObservableBoolean
         var toolbarTitleString: ObservableField<String>
         var leftIconVisibility: ObservableBoolean
-        var rightFirstIconDrawable: ObservableField<Drawable>
-        var rightSecondIconDrawable: ObservableField<Drawable>
-        var rightFirstIconVisibility: ObservableBoolean
-        var rightSecondIconVisibility: ObservableBoolean
+        var rightIconDrawable: ObservableField<Drawable>
+        var sortIconVisibility: ObservableBoolean
+        var rightIconVisibility: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

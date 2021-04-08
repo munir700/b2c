@@ -44,10 +44,6 @@ class BillPaymentsHomeActivity : BaseBindingActivity<IBillPayments.ViewModel>(),
             R.id.ivLeftIcon -> {
                 onBackPressed()
             }
-            R.id.ivRightFirstIcon -> {
-            }
-            R.id.ivRightSecondIcon -> {
-            }
         }
     }
 }

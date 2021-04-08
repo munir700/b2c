@@ -30,7 +30,6 @@ class MyBillsViewModel(application: Application) :
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
         toolgleRightFirstIconVisibility(true)
         toolgleRightSecondIconVisibility(true)
-        context.getDrawable(R.drawable.ic_sort)?.let { setRightFirstIconDrawable(it) }
         context.getDrawable(R.drawable.ic_add_sign)?.let { setRightSecondIconDrawable(it) }
     }
 
@@ -169,36 +168,7 @@ class MyBillsViewModel(application: Application) :
         }
     }
 
-    override fun onItemSelected(pos: Int, bill: BillModel) {
-        selectedBills.add(bill)
-        state.totalBillAmount =
-            state.totalBillAmount.plus(bill.amount?.toDouble() ?: 0.0)
-        setButtonText()
-        state.valid.set(true)
-        adapter.setItemAt(pos, bill)
-        if (selectedBills.size == 1) {
-            state.screenTitle.set(
-                Translator.getString(
-                    context,
-                    Strings.screen_my_bills_text_title_on_selection
-                )
-            )
-        }
-    }
-
-    override fun onItemUnselected(pos: Int, bill: BillModel) {
-        adapter.setItemAt(pos, bill)
-        selectedBills.remove(bill)
-        state.totalBillAmount =
-            state.totalBillAmount.minus(bill.amount?.toDouble() ?: 0.0)
-        setButtonText()
-        if (selectedBills.size == 0) {
-            state.valid.set(false)
-            getScreenTitle()
-        }
-    }
-
-    override fun getScreenTitle() {
+    override fun setScreenTitle() {
         if (myBills.value?.size == 1) {
             state.screenTitle.set(
                 Translator.getString(

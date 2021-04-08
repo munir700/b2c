@@ -7,11 +7,9 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
-import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.roundtickselectionbottomsheet.RoundTickSelectionBottomSheet
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
@@ -30,7 +28,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     override fun setObservers() {
         viewModel.myBills.observe(this, Observer {
-            viewModel.getScreenTitle()
+            viewModel.setScreenTitle()
             viewModel.myBills.value?.let { it1 -> viewModel.adapter.setList(it1) }
         })
         viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
@@ -47,15 +45,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            val bill = data as BillModel
-            if (!bill.billStatus.equals(BillStatus.PAID.title)) {
-                bill.isSelected = !bill.isSelected
-                if (bill.isSelected) {
-                    viewModel.onItemSelected(pos, bill)
-                } else {
-                    viewModel.onItemUnselected(pos, bill)
-                }
-            }
+
         }
     }
 
@@ -73,8 +63,8 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     val toolbarClickObserver = Observer<Int> {
         when (it) {
-            R.id.ivRightFirstIcon -> openSortBottomSheet()
-            R.id.ivRightSecondIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
+            R.id.ivSortIcon -> openSortBottomSheet()
+            R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
         }
     }
 

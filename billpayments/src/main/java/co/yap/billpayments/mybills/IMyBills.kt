@@ -30,10 +30,8 @@ interface IMyBills {
         var lastSelectionSorting: Int
         fun handlePressOnView(id: Int)
         fun getMyBillsAPI()
-        fun onItemSelected(pos: Int, bill: BillModel)
-        fun onItemUnselected(pos: Int, bill: BillModel)
         fun setButtonText()
-        fun getScreenTitle()
+        fun setScreenTitle()
         fun getFiltersList(): MutableList<CoreBottomSheetData>
     }
 

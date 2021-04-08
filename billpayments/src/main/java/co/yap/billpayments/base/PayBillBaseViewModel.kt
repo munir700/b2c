@@ -19,17 +19,14 @@ abstract class PayBillBaseViewModel<S : IBase.State>(application: Application) :
     }
 
     fun toolgleRightFirstIconVisibility(visibility: Boolean) {
-        parentViewModel?.state?.rightFirstIconVisibility?.set(visibility)
+        parentViewModel?.state?.sortIconVisibility?.set(visibility)
     }
+
     fun toolgleRightSecondIconVisibility(visibility: Boolean) {
-        parentViewModel?.state?.rightSecondIconVisibility?.set(visibility)
+        parentViewModel?.state?.rightIconVisibility?.set(visibility)
     }
 
-    fun setRightFirstIconDrawable(drawable:Drawable){
-        parentViewModel?.state?.rightFirstIconDrawable?.set(drawable)
-    }
-
-    fun setRightSecondIconDrawable(drawable:Drawable){
-        parentViewModel?.state?.rightSecondIconDrawable?.set(drawable)
+    fun setRightSecondIconDrawable(drawable: Drawable) {
+        parentViewModel?.state?.rightIconDrawable?.set(drawable)
     }
 }

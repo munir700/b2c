@@ -33,7 +33,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:text="@{Strings.screen_add_bill_description_text}" />
 
-
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwFirstRow"
             android:layout_width="0dp"
@@ -44,7 +43,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvScreenTitle" />
-
 
         <include
             android:id="@+id/includeCreditCard"
@@ -60,14 +58,12 @@
             app:categoryName="@{viewModel.billcategories.get(1).categoryName}"
             app:iconName="@{viewModel.billcategories.get(1).icon}" />
 
-
         <include
             android:id="@+id/includeUtilities"
             layout="@layout/item_bill_category"
             android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
             app:categoryName="@{viewModel.billcategories.get(2).categoryName}"
             app:iconName="@{viewModel.billcategories.get(2).icon}" />
-
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/fwSecondRow"
