@@ -9,6 +9,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.wallet.samsung.SamsungPayStatus
 import co.yap.wallet.samsung.SamsungPayStatusManager
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.CardPinStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -32,9 +33,10 @@ class YapCardItemViewModel(
 
     init {
         paymentCard?.let {
-           // if (/*Constants.CARD_TYPE_DEBIT == paymentCard?.cardType && */isCardActive(card = it)) {
+            if (Constants.CARD_TYPE_DEBIT == it.cardType && isCardActive(card = paymentCard)) {
                 getSPayStatus()
-           // }
+            }
+
         }
 
     }
@@ -71,13 +73,14 @@ class YapCardItemViewModel(
 
     }
 
-    fun isCardActive(card: Card): Boolean {
+    private fun isCardActive(card: Card): Boolean {
         var status = false
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             if (card.cardType == CardType.DEBIT.type) {
                 when (CardStatus.valueOf(card.status)) {
-                    CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
-                        status =
+                    CardStatus.ACTIVE -> {
+                        status = if (card.pinStatus == CardPinStatus.BLOCKED.name) false
+                        else
                             !(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                     }
                     CardStatus.BLOCKED, CardStatus.HOTLISTED, CardStatus.INACTIVE, CardStatus.EXPIRED -> {

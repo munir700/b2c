@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.core.os.bundleOf
+import co.yap.widgets.State
 import co.yap.yapcore.helpers.SingletonHolder
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.toast
@@ -35,7 +36,8 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
                     }
                 }
             }
-//            MTgwNzI1MTI1MTQ5NTE4eUNv
+
+            //            MTgwNzI1MTI1MTQ5NTE4eUNv
 //            EjmwLn9tTou9kUBM5Sw5VQ
             override fun onFail(errorCode: Int, errorData: Bundle?) {
                 context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
@@ -76,7 +78,7 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
             })
     }
 
-    fun addYapCardToSamsungPay(payload: String?) {
+    fun addYapCardToSamsungPay(payload: String?, success: (State) -> Unit) {
         payload?.let {
             val mNetworkProvider: String = AddCardInfo.PROVIDER_MASTERCARD
             val cardDetail = bundleOf(AddCardInfo.EXTRA_PROVISION_PAYLOAD to it)
@@ -87,17 +89,16 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
             )
             mCardManager?.addCard(addCardInfo, object : AddCardListener {
                 override fun onSuccess(status: Int, p1: Card?) {
-                    context.toast("Card added Success ")
-                    Log.d("","")
+                    success.invoke(State.success("Card successfully added."))
                 }
 
                 override fun onFail(errorCode: Int, errorData: Bundle?) {
-                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
+                    success.invoke(State.error(ErrorCode.getInstance().getSPayError(errorCode, errorData)))
+//                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                 }
 
                 override fun onProgress(currentCount: Int, p1: Int, bundleData: Bundle?) {
-                    context.toast("Card adding in progress ") // when T and C showing the currentcount is 1 and p1 is 2
-                    Log.d("","")
+                    success.invoke(State.loading("Card adding in progress"))
 //                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                 }
             })
