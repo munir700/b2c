@@ -18,44 +18,27 @@
             android:id="@+id/tvInputField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginTop="@dimen/margin_extra_large"
-            android:layout_marginEnd="@dimen/margin_medium_large"
-            android:hint="@{viewModel.billerDetailInputFieldModel.key}"
-            android:textColorHint="@color/colorPrimaryDark"
+            android:layout_marginTop="@dimen/margin_small"
+            android:hint="@{viewModel.billerDetailInputFieldModel.lable}"
             app:hintTextAppearance="@style/LabelTextStyl"
-            app:hintTextColorSelected="@color/colorPrimary"
+            app:textColorChangePin="@{viewModel.billerDetailInputFieldModel.value}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etNewEmail"
+                android:id="@+id/etUserInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@{viewModel.billerDetailInputFieldModel.background}"
-                android:drawableEnd="@{viewModel.billerDetailInputFieldModel.drawableEnd}"
                 android:importantForAutofill="no"
-                android:inputType="@{viewModel.billerDetailInputFieldModel.billerDetailInputType}"
+                android:hint="@{viewModel.billerDetailInputFieldModel.placeholder}"
                 android:maxLength="@{viewModel.billerDetailInputFieldModel.maxLength}"
                 android:singleLine="true"
-                android:text="@{viewModel.billerDetailInputFieldModel.value}"
+                android:textColorHint="@color/colorPrimaryDarkFadedLight"
+                android:inputType="@{viewModel.billerDetailInputFieldModel.inputType}"
                 android:theme="@style/Theme.EditText.Primary"
-                app:hint="@{viewModel.billerDetailInputFieldModel.placeHolder}"
+                android:text="@={viewModel.billerDetailInputFieldModel.value}"
                 tools:hint="Email" />
-
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvError"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginEnd="@dimen/margin_medium_large"
-            android:text="@{viewModel.billerDetailInputFieldModel.errorText}"
-            android:textColor="@color/greyDark"
-            app:layout_constraintTop_toBottomOf="@+id/tvInputField"
-            tools:text="Incorrect mobile number." />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

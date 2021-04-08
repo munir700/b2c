@@ -1,18 +1,13 @@
 package co.yap.billpayments.billerdetail.adapter
 
+import android.text.InputType
+import androidx.databinding.ObservableField
+
 data class BillerDetailInputFieldModel(
-    var background: Int? = 0,
-    var drawableEnd: Int?,
-    var isOptional: Boolean?,
-    var hasDialog: Boolean?,
-    var dialogDescription: String?,
-    var dialogTitle: String?,
-    var placeHolder: String?,
-    var errorText: String?,
-    var maxLength: Int?,
-    var minLength: Int?,
-    var validLengths: Int?,
-    var billerDetailInputType: Int?,
-    var key: String?,
-    var value: String?
+    var lable: String? = "",
+    var placeholder: String? = "",
+    var minLength: Int? = 0,
+    var maxLength: Int? = 0,
+    var inputType: Int? = InputType.TYPE_CLASS_TEXT,
+    var value: ObservableField<String>? = ObservableField()
 )
