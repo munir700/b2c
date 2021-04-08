@@ -131,7 +131,7 @@
             android:layout_width="0dp"
             app:viewModel = "@{viewModel}"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/_18sdp"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName" />
@@ -140,7 +140,7 @@
             android:id="@+id/lySeeDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:orientation="vertical"
