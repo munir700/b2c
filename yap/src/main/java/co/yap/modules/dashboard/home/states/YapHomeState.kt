@@ -23,6 +23,6 @@ class YapHomeState : BaseState(), IYapHome.State {
     override var showTxnShimmer: MutableLiveData<State> = MutableLiveData()
     override var isUserAccountActivated: ObservableField<Boolean> = ObservableField(true)
     override var notificationList: MutableLiveData<MutableList<HomeNotification>> =
-        MutableLiveData()
+        MutableLiveData(mutableListOf())
     override var isPartnerBankStatusActivated: ObservableField<Boolean> = ObservableField(false)
 }

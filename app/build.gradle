@@ -120,8 +120,8 @@ android {
             }
         }
         hh_qa {
-            versionCode 5
-            versionName "0.0.5"
+            versionCode 8
+            versionName "0.0.8"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP HH QA"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQnpx7IME9iIUiSR4"
