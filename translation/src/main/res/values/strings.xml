@@ -1387,9 +1387,14 @@
     <string name="screen_my_bills_text_title_you_have_n_bills_registered">You have %1s bills registered</string>
     <string name="screen_my_bills_btn_text_pay">Pay %1s %2s</string>
 
-
-
     <!--    Add Bill Screen-->
     <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>
     <string name="screen_add_bill_description_text">Find bill providers by choosing any category below and set up one-time or recurring payments</string>
+
+    <!-- Bill Detail Screen -->
+    <string name="screen_bill_detail_success_dialog_title">%1s Bill has been added successfully</string>
+    <string name="screen_bill_detail_success_dialog_button_text">Yes, pay now</string>
+    <string name="screen_bill_detail_success_dialog_button_description">Pay your credit card bill now?</string>
+    <string name="screen_bill_detail_success_dialog_button_text_do_it_later">No, I\'ll do it later</string>
+
 </resources>
