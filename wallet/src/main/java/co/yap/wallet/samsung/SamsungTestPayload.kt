@@ -10,7 +10,13 @@ import java.io.IOException
 import java.security.GeneralSecurityException
 import java.util.*
 
-fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
+fun Context.getTestPayloadForSamsung(
+    cardNumber: String?,
+    expiryYear: String?,
+    expiryMonth: String?,
+    cardholderName: String?,
+    payload: (String) -> Unit
+) {
     try {
 //        var privateKey: PrivateKey? = null
 //        var publicKey: PublicKey? = null
@@ -33,16 +39,16 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.MINUTE, 30)
         val dataValidUntilTimestamp =
-            DateUtils.dateToString(calendar.time, "yyyy-MM-dd'T'HH:mm:ss'Z'")
+            DateUtils.dateToString(calendar.time, "yyyy-MM-dd'T'HH:mm:ss'Z'", true)
         //5381230100036491
-        val cardNumber = "5381230100035253"
-        val expiryYear = "25"
-        val expiryMonth = "07"
+//        val cardNumber = cardNo//"5381230100035253"
+//        val expiryYear = expiryYear//"25"
+//        val expiryMonth = expiryMonth//"07"
         val source = "CARD_ADDED_VIA_APPLICATION"
-        val cardholderName = "JENNIFER WIGGINS"
+//        val cardholderName = cardholderName//"JENNIFER WIGGINS"
         // TAV Process start
         val tavSignatureConfig = TAVSignatureConfigBuilder.aTAVSignatureConfig()
-            .withAccountExpiry("0725")
+            .withAccountExpiry("$expiryMonth$expiryYear")
             .withAccountNumber(cardNumber)
             .withTavFormat(TAVSignatureConfig.TAVFormat.TAV_FORMAT_2)
             .withDataValidUntilTimestamp(dataValidUntilTimestamp)// "2021-03-25T16:10:59Z"
