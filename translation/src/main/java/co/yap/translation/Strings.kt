@@ -2224,4 +2224,15 @@ object Strings {
         "screen_add_bill_toolbar_title"
     const val screen_add_bill_description_text: String =
         "screen_add_bill_description_text"
+
+    //Bill Detail
+    const val screen_bill_detail_success_dialog_title: String =
+        "screen_bill_detail_success_dialog_title"
+    const val screen_bill_detail_success_dialog_button_text: String =
+        "screen_bill_detail_success_dialog_button_text"
+    const val screen_bill_detail_success_dialog_button_description: String =
+        "screen_bill_detail_success_dialog_button_description"
+    const val screen_bill_detail_success_dialog_button_text_do_it_later: String =
+        "screen_bill_detail_success_dialog_button_text_do_it_later"
+
 }
