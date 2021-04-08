@@ -14,6 +14,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.managers.SessionManager
+import kotlin.math.abs
 
 class CardAnalyticsDetailsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalyticsDetails.State>(application),
@@ -58,7 +59,15 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                     response.data.data?.let { resp ->
                         transactionResponse = resp
                         state.avgSpending.set("${transactionResponse.averageSpending}")
-                        state.currToLast.set("${transactionResponse.currentToLastMonth}")
+                        transactionResponse.currentToLastMonth?.let {
+                            state.currToLast.set(
+                                when {
+                                    it < 0 -> "-${abs(it)}"
+                                    it > 0 -> "+${abs(it)}"
+                                    else -> "${abs(it)}"
+                                }
+                            )
+                        }
                         if (!transactionResponse.txnAnalytics.isNullOrEmpty()) {
                             viewState.value = Constants.EVENT_CONTENT
                             list = transactionResponse.txnAnalytics ?: arrayListOf()

@@ -1072,7 +1072,7 @@
     <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
-    <string name="screen_invite_friend_display_text_share_url">I\'ve started using YAP The Money App to manage my spending and I think you\'ll find it really useful.\n\n%1s</string>
+    <string name="screen_invite_friend_display_text_share_url">Hey! I just joined the UAE\'s newest banking app – YAP. Transform the way you bank and reserve your place in the queue to be one of the first to join me in the banking revolution.\n\n%1s</string>
 
     <!--  OTP Blocked New screen -->
     <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
