@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
@@ -149,7 +148,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
+                    lifecycleScope.launch {
+                        delay(200)
+                        overLayButtonVisibility(View.VISIBLE)
+                    }
+
                     when (subActionButtonId) {
                         1 -> {
                             checkPermission()
@@ -196,7 +199,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
+                    lifecycleScope.launch {
+                        delay(200)
+                        overLayButtonVisibility(View.VISIBLE)
+                    }
                     when (subActionButtonId) {
                         1 -> {
                             trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
