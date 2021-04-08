@@ -1,7 +1,7 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
-import android.content.Context
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -19,22 +19,12 @@ import com.liveperson.infra.auth.LPAuthenticationType
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 const val BRAND_ID: String = "17038977"
 private val appInstallId = SessionManager.user?.uuid
 
-fun Activity.initializeChatOverLayButton(unreadCount: Int, fab: CounterFloatingActionButton) {
-    if (unreadCount <= 0) {
-        fab.visibility = View.GONE
-        (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
-            .removeView(fab)
-        return
-    }
-
+fun Activity.initializeChatOverLayButton(unreadCount: Int = 0) {
     val param = FrameLayout.LayoutParams(
         FrameLayout.LayoutParams.WRAP_CONTENT,
         FrameLayout.LayoutParams.WRAP_CONTENT
@@ -46,16 +36,14 @@ fun Activity.initializeChatOverLayButton(unreadCount: Int, fab: CounterFloatingA
         dimen(R.dimen.margin_btn_side_paddings_xl)
     )
     param.gravity = Gravity.END or Gravity.BOTTOM
-    GlobalScope.launch {
-        delay(3000)
-        fab.visibility = View.VISIBLE
-        (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
-            .removeView(fab)
-        (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
-            .addView(fab, param)
-    }
-    fab.count = unreadCount
-    fab.setOnClickListener { chatSetup() }
+    val view = layoutInflater.inflate(
+        R.layout.layout_overlay_live_chat,
+        null
+    ) as? CounterFloatingActionButton
+    (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
+        .addView(view, param)
+    view?.setOnClickListener { chatSetup() }
+    updateCount(unreadCount)
 }
 
 fun Activity.overLayButtonVisibility(visibility: Int) {
@@ -103,17 +91,25 @@ private fun Activity.openChatActivity() {
     }
 }
 
-fun Activity.getCountUnreadMessage( fab: CounterFloatingActionButton) {
+fun Activity.getCountUnreadMessage() {
     LivePerson.getUnreadMessagesCount(
         appInstallId,
         object : ICallback<Int, java.lang.Exception> {
             override fun onSuccess(count: Int?) {
-                initializeChatOverLayButton(count ?: 0, fab)
+                updateCount(count ?: 0)
             }
 
             override fun onError(p0: java.lang.Exception?) {
+                Log.d("LivePersonUnreadError", p0?.message)
             }
 
         }
     )
+}
+
+fun Activity.updateCount(unreadCount: Int) {
+    val fab =
+        (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat) as? CounterFloatingActionButton
+    fab?.count = unreadCount
+    fab?.visibility = (if (unreadCount > 0) View.VISIBLE else View.GONE)
 }
