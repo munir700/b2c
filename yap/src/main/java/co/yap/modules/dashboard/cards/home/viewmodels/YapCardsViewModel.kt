@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
@@ -217,6 +218,12 @@ class YapCardsViewModel(application: Application) :
                         else -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
                     }
                 }
+        }
+    }
+
+    override fun getAllSamSungCardsCards(cardSerialNumber: String, success: (CardDetail?) -> Unit) {
+        SamsungPayWalletManager.getInstance(context).getAllCards { samsungPayStatus, mutableList ->
+
         }
     }
 }

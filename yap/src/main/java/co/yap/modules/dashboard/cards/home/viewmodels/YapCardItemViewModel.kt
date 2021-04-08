@@ -77,14 +77,14 @@ class YapCardItemViewModel(
         var status = false
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             if (card.cardType == CardType.DEBIT.type) {
-                when (CardStatus.valueOf(card.status)) {
+                status = when (CardStatus.valueOf(card.status)) {
                     CardStatus.ACTIVE -> {
-                        status = if (card.pinStatus == CardPinStatus.BLOCKED.name) false
+                        if (card.pinStatus == CardPinStatus.BLOCKED.name) false
                         else
                             !(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                     }
                     CardStatus.BLOCKED, CardStatus.HOTLISTED, CardStatus.INACTIVE, CardStatus.EXPIRED -> {
-                        status = false
+                        false
                     }
                 }
             }
