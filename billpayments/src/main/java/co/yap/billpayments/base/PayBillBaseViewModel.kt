@@ -18,7 +18,7 @@ abstract class PayBillBaseViewModel<S : IBase.State>(application: Application) :
         parentViewModel?.state?.toolbarVisibility?.set(visibility)
     }
 
-    fun toolgleRightFirstIconVisibility(visibility: Boolean) {
+    fun toggleRightFirstIconVisibility(visibility: Boolean) {
         parentViewModel?.state?.sortIconVisibility?.set(visibility)
     }
 

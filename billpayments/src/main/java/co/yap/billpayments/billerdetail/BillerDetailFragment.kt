@@ -1,6 +1,7 @@
 package co.yap.billpayments.billerdetail
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
@@ -29,5 +30,11 @@ class BillerDetailFragment : PayBillBaseFragment<IBillerDetail.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 }

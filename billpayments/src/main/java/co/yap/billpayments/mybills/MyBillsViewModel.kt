@@ -28,7 +28,7 @@ class MyBillsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
-        toolgleRightFirstIconVisibility(true)
+        toggleRightFirstIconVisibility(true)
         toolgleRightSecondIconVisibility(true)
         context.getDrawable(R.drawable.ic_add_sign)?.let { setRightSecondIconDrawable(it) }
     }
@@ -234,7 +234,7 @@ class MyBillsViewModel(application: Application) :
 
     override fun onStop() {
         super.onStop()
-        toolgleRightFirstIconVisibility(false)
+        toggleRightFirstIconVisibility(false)
         toolgleRightSecondIconVisibility(false)
     }
 }
