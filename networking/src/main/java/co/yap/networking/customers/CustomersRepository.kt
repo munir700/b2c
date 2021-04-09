@@ -7,7 +7,7 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
-import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -125,6 +125,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "customers/api/update-notification-status"
     const val URL_GET_RANKING = "customers/api/fetch-ranking"
     const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
+
+    const val URL_BILL_PROVIDERS = "customers/api/billPayment/billerCategories"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -444,5 +447,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.completeVerification(completeVerificationRequest)
         })
 
+    override suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse> =
+        executeSafely(call = {
+            api.getBillProviders()
+        })
 
 }
