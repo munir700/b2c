@@ -20,13 +20,12 @@ interface IBillerDetail {
 
     interface ViewModel : IBase.ViewModel<State> {
         var adapter: BillerDetailAdapter
-        var billInputs: MutableLiveData<MutableList<BillerDetailInputFieldModel>>
         val billerDetailItemComposer: BillerDetailInputComposer
         var clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun getScreenTitle(billCategory: BillCategory?): String
         fun readBillerDetailsFromFile(): BillerDetailResponse
-        fun getBillerDetails()
+        fun getBillerDetails(billerId: String)
     }
 
     interface State : IBase.State {

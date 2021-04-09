@@ -41,7 +41,10 @@ class PayBillsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         if (state.showBillCategory.get()) {
-            getBillProviders()
+            if (parentViewModel?.billcategories.isNullOrEmpty())
+                getBillProviders()
+            else
+                billcategories.set(parentViewModel?.billcategories)
         } else {
             getBillCategoriesApi()
         }

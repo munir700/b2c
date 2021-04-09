@@ -2,16 +2,16 @@ package co.yap.billpayments.billerdetail.composer
 
 import android.text.InputType
 import co.yap.billpayments.billerdetail.adapter.BillerDetailInputFieldModel
-import co.yap.networking.customers.responsedtos.billpayment.IoCatalogsModel
+import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.yapcore.enums.BillerDetailInputType
 
 
 interface BillerDetailsInputComposer {
-    fun compose(ioCatLogs: ArrayList<IoCatalogsModel>): MutableList<BillerDetailInputFieldModel>
+    fun compose(ioCatLogs: ArrayList<IoCatalogModel>): MutableList<BillerDetailInputFieldModel>
 }
 
 class BillerDetailInputComposer : BillerDetailsInputComposer {
-    override fun compose(ioCatLogs: ArrayList<IoCatalogsModel>): MutableList<BillerDetailInputFieldModel> {
+    override fun compose(ioCatLogs: ArrayList<IoCatalogModel>): MutableList<BillerDetailInputFieldModel> {
         val list: MutableList<BillerDetailInputFieldModel> = mutableListOf()
         list.add(
             BillerDetailInputFieldModel(

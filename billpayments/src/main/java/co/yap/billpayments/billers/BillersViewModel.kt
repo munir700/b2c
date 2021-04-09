@@ -4,11 +4,11 @@ import android.app.Application
 import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.billers.adapter.BillersAdapter
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
@@ -73,18 +73,22 @@ class BillersViewModel(application: Application) :
 
     override fun getBillerCatalogs(categoryId: String) {
         launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
+            state.stateLiveData?.postValue(State.loading(null))
             val response = repository.getBillerCatalogs(categoryId)
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
-                        adapter.setList(response.data.billerCatalogCatalogs)
+                        adapter.setList(response.data.billerCatalogs)
                         parentViewModel?.billerCatalogs = adapter.getDataList()
+                        state.stateLiveData?.value = if (adapter.getDataList()
+                                .isNullOrEmpty()
+                        ) State.empty(null) else State.success(null)
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
-                        showDialogWithCancel(response.error.message)
+                        showToast(response.error.message)
+                        State.empty(null)
                     }
                 }
             }
