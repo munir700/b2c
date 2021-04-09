@@ -7,10 +7,9 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
-import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
-import co.yap.translation.Translator
-import co.yap.yapcore.enums.BillStatus
+import co.yap.widgets.bottomsheet.roundtickselectionbottomsheet.RoundTickSelectionBottomSheet
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
@@ -29,43 +28,49 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     override fun setObservers() {
         viewModel.myBills.observe(this, Observer {
-            viewModel.state.screenTitle.set(
-                Translator.getString(
-                    requireContext(),
-                    Strings.screen_my_bills_text_title_you_have_n_bills_registered,
-                    viewModel.myBills.value?.size.toString()
-                )
-            )
-            viewModel.adapter.setList(viewModel.myBills.value?.toMutableList() as MutableList<BillModel>)
+            viewModel.setScreenTitle()
+            viewModel.myBills.value?.let { it1 -> viewModel.adapter.setList(it1) }
         })
-        viewModel.parentViewModel?.toolBarClickEvent?.observe(this, toolbarClickObserver)
+        viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
         viewModel.adapter.setItemListener(onItemClickListener)
+        viewModel.clickEvent.observe(this, onViewClickObserver)
     }
 
-    val onItemClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            val bill = data as BillModel
-            if (!bill.billStatus.equals(BillStatus.PAID.title)) {
-                bill.isSelected = !bill.isSelected
-                if (bill.isSelected) {
-                    viewModel.onItemSelected(pos, bill)
-                } else {
-                    viewModel.onItemUnselected(pos, bill)
-                }
-            }
-        }
-    }
-
-    val toolbarClickObserver = Observer<Int> {
+    val onViewClickObserver = Observer<Int> {
         when (it) {
-            R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
             R.id.btnPay -> {
             }
         }
     }
 
+    val onItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+
+        }
+    }
+
+    override fun openSortBottomSheet() {
+        this.childFragmentManager.let {
+            val roundTickSelectionBottomSheet = RoundTickSelectionBottomSheet(
+                mListener = viewModel.onBottomSheetItemClickListener,
+                bottomSheetItems = viewModel.getFiltersList(),
+                headingLabel = getString(Strings.screen_my_bills_text_title_bottom_sheet),
+                viewType = Constants.VIEW_WITHOUT_FLAG
+            )
+            roundTickSelectionBottomSheet.show(it, "")
+        }
+    }
+
+    val toolbarClickObserver = Observer<Int> {
+        when (it) {
+            R.id.ivSortIcon -> openSortBottomSheet()
+            R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
+        }
+    }
+
     override fun removeObservers() {
         viewModel.myBills.removeObservers(this)
+        viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
     }
 
     override fun onDestroy() {

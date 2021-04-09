@@ -36,7 +36,6 @@ class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
 
     override fun setObservers() {
         getBindings().svBiller.initializeSearch(this)
-        viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.state.stateLiveData?.observe(this, Observer { handleState(it) })
         viewModel.adapter.filterCount.observe(this, Observer {
             viewModel.state.stateLiveData?.value =
@@ -59,13 +58,6 @@ class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
         }
     }
 
-    private val clickEventObserver = Observer<Int> {
-        when (it) {
-            R.id.btnAction -> {
-            }
-        }
-    }
-
     override fun onTypingSearch(search: String?) {
         viewModel.adapter.filter.filter(search)
     }
@@ -76,7 +68,8 @@ class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
     }
 
     override fun removeObservers() {
-        viewModel.clickEvent.removeObservers(this)
+        viewModel.adapter.filterCount.removeObservers(this)
+        viewModel.state.stateLiveData?.removeObservers(this)
     }
 
     override fun onStop() {

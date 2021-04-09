@@ -4,6 +4,7 @@ import android.app.Application
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.customers.responsedtos.billpayment.BillerModel
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 
 class BillPaymentsViewModel(application: Application) :
     BaseViewModel<IBillPayments.State>(application),
@@ -12,4 +13,8 @@ class BillPaymentsViewModel(application: Application) :
     override var selectedBillProvider: BillProviderModel? = null
     override var billcategories: MutableList<BillProviderModel> = mutableListOf()
     override val state: IBillPayments.State = BillPaymentsState()
+    override var onToolbarClickEvent: SingleClickEvent = SingleClickEvent()
+    override fun onToolbarClick(id: Int) {
+        onToolbarClickEvent.setValue(id)
+    }
 }

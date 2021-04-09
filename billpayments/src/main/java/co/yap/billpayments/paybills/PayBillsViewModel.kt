@@ -9,6 +9,9 @@ import co.yap.billpayments.paybills.notification.DueBillsNotificationAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.FORMATE_DATE_MONTH_YEAR
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 
@@ -134,6 +137,11 @@ class PayBillsViewModel(application: Application) :
             var total = 0.00;
             dueBillsAdapter.getDataList().forEach {
                 total = total.plus(it.amount.toDouble())
+                it.billDueDate = DateUtils.reformatStringDate(
+                    it.billDueDate,
+                    SERVER_DATE_FULL_FORMAT,
+                    FORMATE_DATE_MONTH_YEAR
+                )
             }
             state.totalDueAmount.set(
                 total.toString().toFormattedCurrency(true, SessionManager.getDefaultCurrency())
