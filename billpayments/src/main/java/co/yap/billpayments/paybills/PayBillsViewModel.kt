@@ -6,8 +6,12 @@ import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.paybills.adapter.DueBill
 import co.yap.billpayments.paybills.adapter.DueBillsAdapter
 import co.yap.billpayments.paybills.notification.DueBillsNotificationAdapter
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMATE_DATE_MONTH_YEAR
@@ -17,8 +21,9 @@ import co.yap.yapcore.managers.SessionManager
 
 class PayBillsViewModel(application: Application) :
     PayBillBaseViewModel<IPayBills.State>(application),
-    IPayBills.ViewModel {
+    IPayBills.ViewModel, IRepositoryHolder<CustomersRepository> {
 
+    override val repository: CustomersRepository = CustomersRepository
     override val state: IPayBills.State = PayBillsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val dueBillsAdapter: DueBillsAdapter = DueBillsAdapter(arrayListOf())
@@ -36,8 +41,7 @@ class PayBillsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         if (state.showBillCategory.get()) {
-            billcategories.set(getBillCategories())
-            parentViewModel?.billcategories = billcategories.get() as MutableList<BillProviderModel>
+            getBillProviders()
         } else {
             getBillCategoriesApi()
         }
@@ -46,6 +50,7 @@ class PayBillsViewModel(application: Application) :
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
     }
+
 
     private fun getDueBills(): ArrayList<DueBill> {
         val arr = ArrayList<DueBill>()
@@ -92,39 +97,25 @@ class PayBillsViewModel(application: Application) :
         return arr
     }
 
-    private fun getBillCategories(): MutableList<BillProviderModel> {
-        return mutableListOf(
-            BillProviderModel(
-                categoryId = "1",
-                categoryName = "Credit Card",
-                categoryType = "CREDIT_CARD",
-                icon = "icon_biller_type_utility_creditcard"
-            ),
-            BillProviderModel(
-                categoryId = "2",
-                categoryName = "Telecom",
-                categoryType = "TELECOM",
-                icon = "icon_biller_type_telecom"
-            ),
-            BillProviderModel(
-                categoryId = "3",
-                categoryName = "Utilities",
-                categoryType = "UTILITIES",
-                icon = "icon_biller_type_utility"
-            ),
-            BillProviderModel(
-                categoryId = "4",
-                categoryName = "RTA",
-                categoryType = "RTA",
-                icon = "icon_biller_type_rta"
-            ),
-            BillProviderModel(
-                categoryId = "5",
-                categoryName = "Dubai Police",
-                categoryType = "DUBAI_POLICE",
-                icon = "icon_biller_type_police"
-            )
-        )
+    private fun getBillProviders() {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.getBillProviders()
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        billcategories.set(response.data.billProviders as ArrayList)
+                        parentViewModel?.billcategories =
+                            billcategories.get() as MutableList<BillProviderModel>
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        showToast(response.error.message)
+                    }
+                }
+            }
+        }
     }
 
     override fun getBillCategoriesApi() {

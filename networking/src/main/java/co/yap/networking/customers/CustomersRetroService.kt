@@ -6,6 +6,7 @@ import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoRes
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -288,4 +289,7 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_COMPLETE_VERIFICATION)
     suspend fun completeVerification(@Body completeVerificationRequest: CompleteVerificationRequest): Response<SignUpResponse>
+
+    @GET(CustomersRepository.URL_BILL_PROVIDERS)
+    suspend fun getBillProviders(): Response<BillProviderResponse>
 }
