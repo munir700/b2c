@@ -67,6 +67,14 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
         }
     }
 
+    private fun shareInfo() {
+        InviteFriendRepository().inviteAFriend()
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext()))
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
+    }
+
     private fun clickOnCardPlan(data: Any) {
         if (data is CardPlans) {
             when (data.id) {
@@ -78,14 +86,6 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
                 }
             }
         }
-    }
-
-    private fun shareInfo() {
-        InviteFriendRepository().inviteAFriend()
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext()))
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     override fun navigateToFragment(data: String) {

@@ -16,5 +16,4 @@ abstract class CardPlansBaseFragment<V : IBase.ViewModel<*>> :
                 ViewModelProviders.of(activity!!).get(CardPlansMainViewModel::class.java)
         }
     }
-
 }

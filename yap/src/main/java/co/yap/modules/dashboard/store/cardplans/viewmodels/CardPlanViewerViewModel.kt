@@ -8,6 +8,7 @@ import co.yap.yapcore.constants.Constants
 class CardPlanViewerViewModel(application: Application) :
     CardPlansBaseViewModel<ICardViewer.State>(application), ICardViewer.ViewModel {
     override val state: ICardViewer.State = CardViewerState()
+
     override fun getFragmentToDisplay(id: String?): Int {
         return when (id) {
             Constants.PRIME_CARD_PLAN -> 0
