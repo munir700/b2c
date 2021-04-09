@@ -1,11 +1,14 @@
 package co.yap.billpayments.billers
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.networking.customers.responsedtos.billpayment.BillerModel
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class BillersFragment : PayBillBaseFragment<IBillers.ViewModel>(),
     IBillers.View {
@@ -24,6 +27,15 @@ class BillersFragment : PayBillBaseFragment<IBillers.ViewModel>(),
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
+
+        viewModel.adapter.setItemListener(onItemClickListener)
+    }
+
+    val onItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.parentViewModel?.selectedBiller = (data as BillerModel)
+            navigate(R.id.action_billersFragment_to_billerDetailFragment)
+        }
     }
 
     private val clickEventObserver = Observer<Int> {

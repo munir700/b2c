@@ -22,8 +22,9 @@ interface IBillPayments {
         var billers: MutableList<BillerModel>
         var selectedBillProvider: BillProviderModel?
         var billcategories: MutableList<BillProviderModel>
-        fun onToolbarClick(id: Int)
+        var selectedBiller: BillerModel?
         var onToolbarClickEvent: SingleClickEvent
+        fun onToolbarClick(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

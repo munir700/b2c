@@ -29,13 +29,20 @@
         <action
             android:id="@+id/action_billersFragment_to_billerSearchFragment"
             app:destination="@id/billerSearchFragment" />
+        <action
+            android:id="@+id/action_billersFragment_to_billerDetailFragment"
+            app:destination="@id/billerDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/billerSearchFragment"
         android:name="co.yap.billpayments.billers.search.BillerSearchFragment"
         android:label="BillerSearchFragment"
-        tools:layout="@layout/fragment_biller_search" />
+        tools:layout="@layout/fragment_biller_search">
+        <action
+            android:id="@+id/action_billerSearchFragment_to_billerDetailFragment"
+            app:destination="@id/billerDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/myBillsFragment"
@@ -54,4 +61,8 @@
             android:id="@+id/action_billCategoryFragment_to_billersFragment"
             app:destination="@id/billersFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/billerDetailFragment"
+        android:name="co.yap.billpayments.billerdetail.BillerDetailFragment"
+        android:label="BillerDetailFragment" />
 </navigation>

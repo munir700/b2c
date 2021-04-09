@@ -1,0 +1,35 @@
+{
+   "SKU":"00000000000000000001",
+   "BillerID":"356000000000100",
+   "DaysToPost":2,
+   "Currency":"INR",
+   "BusinessDays":1,
+   "PastDuePaymentAllowed":0,
+   "Amount":0.0,
+   "MinAmount":null,
+   "Description":"Electricity",
+   "InquiryAvailable":1,
+   "ExcessPaymentAllowed":0,
+   "PartialPaymentAllowed":0,
+   "MaxAmount":null,
+   "IoCatalogs":[
+      {
+         "Name":"Email",
+         "Datatype":"Alphanumeric",
+         "Description":"Email address",
+         "ValidLengths":null,
+         "MinLength":5,
+         "MaxLength":100,
+         "IOID":2
+      },
+      {
+         "Name":"Mobile Number",
+         "Datatype":"Numeric",
+         "ValidLengths":null,
+         "Description":"10-digit mobile number",
+         "MinLength":10,
+         "MaxLength":10,
+         "IOID":1
+      }
+   ]
+}

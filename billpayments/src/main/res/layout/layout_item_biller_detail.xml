@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.billerdetail.adapter.BillerDetailItemViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/tvInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:hint="@{viewModel.billerDetailInputFieldModel.lable}"
+            app:hintTextAppearance="@style/LabelTextStyl"
+            app:textColorChangePin="@{viewModel.billerDetailInputFieldModel.value}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etUserInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:hint="@{viewModel.billerDetailInputFieldModel.placeholder}"
+                android:maxLength="@{viewModel.billerDetailInputFieldModel.maxLength}"
+                android:singleLine="true"
+                android:textColorHint="@color/colorPrimaryDarkFadedLight"
+                android:inputType="@{viewModel.billerDetailInputFieldModel.inputType}"
+                android:theme="@style/Theme.EditText.Primary"
+                android:text="@={viewModel.billerDetailInputFieldModel.value}"
+                tools:hint="Email" />
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1400,4 +1400,8 @@
     <string name="screen_bill_detail_success_dialog_button_description">Pay your credit card bill now?</string>
     <string name="screen_bill_detail_success_dialog_button_text_do_it_later">No, I\'ll do it later</string>
 
+
+    <!-- Biller Detail Screen-->
+    <string name="screen_biller_detail_title_text_credit_card">Enter your credit card details</string>
+    <string name="screen_biller_detail_title_text_enter_you_account_details">Enter your account details</string>
 </resources>
