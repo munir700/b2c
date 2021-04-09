@@ -15,7 +15,7 @@
         <activity
             android:name="co.yap.billpayments.home.BillPaymentsHomeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing|adjustResize">
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/bill_payments_main_navigation" />
         </activity>
     </application>
