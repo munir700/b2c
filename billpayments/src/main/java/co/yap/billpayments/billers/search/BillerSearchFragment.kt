@@ -14,6 +14,7 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.searchwidget.SearchingListener
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),

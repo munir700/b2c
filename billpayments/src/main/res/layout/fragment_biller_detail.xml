@@ -63,13 +63,15 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBillerName"
                 style="@style/ASmall"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:maxLines="1"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:maxLines="2"
                 android:text="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
-                tools:text="Etsilat" />
+                tools:text="Abu Dhabi Commercial Bank (Assam lakshdv badd" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecyler"
