@@ -51,7 +51,6 @@ class PayBillsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-
     private fun getDueBills(): ArrayList<DueBill> {
         val arr = ArrayList<DueBill>()
         arr.add(
