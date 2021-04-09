@@ -19,6 +19,7 @@ class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getBillCategories()
         setObservers()
     }
 

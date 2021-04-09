@@ -2214,10 +2214,16 @@ object Strings {
     //My Bills Screen
     const val screen_my_bills_text_title_you_have_n_bills_registered: String =
         "screen_my_bills_text_title_you_have_n_bills_registered"
+    const val screen_my_bills_text_title_you_have_one_bill_registered: String =
+        "screen_my_bills_text_title_you_have_one_bill_registered"
     const val screen_my_bills_toolbar_text_title: String =
         "screen_my_bills_toolbar_text_title"
     const val screen_my_bills_btn_text_pay: String =
         "screen_my_bills_btn_text_pay"
+    const val screen_my_bills_text_title_on_selection: String =
+        "screen_my_bills_text_title_on_selection"
+    const val screen_my_bills_text_title_bottom_sheet: String =
+        "screen_my_bills_text_title_bottom_sheet"
 
     // Add Bill
     const val screen_add_bill_toolbar_title: String =
@@ -2231,4 +2237,15 @@ object Strings {
         "screen_biller_detail_title_text_credit_card"
     const val screen_biller_detail_title_text_enter_you_account_details: String =
         "screen_biller_detail_title_text_enter_you_account_details"
+
+    //Bill Detail
+    const val screen_bill_detail_success_dialog_title: String =
+        "screen_bill_detail_success_dialog_title"
+    const val screen_bill_detail_success_dialog_button_text: String =
+        "screen_bill_detail_success_dialog_button_text"
+    const val screen_bill_detail_success_dialog_button_description: String =
+        "screen_bill_detail_success_dialog_button_description"
+    const val screen_bill_detail_success_dialog_button_text_do_it_later: String =
+        "screen_bill_detail_success_dialog_button_text_do_it_later"
+
 }
