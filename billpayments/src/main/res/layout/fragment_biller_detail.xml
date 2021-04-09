@@ -57,8 +57,8 @@
                 android:id="@+id/ivIcon"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
-                app:fullName="@{viewModel.parentViewModel.selectedBiller.billerName}"
-                app:imageUrl="@{viewModel.parentViewModel.selectedBiller.logo}" />
+                app:fullName="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
+                app:imageUrl="@{viewModel.parentViewModel.selectedBillerCatalog.logo}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBillerName"
@@ -68,7 +68,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="@{viewModel.parentViewModel.selectedBiller.billerName}"
+                android:text="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
                 tools:text="Etsilat" />
 
             <androidx.recyclerview.widget.RecyclerView

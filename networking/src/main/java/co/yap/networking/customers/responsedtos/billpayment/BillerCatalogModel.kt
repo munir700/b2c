@@ -3,18 +3,18 @@ package co.yap.networking.customers.responsedtos.billpayment
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 
-data class BillerModel(
-    @SerializedName("BillerID")
+data class BillerCatalogModel(
+    @SerializedName("billerID")
     var billerID: String?,
-    @SerializedName("BillerName")
+    @SerializedName("billerName")
     var billerName: String?,
-    @SerializedName("BillerType")
+    @SerializedName("billerType")
     var billerType: String?,
-    @SerializedName("CountryName")
+    @SerializedName("countryName")
     var countryName: String?,
-    @SerializedName("CountryCode")
+    @SerializedName("countryCode")
     var countryCode: String?,
-    @SerializedName("BillerDescription")
+    @SerializedName("billerDescription")
     var billerDescription: String?,
     @SerializedName("logo")
     var logo: String?
