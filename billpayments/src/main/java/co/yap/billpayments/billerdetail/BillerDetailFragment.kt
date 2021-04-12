@@ -1,8 +1,8 @@
 package co.yap.billpayments.billerdetail
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import android.view.WindowManager
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
