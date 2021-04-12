@@ -2,11 +2,15 @@ package co.yap.billpayments.billerdetail
 
 import android.app.Application
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.billerdetail.adapter.BillerDetailAdapter
 import co.yap.billpayments.billerdetail.composer.BillerDetailInputComposer
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.BillerInputData
+import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerInputDetails
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -28,6 +32,7 @@ class BillerDetailViewModel(application: Application) :
     override var adapter: BillerDetailAdapter = BillerDetailAdapter(mutableListOf())
     override val billerDetailItemComposer: BillerDetailInputComposer = BillerDetailInputComposer()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override val billerDetailsResponse: MutableLiveData<BillerInputDetails> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -98,17 +103,62 @@ class BillerDetailViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
-                        val list =
-                            billerDetailItemComposer.compose(response.data.billerInputsData?.ioCatalogs as ArrayList<IoCatalogModel>)
-                        adapter.setList(list)
+                        response.data.billerInputsData?.ioCatalogs?.let {
+                            val list =
+                                billerDetailItemComposer.compose(it as ArrayList<IoCatalogModel>)
+                            adapter.setList(list)
+                            billerDetailsResponse.value = response.data.billerInputsData
+                        }
                     }
 
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
-                        showDialogWithCancel(response.error.message)
+                        showToast(response.error.message)
                     }
                 }
             }
         }
     }
+
+    override fun addBiller(
+        billerInformationRequest: AddBillerInformationRequest,
+        success: () -> Unit
+    ) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.addBiller(billerInformation = billerInformationRequest)
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        success.invoke()
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                    }
+                }
+            }
+        }
+    }
+
+
+    override fun getBillerInformationRequest(billerInformation: BillerInputDetails?): AddBillerInformationRequest {
+        val inputsData = ArrayList<BillerInputData>()
+        adapter.getDataList().forEachIndexed { index, inputData ->
+            if (index > 0)
+                inputsData.add(
+                    BillerInputData(
+                        key = inputData.lable ?: "",
+                        value = inputData.value?.get() ?: ""
+                    )
+                )
+        }
+        return AddBillerInformationRequest(
+            billerID = billerInformation?.billerID ?: "",
+            skuId = billerInformation?.skuId ?: "",
+            billNickName = adapter.getDataList().first().value?.get() ?: "",
+            inputsData = inputsData
+        )
+    }
+
 }
