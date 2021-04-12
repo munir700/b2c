@@ -1,4 +1,4 @@
-package co.yap.billpayments.home
+package co.yap.billpayments.dashboard
 
 import android.os.Bundle
 import androidx.lifecycle.Observer

@@ -2,7 +2,7 @@ package co.yap.billpayments.base
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
-import co.yap.billpayments.home.BillPaymentsViewModel
+import co.yap.billpayments.dashboard.BillPaymentsViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 

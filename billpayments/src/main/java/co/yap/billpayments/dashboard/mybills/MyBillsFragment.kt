@@ -1,4 +1,4 @@
-package co.yap.billpayments.mybills
+package co.yap.billpayments.dashboard.mybills
 
 import android.os.Bundle
 import android.view.View

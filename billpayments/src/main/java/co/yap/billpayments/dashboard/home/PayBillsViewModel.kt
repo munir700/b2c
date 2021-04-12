@@ -1,11 +1,11 @@
-package co.yap.billpayments.paybills
+package co.yap.billpayments.dashboard.home
 
 import android.app.Application
 import androidx.databinding.ObservableField
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.paybills.adapter.DueBill
-import co.yap.billpayments.paybills.adapter.DueBillsAdapter
-import co.yap.billpayments.paybills.notification.DueBillsNotificationAdapter
+import co.yap.billpayments.dashboard.home.adapter.DueBill
+import co.yap.billpayments.dashboard.home.adapter.DueBillsAdapter
+import co.yap.billpayments.dashboard.home.notification.DueBillsNotificationAdapter
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -25,11 +25,16 @@ class PayBillsViewModel(application: Application) :
     IPayBills.ViewModel, IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository
-    override val state: IPayBills.State = PayBillsState()
+    override val state: IPayBills.State =
+        PayBillsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val dueBillsAdapter: DueBillsAdapter = DueBillsAdapter(arrayListOf())
+    override val dueBillsAdapter: DueBillsAdapter =
+        DueBillsAdapter(arrayListOf())
     override val notificationAdapter: DueBillsNotificationAdapter =
-        DueBillsNotificationAdapter(context, arrayListOf())
+        DueBillsNotificationAdapter(
+            context,
+            arrayListOf()
+        )
     override var billcategories: ObservableField<MutableList<BillProviderModel>> = ObservableField()
 
     override fun onResume() {

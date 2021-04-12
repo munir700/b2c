@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/payBillsFragment"
-        android:name="co.yap.billpayments.paybills.PayBillsFragment"
+        android:name="co.yap.billpayments.dashboard.home.PayBillsFragment"
         android:label="PayBillsFragment"
         tools:layout="@layout/fragment_pay_bills">
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/myBillsFragment"
-        android:name="co.yap.billpayments.mybills.MyBillsFragment"
+        android:name="co.yap.billpayments.dashboard.mybills.MyBillsFragment"
         android:label="MyBillsFragment"
         tools:layout="@layout/fragment_my_bills">
         <action

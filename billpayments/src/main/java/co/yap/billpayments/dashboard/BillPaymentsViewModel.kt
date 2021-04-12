@@ -1,4 +1,4 @@
-package co.yap.billpayments.home
+package co.yap.billpayments.dashboard
 
 import android.app.Application
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel

@@ -1,9 +1,9 @@
-package co.yap.billpayments.mybills
+package co.yap.billpayments.dashboard.mybills
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.billpayments.mybills.adapter.MyBillsAdapter
+import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.IBase

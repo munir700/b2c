@@ -1,11 +1,11 @@
-package co.yap.billpayments.mybills
+package co.yap.billpayments.dashboard.mybills
 
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.mybills.adapter.MyBillsAdapter
+import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -18,9 +18,14 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class MyBillsViewModel(application: Application) :
-    PayBillBaseViewModel<IMyBills.State>(application), IMyBills.ViewModel {
-    override val state: IMyBills.State = MyBillsState()
-    override var adapter: MyBillsAdapter = MyBillsAdapter(mutableListOf())
+    PayBillBaseViewModel<IMyBills.State>(application),
+    IMyBills.ViewModel {
+    override val state: IMyBills.State =
+        MyBillsState()
+    override var adapter: MyBillsAdapter =
+        MyBillsAdapter(
+            mutableListOf()
+        )
     override var myBills: MutableLiveData<MutableList<BillModel>> = MutableLiveData()
     override var selectedBills: MutableList<BillModel> = mutableListOf()
     override val clickEvent: SingleClickEvent = SingleClickEvent()

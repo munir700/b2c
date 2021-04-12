@@ -1,4 +1,4 @@
-package co.yap.billpayments.paybills.adapter
+package co.yap.billpayments.dashboard.home.adapter
 
 import android.view.View
 import co.yap.yapcore.helpers.DateUtils

@@ -13,7 +13,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="co.yap.billpayments.home.BillPaymentsHomeActivity"
+            android:name="co.yap.billpayments.dashboard.BillPaymentsHomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/bill_payments_main_navigation" />

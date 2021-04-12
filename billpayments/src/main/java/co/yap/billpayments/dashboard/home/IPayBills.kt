@@ -1,10 +1,10 @@
-package co.yap.billpayments.paybills
+package co.yap.billpayments.dashboard.home
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.billpayments.databinding.FragmentPayBillsBinding
-import co.yap.billpayments.paybills.adapter.DueBillsAdapter
-import co.yap.billpayments.paybills.notification.DueBillsNotificationAdapter
+import co.yap.billpayments.dashboard.home.adapter.DueBillsAdapter
+import co.yap.billpayments.dashboard.home.notification.DueBillsNotificationAdapter
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

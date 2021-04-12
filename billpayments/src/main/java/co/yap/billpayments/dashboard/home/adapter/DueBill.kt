@@ -1,4 +1,4 @@
-package co.yap.billpayments.paybills.adapter
+package co.yap.billpayments.dashboard.home.adapter
 
 data class DueBill(
     var logoUrl: String,

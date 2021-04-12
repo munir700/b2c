@@ -1,4 +1,4 @@
-package co.yap.billpayments.home
+package co.yap.billpayments.dashboard
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.ObservableBoolean

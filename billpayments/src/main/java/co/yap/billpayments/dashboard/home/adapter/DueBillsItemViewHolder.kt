@@ -1,4 +1,4 @@
-package co.yap.billpayments.paybills.adapter
+package co.yap.billpayments.dashboard.home.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.databinding.LayoutItemBillDueBinding
@@ -13,7 +13,11 @@ class DueBillsItemViewHolder(private val layoutItemBillDueBinding: LayoutItemBil
         onItemClickListener: OnItemClickListener?
     ) {
         layoutItemBillDueBinding.viewModel =
-            DueBillsItemViewModel(dueBill, position, onItemClickListener)
+            DueBillsItemViewModel(
+                dueBill,
+                position,
+                onItemClickListener
+            )
         layoutItemBillDueBinding.executePendingBindings()
     }
 }

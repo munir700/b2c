@@ -1,4 +1,4 @@
-package co.yap.billpayments.paybills.adapter
+package co.yap.billpayments.dashboard.home.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +9,9 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 class DueBillsAdapter(private val list: MutableList<DueBill>) :
     BaseBindingRecyclerAdapter<DueBill, RecyclerView.ViewHolder>(list) {
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return DueBillsItemViewHolder(binding as LayoutItemBillDueBinding)
+        return DueBillsItemViewHolder(
+            binding as LayoutItemBillDueBinding
+        )
     }
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.layout_item_bill_due

@@ -1,4 +1,4 @@
-package co.yap.billpayments.mybills.adapter
+package co.yap.billpayments.dashboard.mybills.adapter
 
 import android.text.SpannableString
 import androidx.core.content.ContextCompat
@@ -33,7 +33,11 @@ class MyBillsItemViewHolder(private val layoutItemMyBillsBinding: LayoutItemMyBi
             }
         }
         layoutItemMyBillsBinding.viewModel =
-            MyBillsItemViewModel(billModel, position, onItemClickListener)
+            MyBillsItemViewModel(
+                billModel,
+                position,
+                onItemClickListener
+            )
         layoutItemMyBillsBinding.executePendingBindings()
     }
 }

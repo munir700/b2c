@@ -33,7 +33,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
-import co.yap.billpayments.home.BillPaymentsHomeActivity
+import co.yap.billpayments.dashboard.BillPaymentsHomeActivity
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity

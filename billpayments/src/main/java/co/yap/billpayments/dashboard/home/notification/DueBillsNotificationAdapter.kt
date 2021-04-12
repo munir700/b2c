@@ -1,4 +1,4 @@
-package co.yap.billpayments.paybills.notification
+package co.yap.billpayments.dashboard.home.notification
 
 import android.content.Context
 import android.view.View
@@ -6,7 +6,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.ItemDueBillNotificationBinding
-import co.yap.billpayments.paybills.adapter.DueBill
+import co.yap.billpayments.dashboard.home.adapter.DueBill
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
