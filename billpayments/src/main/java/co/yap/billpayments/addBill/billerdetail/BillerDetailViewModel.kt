@@ -159,5 +159,4 @@ class BillerDetailViewModel(application: Application) :
             inputsData = inputsData
         )
     }
-
 }
