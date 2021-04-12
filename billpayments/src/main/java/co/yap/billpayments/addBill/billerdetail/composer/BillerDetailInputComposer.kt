@@ -1,7 +1,7 @@
-package co.yap.billpayments.billerdetail.composer
+package co.yap.billpayments.addBill.billerdetail.composer
 
 import android.text.InputType
-import co.yap.billpayments.billerdetail.adapter.BillerDetailInputFieldModel
+import co.yap.billpayments.addBill.billerdetail.adapter.BillerDetailInputFieldModel
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.yapcore.enums.BillerDetailInputType
 

@@ -1,4 +1,4 @@
-package co.yap.billpayments.billers.search
+package co.yap.billpayments.addBill.billers.search
 
 import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.BaseState

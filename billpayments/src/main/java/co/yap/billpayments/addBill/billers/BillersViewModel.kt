@@ -1,8 +1,8 @@
-package co.yap.billpayments.billers
+package co.yap.billpayments.addBill.billers
 
 import android.app.Application
-import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.billers.adapter.BillersAdapter
+import co.yap.billpayments.addBill.base.AddBillBaseViewModel
+import co.yap.billpayments.addBill.billers.adapter.BillersAdapter
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -14,7 +14,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
 
 class BillersViewModel(application: Application) :
-    PayBillBaseViewModel<IBillers.State>(application), IBillers.ViewModel,
+    AddBillBaseViewModel<IBillers.State>(application), IBillers.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository
@@ -25,6 +25,7 @@ class BillersViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
+
     override fun onCreate() {
         super.onCreate()
         state.screenTitle.set(getScreenTitle(BillCategory.valueOf(parentViewModel?.selectedBillProvider?.categoryType.toString())))

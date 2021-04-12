@@ -1,4 +1,4 @@
-package co.yap.billpayments.billerdetail
+package co.yap.billpayments.addBill.billerdetail
 
 import android.os.Bundle
 import android.view.WindowManager
@@ -6,11 +6,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.addBill.base.AddBillBaseFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.successDialog
 
-class BillerDetailFragment : PayBillBaseFragment<IBillerDetail.ViewModel>(),
+class BillerDetailFragment : AddBillBaseFragment<IBillerDetail.ViewModel>(),
     IBillerDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

@@ -1,4 +1,4 @@
-package co.yap.billpayments.billers.adapter
+package co.yap.billpayments.addBill.billers.adapter
 
 import android.view.View
 import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel

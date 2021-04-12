@@ -1,10 +1,10 @@
-package co.yap.billpayments.billerdetail
+package co.yap.billpayments.addBill.billerdetail
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.billpayments.billerdetail.adapter.BillerDetailAdapter
-import co.yap.billpayments.billerdetail.composer.BillerDetailInputComposer
+import co.yap.billpayments.addBill.billerdetail.adapter.BillerDetailAdapter
+import co.yap.billpayments.addBill.billerdetail.composer.BillerDetailInputComposer
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillerInputDetails

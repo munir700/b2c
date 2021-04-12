@@ -1,4 +1,4 @@
-package co.yap.billpayments.billerdetail.adapter
+package co.yap.billpayments.addBill.billerdetail.adapter
 
 import android.text.InputType
 import androidx.databinding.ObservableField
