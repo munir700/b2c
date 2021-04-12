@@ -30,6 +30,7 @@
 
     <fragment
         android:id="@+id/billerDetailFragment"
+        tools:layout="@layout/fragment_biller_detail"
         android:name="co.yap.billpayments.addBill.billerdetail.BillerDetailFragment"
         android:label="BillerDetailFragment" />
 </navigation>

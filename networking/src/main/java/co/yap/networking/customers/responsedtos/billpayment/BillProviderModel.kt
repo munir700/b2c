@@ -1,8 +1,11 @@
 package co.yap.networking.customers.responsedtos.billpayment
 
+import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class BillProviderModel(
     @SerializedName("categoryId")
     var categoryId: String? = null,
@@ -12,4 +15,4 @@ data class BillProviderModel(
     var categoryType: String? = null,
     @SerializedName("icon")
     var icon: String? = null
-) : ApiResponse()
+) : Parcelable, ApiResponse()

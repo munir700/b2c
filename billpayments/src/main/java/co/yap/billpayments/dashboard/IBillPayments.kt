@@ -20,7 +20,6 @@ interface IBillPayments {
 
     interface ViewModel : IBase.ViewModel<State> {
         var billerCatalogs: MutableList<BillerCatalogModel>
-        var selectedBillProvider: BillProviderModel?
         var billcategories: MutableList<BillProviderModel>
         var selectedBillerCatalog: BillerCatalogModel?
         var onToolbarClickEvent: SingleClickEvent

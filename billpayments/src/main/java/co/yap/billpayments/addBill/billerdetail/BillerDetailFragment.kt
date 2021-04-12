@@ -1,5 +1,6 @@
 package co.yap.billpayments.addBill.billerdetail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.lifecycle.Observer
@@ -8,6 +9,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addBill.base.AddBillBaseFragment
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.successDialog
 
 class BillerDetailFragment : AddBillBaseFragment<IBillerDetail.ViewModel>(),
@@ -53,8 +55,18 @@ class BillerDetailFragment : AddBillBaseFragment<IBillerDetail.ViewModel>(),
                 message = description,
                 buttonText = getString(Strings.screen_bill_detail_success_dialog_button_text),
                 bottomText = getString(Strings.screen_bill_detail_success_dialog_button_text_do_it_later)
-            )
+            ) {
+                setIntentResult()
+            }
         }
+    }
+
+
+    private fun setIntentResult() {
+        val intent = Intent()
+        intent.putExtra("IS_SKIP", true)
+        requireActivity().setResult(RequestCodes.REQUEST_CODE_CREATE_PASSCODE, intent)
+        requireActivity().finish()
     }
 
     override fun removeObservers() {

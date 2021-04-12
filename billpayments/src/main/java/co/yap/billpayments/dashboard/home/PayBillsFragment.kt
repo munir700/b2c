@@ -1,19 +1,25 @@
 package co.yap.billpayments.dashboard.home
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.addBill.main.AddBillActivity
 import co.yap.billpayments.base.PayBillBaseFragment
-import co.yap.billpayments.databinding.FragmentPayBillsBinding
 import co.yap.billpayments.dashboard.home.adapter.DueBill
+import co.yap.billpayments.databinding.FragmentPayBillsBinding
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -112,8 +118,12 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
     }
 
     private fun onCategorySelection(billCategory: BillProviderModel?) {
-        viewModel.parentViewModel?.selectedBillProvider = billCategory
-        navigate(R.id.action_payBillsFragment_to_billersFragment)
+        launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL) {
+            putExtra(
+                ExtraKeys.BILL_PROVIDER.name,
+                billCategory
+            )
+        }
     }
 
     private fun initSwipeListener() {
@@ -196,5 +206,16 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_ADD_BILL -> {
+
+                }
+            }
+        }
     }
 }
