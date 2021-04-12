@@ -88,7 +88,7 @@
                 tools:listitem="@layout/layout_item_biller_detail" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/btnLogIn"
+                android:id="@+id/btnAddBiller"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

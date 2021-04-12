@@ -1397,7 +1397,7 @@
     <!-- Bill Detail Screen -->
     <string name="screen_bill_detail_success_dialog_title">%1s Bill has been added successfully</string>
     <string name="screen_bill_detail_success_dialog_button_text">Yes, pay now</string>
-    <string name="screen_bill_detail_success_dialog_button_description">Pay your credit card bill now?</string>
+    <string name="screen_bill_detail_success_dialog_button_description">Pay your %1s bill now?</string>
     <string name="screen_bill_detail_success_dialog_button_text_do_it_later">No, I\'ll do it later</string>
 
 

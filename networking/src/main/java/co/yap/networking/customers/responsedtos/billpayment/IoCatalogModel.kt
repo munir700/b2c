@@ -7,7 +7,7 @@ data class IoCatalogModel(
     var name: String? = null,
     @SerializedName("dataType")
     var dataType: String? = null,
-    @SerializedName("Description")
+    @SerializedName("description")
     var description: String? = null,
     @SerializedName("validLengths")
     var validLengths: String? = null,

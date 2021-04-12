@@ -45,7 +45,8 @@ class BillerDetailInputComposer : BillerDetailsInputComposer {
                 BillerDetailInputType.Numeric.inputType
             }
             else -> {
-                throw IllegalStateException("Not a valid data type $dataType")
+                BillerDetailInputType.Alphanumeric.inputType
+//                throw IllegalStateException("Not a valid data type $dataType")
             }
         }
     }

@@ -131,6 +131,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_BILL_PROVIDERS = "customers/api/billPayment/billerCategories"
     const val URL_BILLER_CATALOGS = "customers/api/billPayment/billerCatalogs"
     const val URL_BILLER_INPUTS_DETAILS = "customers/api/billPayment/billerDetails"
+    const val URL_ADD_BILLER = "customers/api/billPayment/addBiller"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -461,4 +462,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse> =
         executeSafely(call = { api.getBillerInputsDetails(billerId) })
+
+    override suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.addBiller(billerInformation) })
 }

@@ -122,6 +122,5 @@ interface CustomersApi {
     suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse>
     suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse>
     suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse>
-
-
+    suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<ApiResponse>
 }
