@@ -60,29 +60,29 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
 }
 
 private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
-    override fun onActivityResumed(activity: Activity?) {
+    override fun onActivityResumed(activity: Activity) {
         Adjust.onResume()
     }
 
-    override fun onActivityStarted(activity: Activity?) {
+    override fun onActivityStarted(activity: Activity) {
     }
 
-    override fun onActivityDestroyed(activity: Activity?) {
-
-    }
-
-    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+    override fun onActivityDestroyed(activity: Activity) {
 
     }
 
-    override fun onActivityStopped(activity: Activity?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
 
     }
 
-    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
+    override fun onActivityStopped(activity: Activity) {
+
     }
 
-    override fun onActivityPaused(activity: Activity?) {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+    }
+
+    override fun onActivityPaused(activity: Activity) {
         Adjust.onPause()
     }
 }
