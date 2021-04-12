@@ -1,8 +1,8 @@
-package co.yap.billpayments.billers
+package co.yap.billpayments.addBill.billers
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import co.yap.billpayments.billers.adapter.BillersAdapter
+import co.yap.billpayments.addBill.billers.adapter.BillersAdapter
 import co.yap.billpayments.databinding.FragmentBillersBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

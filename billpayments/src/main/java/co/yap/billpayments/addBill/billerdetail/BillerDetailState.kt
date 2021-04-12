@@ -1,4 +1,4 @@
-package co.yap.billpayments.billerdetail
+package co.yap.billpayments.addBill.billerdetail
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField

@@ -1,4 +1,4 @@
-package co.yap.billpayments.billers
+package co.yap.billpayments.addBill.billers
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.addBill.base.AddBillBaseFragment
 import co.yap.billpayments.databinding.FragmentBillersBinding
 import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel
 import co.yap.widgets.MultiStateView
@@ -14,7 +14,7 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class BillersFragment : PayBillBaseFragment<IBillers.ViewModel>(),
+class BillersFragment : AddBillBaseFragment<IBillers.ViewModel>(),
     IBillers.View {
 
     override fun getBindingVariable(): Int = BR.viewModel

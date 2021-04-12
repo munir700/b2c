@@ -1,4 +1,4 @@
-package co.yap.billpayments.billers.adapter
+package co.yap.billpayments.addBill.billers.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView

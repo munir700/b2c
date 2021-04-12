@@ -1,11 +1,11 @@
-package co.yap.billpayments.billerdetail
+package co.yap.billpayments.addBill.billerdetail
 
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.billerdetail.adapter.BillerDetailAdapter
-import co.yap.billpayments.billerdetail.composer.BillerDetailInputComposer
+import co.yap.billpayments.addBill.base.AddBillBaseViewModel
+import co.yap.billpayments.addBill.billerdetail.adapter.BillerDetailAdapter
+import co.yap.billpayments.addBill.billerdetail.composer.BillerDetailInputComposer
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.BillerInputData
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
@@ -24,7 +24,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 class BillerDetailViewModel(application: Application) :
-    PayBillBaseViewModel<IBillerDetail.State>(application), IBillerDetail.ViewModel,
+    AddBillBaseViewModel<IBillerDetail.State>(application), IBillerDetail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository
@@ -75,8 +75,7 @@ class BillerDetailViewModel(application: Application) :
         for (field in adapter.getDataList()) {
             if (field.minLength != null &&
                 field.minLength!! > field.value?.get()?.length ?: 0
-            )
-            {
+            ) {
                 isValid = false
                 break
             } else {

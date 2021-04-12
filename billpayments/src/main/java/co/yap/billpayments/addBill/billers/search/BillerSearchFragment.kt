@@ -1,4 +1,4 @@
-package co.yap.billpayments.billers.search
+package co.yap.billpayments.addBill.billers.search
 
 import android.os.Bundle
 import android.view.View
@@ -7,17 +7,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.addBill.base.AddBillBaseFragment
 import co.yap.billpayments.databinding.FragmentBillerSearchBinding
 import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.searchwidget.SearchingListener
-import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
+class BillerSearchFragment : AddBillBaseFragment<IBillerSearch.ViewModel>(),
     IBillerSearch.View, SearchingListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_biller_search
