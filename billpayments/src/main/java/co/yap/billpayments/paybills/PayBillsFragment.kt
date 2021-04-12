@@ -10,11 +10,15 @@ import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.databinding.FragmentPayBillsBinding
 import co.yap.billpayments.paybills.adapter.DueBill
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.fragment_pay_bills.*
 import kotlinx.android.synthetic.main.layout_item_bill_due.*
 
 class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
@@ -54,6 +58,9 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.state.stateLiveData?.observe(this, Observer {
+            handleState(it)
+        })
     }
 
     override fun removeObservers() {
@@ -149,6 +156,26 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
                         viewModel.clickEvent.setValue(viewID)
                     }
             getBindings().lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(onTouchListener!!)
+        }
+    }
+
+    private fun handleState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> {
+                multiStateView.viewState = MultiStateView.ViewState.LOADING
+            }
+            Status.EMPTY -> {
+                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+            }
+            Status.SUCCESS -> {
+                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            }
+            Status.ERROR -> {
+                multiStateView.viewState = MultiStateView.ViewState.ERROR
+            }
+            else -> {
+                throw IllegalStateException("State is not handled " + state?.status)
+            }
         }
     }
 

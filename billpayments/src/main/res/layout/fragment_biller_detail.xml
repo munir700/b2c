@@ -70,7 +70,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="@{viewModel.parentViewModel.selectedBiller.billerName}"
+                android:text="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
                 tools:text="Etsilat" />
 
             <androidx.recyclerview.widget.RecyclerView

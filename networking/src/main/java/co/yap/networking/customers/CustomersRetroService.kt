@@ -296,10 +296,10 @@ interface CustomersRetroService {
     suspend fun getBillProviders(): Response<BillProviderResponse>
 
     @GET(CustomersRepository.URL_BILLER_CATALOGS)
-    suspend fun getBillerCatalogs(@Query("categoryId") beneficiaryId: String): Response<BillerCatalogResponse>
+    suspend fun getBillerCatalogs(@Path("category-id") categoryId: String): Response<BillerCatalogResponse>
 
     @GET(CustomersRepository.URL_BILLER_INPUTS_DETAILS)
-    suspend fun getBillerInputsDetails(@Query("billerId") billerId: String): Response<BillerDetailResponse>
+    suspend fun getBillerInputsDetails(@Path("biller-id") billerId: String): Response<BillerDetailResponse>
 
     @POST(CustomersRepository.URL_ADD_BILLER)
     suspend fun addBiller(@Body addBillerInformationRequest: AddBillerInformationRequest): Response<ApiResponse>
