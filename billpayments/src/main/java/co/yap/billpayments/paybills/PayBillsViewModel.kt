@@ -41,7 +41,10 @@ class PayBillsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         if (state.showBillCategory.get()) {
-            getBillProviders()
+            if (parentViewModel?.billcategories.isNullOrEmpty())
+                getBillProviders()
+            else
+                billcategories.set(parentViewModel?.billcategories)
         } else {
             getBillCategoriesApi()
         }
@@ -50,7 +53,6 @@ class PayBillsViewModel(application: Application) :
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
     }
-
 
     private fun getDueBills(): ArrayList<DueBill> {
         val arr = ArrayList<DueBill>()

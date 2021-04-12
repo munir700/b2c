@@ -59,8 +59,8 @@
                 android:id="@+id/ivIcon"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
-                app:fullName="@{viewModel.parentViewModel.selectedBiller.billerName}"
-                app:imageUrl="@{viewModel.parentViewModel.selectedBiller.logo}" />
+                app:fullName="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
+                app:imageUrl="@{viewModel.parentViewModel.selectedBillerCatalog.logo}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBillerName"
@@ -88,7 +88,7 @@
                 tools:listitem="@layout/layout_item_biller_detail" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/btnNext"
+                android:id="@+id/btnAddBiller"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

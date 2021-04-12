@@ -14,9 +14,9 @@ interface IBillCategory {
 
     interface ViewModel : IBase.ViewModel<State> {
         var billcategories: ObservableField<MutableList<BillProviderModel>>
-        fun handlePressView(id: Int)
         val clickEvent: SingleClickEvent
-        fun getBillCategories()
+        fun handlePressView(id: Int)
+        fun getBillProviders()
     }
 
     interface State : IBase.State {

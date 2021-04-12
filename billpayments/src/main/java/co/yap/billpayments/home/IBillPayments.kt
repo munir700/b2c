@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
-import co.yap.networking.customers.responsedtos.billpayment.BillerModel
+import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,10 +19,10 @@ interface IBillPayments {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var billers: MutableList<BillerModel>
+        var billerCatalogs: MutableList<BillerCatalogModel>
         var selectedBillProvider: BillProviderModel?
         var billcategories: MutableList<BillProviderModel>
-        var selectedBiller: BillerModel?
+        var selectedBillerCatalog: BillerCatalogModel?
         var onToolbarClickEvent: SingleClickEvent
         fun onToolbarClick(id: Int)
     }

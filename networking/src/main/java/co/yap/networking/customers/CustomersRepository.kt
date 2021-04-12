@@ -8,6 +8,8 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -127,6 +129,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
 
     const val URL_BILL_PROVIDERS = "customers/api/billPayment/billerCategories"
+    const val URL_BILLER_CATALOGS = "customers/api/billPayment/billerCatalogs"
+    const val URL_BILLER_INPUTS_DETAILS = "customers/api/billPayment/billerDetails"
+    const val URL_ADD_BILLER = "customers/api/billPayment/addBiller"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -452,4 +457,12 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.getBillProviders()
         })
 
+    override suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse> =
+        executeSafely(call = { api.getBillerCatalogs(categoryId) })
+
+    override suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse> =
+        executeSafely(call = { api.getBillerInputsDetails(billerId) })
+
+    override suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.addBiller(billerInformation) })
 }

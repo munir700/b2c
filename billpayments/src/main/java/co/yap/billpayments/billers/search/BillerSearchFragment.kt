@@ -9,7 +9,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.databinding.FragmentBillerSearchBinding
-import co.yap.networking.customers.responsedtos.billpayment.BillerModel
+import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -48,7 +48,7 @@ class BillerSearchFragment : PayBillBaseFragment<IBillerSearch.ViewModel>(),
 
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.parentViewModel?.selectedBiller = (data as BillerModel)
+            viewModel.parentViewModel?.selectedBillerCatalog = (data as BillerCatalogModel)
             navigate(R.id.action_billerSearchFragment_to_billerDetailFragment)
         }
     }

@@ -7,6 +7,8 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -292,4 +294,13 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_BILL_PROVIDERS)
     suspend fun getBillProviders(): Response<BillProviderResponse>
+
+    @GET(CustomersRepository.URL_BILLER_CATALOGS)
+    suspend fun getBillerCatalogs(@Query("categoryId") beneficiaryId: String): Response<BillerCatalogResponse>
+
+    @GET(CustomersRepository.URL_BILLER_INPUTS_DETAILS)
+    suspend fun getBillerInputsDetails(@Query("billerId") billerId: String): Response<BillerDetailResponse>
+
+    @POST(CustomersRepository.URL_ADD_BILLER)
+    suspend fun addBiller(@Body addBillerInformationRequest: AddBillerInformationRequest): Response<ApiResponse>
 }
