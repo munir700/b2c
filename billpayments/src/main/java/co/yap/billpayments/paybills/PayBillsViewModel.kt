@@ -11,6 +11,7 @@ import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
@@ -106,13 +107,18 @@ class PayBillsViewModel(application: Application) :
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        state.viewState.value = false
                         billcategories.set(response.data.billProviders as ArrayList)
                         parentViewModel?.billcategories =
                             billcategories.get() as MutableList<BillProviderModel>
+                        state.stateLiveData?.value =
+                            if (billcategories.get()
+                                    .isNullOrEmpty()
+                            ) State.empty("") else State.success(null)
+                        state.viewState.value = false
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
+                        state.stateLiveData?.value = State.error("")
                         showToast(response.error.message)
                     }
                 }
