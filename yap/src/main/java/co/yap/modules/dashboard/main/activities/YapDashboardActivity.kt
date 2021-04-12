@@ -200,7 +200,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     lifecycleScope.launch {
-                        delay(200)
+                        delay(300)
                         overLayButtonVisibility(View.VISIBLE)
                     }
                     when (subActionButtonId) {

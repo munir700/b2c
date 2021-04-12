@@ -1,7 +1,6 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -9,7 +8,6 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.widgets.CounterFloatingActionButton
 import co.yap.yapcore.R
 import co.yap.yapcore.managers.SessionManager
-import com.leanplum.Leanplum
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.ICallback
 import com.liveperson.infra.InitLivePersonProperties
@@ -25,6 +23,7 @@ const val BRAND_ID: String = "17038977"
 private val appInstallId = SessionManager.user?.uuid
 
 fun Activity.initializeChatOverLayButton(unreadCount: Int = 0) {
+    initLivePersonChatOnly()
     val param = FrameLayout.LayoutParams(
         FrameLayout.LayoutParams.WRAP_CONTENT,
         FrameLayout.LayoutParams.WRAP_CONTENT
@@ -47,14 +46,17 @@ fun Activity.initializeChatOverLayButton(unreadCount: Int = 0) {
 }
 
 fun Activity.overLayButtonVisibility(visibility: Int) {
-    if (Leanplum.getInbox().unreadCount() > 0)
-        (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat)?.visibility =
-            visibility
+    val fab =
+        ((window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat) as? CounterFloatingActionButton)
+    if (visibility == View.VISIBLE) {
+        getCountUnreadMessage()
+    } else {
+        fab?.visibility = visibility
+    }
 }
 
 fun Activity.chatSetup() {
     SessionManager.user?.let {
-//        val monitoringParams = MonitoringInitParams(appInstallId)
         LivePerson.initialize(
             this,
             InitLivePersonProperties(
@@ -72,16 +74,49 @@ fun Activity.chatSetup() {
     }
 }
 
+fun Activity.initLivePersonChatOnly() {
+    SessionManager.user?.let {
+//        val monitoringParams = MonitoringInitParams(appInstallId)
+        LivePerson.initialize(
+            this,
+            InitLivePersonProperties(
+                BRAND_ID, it.uuid,
+                object : InitLivePersonCallBack {
+                    override fun onInitSucceed() {
+                        SessionManager.user?.currentCustomer?.let {
+                            val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
+                            authParams.hostAppJWT = AuthRepository.getJwtToken()
+                            val consumerProfile = ConsumerProfile.Builder()
+                                .setFirstName(it.firstName)
+                                .setLastName(it.lastName)
+                                .setPhoneNumber(it.getCompletePhone())
+                                .build()
+                            LivePerson.setUserProfile(consumerProfile)
+                        }
+                    }
+
+                    override fun onInitFailed(e: Exception) {
+                        toast("Unable to open chat")
+                    }
+                })
+        )
+    }
+}
+
+fun Activity.showConversation(
+    lpAuthParams: LPAuthenticationParams?,
+    convViewParams: ConversationViewParams?
+) = LivePerson.showConversation(this, lpAuthParams, convViewParams)
+
 private fun Activity.openChatActivity() {
     SessionManager.user?.currentCustomer?.let {
         val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
         authParams.hostAppJWT = AuthRepository.getJwtToken()
-//        authParams.hostAppJWT = CookiesManager.jwtToken
         val params = ConversationViewParams(false)
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
             .setHistoryConversationsMaxDays(180)
             .setReadOnlyMode(false)
-        LivePerson.showConversation(this, authParams, params)
+        showConversation(authParams, params)
         val consumerProfile = ConsumerProfile.Builder()
             .setFirstName(it.firstName)
             .setLastName(it.lastName)
@@ -100,14 +135,12 @@ fun Activity.getCountUnreadMessage() {
             }
 
             override fun onError(p0: java.lang.Exception?) {
-                Log.d("LivePersonUnreadError", p0?.message)
             }
-
         }
     )
 }
 
-fun Activity.updateCount(unreadCount: Int) {
+private fun Activity.updateCount(unreadCount: Int) {
     val fab =
         (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat) as? CounterFloatingActionButton
     fab?.count = unreadCount
