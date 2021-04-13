@@ -63,17 +63,13 @@
                 android:id="@+id/rvBillerList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/margin_extra_small"
-                android:paddingBottom="@dimen/margin_xxl"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:recycleViewAdapter="@{viewModel.adapter}"
                 app:rvAdapter="@{viewModel.adapter}"
                 app:shimmerLayoutId="@layout/layout_item_biller_shimmer"
                 tools:listitem="@layout/layout_item_biller" />
         </co.yap.widgets.MultiStateView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

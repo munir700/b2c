@@ -134,6 +134,7 @@ class BillerDetailViewModel(application: Application) :
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
+                        showToast(response.error.message)
                     }
                 }
             }
