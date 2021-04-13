@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.paybills.adapter.DueBillsItemViewModel" />
+            type="co.yap.billpayments.dashboard.home.adapter.DueBillsItemViewModel" />
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
         <import type="co.yap.translation.Strings"/>

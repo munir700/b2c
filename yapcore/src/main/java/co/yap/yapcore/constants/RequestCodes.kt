@@ -27,6 +27,7 @@ object RequestCodes {
     const val REQUEST_DELETE_RECEIPT = 10023
     const val REQUEST_CODE_CREATE_PASSCODE: Int = 10024
     const val REQUEST_STORAGE_PERMISSION: Int = 10025
+    const val REQUEST_ADD_BILL: Int = 10026
 
 
 }

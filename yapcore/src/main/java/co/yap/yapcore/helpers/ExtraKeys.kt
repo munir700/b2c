@@ -14,5 +14,6 @@ enum class ExtraKeys{
     TAKE_IMAGE_FROM,
     IS_Y2Y_DATA,
     Y2Y_SELECTED_TAB_POS,
-    IS_WAITING
+    IS_WAITING,
+    BILL_PROVIDER
 }

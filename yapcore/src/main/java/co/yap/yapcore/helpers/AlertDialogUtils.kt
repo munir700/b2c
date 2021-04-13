@@ -332,6 +332,7 @@ fun Context.successDialog(
         dialogLayout.dismiss()
     }
     tvBottomButton.setOnClickListener {
+        callback.invoke()
         dialogLayout.dismiss()
     }
     dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
