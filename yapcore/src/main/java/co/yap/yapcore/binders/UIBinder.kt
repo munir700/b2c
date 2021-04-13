@@ -1052,4 +1052,14 @@ object UIBinder {
             }
         }
     }
+
+
+    @BindingAdapter("tintAppCompatImageView")
+    @JvmStatic
+    fun setTintAppCompatImageView(imageView: AppCompatImageView, imageTint: Int?) {
+        imageTint?.let {
+            if (imageTint != 0) imageView.setColorFilter(imageTint, PorterDuff.Mode.SRC_IN)
+        }
+
+    }
 }

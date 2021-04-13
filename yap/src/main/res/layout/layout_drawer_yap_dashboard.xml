@@ -375,7 +375,7 @@
                     android:id="@+id/lScanQR"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/ic_drawer_qr}"
-                    app:tint="@{@color/greyDark}"
+
                     app:title='@{"My QR code"}' />
 
             </LinearLayout>
