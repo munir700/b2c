@@ -15,8 +15,8 @@ class BillerDetailInputComposer : BillerDetailsInputComposer {
         val list: MutableList<BillerDetailInputFieldModel> = mutableListOf()
         list.add(
             BillerDetailInputFieldModel(
-                lable = "Enter account nickname",
-                placeholder = "nickname",
+                lable = "Enter nickname",
+                placeholder = "Nickname",
                 maxLength = 255,
                 minLength = 1,
                 inputType = InputType.TYPE_CLASS_TEXT
