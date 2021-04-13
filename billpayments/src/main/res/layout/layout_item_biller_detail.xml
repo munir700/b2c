@@ -24,8 +24,8 @@
             app:textColorChangePin="@{viewModel.billerDetailInputFieldModel.value}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatEditText
+            
+            <co.yap.widgets.AlphaNumericEditText
                 android:id="@+id/etUserInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:inputType="@{viewModel.billerDetailInputFieldModel.inputType}"
                 android:theme="@style/Theme.EditText.Primary"
                 android:text="@={viewModel.billerDetailInputFieldModel.value}"
-                tools:hint="Email" />
+                tools:hint="Email"/>
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
