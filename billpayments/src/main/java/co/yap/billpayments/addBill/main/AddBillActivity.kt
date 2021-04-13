@@ -1,7 +1,6 @@
 package co.yap.billpayments.addBill.main
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
@@ -48,8 +47,8 @@ class AddBillActivity : BaseBindingActivity<IAddBill.ViewModel>(), INavigator,
         }
     }
 
-    val onToolBarClick = Observer<Int> {
-        when (it) {
+    override fun onToolBarClick(id: Int) {
+        when (id) {
             R.id.ivLeftIcon -> {
                 onBackPressed()
             }
