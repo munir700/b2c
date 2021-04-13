@@ -2,12 +2,14 @@ package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.Parcelable
 import android.text.*
 import android.text.method.LinkMovementMethod
@@ -184,15 +186,9 @@ fun NavigationView?.navViewWidth(percent: Int) {
 }
 
 fun Context?.isNetworkAvailable(): Boolean {
-    return this?.let {
-        val connectivityManager =
-            it.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-        connectivityManager?.let {
-            connectivityManager.activeNetworkInfo?.let {
-                return connectivityManager.activeNetworkInfo.isConnected
-            } ?: false
-        } ?: false
-    } ?: false
+    val cm = this?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+    return capabilities?.hasCapability(NET_CAPABILITY_INTERNET) == true
 }
 
 fun TextView.makeLinks(

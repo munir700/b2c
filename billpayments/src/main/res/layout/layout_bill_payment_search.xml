@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.billers.BillersViewModel" />
+            type="co.yap.billpayments.addBill.billers.BillersViewModel" />
 
         <import type="android.view.View" />
 

@@ -61,7 +61,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
         }
     }
 
-    val toolbarClickObserver = Observer<Int> {
+    private val toolbarClickObserver = Observer<Int> {
         when (it) {
             R.id.ivSortIcon -> openSortBottomSheet()
             R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)

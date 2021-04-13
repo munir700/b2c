@@ -22,7 +22,11 @@
         android:id="@+id/myBillsFragment"
         android:name="co.yap.billpayments.dashboard.mybills.MyBillsFragment"
         android:label="MyBillsFragment"
-        tools:layout="@layout/fragment_my_bills"/>
+        tools:layout="@layout/fragment_my_bills">
+        <action
+            android:id="@+id/action_myBillsFragment_to_billCategoryFragment"
+            app:destination="@id/billCategoryFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/billCategoryFragment"
