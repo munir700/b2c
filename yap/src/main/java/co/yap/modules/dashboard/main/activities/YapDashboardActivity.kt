@@ -57,6 +57,7 @@ import co.yap.widgets.CoreButton
 import co.yap.widgets.CounterFloatingActionButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -474,6 +475,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 InviteFriendFragment::class.java.name, false,
                 bundleOf()
             )
+            closeDrawer()
+        }
+        getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener{
+            trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
+            QRCodeFragment {}.show(this.supportFragmentManager, "")
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {

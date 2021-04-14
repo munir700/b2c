@@ -44,6 +44,17 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline1"
             app:layout_constraintStart_toStartOf="@id/layoutQRCode"
             app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivScan"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:padding="@dimen/_6sdp"
+            android:background="@drawable/bg_scan_white"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:src="@drawable/ic_scan_blue_icon"
+            app:layout_constraintBottom_toTopOf="@+id/guideline1"
+            app:layout_constraintEnd_toEndOf="@id/layoutQRCode"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutQRCode"

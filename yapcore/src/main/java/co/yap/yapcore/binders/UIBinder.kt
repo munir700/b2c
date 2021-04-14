@@ -1066,4 +1066,9 @@ object UIBinder {
         }
 
     }
+
+    @BindingAdapter("customHeight")
+    fun setLayoutHeight(view: View, height: Float) {
+        view.layoutParams = view.layoutParams.apply { this.height = height.toInt() }
+    }
 }
