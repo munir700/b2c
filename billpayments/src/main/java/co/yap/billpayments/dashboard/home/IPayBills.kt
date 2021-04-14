@@ -2,10 +2,10 @@ package co.yap.billpayments.dashboard.home
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import co.yap.billpayments.databinding.FragmentPayBillsBinding
+import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
 import co.yap.billpayments.dashboard.home.adapter.DueBillsAdapter
 import co.yap.billpayments.dashboard.home.notification.DueBillsNotificationAdapter
-import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.billpayments.databinding.FragmentPayBillsBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -16,10 +16,10 @@ interface IPayBills {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
+        var adapter: BillCategoryAdapter
         var clickEvent: SingleClickEvent
         val dueBillsAdapter: DueBillsAdapter
         val notificationAdapter: DueBillsNotificationAdapter
-        var billcategories: ObservableField<MutableList<BillProviderModel>>
         fun handlePressView(id: Int)
         fun getBillCategoriesApi()
     }

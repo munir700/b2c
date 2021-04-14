@@ -55,7 +55,7 @@ class BillersViewModel(application: Application) :
             BillCategory.CREDIT_CARD -> {
                 getString(Strings.screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by)
             }
-            BillCategory.RTA -> {
+            BillCategory.TRANSPORT -> {
                 Translator.getString(
                     context,
                     Strings.screen_bill_payment_sub_heading_choose_from_the_list_below,

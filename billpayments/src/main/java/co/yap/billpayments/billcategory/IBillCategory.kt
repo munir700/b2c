@@ -1,8 +1,7 @@
 package co.yap.billpayments.billcategory
 
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
-import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -13,7 +12,7 @@ interface IBillCategory {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var billcategories: ObservableField<MutableList<BillProviderModel>>
+        var adapter: BillCategoryAdapter
         val clickEvent: SingleClickEvent
         fun handlePressView(id: Int)
         fun getBillProviders()
