@@ -355,6 +355,11 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             "hh" -> {
                 "https://dev-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
+            "hh_qa" -> {
+                "https://dev-hci.yap.co/admin-web/HostedSessionIntegration.html"
+//                "https://s1-hci.yap.co/admin-web/HostedSessionIntegration.html"// not configured on BE at the moment
+
+            }
             else -> null
         }
     }
