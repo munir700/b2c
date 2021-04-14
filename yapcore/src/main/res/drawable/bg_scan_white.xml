@@ -11,9 +11,4 @@
             android:fillType="evenOdd"
             android:pathData="M0,0h32v32H0z" />
     </group>
-    <path
-        android:fillColor="?attr/colorPrimaryDarkAttr"
-        android:fillType="nonZero"
-        android:pathData="M17.375,16l5.146,5.146a0.972,0.972 0,0 1,-1.375 1.375L16,17.375 10.854,22.52A0.972,0.972 0,1 1,9.48 21.146L14.625,16 9.48,10.854A0.972,0.972 0,1 1,10.854 9.48L16,14.625 21.146,9.48a0.972,0.972 0,0 1,1.375 1.375L17.375,16z"
-        tools:fillColor="#5e35b1" />
 </vector>

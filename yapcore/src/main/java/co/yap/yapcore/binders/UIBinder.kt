@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -29,6 +30,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
@@ -70,8 +72,8 @@ object UIBinder {
     @BindingAdapter(requireAll = false, value = ["adaptor", "selectedListener"])
     @JvmStatic
     fun setSpinnerAdaptor(
-        spinner: Spinner,
-        options: ArrayList<String>, listener: OnItemClickListener?
+            spinner: Spinner,
+            options: ArrayList<String>, listener: OnItemClickListener?
     ) {
         val myListener = object : OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -79,19 +81,19 @@ object UIBinder {
             }
 
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
             ) {
                 view?.let { listener?.onItemClick(view, options[position], position) }
             }
         }
         spinner.onItemSelectedListener = myListener
         val dataAdapter = ArrayAdapter<String>(
-            spinner.context,
-            android.R.layout.simple_spinner_item,
-            options
+                spinner.context,
+                android.R.layout.simple_spinner_item,
+                options
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = dataAdapter
@@ -142,8 +144,8 @@ object UIBinder {
             view.loadImage(photoUri)
         } else {
             val cursor = view.context.contentResolver.query(
-                Uri.parse(photoUri),
-                arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
+                    Uri.parse(photoUri),
+                    arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
             )
             cursor?.use {
                 if (it.moveToFirst()) {
@@ -255,15 +257,15 @@ object UIBinder {
                 CardStatus.BLOCKED -> {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
-                        text.context,
-                        R.string.screen_cards_display_text_freeze_card
+                            text.context,
+                            R.string.screen_cards_display_text_freeze_card
                     )
                 }
                 CardStatus.HOTLISTED -> {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
-                        text.context,
-                        R.string.screen_cards_display_text_hotlisted
+                            text.context,
+                            R.string.screen_cards_display_text_hotlisted
                     )
                 }
                 CardStatus.INACTIVE -> {
@@ -272,8 +274,8 @@ object UIBinder {
                 CardStatus.EXPIRED -> {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
-                        text.context,
-                        R.string.screen_cards_display_text_expired_card
+                            text.context,
+                            R.string.screen_cards_display_text_expired_card
                     )
                 }
             }
@@ -285,14 +287,14 @@ object UIBinder {
                 if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
-                        text.context,
-                        R.string.screen_cards_display_text_set_message
+                            text.context,
+                            R.string.screen_cards_display_text_set_message
                     )
                 } else {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
-                        text.context,
-                        R.string.screen_cards_display_text_inactive_description
+                            text.context,
+                            R.string.screen_cards_display_text_inactive_description
                     )
                 }
             }
@@ -320,15 +322,15 @@ object UIBinder {
                 CardStatus.BLOCKED -> {
                     coreButton.visibility = VISIBLE
                     coreButton.text = Translator.getString(
-                        coreButton.context,
-                        R.string.screen_cards_button_unfreeze_card
+                            coreButton.context,
+                            R.string.screen_cards_button_unfreeze_card
                     )
                 }
                 CardStatus.HOTLISTED -> {
                     coreButton.visibility = VISIBLE
                     coreButton.text = Translator.getString(
-                        coreButton.context,
-                        R.string.screen_cards_button_reorder_card
+                            coreButton.context,
+                            R.string.screen_cards_button_reorder_card
                     )
                 }
                 CardStatus.INACTIVE -> {
@@ -342,8 +344,8 @@ object UIBinder {
                     //visible this when we needed in future
                     coreButton.visibility = GONE
                     coreButton.text = Translator.getString(
-                        coreButton.context,
-                        R.string.screen_cards_button_update_card
+                            coreButton.context,
+                            R.string.screen_cards_button_update_card
                     )
                 }
             }
@@ -354,8 +356,8 @@ object UIBinder {
             CardType.DEBIT.type -> {
                 coreButton.visibility = VISIBLE
                 coreButton.text = Translator.getString(
-                    coreButton.context,
-                    R.string.screen_cards_display_text_set_pin
+                        coreButton.context,
+                        R.string.screen_cards_display_text_set_pin
                 )
             }
             else -> {
@@ -451,14 +453,14 @@ object UIBinder {
     @JvmStatic
     fun setText(view: TextView, textKey: String, concat: String) {
         view.text =
-            Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
+                Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textId: Int, concat: String) {
         view.text =
-            Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
+                Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("text", "start", "end")
@@ -467,20 +469,20 @@ object UIBinder {
         val text1 = SpannableString(text)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             text1.setSpan(
-                ForegroundColorSpan(
-                    view.context.resources.getColor(
-                        R.color.colorPrimaryDark,
-                        null
-                    )
-                ), start, end,
-                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    ForegroundColorSpan(
+                            view.context.resources.getColor(
+                                    R.color.colorPrimaryDark,
+                                    null
+                            )
+                    ), start, end,
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE
             )
         } else {
             text1.setSpan(
-                ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark)),
-                start,
-                end,
-                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark)),
+                    start,
+                    end,
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE
             )
         }
         view.text = text1
@@ -520,22 +522,22 @@ object UIBinder {
     @BindingAdapter("entries", "layout")
     @JvmStatic
     fun <T : IBindable> setEntries(
-        viewGroup: ViewGroup,
-        entries: List<T>?, layoutId: Int
+            viewGroup: ViewGroup,
+            entries: List<T>?, layoutId: Int
     ) {
         viewGroup.removeAllViews()
         if (entries != null) {
             val inflater =
-                viewGroup.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                    viewGroup.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             for (i in entries.indices) {
                 val entry = entries[i]
                 val binding =
-                    DataBindingUtil.inflate<ViewDataBinding>(
-                        inflater,
-                        layoutId,
-                        viewGroup,
-                        true
-                    )
+                        DataBindingUtil.inflate<ViewDataBinding>(
+                                inflater,
+                                layoutId,
+                                viewGroup,
+                                true
+                        )
                 binding.setVariable(entry.bindingVariable, entry)
                 binding.executePendingBindings()
             }
@@ -551,14 +553,14 @@ object UIBinder {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["componentDialerError", "isScreenLocked", "isAccountLocked"],
-        requireAll = true
+            value = ["componentDialerError", "isScreenLocked", "isAccountLocked"],
+            requireAll = true
     )
     fun setDialerInLockedState(
-        view: CoreDialerPad,
-        error: String?,
-        isScreenLocked: Boolean = false,
-        isAccountLocked: Boolean = false
+            view: CoreDialerPad,
+            error: String?,
+            isScreenLocked: Boolean = false,
+            isAccountLocked: Boolean = false
     ) {
         if (null != error && error.isNotEmpty()) {
             if (!isScreenLocked && !isAccountLocked) {
@@ -641,10 +643,10 @@ object UIBinder {
     fun setBgRes(view: LinearLayout, drawable: Drawable?) {
         view.background = drawable
         view.setPadding(
-            view.context.resources.getDimensionPixelSize(R.dimen.margin_medium),
-            0,
-            view.context.resources.getDimensionPixelSize(R.dimen.margin_small),
-            0
+                view.context.resources.getDimensionPixelSize(R.dimen.margin_medium),
+                0,
+                view.context.resources.getDimensionPixelSize(R.dimen.margin_small),
+                0
         )
     }
 
@@ -653,8 +655,8 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, path: String) {
         Glide.with(view.context)
-            .load(path).centerCrop().placeholder(R.color.greyLight)
-            .into(view)
+                .load(path).centerCrop().placeholder(R.color.greyLight)
+                .into(view)
     }
 
     @BindingAdapter(value = ["imageSrc", "imageUri"], requireAll = true)
@@ -662,8 +664,8 @@ object UIBinder {
     fun setImageResId(view: ImageView, path: String, imageUri: Uri) {
         if (imageUri == Uri.EMPTY) {
             Glide.with(view.context)
-                .load(path).centerCrop()
-                .into(view)
+                    .load(path).centerCrop()
+                    .into(view)
         } else {
             Glide.with(view.context).load(imageUri.path).centerCrop().into(view)
         }
@@ -675,16 +677,16 @@ object UIBinder {
         resId?.let {
             if (circular) {
                 Glide.with(view.context)
-                    .asBitmap().load(resId).placeholder(R.color.greyLight)
-                    .transforms(CenterCrop(), RoundedCorners(15))
-                    .into(view)
+                        .asBitmap().load(resId).placeholder(R.color.greyLight)
+                        .transforms(CenterCrop(), RoundedCorners(15))
+                        .into(view)
 
             } else {
 
                 Glide.with(view.context)
-                    .asBitmap().load(resId).placeholder(R.color.greyLight)
-                    .transforms(CenterCrop(), RoundedCorners(15))
-                    .into(view)
+                        .asBitmap().load(resId).placeholder(R.color.greyLight)
+                        .transforms(CenterCrop(), RoundedCorners(15))
+                        .into(view)
                 //set placeholder here
             }
         }
@@ -696,14 +698,14 @@ object UIBinder {
         if (visibility) {
             view.visibility = VISIBLE
             YoYo.with(Techniques.SlideInUp)
-                .duration(400)
-                .playOn(view)
+                    .duration(400)
+                    .playOn(view)
 
 
         } else {
             YoYo.with(Techniques.SlideOutDown)
-                .duration(300)
-                .playOn(view)
+                    .duration(300)
+                    .playOn(view)
 
         }
 
@@ -737,9 +739,9 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter(requireAll = true, value = ["drawableClick", "deleteAddressField"])
     fun setDrawableRightListener(
-        view: EditText,
-        onDrawableClick: Boolean,
-        deleteAddressField: String
+            view: EditText,
+            onDrawableClick: Boolean,
+            deleteAddressField: String
     ) {
         if (onDrawableClick) {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_clear_field, 0)
@@ -751,8 +753,8 @@ object UIBinder {
                             view.text.clear()
                             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                             trackEventWithScreenName(
-                                FirebaseEvent.DELETE_ADDRESS_FIELD,
-                                bundleOf("field_name" to deleteAddressField)
+                                    FirebaseEvent.DELETE_ADDRESS_FIELD,
+                                    bundleOf("field_name" to deleteAddressField)
                             )
                         }
                         hasConsumed = true
@@ -779,9 +781,9 @@ object UIBinder {
     @JvmStatic
     fun setProfilePicture(view: ImageView, imageSrc: String, circular: Boolean) {
         Glide.with(view.context)
-            .load(Uri.parse(imageSrc))
-            .transforms(CenterCrop(), RoundedCorners(115))
-            .into(view)
+                .load(Uri.parse(imageSrc))
+                .transforms(CenterCrop(), RoundedCorners(115))
+                .into(view)
 
     }
 
@@ -861,8 +863,8 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("app:mAdapter")
     fun setAdapter(
-        view: RecyclerView,
-        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
+            view: RecyclerView,
+            adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
     ) {
         if (null == adapter)
             return
@@ -872,8 +874,8 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("recycleViewAdapter")
     fun setRecycleViewAdapter(
-        recyclerView: RecyclerView,
-        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
+            recyclerView: RecyclerView,
+            adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
     ) {
         if (null == adapter)
             return
@@ -896,7 +898,7 @@ object UIBinder {
             }
             pin?.isNotEmpty() ?: false -> {
                 view.defaultHintTextColor =
-                    view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+                        view.context.getColorStateList(R.color.colorPlaceHolderGrey)
             }
             else -> {
                 view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
@@ -910,15 +912,15 @@ object UIBinder {
     fun spanColor(view: AppCompatTextView, currency: String) {
         val splitStringArray: List<String> = currency.split(" ")
         val spannable: Spannable =
-            SpannableStringBuilder(splitStringArray[0] + "  " + splitStringArray[1])
+                SpannableStringBuilder(splitStringArray[0] + "  " + splitStringArray[1])
 
         spannable.setSpan(
-            ForegroundColorSpan(
-                view.context.getColor(R.color.greyDark)
-            ),
-            0,
-            splitStringArray[0].length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                ForegroundColorSpan(
+                        view.context.getColor(R.color.greyDark)
+                ),
+                0,
+                splitStringArray[0].length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
         view.text = spannable
@@ -927,20 +929,20 @@ object UIBinder {
     @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
     @JvmStatic
     fun setPlacesAdapter(
-        autoCompleteTextView: AutoCompleteTextView,
-        placesAdapter: PlacesAutoCompleteAdapter,
-        listener: OnItemClickListener?
+            autoCompleteTextView: AutoCompleteTextView,
+            placesAdapter: PlacesAutoCompleteAdapter,
+            listener: OnItemClickListener?
     ) {
         autoCompleteTextView.setAdapter(placesAdapter)
         autoCompleteTextView.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
-                val place: Place = parent.getItemAtPosition(position) as Place
-                view?.let {
-                    listener?.onItemClick(view, place, position)
+                AdapterView.OnItemClickListener { parent, view, position, id ->
+                    val place: Place = parent.getItemAtPosition(position) as Place
+                    view?.let {
+                        listener?.onItemClick(view, place, position)
+                    }
+                    autoCompleteTextView.setText(place.mainText)
+                    autoCompleteTextView.setSelection(place.mainText.length)
                 }
-                autoCompleteTextView.setText(place.mainText)
-                autoCompleteTextView.setSelection(place.mainText.length)
-            }
         autoCompleteTextView.setOnClickListener {
             autoCompleteTextView.isFocusable = true
             autoCompleteTextView.isFocusableInTouchMode = true
@@ -960,26 +962,26 @@ object UIBinder {
     @BindingAdapter(requireAll = false, value = ["flagOnDrawableStart", "showDropDown"])
     @JvmStatic
     fun setFlagOnDrawableStart(
-        textView: AppCompatTextView,
-        iso2DigitCode: String?,
-        showDropDown: Boolean = true
+            textView: AppCompatTextView,
+            iso2DigitCode: String?,
+            showDropDown: Boolean = true
     ) {
         val drawables: Array<Drawable> =
-            textView.compoundDrawables
+                textView.compoundDrawables
         val drawableDropDown: Drawable? =
-            textView.context.getDrawable(
-                R.drawable.iv_drown_down
-            )
+                textView.context.getDrawable(
+                        R.drawable.iv_drown_down
+                )
         var drawable: Drawable? = null
         iso2DigitCode?.let {
             try {
                 drawable =
-                    textView.context.getDrawable(
-                        CurrencyUtils.getFlagDrawable(
-                            textView.context,
-                            it
+                        textView.context.getDrawable(
+                                CurrencyUtils.getFlagDrawable(
+                                        textView.context,
+                                        it
+                                )
                         )
-                    )
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
@@ -987,10 +989,10 @@ object UIBinder {
         drawable?.setBounds(0, 0, 70, 70)
         drawableDropDown?.setBounds(0, 0, 123, 123)
         textView.setCompoundDrawables(
-            if (!iso2DigitCode.isNullOrEmpty()) drawable else null,
-            drawables[1],
-            if (showDropDown) drawableDropDown else null,
-            drawables[3]
+                if (!iso2DigitCode.isNullOrEmpty()) drawable else null,
+                drawables[1],
+                if (showDropDown) drawableDropDown else null,
+                drawables[3]
         )
     }
 
@@ -1000,7 +1002,7 @@ object UIBinder {
         imageSrc?.let {
             val mUrl = getUrl(imageSrc)
             Glide.with(view).load(mUrl)
-                .placeholder(R.color.white).into(view)
+                    .placeholder(R.color.white).into(view)
         }
 
     }
@@ -1031,9 +1033,9 @@ object UIBinder {
     @BindingAdapter("yapForYouAction", "isDone")
     @JvmStatic
     fun setYapForYouButton(
-        view: CoreButton,
-        action: YAPForYouGoalAction,
-        isDone: Boolean? = false
+            view: CoreButton,
+            action: YAPForYouGoalAction,
+            isDone: Boolean? = false
     ) {
         if (isDone == true) {
             view.visibility = GONE
@@ -1051,5 +1053,22 @@ object UIBinder {
                 }
             }
         }
+    }
+
+
+    @BindingAdapter("tintAppCompatImageView")
+    @JvmStatic
+    fun setTintAppCompatImageView(imageView: AppCompatImageView, imageTint: Int?) {
+        imageTint?.let {
+            if (imageTint != 0) imageView.setColorFilter(imageTint, PorterDuff.Mode.SRC_IN) else {
+                imageView.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+            }
+        }
+
+    }
+
+    @BindingAdapter("customHeight")
+    fun setLayoutHeight(view: View, height: Float) {
+        view.layoutParams = view.layoutParams.apply { this.height = height.toInt() }
     }
 }

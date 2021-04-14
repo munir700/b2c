@@ -11,6 +11,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.widgets.scanqrcode.ScanQRCodeFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -138,6 +139,9 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
             R.id.ivBack -> {
                 callBack()
                 dismiss()
+            }
+            R.id.ivScan ->{
+               startFragment(ScanQRCodeFragment::class.java.name)
             }
         }
     }

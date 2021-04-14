@@ -62,6 +62,7 @@ object Constants {
     //CardAnalytics constants
     const val CATEGORY_AVERAGE_AMOUNT_VALUE: Int = 7
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
+    const val QR_CODE_SCREEN: Int = 9
 
     const val URL_YAP_WEBSITE = "https://www.yap.com/"
     const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
