@@ -1,10 +1,17 @@
 package co.yap.widgets.pieview;
 
+import java.util.List;
+
+import co.yap.widgets.pieview.utils.Fill;
 
 /**
- * @author Mirza Adil
+ * Created by philipp on 21/10/15.
  */
-    public interface IBarDataSet extends IBarLineScatterCandleBubbleDataSet<BarEntry> {
+public interface IBarDataSet extends IBarLineScatterCandleBubbleDataSet<BarEntry> {
+
+    List<Fill> getFills();
+
+    Fill getFill(int index);
 
     /**
      * Returns true if this DataSet is stacked (stacksize > 1) or not.
