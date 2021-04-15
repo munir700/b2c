@@ -63,6 +63,7 @@
     <color name="bg_round_light_primary">#295E35B1</color>
 
     <color name="semiBack">#30000000</color>
+    <color name="semiBlack">#A6000000</color>
     <color name="dialog_title">#4b4b4b</color>
     <color name="itemBackground">#fafafa</color>
     <color name="textGreyDark">#979797</color>

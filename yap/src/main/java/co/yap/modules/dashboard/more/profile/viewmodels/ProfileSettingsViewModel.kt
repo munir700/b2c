@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.core.app.NotificationManagerCompat
 import co.yap.R
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
@@ -15,10 +16,13 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.leanplum.KYCEvents
@@ -43,7 +47,6 @@ class ProfileSettingsViewModel(application: Application) :
     override var EVENT_LOGOUT_SUCCESS: Int = 101
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(application)
 
     override val state: ProfileStates =
         ProfileStates()
@@ -63,6 +66,8 @@ class ProfileSettingsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         toggleToolBarVisibility(false)
+        state.isNotificationsEnabled.set(NotificationManagerCompat.from(context)
+            .areNotificationsEnabled())
         requestProfileDocumentsInformation()
         SessionManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()
@@ -77,7 +82,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun logout() {
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = authRepository.logout(deviceId.toString())) {
@@ -245,5 +250,21 @@ class ProfileSettingsViewModel(application: Application) :
             )
 
         return list
+    }
+
+    override fun getNotificationScreenValues(isGranted: Boolean) {
+        when (isGranted) {
+            true -> {
+                trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
+                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, true)
+                state.isNotificationsEnabled.set(isGranted)
+
+            }
+            else -> {
+                trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
+                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, false)
+                state.isNotificationsEnabled.set(isGranted)
+            }
+        }
     }
 }

@@ -14,7 +14,8 @@ data class Store(
     var desc: String?=null,
     @SerializedName("urlToImage")
     var image: Int?=0,
-    var storeIcon: Int?=0
+    var storeIcon: Int?=0,
+    val isComingSoon: Boolean?
 ) : Parcelable
 
 @Parcelize
