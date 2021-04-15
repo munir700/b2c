@@ -76,7 +76,11 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
         when (viewModel.screenType) {
             Constants.TOUCH_ID_SCREEN_TYPE -> {
                 viewModel.getTouchScreenValues(isGranted)
-                navigateFromTouchScreen()
+                val action =
+                    SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
+                        Constants.NOTIFICATION_SCREEN_TYPE
+                    )
+                findNavController().navigate(action)
             }
             Constants.NOTIFICATION_SCREEN_TYPE -> {
                 navigateToNotificationSettings()
@@ -96,14 +100,6 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
             } catch (e: ActivityNotFoundException) {
             }
         }
-    }
-
-    private fun navigateFromTouchScreen() {
-        val action =
-            SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
-                Constants.NOTIFICATION_SCREEN_TYPE
-            )
-        findNavController().navigate(action)
     }
 
     private fun navigateToDashboard() {

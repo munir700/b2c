@@ -47,7 +47,6 @@ class ProfileSettingsViewModel(application: Application) :
     override var EVENT_LOGOUT_SUCCESS: Int = 101
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(application)
 
     override val state: ProfileStates =
         ProfileStates()
@@ -83,7 +82,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun logout() {
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = authRepository.logout(deviceId.toString())) {
