@@ -206,7 +206,7 @@ class MyBillsViewModel(application: Application) :
                     )
                 }
                 sortByRecentlyAdded -> {
-                    myBills.value?.sortWith(compareBy {
+                    myBills.value?.sortWith(compareByDescending {
                         it.creationDate?.let { it1 ->
                             DateUtils.stringToDate(
                                 it1, DateUtils.FORMATE_DATE_MONTH_YEAR

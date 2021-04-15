@@ -3,7 +3,7 @@ package co.yap.billpayments.billcategory
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
@@ -13,6 +13,7 @@ import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
@@ -30,16 +31,12 @@ class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
     }
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.adapter.setItemListener(categoryItemListener)
     }
 
-    val clickObserver = Observer<Int> {
-        when (it) {
-            R.id.includeCreditCard -> onCategorySelection(viewModel.billcategories.get()?.get(0))
-            R.id.includeTelecom -> onCategorySelection(viewModel.billcategories.get()?.get(1))
-            R.id.includeUtilities -> onCategorySelection(viewModel.billcategories.get()?.get(2))
-            R.id.includeRTA -> onCategorySelection(viewModel.billcategories.get()?.get(3))
-            R.id.includeDubaiPolice -> onCategorySelection(viewModel.billcategories.get()?.get(4))
+    val categoryItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            onCategorySelection(data as BillProviderModel)
         }
     }
 

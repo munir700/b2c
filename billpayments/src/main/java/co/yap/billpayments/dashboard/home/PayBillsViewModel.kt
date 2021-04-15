@@ -1,13 +1,12 @@
 package co.yap.billpayments.dashboard.home
 
 import android.app.Application
-import androidx.databinding.ObservableField
 import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
 import co.yap.billpayments.dashboard.home.adapter.DueBill
 import co.yap.billpayments.dashboard.home.adapter.DueBillsAdapter
 import co.yap.billpayments.dashboard.home.notification.DueBillsNotificationAdapter
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -35,7 +34,7 @@ class PayBillsViewModel(application: Application) :
             context,
             arrayListOf()
         )
-    override var billcategories: ObservableField<MutableList<BillProviderModel>> = ObservableField()
+    override var adapter: BillCategoryAdapter = BillCategoryAdapter(mutableListOf())
 
     override fun onResume() {
         super.onResume()
@@ -49,8 +48,9 @@ class PayBillsViewModel(application: Application) :
         if (state.showBillCategory.get()) {
             if (parentViewModel?.billcategories.isNullOrEmpty())
                 getBillProviders()
-            else
-                billcategories.set(parentViewModel?.billcategories)
+            else {
+                parentViewModel?.billcategories?.let { adapter.setList(it) }
+            }
         } else {
             getBillCategoriesApi()
         }
@@ -112,11 +112,11 @@ class PayBillsViewModel(application: Application) :
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        billcategories.set(response.data.billProviders as ArrayList)
                         parentViewModel?.billcategories =
-                            billcategories.get() as MutableList<BillProviderModel>
+                            response.data.billProviders as ArrayList
+                        parentViewModel?.billcategories?.let { adapter.setList(it) }
                         state.stateLiveData?.value =
-                            if (billcategories.get()
+                            if (parentViewModel?.billcategories
                                     .isNullOrEmpty()
                             ) State.empty("") else State.success(null)
                         state.viewState.value = false

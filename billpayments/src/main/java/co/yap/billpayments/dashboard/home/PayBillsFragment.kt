@@ -67,6 +67,7 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
         viewModel.state.stateLiveData?.observe(this, Observer {
             handleState(it)
         })
+        viewModel.adapter.setItemListener(categoryItemListener)
     }
 
     override fun removeObservers() {
@@ -91,19 +92,17 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
         }
     }
 
+    val categoryItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            onCategorySelection(data as BillProviderModel)
+        }
+    }
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.lMyBills -> {
-                navigate(R.id.action_payBillsFragment_to_myBillsFragment)
-            }
+            R.id.lMyBills -> navigate(R.id.action_payBillsFragment_to_myBillsFragment)
             R.id.lAnalytics -> {
             }
             R.id.lAddBill -> navigate(R.id.action_payBillsFragment_to_addBillFragment)
-            R.id.includeCreditCard -> onCategorySelection(viewModel.billcategories.get()?.get(0))
-            R.id.includeTelecom -> onCategorySelection(viewModel.billcategories.get()?.get(1))
-            R.id.includeUtilities -> onCategorySelection(viewModel.billcategories.get()?.get(2))
-            R.id.includeRTA -> onCategorySelection(viewModel.billcategories.get()?.get(3))
-            R.id.includeDubaiPolice -> onCategorySelection(viewModel.billcategories.get()?.get(4))
             R.id.btnPayNow -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     startPayBillFlow(payload.itemData as DueBill)
