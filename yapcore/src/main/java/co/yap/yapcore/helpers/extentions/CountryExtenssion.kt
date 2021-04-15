@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 fun FragmentActivity.launchBottomSheet(
@@ -26,8 +26,12 @@ fun FragmentActivity.launchBottomSheet(
                         this,
                         countriesList as ArrayList<Country>
                     ).toMutableList(),
-                    headingLabel = label,
-                    viewType = viewType
+                    viewType = viewType,
+                    configuration = BottomSheetConfiguration(
+                        heading = label,
+                        showSearch = true,
+                        showHeaderSeparator = true
+                    )
                 )
             coreBottomSheet.show(it, "")
         }
