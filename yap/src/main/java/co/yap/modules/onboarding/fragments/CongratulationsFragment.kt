@@ -29,7 +29,6 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
-import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
@@ -147,8 +146,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_KYC_DOCUMENTS -> handleKYCRequestResult(data)
-                RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
-                RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest()
+                RequestCodes.REQUEST_FOR_LOCATION -> goToDashboard()
             }
         } else {
             goToDashboard()
@@ -187,28 +185,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 }
             }
         }
-    }
-
-    private fun handleLocationRequestResult(data: Intent?) {
-        data?.let {
-            val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-            if (result) {
-                startActivityForResult(
-                    FragmentPresenterActivity.getIntent(
-                        requireContext(),
-                        Constants.MODE_MEETING_CONFORMATION,
-                        null
-                    ), RequestCodes.REQUEST_MEETING_CONFIRMED
-                )
-                trackEvent(KYCEvents.KYC_ORDERED.type)
-            } else {
-                goToDashboard()
-            }
-        } ?: goToDashboard()
-    }
-
-    private fun handleMeetingConfirmationRequest() {
-        goToDashboard()
     }
 
     private fun goToDashboard() {

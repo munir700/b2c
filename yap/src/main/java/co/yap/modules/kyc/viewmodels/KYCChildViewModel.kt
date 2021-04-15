@@ -10,4 +10,7 @@ abstract class KYCChildViewModel<S : IBase.State>(application: Application) :
 
     var parentViewModel: IDocumentsDashboard.ViewModel? = null
 
+    fun setProgress(percent: Int) {
+        parentViewModel?.state?.currentProgress = percent
+    }
 }
