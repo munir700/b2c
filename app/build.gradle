@@ -104,7 +104,7 @@ android {
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
             externalNativeBuild.cmake {
-                cppFlags '-DEV'
+                cppFlags '-DDEV'
             }
         }
     }
