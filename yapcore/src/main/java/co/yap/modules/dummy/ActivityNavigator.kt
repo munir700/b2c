@@ -14,4 +14,8 @@ interface ActivityNavigator {
     )
 
     fun handleDeepLinkFlow(activity: AppCompatActivity, flowId: String?)
+
+    fun startDocumentDashboardActivity(
+        activity: FragmentActivity
+    )
 }

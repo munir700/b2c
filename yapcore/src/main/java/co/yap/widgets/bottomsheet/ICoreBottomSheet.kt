@@ -7,13 +7,14 @@ import co.yap.yapcore.SingleClickEvent
 
 interface ICoreBottomSheet {
     interface State : IBase.State {
-        var searchText : MutableLiveData<String>
-        var searchBarVisibility : ObservableBoolean
-        var noItemFound : ObservableBoolean
+        var searchText: MutableLiveData<String>
+        var searchBarVisibility: ObservableBoolean
+        var noItemFound: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        var selectedViewsList: ArrayList<String>
         fun handlePressOnView(id: Int)
     }
 

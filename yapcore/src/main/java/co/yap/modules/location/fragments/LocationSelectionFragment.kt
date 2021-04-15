@@ -18,10 +18,10 @@ import co.yap.modules.location.helper.MapSupportFragment
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.City
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.CoreBottomSheet
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
@@ -57,7 +57,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         super.onCreate(savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
             when (SessionManager.user?.notificationStatuses) {
-                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name, AccountStatus.FATCA_GENERATED.name -> {
                     skipLocationSelectionFragment()
                 }
                 else -> setObservers()
@@ -71,7 +71,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
             when (SessionManager.user?.notificationStatuses) {
-                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name, AccountStatus.FATCA_GENERATED.name -> {
                 }
                 else -> {
                     checkPermission()
@@ -122,7 +122,10 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private fun setAddress() {
         viewModel.address = viewModel.parentViewModel?.address
         viewModel.state.addressTitle.set(viewModel.address?.address1)
-        viewModel.state.headingTitle.set(viewModel.address?.address1?:getString(Strings.screen_meeting_location_display_text_add_new_address_title))
+        viewModel.state.headingTitle.set(
+            viewModel.address?.address1
+                ?: getString(Strings.screen_meeting_location_display_text_add_new_address_title)
+        )
         viewModel.state.addressSubtitle.set(viewModel.address?.address2)
         populateCardState(viewModel.address, true)
         getCurrentLocation()
@@ -143,7 +146,8 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         viewModel.state.addressTitle.addOnPropertyChangedCallback(stateObserver)
         viewModel.state.city.addOnPropertyChangedCallback(stateObserver)
         viewModel.isMapExpanded.observe(this, Observer {
-            viewModel.state.toolbarVisibility = !it
+            if (viewModel.parentViewModel?.isOnBoarding == false) viewModel.state.toolbarVisibility =
+                !it
             if (it) {
                 activity?.hideKeyboard()
                 rlCollapsedMapSection.visibility = View.GONE
@@ -274,6 +278,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         (data as? CoreBottomSheet)?.dismiss()
                         viewModel.state.city.set(citiesList?.get(pos)?.name)
+                        viewModel.state.iata3Code.set(citiesList?.get(pos)?.iata3Code)
                     }
                 },
                 bottomSheetItems = getCities(citiesList),
@@ -418,7 +423,16 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private fun setIntentAction(isUpdated: Boolean) {
         if (viewModel.isValidAddress()) {
             val intent = Intent()
-            intent.putExtra(ADDRESS, viewModel.getUserAddress())
+            val cAddress = viewModel.getUserAddress()!!
+            val address = Address(
+                latitude = cAddress.latitude,
+                longitude = cAddress.longitude,
+                city = cAddress.city,
+                country = cAddress.country,
+                cityIATA3Code = cAddress.cityIATA3Code,
+                address1 = cAddress.address1, address2 = cAddress.address2
+            )
+            intent.putExtra(ADDRESS, if (isUpdated) address else viewModel.getUserAddress())
             intent.putExtra(ADDRESS_SUCCESS, isUpdated)
             intent.putExtra(Constants.PLACES_PHOTO_ID, viewModel.selectedPlaceId.value.toString())
             activity?.setResult(Activity.RESULT_OK, intent)

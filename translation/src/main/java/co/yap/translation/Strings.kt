@@ -267,6 +267,10 @@ object Strings {
         "screen_meeting_confirmation_display_text_emirates_id"
     const val screen_meeting_confirmation_button_go_to_dashboard: String =
         "screen_meeting_confirmation_button_go_to_dashboard"
+    const val screen_kyc_on_the_way_display_text_guide: String =
+        "screen_kyc_on_the_way_display_text_guide"
+    const val screen_kyc_on_the_way_display_text_yap_member: String =
+        "screen_kyc_on_the_way_display_text_yap_member"
 
     //country not allowed screen
     const val screen_kyc_information_error_display_text_title_from_usa: String =
@@ -1007,7 +1011,6 @@ object Strings {
         "screen_transaction_filter_display_text_balance"
     const val screen_transaction_filter_display_text_categories: String =
         "screen_transaction_filter_display_text_categories"
-
 
     //    Y2Y funds Transfer screen
     const val screen_y2y_funds_transfer_display_text_title: String =
@@ -1785,6 +1788,13 @@ object Strings {
         "screen_place_of_birth_display_text_select_country"
     const val screen_place_of_birth_display_text_city_of_birth: String =
         "screen_place_of_birth_display_text_city_of_birth"
+    const val screen_place_of_birth_display_text_are_you_a_dual_national: String =
+        "screen_place_of_birth_display_text_are_you_a_dual_national"
+    const val screen_place_of_birth_display_text_nationality_as_per_eid: String =
+        "screen_place_of_birth_display_text_nationality_as_per_eid"
+    const val screen_place_of_birth_display_text_add_second_country: String =
+        "screen_place_of_birth_display_text_add_second_country"
+
 
     // Tax info screen
     const val screen_tax_info_display_text_heading: String =
@@ -2195,6 +2205,40 @@ object Strings {
     const val screen_reached_top_queue_display_text_meeting_note =
         "screen_reached_top_queue_display_text_meeting_note"
 
+
+    // Employment information selection screen
+    const val screen_employment_information_selection_display_text_title =
+        "screen_employment_information_selection_display_text_title"
+    const val screen_employment_information_selection_display_text_employment_status =
+        "screen_employment_information_selection_display_text_employment_status"
+    const val screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose =
+        "screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose"
+    const val screen_employment_information_selection_display_button_text_next =
+        "screen_employment_information_selection_display_button_text_next"
+    const val screen_employment_information_dialog_display_text_heading =
+        "screen_employment_information_dialog_display_text_heading"
+    const val screen_employment_information_dialog_display_text_subheading =
+        "screen_employment_information_dialog_display_text_subheading"
+    const val screen_employment_information_dialog_button_text_close =
+        "screen_employment_information_dialog_button_text_close"
+    const val screen_employment_information_cash_dialog_display_text_heading =
+        "screen_employment_information_cash_dialog_display_text_heading"
+    const val screen_employment_information_cash_dialog_display_text_subheading =
+        "screen_employment_information_cash_dialog_display_text_subheading"
+
+    //    Employee information screen
+    const val screen_employee_information_display_bottom_sheet_text_heading =
+        "screen_employee_information_display_bottom_sheet_text_heading"
+
+    // KYC Employment Information Questionnaire screen
+    const val screen_employment_questionnaire_display_text_heading =
+        "screen_employment_questionnaire_display_text_heading"
+    const val screen_employment_questionnaire_display_text_desc =
+        "screen_employment_questionnaire_display_text_desc"
+    const val screen_employment_questionnaire_display_text_user_information =
+        "screen_employment_questionnaire_display_text_user_information"
+    const val screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you =
+        "screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you"
+    const val screen_employment_questionnaire_display_text__bottom_sheet_title_segments =
+        "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
 }
-
-
