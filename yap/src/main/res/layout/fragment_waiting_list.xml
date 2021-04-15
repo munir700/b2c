@@ -26,14 +26,26 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_20sdp">
 
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivYapAnimation"
-                android:layout_width="@dimen/_200sdp"
-                android:layout_height="@dimen/_100sdp"
+            <FrameLayout
+                android:id="@+id/flVideoPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <co.yap.widgets.video.AndExoPlayerView
+                    android:id="@+id/andExoPlayerView"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_150sdp"
+                    android:visibility="invisible"
+                    app:andexo_aspect_ratio="aspect_match"
+                    app:andexo_play_when_ready="true"
+                    app:andexo_resize_mode="Zoom"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvQueueDetail"
@@ -44,7 +56,7 @@
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivYapAnimation"
+                app:layout_constraintTop_toBottomOf="@+id/flVideoPlayer"
                 app:text="@{Strings.screen_waiting_list_display_text_your_place_in_queue}"
                 tools:text="@string/screen_waiting_list_display_text_your_place_in_queue" />
 
@@ -110,21 +122,9 @@
                 android:orientation="vertical"
                 android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal"
-                app:constraint_referenced_ids="tvWantToJumpText,tvLeadBankText"
+                app:constraint_referenced_ids="tvLeadBankText"
                 app:flow_verticalGap="@dimen/margin_normal"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotifyYoutext" />
-
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvWantToJumpText"
-                style="@style/ARegularGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:gravity="center"
-                android:lineSpacingExtra="6sp"
-                app:text="@{Strings.screen_waiting_list_display_text_want_to_jump}"
-                tools:text="@string/screen_waiting_list_display_text_want_to_jump" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLeadBankText"
