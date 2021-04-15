@@ -213,16 +213,13 @@
                     tools:text="AED" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <View
-                android:id="@+id/vLine"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_normal_large"
-                android:background="@color/divider"
-                app:layout_constraintEnd_toEndOf="@id/clAmount"
-                app:layout_constraintStart_toStartOf="@+id/clAmount"
-                app:layout_constraintTop_toBottomOf="@id/clAmount" />
+            <include
+                android:id="@+id/layoutEatingOut"
+                layout="@layout/layout_transaction_categary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/clAmount"
+                app:categoryViewModel="@{viewModel}"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNoteParent"
@@ -230,7 +227,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vLine"
+                app:layout_constraintTop_toBottomOf="@+id/layoutEatingOut"
                 tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
