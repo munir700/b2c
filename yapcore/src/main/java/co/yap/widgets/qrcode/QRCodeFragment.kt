@@ -1,6 +1,7 @@
 package co.yap.widgets.qrcode
 
 import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
@@ -22,7 +24,11 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_qr_code.*
 
-class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
+class QRCodeFragment(
+    callBack: () -> Unit = {},
+    scannedCallback: (beneficiary: Beneficiary) -> Unit = {}
+) : DialogFragment(),
+    IQRCode.View {
     lateinit var viewDataBinding: ViewDataBinding
     fun getBindingVariable(): Int = BR.viewModel
     fun getLayoutId(): Int = R.layout.fragment_qr_code
@@ -131,7 +137,8 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
             R.id.tvShareMyCode -> {
                 trackEventWithScreenName(FirebaseEvent.SHARE_QR_CODE)
                 context?.shareImage(
-                    qrContainer, imageName = shareQRImageName,
+                    qrContainer,
+                    imageName = shareQRImageName,
                     shareText = shareQRText,
                     chooserTitle = shareQRTitle
                 )
@@ -140,8 +147,10 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
                 callBack()
                 dismiss()
             }
-            R.id.ivScan ->{
-               startFragment(ScanQRCodeFragment::class.java.name)
+            R.id.ivScan -> {
+                startQrFragment { beneficiary ->
+                    scannedCallback(beneficiary)
+                }
             }
         }
     }
@@ -190,4 +199,18 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
     }
 
     override fun getScreenName(): String? = null
+
+    private fun startQrFragment(callBack: (beneficiary: Beneficiary) -> Unit) {
+        trackEventWithScreenName(FirebaseEvent.SEND_QR_CODE)
+        startFragmentForResult<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                val beneficiary =
+                    data?.getParcelableExtra(Beneficiary::class.java.name)
+                        ?: Beneficiary()
+                callBack(beneficiary)
+            }
+        }
+    }
+
+
 }

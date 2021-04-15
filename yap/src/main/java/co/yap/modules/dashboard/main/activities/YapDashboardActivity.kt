@@ -50,6 +50,7 @@ import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
@@ -477,9 +478,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             )
             closeDrawer()
         }
-        getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener{
+        getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener {
             trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
-            QRCodeFragment {}.show(this.supportFragmentManager, "")
+            QRCodeFragment {beneficary ->
+                startY2YTransfer(beneficary, true)
+            }.show(this.supportFragmentManager, "")
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
@@ -663,4 +666,18 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 //        supportFragmentManager.findFragmentById(YapHomeFragment::class.java)
     }
 
+    private fun startY2YTransfer(
+        beneficiary: Beneficiary?,
+        fromQR: Boolean = false,
+        position: Int = 0
+    ) {
+        launchActivity<YapToYapDashboardActivity>(
+            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+            type = FeatureSet.Y2Y_TRANSFER
+        ) {
+            putExtra(Beneficiary::class.java.name, beneficiary)
+            putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
+            putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
+        }
+    }
 }
