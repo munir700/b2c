@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.addBill.main.AddBillActivity
+import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.dashboard.home.adapter.DueBill
 import co.yap.billpayments.databinding.FragmentPayBillsBinding

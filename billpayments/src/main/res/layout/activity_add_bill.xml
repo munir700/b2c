@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.addBill.main.AddBillViewModel" />
+            type="co.yap.billpayments.addbiller.main.AddBillViewModel" />
 
         <import type="co.yap.billpayments.R" />
 

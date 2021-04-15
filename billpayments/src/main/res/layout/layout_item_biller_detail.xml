@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.addBill.billerdetail.adapter.BillerDetailItemViewModel" />
+            type="co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,9 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            android:hint="@{viewModel.billerDetailInputFieldModel.lable}"
+            android:hint="@{viewModel.addBillerDetailInputFieldModel.lable}"
             app:hintTextAppearance="@style/LabelTextStyl"
-            app:textColorChangePin="@{viewModel.billerDetailInputFieldModel.value}"
+            app:textColorChangePin="@{viewModel.addBillerDetailInputFieldModel.value}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             
@@ -30,13 +30,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:importantForAutofill="no"
-                android:hint="@{viewModel.billerDetailInputFieldModel.placeholder}"
-                android:maxLength="@{viewModel.billerDetailInputFieldModel.maxLength}"
+                android:hint="@{viewModel.addBillerDetailInputFieldModel.placeholder}"
+                android:maxLength="@{viewModel.addBillerDetailInputFieldModel.maxLength}"
                 android:singleLine="true"
                 android:textColorHint="@color/colorPrimaryDarkFadedLight"
-                android:inputType="@{viewModel.billerDetailInputFieldModel.inputType}"
+                android:inputType="@{viewModel.addBillerDetailInputFieldModel.inputType}"
                 android:theme="@style/Theme.EditText.Primary"
-                android:text="@={viewModel.billerDetailInputFieldModel.value}"
+                android:text="@={viewModel.addBillerDetailInputFieldModel.value}"
                 tools:hint="Email"/>
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 

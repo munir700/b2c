@@ -7,7 +7,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.addBill.main.AddBillActivity
+import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.yapcore.constants.RequestCodes

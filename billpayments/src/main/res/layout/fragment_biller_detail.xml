@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.addBill.billerdetail.BillerDetailViewModel" />
+            type="co.yap.billpayments.addbiller.addbillerdetail.AddBillerDetailViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -84,7 +84,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardFlow"
-                app:recycleViewAdapter="@{viewModel.adapter}"
+                app:recycleViewAdapter="@{viewModel.adapterAdd}"
                 tools:itemCount="5"
                 tools:listitem="@layout/layout_item_biller_detail" />
 

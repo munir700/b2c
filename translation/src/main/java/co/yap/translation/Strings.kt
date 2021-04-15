@@ -2238,7 +2238,7 @@ object Strings {
     const val screen_biller_detail_title_text_enter_you_account_details: String =
         "screen_biller_detail_title_text_enter_you_account_details"
 
-    //Bill Detail
+    //Add Bill Detail
     const val screen_bill_detail_success_dialog_title: String =
         "screen_bill_detail_success_dialog_title"
     const val screen_bill_detail_success_dialog_button_text: String =
@@ -2247,5 +2247,22 @@ object Strings {
         "screen_bill_detail_success_dialog_button_description"
     const val screen_bill_detail_success_dialog_button_text_do_it_later: String =
         "screen_bill_detail_success_dialog_button_text_do_it_later"
+
+    // Bill Account Detail
+
+    const val screen_bill_account_detail_toolbar_title: String =
+        "screen_bill_account_detail_toolbar_title"
+    const val screen_bill_account_detail_text_bill_status: String =
+        "screen_bill_account_detail_text_bill_status"
+    const val screen_bill_account_detail_text_last_payment: String =
+        "screen_bill_account_detail_text_last_payment"
+    const val screen_bill_account_detail_text_total_payment: String =
+        "screen_bill_account_detail_text_total_payment"
+    const val screen_bill_account_detail_text_highest_month: String =
+        "screen_bill_account_detail_text_highest_month"
+    const val screen_bill_account_detail_text_lowest_month: String =
+        "screen_bill_account_detail_text_lowest_month"
+
+
 
 }
