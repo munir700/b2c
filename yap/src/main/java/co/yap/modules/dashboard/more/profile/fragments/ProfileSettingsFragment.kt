@@ -209,11 +209,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun navigateToNotificationSettings() {
-        val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-            .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-        startActivityForResult(intent, REQUEST_NOTIFICATION_SETTINGS)
+    private fun navigateToNotificationSettings() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+            startActivityForResult(intent, REQUEST_NOTIFICATION_SETTINGS)
+        }
     }
 
     private fun showRemovePhoto(): Boolean {

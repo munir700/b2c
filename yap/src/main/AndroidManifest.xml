@@ -234,8 +234,5 @@
         <activity
             android:name=".modules.dashboard.store.cardplans.activities.CardPlansActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".modules.dashboard.store.cardplans.activities.CardPlanViewerActivity"
-            android:screenOrientation="portrait" />
     </application>
 </manifest>

@@ -22,8 +22,6 @@ class SystemPermissionViewModel(application: Application) :
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var screenType: String = ""
-    private var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
-
     override fun onCreate() {
         super.onCreate()
         setupViews()
@@ -36,14 +34,14 @@ class SystemPermissionViewModel(application: Application) :
     override fun getTouchScreenValues(isGranted: Boolean) {
         when (isGranted) {
             true -> {
-                sharedPreferenceManager.save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                     true)
                 trackEvent(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type, "TouchID")
                 trackEventWithScreenName(FirebaseEvent.SETUP_TOUCH_ID)
             }
             else -> {
                 trackEventWithScreenName(FirebaseEvent.NO_TOUCH_ID)
-                sharedPreferenceManager.save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                     false)
             }
         }
