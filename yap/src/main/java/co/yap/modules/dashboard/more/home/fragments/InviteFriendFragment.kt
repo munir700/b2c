@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.more.home.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -9,10 +8,8 @@ import co.yap.R
 import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
 import co.yap.repositories.InviteFriendRepository
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 
 
 class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IInviteFriend.View {
@@ -35,25 +32,10 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnShare -> {
-                shareInfo()
+                InviteFriendRepository().inviteAFriend()
+                requireContext().inviteFriendIntent()
             }
         }
-    }
-
-    private fun shareInfo() {
-        InviteFriendRepository().inviteAFriend()
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody())
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
-    }
-
-    private fun getBody(): String {
-        return Translator.getString(
-            requireContext(),
-            Strings.screen_invite_friend_display_text_share_url,
-            Utils.getAdjustURL()
-        )
     }
 
     override fun onDestroy() {

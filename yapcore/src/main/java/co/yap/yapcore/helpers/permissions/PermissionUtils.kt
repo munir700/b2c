@@ -59,22 +59,22 @@ object PermissionUtils {
         return true
     }
 
-    /**
-     * @param packageName package name of your app
-     * @return an intent to start for open settings app
-     */
-    fun openApplicationSettings(packageName: String?): Intent {
-        val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        intent.data = Uri.parse("package:$packageName")
-        return intent
-    }
-
-    /**
-     * @param context     current context
-     * @param packageName package name of your app
-     */
-    fun openApplicationSettings(context: Context?, packageName: String?) {
-        context?.startActivity(openApplicationSettings(packageName))
-    }
+//    /**
+//     * @param packageName package name of your app
+//     * @return an intent to start for open settings app
+//     */
+//    fun openApplicationSettings(packageName: String?): Intent {
+//        val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//        intent.data = Uri.parse("package:$packageName")
+//        return intent
+//    }
+//
+//    /**
+//     * @param context     current context
+//     * @param packageName package name of your app
+//     */
+//    fun openApplicationSettings(context: Context?, packageName: String?) {
+//        context?.startActivity(openApplicationSettings(packageName))
+//    }
 
 }

@@ -171,7 +171,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
         document.run {
-            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val files = ArrayList<MultipartBody.Part>()
             filePaths.forEach {
                 val file = File(it)
