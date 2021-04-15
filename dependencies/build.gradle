@@ -29,7 +29,7 @@ project.ext {
             sendmoney       : ':sendmoney',
             security        : ':security',
             qrcodereaderview: ':qrcodereaderview',
-            billpayments: ':billpayments'
+            billpayments    : ':billpayments'
     ]
 
     // All libraries that any module can contain
@@ -163,7 +163,10 @@ project.ext {
             tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0',
             deeplink                 : 'com.airbnb:deeplinkdispatch:5.2.0',
             deeplinkprocessor        : 'com.airbnb:deeplinkdispatch-processor:5.2.0',
-            lotieAnimation           : 'com.airbnb.android:lottie:3.4.0'
+            lotieAnimation           : 'com.airbnb.android:lottie:3.4.0',
+
+            //feature flag
+            flagsmith                : 'com.flagsmith:flagsmith-java-client:2.6'
 
     ]
 
@@ -213,7 +216,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playservicesAuthPhone],
             [configuration: "implementation", dependency: libraries.deeplink],
             [configuration: "kapt", dependency: libraries.deeplinkprocessor],
-            [configuration: "implementation", dependency: libraries.lotieAnimation]
+            [configuration: "implementation", dependency: libraries.lotieAnimation],
+            [configuration: "implementation", dependency: libraries.flagsmith]
 
     ]
 
