@@ -1,11 +1,11 @@
 package co.yap.app.modules.login.fragments
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -86,11 +86,16 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun navigateToNotificationSettings() {
-        val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-            .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-        startActivityForResult(intent, REQUEST_NOTIFICATION_SETTINGS)
+    private fun navigateToNotificationSettings() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                if (intent.resolveActivity(requireContext().packageManager) != null)
+                    startActivityForResult(intent, REQUEST_NOTIFICATION_SETTINGS)
+            } catch (e: ActivityNotFoundException) {
+            }
+        }
     }
 
     private fun navigateFromTouchScreen() {
