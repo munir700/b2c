@@ -544,7 +544,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
     <string name="screen_change_email_placeholder_confirm_email_address">enter in one more time</string>
-    <string name="screen_change_email_display_text_description">A verification email will now be sent to this address​</string>
+    <string name="screen_change_email_display_text_description">A verification email will be sent to this email address</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
     <string name="screen_change_email_display_text_confirm_email_title">Enter in one more time</string>
     <string name="screen_change_email_display_text_email_match_error">Email doesn\'t match what you first entered</string>

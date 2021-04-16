@@ -1,14 +1,12 @@
 package co.yap.modules.dashboard.main.activities
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
@@ -54,7 +52,6 @@ import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
-import co.yap.widgets.CounterFloatingActionButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
@@ -91,20 +88,19 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     lateinit var adapter: YapDashboardAdaptor
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
-    var view: CounterFloatingActionButton? = null
     private var mNavigator: ActivityNavigator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mNavigator = (applicationContext as NavigatorProvider).provideNavigator()
         SessionManager.getCountriesFromServer { _, _ -> }
-        inflateFloatingActonButton()
         setupPager()
         addObservers()
         addListeners()
         //  setupOldYapButtons()
         setupNewYapButtons()
         logEvent()
+        initializeChatOverLayButton()
         lifecycleScope.launch {
             delay(100)
             mNavigator?.handleDeepLinkFlow(
@@ -151,7 +147,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
+                    lifecycleScope.launch {
+                        delay(200)
+                        overLayButtonVisibility(View.VISIBLE)
+                    }
+
                     when (subActionButtonId) {
                         1 -> {
                             checkPermission()
@@ -198,7 +198,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
+                    lifecycleScope.launch {
+                        delay(300)
+                        overLayButtonVisibility(View.VISIBLE)
+                    }
                     when (subActionButtonId) {
                         1 -> {
                             trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
@@ -288,16 +291,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
             }
         })
-    }
-
-    @SuppressLint("InflateParams")
-    private fun inflateFloatingActonButton() {
-        val layoutInflater =
-            layoutInflater.inflate(
-                co.yap.yapcore.R.layout.layout_overlay_live_chat,
-                null
-            )
-        if (layoutInflater is CounterFloatingActionButton) view = layoutInflater
     }
 
     private fun addObservers() {
@@ -589,7 +582,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onResume() {
         super.onResume()
-        view?.let { getCountUnreadMessage(it) }
+        getCountUnreadMessage()
         if (bottomNav.selectedItemId == R.id.yapHome) {
             SessionManager.getAccountInfo() {
                 viewModel.populateState()

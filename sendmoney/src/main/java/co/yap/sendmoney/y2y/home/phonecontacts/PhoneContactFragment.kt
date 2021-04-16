@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
+import co.yap.repositories.InviteFriendRepository
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentPhoneContactsBinding
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
@@ -18,6 +19,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getBody
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneContact.View {
@@ -70,7 +72,8 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
 
                 }
                 R.id.tvInvite -> {
-                    sendInvite((data as Contact))
+                    InviteFriendRepository().inviteAFriend()
+                    requireContext().share(text = getBody(requireContext(), (data as Contact)))
                 }
                 R.id.lyContact -> {
                     if (data is IBeneficiary && data.isYapUser) {
@@ -114,10 +117,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
                 skeleton.showOriginal()
             }
         }
-    }
-
-    private fun sendInvite(contact: Contact) {
-      Utils.shareText(requireContext(),getBody(requireContext(), contact))
     }
 
     private fun getBinding(): FragmentPhoneContactsBinding {

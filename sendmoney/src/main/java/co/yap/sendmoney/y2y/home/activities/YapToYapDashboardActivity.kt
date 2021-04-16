@@ -7,8 +7,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.R
+import co.yap.repositories.InviteFriendRepository
 import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.ActivityYapToYapDashboardBinding
 import co.yap.sendmoney.y2y.main.interfaces.IY2Y
 import co.yap.sendmoney.y2y.main.viewmodels.Y2YViewModel
@@ -17,6 +18,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.google.android.material.snackbar.Snackbar
@@ -40,8 +42,13 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         super.onCreate(savedInstanceState)
         viewModel.isSearching.value = intent.getBooleanExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, false)
         viewModel.beneficiary = intent.getParcelableExtra(Beneficiary::class.java.name)
-        viewModel.state.fromQR?.set(intent.getBooleanExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, false))
-        viewModel.position = intent.getIntExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name,0)
+        viewModel.state.fromQR?.set(
+            intent.getBooleanExtra(
+                ExtraKeys.IS_FROM_QR_CONTACT.name,
+                false
+            )
+        )
+        viewModel.position = intent.getIntExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
         viewModel.errorEvent.observe(this, errorEvent)
         getBindings().main.setOnTouchListener { _, _ ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -63,9 +70,10 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
             }
             R.id.ivRightIcon -> {
                 if (getBindings().toolbar.rightIcon == R.drawable.ic_close) {
-                   finish()
+                    finish()
                 } else {
-                    Utils.shareText(this, getBody())
+                    InviteFriendRepository().inviteAFriend()
+                    context.share(text = Utils.getGeneralInvitationBody(this))
                 }
             }
         }
@@ -85,10 +93,6 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
 
     private fun hideErrorSnackBar() {
         cancelAllSnackBar()
-    }
-
-    private fun getBody(): String {
-        return Utils.getGeneralInvitationBody(this)
     }
 
     override fun onBackPressed() {
