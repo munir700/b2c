@@ -331,7 +331,8 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         transaction.isTransactionInProgress() || transaction.isTransactionRejected()
 
 
-    fun isShowReceiptSection(): Boolean = (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
+    fun isShowReceiptSection(): Boolean =
+        (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
                 (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
                 (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
 

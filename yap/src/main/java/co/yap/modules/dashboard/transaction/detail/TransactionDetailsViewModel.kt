@@ -71,13 +71,14 @@ class TransactionDetailsViewModel(application: Application) :
         transaction.get()?.let { data ->
             return when (data.productCode) {
                 TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                   if(data.txnType == TxnType.DEBIT.type)  TotalPurchaseRequest(txnType = data.txnType ?: "",
-                       productCode = data.productCode ?: "",
-                       receiverCustomerId = data.customerId2 ?: "")
-                   else
-                       TotalPurchaseRequest(txnType = data.txnType ?: "",
-                       productCode = data.productCode ?: "",
-                       senderCustomerId = data.customerId2 ?: "")
+                    if (data.txnType == TxnType.DEBIT.type) TotalPurchaseRequest(txnType = data.txnType
+                        ?: "",
+                        productCode = data.productCode ?: "",
+                        receiverCustomerId = data.customerId2 ?: "")
+                    else
+                        TotalPurchaseRequest(txnType = data.txnType ?: "",
+                            productCode = data.productCode ?: "",
+                            senderCustomerId = data.customerId2 ?: "")
                 }
                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode -> {
                     TotalPurchaseRequest(txnType = data.txnType ?: "",
