@@ -30,7 +30,6 @@ public final class FieldLevelEncryptionConfigBuilder {
     private Map<String, String> decryptionPaths = new HashMap<>();
     private String oaepPaddingDigestAlgorithm;
     private String ivFieldName;
-    private boolean includeIvFieldName = false;
     private String ivHeaderName;
     private String oaepPaddingDigestAlgorithmFieldName;
     private String oaepPaddingDigestAlgorithmHeaderName;
@@ -113,13 +112,7 @@ public final class FieldLevelEncryptionConfigBuilder {
      * See: {@link co.yap.wallet.encriptions.encryption.FieldLevelEncryptionConfig#ivFieldName}.
      */
     public FieldLevelEncryptionConfigBuilder withIvFieldName(String ivFieldName) {
-        if (includeIvFieldName)
             this.ivFieldName = ivFieldName;
-        return this;
-    }
-
-    public FieldLevelEncryptionConfigBuilder withIvField(boolean includeIvFieldName) {
-        this.includeIvFieldName = includeIvFieldName;
         return this;
     }
 
@@ -235,7 +228,6 @@ public final class FieldLevelEncryptionConfigBuilder {
         config.encryptionCertificate = this.encryptionCertificate;
         config.oaepPaddingDigestAlgorithm = this.oaepPaddingDigestAlgorithm;
         config.ivFieldName = this.ivFieldName;
-        config.includeIvFieldName = this.includeIvFieldName;
         config.oaepPaddingDigestAlgorithmFieldName = this.oaepPaddingDigestAlgorithmFieldName;
         config.decryptionPaths = this.decryptionPaths;
         config.encryptedKeyFieldName = this.encryptedKeyFieldName;
@@ -277,7 +269,7 @@ public final class FieldLevelEncryptionConfigBuilder {
             throw new IllegalArgumentException("Value encoding for fields and headers cannot be null!");
         }
 
-        if ((includeIvFieldName && ivFieldName == null) && ivHeaderName == null) {
+        if (ivFieldName == null && ivHeaderName == null) {
             throw new IllegalArgumentException("At least one of IV field name or IV header name must be set!");
         }
 
@@ -307,8 +299,8 @@ public final class FieldLevelEncryptionConfigBuilder {
             throw new IllegalArgumentException("IV header name and encrypted key header name must be both set or both unset!");
         }
 
-        if ((includeIvFieldName && ivFieldName != null) && encryptedKeyFieldName == null
-                || (includeIvFieldName && ivFieldName == null) && encryptedKeyFieldName != null) {
+        if (ivFieldName != null && encryptedKeyFieldName == null
+                || ivFieldName == null && encryptedKeyFieldName != null) {
             throw new IllegalArgumentException("IV field name and encrypted key field name must be both set or both unset!");
         }
     }

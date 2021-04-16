@@ -25,7 +25,6 @@ import static co.yap.wallet.encriptions.utils.EncodingUtils.encodeBytes;
 
 
 /**
- *
  * Performs field level encryption on HTTP payloads.
  * <p>
  * The Encryption Process
@@ -186,7 +185,7 @@ public class FieldLevelEncryption {
         } catch (UnsupportedEncodingException e) {
             // Should not happen
         }
-        byte[] encryptedValueBytes = encryptBytes(params.getSecretKey(), config.includeIvFieldName ? params.getIvSpec() : null, inJsonBytes);
+        byte[] encryptedValueBytes = encryptBytes(params.getSecretKey(), params.getIvSpec(), inJsonBytes);
         String encryptedValue = encodeBytes(encryptedValueBytes, config.fieldValueEncoding);
 
         // Delete data in clear
@@ -249,12 +248,12 @@ public class FieldLevelEncryption {
             Object ivJsonElement = readAndDeleteJsonKey(payloadContext, jsonPathIn, inJsonObject, config.ivFieldName);
             readAndDeleteJsonKey(payloadContext, jsonPathIn, inJsonObject, config.encryptionCertificateFingerprintFieldName);
             readAndDeleteJsonKey(payloadContext, jsonPathIn, inJsonObject, config.encryptionKeyFingerprintFieldName);
-            params = new FieldLevelEncryptionParams(config.includeIvFieldName ? jsonEngine.toJsonString(ivJsonElement) : null, jsonEngine.toJsonString(encryptedKeyJsonElement), oaepDigestAlgorithm, config);
+            params = new FieldLevelEncryptionParams(jsonEngine.toJsonString(ivJsonElement), jsonEngine.toJsonString(encryptedKeyJsonElement), oaepDigestAlgorithm, config);
         }
 
         // Decrypt data
         byte[] encryptedValueBytes = decodeValue(jsonEngine.toJsonString(encryptedValueJsonElement), config.fieldValueEncoding);
-        byte[] decryptedValueBytes = decryptBytes(params.getSecretKey(), config.includeIvFieldName ? params.getIvSpec() : null, encryptedValueBytes);
+        byte[] decryptedValueBytes = decryptBytes(params.getSecretKey(), params.getIvSpec(), encryptedValueBytes);
 
         // Add decrypted data at the given JSON path
         String decryptedValue = new String(decryptedValueBytes, StandardCharsets.UTF_8);
@@ -342,21 +341,13 @@ public class FieldLevelEncryption {
 
     protected static byte[] encryptBytes(Key key, AlgorithmParameterSpec iv, byte[] bytes) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance(SYMMETRIC_CYPHER);
-        if (iv == null) {
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-        } else {
-            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-        }
+        cipher.init(Cipher.ENCRYPT_MODE, key, iv);
         return cipher.doFinal(bytes);
     }
 
     protected static byte[] decryptBytes(Key key, AlgorithmParameterSpec iv, byte[] bytes) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance(SYMMETRIC_CYPHER);
-        if (iv == null) {
-            cipher.init(Cipher.DECRYPT_MODE, key);
-        } else {
-            cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        }
+        cipher.init(Cipher.DECRYPT_MODE, key, iv);
         return cipher.doFinal(bytes);
     }
 

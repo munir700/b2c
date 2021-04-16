@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
@@ -18,6 +17,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.wallet.encriptions.utils.EncodingUtils
+import co.yap.wallet.samsung.SamsungPayStatus
 import co.yap.wallet.samsung.SamsungPayWalletManager
 import co.yap.wallet.samsung.getTestPayloadForSamsung
 import co.yap.widgets.Status
@@ -26,6 +26,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.managers.SessionManager
+import com.samsung.android.sdk.samsungpay.v2.card.CardManager
 import kotlinx.coroutines.delay
 import java.nio.charset.StandardCharsets
 
@@ -59,6 +60,7 @@ class YapCardsViewModel(application: Application) :
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
                             cards.value = cardsList
+                            checkCardAddedOnSamSungWallet(cards.value)
                         }
                     }
                     state.loading = false
@@ -208,7 +210,6 @@ class YapCardsViewModel(application: Application) :
         ) { paylaod ->
             val data = paylaod.toByteArray(StandardCharsets.UTF_8)
             val finalPayload = EncodingUtils.base64Encode(data)
-
             SamsungPayWalletManager.getInstance(context)
                 .addYapCardToSamsungPay(finalPayload) {
                     state.loading = false
@@ -221,9 +222,37 @@ class YapCardsViewModel(application: Application) :
         }
     }
 
-    override fun getAllSamSungCardsCards(cardSerialNumber: String, success: (CardDetail?) -> Unit) {
-        SamsungPayWalletManager.getInstance(context).getAllCards { samsungPayStatus, mutableList ->
+    private fun checkCardAddedOnSamSungWallet(yapCards: MutableList<Card>?) {
 
+        SamsungPayWalletManager.getInstance(context).getAllCards { samsungPayStatus, allSPayCarad ->
+            allSPayCarad?.let { sPayCars ->
+                val firstListObjectIds =
+                    sPayCars.map { it.cardInfo.getString(CardManager.EXTRA_LAST4_FPAN) }.toSet()
+                val yapSPayCars: List<Card>? =
+                    yapCards?.filter { firstListObjectIds.contains(it.maskedCardNo.takeLast(4)) }
+                yapSPayCars?.forEachIndexed { index, card ->
+                    card.isAddedSamsungPay = true
+                    adapter.notifyItemChanged(index)
+                }
+            }
         }
+    }
+
+    fun getSPayCardFormYapCard(
+        card: Card,sPaycard: (com.samsung.android.sdk.samsungpay.v2.card.Card?) -> Unit
+    ){
+        SamsungPayWalletManager.getInstance(context).getAllCards { samsungPayStatus, allSPayCarad ->
+            sPaycard.invoke(allSPayCarad?.let {
+                it.firstOrNull { c ->
+                    c.cardInfo.getString(CardManager.EXTRA_LAST4_FPAN)
+                        ?.contains(card.maskedCardNo.takeLast(4))!!
+                }
+            })
+        }
+    }
+
+
+    override fun getAllSamSungCards(cardSerialNumber: String, success: (CardDetail?) -> Unit) {
+
     }
 }

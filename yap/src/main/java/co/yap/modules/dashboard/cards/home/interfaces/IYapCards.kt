@@ -17,11 +17,11 @@ interface IYapCards {
         val cards: MutableLiveData<ArrayList<Card>>
         fun getCards()
         fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
-        fun updateCardCount(id: Int)
+        fun updateCardCount(size: Int)
         fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
         fun getCardTokenForSamsungPay(success: (SPayCardData?) -> Unit)
         fun getCardDetails(cardSerialNumber:String,success: (CardDetail?) -> Unit)
-        fun getAllSamSungCardsCards(cardSerialNumber:String,success: (CardDetail?) -> Unit)
+        fun getAllSamSungCards(cardSerialNumber:String,success: (CardDetail?) -> Unit)
     }
 
     interface State : IBase.State {

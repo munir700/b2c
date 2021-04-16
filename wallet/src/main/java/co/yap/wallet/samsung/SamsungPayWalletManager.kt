@@ -7,7 +7,6 @@ import androidx.core.os.bundleOf
 import co.yap.widgets.State
 import co.yap.yapcore.helpers.SingletonHolder
 import co.yap.yapcore.helpers.alert
-import co.yap.yapcore.helpers.extentions.toast
 import com.samsung.android.sdk.samsungpay.v2.SamsungPay
 import com.samsung.android.sdk.samsungpay.v2.StatusListener
 import com.samsung.android.sdk.samsungpay.v2.card.*
@@ -93,15 +92,39 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
                 }
 
                 override fun onFail(errorCode: Int, errorData: Bundle?) {
-                    success.invoke(State.error(ErrorCode.getInstance().getSPayError(errorCode, errorData)))
+                    success.invoke(
+                        State.error(
+                            ErrorCode.getInstance().getSPayError(errorCode, errorData)
+                        )
+                    )
 //                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                 }
 
                 override fun onProgress(currentCount: Int, p1: Int, bundleData: Bundle?) {
-                    success.invoke(State.loading("Card adding in progress"))
+                    //success.invoke(State.loading("Card adding in progress"))
 //                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                 }
             })
         }
+    }
+
+    fun openFavoriteCard(cardId: String?) {
+        val metaData =
+            bundleOf(
+                PaymentManager.EXTRA_ISSUER_NAME to "YAP PAYMENT SERVICES PROVIDER LLC",
+                PaymentManager.EXTRA_PAY_OPERATION_TYPE to PaymentManager.PAY_OPERATION_TYPE_PAYMENT,
+                PaymentManager.EXTRA_TRANSACTION_TYPE to PaymentManager.TRANSACTION_TYPE_MST
+            )
+        val cardInfo =
+            com.samsung.android.sdk.samsungpay.v2.payment.CardInfo.Builder().setCardId(cardId)
+                .setCardMetaData(metaData).build()
+        mPaymentManager?.startSimplePay(cardInfo, object : StatusListener {
+            override fun onSuccess(p0: Int, p1: Bundle?) {
+            }
+
+            override fun onFail(p0: Int, p1: Bundle?) {
+                Log.d("","")
+            }
+        })
     }
 }

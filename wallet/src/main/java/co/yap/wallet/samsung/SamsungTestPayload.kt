@@ -18,22 +18,6 @@ fun Context.getTestPayloadForSamsung(
     payload: (String) -> Unit
 ) {
     try {
-//        var privateKey: PrivateKey? = null
-//        var publicKey: PublicKey? = null
-//
-//        val secureRandom = SecureRandom()
-//        var keyPairGenerator: KeyPairGenerator? = null
-//        try {
-//            keyPairGenerator = KeyPairGenerator
-//                .getInstance("RSA")
-//        } catch (e: NoSuchAlgorithmException) {
-//        }
-//        keyPairGenerator?.initialize(
-//                2048, secureRandom
-//            )
-//        privateKey = keyPairGenerator?.generateKeyPair()?.private
-//        publicKey = keyPairGenerator?.generateKeyPair()?.public
-
 
 //"yyyy-MM-dd'T'HH:mm"
         val calendar = Calendar.getInstance()
@@ -80,7 +64,6 @@ fun Context.getTestPayloadForSamsung(
 //                .withEncryptionKeyFingerprintFieldName("publicKeyFingerprint")
                 .withEncryptedValueFieldName("encryptedData")
                 .withEncryptedKeyFieldName("encryptedKey")
-                .withIvField(true)
                 .withIvFieldName("iv")
                 .withOaepPaddingDigestAlgorithmFieldName("oaepHashingAlgorithm")
                 .withTokenizationAuthenticationValueFieldName("tokenizationAuthenticationValue")
@@ -104,14 +87,5 @@ fun Context.getTestPayloadForSamsung(
         e.printStackTrace()
     }
 
-//    "displayName" : "Tayyab Islam",
-//    2020-12-22 17:04:50.920 30338-30932/co.yap.stg D/OkHttp:     "customerId" : "3000000207",
-//    2020-12-22 17:04:50.920 30338-30932/co.yap.stg D/OkHttp:     "mobileNumber" : "3484509888",
-//    2020-12-22 17:04:50.920 30338-30932/co.yap.stg D/OkHttp:     "emailId" : "yapdevteam@yap.com",
-//    2020-12-22 17:04:50.920 30338-30932/co.yap.stg D/OkHttp:     "proxyNumber" : "1000000002792",
-//    2020-12-22 17:04:50.920 30338-30932/co.yap.stg D/OkHttp:     "cvv" : "717",
-//    2020-12-22 17:04:50.920 30338-30932/co.yap.stg D/OkHttp:     "cardNumber" : "5381230100016626",
-//    2020-12-22 17:04:50.920 30338-30932/co.yap.stg D/OkHttp:     "expiryDate" : "01/25",
-//    2020-12-22 17:04:50.920 30338-30932/co.yap.stg D/OkHttp:     "activationDate" : "01/20",
 }
 

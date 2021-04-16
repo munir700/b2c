@@ -1,7 +1,6 @@
 package co.yap.wallet.encriptions.encryption;
 
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.util.Collections;
 import java.util.Map;
@@ -95,8 +94,6 @@ public class FieldLevelEncryptionConfig {
      * The name of the payload field where to write/read the initialization vector value.
      */
     protected String ivFieldName = null;
-    protected boolean includeIvFieldName = false;
-
     /**
      * The name of the header where to write/read the initialization vector value.
      */

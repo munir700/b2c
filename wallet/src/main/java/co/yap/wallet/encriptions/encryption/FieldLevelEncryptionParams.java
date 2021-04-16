@@ -50,12 +50,9 @@ public final class FieldLevelEncryptionParams {
     public static FieldLevelEncryptionParams generate(FieldLevelEncryptionConfig config) throws EncryptionException {
 
         // Generate a random IV
-        String ivSpecValue = null;
-        IvParameterSpec ivParameterSpec = null;
-        if (config.includeIvFieldName) {
-            ivParameterSpec = generateIv();
-            ivSpecValue = encodeBytes(ivParameterSpec.getIV(), config.fieldValueEncoding);
-        }
+        IvParameterSpec ivParameterSpec = generateIv();
+        String ivSpecValue = encodeBytes(ivParameterSpec.getIV(), config.fieldValueEncoding);
+
 
         // Generate an AES secret key
         SecretKey secretKey = generateSecretKey();
@@ -71,13 +68,12 @@ public final class FieldLevelEncryptionParams {
                 oaepPaddingDigestAlgorithmValue,
                 config);
         params.secretKey = secretKey;
-        if (ivParameterSpec != null)
-            params.ivParameterSpec = ivParameterSpec;
+        params.ivParameterSpec = ivParameterSpec;
         return params;
     }
 
     public String getIvValue() {
-        return this.config.includeIvFieldName ? ivValue : null;
+        return ivValue;
     }
 
     public String getEncryptedKeyValue() {
