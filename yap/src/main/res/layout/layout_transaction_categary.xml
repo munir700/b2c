@@ -41,10 +41,12 @@
             app:layout_constraintTop_toTopOf="@+id/ivEatingOut" />
 
         <TextView
-            android:id="@+id/tvEatingOutDesc"
+            android:id="@+id/tvTapToChange"
             style="@style/MicroGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_small"
+            android:onClick="@{(v)-> categoryViewModel.handlePressOnView(v.id)}"
             app:text="@{Strings.screen_transaction_details_category_label}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvEatingOut"
@@ -54,11 +56,11 @@
             android:id="@+id/vLine"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_small"
             android:background="@color/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvEatingOut"
-            app:layout_constraintTop_toBottomOf="@id/tvEatingOutDesc" />
+            app:layout_constraintTop_toBottomOf="@id/tvTapToChange" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
