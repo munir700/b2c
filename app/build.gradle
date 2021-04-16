@@ -126,7 +126,7 @@ dependencies {
     }
 
     project.commonDependencies.each {
-        add(it.configuration, it.dependency)
+        add(it.configuration, it.dependency, it.options)
     }
 
     project.appDependencies.each {
