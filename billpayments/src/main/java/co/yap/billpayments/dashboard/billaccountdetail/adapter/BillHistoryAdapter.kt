@@ -14,7 +14,7 @@ class BillHistoryAdapter(private val list: MutableList<BillHistoryModel>) :
         )
     }
 
-    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.layout_item_my_bills
+    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.layout_item_bill_history
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BillHistoryViewHolder) {

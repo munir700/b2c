@@ -2249,7 +2249,6 @@ object Strings {
         "screen_bill_detail_success_dialog_button_text_do_it_later"
 
     // Bill Account Detail
-
     const val screen_bill_account_detail_toolbar_title: String =
         "screen_bill_account_detail_toolbar_title"
     const val screen_bill_account_detail_text_bill_status: String =
@@ -2262,7 +2261,6 @@ object Strings {
         "screen_bill_account_detail_text_highest_month"
     const val screen_bill_account_detail_text_lowest_month: String =
         "screen_bill_account_detail_text_lowest_month"
-
-
-
+    const val screen_bill_account_detail_button_text: String =
+        "screen_bill_account_detail_button_text"
 }

@@ -33,9 +33,9 @@ class MyBillsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
-        toggleRightFirstIconVisibility(true)
-        toolgleRightSecondIconVisibility(true)
-        context.getDrawable(R.drawable.ic_add_sign)?.let { setRightSecondIconDrawable(it) }
+        toggleSortIconVisibility(true)
+        toolgleRightIconVisibility(true)
+        context.getDrawable(R.drawable.ic_add_sign)?.let { setRightIconDrawable(it) }
     }
 
     private fun getMyBillList(): MutableList<BillModel> {
@@ -239,7 +239,6 @@ class MyBillsViewModel(application: Application) :
 
     override fun onStop() {
         super.onStop()
-        toggleRightFirstIconVisibility(false)
-        toolgleRightSecondIconVisibility(false)
+        toggleSortIconVisibility(false)
     }
 }

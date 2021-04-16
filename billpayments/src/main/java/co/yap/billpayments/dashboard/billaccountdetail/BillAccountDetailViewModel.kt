@@ -1,12 +1,15 @@
 package co.yap.billpayments.dashboard.billaccountdetail
 
 import android.app.Application
+import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryAdapter
 import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryModel
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
+import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
 import co.yap.yapcore.managers.SessionManager
 
 class BillAccountDetailViewModel(application: Application) :
@@ -16,17 +19,27 @@ class BillAccountDetailViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var billAccountDetailModel: BillAccountDetailModel? = null
     override var adapter: BillHistoryAdapter = BillHistoryAdapter(mutableListOf())
-
+    override var singleClickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onCreate() {
         super.onCreate()
         billAccountDetailModel = getBillAccountDetail()
-        setToolBarTitle(getString(Strings.screen_bill_account_detail_toolbar_title))
         adapter.setList(getBillHistory())
+        setToolBarTitle(getString(Strings.screen_bill_account_detail_toolbar_title))
+        toolgleRightIconVisibility(true)
+        context.getDrawable(R.drawable.ic_edit)?.let { setRightIconDrawable(it) }
+        state.dueAmount = billAccountDetailModel?.dueAmount.getAvailableBalanceWithFormat(true)
+        state.billStatus.set(
+            Translator.getString(
+                context,
+                Strings.screen_bill_account_detail_text_bill_status,
+                billAccountDetailModel?.billStatus.toString()
+            )
+        )
     }
 
     override fun handlePressOnView(id: Int) {
-
+        clickEvent.setValue(id)
     }
 
     override fun getBillAccountDetail(): BillAccountDetailModel {
@@ -64,5 +77,4 @@ class BillAccountDetailViewModel(application: Application) :
             )
         )
     }
-
 }

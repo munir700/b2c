@@ -18,7 +18,7 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
 
     override fun getLayoutId(): Int = R.layout.fragment_biller_detail
 
-    val viewModelAdd: AddBillerDetailViewModel
+    override val viewModel: AddBillerDetailViewModel
         get() = ViewModelProviders.of(this).get(AddBillerDetailViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
     }
 
     override fun setObservers() {
-        viewModelAdd.clickEvent.observe(this, clickObserver)
+        viewModel.clickEvent.observe(this, clickObserver)
     }
 
     val clickObserver = Observer<Int> {
@@ -41,13 +41,13 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
 
     private fun addBillerClick() {
         val request =
-            viewModelAdd.getBillerInformationRequest(viewModelAdd.billerDetailsResponse.value)
-        viewModelAdd.addBiller(request) {
+            viewModel.getBillerInformationRequest(viewModel.billerDetailsResponse.value)
+        viewModel.addBiller(request) {
             val title =
-                getString(Strings.screen_bill_detail_success_dialog_title).format(viewModelAdd.parentViewModel?.selectedBillerCatalog?.billerName)
+                getString(Strings.screen_bill_detail_success_dialog_title).format(viewModel.parentViewModel?.selectedBillerCatalog?.billerName)
             val description =
                 getString(Strings.screen_bill_detail_success_dialog_button_description).format(
-                    viewModelAdd.parentViewModel?.selectedBillerCatalog?.billerName
+                    viewModel.parentViewModel?.selectedBillerCatalog?.billerName
                 )
             requireContext().successDialog(
                 topIcon = R.drawable.ic_tick,
@@ -70,7 +70,7 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
     }
 
     override fun removeObservers() {
-        viewModelAdd.clickEvent.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
     }
 
     override fun onDestroy() {

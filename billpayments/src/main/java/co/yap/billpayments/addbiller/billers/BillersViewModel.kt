@@ -87,9 +87,8 @@ class BillersViewModel(application: Application) :
                         ) State.empty(null) else State.success(null)
                     }
                     is RetroApiResponse.Error -> {
-                        state.viewState.value = false
+                        state.stateLiveData?.value = State.error(null)
                         showToast(response.error.message)
-                        State.empty(null)
                     }
                 }
             }

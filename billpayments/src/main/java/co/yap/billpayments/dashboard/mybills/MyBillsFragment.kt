@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.roundtickselectionbottomsheet.RoundTickSelectionBottomSheet
 import co.yap.yapcore.constants.Constants
@@ -45,7 +46,8 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-
+            viewModel.parentViewModel?.selectedBill = data as BillModel
+            navigate(R.id.action_myBillsFragment_to_billAccountDetailFragment)
         }
     }
 
@@ -70,6 +72,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     override fun removeObservers() {
         viewModel.myBills.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
     }
 

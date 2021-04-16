@@ -14,15 +14,17 @@ interface IBillAccountDetail {
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        fun handlePressOnView(id: Int)
+        var adapter: BillHistoryAdapter
         var billAccountDetailModel: BillAccountDetailModel?
+        var singleClickEvent: SingleClickEvent
+        fun handlePressOnView(id: Int)
         fun getBillAccountDetail(): BillAccountDetailModel
         fun getBillHistory(): MutableList<BillHistoryModel>
-        var adapter: BillHistoryAdapter
     }
 
     interface State : IBase.State {
         var screenTitle: ObservableField<String>
         var dueAmount: CharSequence
+        var billStatus: ObservableField<String>
     }
 }
