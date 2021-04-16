@@ -7,6 +7,8 @@
         <variable
             name="categoryViewModel"
             type="co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel" />
+        <import type="co.yap.translation.Strings" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +45,7 @@
             style="@style/MicroGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tap to change category"
+            app:text="@{Strings.screen_transaction_details_category_label}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvEatingOut"
             app:layout_constraintTop_toBottomOf="@+id/tvEatingOut" />
