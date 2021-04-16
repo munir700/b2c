@@ -667,6 +667,9 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_transaction_details_display_sheet_text_upload_from_files">Upload from files</string>
     <string name="screen_transaction_details_display_receipt_item">Receipt %1s</string>
 
+    <string name="screen_transaction_details_category_label">Tap to change category</string>
+    <string name="screen_transaction_details_total_purchases">Total transactions</string>
+
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
     <string name="screen_send_money_no_contacts_display_text_sub_heading">Who would you like to send money to?</string>
