@@ -1,6 +1,7 @@
 package co.yap.sendmoney.y2y.main.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact
@@ -106,7 +107,9 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
 
     private suspend fun getLocalContactsFromServer(contactsList: (List<Contact>) -> Unit) {
         launch(Dispatcher.LongOperation) {
+            Log.d("MyContect>>",System.currentTimeMillis().toString())//1618511673449
             val localContacts = getLocalContacts(context).removeOwnContact()
+            Log.d("MyContect after>>",System.currentTimeMillis().toString())//1618511673631
             if (localContacts.isEmpty()) {
                 contactsList.invoke(mutableListOf())
             } else {

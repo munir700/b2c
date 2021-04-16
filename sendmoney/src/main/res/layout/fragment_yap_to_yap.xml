@@ -59,6 +59,7 @@
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
+            app:setupWithViewPager="@{viewPager}"
             app:tabPaddingEnd="16dp"
             app:tabRippleColor="@null"
             app:tabTextAppearance="@style/TabTextAppearance" />
@@ -68,7 +69,7 @@
         <!-- app:tabIconTint="@drawable/tab_icon_color_selector"-->
         <!-- app:tabTextColor="?attr/colorPrimaryDark"-->
 
-        <androidx.viewpager2.widget.ViewPager2
+        <co.yap.yapcore.helpers.CustomViewPager
             android:id="@+id/viewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"

@@ -18,6 +18,7 @@ object Constants {
     const val SUCCESS_RESULT = "SUCCESS_RESULT"
     const val LOCATION_ADDRESS = "LOCATION_ADDRESS"
     const val ERROR_MESSAGE = "ERROR_MESSAGE"
+    const val INDEX = "index"
 
     const val CARD: String = "CARD"
     const val KEY: String = "Key"

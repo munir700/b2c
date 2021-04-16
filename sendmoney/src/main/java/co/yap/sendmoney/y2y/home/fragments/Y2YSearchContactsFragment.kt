@@ -6,20 +6,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentY2YSearchContactsBinding
-import co.yap.sendmoney.y2y.home.adaptors.PHONE_CONTACTS
-import co.yap.sendmoney.y2y.home.adaptors.TransferLandingAdaptor
-import co.yap.sendmoney.y2y.home.adaptors.YAP_CONTACTS
 import co.yap.sendmoney.y2y.home.interfaces.IY2YSearchContacts
+import co.yap.sendmoney.y2y.home.phonecontacts.PhoneContactFragment
 import co.yap.sendmoney.y2y.home.viewmodel.Y2YSearchContactsViewModel
+import co.yap.sendmoney.y2y.home.yapcontacts.YapContactsFragment
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.hideKeyboard
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_y_2_y_search_contacts.view.*
-import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
 class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -35,9 +32,8 @@ class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupAdaptor()
-        setupTabs()
         setupSearch()
+        setupAdaptor()
     }
 
     private fun setupSearch() {
@@ -48,36 +44,15 @@ class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>(
     }
 
     private fun setupAdaptor() {
-        val adaptor = TransferLandingAdaptor(this)
-        getBindingView().viewPager.adapter = adaptor
-    }
+        val adapter = SectionsPagerAdapter(requireActivity(), childFragmentManager)
+        adapter.addFragmentInfo<YapContactsFragment>(getString(Strings.screen_y2y_display_button_yap_contacts))
+        adapter.addFragmentInfo<PhoneContactFragment>(getString(Strings.screen_y2y_display_button_all_contacts))
+        getBindingView().viewPager.adapter = adapter
 
-    private fun setupTabs() {
-        TabLayoutMediator(getBindingView().tabLayout, getBindingView().viewPager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                tab.text = getTabTitle(position)
-            }).attach()
-        getBindingView().viewPager.isUserInputEnabled = false
-        getBindingView().viewPager.offscreenPageLimit = 1
         viewModel.parentViewModel?.selectedTabPos?.value?.let {
-            tabLayout.getTabAt(it)?.select()
+            getBindingView().viewPager.currentItem = it
         }
     }
-
-    private fun getTabTitle(position: Int): String? {
-        return when (position) {
-            YAP_CONTACTS -> Translator.getString(
-                requireContext(),
-                Strings.screen_y2y_display_button_yap_contacts
-            )
-            PHONE_CONTACTS -> Translator.getString(
-                requireContext(),
-                Strings.screen_y2y_display_button_all_contacts
-            )
-            else -> null
-        }
-    }
-
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
@@ -88,6 +63,8 @@ class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>(
     }
 
     override fun onBackPressed(): Boolean {
+        viewModel.parentViewModel?.selectedTabPos?.value =
+            getBindingView().tabLayout.selectedTabPosition
         viewModel.parentViewModel?.searchQuery?.value = ""
         getBindingView().lySearchView.etSearch.hideKeyboard()
         viewModel.parentViewModel?.isSearching?.value = false
