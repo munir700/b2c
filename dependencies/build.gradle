@@ -31,11 +31,12 @@ project.ext {
             qrcodereaderview: ':qrcodereaderview',
             billpayments    : ':billpayments'
     ]
-
-    // All libraries that any module can contain
+    
     okHttpModuleExclude = {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
+
+    // All libraries that any module can contain
 
     libraries = [
             // Android
