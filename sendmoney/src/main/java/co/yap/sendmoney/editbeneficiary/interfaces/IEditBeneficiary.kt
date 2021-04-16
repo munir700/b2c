@@ -6,8 +6,6 @@ import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.StringUtils
 
 interface IEditBeneficiary {
     interface View : IBase.View<ViewModel> {
@@ -23,7 +21,8 @@ interface IEditBeneficiary {
         fun getAllCountries(beneficiary:Beneficiary?, success: (ArrayList<Country>?)->Unit)
         var onUpdateSuccess:MutableLiveData<Boolean>
         var isBeneficiaryValid:MutableLiveData<Boolean>
-        var onBeneficiaryCreatedSuccess:MutableLiveData<Boolean>
+        var onBeneficiaryCreatedSuccess: MutableLiveData<Boolean>
+        var countriesList: MutableLiveData<ArrayList<Country>>
     }
     interface State : IBase.State {
         var country: String?

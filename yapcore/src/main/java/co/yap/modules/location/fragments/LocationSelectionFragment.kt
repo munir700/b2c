@@ -20,6 +20,7 @@ import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.City
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.R
@@ -173,7 +174,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 viewModel.termsCheckedTime.value =
                     SimpleDateFormat(
                         DateUtils.LEAN_PLUM_EVENT_FORMAT,
-                        Locale.US
+                        Locale.getDefault()
                     ).format(Calendar.getInstance().time)
             }
             viewModel.state.valid.set(
@@ -277,8 +278,8 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                     }
                 },
                 bottomSheetItems = getCities(citiesList),
-                headingLabel = "Select the emirate you live in",
-                viewType = Constants.VIEW_WITHOUT_FLAG
+                viewType = Constants.VIEW_WITHOUT_FLAG,
+                configuration = BottomSheetConfiguration(heading = "Select the emirate you live in")
             )
 
             coreBottomSheet.show(it, "")

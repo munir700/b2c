@@ -5,17 +5,22 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.ItemBottomSheetNoSeparatorBinding
 import co.yap.yapcore.databinding.ItemBottomsheetWithFlagBinding
 import co.yap.yapcore.databinding.ItemCityBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
+
 
 open class CoreBottomSheetAdapter(
     private val list: MutableList<CoreBottomSheetData>,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
 ) : BaseBindingSearchRecylerAdapter<CoreBottomSheetData, RecyclerView.ViewHolder>(list) {
 
-    override fun getLayoutIdForViewType(viewType: Int): Int =
-        if (viewType == Constants.VIEW_WITH_FLAG) R.layout.item_bottomsheet_with_flag else R.layout.item_city
+    override fun getLayoutIdForViewType(viewType: Int): Int = when (viewType) {
+        Constants.VIEW_ITEM_WITHOUT_SEPARATOR -> R.layout.item_bottom_sheet_no_separator
+        Constants.VIEW_WITH_FLAG -> R.layout.item_bottomsheet_with_flag
+        else -> R.layout.item_city
+    }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return when (binding) {
@@ -24,6 +29,9 @@ open class CoreBottomSheetAdapter(
             }
             is ItemCityBinding -> {
                 BottomSheetViewHolder(binding)
+            }
+            is ItemBottomSheetNoSeparatorBinding -> {
+                BottomSheetWithNoSeparatorViewHolder(binding)
             }
             else -> {
                 BottomSheetViewHolder(binding as ItemCityBinding)
@@ -84,5 +92,21 @@ class BottomSheetWithFlagViewHolder(private val itemFlagBinding: ItemBottomsheet
             onItemClickListener = onItemClickListener
         )
         itemFlagBinding.executePendingBindings()
+    }
+}
+
+class BottomSheetWithNoSeparatorViewHolder(private val itemBinding: ItemBottomSheetNoSeparatorBinding) :
+    RecyclerView.ViewHolder(itemBinding.root) {
+    fun onBind(
+        bottomSheetItem: CoreBottomSheetData,
+        position: Int,
+        onItemClickListener: OnItemClickListener?
+    ) {
+        itemBinding.viewModel = CoreBottomSheetItemViewModel(
+            bottomSheetItem = bottomSheetItem,
+            position = position,
+            onItemClickListener = onItemClickListener
+        )
+        itemBinding.executePendingBindings()
     }
 }
