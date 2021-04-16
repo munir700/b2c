@@ -9,7 +9,8 @@ import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
-import co.yap.widgets.bottomsheet.roundtickselectionbottomsheet.RoundTickSelectionBottomSheet
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -53,13 +54,17 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     override fun openSortBottomSheet() {
         this.childFragmentManager.let {
-            val roundTickSelectionBottomSheet = RoundTickSelectionBottomSheet(
+            val coreBottomSheet = CoreBottomSheet(
                 mListener = viewModel.onBottomSheetItemClickListener,
                 bottomSheetItems = viewModel.getFiltersList(),
-                headingLabel = getString(Strings.screen_my_bills_text_title_bottom_sheet),
-                viewType = Constants.VIEW_WITHOUT_FLAG
+                viewType = Constants.VIEW_ITEM_WITHOUT_SEPARATOR,
+                configuration = BottomSheetConfiguration(
+                    heading = getString(Strings.screen_my_bills_text_title_bottom_sheet),
+                    showSearch = false,
+                    showHeaderSeparator = true
+                )
             )
-            roundTickSelectionBottomSheet.show(it, "")
+            coreBottomSheet.show(it, "")
         }
     }
 

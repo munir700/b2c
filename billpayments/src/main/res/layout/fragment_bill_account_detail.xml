@@ -12,117 +12,123 @@
         <import type="co.yap.translation.Strings" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/margin_large">
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
-        <co.yap.widgets.CoreCircularImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:layout_marginTop="@dimen/margin_normal_large"
-            app:fullName="@{viewModel.billAccountDetail.billerName}"
-            app:imageUrl="@{viewModel.billAccountDetail.logo}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvBillerName"
-            style="@style/Title3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:text="@{viewModel.billAccountDetail.billerName}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivLogo"
-            tools:text="Ehtisalat" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvNickName"
-            style="@style/MicroGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_two_dp"
-            android:text="@{viewModel.billAccountDetail.nickName}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvBillerName"
-            tools:text="My Personal Number" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDueAmount"
-            style="@style/Title2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal_large"
-            android:text="@{viewModel.state.dueAmount}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNickName"
-            tools:text="AED 100.00" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvBillStatus"
-            style="@style/ASmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_three_dp"
-            android:text="@{viewModel.state.billStatus}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDueAmount"
-            tools:text="This bill is overdue" />
-
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnPayNow"
-            style="@style/RectangleBtnSmallStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            app:btn_enable="true"
-            app:btn_size="mini_normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvBillStatus"
-            app:text="@{Strings.screen_bill_account_detail_button_text}"
-            tools:text="@string/screen_bill_account_detail_button_text" />
-
-        <View
-            android:id="@+id/historySeparator"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_2sdp"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:background="@color/divider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnPayNow" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvBillHistory"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            app:adapter="@{viewModel.adapter}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/historySeparator"
-            tools:itemCount="5"
-            tools:listitem="@layout/layout_item_bill_history" />
+            android:paddingHorizontal="@dimen/margin_large">
 
-        <View
-            android:id="@+id/historyBottomSeparator"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_2sdp"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/divider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvBillHistory" />
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                app:fullName="@{viewModel.billAccountDetail.billerName}"
+                app:imageUrl="@{viewModel.billAccountDetail.logo}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBillerName"
+                style="@style/Title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:text="@{viewModel.billAccountDetail.billerName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivLogo"
+                tools:text="Ehtisalat" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvNickName"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_two_dp"
+                android:text="@{viewModel.billAccountDetail.nickName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvBillerName"
+                tools:text="My Personal Number" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDueAmount"
+                style="@style/Title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:text="@{viewModel.state.dueAmount}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNickName"
+                tools:text="AED 100.00" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBillStatus"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_three_dp"
+                android:text="@{viewModel.state.billStatus}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDueAmount"
+                tools:text="This bill is overdue" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnPayNow"
+                style="@style/RectangleBtnSmallStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                app:btn_enable="true"
+                app:btn_size="mini_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvBillStatus"
+                app:text="@{Strings.screen_bill_account_detail_button_text}"
+                tools:text="@string/screen_bill_account_detail_button_text" />
+
+            <View
+                android:id="@+id/historySeparator"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:background="@color/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnPayNow" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBillHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                app:adapter="@{viewModel.adapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/historySeparator"
+                tools:itemCount="5"
+                tools:listitem="@layout/layout_item_bill_history" />
+
+            <View
+                android:id="@+id/historyBottomSeparator"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvBillHistory" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
