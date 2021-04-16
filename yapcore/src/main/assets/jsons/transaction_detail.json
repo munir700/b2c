@@ -879,7 +879,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
-      "showTransactionCategory": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
