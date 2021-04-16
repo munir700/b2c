@@ -236,7 +236,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         viewModel.transaction.get()?.receiverTransactionNoteDate =
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
-
                     viewModel.state.transactionNoteDate = "Note added  ${
                     DateUtils.getCurrentDateWithFormat(
                         DateUtils.FORMAT_LONG_OUTPUT
