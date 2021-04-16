@@ -8,6 +8,7 @@ import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.BR
@@ -23,7 +24,12 @@ class RoundTickSelectionBottomSheet(
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
     private val headingLabel: String? = null,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
-) : CoreBottomSheet(mListener, bottomSheetItems, headingLabel, viewType) {
+) : CoreBottomSheet(
+    mListener,
+    bottomSheetItems,
+    viewType,
+    BottomSheetConfiguration(heading = headingLabel, showHeaderSeparator = true, showSearch = false)
+) {
     override val adapter: RoundTickSelectionBottomSheetAdapter by lazy {
         RoundTickSelectionBottomSheetAdapter(bottomSheetItems, viewType)
     }

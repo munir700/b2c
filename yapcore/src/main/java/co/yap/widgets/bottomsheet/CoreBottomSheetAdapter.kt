@@ -11,7 +11,7 @@ import co.yap.yapcore.databinding.ItemCityBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-class CoreBottomSheetAdapter(
+open class CoreBottomSheetAdapter(
     private val list: MutableList<CoreBottomSheetData>,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
 ) : BaseBindingSearchRecylerAdapter<CoreBottomSheetData, RecyclerView.ViewHolder>(list) {
