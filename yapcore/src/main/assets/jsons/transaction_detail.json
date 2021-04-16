@@ -43,6 +43,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Sender",
@@ -121,6 +122,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Receiver",
@@ -194,6 +196,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Receiver",
@@ -269,6 +272,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -335,6 +339,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -403,6 +408,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -477,6 +483,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -563,6 +570,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Card",
@@ -683,6 +691,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Card",
@@ -779,6 +788,8 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
+
       "items": [
         {
           "label": "Card",
@@ -868,6 +879,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": true,
       "items": [
         {
           "label": "Amount",
@@ -937,6 +949,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1011,6 +1024,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1085,6 +1099,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1163,6 +1178,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1232,7 +1248,7 @@
     },
     "detailExpectation": {
       "title": "Spent at AL Jaz Branch ATM 0054",
-      "detailTransferType": "Transaction",
+      "detailTransferType": "In store shopping",
       "transferCategory": "Clothing stores Retail store",
       "location": "AE",
       "currency": "AED",
@@ -1241,6 +1257,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": true,
       "items": [
         {
           "label": "Amount",
@@ -1333,7 +1350,7 @@
     },
     "detailExpectation": {
       "title": "Spent at ENGLISH TEA HOUSE     ",
-      "detailTransferType": "Transaction",
+      "detailTransferType": "In store shopping",
       "transferCategory": "Miscellaneous Stores",
       "location": "ENGLISH TEA HOUSE     ,LAHORE       , ,PK",
       "currency": "AED",
@@ -1343,6 +1360,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": true,
       "items": [
         {
           "label": "Card",
@@ -1434,6 +1452,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1506,6 +1525,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1586,6 +1606,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1691,6 +1712,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1770,6 +1792,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1847,6 +1870,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -1917,7 +1941,7 @@
     },
     "detailExpectation": {
       "title": "Spent at AMAZON PAY INDIA PRIVA",
-      "detailTransferType": "Transaction",
+      "detailTransferType": "Online shopping",
       "transferCategory": "",
       "location": "AMAZON PAY INDIA PRIVA,BANGALORE    ,null,IN",
       "currency": "AED",
@@ -1926,6 +1950,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": true,
+      "showTransactionCategory": true,
       "items": [
         {
           "label": "Amount",
@@ -2003,6 +2028,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
@@ -2075,6 +2101,7 @@
       "icon": "",
       "statusIcon": "",
       "showTotalPurchase": false,
+      "showTransactionCategory": false,
       "items": [
         {
           "label": "Amount",
