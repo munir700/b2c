@@ -174,6 +174,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             .setApiKey("9RksySm2nD9J852bYYFwKQ")
             .enableLogging()
             .build()
+
+        flagSmithClient.hasFeatureFlag("bill_payments")
     }
 
     override fun onTerminate() {

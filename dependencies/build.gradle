@@ -33,6 +33,9 @@ project.ext {
     ]
 
     // All libraries that any module can contain
+    okHttpModuleExclude = {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
 
     libraries = [
             // Android
@@ -217,7 +220,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.deeplink],
             [configuration: "kapt", dependency: libraries.deeplinkprocessor],
             [configuration: "implementation", dependency: libraries.lotieAnimation],
-            [configuration: "implementation", dependency: libraries.flagsmith]
+            [configuration: "implementation", dependency: libraries.flagsmith, options: okHttpModuleExclude]
 
     ]
 
