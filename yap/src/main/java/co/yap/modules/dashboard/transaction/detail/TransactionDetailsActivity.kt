@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast.LENGTH_SHORT
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -129,8 +130,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     }
                     R.id.tvAddAnother -> {
                         viewModel.requestAllApis()
-
                         showAddReceiptOptions()
+                    }
+
+                    R.id.tvTapToChange->{
+                        makeToast(this,"Clicked View",LENGTH_SHORT)
                     }
                 }
             }
