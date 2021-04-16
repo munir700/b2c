@@ -31,7 +31,8 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 showTotalPurchase = transactionDetailFactory?.isTotalPurchaseAvailable(),
                 showError = transactionDetailFactory?.isTransactionNotCompleted(),
                 showReceipts = transactionDetailFactory?.isShowReceiptSection(),
-                isAtmTransaction = transactionDetailFactory?.isAtmTransaction()
+                isAtmTransaction = transactionDetailFactory?.isAtmTransaction(),
+                showFeedBack = transactionDetailFactory?.showFeedbackOption()
             )
         } ?: return null
     }

@@ -335,6 +335,7 @@
                 tools:text="Payment detail" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@{viewModel.state.showTotalPurchases?@dimen/margin_zero_dp : @dimen/margin_medium}"
@@ -378,7 +379,25 @@
                     app:recycleViewAdapter="@{viewModel.transactionAdapter}"
                     tools:itemCount="4"
                     tools:listitem="@layout/item_transaction_detail" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvImproveLogo"
+                style="@style/ALarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                android:paddingBottom="@dimen/margin_medium"
+                 app:text="@{Strings.screen_transaction_details_display_feedback_label}"
+                android:textColor="@color/colorPrimary"
+                android:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clDetail" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

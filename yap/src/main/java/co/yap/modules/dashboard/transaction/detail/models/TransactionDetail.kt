@@ -15,7 +15,8 @@ data class TransactionDetail(
     val showTotalPurchase : Boolean?,
     val showError : Boolean?,
     val showReceipts : Boolean?,
-    val isAtmTransaction : Boolean?
+    val isAtmTransaction : Boolean?,
+    val showFeedBack : Boolean?
 )
 
 

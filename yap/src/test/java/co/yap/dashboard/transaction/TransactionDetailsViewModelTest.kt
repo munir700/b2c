@@ -42,7 +42,8 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         val foreignAmount: Double,
         val spentAmount: Double,
         val items: ArrayList<ItemTransactionDetail>,
-        val showTotalPurchase : Boolean
+        val showTotalPurchase : Boolean,
+        val showFeedback : Boolean
     )
 
     @BeforeEach
@@ -154,6 +155,10 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             Assert.assertEquals(
                 getExpectedStatusIcon(transaction),
                 txnDetail?.statusIcon
+            )
+            Assert.assertEquals(
+                expectation.showFeedback,
+                txnDetail?.showFeedBack
             )
             Assert.assertEquals(expectation.showTotalPurchase, txnDetail?.showTotalPurchase)
         }
