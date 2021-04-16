@@ -182,13 +182,16 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
             viewModel.state.placePhoto.set(defaultPlacePhoto)
             if (populatePassingAddress) {
                 viewModel.state.addressSubtitle.set(viewModel.address?.address2)
-                _address.city?.let { viewModel.state.city.set(_address.city) }
-                    ?: viewModel.state.city.set("Select")
+                _address.city?.let {
+                    viewModel.state.city.set(_address.city)
+                } ?: viewModel.state.city.set("Select")
             } else {
                 val cityMatched =
                     viewModel.cities.value?.firstOrNull { it.name.equals(_address.city, true) }
                 cityMatched?.let {
                     viewModel.state.city.set(it.name)
+                    viewModel.state.iata3Code.set(it.iata3Code)
+
                 } ?: viewModel.state.city.set("Select")
             }
         }

@@ -1,8 +1,15 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.content.Context
+import android.util.TypedValue
+import android.view.LayoutInflater
 import android.widget.ScrollView
+import androidx.annotation.LayoutRes
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import kotlinx.android.synthetic.main.fragment_tax_info.view.*
 
 fun CollapsingToolbarLayout.enableScroll(@AppBarLayout.LayoutParams.ScrollFlags flags: Int = (AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED)) {
     val params = this.layoutParams as AppBarLayout.LayoutParams
@@ -21,5 +28,21 @@ fun ScrollView.scrollToBottomWithoutFocusChange() { // Kotlin extension to scrol
     val delta = bottom - (scrollY + height)
     post{
         smoothScrollBy(0, delta)
+    }
+}
+
+fun ChipGroup.generateChipViews(@LayoutRes itemView: Int, list: List<String>) {
+    val inflater: LayoutInflater =
+        this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    for (index in list.indices) {
+        val categoryName = list[index]
+        val chip = inflater.inflate(itemView, this, false) as Chip
+        val paddingDp = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 10f,
+            this.resources.displayMetrics
+        ).toInt()
+        chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+        chip.text = categoryName
+        this.addView(chip)
     }
 }

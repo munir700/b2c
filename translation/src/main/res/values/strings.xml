@@ -170,6 +170,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_meeting_confirmation_display_text_guide">Make sure you have your original Emirates ID on you at the time of delivery as we’ll need to scan it</string>
     <string name="screen_meeting_confirmation_display_text_emirates_id">Emirates ID</string>
     <string name="screen_meeting_confirmation_button_go_to_dashboard">Go to dashboard</string>
+    <string name="screen_kyc_on_the_way_display_text_guide">You will receive a message from our designated delivery company to confirm the date and time of delivery. Please make sure you have your Emirates ID on you at the time of delivery.</string>
+    <string name="screen_kyc_on_the_way_display_text_yap_member">Congrats, you\'re a YAP founder member!</string>
 
     <!-- Country not allowed screen -->
     <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the %1$s</string>
@@ -1088,10 +1090,13 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_place_of_birth_display_text_description">Just a few more details about you, as per \nyour passport.</string>
     <string name="screen_place_of_birth_display_text_select_country">Select country</string>
     <string name="screen_place_of_birth_display_text_city_of_birth">City of birth</string>
+    <string name="screen_place_of_birth_display_text_are_you_a_dual_national">Are you a dual national?</string>
+    <string name="screen_place_of_birth_display_text_nationality_as_per_eid">Nationality as per EID</string>
+    <string name="screen_place_of_birth_display_text_add_second_country">Add second country</string>
 
     <!--  Tax info screen -->
     <string name="screen_tax_info_display_text_heading">Tax Information</string>
-    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax committments</string>
+    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax commitments</string>
     <string name="screen_tax_info_display_text_select_country">Select country of tax residence</string>
     <string name="screen_tax_info_display_text_have_tin_number">Do you have a Tax Identification Number (TIN)?</string>
     <string name="screen_tax_info_display_text_reason_no_tin_number">Select the reason for not having a TIN</string>
@@ -1355,8 +1360,28 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
 
     <!-- image previewer dialogue -->
-
     <string name="screen_image_previewer_display_text_delete_message">This photo will be deleted from your saved receipts.</string>
     <string name="screen_image_previewer_button_text_delete">Delete Photo</string>
+
+    <!--KYC Employment information selection screen-->
+    <string name="screen_employment_information_selection_display_text_title">Employment Information</string>
+    <string name="screen_employment_information_selection_display_text_employment_status">What is your employment status?</string>
+    <string name="screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose">We only ask you this questions for administrative purpose. It does not impact your ability to sign up to a YAP account. </string>
+    <string name="screen_employment_information_selection_display_button_text_next">Next</string>
+    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask you about your monthly salary?</string>
+    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum salary requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account.</string>
+    <string name="screen_employment_information_dialog_button_text_close">Close</string>
+    <string name="screen_employment_information_cash_dialog_display_text_heading">For those people who still use cash, how much cash will you add to YAP per month?</string>
+    <string name="screen_employment_information_cash_dialog_display_text_subheading">We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account.</string>
+
+    <!--    Employee information screen-->
+    <string name="screen_employee_information_display_bottom_sheet_text_heading">Add all the countries your company does business with:</string>
+
+    <!-- KYC Employment Information Questionnaire screen -->
+    <string name="screen_employment_questionnaire_display_text_heading">Employment Information</string>
+    <string name="screen_employment_questionnaire_display_text_desc">Final questions and your set to go!</string>
+    <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
+    <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
+    <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
 
 </resources>

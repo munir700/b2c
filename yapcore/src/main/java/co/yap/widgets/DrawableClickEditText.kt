@@ -20,7 +20,7 @@ import co.yap.yapcore.helpers.extentions.getScreenWidth
 import kotlin.math.abs
 
 
-class DrawableClickEditText(context: Context, attrs: AttributeSet) :
+open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     AppCompatEditText(context, attrs) {
     private var mPopupWindow: PopupWindow? = null
     private var popupView: View? = null
@@ -51,8 +51,10 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
 
                     }
                     DrawablePosition.RIGHT -> {
-                        val xoff = Utils.getDimensionInPercent(context,true,6)
-                        showAsPopUp(this@DrawableClickEditText, xoff, 0)
+                        if (popupTextValue.isNotEmpty()){
+                            val xoff = Utils.getDimensionInPercent(context,true,6)
+                            showAsPopUp(this@DrawableClickEditText, xoff, 0)
+                        }
                     }
                 }
             }

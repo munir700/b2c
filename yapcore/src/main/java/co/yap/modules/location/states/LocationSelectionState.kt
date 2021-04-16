@@ -30,6 +30,7 @@ class LocationSelectionState(application: Application) : BaseState(), ILocationS
     override var addressSubtitle: ObservableField<String> = ObservableField("")
     override var addressTitle: ObservableField<String> = ObservableField("")
     override var city: ObservableField<String> = ObservableField("")
+    override var iata3Code: ObservableField<String> = ObservableField("")
     override var isTermsChecked: ObservableField<Boolean> = ObservableField(false)
     override var valid: ObservableField<Boolean> = ObservableField(false)
     override var isUnNamed: ObservableField<Boolean> = ObservableField(false)
