@@ -340,4 +340,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun isAtmTransaction() : Boolean{
         return (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
     }
+
+    fun showFeedbackOption():Boolean = (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) ||
+            (transaction.productCode == TransactionProductCode.ECOM.pCode)
 }

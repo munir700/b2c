@@ -90,6 +90,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             R.id.clRecipt -> {
                 showAddReceiptOptions()
             }
+            R.id.tvImproveLogo -> {
+
+            }
         }
     }
 
@@ -233,11 +236,10 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         viewModel.transaction.get()?.receiverTransactionNoteDate =
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
-
                     viewModel.state.transactionNoteDate = "Note added  ${
-                        DateUtils.getCurrentDateWithFormat(
-                            DateUtils.FORMAT_LONG_OUTPUT
-                        )
+                    DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
                     }"
                 }
 
