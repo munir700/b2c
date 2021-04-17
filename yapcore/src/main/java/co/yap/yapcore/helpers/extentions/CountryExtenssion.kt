@@ -61,7 +61,7 @@ private fun parseCountries(context: Context, countries: ArrayList<Country>): Arr
 
 fun FragmentActivity.launchMultiSelectionBottomSheet(
     itemClickListener: OnItemClickListener? = null,
-    label: String = "Add all the countries your company does business with:",
+    configuration: BottomSheetConfiguration,
     viewType: Int = Constants.VIEW_WITH_FLAG,
     countriesList: List<Country>? = null
 ) {
@@ -74,7 +74,7 @@ fun FragmentActivity.launchMultiSelectionBottomSheet(
                         this,
                         countriesList as ArrayList<Country>
                     ).toMutableList(),
-                    headingLabel = label,
+                    configuration = configuration,
                     viewType = viewType
                 )
             coreBottomSheet.show(it, "")

@@ -8,8 +8,10 @@ import co.yap.R
 import co.yap.modules.dashboard.more.home.interfaces.IInviteFriend
 import co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel
 import co.yap.repositories.InviteFriendRepository
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.helpers.extentions.inviteFriendIntent
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.share
 
 
 class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IInviteFriend.View {
@@ -33,7 +35,12 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
         when (it) {
             R.id.btnShare -> {
                 InviteFriendRepository().inviteAFriend()
-                requireContext().inviteFriendIntent()
+                requireContext().share(
+                    text = getString(
+                        Strings.screen_invite_friend_display_text_share_url,
+                        Utils.getAdjustURL()
+                    )
+                )
             }
         }
     }
