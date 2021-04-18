@@ -35,6 +35,7 @@ class WaitingListViewModel(application: Application) :
                     state.gainPoints?.set(response.data.data?.gainPoints ?: "0")
                     if (response.data.data?.viewable == true) {
                         stopRankingMsgRequest()
+                        //Add delay because snack-bar needs some delay to be shown after api call.
                         delay(500)
                         showNotification.invoke()
                     }
