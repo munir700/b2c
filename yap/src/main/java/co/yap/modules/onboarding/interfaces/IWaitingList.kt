@@ -15,6 +15,7 @@ interface IWaitingList {
         val clickEvent: SingleClickEvent
         fun handlePressOnNext(id: Int)
         fun requestWaitingRanking()
+        fun stopRankingMsgRequest()
     }
 
     interface State : IBase.State {

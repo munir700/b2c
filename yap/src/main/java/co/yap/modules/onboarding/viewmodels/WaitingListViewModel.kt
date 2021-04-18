@@ -36,10 +36,23 @@ class WaitingListViewModel(application: Application) :
                     state.rank?.set(response.data.data?.rank ?: "0")
                     state.jump?.set(response.data.data?.jump ?: "0")
                     state.loading = false
+//                    stopRankingMsgRequest()
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun stopRankingMsgRequest() {
+        launch {
+            state.loading = true
+            when (repository.stopRankingMsgRequest()) {
+                is RetroApiResponse.Success -> {
+                }
+                is RetroApiResponse.Error -> {
                 }
             }
         }
