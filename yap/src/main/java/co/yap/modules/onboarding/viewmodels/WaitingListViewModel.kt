@@ -9,6 +9,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import kotlinx.coroutines.delay
 
 class WaitingListViewModel(application: Application) :
     BaseViewModel<IWaitingList.State>(application), IWaitingList.ViewModel,
@@ -34,6 +35,7 @@ class WaitingListViewModel(application: Application) :
                     state.gainPoints?.set(response.data.data?.gainPoints ?: "0")
                     if (response.data.data?.viewable == true) {
                         stopRankingMsgRequest()
+                        delay(500)
                         showNotification.invoke()
                     }
                     state.loading = false

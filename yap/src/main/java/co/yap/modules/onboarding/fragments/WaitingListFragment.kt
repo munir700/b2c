@@ -18,10 +18,6 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWaitingList.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -37,10 +33,7 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
         super.onCreate(savedInstanceState)
         setObservers()
         viewModel.requestWaitingRanking {
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(500)
-                showGainPointsNotification()
-            }
+            showGainPointsNotification()
         }
     }
 
