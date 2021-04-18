@@ -155,7 +155,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fwColoredBox"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.858"
+                app:layout_constraintVertical_bias="1"
                 app:text="@{Strings.screen_waiting_list_display_button_text}"
                 tools:text="@string/screen_waiting_list_display_button_text" />
 
