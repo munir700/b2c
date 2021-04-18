@@ -1128,6 +1128,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_waiting_list_display_text_lead_the_bank_description">Want to jump the queue? \n\n Boost yourself up the queue by %1s for every friend registered. 🚀</string>
     <string name="screen_waiting_list_display_text_log_back">Log back in to see your rank in the queue.</string>
     <string name="screen_waiting_list_display_text_rank_hashtag">#%1s</string>
+    <string name="screen_waiting_list_display_text_notification_jump_rank">Congrats! You were bumped up by %1s spots! Keep on referring to get to the top faster!</string>
 
     <!-- Blocked Screen-->
 

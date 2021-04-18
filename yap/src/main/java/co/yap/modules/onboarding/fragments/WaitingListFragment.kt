@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -8,9 +9,11 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
+import co.yap.translation.Strings
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
+import co.yap.yapcore.helpers.showSnackBar
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
@@ -29,6 +32,9 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        viewModel.requestWaitingRanking {
+            showGainPointsNotification()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,6 +56,20 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+    }
+
+    override fun showGainPointsNotification() {
+        showSnackBar(
+            msg = getString(
+                Strings.screen_waiting_list_display_text_notification_jump_rank,
+                viewModel.state.gainPoints?.get() ?: "0"
+            ),
+            viewBgColor = R.color.colorLightGreen,
+            colorOfMessage = R.color.colorDarkAqua,
+            gravity = Gravity.TOP,
+            duration = 10000,
+            marginTop = 0
+        )
     }
 
     private fun setYapAnimation() {
