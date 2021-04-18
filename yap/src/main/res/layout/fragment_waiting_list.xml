@@ -147,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_large"
-                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnNext(v.id)}"
                 app:btn_enable="true"
                 app:btn_size="large"

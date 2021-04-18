@@ -7,6 +7,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 
 class WaitingListViewModel(application: Application) :
@@ -19,15 +20,10 @@ class WaitingListViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        requestWaitingRanking()
-    }
-
     override val repository: CustomersRepository
         get() = CustomersRepository
 
-    override fun requestWaitingRanking() {
+    override fun requestWaitingRanking(showNotification: () -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.getWaitingRanking()) {
@@ -35,8 +31,12 @@ class WaitingListViewModel(application: Application) :
                     state.waitingBehind?.set(response.data.data?.waitingBehind ?: "0")
                     state.rank?.set(response.data.data?.rank ?: "0")
                     state.jump?.set(response.data.data?.jump ?: "0")
+                    state.gainPoints?.set(response.data.data?.gainPoints ?: "0")
+                    if (response.data.data?.viewable == true) {
+                        stopRankingMsgRequest()
+                        showNotification.invoke()
+                    }
                     state.loading = false
-//                    stopRankingMsgRequest()
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -47,8 +47,7 @@ class WaitingListViewModel(application: Application) :
     }
 
     override fun stopRankingMsgRequest() {
-        launch {
-            state.loading = true
+        launch(Dispatcher.Background) {
             when (repository.stopRankingMsgRequest()) {
                 is RetroApiResponse.Success -> {
                 }

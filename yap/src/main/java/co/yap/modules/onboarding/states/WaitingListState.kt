@@ -9,4 +9,5 @@ class WaitingListState : BaseState(), IWaitingList.State {
     override var waitingBehind: ObservableField<String>? = ObservableField("0")
     override var jump: ObservableField<String>? = ObservableField("0")
     override var rank: ObservableField<String>? = ObservableField("0")
+    override var gainPoints: ObservableField<String>? = ObservableField("0")
 }
