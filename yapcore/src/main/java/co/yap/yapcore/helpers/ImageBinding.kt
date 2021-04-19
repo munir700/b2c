@@ -295,6 +295,7 @@ object ImageBinding {
         resource: Int,
         loopCount: Int = 1,
         delayBetweenLoop: Long = 100L,
+        isLoop: Boolean = false,
         onAnimationComplete: (() -> Unit?)? = null
     ) {
         var countPlay = 0
@@ -328,7 +329,7 @@ object ImageBinding {
                                 override fun onAnimationEnd(drawable: Drawable?) {
                                     super.onAnimationEnd(drawable)
                                     countPlay++
-                                    if (countPlay < loopCount) {
+                                    if (isLoop || countPlay < loopCount) {
                                         it.postDelayed({
                                             resource.startFromFirstFrame()
                                         }, delayBetweenLoop)

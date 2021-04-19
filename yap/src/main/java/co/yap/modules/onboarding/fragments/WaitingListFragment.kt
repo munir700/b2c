@@ -41,8 +41,8 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
         ImageBinding.loadGifImageView(ivYapAnimation, R.raw.wait_list_first, 1) {
             ImageBinding.loadGifImageView(imageView = ivYapAnimation,
                 resource = R.raw.wait_list_second,
-                loopCount = 10000,
-                delayBetweenLoop = 0L) {
+                loopCount = 1,
+                delayBetweenLoop = 0L, isLoop = true) {
             }
         }
     }
