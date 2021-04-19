@@ -11,14 +11,11 @@ import co.yap.databinding.FragmentWaitingListBinding
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
 import co.yap.translation.Strings
-import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.showSnackBar
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.source.TrackGroupArray
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
@@ -33,8 +30,6 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
     override val viewModel: IWaitingList.ViewModel
         get() = ViewModelProviders.of(this).get(WaitingListViewModel::class.java)
 
-    var firstVideoPlayed: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
@@ -46,7 +41,17 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setYapAnimation()
+        setupCoinAnimation()
+    }
+
+    private fun setupCoinAnimation() {
+        ImageBinding.loadGifImageView(ivYapAnimation, R.raw.wait_list_first, 1) {
+            ImageBinding.loadGifImageView(imageView = ivYapAnimation,
+                resource = R.raw.wait_list_second,
+                loopCount = 1,
+                delayBetweenLoop = 0L, isLoop = true) {
+            }
+        }
     }
 
     private fun runAnimation(){
@@ -86,44 +91,6 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
             duration = 10000,
             marginTop = 0
         )
-    }
-
-    private fun setYapAnimation() {
-        andExoPlayerView.setSource(co.yap.yapcore.R.raw.waiting_list_first_part)
-        andExoPlayerView?.player?.repeatMode = Player.REPEAT_MODE_OFF
-        andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
-            override fun onError() {
-                andExoPlayerView.setSource(co.yap.yapcore.R.raw.card_on_its_way)
-            }
-
-            override fun onTracksChanged(
-                trackGroups: TrackGroupArray,
-                trackSelections: TrackSelectionArray
-            ) {
-            }
-
-            override fun onPositionDiscontinuity(reason: Int) {}
-
-            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-                when (playbackState) {
-                    Player.STATE_READY -> {
-                        andExoPlayerView.visibility = View.VISIBLE
-                    }
-
-                    Player.STATE_ENDED -> {
-                        if (!firstVideoPlayed) {
-                            andExoPlayerView.visibility = View.INVISIBLE
-                            andExoPlayerView.setSource(co.yap.yapcore.R.raw.waiting_list_second_part)
-                            andExoPlayerView?.player?.repeatMode = Player.REPEAT_MODE_ALL
-                            firstVideoPlayed = true
-                        }
-                    }
-                }
-            }
-
-            override fun onRepeatModeChanged(repeatMode: Int) {
-            }
-        })
     }
 
     fun getBinding(): FragmentWaitingListBinding = viewDataBinding as FragmentWaitingListBinding
