@@ -26,26 +26,13 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_20sdp">
 
-            <FrameLayout
-                android:id="@+id/flVideoPlayer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivYapAnimation"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_150sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <co.yap.widgets.video.AndExoPlayerView
-                    android:id="@+id/andExoPlayerView"
-                    android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_150sdp"
-                    android:visibility="invisible"
-                    app:andexo_aspect_ratio="aspect_match"
-                    app:andexo_play_when_ready="true"
-                    app:andexo_resize_mode="Zoom"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </FrameLayout>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvQueueDetail"
@@ -56,7 +43,7 @@
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/flVideoPlayer"
+                app:layout_constraintTop_toBottomOf="@+id/ivYapAnimation"
                 app:text="@{Strings.screen_waiting_list_display_text_your_place_in_queue}"
                 tools:text="@string/screen_waiting_list_display_text_your_place_in_queue" />
 
