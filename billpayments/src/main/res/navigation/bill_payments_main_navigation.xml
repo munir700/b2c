@@ -26,12 +26,20 @@
         <action
             android:id="@+id/action_myBillsFragment_to_billCategoryFragment"
             app:destination="@id/billCategoryFragment" />
+        <action
+            android:id="@+id/action_myBillsFragment_to_billAccountDetailFragment"
+            app:destination="@id/billAccountDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/billCategoryFragment"
-        tools:layout="@layout/fragment_bill_category"
         android:name="co.yap.billpayments.billcategory.BillCategoryFragment"
-        android:label="BillCategoryFragment"/>
+        android:label="BillCategoryFragment"
+        tools:layout="@layout/fragment_bill_category" />
+    <fragment
+        android:id="@+id/billAccountDetailFragment"
+        android:name="co.yap.billpayments.dashboard.billaccountdetail.BillAccountDetailFragment"
+        android:label="BillAccountDetailFragment"
+        tools:layout="@layout/fragment_bill_account_detail" />
 
 </navigation>

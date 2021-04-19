@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name=".addBill.main.AddBillActivity"
+            android:name=".addbiller.main.AddBillActivity"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/add_bill_navigation" />
         </activity>

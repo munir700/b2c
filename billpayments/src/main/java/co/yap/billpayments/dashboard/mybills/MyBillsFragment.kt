@@ -2,14 +2,18 @@ package co.yap.billpayments.dashboard.mybills
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
-import co.yap.widgets.bottomsheet.roundtickselectionbottomsheet.RoundTickSelectionBottomSheet
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
@@ -45,19 +49,25 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-
+            viewModel.parentViewModel?.selectedBill = data as BillModel
+            navigate(destinationId = R.id.action_myBillsFragment_to_billAccountDetailFragment,
+            args = bundleOf(ExtraKeys.SELECTED_BILL_POSITION.name to pos))
         }
     }
 
     override fun openSortBottomSheet() {
         this.childFragmentManager.let {
-            val roundTickSelectionBottomSheet = RoundTickSelectionBottomSheet(
+            val coreBottomSheet = CoreBottomSheet(
                 mListener = viewModel.onBottomSheetItemClickListener,
                 bottomSheetItems = viewModel.getFiltersList(),
-                headingLabel = getString(Strings.screen_my_bills_text_title_bottom_sheet),
-                viewType = Constants.VIEW_WITHOUT_FLAG
+                viewType = Constants.VIEW_ITEM_WITHOUT_SEPARATOR,
+                configuration = BottomSheetConfiguration(
+                    heading = getString(Strings.screen_my_bills_text_title_bottom_sheet),
+                    showSearch = false,
+                    showHeaderSeparator = true
+                )
             )
-            roundTickSelectionBottomSheet.show(it, "")
+            coreBottomSheet.show(it, "")
         }
     }
 
@@ -70,6 +80,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     override fun removeObservers() {
         viewModel.myBills.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
     }
 

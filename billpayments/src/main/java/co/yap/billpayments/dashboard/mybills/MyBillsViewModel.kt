@@ -33,9 +33,9 @@ class MyBillsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
-        toggleRightFirstIconVisibility(true)
-        toolgleRightSecondIconVisibility(true)
-        context.getDrawable(R.drawable.ic_add_sign)?.let { setRightSecondIconDrawable(it) }
+        toggleSortIconVisibility(true)
+        toolgleRightIconVisibility(true)
+        context.getDrawable(R.drawable.ic_add_sign)?.let { setRightIconDrawable(it) }
     }
 
     private fun getMyBillList(): MutableList<BillModel> {
@@ -43,6 +43,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Sarpinos",
+                nickName = "My personal Phone",
                 description = "Burj Telecom Residences",
                 currency = "USD",
                 creationDate = "2021-06-12T06:53:35",
@@ -52,6 +53,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "KFC",
+                nickName = "My personal Phone",
                 description = "Burj Telecom Residences",
                 currency = "USD",
                 creationDate = "2021-06-12T06:53:35",
@@ -61,6 +63,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Texas Steak house",
+                nickName = "My personal Phone",
                 description = "Burj ul Dubai",
                 creationDate = "2021-01-12T06:53:35",
                 currency = "AED",
@@ -70,6 +73,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "PF changs",
+                nickName = "My personal Phone",
                 description = "Burj Telecom Residences",
                 currency = "AED",
                 creationDate = "2021-02-12T06:53:35",
@@ -79,6 +83,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "",
                 name = "Salt and Paper",
+                nickName = "My personal Phone",
                 description = "Burj ul khalifa",
                 currency = "AED",
                 creationDate = "2021-03-12T06:53:35",
@@ -88,6 +93,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Mcdonalds",
+                nickName = "My personal Phone",
                 description = "Burj Telecom Residences",
                 currency = "AED",
                 creationDate = "2020-04-12T06:53:35",
@@ -97,6 +103,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "",
                 name = "Daily Deli",
+                nickName = "My personal Phone",
                 description = "Burj Telecom Residences",
                 currency = "USD",
                 creationDate = "2022-05-12T06:53:35",
@@ -106,6 +113,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
                 name = "Broadway",
+                nickName = "My personal Phone",
                 description = "Burj Telecom Residences",
                 currency = "USD",
                 creationDate = "2021-06-12T06:53:35",
@@ -115,6 +123,7 @@ class MyBillsViewModel(application: Application) :
             BillModel(
                 logoUrl = "",
                 name = "Nandos",
+                nickName = "My personal Phone",
                 description = "Burj Telecom Residences",
                 currency = "USD",
                 creationDate = "2021-07-20T06:53:35",
@@ -239,7 +248,6 @@ class MyBillsViewModel(application: Application) :
 
     override fun onStop() {
         super.onStop()
-        toggleRightFirstIconVisibility(false)
-        toolgleRightSecondIconVisibility(false)
+        toggleSortIconVisibility(false)
     }
 }

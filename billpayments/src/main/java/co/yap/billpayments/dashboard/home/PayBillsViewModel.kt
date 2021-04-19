@@ -40,6 +40,7 @@ class PayBillsViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_bill_payment_text_title))
         toggleToolBarVisibility(true)
+        toolgleRightIconVisibility(false)
         parentViewModel?.state?.leftIconVisibility?.set(true)
     }
 

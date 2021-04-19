@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/margin_extra_small">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHistoryKey"
+            style="@style/ASmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:gravity="start"
+            android:text="@{viewModel.billHistoryModel.key}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvHistoryValue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="4"
+            tools:text="Last Payment" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHistoryValue"
+            style="@style/Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@{viewModel.billHistoryModel.value}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvHistoryKey"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="6"
+            tools:text="July, 2019: AED 800" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
