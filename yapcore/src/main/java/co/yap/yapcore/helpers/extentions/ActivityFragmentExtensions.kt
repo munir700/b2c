@@ -16,7 +16,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.bottomsheet.BottomSheet
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -65,7 +68,7 @@ inline fun <reified T : Any> FragmentActivity.launchActivityForResult(
     requestCode: Int = -1,
     options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {},
-    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?=null
+    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
     completionHandler?.let {
         val intent = newIntent<T>(this)
@@ -425,7 +428,8 @@ fun Fragment.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
         Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
     intent.data = uri
-    startActivityForResult(intent, requestCode)
+    if (intent.resolveActivity(requireContext().packageManager) != null)
+        startActivityForResult(intent, requestCode)
 }
 
 inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
@@ -457,6 +461,23 @@ inline fun Activity.launchTourGuide(
     } else null
 }
 
+fun Fragment.launchBottomSheetSegment(
+    itemClickListener: OnItemClickListener?,
+    configuration: BottomSheetConfiguration,
+    viewType: Int,
+    listData: MutableList<CoreBottomSheetData>
+) {
+    fragmentManager.let {
+        val coreBottomSheet =
+            CoreBottomSheet(
+                itemClickListener,
+                bottomSheetItems = listData,
+                viewType = viewType,
+                configuration = configuration
+            )
+        it?.let { it1 -> coreBottomSheet.show(it1, "") }
+    }
+}
 fun FragmentActivity.launchSheet(
     itemClickListener: OnItemClickListener? = null,
     itemsList: ArrayList<BottomSheetItem>,

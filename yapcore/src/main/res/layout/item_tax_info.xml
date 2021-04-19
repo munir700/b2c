@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.location.tax.TaxInfoItemViewModel" />
+            type="co.yap.modules.location.kyc_additional_info.tax_info.TaxInfoItemViewModel" />
 
         <import type="android.view.View" />
 
@@ -61,6 +61,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:ellipsize="end"
             android:layout_marginStart="@dimen/margin_normal_large"
+            android:paddingStart="0dp"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@{viewModel.position == 0 ? null : @drawable/bg_spinner}"
             android:drawablePadding="@dimen/_6sdp"
