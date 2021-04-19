@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
+import co.yap.modules.dashboard.transaction.category.TransactionCategoryFragment
 import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
@@ -133,6 +134,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     }
 
                     R.id.tvTapToChange -> {
+                        startFragment<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
                         makeToast(this, "Clicked View", LENGTH_SHORT)
                     }
                 }
