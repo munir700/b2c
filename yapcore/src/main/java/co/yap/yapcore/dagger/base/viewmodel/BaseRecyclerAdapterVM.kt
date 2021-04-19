@@ -68,11 +68,11 @@ abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerB
     }
 
 
-    fun clear() {
-        data = ArrayList()
-        adapter.get()?.setData(data)
-        adapter.notifyChange()
-    }
+//    fun clear() {
+//        data = ArrayList()
+//        adapter.get()?.setData(data)
+//        adapter.notifyChange()
+//    }
 
     override fun onRefresh() {
 

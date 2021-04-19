@@ -85,7 +85,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE =
-            "/transactions/api/fees/subscriptions/{productPlan}/{feeFrequency}"
+            "/transactions/api/fees/subscriptions/{feeFrequency}"
+//            "/transactions/api/fees/subscriptions/{productPlan}/{feeFrequency}"  // we will enable this when young will be merged on BE
     const val URL_HOUSEHOLD_PAY_SALARY_NOW = "/transactions/api/y2y-household"
     const val URL_GET_FAILED_TRANSACTIONS = "/transactions/api/household/get-failed-transactions"
     const val URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS =
@@ -271,7 +272,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             productPlan: String,
             feeFrequency: String
     ): RetroApiResponse<RemittanceFeeResponse> =
-            executeSafely(call = { api.getPrepaidUserSubscriptionsPlans(productPlan, feeFrequency) })
+            executeSafely(call = { api.getPrepaidUserSubscriptionsPlans(/*productPlan, */feeFrequency) })
 
     //    House Hold Pay Salary Now
     override suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse> =

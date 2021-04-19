@@ -199,7 +199,7 @@ interface TransactionsRetroService {
     //    House Hold API calls
     @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
     suspend fun getPrepaidUserSubscriptionsPlans(
-            @Path("productPlan") productPlan: String,
+//            @Path("productPlan") productPlan: String,  // we will enable this when young will be merged on BE
             @Path("feeFrequency") feeFrequency: String
     ): Response<RemittanceFeeResponse>
 
