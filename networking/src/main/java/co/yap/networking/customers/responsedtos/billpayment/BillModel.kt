@@ -17,6 +17,8 @@ data class BillModel(
     var billStatus: String?,
     @SerializedName("creationDate")
     var creationDate: String?,
+    @SerializedName("nickName")
+    var nickName: String?,
     @Transient
     var isSelected: Boolean = false
 )

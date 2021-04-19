@@ -1407,7 +1407,9 @@
 
     <!-- Bill Account Detail Screen -->
     <string name="screen_bill_account_detail_toolbar_title">Account details</string>
-    <string name="screen_bill_account_detail_text_bill_status">This bill is %1s</string>
+    <string name="screen_bill_account_detail_text_bill_status_paid">This bill is paid</string>
+    <string name="screen_bill_account_detail_text_bill_status_over_due">This bill is over due</string>
+    <string name="screen_bill_account_detail_text_bill_status_due">This bill is due</string>
     <string name="screen_bill_account_detail_text_last_payment">Last payment</string>
     <string name="screen_bill_account_detail_text_total_payment">Total payment</string>
     <string name="screen_bill_account_detail_text_highest_month">Highest month</string>

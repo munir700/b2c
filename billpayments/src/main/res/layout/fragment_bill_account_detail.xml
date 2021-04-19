@@ -20,18 +20,19 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/margin_large">
+            android:paddingHorizontal="@dimen/margin_medium_large">
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivLogo"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginTop="@dimen/margin_normal_large"
-                app:fullName="@{viewModel.billAccountDetail.billerName}"
-                app:imageUrl="@{viewModel.billAccountDetail.logo}"
+                app:fullName="@{viewModel.parentViewModel.selectedBill.name}"
+                app:imageUrl="@{viewModel.parentViewModel.selectedBill.logoUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{viewModel.state.billPosition}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBillerName"
@@ -39,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:text="@{viewModel.billAccountDetail.billerName}"
+                android:text="@{viewModel.parentViewModel.selectedBill.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivLogo"
@@ -51,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_two_dp"
-                android:text="@{viewModel.billAccountDetail.nickName}"
+                android:text="@{viewModel.parentViewModel.selectedBill.nickName}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBillerName"

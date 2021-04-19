@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.yapcore.helpers.ExtraKeys
 
 class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewModel>(),
     IBillAccountDetail.View {
@@ -17,6 +18,9 @@ class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            viewModel.state.billPosition.set(it.getInt(ExtraKeys.SELECTED_BILL_POSITION.name, 0))
+        }
         setObservers()
     }
 

@@ -2,6 +2,7 @@ package co.yap.billpayments.dashboard.mybills
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
@@ -12,6 +13,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
@@ -48,7 +50,8 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.parentViewModel?.selectedBill = data as BillModel
-            navigate(R.id.action_myBillsFragment_to_billAccountDetailFragment)
+            navigate(destinationId = R.id.action_myBillsFragment_to_billAccountDetailFragment,
+            args = bundleOf(ExtraKeys.SELECTED_BILL_POSITION.name to pos))
         }
     }
 

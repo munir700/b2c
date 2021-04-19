@@ -2251,8 +2251,12 @@ object Strings {
     // Bill Account Detail
     const val screen_bill_account_detail_toolbar_title: String =
         "screen_bill_account_detail_toolbar_title"
-    const val screen_bill_account_detail_text_bill_status: String =
-        "screen_bill_account_detail_text_bill_status"
+    const val screen_bill_account_detail_text_bill_status_paid: String =
+        "screen_bill_account_detail_text_bill_status_paid"
+    const val screen_bill_account_detail_text_bill_status_over_due: String =
+        "screen_bill_account_detail_text_bill_status_over_due"
+    const val screen_bill_account_detail_text_bill_status_due: String =
+        "screen_bill_account_detail_text_bill_status_due"
     const val screen_bill_account_detail_text_last_payment: String =
         "screen_bill_account_detail_text_last_payment"
     const val screen_bill_account_detail_text_total_payment: String =

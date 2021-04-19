@@ -28,6 +28,7 @@
             app:layout_constraintEnd_toStartOf="@id/tvHistoryValue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="4"
             tools:text="Last Payment" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -41,6 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvHistoryKey"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="6"
             tools:text="July, 2019: AED 800" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,9 +6,10 @@ import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryAdapter
 import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryModel
 import co.yap.translation.Strings
-import co.yap.translation.Translator
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
 import co.yap.yapcore.managers.SessionManager
 
@@ -17,24 +18,19 @@ class BillAccountDetailViewModel(application: Application) :
     IBillAccountDetail.ViewModel {
     override val state: IBillAccountDetail.State = BillAccountDetailState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var billAccountDetailModel: BillAccountDetailModel? = null
+    override var billAccountHistoryModel: BillAccountHistoryModel? = null
     override var adapter: BillHistoryAdapter = BillHistoryAdapter(mutableListOf())
     override var singleClickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onCreate() {
         super.onCreate()
-        billAccountDetailModel = getBillAccountDetail()
-        adapter.setList(getBillHistory())
+        getBillAccountHistory()
         setToolBarTitle(getString(Strings.screen_bill_account_detail_toolbar_title))
         toolgleRightIconVisibility(true)
         context.getDrawable(R.drawable.ic_edit)?.let { setRightIconDrawable(it) }
-        state.dueAmount = billAccountDetailModel?.dueAmount.getAvailableBalanceWithFormat(true)
+        state.dueAmount = parentViewModel?.selectedBill?.amount.getAvailableBalanceWithFormat(true)
         state.billStatus.set(
-            Translator.getString(
-                context,
-                Strings.screen_bill_account_detail_text_bill_status,
-                billAccountDetailModel?.billStatus.toString()
-            )
+            getBillStatusString(parentViewModel?.selectedBill?.billStatus.toString())
         )
     }
 
@@ -42,38 +38,67 @@ class BillAccountDetailViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun getBillAccountDetail(): BillAccountDetailModel {
-        return BillAccountDetailModel(
-            logo = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-            billerName = "Ehtisalat",
-            billStatus = BillStatus.BILL_DUE.title,
-            currency = SessionManager.getDefaultCurrency(),
-            dueAmount = "1200",
-            highestMonth = "2021-06-12T06:53:35",
-            lastPayment = "July, 2019: AED 800",
-            lowestMonth = "March, 2019: AED 300",
-            nickName = "My Personal Number",
-            totalPayment = "AED 2,300.00"
+    override fun getBillStatusString(billStatus: String): String {
+        return when (BillStatus.values().firstOrNull() { it -> it.title == billStatus }) {
+            BillStatus.BILL_DUE -> getString(Strings.screen_bill_account_detail_text_bill_status_due)
+            BillStatus.PAID -> getString(Strings.screen_bill_account_detail_text_bill_status_paid)
+            BillStatus.OVERDUE -> getString(Strings.screen_bill_account_detail_text_bill_status_over_due)
+            else -> ""
+        }
+    }
+
+    fun getData(): BillAccountHistoryModel {
+        return BillAccountHistoryModel(
+            highestMonth = "2021-05-12T06:53:35",
+            lastPaymentMonth = "2021-06-12T06:53:35",
+            lowestMonth = "2021-02-12T06:53:35",
+            totalPayment = "2,300.00",
+            highestAmount = "1200.00",
+            lowestAmount = "100.00",
+            lastPaymentAmount = "400.00"
         )
+    }
+
+    override fun getBillAccountHistory() {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            launch {
+                billAccountHistoryModel = getData()
+                adapter.setList(getBillHistory())
+                state.viewState.value = false
+            }
+        }
     }
 
     override fun getBillHistory(): MutableList<BillHistoryModel> {
         return mutableListOf(
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_last_payment),
-                value = billAccountDetailModel?.lastPayment.toString()
+                value = DateUtils.reformatStringDate(
+                    billAccountHistoryModel?.lastPaymentMonth.toString(),
+                    DateUtils.SERVER_DATE_FULL_FORMAT,
+                    DateUtils.FORMAT_MONTH_YEAR
+                ) + ":" + SessionManager.getDefaultCurrency() + billAccountHistoryModel?.lastPaymentAmount
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_total_payment),
-                value = billAccountDetailModel?.totalPayment.toString()
+                value = SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.totalPayment.toString()
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_highest_month),
-                value = billAccountDetailModel?.highestMonth.toString()
+                value = DateUtils.reformatStringDate(
+                    billAccountHistoryModel?.highestMonth.toString(),
+                    DateUtils.SERVER_DATE_FULL_FORMAT,
+                    DateUtils.FORMAT_MONTH_YEAR
+                ) + ":" + SessionManager.getDefaultCurrency() + billAccountHistoryModel?.highestAmount
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_lowest_month),
-                value = billAccountDetailModel?.lowestMonth.toString()
+                value = DateUtils.reformatStringDate(
+                    billAccountHistoryModel?.lowestMonth.toString(),
+                    DateUtils.SERVER_DATE_FULL_FORMAT,
+                    DateUtils.FORMAT_MONTH_YEAR
+                ) + ":" + SessionManager.getDefaultCurrency() + billAccountHistoryModel?.lowestAmount
             )
         )
     }
