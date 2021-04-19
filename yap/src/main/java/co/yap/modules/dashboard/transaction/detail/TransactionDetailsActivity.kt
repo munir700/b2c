@@ -128,11 +128,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 when (it) {
                     R.id.btnActionDone -> {
                         viewModel.requestAllApis()
-
                     }
                     R.id.tvAddAnother -> {
                         viewModel.requestAllApis()
-
                         showAddReceiptOptions()
                     }
                 }
