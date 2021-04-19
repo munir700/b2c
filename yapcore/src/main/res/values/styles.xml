@@ -264,6 +264,12 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
+ <style name="DarkSlateBlue" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimaryDarkHouseHold</item>
+    </style>
+
     <style name="MicroGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>

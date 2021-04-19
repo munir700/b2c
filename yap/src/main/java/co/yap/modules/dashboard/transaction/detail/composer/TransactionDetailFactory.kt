@@ -327,17 +327,19 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 (transaction.productCode == TransactionProductCode.ECOM.pCode)
     }
 
-    fun isTransactionNotCompleted(): Boolean {
-        return transaction.isTransactionInProgress() || transaction.isTransactionRejected()
-    }
+    fun isTransactionNotCompleted(): Boolean =
+        transaction.isTransactionInProgress() || transaction.isTransactionRejected()
 
-    fun isShowReceiptSection(): Boolean {
-        return (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
+
+    fun isShowReceiptSection(): Boolean =
+        (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
                 (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
                 (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
-    }
 
-    fun isAtmTransaction() : Boolean{
-        return (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
-    }
+
+    fun isAtmTransaction(): Boolean =
+        (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
+
+    fun showTransactionCategory(): Boolean =
+        (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) || (transaction.productCode == TransactionProductCode.ECOM.pCode)
 }

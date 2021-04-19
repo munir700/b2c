@@ -116,6 +116,7 @@ class TransactionsTests : BaseTestCase() {
                 TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
                     R.drawable.ic_outgoing_transaction_y2y
                 }
+
                 else -> android.R.color.transparent
             }
         }
