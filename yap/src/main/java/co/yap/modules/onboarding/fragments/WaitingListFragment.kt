@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentWaitingListBinding
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
 import co.yap.translation.Strings
@@ -18,6 +19,10 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWaitingList.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -40,6 +45,16 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setYapAnimation()
+        runAnimation()
+    }
+
+    private fun runAnimation(){
+        CoroutineScope(Main).launch {
+            getBinding().dtvRankOne.setValue(5)
+            getBinding().dtvRankTwo.setValue(3).apply { delay(300) }
+            getBinding().dtvRankThree.setValue(9).apply { delay(600) }
+            getBinding().dtvRankFour.setValue(6).apply { delay(900) }
+        }
     }
 
     override fun setObservers() {
@@ -109,4 +124,6 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
             }
         })
     }
+
+    fun getBinding(): FragmentWaitingListBinding = viewDataBinding as FragmentWaitingListBinding
 }
