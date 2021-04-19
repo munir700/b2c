@@ -142,6 +142,12 @@
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
+    <style name="DarkSmall" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">color/colorMidnightExpress</item>
+    </style>
+
     <style name="Micro" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>

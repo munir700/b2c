@@ -1088,6 +1088,10 @@ object Strings {
         "screen_transaction_details_single_added_receipt_label"
     const val screen_transaction_details_display_feedback_label: String =
         "screen_transaction_details_display_feedback_label"
+    const val screen_transaction_feedback_improvement_label: String =
+        "screen_transaction_feedback_improvement_label"
+    const val screen_transaction_feedback_additional_detail_label: String =
+        "screen_transaction_feedback_additional_detail_label"
 
 
     //     Send Money no contacts Screen
