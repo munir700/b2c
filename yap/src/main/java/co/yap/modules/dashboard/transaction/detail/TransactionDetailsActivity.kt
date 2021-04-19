@@ -126,15 +126,14 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 when (it) {
                     R.id.btnActionDone -> {
                         viewModel.requestAllApis()
-
                     }
                     R.id.tvAddAnother -> {
                         viewModel.requestAllApis()
                         showAddReceiptOptions()
                     }
 
-                    R.id.tvTapToChange->{
-                        makeToast(this,"Clicked View",LENGTH_SHORT)
+                    R.id.tvTapToChange -> {
+                        makeToast(this, "Clicked View", LENGTH_SHORT)
                     }
                 }
             }
