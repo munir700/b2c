@@ -259,14 +259,18 @@
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_normal_large"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|center_horizontal"
             android:onClick="@{(v) -> houseHoldLandingVM.handlePressOnView(v.id)}"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
             app:btn_enable="true"
             app:text="@{Strings.screen_yap_house_hold_onboarding_landing_button_text}"
             tools:ignore="MissingConstraints"
-            tools:text="@string/screen_yap_house_hold_onboarding_landing_button_text" />
+            tools:text="@string/screen_yap_house_hold_onboarding_landing_button_text"
+            app:btn_size="large"
+            />
 
     </FrameLayout>
 </layout>
