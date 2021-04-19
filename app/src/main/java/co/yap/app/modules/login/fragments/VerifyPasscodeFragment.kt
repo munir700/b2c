@@ -319,7 +319,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             trackEvents(this)
             trackEventWithScreenName(if (viewModel.isFingerprintLogin) FirebaseEvent.SIGN_IN_TOUCH else FirebaseEvent.SIGN_IN_PIN)
             if (!this.isWaiting) {
-                if (this.iban.isNullOrBlank()) {
+                if (this.fssRequestRefNo.isNullOrBlank()) {
                     startFragment(
                             fragmentName = ReachedTopQueueFragment::class.java.name,
                             clearAllPrevious = true
