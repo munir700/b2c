@@ -14,6 +14,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.showSnackBar
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -38,22 +39,22 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
         super.onCreate(savedInstanceState)
         setObservers()
         viewModel.requestWaitingRanking {
-            showGainPointsNotification()
+            if (it) showGainPointsNotification()
+            runAnimation()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setYapAnimation()
-        runAnimation()
     }
 
     private fun runAnimation(){
         CoroutineScope(Main).launch {
-            getBinding().dtvRankOne.setValue(5)
-            getBinding().dtvRankTwo.setValue(3).apply { delay(300) }
-            getBinding().dtvRankThree.setValue(9).apply { delay(600) }
-            getBinding().dtvRankFour.setValue(6).apply { delay(900) }
+            getBinding().dtvRankOne.setValue(viewModel.state.rankList?.get(1)?.parseToInt()?:0)
+            getBinding().dtvRankTwo.setValue(viewModel.state.rankList?.get(2)?.parseToInt()?:0).apply { delay(200) }
+            getBinding().dtvRankThree.setValue(viewModel.state.rankList?.get(3)?.parseToInt()?:0).apply { delay(350) }
+            getBinding().dtvRankFour.setValue(viewModel.state.rankList?.get(4)?.parseToInt()?:0).apply { delay(500) }
         }
     }
 

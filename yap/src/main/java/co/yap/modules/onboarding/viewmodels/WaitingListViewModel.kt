@@ -24,7 +24,7 @@ class WaitingListViewModel(application: Application) :
     override val repository: CustomersRepository
         get() = CustomersRepository
 
-    override fun requestWaitingRanking(showNotification: () -> Unit) {
+    override fun requestWaitingRanking(success: (showNotification: Boolean) -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.getWaitingRanking()) {
@@ -32,13 +32,14 @@ class WaitingListViewModel(application: Application) :
                     state.waitingBehind?.set(response.data.data?.waitingBehind ?: "0")
                     state.rank?.set(response.data.data?.rank ?: "0")
                     state.jump?.set(response.data.data?.jump ?: "0")
+                    state.rankList = state.rank?.get()?.trim()?.split("")?.toMutableList()
                     state.gainPoints?.set(response.data.data?.gainPoints ?: "0")
                     if (response.data.data?.viewable == true) {
                         stopRankingMsgRequest()
                         //Add delay because snack-bar needs some delay to be shown after api call.
                         delay(500)
-                        showNotification.invoke()
-                    }
+                        success(true)
+                    } else success(false)
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

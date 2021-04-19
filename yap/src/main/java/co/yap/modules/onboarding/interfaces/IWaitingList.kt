@@ -15,7 +15,7 @@ interface IWaitingList {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnNext(id: Int)
-        fun requestWaitingRanking(showNotification: () -> Unit)
+        fun requestWaitingRanking(success: (showNotification: Boolean) -> Unit)
         fun stopRankingMsgRequest()
     }
 
@@ -24,5 +24,6 @@ interface IWaitingList {
         var rank: ObservableField<String>?
         var jump: ObservableField<String>?
         var gainPoints: ObservableField<String>?
+        var rankList: MutableList<String>?
     }
 }
