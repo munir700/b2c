@@ -55,7 +55,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         super.onViewCreated(view, savedInstanceState)
         setCardDimens()
         addBenefitRecyclerView()
-        context?.let { SharedPreferenceManager(it).removeValue(KEY_AVAILABLE_BALANCE) }
+        context?.let { SharedPreferenceManager.getInstance(it).removeValue(KEY_AVAILABLE_BALANCE) }
 
         activity?.let {
             ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java).state.tootlBarTitle =

@@ -154,7 +154,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
 
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
-        val sharedPrefs = SharedPreferenceManager(context)
+        val sharedPrefs = SharedPreferenceManager.getInstance(context)
         sharedPrefs.setThemeValue(Constants.THEME_YAP)
         uuid = sharedPrefs.getValueString(KEY_APP_UUID)
         if (uuid == null) {

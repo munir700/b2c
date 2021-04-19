@@ -47,7 +47,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         trackScreenViewEvent()
 //        setUpFirebaseAnalytics()
 
-        applySelectedTheme(SharedPreferenceManager(this))
+        applySelectedTheme(SharedPreferenceManager.getInstance(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 

@@ -359,7 +359,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 }
             } else {
                 if (accountInfo?.accountType == AccountType.B2C_HOUSEHOLD.name) {
-                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    SharedPreferenceManager.getInstance(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                     val bundle = Bundle()
                     bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
                     bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
