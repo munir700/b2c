@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -23,7 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class CoreBottomSheet(
+open class CoreBottomSheet(
     private val mListener: OnItemClickListener?,
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG,
@@ -33,7 +34,7 @@ class CoreBottomSheet(
     override val viewModel: CoreBottomSheetViewModel
         get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
 
-    val adapter: CoreBottomSheetAdapter by lazy {
+    open val adapter: CoreBottomSheetAdapter by lazy {
         CoreBottomSheetAdapter(bottomSheetItems, viewType)
     }
 
@@ -52,11 +53,16 @@ class CoreBottomSheet(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
+    }
+
+    private fun initViews() {
         viewDataBinding.setVariable(BR.viewModel, viewModel)
         viewDataBinding.executePendingBindings()
         val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
         adapter.onItemClickListener = myListener
         adapter.allowFullItemClickListener = true
+//        viewModel.state.searchBarVisibility.set(viewType == Constants.VIEW_WITH_FLAG)
         viewModel.state.searchBarVisibility.set(configuration.showSearch)
         viewModel.state.headerSeparatorVisibility.set(configuration.showHeaderSeparator ?: false)
         configuration.heading?.let {
@@ -74,7 +80,7 @@ class CoreBottomSheet(
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
         val params = getBinding().rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
         params.height =
-            if (viewType == Constants.VIEW_WITH_FLAG) (getScreenHeight() / 2) + 100 else params.height
+            if (viewType == Constants.VIEW_WITH_FLAG || viewType == Constants.VIEW_FIXED_HEIGHT) (getScreenHeight() / 2) + 100 else params.height
         getBinding().rvBottomSheet.layoutParams = params
         getBinding().rvBottomSheet.adapter = adapter
     }
@@ -119,6 +125,6 @@ class CoreBottomSheet(
     }
 
     private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
-    override fun getScreenName(): String? =null
+    override fun getScreenName(): String? = null
 
 }

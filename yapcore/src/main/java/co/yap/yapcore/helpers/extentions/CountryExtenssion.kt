@@ -7,6 +7,7 @@ import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.multi_selection_bottom_sheet.CoreMultiSelectionBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 import java.util.*
@@ -58,5 +59,25 @@ private fun parseCountries(context: Context, countries: ArrayList<Country>): Arr
     return countries
 }
 
-
-
+fun FragmentActivity.launchMultiSelectionBottomSheet(
+    itemClickListener: OnItemClickListener? = null,
+    configuration: BottomSheetConfiguration,
+    viewType: Int = Constants.VIEW_WITH_FLAG,
+    countriesList: List<Country>? = null
+) {
+    this.supportFragmentManager.let {
+        countriesList?.let { countriesList ->
+            val coreBottomSheet =
+                CoreMultiSelectionBottomSheet(
+                    itemClickListener,
+                    bottomSheetItems = parseCountries(
+                        this,
+                        countriesList as ArrayList<Country>
+                    ).toMutableList(),
+                    configuration = configuration,
+                    viewType = viewType
+                )
+            coreBottomSheet.show(it, "")
+        }
+    }
+}
