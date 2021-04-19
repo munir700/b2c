@@ -107,9 +107,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
 
     private suspend fun getLocalContactsFromServer(contactsList: (List<Contact>) -> Unit) {
         launch(Dispatcher.LongOperation) {
-            Log.d("MyContect>>",System.currentTimeMillis().toString())//1618511673449
             val localContacts = getLocalContacts(context).removeOwnContact()
-            Log.d("MyContect after>>",System.currentTimeMillis().toString())//1618511673631
             if (localContacts.isEmpty()) {
                 contactsList.invoke(mutableListOf())
             } else {

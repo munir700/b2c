@@ -46,6 +46,8 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
         viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             viewModel.adaptor.setList(it)
+            if (!it.isNullOrEmpty())
+                viewModel.adaptor.filter.filter(viewModel.parentViewModel?.searchQuery?.value)
             viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
         })
@@ -100,6 +102,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
                 viewModel.state.isShowContactsCounter.set(false)
             }
             Status.SUCCESS -> {
+                viewModel.state.isNoSearchResult.set(false)
                 viewModel.state.isShowContactsCounter.set(true)
                 skeleton.showOriginal()
             }

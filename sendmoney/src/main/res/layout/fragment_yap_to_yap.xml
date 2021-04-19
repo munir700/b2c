@@ -32,20 +32,31 @@
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
 
-
-        <include
+        <FrameLayout
             android:id="@+id/layoutSearchView"
-            layout="@layout/layout_contact_search"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_normal"
-            android:layout_marginStart="@dimen/margin_normal"
             android:animateLayoutChanges="true"
+            android:background="@drawable/bg_search_widget"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutRecent"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutRecent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSearch"
+                style="@style/SmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/ic_search_grey"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:text="Look up friends" />
+        </FrameLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -55,19 +66,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutSearchView"
+            app:setupWithViewPager="@{viewPager}"
             app:tabBackground="@drawable/contacts_tab_layout_selector"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
-            app:setupWithViewPager="@{viewPager}"
             app:tabPaddingEnd="16dp"
             app:tabRippleColor="@null"
             app:tabTextAppearance="@style/TabTextAppearance" />
-
-        <!-- Override tabIconTint attribute of style with selector -->
-        <!-- style="@style/Widget.MaterialComponents.TabLayout.Colored"-->
-        <!-- app:tabIconTint="@drawable/tab_icon_color_selector"-->
-        <!-- app:tabTextColor="?attr/colorPrimaryDark"-->
 
         <co.yap.yapcore.helpers.CustomViewPager
             android:id="@+id/viewPager"

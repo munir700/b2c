@@ -48,7 +48,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
         viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.y2yBeneficiries?.observe(this, Observer {
             viewModel.contactsAdapter.setList(it)
-            if (it.isNullOrEmpty())
+            if (!it.isNullOrEmpty())
                 viewModel.contactsAdapter.filter.filter(viewModel.parentViewModel?.searchQuery?.value)
             viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)

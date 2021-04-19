@@ -48,7 +48,6 @@ class Y2YSearchContactsFragment : Y2YBaseFragment<IY2YSearchContacts.ViewModel>(
         adapter.addFragmentInfo<YapContactsFragment>(getString(Strings.screen_y2y_display_button_yap_contacts))
         adapter.addFragmentInfo<PhoneContactFragment>(getString(Strings.screen_y2y_display_button_all_contacts))
         getBindingView().viewPager.adapter = adapter
-
         viewModel.parentViewModel?.selectedTabPos?.value?.let {
             getBindingView().viewPager.currentItem = it
         }
