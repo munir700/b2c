@@ -57,9 +57,9 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
     private fun runAnimation(){
         CoroutineScope(Main).launch {
             getBinding().dtvRankOne.setValue(viewModel.state.rankList?.get(1)?.parseToInt()?:0)
-            getBinding().dtvRankTwo.setValue(viewModel.state.rankList?.get(2)?.parseToInt()?:0).apply { delay(200) }
-            getBinding().dtvRankThree.setValue(viewModel.state.rankList?.get(3)?.parseToInt()?:0).apply { delay(350) }
-            getBinding().dtvRankFour.setValue(viewModel.state.rankList?.get(4)?.parseToInt()?:0).apply { delay(500) }
+            getBinding().dtvRankTwo.setValue(viewModel.state.rankList?.get(2)?.parseToInt()?:0).apply { delay(100) }
+            getBinding().dtvRankThree.setValue(viewModel.state.rankList?.get(3)?.parseToInt()?:0).apply { delay(150) }
+            getBinding().dtvRankFour.setValue(viewModel.state.rankList?.get(4)?.parseToInt()?:0).apply { delay(200) }
         }
     }
 

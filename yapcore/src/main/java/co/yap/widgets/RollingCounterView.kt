@@ -10,7 +10,7 @@ import co.yap.yapcore.R
 import java.util.*
 
 class RollingCounterView : FrameLayout {
-    private val ANIMATION_DURATION = 50
+    private val ANIMATION_DURATION = 115
     var currentTextView: TextView? = null
     var nextTextView: TextView? = null
 
