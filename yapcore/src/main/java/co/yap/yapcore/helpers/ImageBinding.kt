@@ -294,7 +294,8 @@ object ImageBinding {
         imageView: AppCompatImageView?,
         resource: Int,
         loopCount: Int = 1,
-        delayBetweenLoop: Long = 100L
+        delayBetweenLoop: Long = 100L,
+        onAnimationComplete: (() -> Unit?)? = null
     ) {
         var countPlay = 0
         if (resource > 0) {
@@ -331,6 +332,8 @@ object ImageBinding {
                                         it.postDelayed({
                                             resource.startFromFirstFrame()
                                         }, delayBetweenLoop)
+                                    } else {
+                                        onAnimationComplete?.let { it1 -> it1() }
                                     }
                                 }
 
