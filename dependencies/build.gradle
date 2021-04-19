@@ -160,8 +160,8 @@ project.ext {
             playservicesAuthPhone    : 'com.google.android.gms:play-services-auth-api-phone:17.4.0',
 
             tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0',
-            deeplink                 : 'com.airbnb:deeplinkdispatch:5.2.0',
-            deeplinkprocessor        : 'com.airbnb:deeplinkdispatch-processor:5.2.0',
+//            deeplink                 : 'com.airbnb:deeplinkdispatch:5.2.0',
+//            deeplinkprocessor        : 'com.airbnb:deeplinkdispatch-processor:5.2.0',
             lotieAnimation           : 'com.airbnb.android:lottie:3.4.0'
 
     ]
@@ -210,8 +210,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.facebook],
             [configuration: "implementation", dependency: libraries.playservicesAuth],
             [configuration: "implementation", dependency: libraries.playservicesAuthPhone],
-            [configuration: "implementation", dependency: libraries.deeplink],
-            [configuration: "kapt", dependency: libraries.deeplinkprocessor],
+//            [configuration: "implementation", dependency: libraries.deeplink],
+//            [configuration: "kapt", dependency: libraries.deeplinkprocessor],
             [configuration: "implementation", dependency: libraries.lotieAnimation]
 
     ]
