@@ -10,14 +10,10 @@ import co.yap.R
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
 import co.yap.translation.Strings
-import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 import co.yap.yapcore.helpers.showSnackBar
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.source.TrackGroupArray
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
 
 class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWaitingList.View {
