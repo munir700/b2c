@@ -1,6 +1,10 @@
 package co.yap.yapcore.flagsmith
 
+import co.yap.app.YAPApplication
 import com.flagsmith.FlagsmithClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 
 class FSClient : FeatureFlagClient {
@@ -15,18 +19,17 @@ class FSClient : FeatureFlagClient {
     }
 
     override fun hasFeature(flag: String): Boolean {
-        return client?.hasFeatureFlag(flag) ?: true
+        return runBlocking { getFlagValue(flag) }
+    }
+
+    private suspend fun getFlagValue(flag: String): Boolean = withContext(Dispatchers.IO) {
+        client?.hasFeatureFlag(flag) ?: false
     }
 
     private fun getFeatureFlagClient(): FlagsmithClient {
-        val flagSmithClient = FlagsmithClient.newBuilder()
-            .setApiKey("9RksySm2nD9J852bYYFwKQ")
+        return FlagsmithClient.newBuilder()
+            .setApiKey(YAPApplication.configManager?.flagSmithAPIKey)
             .enableLogging()
             .build()
-
-        flagSmithClient.hasFeatureFlag("bill_payments")
-
-        return flagSmithClient
     }
-
 }

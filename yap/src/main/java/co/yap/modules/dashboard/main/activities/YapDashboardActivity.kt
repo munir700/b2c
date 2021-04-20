@@ -235,9 +235,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .build()
 
 
-        if (getFeatureFlagClient.hasFeature("bill_payments")) (actionMenu?.subActionItems as ArrayList).removeAt(
-            1
-        )
+        if (!getFeatureFlagClient.hasFeature("bill_payments")) {
+            (actionMenu?.subActionItems as ArrayList).removeAt(1)
+        }
     }
 
     private fun setupPager() {
