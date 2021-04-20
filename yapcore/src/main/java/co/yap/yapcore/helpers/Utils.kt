@@ -39,6 +39,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -621,15 +622,6 @@ object Utils {
             getCountryCodeFromTelephony(context)
         }
     }
-
-    fun shareText(context: Context, body: String) {
-        InviteFriendRepository().inviteAFriend()
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
-        context.startActivity(Intent.createChooser(sharingIntent, "Share"))
-    }
-
 
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])

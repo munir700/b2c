@@ -13,8 +13,8 @@ import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.extentions.inviteFriendIntent
-import co.yap.yapcore.helpers.extentions.parseToInt
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.helpers.showSnackBar
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
 import kotlinx.coroutines.CoroutineScope
@@ -70,7 +70,12 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnShare -> {
-                context?.inviteFriendIntent()
+                requireContext().share(
+                    text = getString(
+                        Strings.screen_invite_friend_display_text_share_url,
+                        Utils.getAdjustURL()
+                    )
+                )
             }
         }
     }

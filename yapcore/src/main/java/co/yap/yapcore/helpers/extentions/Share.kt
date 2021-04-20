@@ -7,10 +7,7 @@ import android.content.Intent.EXTRA_EMAIL
 import android.content.Intent.createChooser
 import android.content.pm.PackageManager
 import android.net.Uri
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants.URL_SHARE_PLAY_STORE
-import co.yap.yapcore.helpers.Utils
 
 
 /**
@@ -24,8 +21,10 @@ fun Context.openUrl(url: String, newTask: Boolean = false): Boolean {
             data = Uri.parse(url)
             if (newTask) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        startActivity(intent)
-        true
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+            true
+        } else false
     } catch (e: Exception) {
         false
     }
@@ -35,40 +34,43 @@ fun Context.openUrl(url: String, newTask: Boolean = false): Boolean {
  * Opens the share context menu
  * @return A boolean representing if the action was successful or not
  */
-fun Context.share(text: String, subject: String = ""): Boolean {
-    val intent = Intent()
+fun Context.share(text: String?, subject: String? = ""): Boolean {
+    val intent = Intent(Intent.ACTION_SEND)
     intent.type = "text/plain"
-    intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-    intent.putExtra(Intent.EXTRA_TEXT, text)
-    return try {
-        startActivity(createChooser(intent, null))
-        true
-    } catch (e: ActivityNotFoundException) {
-        false
-    }
-}
-
-/**
- * Opens the email application
- * @param email A recipient email
- * @param subject An optional subject of email
- * @param text An option body of the email
- * @return A boolean representing if the action was successful or not
- */
-fun Context.sendEmail(email: String, subject: String = "", text: String = ""): Boolean {
-    val intent = Intent().apply {
-        action = Intent.ACTION_SENDTO
-        data = Uri.parse("mailto:")
-        putExtra(EXTRA_EMAIL, arrayOf(email))
-        if (subject.isNotBlank()) putExtra(Intent.EXTRA_SUBJECT, subject)
-        if (text.isNotBlank()) putExtra(Intent.EXTRA_TEXT, text)
-    }
+    subject?.let { intent.putExtra(Intent.EXTRA_SUBJECT, subject) }
+    text?.let { intent.putExtra(Intent.EXTRA_TEXT, text) }
     if (intent.resolveActivity(packageManager) != null) {
-        startActivity(intent)
-        return true
+        return try {
+            startActivity(createChooser(intent, null))
+            true
+        } catch (e: ActivityNotFoundException) {
+            false
+        }
     }
     return false
 }
+//
+///**
+// * Opens the email application
+// * @param email A recipient email
+// * @param subject An optional subject of email
+// * @param text An option body of the email
+// * @return A boolean representing if the action was successful or not
+// */
+//fun Context.sendEmail(email: String, subject: String = "", text: String = ""): Boolean {
+//    val intent = Intent().apply {
+//        action = Intent.ACTION_SENDTO
+//        data = Uri.parse("mailto:")
+//        putExtra(EXTRA_EMAIL, arrayOf(email))
+//        if (subject.isNotBlank()) putExtra(Intent.EXTRA_SUBJECT, subject)
+//        if (text.isNotBlank()) putExtra(Intent.EXTRA_TEXT, text)
+//    }
+//    if (intent.resolveActivity(packageManager) != null) {
+//        startActivity(intent)
+//        return true
+//    }
+//    return false
+//}
 
 /**
  * Opens the dialer that handles the given number
@@ -78,8 +80,11 @@ fun Context.sendEmail(email: String, subject: String = "", text: String = ""): B
 fun Context.makeCall(number: String?): Boolean {
     return try {
         val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
-        startActivity(intent)
-        true
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+            true
+        } else
+            false
     } catch (e: Exception) {
         false
     }
@@ -103,26 +108,29 @@ fun Context.openWhatsApp() {
         "https://api.whatsapp.com/send?phone=$contact"
     val i = Intent(Intent.ACTION_VIEW)
     i.data = Uri.parse(url)
-    startActivity(i)
+    if (i.resolveActivity(packageManager) != null)
+        startActivity(i)
 }
 
-/**
- * Opens the SMS application to send an SMS
- * @param number A phone number to send an SMS
- * @param text An optional predefined text message for the SMS
- * @return A boolean representing if the action was successful or not
- */
-fun Context.sendSms(number: String, text: String = ""): Boolean {
-    return try {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:$number")).apply {
-            putExtra("sms_body", text)
-        }
-        startActivity(intent)
-        true
-    } catch (e: Exception) {
-        false
-    }
-}
+///**
+// * Opens the SMS application to send an SMS
+// * @param number A phone number to send an SMS
+// * @param text An optional predefined text message for the SMS
+// * @return A boolean representing if the action was successful or not
+// */
+//fun Context.sendSms(number: String, text: String = ""): Boolean {
+//    return try {
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:$number")).apply {
+//            putExtra("sms_body", text)
+//        }
+//        if (intent.resolveActivity(packageManager) != null) {
+//            startActivity(intent)
+//            true
+//        } else false
+//    } catch (e: Exception) {
+//        false
+//    }
+//}
 
 /**
  * Opens your application page inside the play store
@@ -131,18 +139,3 @@ fun Context.sendSms(number: String, text: String = ""): Boolean {
 
 fun Context.openPlayStore(): Boolean =
     openUrl(URL_SHARE_PLAY_STORE)
-
-fun Context.inviteFriendIntent() {
-    val sharingIntent = Intent(Intent.ACTION_SEND)
-    sharingIntent.type = "text/plain"
-    sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(this))
-    startActivity(Intent.createChooser(sharingIntent, "Share"))
-}
-
-private fun getBody(context: Context): String {
-    return Translator.getString(
-        context,
-        Strings.screen_invite_friend_display_text_share_url,
-        Utils.getAdjustURL()
-    )
-}

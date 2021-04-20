@@ -152,6 +152,7 @@ object Constants {
     const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
     const val KEY_IS_REMEMBER = "IS_REMEMBER"
     const val KEY_FCM_TOKEN = "fcm_token"
+    const val KEY_IMAGE_LOADING_TIME = "image_loading_time"
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
@@ -189,6 +190,7 @@ object Constants {
     const val VIEW_WITHOUT_FLAG = 1
     const val VIEW_WITH_FLAG = 2
     const val VIEW_FIXED_HEIGHT = 3
+    const val VIEW_ITEM_WITHOUT_SEPARATOR = 4
 
     //Yap Store
     const val ITEM_STORE_CARD_PLANS = 0
