@@ -667,6 +667,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_transaction_details_display_sheet_text_upload_from_files">Upload from files</string>
     <string name="screen_transaction_details_display_receipt_item">Receipt %1s</string>
     <string name="screen_transaction_details_display_feedback_label">Improve logo or location?</string>
+    <string name="screen_transaction_feedback_improvement_label">Select the components that require improvement?</string>
+    <string name="screen_transaction_feedback_additional_detail_label">Add any additional details (optional):</string>
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>

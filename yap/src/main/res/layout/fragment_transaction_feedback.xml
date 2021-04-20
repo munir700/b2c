@@ -1,15 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="pinCode"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="ivMap,layout_merchant,tvSelectionLabel,rvImprovementComponents,tvAdditionalDetailLabel"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivMap"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:contentDescription=""
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_image_brown_background" />
+
+        <include
+            android:id="@+id/layout_merchant"
+            layout="@layout/layout_feedback_merchant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSelectionLabel"
+            style="@style/LabelTextStylInActive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/small"
+            android:paddingEnd="@dimen/margin_medium"
+            app:text="@{Strings.screen_transaction_feedback_improvement_label}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvImprovementComponents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium"
+            tools:itemCount="4"
+            tools:listitem="@layout/layout_improvement_components" />
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/tvAdditionalDetailLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:dividerPadding="@dimen/margin_medium_large"
+            android:hint=""
+            app:hintTextAppearance="@style/LabelTextStyl"
+            app:textColorChangePin="@{pinCode}">
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etAdditionalDetail"
+                style="@style/Regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/greyLight"
+                android:imeOptions="actionDone"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{Strings.screen_transaction_feedback_additional_detail_label}" />
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/done"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_extra_large"
+            android:text="@string/common_button_submit"
+            app:btn_size="small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
