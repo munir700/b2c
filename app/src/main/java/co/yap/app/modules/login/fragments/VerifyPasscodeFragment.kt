@@ -51,7 +51,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     IVerifyPasscode.View, NumberKeyboardListener {
 
     private lateinit var mBiometricManagerX: BiometricManagerX
-
+    private var shardPrefs: SharedPreferenceManager? = null
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
@@ -66,6 +66,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        shardPrefs = SharedPreferenceManager.getInstance(requireContext())
         dialer.hideFingerprintView()
         receiveData()
         updateUUID()
@@ -100,7 +101,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun updateUUID() {
-        viewModel.parentViewModel?.shardPrefs?.getValueString(KEY_APP_UUID)?.let {
+        shardPrefs?.getValueString(KEY_APP_UUID)?.let {
             viewModel.state.deviceId = it
         } ?: toast("Invalid UUID found")
     }
@@ -117,10 +118,10 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
         val fingerprintsEnabled = mBiometricManagerX.hasFingerprintEnrolled()
         if (BiometricUtil.hasBioMetricFeature(requireContext()) && fingerprintsEnabled) {
-            if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
+            if (shardPrefs?.getValueBoolien(
                     KEY_TOUCH_ID_ENABLED,
                     false
-                ) == true && viewModel.parentViewModel?.shardPrefs?.getDecryptedPassCode() != null
+                ) == true && shardPrefs?.getDecryptedPassCode() != null
             ) {
                 dialer.showFingerprintView()
                 showFingerprintDialog()
@@ -231,7 +232,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun isUserLoginIn(): Boolean {
-        return viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
+        return shardPrefs?.getValueBoolien(
             KEY_IS_USER_LOGGED_IN,
             false
         ) ?: false
@@ -245,7 +246,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 if (!isUserLoginIn()) {
                     setUsername()
                 } else {
-                    viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()?.let {
+                    shardPrefs?.getDecryptedUserName()?.let {
                         viewModel.state.username = it
                     } ?: updateName()
                 }
@@ -262,7 +263,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     if (!isUserLoginIn()) {
                         goToNext(viewModel.state.username)
                     } else {
-                        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()
+                        shardPrefs?.getDecryptedUserName()
                             ?.let { username ->
                                 viewModel.state.username = username
                                 goToNext(viewModel.state.username)
@@ -285,7 +286,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     private val loginSuccessObserver = Observer<Boolean> {
         if (it) {
             if (viewModel.isFingerprintLogin) {
-                viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
+                shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
                 navigateToDashboard()
             } else {
                 if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
@@ -330,8 +331,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         TourGuideManager.getTourGuides()
         SessionManager.getDebitCard { card ->
             SessionManager.updateCardBalance { }
-            viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
-            if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
+            shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
+            if (shardPrefs?.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                     false
                 ) != true
@@ -342,12 +343,12 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                             Constants.TOUCH_ID_SCREEN_TYPE
                         )
                     navigate(action)
-                    viewModel.parentViewModel?.shardPrefs?.save(
+                    shardPrefs?.save(
                         KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                         true
                     )
                 } else {
-                    viewModel.parentViewModel?.shardPrefs?.save(
+                    shardPrefs?.save(
                         KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                         true
                     )
@@ -359,7 +360,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 }
             } else {
                 if (accountInfo?.accountType == AccountType.B2C_HOUSEHOLD.name) {
-                    SharedPreferenceManager.getInstance(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    SharedPreferenceManager.getInstance(requireContext())
+                        .setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                     val bundle = Bundle()
                     bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
                     bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
@@ -421,12 +423,12 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     override fun onAuthenticationSuccessful() {
         viewModel.isFingerprintLogin = true
 
-        viewModel.parentViewModel?.shardPrefs?.getDecryptedPassCode()?.let { passedCode ->
+        shardPrefs?.getDecryptedPassCode()?.let { passedCode ->
             viewModel.state.passcode = passedCode
             dialer.upDatedDialerPad(viewModel.state.passcode)
         }
 
-        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()
+        shardPrefs?.getDecryptedUserName()
             ?.let { encryptedUserName ->
                 viewModel.state.username = encryptedUserName
             }
