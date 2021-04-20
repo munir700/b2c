@@ -1,6 +1,7 @@
 package co.yap.sendmoney.y2y.main.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact

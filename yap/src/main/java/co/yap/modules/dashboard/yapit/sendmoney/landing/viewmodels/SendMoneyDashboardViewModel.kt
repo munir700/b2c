@@ -91,7 +91,7 @@ class SendMoneyDashboardViewModel(application: Application) :
         responses: (RetroApiResponse<GetAllBeneficiaryResponse>?, RetroApiResponse<RecentBeneficiariesResponse>?) -> Unit
     ) {
         launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
+//            state.viewState.postValue(true)
             coroutineScope {
                 val deferredSMRecents = async { repository.getRecentBeneficiaries() }
                 val deferredY2YRecents = async { repository.getRecentY2YBeneficiaries() }

@@ -32,6 +32,8 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
         viewDataBinding.executePendingBindings()
     }
 
+    fun <VB : ViewDataBinding> getDataBindingView()  = viewDataBinding as VB
+
     /**MV
      * Override for set binding variable
      *
