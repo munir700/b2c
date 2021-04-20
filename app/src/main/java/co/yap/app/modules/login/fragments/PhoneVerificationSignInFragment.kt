@@ -131,7 +131,7 @@ class PhoneVerificationSignInFragment :
                 } else {
                     if (BiometricUtil.hasBioMetricFeature(requireActivity())
                     ) {
-                        viewModel.parentViewModel?.shardPrefs?.save(
+                        SharedPreferenceManager.getInstance(requireContext()).save(
                             co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                             true
                         )
