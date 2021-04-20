@@ -14,6 +14,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.helpers.showSnackBar
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
