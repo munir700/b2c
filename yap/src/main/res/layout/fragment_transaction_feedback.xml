@@ -2,17 +2,25 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="pinCode"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.constraintlayout.helper.widget.Flow
             android:layout_width="0dp"
@@ -52,7 +60,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvImprovementComponents"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium"
+            tools:itemCount="4"
+            tools:listitem="@layout/layout_improvement_components" />
+
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
             android:id="@+id/tvAdditionalDetailLabel"
             android:layout_width="match_parent"
@@ -63,37 +75,32 @@
             android:dividerPadding="@dimen/margin_medium_large"
             android:hint=""
             app:hintTextAppearance="@style/LabelTextStyl"
+            app:textColorChangePin="@{pinCode}">
 
-            app:textColorChangePin="">
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etAdditionalDetail"
+                style="@style/Regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background=" "
-
+                android:backgroundTint="@color/greyLight"
                 android:imeOptions="actionDone"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:letterSpacing="0.5"
-                android:maxLength="4"
-                android:paddingTop="@dimen/margin_medium"
+                android:maxLength="50"
+                android:maxLines="1"
                 android:singleLine="true"
-                android:text=" "
-                android:theme="@style/Theme.EditText.Primary"
-                app:layout_constraintTop_toBottomOf="@+id/tvRepeatNewPinHeading" />
-
+                android:text="@{Strings.screen_transaction_feedback_additional_detail_label}" />
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
         <co.yap.widgets.CoreButton
             android:id="@+id/done"
             style="@style/FragmentsBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            app:btn_size="small"
             android:layout_marginBottom="@dimen/margin_extra_large"
-             android:text="@string/common_button_submit"
-             app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/common_button_submit"
+            app:btn_size="small"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
