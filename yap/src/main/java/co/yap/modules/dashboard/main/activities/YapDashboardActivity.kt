@@ -62,6 +62,8 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.flagsmith.ToggleFeature
+import co.yap.yapcore.flagsmith.getFeatureFlagClient
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
@@ -232,6 +234,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
             })
             .build()
+
+
+        if (!getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag)) {
+            (actionMenu?.subActionItems as ArrayList).removeAt(1)
+        }
     }
 
     private fun setupPager() {

@@ -33,7 +33,6 @@ import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.initializeAdjustSdk
 import com.airbnb.deeplinkdispatch.DeepLinkHandler
 import com.facebook.appevents.AppEventsLogger
-import com.flagsmith.FlagsmithClient
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -87,7 +86,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin1 = originalSign.sslPin1,
             sslPin2 = originalSign.sslPin2,
             sslPin3 = originalSign.sslPin3,
-            sslHost = originalSign.sslHost
+            sslHost = originalSign.sslHost,
+            flagSmithAPIKey = originalSign.flagSmithAPIKey
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -106,7 +106,6 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
         initFacebook()
-        initFlagSmith()
     }
 
     private fun initNetworkLayer() {
@@ -167,15 +166,6 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             uuid = UUID.randomUUID().toString()
             sharedPrefs.save(KEY_APP_UUID, uuid)
         }
-    }
-
-    private fun initFlagSmith() {
-        val flagSmithClient = FlagsmithClient.newBuilder()
-            .setApiKey("9RksySm2nD9J852bYYFwKQ")
-            .enableLogging()
-            .build()
-
-        flagSmithClient.hasFeatureFlag("bill_payments")
     }
 
     override fun onTerminate() {
