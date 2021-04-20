@@ -265,7 +265,7 @@ open class CounterFloatingActionButton @JvmOverloads constructor(
             val radius = circleBounds.width() / 2f * animationFactor
             // Solid circle
             canvas.drawCircle(cx, cy, radius, circlePaint)
-//            canvas.drawCircle(cx, cy, radius, outerCirclePaint)
+          //  canvas.drawCircle(cx, cy, radius, outerCirclePaint)
             // Count text
             textPaint.textSize = textSize * animationFactor
             canvas.drawText(countText, cx, cy + textBounds.height() / 2f, textPaint)

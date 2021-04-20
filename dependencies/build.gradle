@@ -102,7 +102,8 @@ project.ext {
             playServicesPlaces       : "com.google.android.gms:play-services-places:$playServicesVersion",
             playLibPlaces            : 'com.google.android.libraries.places:places:1.1.0',
 
-            glideTransformation      : 'com.github.bumptech.glide:glide:4.11.0',
+            glideTransformation      : 'com.github.bumptech.glide:glide:4.12.0',
+            glideCompoler            : 'com.github.bumptech.glide:compiler:4.12.0',
 
             // Animations
             androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
@@ -248,6 +249,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
@@ -266,6 +268,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
@@ -301,6 +304,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.recyclerfastscroll],
             [configuration: "implementation", dependency: libraries.gson],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.biometric],

@@ -6,11 +6,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import java.util.ArrayList
+import java.util.*
 
 
 class PermissionHelper {
@@ -25,7 +24,12 @@ class PermissionHelper {
     private var showRational: Boolean = false
 
     //=========Constructors - START=========
-    constructor(activity: Activity, fragment: Fragment, permissions: Array<String>, requestCode: Int) {
+    constructor(
+        activity: Activity,
+        fragment: Fragment,
+        permissions: Array<String>,
+        requestCode: Int
+    ) {
         this.activity = activity
         this.fragment = fragment
         this.permissions = permissions
@@ -61,11 +65,17 @@ class PermissionHelper {
         if (!hasPermission()) {
             showRational = shouldShowRational(permissions!!)
             if (activity != null)
-                ActivityCompat.requestPermissions(activity!!, filterNotGrantedPermission(permissions!!), REQUEST_CODE)
+                ActivityCompat.requestPermissions(
+                    activity!!,
+                    filterNotGrantedPermission(permissions!!),
+                    REQUEST_CODE
+                )
             else
-                fragment?.requestPermissions(filterNotGrantedPermission(permissions!!), REQUEST_CODE)
+                fragment?.requestPermissions(
+                    filterNotGrantedPermission(permissions!!),
+                    REQUEST_CODE
+                )
         } else {
-            Log.i(TAG, "PERMISSION: Permission Granted")
             mPermissionCallback?.onPermissionGranted()
             requestAllCallback()
         }
@@ -77,7 +87,9 @@ class PermissionHelper {
         request(null)
     }
 
-    private var requestIndividualCallback: (grantedPermission: Array<String>) -> Unit? = fun(grantedPermission: Array<String>) {};
+    private var requestIndividualCallback: (grantedPermission: Array<String>) -> Unit? =
+        fun(grantedPermission: Array<String>) {};
+
     fun requestIndividual(callback: (grantedPermission: Array<String>) -> Unit) {
         this.requestIndividualCallback = callback;
         request(null)
@@ -88,7 +100,11 @@ class PermissionHelper {
         this.deniedCallback = callback;
     }
 
-    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
 
         if (requestCode == REQUEST_CODE) {
             var denied = false
@@ -127,6 +143,7 @@ class PermissionHelper {
             }
         }
     }
+
     interface PermissionCallback {
         fun onPermissionGranted()
 
@@ -151,7 +168,11 @@ class PermissionHelper {
     private fun filterNotGrantedPermission(permissions: Array<String>): Array<String> {
         val notGrantedPermission = ArrayList<String>()
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(getContext()!!, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    getContext()!!,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 notGrantedPermission.add(permission)
             }
         }
@@ -166,7 +187,11 @@ class PermissionHelper {
      */
     fun hasPermission(): Boolean {
         for (permission in permissions!!) {
-            if (ContextCompat.checkSelfPermission(getContext()!!, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    getContext()!!,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 return false
             }
         }
@@ -181,7 +206,11 @@ class PermissionHelper {
      */
     fun checkSelfPermission(permissions: Array<String>?): Boolean {
         for (permission in permissions!!) {
-            if (ContextCompat.checkSelfPermission(getContext()!!, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    getContext()!!,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 return false
             }
         }
@@ -200,7 +229,11 @@ class PermissionHelper {
         for (permission in permissions) {
 
             if (activity != null) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(activity!!, permission) == true) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        activity!!,
+                        permission
+                    ) == true
+                ) {
                     currentShowRational = true
                     break
                 }
@@ -218,7 +251,8 @@ class PermissionHelper {
     private fun hasPermissionInManifest(permission: String): Boolean {
         try {
             val context = if (activity != null) activity else fragment!!.activity
-            val info = context?.getPackageManager()?.getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS)
+            val info = context?.getPackageManager()
+                ?.getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS)
             if (info?.requestedPermissions != null) {
                 for (p in info?.requestedPermissions) {
                     if (p == permission) {
@@ -247,13 +281,17 @@ class PermissionHelper {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-        getContext<Context>()!!.startActivity(i)
+        if (i.resolveActivity(getContext<Context>()?.packageManager!!) != null)
+            getContext<Context>()!!.startActivity(i)
     }
 
     companion object {
 
-        fun isGranted(context:Context, permissions: String): Boolean {
-            return ContextCompat.checkSelfPermission(context, permissions) == PackageManager.PERMISSION_GRANTED
+        fun isGranted(context: Context, permissions: String): Boolean {
+            return ContextCompat.checkSelfPermission(
+                context,
+                permissions
+            ) == PackageManager.PERMISSION_GRANTED
         }
 
     }

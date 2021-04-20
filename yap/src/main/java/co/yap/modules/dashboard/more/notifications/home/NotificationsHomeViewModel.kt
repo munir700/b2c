@@ -187,10 +187,10 @@ class NotificationsHomeViewModel(application: Application) :
                     amount = "",
                     createdAt = DateUtils.dateToString(it.deliveryTimestamp,
                         SERVER_DATE_FORMAT,
-                        DateUtils.TIME_ZONE_Default),
+                        UTC),
                     isRead = it.isRead,
                     isDeletable = true,
-                    description = "",
+                    description = it.subtitle,
                     action = NotificationAction.LEANPLUM,
                     subTitle = it.title,
                     imgResId = null
