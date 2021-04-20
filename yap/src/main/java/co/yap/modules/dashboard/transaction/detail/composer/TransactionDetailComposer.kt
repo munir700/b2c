@@ -32,7 +32,9 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 showError = transactionDetailFactory?.isTransactionNotCompleted(),
                 showReceipts = transactionDetailFactory?.isShowReceiptSection(),
                 isAtmTransaction = transactionDetailFactory?.isAtmTransaction(),
-                showCategory = transactionDetailFactory?.showTransactionCategory()
+                showCategory = transactionDetailFactory?.showTransactionCategory(),
+                categoryType =transactionDetailFactory?.isCategoryGeneral(),
+                categoryDescription =transactionDetailFactory?.getCategoryDescription()
             )
         } ?: return null
     }

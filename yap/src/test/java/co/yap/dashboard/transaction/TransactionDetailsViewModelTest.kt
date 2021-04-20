@@ -42,8 +42,11 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         val foreignAmount: Double,
         val spentAmount: Double,
         val items: ArrayList<ItemTransactionDetail>,
-        val showTotalPurchase : Boolean,
-        val showTransactionCategory : Boolean
+        val showTotalPurchase: Boolean,
+        val showTransactionCategory: Boolean,
+        val isCategoryGeneral: Boolean,
+        val tapixCategoryDesc: String?,
+        val CategoryIcon: String?
     )
 
     @BeforeEach
@@ -161,6 +164,8 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 txnDetail?.showCategory
             )
             Assert.assertEquals(expectation.showTotalPurchase, txnDetail?.showTotalPurchase)
+            Assert.assertEquals(expectation.isCategoryGeneral, txnDetail?.categoryType)
+            Assert.assertEquals(expectation.tapixCategoryDesc, txnDetail?.categoryDescription)
         }
     }
 
@@ -207,6 +212,22 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         return gson.fromJson<List<TransactionTest>>(readJsonFile(
         ), itemType)
     }
+
+    private fun isCategoryGeneral(transaction: Transaction): Boolean =
+        (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                && transaction.tapixCategory?.isGeneral == true
+
+    private fun getCategoryDescription(transaction: Transaction): String {
+        return when {
+           isCategoryGeneral(transaction) -> {
+               "Check back later to see the category updated "
+            }
+            else -> {
+                "Tap to change category"
+            }
+        }
+    }
+
 
     @Throws(IOException::class)
     private fun readJsonFile(): String? {

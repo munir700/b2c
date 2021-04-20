@@ -171,6 +171,22 @@ data class Transaction(
     @SerializedName("cardName1")
     val cardName1: String? = null,
     @SerializedName("cardName2")
-    val cardName2: String? = null
+    val cardName2: String? = null,
+    @SerializedName("cardAccepter")
+    val cardAccepter: String? = null,
+    @SerializedName("tapixCategory")
+    val tapixCategory: TapixCategory? = null
 
-):ApiResponse() ,Parcelable
+) : ApiResponse(), Parcelable
+
+@Parcelize
+data class TapixCategory(
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("name")
+    val name: String? = null,
+    @SerializedName("icon")
+    val icon: String? = null
+) : Parcelable{
+    val isGeneral:Boolean get() = id == 11
+}

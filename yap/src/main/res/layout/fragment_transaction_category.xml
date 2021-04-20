@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.transaction.category.TransactionCategoryViewModel" />
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical"
+            app:flow_verticalGap="@dimen/margin_normal"
+            app:constraint_referenced_ids="toolbar,rvCategories,btnConfirm"
+            />
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/warning"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_settings}"
+            app:rightIconVisibility="@{false}"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/layout_item_category"
+            android:paddingStart="@dimen/margin_medium_large"
+            android:paddingEnd="@dimen/margin_large"
+            tools:itemCount="10"/>
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnConfirm"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:btn_size="small"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:text="Done"
+            app:btn_drawable="@drawable/ic_share_white"
+            app:btn_drawable_padding_right="1.26"
+            app:btn_drawable_padding_top="4"
+            app:btn_drawable_position="right"
+            app:enableCoreButton="@{true}"
+            app:layout_goneMarginTop="@dimen/margin_extra_large" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

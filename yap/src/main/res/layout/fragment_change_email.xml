@@ -75,7 +75,8 @@
                     android:layout_height="wrap_content"
                     android:background="@{viewModel.state.backgroundConfirm}"
                     android:drawableEnd="@{viewModel.state.drawableConfirm}"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="action
+                    Done"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
