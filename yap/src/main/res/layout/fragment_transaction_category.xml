@@ -30,19 +30,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/warning"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIcon="@{R.drawable.ic_cross}"
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_settings}"
             app:rightIconVisibility="@{false}"
+            app:titleString="@{viewModel.state.toolbarTitle}"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/layout_item_category"
+            tools:listitem="@layout/item_tapix_category"
             android:paddingStart="@dimen/margin_medium_large"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:paddingEnd="@dimen/margin_large"
+            app:recycleViewAdapter="@{viewModel.categoryAdapter}"
             tools:itemCount="10"/>
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"

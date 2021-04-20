@@ -189,4 +189,5 @@ data class TapixCategory(
     val icon: String? = null
 ) : Parcelable{
     val isGeneral:Boolean get() = id == 11
+    var isSelected : Boolean =  false
 }

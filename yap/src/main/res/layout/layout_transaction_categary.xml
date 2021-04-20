@@ -7,7 +7,6 @@
         <variable
             name="categoryViewModel"
             type="co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel" />
-        <import type="co.yap.translation.Strings" />
 
     </data>
 
@@ -46,8 +45,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/margin_small"
+            android:enabled="@{categoryViewModel.state.transactionData.categoryType}"
             android:onClick="@{(v)-> categoryViewModel.handlePressOnView(v.id)}"
-            app:text="@{Strings.screen_transaction_details_category_label}"
+            android:text="@{categoryViewModel.state.transactionData.categoryDescription}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvEatingOut"
             app:layout_constraintTop_toBottomOf="@+id/tvEatingOut" />

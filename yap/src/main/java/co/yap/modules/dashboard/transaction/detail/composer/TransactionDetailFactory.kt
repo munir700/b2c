@@ -344,8 +344,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun isAtmTransaction(): Boolean =
         (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
 
-    fun showTransactionCategory(): Boolean =
-        (!transaction.tapixCategory?.name.isNullOrEmpty()) && (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode)
+    fun showTransactionCategory(): Boolean = (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode)
 
      fun isCategoryGeneral(): Boolean =
         (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
