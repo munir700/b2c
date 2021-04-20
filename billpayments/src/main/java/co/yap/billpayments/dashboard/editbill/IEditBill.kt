@@ -1,18 +1,14 @@
-package co.yap.billpayments.addbiller.addbillerdetail
+package co.yap.billpayments.dashboard.editbill
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
-import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
-import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillerInputDetails
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillCategory
 
-interface IAddBillerDetail {
+class IEditBill {
 
     interface View : IBase.View<ViewModel> {
         fun setObservers()
@@ -20,16 +16,12 @@ interface IAddBillerDetail {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var adapterAdd: AddBillerDetailAdapter
+        var adapter: AddBillerDetailAdapter
         val addBillerDetailItemComposer: AddBillerDetailInputComposer
         var clickEvent: SingleClickEvent
-        val billerDetailsResponse: MutableLiveData<BillerInputDetails>
+        var billerDetailsResponse: BillerInputDetails?
         fun handlePressOnView(id: Int)
-        fun getScreenTitle(billCategory: BillCategory?): String
-        fun readBillerDetailsFromFile(): BillerDetailResponse
-        fun getBillerDetails(billerId: String)
-        fun addBiller(billerInformationRequest: AddBillerInformationRequest, success: () -> Unit)
-        fun getBillerInformationRequest(billerInformation: BillerInputDetails?): AddBillerInformationRequest
+        fun getEditBillDetails(billerId: String)
     }
 
     interface State : IBase.State {

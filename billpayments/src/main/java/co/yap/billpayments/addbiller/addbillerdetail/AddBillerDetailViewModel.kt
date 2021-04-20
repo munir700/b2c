@@ -3,9 +3,9 @@ package co.yap.billpayments.addbiller.addbillerdetail
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import co.yap.billpayments.addbiller.base.AddBillBaseViewModel
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
-import co.yap.billpayments.addbiller.addbillerdetail.composer.BillerDetailInputComposer
+import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
+import co.yap.billpayments.addbiller.base.AddBillBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.BillerInputData
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
@@ -30,7 +30,8 @@ class AddBillerDetailViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: IAddBillerDetail.State = AddBillerDetailState()
     override var adapterAdd: AddBillerDetailAdapter = AddBillerDetailAdapter(mutableListOf())
-    override val billerDetailItemComposer: BillerDetailInputComposer = BillerDetailInputComposer()
+    override val addBillerDetailItemComposer: AddBillerDetailInputComposer =
+        AddBillerDetailInputComposer()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val billerDetailsResponse: MutableLiveData<BillerInputDetails> = MutableLiveData()
 
@@ -104,7 +105,7 @@ class AddBillerDetailViewModel(application: Application) :
                         state.viewState.value = false
                         response.data.billerInputsData?.ioCatalogs?.let {
                             val list =
-                                billerDetailItemComposer.compose(it as ArrayList<IoCatalogModel>)
+                                addBillerDetailItemComposer.compose(it as ArrayList<IoCatalogModel>)
                             adapterAdd.setList(list)
                             billerDetailsResponse.value = response.data.billerInputsData
                         }

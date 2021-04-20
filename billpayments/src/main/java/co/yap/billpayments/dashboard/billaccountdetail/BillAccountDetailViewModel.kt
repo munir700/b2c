@@ -26,11 +26,12 @@ class BillAccountDetailViewModel(application: Application) :
         super.onCreate()
         getBillAccountHistory()
         setToolBarTitle(getString(Strings.screen_bill_account_detail_toolbar_title))
-        toolgleRightIconVisibility(true)
+        toggleRightIconVisibility(true)
         context.getDrawable(R.drawable.ic_edit)?.let { setRightIconDrawable(it) }
-        state.dueAmount = parentViewModel?.selectedBill?.amount.getAvailableBalanceWithFormat(true)
+        state.dueAmount =
+            parentViewModel?.selectedBill?.totalAmountDue.getAvailableBalanceWithFormat(true)
         state.billStatus.set(
-            getBillStatusString(parentViewModel?.selectedBill?.billStatus.toString())
+            getBillStatusString(parentViewModel?.selectedBill?.status.toString())
         )
     }
 

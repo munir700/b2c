@@ -1,0 +1,152 @@
+{
+  "data": [
+    {
+      "billNickName": "My iphone bill",
+      "billDueDate": "2022-03-12T06:53:35",
+      "totalAmountDue": "200.00",
+      "billAmountDue": "100.00",
+      "indicativeFXRate": "19.8862",
+      "settlementCurrency": "MXN",
+      "baseCurrency": "USD",
+      "status": "Overdue",
+      "inputsData": [
+        {
+          "key": "Mobile Number",
+          "value": "009715569547"
+        },
+        {
+          "key": "Email",
+          "value": "dev@yap.com"
+        }
+      ],
+      "billerInfo": {
+        "billerType": "Utility",
+        "countryName": "United Arab Emirates",
+        "countryCode": "ARE",
+        "billerDescription": "Landline",
+        "billerName": "Etisalat",
+        "billerID": "784000000000001",
+        "creationDate": "2022-02-12T06:53:35",
+        "currency": "AED",
+        "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
+        "skuInfos": {
+          "skuId": "00000000000000000001",
+          "billerID": "784000000000012",
+          "daysToPost": 0,
+          "catalogVersion": "2020022001",
+          "businessDays": 0,
+          "pastDuePaymentAllowed": 0,
+          "amount": 0.0,
+          "type": "Service",
+          "minAmount": 100.0,
+          "description": "Electricity, Water",
+          "isPostpaid": 1,
+          "excessPaymentAllowed": 0,
+          "partialPaymentAllowed": 1,
+          "ioCatalogs": [
+            {
+              "billerID": "784000000000012",
+              "skuID": "00000000000000000001",
+              "ioId": 1,
+              "name": "Consumer Number",
+              "dataType": "Numeric",
+              "maxLength": 12,
+              "type": "1",
+              "description": "10 to 12-digit number",
+              "catalogVersion": "2020022001",
+              "minLength": 10,
+              "operation": 2
+            },
+            {
+              "billerID": "784000000000012",
+              "skuID": "00000000000000000001",
+              "ioId": 1,
+              "name": "Number",
+              "dataType": "Numeric",
+              "maxLength": 12,
+              "type": "1",
+              "description": "10 to 12-digit number",
+              "catalogVersion": "2020022001",
+              "minLength": 10,
+              "operation": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "billNickName": "My personal bill",
+      "billDueDate": "2022-06-12T06:53:35",
+      "totalAmountDue": "200.00",
+      "billAmountDue": "100.00",
+      "indicativeFXRate": "19.8862",
+      "settlementCurrency": "MXN",
+      "baseCurrency": "USD",
+      "status": "Paid",
+      "inputsData": [
+        {
+          "key": "Consumer Number",
+          "value": "009715569547"
+        },
+        {
+          "key": "Email",
+          "value": "dev@yap.com"
+        }
+      ],
+      "billerInfo": {
+        "billerType": "Utility",
+        "countryName": "United Arab Emirates",
+        "countryCode": "ARE",
+        "billerDescription": "Landline",
+        "billerName": "Etisalate",
+        "billerID": "784000000000001",
+        "currency": "AED",
+        "creationDate": "2022-05-12T06:53:35",
+        "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
+        "skuInfos": {
+          "skuId": "00000000000000000001",
+          "billerID": "784000000000012",
+          "daysToPost": 0,
+          "catalogVersion": "2020022001",
+          "businessDays": 0,
+          "pastDuePaymentAllowed": 0,
+          "amount": 0.0,
+          "type": "Service",
+          "minAmount": 100.0,
+          "description": "Electricity, Water",
+          "isPostpaid": 1,
+          "excessPaymentAllowed": 0,
+          "partialPaymentAllowed": 1,
+          "ioCatalogs": [
+            {
+              "billerID": "784000000000012",
+              "skuID": "00000000000000000001",
+              "ioId": 1,
+              "name": "Consumer Number",
+              "dataType": "AlphaNumeric",
+              "maxLength": 12,
+              "type": "1",
+              "description": "10 to 12-digit number",
+              "catalogVersion": "2020022001",
+              "minLength": 10,
+              "operation": 2
+            },
+            {
+              "billerID": "784000000000012",
+              "skuID": "00000000000000000001",
+              "ioId": 1,
+              "name": "Number",
+              "dataType": "Numeric",
+              "maxLength": 12,
+              "type": "1",
+              "description": "10 to 12-digit number",
+              "catalogVersion": "2020022001",
+              "minLength": 10,
+              "operation": 2
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

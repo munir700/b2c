@@ -39,7 +39,7 @@ class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewMod
 
     private val toolbarClickObserver = Observer<Int> {
         when (it) {
-            R.id.ivRightIcon -> showToast("Edit Fragment")
+            R.id.ivRightIcon -> navigate(R.id.action_billAccountDetailFragment_to_editBillFragment)
         }
     }
 

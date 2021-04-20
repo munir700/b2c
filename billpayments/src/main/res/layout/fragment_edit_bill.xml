@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.dashboard.editbill.EditBillViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_large">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvScreenTitle"
+                style="@style/ATitle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{viewModel.state.screenTitle}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Enter your credit card details?" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/cardFlow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:background="@drawable/card_border_container"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_medium_large"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium_large"
+                app:constraint_referenced_ids="ivIcon,tvBillerName"
+                app:flow_horizontalAlign="center"
+                app:flow_verticalGap="@dimen/margin_extra_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvScreenTitle" />
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                app:fullName="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
+                app:imageUrl="@{viewModel.parentViewModel.selectedBillerCatalog.logo}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBillerName"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
+                tools:text="Etsilat" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecyler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardFlow"
+                app:recycleViewAdapter="@{viewModel.adapter}"
+                tools:itemCount="5"
+                tools:listitem="@layout/layout_item_biller_detail" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnAddBiller"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                app:btn_size="small"
+                app:enableCoreButton="@{viewModel.state.valid}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvRecyler"
+                app:layout_constraintVertical_bias="1.0"
+                app:text="@{Strings.screen_edit_bill_buttonn_text}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

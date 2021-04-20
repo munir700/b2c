@@ -10,7 +10,7 @@ data class BillerInputDetails(
     @SerializedName("daysToPost")
     var daysToPost: String?,
     @SerializedName("currency")
-    var currency: String?,
+    var currency: String? = null,
     @SerializedName("businessDays")
     var businessDays: String?,
     @SerializedName("pastDuePaymentAllowed")
@@ -30,5 +30,9 @@ data class BillerInputDetails(
     @SerializedName("maxAmount")
     var maxAmount: String?,
     @SerializedName("ioCatalogs")
-    var ioCatalogs: List<IoCatalogModel>?
+    var ioCatalogs: List<IoCatalogModel>?,
+    @SerializedName("isPostpaid")
+    var isPostpaid: String? = null,
+    @SerializedName("catalogVersion")
+    var catalogVersion: String? = null
 )

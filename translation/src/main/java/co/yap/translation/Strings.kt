@@ -2197,7 +2197,7 @@ object Strings {
         "screen_bill_payment_bill_due_button_pay_all"
     const val screen_bill_payment_bill_total_due_label: String =
         "screen_bill_payment_bill_total_due_label"
- const val screen_bill_payment_due_bills_swipe_button_title: String =
+    const val screen_bill_payment_due_bills_swipe_button_title: String =
         "screen_bill_payment_due_bills_swipe_button_title"
 
     //Biller Screen
@@ -2267,4 +2267,10 @@ object Strings {
         "screen_bill_account_detail_text_lowest_month"
     const val screen_bill_account_detail_button_text: String =
         "screen_bill_account_detail_button_text"
+
+    // Edit Bill
+    const val screen_edit_bill_title_text: String =
+        "screen_edit_bill_title_text"
+    const val screen_edit_bill_buttonn_text: String =
+        "screen_edit_bill_buttonn_text"
 }
