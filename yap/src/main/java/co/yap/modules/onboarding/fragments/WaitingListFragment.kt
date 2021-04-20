@@ -7,14 +7,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentWaitingListBinding
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.showSnackBar
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWaitingList.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -28,7 +34,8 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
         super.onCreate(savedInstanceState)
         setObservers()
         viewModel.requestWaitingRanking {
-            showGainPointsNotification()
+            if (it) showGainPointsNotification()
+            runAnimation()
         }
     }
 
@@ -44,6 +51,15 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
                 loopCount = 1,
                 delayBetweenLoop = 0L, isLoop = true) {
             }
+        }
+    }
+
+    private fun runAnimation(){
+        CoroutineScope(Main).launch {
+            getBinding().dtvRankOne.setValue(viewModel.state.rankList?.get(1)?.parseToInt()?:0)
+            getBinding().dtvRankTwo.setValue(viewModel.state.rankList?.get(2)?.parseToInt()?:0).apply { delay(100) }
+            getBinding().dtvRankThree.setValue(viewModel.state.rankList?.get(3)?.parseToInt()?:0).apply { delay(150) }
+            getBinding().dtvRankFour.setValue(viewModel.state.rankList?.get(4)?.parseToInt()?:0).apply { delay(200) }
         }
     }
 
@@ -76,4 +92,6 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
             marginTop = 0
         )
     }
+
+    fun getBinding(): FragmentWaitingListBinding = viewDataBinding as FragmentWaitingListBinding
 }

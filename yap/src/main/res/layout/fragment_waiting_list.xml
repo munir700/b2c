@@ -47,18 +47,44 @@
                 app:text="@{Strings.screen_waiting_list_display_text_your_place_in_queue}"
                 tools:text="@string/screen_waiting_list_display_text_your_place_in_queue" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvUserRank"
-                style="@style/Title2"
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/rankViewFlow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_rank_hashtag,viewModel.state.rank)}"
-                android:textColor="?attr/colorPrimaryLightAttr"
+                app:constraint_referenced_ids="dtvRankOne,dtvRankTwo,dtvRankThree,dtvRankFour"
+                app:flow_horizontalGap="@dimen/margin_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvQueueDetail"
-                tools:text="#2021" />
+                app:layout_constraintTop_toBottomOf="@+id/tvQueueDetail" />
+
+            <co.yap.widgets.RollingCounterView
+                android:id="@+id/dtvRankOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryLight"
+                tools:textColor="@color/colorPrimaryLight" />
+
+            <co.yap.widgets.RollingCounterView
+                android:id="@+id/dtvRankTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryLight"
+                tools:textColor="@color/colorPrimaryLight" />
+
+            <co.yap.widgets.RollingCounterView
+                android:id="@+id/dtvRankThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryLight"
+                tools:textColor="@color/colorPrimaryLight" />
+
+            <co.yap.widgets.RollingCounterView
+                android:id="@+id/dtvRankFour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryLight"
+                tools:textColor="@color/colorPrimaryLight" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvUsersAbove"
@@ -70,7 +96,7 @@
                 android:textColor="?attr/colorPrimaryLightAttr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvUserRank"
+                app:layout_constraintTop_toBottomOf="@+id/rankViewFlow"
                 tools:text="2312"
                 tools:textColor="@color/colorPrimaryLight" />
 
@@ -108,10 +134,10 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:background="@drawable/purple_card"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_medium_large"
-                android:paddingEnd="@dimen/margin_medium_large"
                 android:paddingStart="@dimen/margin_medium_large"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_medium_large"
+                android:paddingBottom="@dimen/margin_medium_large"
                 app:constraint_referenced_ids="tvLeadBankText"
                 app:flow_verticalGap="@dimen/margin_normal"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotifyYoutext" />
@@ -121,8 +147,8 @@
                 style="@style/RegularGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="3sp"
                 android:gravity="center"
+                android:lineSpacingExtra="3sp"
                 android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_lead_the_bank_description,viewModel.state.jump)}"
                 tools:text="@string/screen_waiting_list_display_text_lead_the_bank_description" />
 
@@ -136,10 +162,10 @@
                 android:onClick="@{(v)-> viewModel.handlePressOnNext(v.id)}"
                 app:btn_enable="true"
                 app:btn_size="large"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fwColoredBox"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="1"
                 app:text="@{Strings.screen_waiting_list_display_button_text}"
                 tools:text="@string/screen_waiting_list_display_button_text" />
@@ -152,8 +178,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnShare"
                 app:text="@{Strings.screen_waiting_list_display_text_log_back}"
