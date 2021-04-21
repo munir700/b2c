@@ -564,7 +564,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         SessionManager.doLogout(this)
         finishAffinity()
     }
-}
 
     private fun startY2YTransfer(
         beneficiary: Beneficiary?,
