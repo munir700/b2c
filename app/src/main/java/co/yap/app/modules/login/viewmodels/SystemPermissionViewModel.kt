@@ -34,14 +34,14 @@ class SystemPermissionViewModel(application: Application) :
     override fun getTouchScreenValues(isGranted: Boolean) {
         when (isGranted) {
             true -> {
-                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                SharedPreferenceManager.getInstance(context).save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                     true)
                 trackEvent(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type, "TouchID")
                 trackEventWithScreenName(FirebaseEvent.SETUP_TOUCH_ID)
             }
             else -> {
                 trackEventWithScreenName(FirebaseEvent.NO_TOUCH_ID)
-                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                SharedPreferenceManager.getInstance(context).save(co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                     false)
             }
         }
@@ -51,11 +51,11 @@ class SystemPermissionViewModel(application: Application) :
         when (isGranted) {
             true -> {
                 trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
-                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,true)
+                SharedPreferenceManager.getInstance(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,true)
             }
             else -> {
                 trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
-                SharedPreferenceManager(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,false)
+                SharedPreferenceManager.getInstance(context).save(co.yap.yapcore.constants.Constants.ENABLE_LEAN_PLUM_NOTIFICATIONS,false)
             }
         }
     }
