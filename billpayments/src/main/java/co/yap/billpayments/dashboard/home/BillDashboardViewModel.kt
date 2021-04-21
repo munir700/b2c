@@ -19,13 +19,13 @@ import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 
-class PayBillsViewModel(application: Application) :
-    PayBillBaseViewModel<IPayBills.State>(application),
-    IPayBills.ViewModel, IRepositoryHolder<CustomersRepository> {
+class BillDashboardViewModel(application: Application) :
+    PayBillBaseViewModel<IBillDashboard.State>(application),
+    IBillDashboard.ViewModel, IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository
-    override val state: IPayBills.State =
-        PayBillsState()
+    override val state: IBillDashboard.State =
+        BillDashboardState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val dueBillsAdapter: DueBillsAdapter =
         DueBillsAdapter(arrayListOf())

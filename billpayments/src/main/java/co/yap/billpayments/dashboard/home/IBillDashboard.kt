@@ -9,7 +9,7 @@ import co.yap.billpayments.databinding.FragmentPayBillsBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IPayBills {
+interface IBillDashboard {
     interface State : IBase.State {
         var showBillCategory: ObservableBoolean
         var totalDueAmount: ObservableField<String>

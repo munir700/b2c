@@ -27,14 +27,14 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_pay_bills.*
 import kotlinx.android.synthetic.main.layout_item_bill_due.*
 
-class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
-    IPayBills.View {
+class BillDashboardFragment : PayBillBaseFragment<IBillDashboard.ViewModel>(),
+    IBillDashboard.View {
     private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pay_bills
 
-    override val viewModel: PayBillsViewModel
-        get() = ViewModelProviders.of(this).get(PayBillsViewModel::class.java)
+    override val viewModel: BillDashboardViewModel
+        get() = ViewModelProviders.of(this).get(BillDashboardViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

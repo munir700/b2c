@@ -5,11 +5,11 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.dashboard.mybills.adapter.MyBillModel
+import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
-import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.networking.customers.responsedtos.billpayment.BillResponse
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
@@ -31,8 +31,8 @@ class MyBillsViewModel(application: Application) :
         MyBillsAdapter(
             mutableListOf()
         )
-    override var myBills: MutableLiveData<MutableList<MyBillModel>> = MutableLiveData()
-    override var billsList: MutableList<BillModel> = mutableListOf()
+    override var bills: MutableLiveData<MutableList<BillModel>> = MutableLiveData()
+    override var billsList: MutableList<ViewBillModel> = mutableListOf()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var lastSelectionSorting: Int = -1
     override fun onResume() {
@@ -88,8 +88,8 @@ class MyBillsViewModel(application: Application) :
             state.loading = true
             delay(1000L)
             val myBillResponse = getMyBillList()
-            val adapterList = mutableListOf<MyBillModel>()
-            myBillResponse.billList.forEach {
+            val adapterList = mutableListOf<BillModel>()
+            myBillResponse.viewBillList.forEach {
                 it.billerInfo?.creationDate = DateUtils.reformatStringDate(
                     it.billerInfo?.creationDate.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
@@ -101,7 +101,7 @@ class MyBillsViewModel(application: Application) :
                     DateUtils.FORMATE_DATE_MONTH_YEAR
                 )
                 adapterList.add(
-                    MyBillModel(
+                    BillModel(
                         creationDate = it.billerInfo?.creationDate,
                         nickName = it.billNickName,
                         currency = it.billerInfo?.currency,
@@ -113,27 +113,27 @@ class MyBillsViewModel(application: Application) :
                     )
                 )
             }
-            billsList = myBillResponse.billList.toMutableList()
-            myBills.postValue(adapterList)
+            billsList = myBillResponse.viewBillList.toMutableList()
+            bills.postValue(adapterList)
 
             state.loading = false
         }
     }
 
     override fun setScreenTitle() {
-        if (myBills.value?.size == 1) {
+        if (bills.value?.size == 1) {
             state.screenTitle.set(
                 Translator.getString(
                     context,
                     Strings.screen_my_bills_text_title_you_have_one_bill_registered
                 )
             )
-        } else if (2 <= myBills.value?.size ?: 0) {
+        } else if (2 <= bills.value?.size ?: 0) {
             state.screenTitle.set(
                 Translator.getString(
                     context,
                     Strings.screen_my_bills_text_title_you_have_n_bills_registered,
-                    myBills.value?.size.toString()
+                    bills.value?.size.toString()
                 )
             )
         }
@@ -145,7 +145,7 @@ class MyBillsViewModel(application: Application) :
             lastSelectionSorting = pos
             when (pos) {
                 sortByDueDate -> {
-                    myBills.value?.sortWith(
+                    bills.value?.sortWith(
                         compareBy {
                             BillStatus.values()
                                 .firstOrNull() { it1 -> it1.title.equals(it.billStatus) }?.ordinal
@@ -153,7 +153,7 @@ class MyBillsViewModel(application: Application) :
                     )
                 }
                 sortByRecentlyAdded -> {
-                    myBills.value?.sortWith(compareByDescending {
+                    bills.value?.sortWith(compareByDescending {
                         it.creationDate?.let { it1 ->
                             DateUtils.stringToDate(
                                 it1, DateUtils.FORMATE_DATE_MONTH_YEAR
@@ -162,13 +162,13 @@ class MyBillsViewModel(application: Application) :
                     })
                 }
                 sortByAToZAscending -> {
-                    myBills.value?.sortBy { billModel -> billModel.billerName }
+                    bills.value?.sortBy { billModel -> billModel.billerName }
                 }
                 sortByZToADescending -> {
-                    myBills.value?.sortByDescending { billModel -> billModel.billerName }
+                    bills.value?.sortByDescending { billModel -> billModel.billerName }
                 }
             }
-            myBills.value?.toMutableList()?.let { adapter.setList(it) }
+            bills.value?.toMutableList()?.let { adapter.setList(it) }
             state.loading = false
         }
     }

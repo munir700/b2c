@@ -3,7 +3,7 @@ package co.yap.networking.customers.responsedtos.billpayment
 import co.yap.networking.customers.models.BillerInputData
 import com.google.gson.annotations.SerializedName
 
-data class BillModel(
+data class ViewBillModel(
     @SerializedName("billNickName")
     var billNickName: String?,
     @SerializedName("billDueDate")
@@ -23,7 +23,5 @@ data class BillModel(
     @SerializedName("inputsData")
     var inputsData: List<BillerInputData>?,
     @SerializedName("billerInfo")
-    var billerInfo: BillerInfoModel?,
-    @Transient
-    var isSelected: Boolean = false
+    var billerInfo: BillerInfoModel?
 )

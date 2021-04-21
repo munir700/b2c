@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 
 class EditBillFragment : PayBillBaseFragment<IEditBill.ViewModel>(),
     IEditBill.View {
@@ -33,7 +35,15 @@ class EditBillFragment : PayBillBaseFragment<IEditBill.ViewModel>(),
     val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnEditBill -> {
-
+                requireActivity().showAlertDialogAndExitApp(
+                    dialogTitle = getString(Strings.screen_edit_bill_dialog_title),
+                    message = getString(Strings.screen_edit_bill_dialog_description),
+                    leftButtonText = getString(Strings.common_button_confirm),
+                    titleVisibility = true,
+                    isTwoButton = true,
+                    closeActivity = false,
+                    callback = { showToast("Delete this bill") }
+                )
             }
         }
     }

@@ -30,9 +30,9 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
     }
 
     override fun setObservers() {
-        viewModel.myBills.observe(this, Observer {
+        viewModel.bills.observe(this, Observer {
             viewModel.setScreenTitle()
-            viewModel.myBills.value?.let { it1 -> viewModel.adapter.setList(it1) }
+            viewModel.bills.value?.let { it1 -> viewModel.adapter.setList(it1) }
         })
         viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
         viewModel.adapter.setItemListener(onItemClickListener)
@@ -80,7 +80,7 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
     }
 
     override fun removeObservers() {
-        viewModel.myBills.removeObservers(this)
+        viewModel.bills.removeObservers(this)
         viewModel.clickEvent.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
     }

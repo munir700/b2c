@@ -2317,4 +2317,8 @@ object Strings {
         "screen_edit_bill_button_text"
     const val screen_edit_bill_bottom_button_text: String =
         "screen_edit_bill_bottom_button_text"
+    const val screen_edit_bill_dialog_title: String =
+        "screen_edit_bill_dialog_title"
+    const val screen_edit_bill_dialog_description: String =
+        "screen_edit_bill_dialog_description"
 }
