@@ -2271,6 +2271,8 @@ object Strings {
     // Edit Bill
     const val screen_edit_bill_title_text: String =
         "screen_edit_bill_title_text"
-    const val screen_edit_bill_buttonn_text: String =
-        "screen_edit_bill_buttonn_text"
+    const val screen_edit_bill_button_text: String =
+        "screen_edit_bill_button_text"
+    const val screen_edit_bill_bottom_button_text: String =
+        "screen_edit_bill_bottom_button_text"
 }

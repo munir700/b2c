@@ -1418,5 +1418,6 @@
 
     <!-- Edit Bill Screen-->
     <string name="screen_edit_bill_title_text">Edit your account details</string>
-    <string name="screen_edit_bill_buttonn_text">Edit</string>
+    <string name="screen_edit_bill_button_text">Edit</string>
+    <string name="screen_edit_bill_bottom_button_text">Delete this bill</string>
 </resources>

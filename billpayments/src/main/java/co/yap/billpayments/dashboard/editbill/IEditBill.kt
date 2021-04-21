@@ -2,9 +2,9 @@ package co.yap.billpayments.dashboard.editbill
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
-import co.yap.networking.customers.responsedtos.billpayment.BillerInputDetails
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,13 +19,13 @@ class IEditBill {
         var adapter: AddBillerDetailAdapter
         val addBillerDetailItemComposer: AddBillerDetailInputComposer
         var clickEvent: SingleClickEvent
-        var billerDetailsResponse: BillerInputDetails?
         fun handlePressOnView(id: Int)
-        fun getEditBillDetails(billerId: String)
+        fun setEditBillDetails()
     }
 
     interface State : IBase.State {
         var screenTitle: ObservableField<String>
         var valid: ObservableBoolean
+        var billPosition: ObservableInt
     }
 }

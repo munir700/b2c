@@ -58,8 +58,9 @@
                 android:id="@+id/ivIcon"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
-                app:fullName="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
-                app:imageUrl="@{viewModel.parentViewModel.selectedBillerCatalog.logo}" />
+                app:fullName="@{viewModel.parentViewModel.selectedBill.billerInfo.billerName}"
+                app:imageUrl="@{viewModel.parentViewModel.selectedBill.billerInfo.logo}"
+                app:position="@{viewModel.state.billPosition}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBillerName"
@@ -69,7 +70,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
+                android:text="@{viewModel.parentViewModel.selectedBill.billerInfo.billerName}"
                 tools:text="Etsilat" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -88,22 +89,35 @@
                 tools:listitem="@layout/layout_item_biller_detail" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/btnAddBiller"
+                android:id="@+id/btnEditBill"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:layout_marginTop="@dimen/_80sdp"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvRecyler"
                 app:layout_constraintVertical_bias="1.0"
-                app:text="@{Strings.screen_edit_bill_buttonn_text}" />
+                app:text="@{Strings.screen_edit_bill_button_text}" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDeleteThisButton"
+                style="@style/Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:textColor="?attr/colorPrimaryAttr"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEditBill"
+                app:text="@{Strings.screen_edit_bill_bottom_button_text}"
+                tools:text="@string/screen_edit_bill_bottom_button_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
