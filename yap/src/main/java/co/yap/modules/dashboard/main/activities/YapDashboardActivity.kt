@@ -85,7 +85,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     val fragments: Array<Fragment> = arrayOf(YapHomeFragment(), YapStoreFragment())
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.activity_yap_dashboard
 
     override val viewModel: YapDashBoardViewModel
@@ -310,7 +309,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
-                    startActivity(MoreActivity.newIntent(this))
+                    launchActivity<MoreActivity>(requestCode = RequestCodes.REQUEST_CODE_MORE_ACTIVITY) {
+                    }
                 }
                 R.id.tvLogOut -> {
                     logoutAlert()
@@ -630,6 +630,18 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                         data.getBooleanExtra(Constants.result, false)
                     if (result) {
                         getViewBinding().viewPager.setCurrentItem(0, false)
+                        getViewBinding().bottomNav.selectedItemId = R.id.yapHome
+                    }
+                }
+            }
+
+            RequestCodes.REQUEST_CODE_MORE_ACTIVITY ->{
+                data?.let {
+                    val result =
+                        data.getBooleanExtra(Constants.result, false)
+                    if (result) {
+                        getViewBinding().viewPager.setCurrentItem(0, false)
+                        viewModel.isKycCompelted.value = true
                         getViewBinding().bottomNav.selectedItemId = R.id.yapHome
                     }
                 }

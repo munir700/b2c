@@ -37,6 +37,7 @@ class YapDashBoardViewModel(application: Application) :
     override var isYapMoreFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isUnverifiedScreenNotVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isShowHomeTour: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isKycCompelted: MutableLiveData<Boolean> = MutableLiveData(false)
 
 
     override fun handlePressOnNavigationItem(id: Int) {
