@@ -3,6 +3,7 @@ package co.yap.billpayments.dashboard.mybills
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.billpayments.dashboard.mybills.adapter.MyBillModel
 import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
@@ -25,8 +26,8 @@ interface IMyBills {
         val clickEvent: SingleClickEvent
         val onBottomSheetItemClickListener: OnItemClickListener
         var adapter: MyBillsAdapter
-        var myBills: MutableLiveData<MutableList<BillModel>>
-        var selectedBills: MutableList<BillModel>
+        var myBills: MutableLiveData<MutableList<MyBillModel>>
+        var billsList: MutableList<BillModel>
         var lastSelectionSorting: Int
         fun handlePressOnView(id: Int)
         fun getMyBillsAPI()

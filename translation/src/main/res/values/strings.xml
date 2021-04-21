@@ -1439,4 +1439,9 @@
     <string name="screen_bill_account_detail_text_highest_month">Highest month</string>
     <string name="screen_bill_account_detail_text_lowest_month">Lowest month</string>
     <string name="screen_bill_account_detail_button_text">Pay Now</string>
+
+    <!-- Edit Bill Screen-->
+    <string name="screen_edit_bill_title_text">Edit your account details</string>
+    <string name="screen_edit_bill_button_text">Edit</string>
+    <string name="screen_edit_bill_bottom_button_text">Delete this bill</string>
 </resources>

@@ -1,6 +1,7 @@
 package co.yap.billpayments.dashboard.billaccountdetail
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
@@ -39,7 +40,10 @@ class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewMod
 
     private val toolbarClickObserver = Observer<Int> {
         when (it) {
-            R.id.ivRightIcon -> showToast("Edit Fragment")
+            R.id.ivRightIcon -> navigate(
+                destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment,
+                args = bundleOf(ExtraKeys.SELECTED_BILL_POSITION.name to viewModel.state.billPosition)
+            )
         }
     }
 

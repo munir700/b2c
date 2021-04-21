@@ -5,16 +5,21 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.dashboard.mybills.adapter.MyBillModel
 import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
+import co.yap.networking.customers.responsedtos.billpayment.BillResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
 
 class MyBillsViewModel(application: Application) :
@@ -26,110 +31,24 @@ class MyBillsViewModel(application: Application) :
         MyBillsAdapter(
             mutableListOf()
         )
-    override var myBills: MutableLiveData<MutableList<BillModel>> = MutableLiveData()
-    override var selectedBills: MutableList<BillModel> = mutableListOf()
+    override var myBills: MutableLiveData<MutableList<MyBillModel>> = MutableLiveData()
+    override var billsList: MutableList<BillModel> = mutableListOf()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var lastSelectionSorting: Int = -1
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
         toggleSortIconVisibility(true)
-        toolgleRightIconVisibility(true)
+        toggleRightIconVisibility(true)
         context.getDrawable(R.drawable.ic_add_sign)?.let { setRightIconDrawable(it) }
     }
 
-    private fun getMyBillList(): MutableList<BillModel> {
-        return mutableListOf(
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "Sarpinos",
-                nickName = "My personal Phone",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2021-06-12T06:53:35",
-                amount = "600",
-                billStatus = BillStatus.PAID.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "KFC",
-                nickName = "My personal Phone",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2021-06-12T06:53:35",
-                amount = "600",
-                billStatus = BillStatus.PAID.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "Texas Steak house",
-                nickName = "My personal Phone",
-                description = "Burj ul Dubai",
-                creationDate = "2021-01-12T06:53:35",
-                currency = "AED",
-                amount = "100",
-                billStatus = BillStatus.OVERDUE.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "PF changs",
-                nickName = "My personal Phone",
-                description = "Burj Telecom Residences",
-                currency = "AED",
-                creationDate = "2021-02-12T06:53:35",
-                amount = "200",
-                billStatus = BillStatus.OVERDUE.title
-            ),
-            BillModel(
-                logoUrl = "",
-                name = "Salt and Paper",
-                nickName = "My personal Phone",
-                description = "Burj ul khalifa",
-                currency = "AED",
-                creationDate = "2021-03-12T06:53:35",
-                amount = "300",
-                billStatus = BillStatus.BILL_DUE.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "Mcdonalds",
-                nickName = "My personal Phone",
-                description = "Burj Telecom Residences",
-                currency = "AED",
-                creationDate = "2020-04-12T06:53:35",
-                amount = "400",
-                billStatus = BillStatus.OVERDUE.title
-            ),
-            BillModel(
-                logoUrl = "",
-                name = "Daily Deli",
-                nickName = "My personal Phone",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2022-05-12T06:53:35",
-                amount = "500",
-                billStatus = BillStatus.BILL_DUE.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "Broadway",
-                nickName = "My personal Phone",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2021-06-12T06:53:35",
-                amount = "600",
-                billStatus = BillStatus.PAID.title
-            ),
-            BillModel(
-                logoUrl = "",
-                name = "Nandos",
-                nickName = "My personal Phone",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2021-07-20T06:53:35",
-                amount = "700",
-                billStatus = BillStatus.OVERDUE.title
-            )
+    private fun getMyBillList(): BillResponse {
+        val gson = GsonBuilder().create()
+        return gson.fromJson<BillResponse>(
+            context.getJsonDataFromAsset(
+                "jsons/bill_list.json"
+            ), object : TypeToken<BillResponse>() {}.type
         )
     }
 
@@ -168,15 +87,34 @@ class MyBillsViewModel(application: Application) :
         launch {
             state.loading = true
             delay(1000L)
-            val list = getMyBillList()
-            list.forEach {
-                it.creationDate = DateUtils.reformatStringDate(
-                    it.creationDate.toString(),
+            val myBillResponse = getMyBillList()
+            val adapterList = mutableListOf<MyBillModel>()
+            myBillResponse.billList.forEach {
+                it.billerInfo?.creationDate = DateUtils.reformatStringDate(
+                    it.billerInfo?.creationDate.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
                     DateUtils.FORMATE_DATE_MONTH_YEAR
                 )
+                it.billDueDate = DateUtils.reformatStringDate(
+                    it.billDueDate.toString(),
+                    DateUtils.SERVER_DATE_FULL_FORMAT,
+                    DateUtils.FORMATE_DATE_MONTH_YEAR
+                )
+                adapterList.add(
+                    MyBillModel(
+                        creationDate = it.billerInfo?.creationDate,
+                        nickName = it.billNickName,
+                        currency = it.billerInfo?.currency,
+                        billStatus = it.status,
+                        billerName = it.billerInfo?.billerName,
+                        amount = it.totalAmountDue,
+                        logo = it.billerInfo?.logo,
+                        dueDate = it.billDueDate
+                    )
+                )
             }
-            myBills.postValue(list)
+            billsList = myBillResponse.billList.toMutableList()
+            myBills.postValue(adapterList)
 
             state.loading = false
         }
@@ -224,10 +162,10 @@ class MyBillsViewModel(application: Application) :
                     })
                 }
                 sortByAToZAscending -> {
-                    myBills.value?.sortBy { billModel -> billModel.name }
+                    myBills.value?.sortBy { billModel -> billModel.billerName }
                 }
                 sortByZToADescending -> {
-                    myBills.value?.sortByDescending { billModel -> billModel.name }
+                    myBills.value?.sortByDescending { billModel -> billModel.billerName }
                 }
             }
             myBills.value?.toMutableList()?.let { adapter.setList(it) }

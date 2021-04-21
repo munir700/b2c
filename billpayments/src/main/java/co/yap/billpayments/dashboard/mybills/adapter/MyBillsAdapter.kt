@@ -4,11 +4,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.LayoutItemMyBillsBinding
-import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class MyBillsAdapter(private val list: MutableList<BillModel>) :
-    BaseBindingRecyclerAdapter<BillModel, RecyclerView.ViewHolder>(list) {
+class MyBillsAdapter(private val list: MutableList<MyBillModel>) :
+    BaseBindingRecyclerAdapter<MyBillModel, RecyclerView.ViewHolder>(list) {
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return MyBillsItemViewHolder(
             binding as LayoutItemMyBillsBinding

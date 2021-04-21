@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
-import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
@@ -49,9 +48,11 @@ class MyBillsFragment : PayBillBaseFragment<IMyBills.ViewModel>(),
 
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.parentViewModel?.selectedBill = data as BillModel
-            navigate(destinationId = R.id.action_myBillsFragment_to_billAccountDetailFragment,
-            args = bundleOf(ExtraKeys.SELECTED_BILL_POSITION.name to pos))
+            viewModel.parentViewModel?.selectedBill = viewModel.billsList[pos]
+            navigate(
+                destinationId = R.id.action_myBillsFragment_to_billAccountDetailFragment,
+                args = bundleOf(ExtraKeys.SELECTED_BILL_POSITION.name to pos)
+            )
         }
     }
 

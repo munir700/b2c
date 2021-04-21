@@ -1,6 +1,7 @@
 package co.yap.billpayments.dashboard.billaccountdetail
 
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryAdapter
 import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryModel
 import co.yap.yapcore.IBase
@@ -27,6 +28,6 @@ interface IBillAccountDetail {
         var screenTitle: ObservableField<String>
         var dueAmount: CharSequence
         var billStatus: ObservableField<String>
-        var billPosition: ObservableField<Int>
+        var billPosition: ObservableInt
     }
 }
