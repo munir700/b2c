@@ -29,4 +29,9 @@ abstract class PayBillBaseViewModel<S : IBase.State>(application: Application) :
     fun setRightIconDrawable(drawable: Drawable) {
         parentViewModel?.state?.rightIconDrawable?.set(drawable)
     }
+
+    fun toogleLeftIconVisibility(visibility: Boolean){
+        parentViewModel?.state?.leftIconVisibility?.set(visibility)
+
+    }
 }

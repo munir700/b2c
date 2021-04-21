@@ -2309,4 +2309,26 @@ object Strings {
         "screen_bill_account_detail_text_lowest_month"
     const val screen_bill_account_detail_button_text: String =
         "screen_bill_account_detail_button_text"
+
+    //PayBill
+    const val screen_pay_bill_text_title: String =
+        "screen_pay_bill_text_title"
+    const val screen_pay_bill_input_text_note_hint: String =
+        "screen_pay_bill_input_text_note_hint"
+    const val screen_pay_bill_pay_button_text: String =
+        "screen_pay_bill_pay_button_text"
+    const val screen_pay_bill_auto_payment_day_text: String =
+        "screen_pay_bill_auto_payment_day_text"
+    const val screen_pay_bill_auto_payment_day_week: String =
+        "screen_pay_bill_auto_payment_day_week"
+    const val screen_pay_bill_auto_payment_day_month: String =
+        "screen_pay_bill_auto_payment_day_month"
+    const val screen_pay_bill_select_week_day_text: String =
+        "screen_pay_bill_select_week_day_text"
+    const val screen_pay_bill_select_selection_text: String =
+        "screen_pay_bill_selection_text"
+    const val screen_pay_bill_select_selection_remind_text: String =
+        "screen_pay_bill_selection_remind_text"
+    const val screen_pay_bill_payment_type_text: String =
+        "screen_pay_bill_payment_type_text"
 }
