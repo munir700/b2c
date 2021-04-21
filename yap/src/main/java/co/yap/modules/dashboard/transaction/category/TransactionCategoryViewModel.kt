@@ -42,13 +42,11 @@ class TransactionCategoryViewModel(application: Application) :
     }
 
     override fun selectCategory(data: TapixCategory, position : Int) {
-
         categoryAdapter.getDataList().find {
             it.isSelected
         }.also {
             it?.isSelected = false
         }
         categoryAdapter.getDataList()[position].isSelected = true
-
         categoryAdapter.notifyDataSetChanged()    }
 }

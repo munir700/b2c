@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.BR
 import co.yap.databinding.FragmentTransactionCategoryBinding
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseBindingFragment
@@ -12,7 +13,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.ViewModel>(),
     ITransactionCategory.View {
-    override fun getBindingVariable(): Int = -1
+    override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_transaction_category
 
@@ -21,7 +22,6 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBinding().rvCategories.adapter = viewModel.categoryAdapter
         setListener()
     }
 
@@ -51,9 +51,5 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
     }
 
     override fun getBinding() = (viewDataBinding as FragmentTransactionCategoryBinding)
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObserver(clickObserver)
-        super.onDestroyView()
-    }
 
 }
