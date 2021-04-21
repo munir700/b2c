@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
+import co.yap.repositories.InviteFriendRepository
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentYapContactsBinding
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
@@ -17,6 +18,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContact.View {
@@ -95,7 +97,8 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
         when (it) {
             R.id.btnInvite -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_INVITE)
-                Utils.shareText(requireContext(), Utils.getGeneralInvitationBody(requireContext()))
+                InviteFriendRepository().inviteAFriend()
+                requireContext().share(text = Utils.getGeneralInvitationBody(requireContext()))
             }
         }
     }

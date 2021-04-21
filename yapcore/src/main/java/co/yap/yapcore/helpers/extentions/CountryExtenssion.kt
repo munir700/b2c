@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.widgets.bottomsheet.multi_selection_bottom_sheet.CoreMultiSelectionBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 fun FragmentActivity.launchBottomSheet(
@@ -27,8 +27,12 @@ fun FragmentActivity.launchBottomSheet(
                         this,
                         countriesList as ArrayList<Country>
                     ).toMutableList(),
-                    headingLabel = label,
-                    viewType = viewType
+                    viewType = viewType,
+                    configuration = BottomSheetConfiguration(
+                        heading = label,
+                        showSearch = true,
+                        showHeaderSeparator = true
+                    )
                 )
             coreBottomSheet.show(it, "")
         }
@@ -57,7 +61,7 @@ private fun parseCountries(context: Context, countries: ArrayList<Country>): Arr
 
 fun FragmentActivity.launchMultiSelectionBottomSheet(
     itemClickListener: OnItemClickListener? = null,
-    label: String = "Add all the countries your company does business with:",
+    configuration: BottomSheetConfiguration,
     viewType: Int = Constants.VIEW_WITH_FLAG,
     countriesList: List<Country>? = null
 ) {
@@ -70,7 +74,7 @@ fun FragmentActivity.launchMultiSelectionBottomSheet(
                         this,
                         countriesList as ArrayList<Country>
                     ).toMutableList(),
-                    headingLabel = label,
+                    configuration = configuration,
                     viewType = viewType
                 )
             coreBottomSheet.show(it, "")
