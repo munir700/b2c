@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.transaction.detail.models
+package co.yap.modules.dashboard.transaction.feedback.models
 
 data class ItemTransactionFeedback (
     val label : String?,
