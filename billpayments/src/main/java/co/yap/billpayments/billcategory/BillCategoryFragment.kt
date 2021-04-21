@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.main.AddBillActivity
-import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
@@ -16,7 +16,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
+class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(),
     IBillCategory.View {
     override fun getBindingVariable(): Int = BR.viewModel
 

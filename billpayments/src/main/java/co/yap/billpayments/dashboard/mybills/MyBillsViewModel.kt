@@ -4,7 +4,7 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -23,7 +23,7 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
 
 class MyBillsViewModel(application: Application) :
-    PayBillBaseViewModel<IMyBills.State>(application),
+    BillDashboardBaseViewModel<IMyBills.State>(application),
     IMyBills.ViewModel {
     override val state: IMyBills.State =
         MyBillsState()

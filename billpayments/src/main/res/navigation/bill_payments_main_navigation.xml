@@ -9,7 +9,7 @@
         android:id="@+id/payBillsFragment"
         android:name="co.yap.billpayments.dashboard.home.BillDashboardFragment"
         android:label="PayBillsFragment"
-        tools:layout="@layout/fragment_pay_bills">
+        tools:layout="@layout/fragment_bill_dashboard">
         <action
             android:id="@+id/action_payBillsFragment_to_myBillsFragment"
             app:destination="@id/myBillsFragment" />

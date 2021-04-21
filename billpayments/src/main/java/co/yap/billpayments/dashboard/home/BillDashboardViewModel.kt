@@ -1,7 +1,7 @@
 package co.yap.billpayments.dashboard.home
 
 import android.app.Application
-import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
 import co.yap.billpayments.dashboard.home.adapter.DueBill
 import co.yap.billpayments.dashboard.home.adapter.DueBillsAdapter
@@ -20,7 +20,7 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 
 class BillDashboardViewModel(application: Application) :
-    PayBillBaseViewModel<IBillDashboard.State>(application),
+    BillDashboardBaseViewModel<IBillDashboard.State>(application),
     IBillDashboard.ViewModel, IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository

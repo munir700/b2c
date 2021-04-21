@@ -2,7 +2,7 @@ package co.yap.billpayments.dashboard.billaccountdetail
 
 import android.app.Application
 import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryAdapter
 import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryModel
 import co.yap.translation.Strings
@@ -14,7 +14,7 @@ import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
 import co.yap.yapcore.managers.SessionManager
 
 class BillAccountDetailViewModel(application: Application) :
-    PayBillBaseViewModel<IBillAccountDetail.State>(application),
+    BillDashboardBaseViewModel<IBillAccountDetail.State>(application),
     IBillAccountDetail.ViewModel {
     override val state: IBillAccountDetail.State = BillAccountDetailState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()

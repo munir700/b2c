@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
 import co.yap.billpayments.dashboard.home.adapter.DueBillsAdapter
 import co.yap.billpayments.dashboard.home.notification.DueBillsNotificationAdapter
-import co.yap.billpayments.databinding.FragmentPayBillsBinding
+import co.yap.billpayments.databinding.FragmentBillDashboardBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -27,6 +27,6 @@ interface IBillDashboard {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
-        fun getBindings(): FragmentPayBillsBinding
+        fun getBindings(): FragmentBillDashboardBinding
     }
 }

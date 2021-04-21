@@ -6,10 +6,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.yapcore.helpers.ExtraKeys
 
-class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewModel>(),
+class BillAccountDetailFragment :
+    BillDashboardBaseFragment<IBillAccountDetail.ViewModel>(),
     IBillAccountDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
