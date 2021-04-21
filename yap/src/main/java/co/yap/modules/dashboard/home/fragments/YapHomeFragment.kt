@@ -63,7 +63,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
-import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
@@ -279,14 +278,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                         } ?: showToast("Debit card not found.")
                     }
-                    viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
-                        startActivityForResult(
-                            FragmentPresenterActivity.getIntent(
-                                requireContext(),
-                                MODE_MEETING_CONFORMATION,
-                                null
-                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
-                        )
+                    viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {//This Fragment is attached in Location Selection Activity 's CardOnTheWayFragment. We have commented this line because we have implemented new
+//                        startActivityForResult(
+//                            FragmentPresenterActivity.getIntent(          //Design on completion of Onboarding in the above mentioned fragment.
+//                                requireContext(),
+//                                MODE_MEETING_CONFORMATION,
+//                                null
+//                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
+//                        )☻
+                        SessionManager.getAccountInfo {
+                            GlobalScope.launch(Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                     }
                     R.id.ivMenu -> {
 
@@ -473,6 +477,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true && viewModel.state.showTxnShimmer.value?.status != Status.LOADING) {
                 showHomeTourGuide()
             }
+        })
+
+        viewModel.parentViewModel?.isKycCompelted?.observe(this, Observer {
+            if(it)
+                viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
     }
 

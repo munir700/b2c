@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.graphics.drawable.Drawable
-import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -22,8 +21,6 @@ interface IPersonalDetail {
         val clickEvent: SingleClickEvent
 
         var UPDATE_ADDRESS_UI: Int
-        var onUpdateAddressSuccess: MutableLiveData<Boolean>
-        val orderCardSuccess: MutableLiveData<Boolean>
 
         fun handlePressOnBackButton()
 
@@ -41,9 +38,10 @@ interface IPersonalDetail {
 
         fun updateToolBarText(heading: String)
 
-        fun requestUpdateAddress(updateAddressRequest: Address)
-
-        fun requestOrderCard(address: Address?)
+        fun requestUpdateAddress(
+            updateAddressRequest: Address,
+            success: (updateAddressSuccess: Boolean) -> Unit
+        )
 
         fun setUpVerificationLayout()
 
