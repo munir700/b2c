@@ -62,29 +62,29 @@
                 android:id="@+id/dtvRankOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryLight"
-                tools:textColor="@color/colorPrimaryLight" />
+                android:textColor="@color/colorPrimaryDark"
+                tools:textColor="@color/colorPrimaryDark" />
 
             <co.yap.widgets.RollingCounterView
                 android:id="@+id/dtvRankTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryLight"
-                tools:textColor="@color/colorPrimaryLight" />
+                android:textColor="@color/colorPrimaryDark"
+                tools:textColor="@color/colorPrimaryDark" />
 
             <co.yap.widgets.RollingCounterView
                 android:id="@+id/dtvRankThree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryLight"
-                tools:textColor="@color/colorPrimaryLight" />
+                android:textColor="@color/colorPrimaryDark"
+                tools:textColor="@color/colorPrimaryDark" />
 
             <co.yap.widgets.RollingCounterView
                 android:id="@+id/dtvRankFour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryLight"
-                tools:textColor="@color/colorPrimaryLight" />
+                android:textColor="@color/colorPrimaryDark"
+                tools:textColor="@color/colorPrimaryDark" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvUsersAbove"
