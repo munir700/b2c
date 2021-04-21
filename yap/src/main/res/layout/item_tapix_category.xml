@@ -13,24 +13,32 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCategory"
         android:layout_width="match_parent"
         android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_normal">
+        android:layout_marginTop="@dimen/margin_extra_small"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_small"
+        android:foregroundTint="@color/greySoft"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_extra_small"
+        android:background="@{viewModel.item.selected? @color/greySoft : @color/transparent}">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivCategory"
             android:layout_width="@dimen/margin_extra_large"
             android:layout_height="@dimen/margin_extra_large"
-            android:src="@drawable/ic_access_alarm"
             app:isBackground="@{true}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showFirstInitials="@{true}" />
+            app:position="@{viewModel.position}"
+            app:fullName="@{viewModel.item.name==null?` `:viewModel.item.name}"
+            />
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/SmallGrey"
+            style="@style/DarkSlateBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
@@ -47,6 +55,7 @@
             android:background="@drawable/round_teal_green_background"
             android:src="@drawable/ic_check"
             android:tint="@color/colorWhite"
+            android:padding="@dimen/margin_extra_small"
             android:visibility="@{viewModel.item.selected?View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/ivCategory"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.category
 
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.R
 import co.yap.databinding.ItemTapixCategoryBinding
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -18,6 +19,7 @@ class TransactionCategoryViewHolder(val binding: ItemTapixCategoryBinding) :
                 item,
                 position, onItemClickListener
             )
+        binding.clCategory.foreground = binding.clCategory.context.getDrawable(R.drawable.bg_ripple)
         binding.executePendingBindings()
     }
 }

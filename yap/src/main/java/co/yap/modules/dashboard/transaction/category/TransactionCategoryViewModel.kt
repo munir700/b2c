@@ -13,6 +13,7 @@ class TransactionCategoryViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var categoryAdapter: TransactionCategoryAdapter =
         TransactionCategoryAdapter(mutableListOf())
+
     val repository: TransactionsRepository = TransactionsRepository
 
     override fun onCreate() {
@@ -39,4 +40,15 @@ class TransactionCategoryViewModel(application: Application) :
         list.add(TapixCategory(id = 9, name = "Health", icon = ""))
         return list
     }
+
+    override fun selectCategory(data: TapixCategory, position : Int) {
+
+        categoryAdapter.getDataList().find {
+            it.isSelected
+        }.also {
+            it?.isSelected = false
+        }
+        categoryAdapter.getDataList()[position].isSelected = true
+
+        categoryAdapter.notifyDataSetChanged()    }
 }

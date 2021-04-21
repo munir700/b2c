@@ -135,10 +135,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         viewModel.requestAllApis()
                         showAddReceiptOptions()
                     }
-
                     R.id.tvTapToChange -> {
-                        startFragment<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
-                        makeToast(this, "Clicked View", LENGTH_SHORT)
+                        startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
                     }
                 }
             }

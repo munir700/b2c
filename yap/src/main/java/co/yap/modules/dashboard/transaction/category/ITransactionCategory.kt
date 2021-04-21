@@ -16,6 +16,7 @@ interface ITransactionCategory {
         fun handlePressOnView(id: Int)
         fun fetchTransactionCategories(): MutableList<TapixCategory>
         var categoryAdapter : TransactionCategoryAdapter
+        fun selectCategory(data : TapixCategory, position : Int)
     }
 
     interface State : IBase.State
