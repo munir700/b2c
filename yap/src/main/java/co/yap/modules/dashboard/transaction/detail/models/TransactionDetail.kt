@@ -16,7 +16,10 @@ data class TransactionDetail(
     val showError: Boolean?,
     val showReceipts: Boolean?,
     val isAtmTransaction: Boolean?,
-    val showCategory: Boolean?
+    val showCategory: Boolean?,
+    val categoryType: Boolean?,
+    val categoryDescription: String?
+    //val categoryIcon: Boolean?,
 )
 
 

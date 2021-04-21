@@ -31,7 +31,8 @@
       "markupFees": 0.00,
       "postedFees": 0.00,
       "vatAmount": 0.00,
-      "cardType": "DEBIT"
+      "cardType": "DEBIT",
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Received from Vikas Khanna",
@@ -44,6 +45,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Sender",
@@ -110,7 +114,8 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT",
       "senderProfilePictureUrl": "https://s3-eu-west-1.amazonaws.com//stg-yap-documents-public/profile_image/customer_data/1000001167/documents/1608196056681_ei_1608196055485.jpg",
-      "fixedFee": 0.00
+      "fixedFee": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent to Vikas Khanna",
@@ -123,6 +128,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Receiver",
@@ -184,7 +192,8 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT",
       "senderProfilePictureUrl": "https://s3-eu-west-1.amazonaws.com//stg-yap-documents-public/profile_image/customer_data/1000001167/documents/1608196056681_ei_1608196055485.jpg",
-      "fixedFee": 0.00
+      "fixedFee": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent from Vikas Khanna",
@@ -197,6 +206,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Receiver",
@@ -259,7 +271,8 @@
       "postedFees": 0.00,
       "vatAmount": 0.00,
       "cardType": "DEBIT",
-      "fixedFee": 0.00
+      "fixedFee": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Remove from Virtual Card",
@@ -273,6 +286,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -327,7 +343,8 @@
       "postedFees": 0.00,
       "vatAmount": 0.00,
       "cardType": "DEBIT",
-      "fixedFee": 0.00
+      "fixedFee": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Add to Virtual Card",
@@ -340,6 +357,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -396,7 +416,8 @@
       "cardType": "DEBIT",
       "identifier": "01",
       "billed": false,
-      "fixedFee": 0.00
+      "fixedFee": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Top up via *0007",
@@ -409,6 +430,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -471,7 +495,8 @@
       "otherBankCountry": "AE",
       "otherBankName": "Al Masraf",
       "otherBankBIC": "ABINAEAAXXX",
-      "countryOfResidence": "AE"
+      "countryOfResidence": "AE",
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent to UAE Cbwsi",
@@ -484,6 +509,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -557,7 +585,8 @@
       "otherBankBranchName": "Sydney",
       "otherBankBIC": "CTBAAU2S",
       "countryOfResidence": "WF",
-      "fixedFee": 30
+      "fixedFee": 30,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent to Australia BT",
@@ -571,6 +600,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Card",
@@ -678,7 +710,8 @@
       "countryOfResidence": "AF",
       "feeTransactionsDetailDTO": [],
       "txnTransactionsDetailDTO": [],
-      "fixedFee": 30.00
+      "fixedFee": 30.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent to Afghanistan Beneficiary",
@@ -692,6 +725,10 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
+
       "items": [
         {
           "label": "Card",
@@ -775,7 +812,8 @@
       "otherBankCurrency": "PKR",
       "otherBankCountry": "PK",
       "fxRate": "0.026098",
-      "fixedFee": 0.00
+      "fixedFee": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent to Bs Ban",
@@ -789,7 +827,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
-
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Card",
@@ -867,7 +907,8 @@
       "cardType": "DEBIT",
       "identifier": "01",
       "otherBankCountry": "JO",
-      "vatPercentage": 0.00
+      "vatPercentage": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent to nuha aaa",
@@ -880,6 +921,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -937,7 +981,8 @@
       "markupFees": 0.00,
       "cardType": "DEBIT",
       "identifier": "01",
-      "adjustmentDate": "2021-01-21"
+      "adjustmentDate": "2021-01-21",
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Manual Adjustment",
@@ -950,6 +995,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1012,7 +1060,8 @@
       "markupFees": 0.00,
       "postedFees": 0.00,
       "vatAmount": 0.00,
-      "fxRate": "1.000000"
+      "fxRate": "1.000000",
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Received from RAK",
@@ -1025,6 +1074,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1087,7 +1139,8 @@
       "fssLienId": "03A4D9",
       "makerUuid": "9cee389e-6a54-4d80-906b-7879f0170aa3",
       "makerAction": "settle_at_fss_bank",
-      "lienExpiryDays": "08/08/2023 00:00:00.000"
+      "lienExpiryDays": "08/08/2023 00:00:00.000",
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Withdrawal",
@@ -1100,6 +1153,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1165,7 +1221,8 @@
       "postedFees": 2.00,
       "vatAmount": 0.00,
       "cardType": "DEBIT",
-      "source": ""
+      "source": "",
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Withdrawal",
@@ -1179,6 +1236,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1244,12 +1304,18 @@
       "postedFees": 2.00,
       "vatAmount": 0.00,
       "cardType": "DEBIT",
-      "source": ""
+      "source": "",
+      "tapixCategory": {
+        "id": 11,
+        "name": "General",
+        "icon": "efwefjwof",
+        "isGeneral" : true
+      }
     },
     "detailExpectation": {
       "title": "Spent at AL Jaz Branch ATM 0054",
       "detailTransferType": "In store shopping",
-      "transferCategory": "Clothing stores Retail store",
+      "transferCategory": "In store shopping",
       "location": "AE",
       "currency": "AED",
       "amount": 102.00,
@@ -1258,6 +1324,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": true,
+      "tapixCategoryTitle": "General",
+      "tapixCategoryDesc": "Check back later to see the category updated ",
+      "isCategoryGeneral" : true,
       "items": [
         {
           "label": "Amount",
@@ -1346,12 +1415,18 @@
       "approved": false,
       "reversal": true,
       "dispute": false,
-      "createdOn": "2021-02-20T05:56:57"
+      "createdOn": "2021-02-20T05:56:57",
+      "tapixCategory": {
+        "id": 13,
+        "name": "Shopping",
+        "icon": "efwefjwof",
+        "isGeneral" : false
+      }
     },
     "detailExpectation": {
       "title": "Spent at ENGLISH TEA HOUSE     ",
       "detailTransferType": "In store shopping",
-      "transferCategory": "Miscellaneous Stores",
+      "transferCategory": "In store shopping",
       "location": "ENGLISH TEA HOUSE     ,LAHORE       , ,PK",
       "currency": "AED",
       "amount": 174.65,
@@ -1361,6 +1436,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": true,
+      "tapixCategoryTitle": "Shopping",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Card",
@@ -1439,7 +1517,8 @@
       "postedFees": 0.00,
       "cardType": "DEBIT",
       "billed": false,
-      "vatPercentage": 0.00
+      "vatPercentage": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Al Nakheel Branch 0002",
@@ -1453,6 +1532,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1513,7 +1595,8 @@
       "title": "Virtual Card Issuance Fee",
       "postedFees": 15.00,
       "vatAmount": 0.75,
-      "cardType": "DEBIT"
+      "cardType": "DEBIT",
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Virtual Card Issuance Fee",
@@ -1526,6 +1609,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1594,7 +1680,8 @@
       "cardType": "DEBIT",
       "identifier": "08",
       "otherBankCountry": "AE",
-      "fixedFee": 0.00
+      "fixedFee": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent to testing  flow",
@@ -1607,6 +1694,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1700,7 +1790,8 @@
       "approved": false,
       "dispute": false,
       "reversal": true,
-      "createdOn": "2020-11-06T13:58:08"
+      "createdOn": "2020-11-06T13:58:08",
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Sent to testing  flow",
@@ -1713,6 +1804,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1780,7 +1874,8 @@
       "cardType": "DEBIT",
       "identifier": "01",
       "otherBankCountry": "AE",
-      "fixedFee": 0.00
+      "fixedFee": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "To nick jonas ",
@@ -1793,6 +1888,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1857,7 +1955,8 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT",
       "billed": false,
-      "vatPercentage": 0.00
+      "vatPercentage": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Cash deposit",
@@ -1871,6 +1970,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -1937,12 +2039,18 @@
       "postedFees": 0.00,
       "vatAmount": 0.00,
       "cardType": "DEBIT",
-      "source": "MCI"
+      "source": "MCI",
+      "tapixCategory": {
+        "id": 13,
+        "name": "Shopping",
+        "icon": "efwefjwof",
+        "isGeneral" : false
+      }
     },
     "detailExpectation": {
       "title": "Spent at AMAZON PAY INDIA PRIVA",
       "detailTransferType": "Online shopping",
-      "transferCategory": "",
+      "transferCategory": "Online shopping",
       "location": "AMAZON PAY INDIA PRIVA,BANGALORE    ,null,IN",
       "currency": "AED",
       "amount": 205.298,
@@ -1951,6 +2059,9 @@
       "statusIcon": "",
       "showTotalPurchase": true,
       "showTransactionCategory": true,
+      "tapixCategoryTitle": "Shopping",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -2015,7 +2126,8 @@
       "vatAmount": 0.05,
       "cardType": "DEBIT",
       "billed": false,
-      "vatPercentage": 0.00
+      "vatPercentage": 0.00,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "Balance Inquiry",
@@ -2029,6 +2141,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
@@ -2089,7 +2204,8 @@
       "cardHolderBillingTotalAmount": 10.50,
       "title": "FEE",
       "postedFees": 10.00,
-      "vatAmount": 0.50
+      "vatAmount": 0.50,
+      "tapixCategory": {}
     },
     "detailExpectation": {
       "title": "FEE",
@@ -2102,6 +2218,9 @@
       "statusIcon": "",
       "showTotalPurchase": false,
       "showTransactionCategory": false,
+      "tapixCategoryTitle": "",
+      "tapixCategoryDesc": "Tap to change category",
+      "isCategoryGeneral" : false,
       "items": [
         {
           "label": "Amount",
