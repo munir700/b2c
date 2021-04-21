@@ -138,7 +138,7 @@ project.ext {
             // RX Java
             rxAndroid                : 'io.reactivex.rxjava2:rxandroid:2.1.1',
             rxJava                   : 'io.reactivex.rxjava2:rxjava:2.1.5',
-            inline_activity_result   : 'com.github.florent37:inline-activity-result-kotlin:1.0.3',
+            inline_activity_result   : 'com.github.florent37:inline-activity-result-kotlin:1.0.4',
 
             //compression
             compression              : 'id.zelory:compressor:3.0.0',
