@@ -60,7 +60,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(
                 YAPApplication.configManager?.isReleaseBuild() == true
-                        && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
+                        && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour &&  YAPApplication.configManager?.flavor != ProductFlavour.HH_QA.flavour
         )
     }
 

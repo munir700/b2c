@@ -102,7 +102,7 @@ class PhoneVerificationSignInFragment :
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         if (!it.isWaiting) {
-            if (it.iban.isNullOrBlank()) {
+            if (it.fssRequestRefNo.isNullOrBlank()) {
                 startFragment(
                         fragmentName = ReachedTopQueueFragment::class.java.name,
                         clearAllPrevious = true
