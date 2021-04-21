@@ -4,7 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
-import co.yap.billpayments.addbiller.addbillerdetail.composer.BillerDetailInputComposer
+import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillerInputDetails
@@ -21,7 +21,7 @@ interface IAddBillerDetail {
 
     interface ViewModel : IBase.ViewModel<State> {
         var adapterAdd: AddBillerDetailAdapter
-        val billerDetailItemComposer: BillerDetailInputComposer
+        val addBillerDetailItemComposer: AddBillerDetailInputComposer
         var clickEvent: SingleClickEvent
         val billerDetailsResponse: MutableLiveData<BillerInputDetails>
         fun handlePressOnView(id: Int)

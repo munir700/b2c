@@ -2310,6 +2310,14 @@ object Strings {
     const val screen_bill_account_detail_button_text: String =
         "screen_bill_account_detail_button_text"
 
+    // Edit Bill
+    const val screen_edit_bill_title_text: String =
+        "screen_edit_bill_title_text"
+    const val screen_edit_bill_button_text: String =
+        "screen_edit_bill_button_text"
+    const val screen_edit_bill_bottom_button_text: String =
+        "screen_edit_bill_bottom_button_text"
+
     //PayBill
     const val screen_pay_bill_text_title: String =
         "screen_pay_bill_text_title"

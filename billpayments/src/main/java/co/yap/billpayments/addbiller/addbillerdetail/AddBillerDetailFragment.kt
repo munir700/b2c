@@ -38,7 +38,6 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
         }
     }
 
-
     private fun addBillerClick() {
         val request =
             viewModel.getBillerInformationRequest(viewModel.billerDetailsResponse.value)
@@ -60,7 +59,6 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
             }
         }
     }
-
 
     private fun setIntentResult() {
         val intent = Intent()

@@ -6,11 +6,11 @@ import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.yapcore.enums.BillerDetailInputType
 
 
-interface BillerDetailsInputComposer {
+interface AddBillerDetailsInputComposer {
     fun compose(ioCatLogs: ArrayList<IoCatalogModel>): MutableList<AddBillerDetailInputFieldModel>
 }
 
-class BillerDetailInputComposer : BillerDetailsInputComposer {
+class AddBillerDetailInputComposer : AddBillerDetailsInputComposer {
     override fun compose(ioCatLogs: ArrayList<IoCatalogModel>): MutableList<AddBillerDetailInputFieldModel> {
         val list: MutableList<AddBillerDetailInputFieldModel> = mutableListOf()
         list.add(

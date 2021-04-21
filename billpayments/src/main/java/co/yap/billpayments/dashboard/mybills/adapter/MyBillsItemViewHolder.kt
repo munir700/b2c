@@ -5,7 +5,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.LayoutItemMyBillsBinding
-import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -14,7 +13,7 @@ class MyBillsItemViewHolder(private val layoutItemMyBillsBinding: LayoutItemMyBi
     RecyclerView.ViewHolder(layoutItemMyBillsBinding.root) {
 
     fun onBind(
-        billModel: BillModel?,
+        billModel: MyBillModel?,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {

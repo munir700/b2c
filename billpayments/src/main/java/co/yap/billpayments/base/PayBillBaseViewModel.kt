@@ -22,7 +22,7 @@ abstract class PayBillBaseViewModel<S : IBase.State>(application: Application) :
         parentViewModel?.state?.sortIconVisibility?.set(visibility)
     }
 
-    fun toolgleRightIconVisibility(visibility: Boolean) {
+    fun toggleRightIconVisibility(visibility: Boolean) {
         parentViewModel?.state?.rightIconVisibility?.set(visibility)
     }
 

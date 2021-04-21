@@ -26,11 +26,12 @@ class BillAccountDetailViewModel(application: Application) :
         super.onCreate()
         getBillAccountHistory()
         setToolBarTitle(getString(Strings.screen_bill_account_detail_toolbar_title))
-        toolgleRightIconVisibility(true)
+        toggleRightIconVisibility(true)
         context.getDrawable(R.drawable.ic_edit)?.let { setRightIconDrawable(it) }
-        state.dueAmount = parentViewModel?.selectedBill?.amount.getAvailableBalanceWithFormat(true)
+        state.dueAmount =
+            parentViewModel?.selectedBill?.totalAmountDue.getAvailableBalanceWithFormat(true)
         state.billStatus.set(
-            getBillStatusString(parentViewModel?.selectedBill?.billStatus.toString())
+            getBillStatusString(parentViewModel?.selectedBill?.status.toString())
         )
     }
 
@@ -78,7 +79,7 @@ class BillAccountDetailViewModel(application: Application) :
                     billAccountHistoryModel?.lastPaymentMonth.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
                     DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + SessionManager.getDefaultCurrency() + billAccountHistoryModel?.lastPaymentAmount
+                ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.lastPaymentAmount
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_total_payment),
@@ -90,7 +91,7 @@ class BillAccountDetailViewModel(application: Application) :
                     billAccountHistoryModel?.highestMonth.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
                     DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + SessionManager.getDefaultCurrency() + billAccountHistoryModel?.highestAmount
+                ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.highestAmount
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_lowest_month),
@@ -98,7 +99,7 @@ class BillAccountDetailViewModel(application: Application) :
                     billAccountHistoryModel?.lowestMonth.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
                     DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + SessionManager.getDefaultCurrency() + billAccountHistoryModel?.lowestAmount
+                ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.lowestAmount
             )
         )
     }
