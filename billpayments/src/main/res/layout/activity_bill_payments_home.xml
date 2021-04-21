@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.home.BillPaymentsViewModel" />
+            type="co.yap.billpayments.dashboard.BillPaymentsViewModel" />
 
         <import type="co.yap.billpayments.R" />
 
@@ -21,22 +21,27 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <co.yap.widgets.CoreToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE : View.GONE}"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
-            app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"
-            app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_add_sign}"
-            app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
-            app:rightTitleVisibility="@{false}"
-            app:titleString="@{viewModel.state.toolbarTitleString}"
-            app:titleVisibility="@{!viewModel.state.toolbarTitleString.isEmpty()}" />
+<!--        <co.yap.widgets.CoreToolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE : View.GONE}"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:leftIcon="@{R.drawable.ic_back_arrow_left}"-->
+<!--            app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"-->
+<!--            app:onClick="@{viewModel::onToolBarClick}"-->
+<!--            app:rightIcon="@{R.drawable.ic_add_sign}"-->
+<!--            app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"-->
+<!--            app:rightTitleVisibility="@{false}"-->
+<!--            app:titleString="@{viewModel.state.toolbarTitleString}"-->
+<!--            app:titleVisibility="@{!viewModel.state.toolbarTitleString.isEmpty()}" />-->
+
+        <include
+            android:id="@+id/toolbarCardDetail"
+            layout="@layout/layout_bill_payment_toolbar"
+            app:viewModel="@{viewModel}" />
 
         <fragment
             android:id="@+id/bill_payments_nav_host_fragment"

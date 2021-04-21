@@ -15,7 +15,8 @@ data class AppSignature(
     var sslPin1: String?,
     var sslPin2: String?,
     var sslPin3: String?,
-    var sslHost: String?
+    var sslHost: String?,
+    var flagSmithAPIKey: String?
 ) {
 
     override fun equals(other: Any?): Boolean {

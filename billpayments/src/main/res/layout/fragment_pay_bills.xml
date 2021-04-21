@@ -6,9 +6,11 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.paybills.PayBillsViewModel" />
+            type="co.yap.billpayments.dashboard.home.PayBillsViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
 
         <import type="co.yap.translation.Translator" />
 
@@ -62,5 +64,45 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:emptyViewText="@{@string/common_display_text_no_results}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lyBillPaymentAction"
+            app:msv_emptyView="@layout/layout_beneficiaries_no_results"
+            app:msv_errorView="@layout/layout_beneficiaries_no_results"
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:msv_viewState="content"
+            app:viewState="@{viewModel.state.stateLiveData}">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lyBillPaymentAction">
+
+                <include
+                    android:id="@+id/lbillCategory"
+                    layout="@layout/layout_bill_categories"
+                    android:visibility="@{viewModel.state.showBillCategory?View.VISIBLE:View.GONE}"
+                    app:viewModel="@{viewModel}" />
+
+                <include
+                    android:id="@+id/lbillPaymentDue"
+                    layout="@layout/layout_bill_payments_due"
+                    android:visibility="@{viewModel.state.showBillCategory?View.GONE:View.VISIBLE}"
+                    app:viewModel="@{viewModel}" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </co.yap.widgets.MultiStateView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

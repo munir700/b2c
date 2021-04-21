@@ -52,6 +52,7 @@
             app:cardElevation="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessSubHeading">
 
             <androidx.constraintlayout.widget.ConstraintLayout

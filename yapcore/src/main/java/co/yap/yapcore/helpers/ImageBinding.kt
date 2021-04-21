@@ -11,10 +11,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
@@ -202,7 +204,9 @@ object ImageBinding {
                     imageView,
                     position
                 )
-            )
+            ),
+            SharedPreferenceManager.getInstance(imageView.context)
+                .getValueString(Constants.KEY_IMAGE_LOADING_TIME)
         )
     }
 
@@ -289,30 +293,55 @@ object ImageBinding {
         )
     }
 
-    fun loadGifImageView(imageView: AppCompatImageView, resource: Int) {
+    fun loadGifImageView(
+        imageView: AppCompatImageView?,
+        resource: Int,
+        loopCount: Int = 1,
+        delayBetweenLoop: Long = 100L
+    ) {
+        var countPlay = 0
         if (resource > 0) {
-            Glide.with(imageView.context).asGif().load(resource)
-                .listener(object : RequestListener<GifDrawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<GifDrawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return true
-                    }
+            imageView?.let {
+                Glide.with(it.context).asGif().load(resource)
+                    .listener(object : RequestListener<GifDrawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<GifDrawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            return true
+                        }
 
-                    override fun onResourceReady(
-                        resource: GifDrawable?,
-                        model: Any?,
-                        target: Target<GifDrawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        resource?.setLoopCount(1)
-                        return false
-                    }
-                }).into(imageView)
+                        override fun onResourceReady(
+                            resource: GifDrawable?,
+                            model: Any?,
+                            target: Target<GifDrawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            resource?.setLoopCount(1)
+                            resource?.registerAnimationCallback(object :
+                                Animatable2Compat.AnimationCallback() {
+                                override fun onAnimationStart(drawable: Drawable?) {
+                                    super.onAnimationStart(drawable)
+                                }
+
+                                override fun onAnimationEnd(drawable: Drawable?) {
+                                    super.onAnimationEnd(drawable)
+                                    countPlay++
+                                    if (countPlay < loopCount) {
+                                        it.postDelayed({
+                                            resource.startFromFirstFrame()
+                                        }, delayBetweenLoop)
+                                    }
+                                }
+
+                            })
+                            return false
+                        }
+                    }).into(it)
+            }
         }
     }
 
@@ -407,9 +436,9 @@ object ImageBinding {
 
         val resId = getResId(
             "flag_${
-            getDrawableName(
-                countryName
-            )
+                getDrawableName(
+                    countryName
+                )
             }"
         )
         if (resId != -1) {
@@ -494,6 +523,15 @@ object ImageBinding {
 
                 }
             }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setImageByDrawableName")
+    fun setImageByDrawableName(imageView: ImageView, drawableName: String?) {
+        val resId = drawableName?.let { getResId(it) }
+        if (resId != -1) {
+            resId?.let { imageView.setImageResource(it) }
         }
     }
 }

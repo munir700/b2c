@@ -3,6 +3,7 @@ package co.yap.app
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -10,9 +11,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
 import co.yap.app.modules.refreal.DeepLinkNavigation
 import co.yap.household.onboard.otherscreens.InvalidEIDActivity
+import co.yap.localization.LocaleManager
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
@@ -84,13 +87,13 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin1 = originalSign.sslPin1,
             sslPin2 = originalSign.sslPin2,
             sslPin3 = originalSign.sslPin3,
-            sslHost = originalSign.sslHost
+            sslHost = originalSign.sslHost,
+            flagSmithAPIKey = originalSign.flagSmithAPIKey
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
             override fun onValidate(isValid: Boolean, originalSign: AppSignature?) {
                 configManager?.hasValidSignature = true
-                //if (originalSign?.isLiveRelease() == true) isValid else true
             }
         })
     }
@@ -208,6 +211,14 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
 
             }
 
+            override fun startDocumentDashboardActivity(
+                activity:FragmentActivity
+            ) {
+                var intent = Intent(activity, DocumentsDashboardActivity::class.java)
+                intent.putExtra("GO_ERROR",true)
+                activity.startActivity(intent)
+            }
+
             override fun handleDeepLinkFlow(activity: AppCompatActivity, flowId: String?) {
                 if (activity is YapDashboardActivity) {
                     DeepLinkNavigation.getInstance(activity).handleDeepLinkFlow(flowId)
@@ -226,5 +237,14 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin3 = configManager?.sslPin3 ?: "",
             sslHost = configManager?.sslHost ?: ""
         )
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleManager.setLocale(base))
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        LocaleManager.setLocale(this)
     }
 }

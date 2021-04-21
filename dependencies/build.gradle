@@ -29,8 +29,12 @@ project.ext {
             sendmoney       : ':sendmoney',
             security        : ':security',
             qrcodereaderview: ':qrcodereaderview',
-            billpayments: ':billpayments'
+            billpayments    : ':billpayments'
     ]
+    
+    okHttpModuleExclude = {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
 
     // All libraries that any module can contain
 
@@ -102,7 +106,8 @@ project.ext {
             playServicesPlaces       : "com.google.android.gms:play-services-places:$playServicesVersion",
             playLibPlaces            : 'com.google.android.libraries.places:places:1.1.0',
 
-            glideTransformation      : 'com.github.bumptech.glide:glide:4.11.0',
+            glideTransformation      : 'com.github.bumptech.glide:glide:4.12.0',
+            glideCompoler            : 'com.github.bumptech.glide:compiler:4.12.0',
 
             // Animations
             androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
@@ -110,7 +115,7 @@ project.ext {
             expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
             // Live chat
-            livechat                 : 'com.liveperson.android:lp_messaging_sdk:4.2.1',
+            livechat                 : 'com.liveperson.android:lp_messaging_sdk:5.5.1',
 
             //phone lib
             phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:8.12.10',
@@ -162,7 +167,10 @@ project.ext {
             tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0',
             deeplink                 : 'com.airbnb:deeplinkdispatch:5.2.0',
             deeplinkprocessor        : 'com.airbnb:deeplinkdispatch-processor:5.2.0',
-            lotieAnimation           : 'com.airbnb.android:lottie:3.4.0'
+            lotieAnimation           : 'com.airbnb.android:lottie:3.4.0',
+
+            //feature flag
+            flagsmith                : 'com.flagsmith:flagsmith-java-client:2.6'
 
     ]
 
@@ -212,7 +220,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playservicesAuthPhone],
             [configuration: "implementation", dependency: libraries.deeplink],
             [configuration: "kapt", dependency: libraries.deeplinkprocessor],
-            [configuration: "implementation", dependency: libraries.lotieAnimation]
+            [configuration: "implementation", dependency: libraries.lotieAnimation],
+            [configuration: "implementation", dependency: libraries.flagsmith, options: okHttpModuleExclude]
 
     ]
 
@@ -247,6 +256,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
@@ -265,6 +275,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
@@ -300,6 +311,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.recyclerfastscroll],
             [configuration: "implementation", dependency: libraries.gson],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.biometric],
@@ -349,6 +361,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "implementation", dependency: libraries.swipeViewActions]
     ]
 }
 

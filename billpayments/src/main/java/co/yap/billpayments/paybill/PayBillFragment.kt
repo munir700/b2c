@@ -10,10 +10,10 @@ import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseFragment
 import co.yap.billpayments.databinding.FragmentPayBillBinding
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
-import co.yap.translation.Translator
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -71,9 +71,12 @@ class PayBillFragment : PayBillBaseFragment<IPayBill.ViewModel>(),
                             }
                         },
                         bottomSheetItems = composeWeekDaysList(),
-                        headingLabel = Translator.getString(requireContext(),
-                            Strings.screen_pay_bill_select_week_day_text),
-                        viewType = Constants.VIEW_WITHOUT_FLAG
+                        configuration = BottomSheetConfiguration(
+                            heading = getString(Strings.screen_pay_bill_select_week_day_text),
+                            showSearch = false,
+                            showHeaderSeparator = false
+                        ),
+                        viewType = Constants.VIEW_ITEM_WITHOUT_SEPARATOR
                     )
                     coreBottomSheet.show(fManager, "")
                 }

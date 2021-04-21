@@ -1,0 +1,22 @@
+{
+  "employed": [
+    {
+      "question": "Tell us where you work?",
+      "placeholder": "Employer name",
+      "questionType": "EDIT_TEXT_FIELD",
+      "answer": ""
+    },
+    {
+      "question": "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
+      "placeholder": "Enter the amount",
+      "questionType": "EDIT_TEXT_FIELD_WITH_INFO",
+      "answer": ""
+    },
+    {
+      "question": "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
+      "placeholder": "Enter the amount",
+      "questionType": "EDIT_TEXT_FIELD_WITH_INFO",
+      "answer": ""
+    }
+  ]
+}

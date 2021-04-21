@@ -290,7 +290,7 @@ class CoreButton : AppCompatButton {
             paint.color = defaultStateColor
             invalidate()
         }
-        this.setEnabled(enable)
+        this.isEnabled = enable
 
     }
 
@@ -302,6 +302,10 @@ class CoreButton : AppCompatButton {
             }
             ButtonSize.MINI_SMALL.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 30, 4) // used in card details
+            }
+            ButtonSize.MINI_NORMAL.type -> {
+                dimensions =
+                    Utils.getDimensionsByPercentage(context, 39, 4) // used in pay bills dashboard
             }
             ButtonSize.MINI_MEDIUM.type -> {
                 dimensions =
@@ -338,9 +342,10 @@ class CoreButton : AppCompatButton {
         MEDIUM(1),
         LARGE(2),
         MINI_SMALL(3),
-        MINI_MEDIUM(4),
-        MINI_LARGE(5),
-        MINI(6),
-        DYNAMIC(7)
+        MINI_NORMAL(4),
+        MINI_MEDIUM(5),
+        MINI_LARGE(6),
+        MINI(7),
+        DYNAMIC(8)
     }
 }

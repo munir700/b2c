@@ -26,7 +26,7 @@ object DateUtils {
     const val FORMAT_TIME_12H = "hh:mm a"
     const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
     const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
-
+    const val FORMATE_DATE_MONTH_YEAR = "dd MMM yyyy" // 12 Jan 2012
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -60,7 +60,7 @@ object DateUtils {
         val dd = if (day < 10) "0$day" else "" + day
         val mm = if (month < 10) "0$month" else "" + month
         val yy = if (year < 10) "0$year" else "" + year
-        val format = SimpleDateFormat("dd-mm-yy", Locale.US)
+        val format = SimpleDateFormat("dd-mm-yy", Locale.getDefault())
         return format.parse("$dd-$mm-$yy")
     }
 
@@ -70,7 +70,7 @@ object DateUtils {
         outFormatter: String? = DEFAULT_DATE_FORMAT
     ): String {
         var result = ""
-        val formatter = SimpleDateFormat(outFormatter, Locale.US)
+        val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
         try {
             // formatter.timeZone = TIME_ZONE_Default
             result = formatter.format(stringToDate(date, inputFormatter ?: ""))
@@ -91,7 +91,7 @@ object DateUtils {
         var result = ""
         date?.let {
             try {
-                val formatter = SimpleDateFormat(outFormatter, Locale.US)
+                val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
                 formatter.timeZone = outTimeZone
                 result = formatter.format(
                     stringToDate(
@@ -112,7 +112,7 @@ object DateUtils {
         outFormatter: String? = DEFAULT_DATE_FORMAT
     ): String {
         var result = ""
-        val formatter = SimpleDateFormat(outFormatter, Locale.US)
+        val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
         try {
             formatter.timeZone = TIME_ZONE_Default
             result = formatter.format(stringToDate(date, inputFormatter ?: ""))
@@ -129,8 +129,8 @@ object DateUtils {
         isApplyTimeZone: Boolean = true
     ): String {
         return try {
-            SimpleDateFormat(format, Locale.US).format(date)
-            val sdf = SimpleDateFormat(format, Locale.US)
+            SimpleDateFormat(format, Locale.getDefault()).format(date)
+            val sdf = SimpleDateFormat(format, Locale.getDefault())
             if (isApplyTimeZone) sdf.timeZone = TimeZone.getTimeZone("UTC")
 
             return sdf.format(date)
@@ -142,7 +142,7 @@ object DateUtils {
     fun dateToString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
         date?.let {
             var result = ""
-            val formatter = SimpleDateFormat(format, Locale.US)
+            val formatter = SimpleDateFormat(format, Locale.getDefault())
             formatter.timeZone = timeZone
 //            val symbols = DateFormatSymbols(Locale.getDefault())
 //            symbols.amPmStrings = arrayOf("am", "pm")
@@ -159,13 +159,13 @@ object DateUtils {
 
     fun stringToDate(dateStr: String, format: String): Date? {
         var d: Date? = null
-        val formatter = SimpleDateFormat(format, Locale.US)
+        val formatter = SimpleDateFormat(format, Locale.getDefault())
         formatter.timeZone = UTC
         try {
             formatter.isLenient = false
             d = formatter.parse(dateStr)
             formatter.timeZone = TIME_ZONE_Default
-            val newDate = SimpleDateFormat(format, Locale.US).format(d)
+            val newDate = SimpleDateFormat(format, Locale.getDefault()).format(d)
             d = formatter.parse(newDate)
         } catch (e: Exception) {
             d = null
@@ -192,8 +192,8 @@ object DateUtils {
         outputFormatter: String? = DEFAULT_DATE_FORMAT
     ): Date? {
         return try {
-            val inFormatter = SimpleDateFormat(inputFormatter, Locale.US)
-            val outFormatter = SimpleDateFormat(outputFormatter, Locale.US)
+            val inFormatter = SimpleDateFormat(inputFormatter, Locale.getDefault())
+            val outFormatter = SimpleDateFormat(outputFormatter, Locale.getDefault())
             val newDate = outFormatter.format(inFormatter.parse(date))
             outFormatter.parse(newDate)
         } catch (e: Exception) {
@@ -206,8 +206,8 @@ object DateUtils {
         outputFormatter: String
     ): String {
         return try {
-            SimpleDateFormat(outputFormatter, Locale.US).format(date)
-            val outFormatter = SimpleDateFormat(outputFormatter, Locale.US)
+            SimpleDateFormat(outputFormatter, Locale.getDefault()).format(date)
+            val outFormatter = SimpleDateFormat(outputFormatter, Locale.getDefault())
             outFormatter.format(date)
         } catch (e: Exception) {
             ""
@@ -216,7 +216,7 @@ object DateUtils {
 
     fun stringToDateLeanPlum(dateStr: String): Date? {
         var d: Date? = null
-        val formatter = SimpleDateFormat(LEAN_PLUM_FORMAT, Locale.US)
+        val formatter = SimpleDateFormat(LEAN_PLUM_FORMAT, Locale.getDefault())
         formatter.timeZone = GMT
         try {
             formatter.isLenient = false
@@ -249,28 +249,28 @@ object DateUtils {
     }
 
     fun getCurrentDateWithFormat(formal: String): String {
-        val sdf = SimpleDateFormat(formal, Locale.US)
+        val sdf = SimpleDateFormat(formal, Locale.getDefault())
         sdf.timeZone = TimeZone.getDefault()
         return sdf.format(Date())
     }
 
     fun getCurrentDateWithFormat(formal: String, timeZone: TimeZone): String {
-        val sdf = SimpleDateFormat(formal, Locale.US)
+        val sdf = SimpleDateFormat(formal, Locale.getDefault())
         sdf.timeZone = timeZone
         return sdf.format(Date())
     }
 
     fun convertServerDateToLocalDate(serverDate: String): Date? {
         return try {
-            val serverSdf = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US)
+            val serverSdf = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.getDefault())
             serverSdf.timeZone = TimeZone.getTimeZone("UTC")
             val serverDate = serverSdf.parse(serverDate)
 
-            val localSdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val localSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             localSdf.timeZone = TimeZone.getDefault()
             val localDate = localSdf.format(serverDate)
 
-            val convertedSdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val convertedSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             convertedSdf.parse(localDate)
         } catch (e: java.lang.Exception) {
             e.printStackTrace()

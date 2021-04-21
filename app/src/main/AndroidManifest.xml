@@ -80,8 +80,8 @@
 
         <service
             android:name=".YapFirebaseMessagingService"
-            android:exported="false"
             android:directBootAware="true"
+            android:exported="false"
             android:permission="${applicationId}.permission">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -121,14 +121,14 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
+            android:enabled="true"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"
-                tools:replace="android:resource"/>
+                tools:replace="android:resource" />
         </provider>
     </application>
-
 </manifest>

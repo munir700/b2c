@@ -3,7 +3,7 @@ package co.yap.billpayments.paybill
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.billpayments.databinding.FragmentPayBillBinding
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -31,7 +31,7 @@ interface IPayBill {
         fun getViewBinding(): FragmentPayBillBinding
         fun composeWeekDaysList(): MutableList<CoreBottomSheetData>
         val weekDaysList: List<String>
-            get() = listOf<String>("Monday",
+            get() = listOf("Monday",
                 "Tuesday",
                 "Wednesday",
                 "Thursday",

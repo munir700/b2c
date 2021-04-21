@@ -7,10 +7,13 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
-import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
@@ -121,10 +124,17 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
     const val URL_SEND_INVITE_FRIEND = "customers/api/save-invite"
-    const val URL_ADDITIONAL_SUBMIT =
-        "customers/api/update-notification-status"
+    const val URL_ADDITIONAL_SUBMIT = "customers/api/update-notification-status"
     const val URL_GET_RANKING = "customers/api/fetch-ranking"
     const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
+    const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
+    const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
+
+    const val URL_BILL_PROVIDERS = "customers/api/billpayment/biller-categories"
+    const val URL_BILLER_CATALOGS = "customers/api/billpayment/biller-catalogs/{category-id}"
+    const val URL_BILLER_INPUTS_DETAILS = "customers/api/billpayment/biller-details/{biller-id}"
+    const val URL_ADD_BILLER = "customers/api/billpayment/add-biller"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -163,7 +173,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
         document.run {
-            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val files = ArrayList<MultipartBody.Part>()
             filePaths.forEach {
                 val file = File(it)
@@ -429,6 +439,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = {
             api.sendInviteFriend(sendInviteFriendRequest)
         })
+
     override suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
             api.submitAdditionalInfo(uploadAdditionalInfo)
@@ -444,5 +455,25 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.completeVerification(completeVerificationRequest)
         })
 
+    override suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse> =
+        executeSafely(call = {
+            api.getIndustriesSegments()
+        })
+    override suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse> =
+        executeSafely(call = {
+            api.getBillProviders()
+        })
 
+    override suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse> =
+        executeSafely(call = { api.getBillerCatalogs(categoryId) })
+
+    override suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.submitEmploymentInfo(employmentInfoRequest)
+        })
+    override suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse> =
+        executeSafely(call = { api.getBillerInputsDetails(billerId) })
+
+    override suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.addBiller(billerInformation) })
 }

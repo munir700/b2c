@@ -22,6 +22,8 @@
     <color name="greyDarkOpacity16">#299391B1</color>
     <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
+    <color name="darkSlateBlue">#802F2067</color>
+    <color name="darkBlue">#9890b9</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
     <color name="greyNormalDarkFaded">#80D8D8D8</color>
@@ -62,6 +64,8 @@
     <color name="bg_round_light_secondary_blue">#29478DF4</color>
     <color name="bg_round_light_primary">#295E35B1</color>
 
+
+    <color name="bg_with_hint_of_blue">#0D5e35b1</color>
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
     <color name="itemBackground">#fafafa</color>

@@ -1,5 +1,6 @@
 package co.yap.modules.frame
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -7,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import co.yap.localization.LocaleManager
 import co.yap.yapcore.*
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
@@ -46,7 +48,7 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         )
 
         viewModel.state.toolbarTitle =
-            if (extras.hasExtra(TOOLBAR_TITLE)) extras.getStringExtra(TOOLBAR_TITLE) else ""
+            if (extras.hasExtra(TOOLBAR_TITLE)) extras.getStringExtra(TOOLBAR_TITLE).toString() else ""
         val fragmentName = extras.getStringExtra(FRAGMENT_CLASS)
         if (fragmentName == null || TextUtils.isEmpty(fragmentName)) {
             finish()
@@ -101,8 +103,8 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
     fun getBinding() = viewDataBinding as ActivityFrameBinding
 
 
-    override fun onOptionsItemSelected(item: MenuItem?) =
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
             android.R.id.home -> {
                 hideKeyboard()
                 onBackPressed()
@@ -112,4 +114,8 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         }
 
     override fun getScreenName(): String? = null
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleManager.setLocale(base))
+    }
 }

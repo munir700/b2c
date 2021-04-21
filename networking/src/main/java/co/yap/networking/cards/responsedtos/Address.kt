@@ -43,7 +43,9 @@ data class Address(
     @SerializedName("nearestLandMark")
     var nearestLandMark: String? = null,
     @SerializedName("designCode")
-    var designCode: String? = null
+    var designCode: String? = null,
+    @SerializedName("cityIATA3Code")
+    var cityIATA3Code: String? = ""
 ) : Parcelable{
     fun getCompleteAddress():String{
         return when {

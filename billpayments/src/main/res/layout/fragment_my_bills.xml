@@ -7,18 +7,20 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.mybills.MyBillsViewModel" />
+            type="co.yap.billpayments.dashboard.mybills.MyBillsViewModel" />
+
+        <import type="android.view.View" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingHorizontal="@dimen/margin_medium_large"
         android:paddingTop="@dimen/margin_medium">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/screenTitle"
+            android:id="@+id/tvScreenTitle"
             style="@style/ATitle3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,20 +29,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Which bank is your card issued by?" />
+            tools:text="You have 6 bills registered" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:paddingTop="@dimen/margin_large"
-            android:paddingBottom="@dimen/margin_extra_small"
+            android:paddingBottom="@dimen/margin_btn_side_paddings_xl"
             app:adapter="@{viewModel.adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/layout_item_my_bills"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/screenTitle" />
+            app:layout_constraintTop_toBottomOf="@id/tvScreenTitle" />
 
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnPay"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+            android:text="@{viewModel.state.buttonText}"
+            android:visibility="@{viewModel.state.valid?View.VISIBLE:View.GONE}"
+            app:btn_size="large"
+            app:enableCoreButton="@{true}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Next" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

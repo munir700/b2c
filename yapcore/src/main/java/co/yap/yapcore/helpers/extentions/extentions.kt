@@ -2,12 +2,14 @@ package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.Parcelable
 import android.text.*
 import android.text.method.LinkMovementMethod
@@ -23,7 +25,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
@@ -34,6 +35,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
+import java.io.IOException
 import java.math.RoundingMode
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -109,11 +111,7 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//            if (p0?.length ?: 0 > 0) {
-//                this@afterTextChanged.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-//            } else {
-//                this@afterTextChanged.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-//            }
+
         }
 
         override fun afterTextChanged(editable: Editable?) {
@@ -122,29 +120,9 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     })
 }
 
-fun AppCompatActivity.addFragment(tag: String?, id: Int, fragment: Fragment) {
-    val fragmentTransaction = supportFragmentManager.beginTransaction()
-    fragmentTransaction.add(id, fragment, tag)
-    fragmentTransaction.addToBackStack(tag)
-    fragmentTransaction.commit()
-}
-
 fun AppCompatActivity.replaceFragment(tag: String?, id: Int, fragment: Fragment) {
     val fragmentTransaction = supportFragmentManager.beginTransaction()
     fragmentTransaction.replace(id, fragment, tag)
-    fragmentTransaction.commit()
-}
-
-fun Fragment.addFragment(tag: String?, id: Int, fragmentManager: FragmentManager) {
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.add(id, this, tag)
-    fragmentTransaction.addToBackStack(tag)
-    fragmentTransaction.commit()
-}
-
-fun Fragment.replaceFragment(tag: String?, id: Int, fragmentManager: FragmentManager) {
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.replace(id, this, tag)
     fragmentTransaction.commit()
 }
 
@@ -183,15 +161,9 @@ fun NavigationView?.navViewWidth(percent: Int) {
 }
 
 fun Context?.isNetworkAvailable(): Boolean {
-    return this?.let {
-        val connectivityManager =
-            it.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-        connectivityManager?.let {
-            connectivityManager.activeNetworkInfo?.let {
-                return connectivityManager.activeNetworkInfo.isConnected
-            } ?: false
-        } ?: false
-    } ?: false
+    val cm = this?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+    return capabilities?.hasCapability(NET_CAPABILITY_INTERNET) == true
 }
 
 fun TextView.makeLinks(
@@ -244,14 +216,6 @@ fun String.getCountryTwoDigitCodeFromThreeDigitCode(): String {
 }
 
 fun Double?.roundVal(): Double {
-//    this?.let {
-//        val floatingMultiplier = it * 100
-//        val rounded =
-//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
-//        val floatingDivisor = rounded ?: 0.0.div(100)
-//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
-//    } ?: return 0.0
-
     val floatingMultiplier = (this ?: 0.0) * 100
     val rounded =
         floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
@@ -260,14 +224,6 @@ fun Double?.roundVal(): Double {
 }
 
 fun Double?.roundValHalfEven(): Double {
-//    this?.let {
-//        val floatingMultiplier = it * 100
-//        val rounded =
-//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
-//        val floatingDivisor = rounded ?: 0.0.div(100)
-//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
-//    } ?: return 0.0
-
     val floatingMultiplier = (this ?: 0.0) * 100
     val rounded =
         floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN)?.toDouble()
@@ -324,4 +280,15 @@ fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
     }
 
     return first.zip(second).all { (x, y) -> x == y }
+}
+
+fun Context?.getJsonDataFromAsset(fileName: String): String? {
+    val jsonString: String
+    try {
+        jsonString = this?.assets?.open(fileName)?.bufferedReader().use { it?.readText() ?: "" }
+    } catch (ioException: IOException) {
+        ioException.printStackTrace()
+        return null
+    }
+    return jsonString
 }

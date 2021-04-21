@@ -167,6 +167,8 @@
     <string name="screen_meeting_confirmation_display_text_guide">Make sure you have your original Emirates ID on you at the time of delivery as we’ll need to scan it</string>
     <string name="screen_meeting_confirmation_display_text_emirates_id">Emirates ID</string>
     <string name="screen_meeting_confirmation_button_go_to_dashboard">Go to dashboard</string>
+    <string name="screen_kyc_on_the_way_display_text_guide">You will receive a message from our designated delivery company to confirm the date and time of delivery. Please make sure you have your Emirates ID on you at the time of delivery.</string>
+    <string name="screen_kyc_on_the_way_display_text_yap_member">Congrats, you\'re a YAP founder member!</string>
 
     <!-- Country not allowed screen -->
     <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the %1$s</string>
@@ -539,7 +541,7 @@
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
     <string name="screen_change_email_placeholder_confirm_email_address">enter in one more time</string>
-    <string name="screen_change_email_display_text_description">A verification email will now be sent to this address​</string>
+    <string name="screen_change_email_display_text_description">A verification email will be sent to this email address</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
     <string name="screen_change_email_display_text_confirm_email_title">Enter in one more time</string>
     <string name="screen_change_email_display_text_email_match_error">Email doesn\'t match what you first entered</string>
@@ -1072,7 +1074,7 @@
     <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
-    <string name="screen_invite_friend_display_text_share_url">I\'ve started using YAP The Money App to manage my spending and I think you\'ll find it really useful.\n\n%1s</string>
+    <string name="screen_invite_friend_display_text_share_url">Hey! I just joined the UAE\'s newest banking app – YAP. Transform the way you bank and reserve your place in the queue to be one of the first to join me in the banking revolution.\n\n%1s</string>
 
     <!--  OTP Blocked New screen -->
     <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
@@ -1085,10 +1087,13 @@
     <string name="screen_place_of_birth_display_text_description">Just a few more details about you, as per \nyour passport.</string>
     <string name="screen_place_of_birth_display_text_select_country">Select country</string>
     <string name="screen_place_of_birth_display_text_city_of_birth">City of birth</string>
+    <string name="screen_place_of_birth_display_text_are_you_a_dual_national">Are you a dual national?</string>
+    <string name="screen_place_of_birth_display_text_nationality_as_per_eid">Nationality as per EID</string>
+    <string name="screen_place_of_birth_display_text_add_second_country">Add second country</string>
 
     <!--  Tax info screen -->
     <string name="screen_tax_info_display_text_heading">Tax Information</string>
-    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax committments</string>
+    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax commitments</string>
     <string name="screen_tax_info_display_text_select_country">Select country of tax residence</string>
     <string name="screen_tax_info_display_text_have_tin_number">Do you have a Tax Identification Number (TIN)?</string>
     <string name="screen_tax_info_display_text_reason_no_tin_number">Select the reason for not having a TIN</string>
@@ -1353,23 +1358,47 @@
     <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
 
     <!--Reached on the top of queue screen-->
-
     <string name="screen_reached_top_queue_display_text">%1s, you reached the top of the Queue!</string>
     <string name="screen_reached_top_queue_display_text_subtitle">You are now ready to fully activate and begin using your YAP account.</string>
     <string name="screen_reached_top_queue_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed.</string>
 
     <!-- image previewer dialogue -->
-
     <string name="screen_image_previewer_display_text_delete_message">This photo will be deleted from your saved receipts.</string>
     <string name="screen_image_previewer_button_text_delete">Delete Photo</string>
 
+    <!--KYC Employment information selection screen-->
+    <string name="screen_employment_information_selection_display_text_title">Employment Information</string>
+    <string name="screen_employment_information_selection_display_text_employment_status">What is your employment status?</string>
+    <string name="screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose">We only ask you this questions for administrative purpose. It does not impact your ability to sign up to a YAP account. </string>
+    <string name="screen_employment_information_selection_display_button_text_next">Next</string>
+    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask you about your monthly salary?</string>
+    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum salary requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account.</string>
+    <string name="screen_employment_information_dialog_button_text_close">Close</string>
+    <string name="screen_employment_information_cash_dialog_display_text_heading">For those people who still use cash, how much cash will you add to YAP per month?</string>
+    <string name="screen_employment_information_cash_dialog_display_text_subheading">We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account.</string>
+
+    <!--    Employee information screen-->
+    <string name="screen_employee_information_display_bottom_sheet_text_heading">Add all the countries your company does business with:</string>
+
+    <!-- KYC Employment Information Questionnaire screen -->
+    <string name="screen_employment_questionnaire_display_text_heading">Employment Information</string>
+    <string name="screen_employment_questionnaire_display_text_desc">Final questions and your set to go!</string>
+    <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
+    <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
+    <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
+
 
     <!--    Bill Payment-->
-    <string name="screen_bill_payment_text_title">Bill Payment</string>
+    <string name="screen_bill_payment_text_title">Pay bills</string>
     <string name="screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment">Set up or make a bill payment</string>
     <string name="screen_bill_payment_button_description_my_bills">My bills</string>
     <string name="screen_bill_payment_button_description_analytics">Analytics</string>
     <string name="screen_bill_payment_button_description_add_a_bill">Add a bill</string>
+    <string name="screen_bill_payment_bill_due_section_title">Bill payments</string>
+    <string name="screen_bill_payment_bill_due_button_pay_all">Pay all</string>
+    <string name="screen_bill_payment_bill_total_due_label">Total due</string>
+    <string name="screen_bill_payment_due_bills_swipe_button_title">Pay Now</string>
+
 
     <!--    Biller Screen-->
     <string name="screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by">Which bank is your card issued by?</string>
@@ -1380,6 +1409,36 @@
     <!--    My Bills Screen-->
     <string name="screen_my_bills_toolbar_text_title">My Bills</string>
     <string name="screen_my_bills_text_title_you_have_n_bills_registered">You have %1s bills registered</string>
+    <string name="screen_my_bills_text_title_you_have_one_bill_registered">You have 1 bill registered</string>
+    <string name="screen_my_bills_btn_text_pay">Pay %1s %2s</string>
+    <string name="screen_my_bills_text_title_on_selection">Select the bill you want to pay</string>
+    <string name="screen_my_bills_text_title_bottom_sheet">Sort by</string>
+
+    <!--    Add Bill Screen-->
+    <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>
+    <string name="screen_add_bill_description_text">Find bill providers by choosing any category below and set up one-time or recurring payments</string>
+
+    <!-- Bill Detail Screen -->
+    <string name="screen_bill_detail_success_dialog_title">%1s Bill has been added successfully</string>
+    <string name="screen_bill_detail_success_dialog_button_text">Yes, pay now</string>
+    <string name="screen_bill_detail_success_dialog_button_description">Pay your %1s bill now?</string>
+    <string name="screen_bill_detail_success_dialog_button_text_do_it_later">No, I\'ll do it later</string>
+
+
+    <!-- Add Biller Detail Screen-->
+    <string name="screen_biller_detail_title_text_credit_card">Enter your credit card details</string>
+    <string name="screen_biller_detail_title_text_enter_you_account_details">Enter your account details</string>
+
+    <!-- Bill Account Detail Screen -->
+    <string name="screen_bill_account_detail_toolbar_title">Account details</string>
+    <string name="screen_bill_account_detail_text_bill_status_paid">This bill is paid</string>
+    <string name="screen_bill_account_detail_text_bill_status_over_due">This bill is over due</string>
+    <string name="screen_bill_account_detail_text_bill_status_due">This bill is due</string>
+    <string name="screen_bill_account_detail_text_last_payment">Last payment</string>
+    <string name="screen_bill_account_detail_text_total_payment">Total payment</string>
+    <string name="screen_bill_account_detail_text_highest_month">Highest month</string>
+    <string name="screen_bill_account_detail_text_lowest_month">Lowest month</string>
+    <string name="screen_bill_account_detail_button_text">Pay Now</string>
 
     <!--Pay Bill-->
     <string name="screen_pay_bill_text_title">Pay bill</string>

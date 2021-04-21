@@ -6,9 +6,13 @@ import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoRes
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
@@ -288,4 +292,22 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_COMPLETE_VERIFICATION)
     suspend fun completeVerification(@Body completeVerificationRequest: CompleteVerificationRequest): Response<SignUpResponse>
+
+    @GET(CustomersRepository.URL_GET_INDUSTRY_SEGMENTS)
+    suspend fun getIndustriesSegments(): Response<IndustrySegmentsResponse>
+
+    @POST(CustomersRepository.URL_SAVE_EMPLOYMENT_INFO)
+    suspend fun submitEmploymentInfo(@Body employmentInfoRequest: EmploymentInfoRequest): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_BILL_PROVIDERS)
+    suspend fun getBillProviders(): Response<BillProviderResponse>
+
+    @GET(CustomersRepository.URL_BILLER_CATALOGS)
+    suspend fun getBillerCatalogs(@Path("category-id") categoryId: String): Response<BillerCatalogResponse>
+
+    @GET(CustomersRepository.URL_BILLER_INPUTS_DETAILS)
+    suspend fun getBillerInputsDetails(@Path("biller-id") billerId: String): Response<BillerDetailResponse>
+
+    @POST(CustomersRepository.URL_ADD_BILLER)
+    suspend fun addBiller(@Body addBillerInformationRequest: AddBillerInformationRequest): Response<ApiResponse>
 }
