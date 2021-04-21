@@ -8,9 +8,11 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.extentions.inviteFriendIntent
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.share
 import kotlinx.android.synthetic.main.fragment_waiting_list.*
 
 class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWaitingList.View {
@@ -28,7 +30,7 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ImageBinding.loadGifImageView(ivYapAnimation, R.raw.gif_yap_waiting_animation,2,3000L)
+        ImageBinding.loadGifImageView(ivYapAnimation, R.raw.gif_yap_waiting_animation, 2, 3000L)
     }
 
     override fun setObservers() {
@@ -38,7 +40,12 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnShare -> {
-                context?.inviteFriendIntent()
+                requireContext().share(
+                    text = getString(
+                        Strings.screen_invite_friend_display_text_share_url,
+                        Utils.getAdjustURL()
+                    )
+                )
             }
         }
     }

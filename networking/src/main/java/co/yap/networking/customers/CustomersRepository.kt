@@ -13,6 +13,7 @@ import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
@@ -123,10 +124,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
     const val URL_SEND_INVITE_FRIEND = "customers/api/save-invite"
-    const val URL_ADDITIONAL_SUBMIT =
-        "customers/api/update-notification-status"
+    const val URL_ADDITIONAL_SUBMIT = "customers/api/update-notification-status"
     const val URL_GET_RANKING = "customers/api/fetch-ranking"
     const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
+    const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
+    const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
 
     const val URL_BILL_PROVIDERS = "customers/api/billpayment/biller-categories"
     const val URL_BILLER_CATALOGS = "customers/api/billpayment/biller-catalogs/{category-id}"
@@ -453,6 +455,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.completeVerification(completeVerificationRequest)
         })
 
+    override suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse> =
+        executeSafely(call = {
+            api.getIndustriesSegments()
+        })
     override suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse> =
         executeSafely(call = {
             api.getBillProviders()
@@ -461,6 +467,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse> =
         executeSafely(call = { api.getBillerCatalogs(categoryId) })
 
+    override suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.submitEmploymentInfo(employmentInfoRequest)
+        })
     override suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse> =
         executeSafely(call = { api.getBillerInputsDetails(billerId) })
 

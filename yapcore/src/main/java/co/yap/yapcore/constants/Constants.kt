@@ -188,6 +188,7 @@ object Constants {
     //Core Bottom Sheet
     const val VIEW_WITHOUT_FLAG = 1
     const val VIEW_WITH_FLAG = 2
-    const val VIEW_ITEM_WITHOUT_SEPARATOR = 3
+    const val VIEW_FIXED_HEIGHT = 3
+    const val VIEW_ITEM_WITHOUT_SEPARATOR = 4
 
 }

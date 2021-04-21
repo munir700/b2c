@@ -7,11 +7,11 @@ import co.yap.billpayments.R
 import co.yap.billpayments.base.PayBillBaseViewModel
 import co.yap.billpayments.dashboard.mybills.adapter.MyBillModel
 import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.billpayment.BillModel
 import co.yap.networking.customers.responsedtos.billpayment.BillResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.helpers.DateUtils

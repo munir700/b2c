@@ -184,7 +184,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgProfile, R.id.imgSettings -> {
-                startActivity(MoreActivity.newIntent(requireContext()))
+                requireActivity().launchActivity<MoreActivity>(requestCode = RequestCodes.REQUEST_CODE_MORE_ACTIVITY) {
+                }
             }
             R.id.btnBankDetails -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_BANK_DETAILS)
