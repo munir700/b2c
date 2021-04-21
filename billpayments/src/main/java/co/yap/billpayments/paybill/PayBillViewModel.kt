@@ -2,7 +2,7 @@ package co.yap.billpayments.paybill
 
 import android.app.Application
 import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -11,7 +11,7 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 
 class PayBillViewModel(application: Application) :
-    PayBillBaseViewModel<IPayBill.State>(application),
+    PayBillMainBaseViewModel<IPayBill.State>(application),
     IPayBill.ViewModel {
 
     override val state: IPayBill.State = PayBillState()
@@ -31,9 +31,7 @@ class PayBillViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_pay_bill_text_title))
-        toggleToolBarVisibility(true)
-        toolgleRightIconVisibility(true)
-        toogleLeftIconVisibility(false)
+        toggleRightIconVisibility(true)
     }
 
     override fun handlePressView(id: Int) {

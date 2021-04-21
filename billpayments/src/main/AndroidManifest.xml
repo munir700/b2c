@@ -25,5 +25,11 @@
             <nav-graph android:value="@navigation/add_bill_navigation" />
         </activity>
 
+        <activity
+            android:name=".paybill.main.PayBillMainActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/pay_bill_navigation" />
+        </activity>
+
     </application>
 </manifest>

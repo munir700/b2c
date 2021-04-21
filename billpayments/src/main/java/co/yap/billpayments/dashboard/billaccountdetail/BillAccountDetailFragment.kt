@@ -6,8 +6,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.paybill.main.PayBillMainActivity
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.launchActivity
 
 class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewModel>(),
     IBillAccountDetail.View {
@@ -30,10 +34,12 @@ class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewMod
         viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
     }
 
-    val onViewClickObserver = Observer<Int> {
+    private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.btnPayNow -> {
-                showToast("Pay Now ")
+                launchActivity<PayBillMainActivity>() {
+                    putExtra(ExtraKeys.BILL_MODEL.name, viewModel.parentViewModel?.selectedBill)
+                }
             }
         }
     }

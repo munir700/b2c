@@ -1,7 +1,10 @@
 package co.yap.networking.customers.responsedtos.billpayment
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class BillerInputDetails(
     @SerializedName("skuId")
     var skuId: String?,
@@ -35,4 +38,4 @@ data class BillerInputDetails(
     var isPostpaid: String? = null,
     @SerializedName("catalogVersion")
     var catalogVersion: String? = null
-)
+) : Parcelable
