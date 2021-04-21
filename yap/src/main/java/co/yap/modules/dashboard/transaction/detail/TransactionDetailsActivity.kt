@@ -93,7 +93,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 showAddReceiptOptions()
             }
             R.id.tvTapToChange ->{
-                startFragment<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
+                startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
             }
         }
     }

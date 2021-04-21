@@ -11,7 +11,10 @@ class TransactionCategoryViewModel(application: Application) :
     override val state: TransactionCategoryState = TransactionCategoryState()
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var categoryAdapter: TransactionCategoryAdapter =
+        TransactionCategoryAdapter(mutableListOf())
     val repository: TransactionsRepository = TransactionsRepository
+
     override fun onCreate() {
         super.onCreate()
         state.toolbarTitle = "Select Category"
@@ -23,20 +26,17 @@ class TransactionCategoryViewModel(application: Application) :
     }
 
     override fun fetchTransactionCategories(): MutableList<TapixCategory> {
-        return arrayListOf(
-            TapixCategory(id = 0,name = "Groceries",icon = ""),
-            TapixCategory(id = 1,name = "Transport",icon = ""),
-            TapixCategory(id = 2,name = "Eating out",icon = ""),
-            TapixCategory(id = 3,name = "Kids",icon = ""),
-            TapixCategory(id = 4,name = "Shopping",icon = ""),
-            TapixCategory(id = 5,name = "Personal",icon = ""),
-            TapixCategory(id = 6,name = "Entertainment",icon = ""),
-            TapixCategory(id = 7,name = "Services & utilities",icon = ""),
-            TapixCategory(id = 8,name = "Travel",icon = ""),
-            TapixCategory(id = 9,name = "Health",icon = "")
-        )
+        val list: MutableList<TapixCategory> = arrayListOf()
+        list.add(TapixCategory(id = 0, name = "Groceries", icon = ""))
+        list.add(TapixCategory(id = 1, name = "Transport", icon = "",isSelected =true))
+        list.add(TapixCategory(id = 2, name = "Eating out", icon = ""))
+        list.add(TapixCategory(id = 3, name = "Kids", icon = ""))
+        list.add(TapixCategory(id = 4, name = "Shopping", icon = ""))
+        list.add(TapixCategory(id = 5, name = "Personal", icon = ""))
+        list.add(TapixCategory(id = 6, name = "Entertainment", icon = ""))
+        list.add(TapixCategory(id = 7, name = "Services & utilities", icon = ""))
+        list.add(TapixCategory(id = 8, name = "Travel", icon = ""))
+        list.add(TapixCategory(id = 9, name = "Health", icon = ""))
+        return list
     }
-
-    override val categoryAdapter: TransactionCategoryAdapter = TransactionCategoryAdapter(
-        mutableListOf())
 }

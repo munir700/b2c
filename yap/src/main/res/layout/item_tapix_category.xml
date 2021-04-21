@@ -2,45 +2,55 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.category.TransactionCategoryItemViewModel" />
 
         <import type="android.view.View" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
 
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginBottom="@dimen/margin_normal">
+
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivCategory"
             android:layout_width="@dimen/margin_extra_large"
             android:layout_height="@dimen/margin_extra_large"
+            android:src="@drawable/ic_access_alarm"
             app:isBackground="@{true}"
-            app:showFirstInitials="@{true}"
-            tools:src="@drawable/ic_access_alarm"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:showFirstInitials="@{true}" />
+
         <androidx.appcompat.widget.AppCompatTextView
+            style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Kuj Vi Ho jaye"
             android:layout_marginStart="@dimen/margin_normal"
             android:maxLines="1"
+            android:text="@{viewModel.item.name}"
+            app:layout_constraintBottom_toBottomOf="@+id/ivCategory"
             app:layout_constraintStart_toEndOf="@+id/ivCategory"
             app:layout_constraintTop_toTopOf="@+id/ivCategory"
-            app:layout_constraintBottom_toBottomOf="@+id/ivCategory"/>
+            tools:text="Kuj Vi Ho jaye" />
+
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:background="@drawable/round_teal_green_background"
-            android:src="@drawable/ic_tick"
-            app:layout_constraintTop_toTopOf="@+id/ivCategory"
-            app:layout_constraintBottom_toBottomOf="@+id/ivCategory"/>
+            android:src="@drawable/ic_check"
+            android:tint="@color/colorWhite"
+            android:visibility="@{viewModel.item.selected?View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/ivCategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivCategory" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

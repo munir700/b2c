@@ -15,39 +15,41 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.helper.widget.Flow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="vertical"
-            app:flow_verticalGap="@dimen/margin_normal"
-            app:constraint_referenced_ids="toolbar,rvCategories,btnConfirm"
-            />
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/warning"
-            app:leftIcon="@{R.drawable.ic_cross}"
+            app:leftIcon="@{R.drawable.ic_close}"
             app:leftIconVisibility="@{true}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_settings}"
             app:rightIconVisibility="@{false}"
-            app:titleString="@{viewModel.state.toolbarTitle}"
+            app:titleString='@{"Select category"}'
+            />
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:orientation="vertical"
+            app:flow_verticalGap="@dimen/margin_normal"
+            app:constraint_referenced_ids="rvCategories,btnConfirm"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_tapix_category"
-            android:paddingStart="@dimen/margin_medium_large"
-            android:orientation="vertical"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_extra_small"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:paddingEnd="@dimen/margin_large"
-            app:recycleViewAdapter="@{viewModel.categoryAdapter}"
-            tools:itemCount="10"/>
+            app:adapter="@{viewModel.categoryAdapter}"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_tapix_category" />
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"
             style="@style/FragmentsBtnStyle"
@@ -56,10 +58,6 @@
             app:btn_size="small"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="Done"
-            app:btn_drawable="@drawable/ic_share_white"
-            app:btn_drawable_padding_right="1.26"
-            app:btn_drawable_padding_top="4"
-            app:btn_drawable_position="right"
             app:enableCoreButton="@{true}"
             app:layout_goneMarginTop="@dimen/margin_extra_large" />
 

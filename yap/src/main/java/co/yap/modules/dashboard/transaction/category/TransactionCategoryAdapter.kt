@@ -22,7 +22,7 @@ class TransactionCategoryAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is TransactionCategoryViewHolder) {
-            holder.onBind(position, list[position])
+            holder.onBind(position, list[position],onItemClickListener)
         }
     }
 }

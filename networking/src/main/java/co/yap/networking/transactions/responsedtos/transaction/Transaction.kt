@@ -186,8 +186,9 @@ data class TapixCategory(
     @SerializedName("name")
     val name: String? = null,
     @SerializedName("icon")
-    val icon: String? = null
+    val icon: String? = null,
+    var isSelected : Boolean =  false
 ) : Parcelable{
     val isGeneral:Boolean get() = id == 11
-    var isSelected : Boolean =  false
+
 }

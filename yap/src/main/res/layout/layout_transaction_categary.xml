@@ -45,7 +45,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/margin_small"
-            android:enabled="@{categoryViewModel.state.transactionData.categoryType}"
             android:onClick="@{(v)-> categoryViewModel.handlePressOnView(v.id)}"
             android:text="@{categoryViewModel.state.transactionData.categoryDescription}"
             app:layout_constraintEnd_toEndOf="parent"
