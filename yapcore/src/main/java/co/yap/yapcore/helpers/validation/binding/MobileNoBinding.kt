@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers.validation.binding
 
 import android.widget.TextView
+import androidx.annotation.Keep
 import androidx.databinding.BindingAdapter
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.yapcore.R
@@ -10,6 +11,7 @@ import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import co.yap.yapcore.helpers.validation.util.ErrorMessageHelper
 import co.yap.yapcore.helpers.validation.util.ViewTagHelper
 
+@Keep
 object MobileNoBinding {
     @JvmStatic
     @BindingAdapter(
