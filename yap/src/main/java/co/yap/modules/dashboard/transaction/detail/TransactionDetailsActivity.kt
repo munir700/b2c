@@ -92,9 +92,19 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 showAddReceiptOptions()
             }
             R.id.tvImproveLogo -> {
-                startFragment<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name)
+                startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name){resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK)
+                        showFeedbackSuccessDialog()
+                }
             }
         }
+    }
+
+    private fun showFeedbackSuccessDialog() {
+        this.showReceiptSuccessDialog(
+            description = getString(Strings.screen_transaction_details_feedback_success_label),
+            addOtherVisibility= false
+        )
     }
 
     private fun showAddReceiptOptions() {

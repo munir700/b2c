@@ -2192,6 +2192,8 @@ object Strings {
         "screen_transaction_add_another_receipt"
     const val screen_transaction_details_receipt_success_label: String =
         "screen_transaction_details_receipt_success_label"
+    const val screen_transaction_details_feedback_success_label: String =
+        "screen_transaction_details_feedback_success_label"
 
     // Reached on the top of queue screen
     const val screen_reached_top_queue_display_text =

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.feedback
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -29,7 +30,8 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
     val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnDone -> {
-                requireActivity().finish()
+                    requireActivity().setResult(Activity.RESULT_OK)
+                    requireActivity().finish()
             }
         }
     }
