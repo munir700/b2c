@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
+import co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackFragment
 import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
@@ -91,9 +92,19 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 showAddReceiptOptions()
             }
             R.id.tvImproveLogo -> {
-
+                startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name){resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK)
+                        showFeedbackSuccessDialog()
+                }
             }
         }
+    }
+
+    private fun showFeedbackSuccessDialog() {
+        this.showReceiptSuccessDialog(
+            description = getString(Strings.screen_transaction_details_feedback_success_label),
+            addOtherVisibility= false
+        )
     }
 
     private fun showAddReceiptOptions() {

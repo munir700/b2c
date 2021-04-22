@@ -1,9 +1,8 @@
 package co.yap.modules.dashboard.transaction.feedback.adaptor
 
-import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
-import co.yap.modules.dashboard.transaction.feedback.models.ItemTransactionFeedback
+import co.yap.modules.dashboard.transaction.feedback.models.ItemFeedback
 
 class TransactionFeedbackItemViewModel  (
-    val item: ItemTransactionFeedback,
+    val item: ItemFeedback,
     val position: Int
 )

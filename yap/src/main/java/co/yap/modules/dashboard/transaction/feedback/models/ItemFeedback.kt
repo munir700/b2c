@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.transaction.feedback.models
 
-data class ItemTransactionFeedback (
+data class ItemFeedback (
     val label : String?,
-    val isCheck : Boolean?
+    var isCheck : Boolean = false
 )

@@ -12,7 +12,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_normal">
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/DarkGreyMedium"
@@ -20,6 +22,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="@{viewmodel.item.label}"
             tools:text="Logo" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -29,6 +32,7 @@
             android:buttonTint="@color/checkbox_selector_tint"
             android:scaleX="1.20"
             android:scaleY="1.20"
+            android:checked="@{viewmodel.item.check}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

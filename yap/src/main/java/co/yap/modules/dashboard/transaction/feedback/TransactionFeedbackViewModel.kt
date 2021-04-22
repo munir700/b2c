@@ -2,15 +2,20 @@ package co.yap.modules.dashboard.transaction.feedback
 
 import android.app.Application
 import co.yap.modules.dashboard.transaction.feedback.adaptor.TransactionFeedbackAdapter
-import co.yap.modules.dashboard.transaction.feedback.models.ItemTransactionFeedback
+import co.yap.modules.dashboard.transaction.feedback.models.ItemFeedback
 import co.yap.yapcore.BaseViewModel
-import com.facebook.internal.Mutable
+import co.yap.yapcore.SingleClickEvent
 
 class TransactionFeedbackViewModel(application: Application) :
     BaseViewModel<ITransactionFeedback.State>(application), ITransactionFeedback.ViewModel {
 
-    override val adapter: TransactionFeedbackAdapter =
-        TransactionFeedbackAdapter(arrayListOf())
+    override val adapter: TransactionFeedbackAdapter = TransactionFeedbackAdapter(mutableListOf())
+
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
 
     override val state: TransactionFeedbackState = TransactionFeedbackState()
 
@@ -19,12 +24,12 @@ class TransactionFeedbackViewModel(application: Application) :
         adapter.setList(getImprovementComponent())
     }
 
-    private fun getImprovementComponent(): MutableList<ItemTransactionFeedback> {
-        val list = mutableListOf<ItemTransactionFeedback>()
-        list.add(ItemTransactionFeedback("Logo",false))
-        list.add(ItemTransactionFeedback("Location",true))
-        list.add(ItemTransactionFeedback("Name of merchant",false))
-        list.add(ItemTransactionFeedback("Category",false))
+    private fun getImprovementComponent(): MutableList<ItemFeedback> {
+        val list = mutableListOf<ItemFeedback>()
+        list.add(ItemFeedback(label = "Logo"))
+        list.add(ItemFeedback(label = "Location",isCheck = true))
+        list.add(ItemFeedback(label = "Name of merchant"))
+        list.add(ItemFeedback(label = "Category"))
         return list
     }
 }
