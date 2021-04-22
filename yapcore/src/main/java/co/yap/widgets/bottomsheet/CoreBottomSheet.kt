@@ -27,8 +27,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 open class CoreBottomSheet(
     private val mListener: OnItemClickListener?,
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
-    private val headingLabel: String? = null,
-    private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
+    private val viewType: Int = Constants.VIEW_WITHOUT_FLAG,
+    private val configuration: BottomSheetConfiguration
 ) : BottomSheetDialogFragment(), ICoreBottomSheet.View {
     lateinit var viewDataBinding: ViewDataBinding
     override val viewModel: CoreBottomSheetViewModel
@@ -62,8 +62,10 @@ open class CoreBottomSheet(
         val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
         adapter.onItemClickListener = myListener
         adapter.allowFullItemClickListener = true
-        viewModel.state.searchBarVisibility.set(viewType == Constants.VIEW_WITH_FLAG)
-        headingLabel?.let {
+//        viewModel.state.searchBarVisibility.set(viewType == Constants.VIEW_WITH_FLAG)
+        viewModel.state.searchBarVisibility.set(configuration.showSearch)
+        viewModel.state.headerSeparatorVisibility.set(configuration.showHeaderSeparator ?: false)
+        configuration.heading?.let {
             getBinding().tvlabel.text = it
         }
         getBinding().lySearchView.etSearch.afterTextChanged {

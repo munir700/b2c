@@ -12,6 +12,7 @@ import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.skeletonlayout.views
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
@@ -95,7 +96,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                                 onBusinessCountriesSelection(data as ArrayList<String>)
                                 viewModel.validate()
                             }
-                        },
+                        },configuration = BottomSheetConfiguration(
+                            heading = "Add all the countries your company does business with:",
+                            showSearch = true,
+                            showHeaderSeparator = true
+                        ),
                         countriesList = viewModel.getSelectedStateCountries(
                             viewModel.parentViewModel?.countries ?: arrayListOf()
                         )
@@ -128,7 +133,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     private fun openEmploymentTypeBottomSheet() {
         launchBottomSheetSegment(
             viewModel.employmentTypeItemClickListener,
-            label = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you),
+            configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you)),
             viewType = Constants.VIEW_WITHOUT_FLAG,
             listData = viewModel.parseEmploymentTypes(viewModel.employmentTypes())
         )
@@ -137,7 +142,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     private fun openSegmentsBottomSheet() {
         launchBottomSheetSegment(
             viewModel.employmentTypeItemClickListener,
-            label = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_segments),
+            configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_segments)),
             viewType = Constants.VIEW_FIXED_HEIGHT,
             listData = viewModel.parseSegments(viewModel.industrySegmentsList)
         )

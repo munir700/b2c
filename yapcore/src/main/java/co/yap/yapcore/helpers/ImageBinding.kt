@@ -16,6 +16,7 @@ import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
@@ -203,7 +204,9 @@ object ImageBinding {
                     imageView,
                     position
                 )
-            )
+            ),
+            SharedPreferenceManager.getInstance(imageView.context)
+                .getValueString(Constants.KEY_IMAGE_LOADING_TIME)
         )
     }
 

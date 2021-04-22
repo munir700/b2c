@@ -20,7 +20,7 @@
         <item name="colorPressedBtnStateAttr">@color/colorPressedBtnState</item>
         <item name="colordisabledTick">@color/disabledTickColor</item>
         <item name="colorSeekBar">@color/seekbarProgress</item>
-
+        <item name="android:layoutDirection">ltr</item>
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>

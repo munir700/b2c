@@ -88,17 +88,16 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvUsersAbove"
-                style="@style/smallMediumFont"
+                style="@style/Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
                 android:text="@{viewModel.state.waitingBehind}"
-                android:textColor="?attr/colorPrimaryLightAttr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rankViewFlow"
                 tools:text="2312"
-                tools:textColor="@color/colorPrimaryLight" />
+                tools:textColor="@color/colorPrimaryDark" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvWaitingBehind"

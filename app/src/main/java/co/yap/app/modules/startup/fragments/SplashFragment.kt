@@ -15,6 +15,7 @@ import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.animations.animators.ScaleAnimator
+import co.yap.yapcore.constants.Constants.KEY_IMAGE_LOADING_TIME
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
@@ -34,7 +35,10 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         viewModel.splashComplete.observe(this, Observer {
             if (it) viewModel.getAppUpdate()
         })
-
+        viewModel.parentViewModel?.shardPrefs?.save(
+            KEY_IMAGE_LOADING_TIME,
+            System.currentTimeMillis().toString()
+        )
         viewModel.appUpdate.observe(this, Observer {
             if (it != null && it.androidForceUpdate && Utils.checkForUpdate(
                     BuildConfig.VERSION_NAME,

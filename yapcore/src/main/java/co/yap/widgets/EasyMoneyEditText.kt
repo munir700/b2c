@@ -13,7 +13,6 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter

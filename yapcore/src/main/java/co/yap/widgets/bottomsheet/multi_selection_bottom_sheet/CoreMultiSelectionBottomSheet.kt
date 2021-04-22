@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -23,9 +24,9 @@ import kotlinx.android.synthetic.main.layout_core_bottomsheet_search.*
 class CoreMultiSelectionBottomSheet(
     private val mListener: OnItemClickListener?,
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
-    private val headingLabel: String? = null,
+    private val configuration: BottomSheetConfiguration,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
-) : CoreBottomSheet(mListener, bottomSheetItems, headingLabel, viewType) {
+) : CoreBottomSheet(mListener, bottomSheetItems, viewType,configuration) {
     override val adapter: CoreMultiSelectionBottomSheetAdapter by lazy {
         CoreMultiSelectionBottomSheetAdapter(bottomSheetItems, viewType)
     }
@@ -56,7 +57,7 @@ class CoreMultiSelectionBottomSheet(
         adapter.onItemClickListener = myListener
         adapter.allowFullItemClickListener = true
         viewModel.state.searchBarVisibility.set(viewType != Constants.VIEW_WITHOUT_FLAG)
-        headingLabel?.let {
+        configuration.heading?.let {
             getBinding().tvlabel.text = it
         }
         etSearch.afterTextChanged {
