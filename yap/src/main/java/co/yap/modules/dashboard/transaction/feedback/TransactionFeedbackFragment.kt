@@ -1,5 +1,8 @@
 package co.yap.modules.dashboard.transaction.feedback
 
+import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -10,8 +13,33 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_transaction_feedback
-
     override val viewModel: ITransactionFeedback.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionFeedbackViewModel::class.java)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setObserver()
+    }
+
+    override fun setObserver() {
+        viewModel.clickEvent.observe(this, clickObserver)
+
+    }
+
+    val clickObserver = Observer<Int> { id ->
+        when (id) {
+            R.id.btnDone -> {
+            }
+        }
+    }
+
+    override fun removeObserver() {
+        viewModel.clickEvent.removeObserver(clickObserver)
+    }
+
+    override fun onDestroyView() {
+        removeObserver()
+        super.onDestroyView()
+    }
 
 }

@@ -30,6 +30,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <co.yap.widgets.CoreToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivMap"
@@ -64,7 +67,7 @@
             android:padding="@dimen/margin_medium"
             tools:itemCount="4"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            recycleViewAdapter=""
+            recycleViewAdapter="@{viewModel.adapter}"
             tools:listitem="@layout/item_improvement_components" />
 
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
@@ -94,14 +97,14 @@
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/done"
+            android:id="@+id/btnDone"
             style="@style/FragmentsBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_extra_large"
             android:text="@string/common_button_submit"
-            android:onClick=""
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:btn_size="small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

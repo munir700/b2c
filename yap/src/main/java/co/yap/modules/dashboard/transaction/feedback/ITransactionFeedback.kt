@@ -5,7 +5,10 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface ITransactionFeedback {
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel>{
+        fun setObserver()
+        fun removeObserver()
+    }
     interface ViewModel : IBase.ViewModel<State>{
         val adapter: TransactionFeedbackAdapter
         fun handlePressOnView(id: Int)

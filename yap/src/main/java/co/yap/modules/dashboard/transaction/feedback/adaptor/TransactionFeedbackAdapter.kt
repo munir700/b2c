@@ -4,11 +4,11 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemImprovementComponentsBinding
-import co.yap.modules.dashboard.transaction.feedback.models.ItemTransactionFeedback
+import co.yap.modules.dashboard.transaction.feedback.models.ItemFeedback
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class TransactionFeedbackAdapter (val list: MutableList<ItemTransactionFeedback>) :
-    BaseBindingRecyclerAdapter<ItemTransactionFeedback, RecyclerView.ViewHolder>(list){
+class TransactionFeedbackAdapter (val list: MutableList<ItemFeedback>) :
+    BaseBindingRecyclerAdapter<ItemFeedback, RecyclerView.ViewHolder>(list){
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
        return TransactionFeedbackViewHolder(binding as ItemImprovementComponentsBinding)
