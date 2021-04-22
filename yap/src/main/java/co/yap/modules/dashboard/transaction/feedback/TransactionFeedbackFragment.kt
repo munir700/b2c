@@ -38,6 +38,14 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
         viewModel.clickEvent.removeObserver(clickObserver)
     }
 
+    override fun onToolBarClick(id: Int) {
+        when(id){
+            R.id.ivLeftIcon ->{
+                requireActivity().finish()
+            }
+
+        }
+    }
     override fun onDestroyView() {
         removeObserver()
         super.onDestroyView()

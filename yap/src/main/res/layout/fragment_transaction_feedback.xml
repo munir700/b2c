@@ -17,110 +17,115 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:fillViewport="true">
 
-        <androidx.constraintlayout.helper.widget.Flow
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="ivMap,layout_merchant,tvSelectionLabel,rvImprovementComponents,tvAdditionalDetailLabel"
-            app:flow_wrapMode="aligned"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <co.yap.widgets.CoreToolbar
-            android:id="@+id/toolbar"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
-            app:leftIconVisibility="@{true}"
-            app:onClick="@{viewModel::onToolBarClick}"
-            app:titleString='@{""}'
-            />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivMap"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_120sdp"
-            android:contentDescription=""
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_image_brown_background" />
-
-        <include
-            android:id="@+id/layout_merchant"
-            layout="@layout/layout_feedback_merchant"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_medium" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSelectionLabel"
-            style="@style/LabelTextStylInActive"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/margin_medium"
-            android:paddingTop="@dimen/small"
-            android:paddingEnd="@dimen/margin_medium"
-            app:text="@{Strings.screen_transaction_feedback_improvement_label}" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvImprovementComponents"
-            recycleViewAdapter="@{viewModel.adapter}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_medium"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_improvement_components" />
-
-        <co.yap.widgets.CollapsedColoredHintTextInputLayout
-            android:id="@+id/tvAdditionalDetailLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium_large"
-            android:dividerPadding="@dimen/margin_medium_large"
-            android:hint=""
-            app:hintTextAppearance="@style/LabelTextStyl"
-            app:textColorChangePin="@{pinCode}">
-
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etAdditionalDetail"
-                style="@style/Regular"
+            <co.yap.widgets.CoreToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/greyLight"
-                android:imeOptions="actionDone"
-                android:maxLength="50"
-                android:maxLines="1"
-                android:singleLine="true"
-                app:text="@{Strings.screen_transaction_feedback_additional_detail_label}" />
-        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:leftIcon="@{R.drawable.ic_close}"
+                app:leftIconVisibility="@{true}"
+                app:onClick="@{viewModel::onToolBarClick}"
+                app:titleString='@{"Improve transaction details"}' />
 
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnDone"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_extra_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:text="@string/common_button_submit"
-            app:btn_enable="true"
-            app:btn_size="small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivMap"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:contentDescription=""
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_map" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                android:id="@+id/layout_merchant"
+                layout="@layout/layout_feedback_merchant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
+                app:viewModel = "@{viewModel}"/>
+            <View
+                android:id="@+id/vMerchantLayout"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:background="@color/greyLight" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSelectionLabel"
+                style="@style/LabelTextStylInActive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                app:text="@{Strings.screen_transaction_feedback_improvement_label}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvImprovementComponents"
+                recycleViewAdapter="@{viewModel.adapter}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_improvement_components" />
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/tvAdditionalDetailLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:dividerPadding="@dimen/margin_medium_large"
+                android:hint="@string/screen_transaction_feedback_additional_detail_label"
+                app:hintTextAppearance="@style/LabelTextStyl"
+                android:textColorHint="@color/colorPrimaryDark">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAdditionalDetail"
+                    style="@style/ASmallGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="For exmaple: The logo is outdated and location should be in Downtown Dubai"
+                    android:imeOptions="actionDone"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:maxLength="50"
+                    android:maxLines="3"
+                    />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnDone"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:text="@string/common_button_submit"
+                app:btn_enable="true"
+                app:btn_size="small" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
 </layout>
