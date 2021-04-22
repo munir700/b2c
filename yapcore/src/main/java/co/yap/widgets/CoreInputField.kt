@@ -2,7 +2,6 @@ package co.yap.widgets
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -45,7 +44,6 @@ class CoreInputField @JvmOverloads constructor(
     private var viewHeight: Int = 0
     private var textInput: String = ""
     var countryCode: String = "+971 "
-    lateinit var typedArray: TypedArray
     var inputType: Int = 0
     private var imeiActionType: Int = 1
     private var IME_NEXT: Int = 2
@@ -64,13 +62,14 @@ class CoreInputField @JvmOverloads constructor(
         true
     )
     private var showKeyboard: Boolean = true
+    private var useStartMultiplySpaceFilter: Boolean = false
 
     init {
         viewDataBinding.executePendingBindings()
         editText = viewDataBinding.root.findViewById(R.id.etCoreInput)
 
         attrs?.let {
-            typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
+            val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
             val title = resources.getText(
                 typedArray
                     .getResourceId(
@@ -79,6 +78,8 @@ class CoreInputField @JvmOverloads constructor(
                     )
             )
             showKeyboard = typedArray.getBoolean(R.styleable.CoreInputField_showKeyboard, true)
+            useStartMultiplySpaceFilter =
+                typedArray.getBoolean(R.styleable.CoreInputField_useStartMultiplySpaceFilter, false)
             inputType = typedArray.getInt(R.styleable.CoreInputField_view_input_type, inputType)
             maxLength = typedArray.getInt(R.styleable.CoreInputField_view_max_length, maxLength)
             checkFocusChange =
@@ -170,7 +171,13 @@ class CoreInputField @JvmOverloads constructor(
             animteKeyboardDismissal()
 
             if (maxLength > 0) {
-                editText.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength)))
+                if (useStartMultiplySpaceFilter)
+                    editText.filters = arrayOf(
+                        InputFilter.LengthFilter(maxLength),
+                        StartMultiplySpaceFilter()
+                    )
+                else
+                    editText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
 
             }
         }
@@ -222,13 +229,21 @@ class CoreInputField @JvmOverloads constructor(
 
         editText.setCursorVisible(false)
 
-        editText.setOnClickListener(OnClickListener { editText.setSelection(editText.getText().toString().length) })
+        editText.setOnClickListener(OnClickListener {
+            editText.setSelection(
+                editText.getText().toString().length
+            )
+        })
 
         editText.setCursorVisible(true)
     }
 
     fun cursorPlacement() {
-        editText.setOnClickListener(OnClickListener { editText.setSelection(editText.getText().toString().length) })
+        editText.setOnClickListener(OnClickListener {
+            editText.setSelection(
+                editText.getText().toString().length
+            )
+        })
         editText.setCursorVisible(true)
     }
 
