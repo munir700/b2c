@@ -41,13 +41,10 @@ project.ext {
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
             material                 : 'com.google.android.material:material:1.3.0-alpha02',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2',
-            otpView                  : 'com.github.aabhasr1:OtpView:v1.1.2',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.12.10',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
             gson                     : 'com.google.code.gson:gson:2.8.5',
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",
-            baloon                   : "com.github.skydoves:balloon:1.1.4",
-            quickAction              : "me.piruin:quickaction:2.4.3",
             rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
 
             // Dagger
@@ -123,7 +120,7 @@ project.ext {
             analytics                : 'com.google.firebase:firebase-analytics-ktx:18.0.0',
             messagingFcm             : 'com.google.firebase:firebase-messaging-ktx:21.0.1',
             playServicesLocation     : 'com.google.android.gms:play-services-location:17.1.0',
-            directboot               : 'com.google.firebase:firebase-messaging-directboot:21.0.1',
+//            directboot               : 'com.google.firebase:firebase-messaging-directboot:21.0.1',
 
             //Leanplum
             leanplumFcm              : 'com.leanplum:leanplum-fcm:5.2.3',
@@ -205,13 +202,10 @@ project.ext {
             [configuration: "implementation", dependency: libraries.adjustReferrer],
             [configuration: "implementation", dependency: libraries.expand],
             [configuration: "implementation", dependency: libraries.pdfViewer],
-            [configuration: "implementation", dependency: libraries.baloon],
             [configuration: "implementation", dependency: libraries.security],
             [configuration: "implementation", dependency: libraries.facebook],
             [configuration: "implementation", dependency: libraries.playservicesAuth],
             [configuration: "implementation", dependency: libraries.playservicesAuthPhone],
-//            [configuration: "implementation", dependency: libraries.deeplink],
-//            [configuration: "kapt", dependency: libraries.deeplinkprocessor],
             [configuration: "implementation", dependency: libraries.lotieAnimation]
 
     ]
@@ -230,7 +224,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
             [configuration: "implementation", dependency: libraries.analytics],
-            [configuration: "implementation", dependency: libraries.directboot],
+//            [configuration: "implementation", dependency: libraries.directboot],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]

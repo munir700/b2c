@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/tbBtnCheck"
-            android:layout_width="@dimen/_28sdp"
-            android:layout_height="@dimen/_28sdp"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_5sdp"
             android:clickable="true"

@@ -3,28 +3,40 @@ package co.yap.yapcore.helpers.extentions
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.EXTRA_EMAIL
-import android.content.Intent.createChooser
+import android.content.Intent.*
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
+import androidx.annotation.Keep
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_SHARE_PLAY_STORE
 
-
+@Keep
 /**
  * Opens the url in the available application
  * @return A boolean representing if the action was successful or not
  */
 fun Context.openUrl(url: String, newTask: Boolean = false): Boolean {
     return try {
-        val intent = Intent().apply {
-            action = Intent.ACTION_VIEW
+        Intent().apply {
+            action = ACTION_VIEW
             data = Uri.parse(url)
-            if (newTask) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (newTask) addFlags(FLAG_ACTIVITY_NEW_TASK)
+        }.also {
+            val possibleActivitiesList: List<ResolveInfo> =
+                packageManager.queryIntentActivities(it, PackageManager.MATCH_ALL)
+            if (possibleActivitiesList.size > 1) {
+                it.resolveActivity(packageManager)?.run {
+                    startActivity(createChooser(it, ""))
+                }
+            } else {
+                it.resolveActivity(packageManager)?.run {
+                    startActivity(it)
+                }
+            }
+
         }
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-            true
-        } else false
+        true
     } catch (e: Exception) {
         false
     }
@@ -34,43 +46,73 @@ fun Context.openUrl(url: String, newTask: Boolean = false): Boolean {
  * Opens the share context menu
  * @return A boolean representing if the action was successful or not
  */
-fun Context.share(text: String?, subject: String? = ""): Boolean {
-    val intent = Intent(Intent.ACTION_SEND)
-    intent.type = "text/plain"
-    subject?.let { intent.putExtra(Intent.EXTRA_SUBJECT, subject) }
-    text?.let { intent.putExtra(Intent.EXTRA_TEXT, text) }
-    if (intent.resolveActivity(packageManager) != null) {
-        return try {
-            startActivity(createChooser(intent, null))
-            true
-        } catch (e: ActivityNotFoundException) {
-            false
+fun Context.share(
+    text: String?,
+    subject: String? = "",
+    title: String? = null
+) {
+    try {
+        Intent(ACTION_SEND).apply {
+            type = "text/plain"
+            subject?.let { putExtra(EXTRA_SUBJECT, subject) }
+            text?.let { putExtra(EXTRA_TEXT, text) }
+        }.also {
+            val possibleActivitiesList: List<ResolveInfo> =
+                packageManager.queryIntentActivities(it, PackageManager.MATCH_ALL)
+            if (possibleActivitiesList.size > 1) {
+                it.resolveActivity(packageManager)?.run {
+                    startActivity(createChooser(it, title ?: ""))
+                }
+            } else {
+                it.resolveActivity(packageManager)?.run {
+                    startActivity(it)
+                }
+            }
         }
+        // success.invoke(true)
+    } catch (e: ActivityNotFoundException) {
+
     }
-    return false
 }
-//
-///**
-// * Opens the email application
-// * @param email A recipient email
-// * @param subject An optional subject of email
-// * @param text An option body of the email
-// * @return A boolean representing if the action was successful or not
-// */
-//fun Context.sendEmail(email: String, subject: String = "", text: String = ""): Boolean {
-//    val intent = Intent().apply {
-//        action = Intent.ACTION_SENDTO
-//        data = Uri.parse("mailto:")
-//        putExtra(EXTRA_EMAIL, arrayOf(email))
-//        if (subject.isNotBlank()) putExtra(Intent.EXTRA_SUBJECT, subject)
-//        if (text.isNotBlank()) putExtra(Intent.EXTRA_TEXT, text)
-//    }
-//    if (intent.resolveActivity(packageManager) != null) {
-//        startActivity(intent)
-//        return true
-//    }
-//    return false
-//}
+
+/**
+ * Opens the email application
+ * @param email A recipient email
+ * @param subject An optional subject of email
+ * @param text An option body of the email
+ * @return A boolean representing if the action was successful or not
+ */
+fun Context.sendEmail(
+    email: String? = null,
+    subject: String? = null,
+    text: String? = null
+): Boolean {
+    return try {
+        Intent().apply {
+            action = ACTION_SENDTO
+            data = Uri.parse("mailto:")
+            putExtra(EXTRA_EMAIL, arrayOf(email))
+            subject?.let { putExtra(EXTRA_SUBJECT, it) }
+            text?.let { putExtra(EXTRA_TEXT, it) }
+        }.also {
+            val possibleActivitiesList: List<ResolveInfo> =
+                packageManager.queryIntentActivities(it, PackageManager.MATCH_ALL)
+            if (possibleActivitiesList.size > 1) {
+                it.resolveActivity(packageManager)?.run {
+                    startActivity(createChooser(it, "Send Email"))
+                }
+
+            } else {
+                it.resolveActivity(packageManager)?.run {
+                    startActivity(it)
+                }
+            }
+        }
+        return true
+    } catch (e: Exception) {
+        false
+    }
+}
 
 /**
  * Opens the dialer that handles the given number
@@ -79,12 +121,12 @@ fun Context.share(text: String?, subject: String? = ""): Boolean {
  */
 fun Context.makeCall(number: String?): Boolean {
     return try {
-        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-            true
-        } else
-            false
+        Intent(ACTION_DIAL, Uri.parse("tel:$number")).also {
+            it.resolveActivity(packageManager)?.run {
+                startActivity(it)
+            }
+        }
+        true
     } catch (e: Exception) {
         false
     }
@@ -106,7 +148,7 @@ fun Context.openWhatsApp() {
     val contact = "+971 4 365 3789" // use country code with your phone number
     val url =
         "https://api.whatsapp.com/send?phone=$contact"
-    val i = Intent(Intent.ACTION_VIEW)
+    val i = Intent(ACTION_VIEW)
     i.data = Uri.parse(url)
     if (i.resolveActivity(packageManager) != null)
         startActivity(i)
@@ -139,3 +181,64 @@ fun Context.openWhatsApp() {
 
 fun Context.openPlayStore(): Boolean =
     openUrl(URL_SHARE_PLAY_STORE)
+
+fun Context.openTwitter() {
+    if (isPackageInstalled("com.twitter.android")) {
+        Intent(ACTION_VIEW).apply {
+            data = Uri.parse(Constants.URL_TWITTER)
+            addFlags(FLAG_ACTIVITY_NEW_TASK)
+        }.also { intent ->
+            intent.resolveActivity(packageManager)?.let {
+                startActivity(intent)
+            }
+        }
+    } else {
+        openUrl(Constants.URL_TWITTER)
+    }
+}
+
+fun Context.openFacebook() {
+    if (isPackageInstalled("com.facebook.katana")) {
+        Intent(ACTION_VIEW).apply {
+            data = Uri.parse("fb://page/288432705359181")
+            addFlags(FLAG_ACTIVITY_NEW_TASK)
+        }.also { intent ->
+            intent.resolveActivity(packageManager)?.let {
+                startActivity(intent)
+            }
+        }
+    } else {
+        openUrl(Constants.URL_FACEBOOK)
+    }
+}
+
+fun Context.openInstagram() {
+    if (isPackageInstalled("com.instagram.android")) {
+        Intent(ACTION_VIEW).apply {
+            data = Uri.parse(Constants.URL_INSTAGRAM)
+            addFlags(FLAG_ACTIVITY_NEW_TASK)
+        }.also { intent ->
+            intent.resolveActivity(packageManager)?.let {
+                startActivity(intent)
+            }
+        }
+    } else {
+        openUrl(Constants.URL_INSTAGRAM)
+    }
+}
+
+fun Context.isPackageInstalled(packageName: String): Boolean {
+    return try {
+        packageManager.getPackageInfo(packageName, 0) != null
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+}
+
+fun Context.isApplicationInstalledAndEnable(packageName: String): Boolean {
+    return try {
+        packageManager.getApplicationInfo(packageName, 0).enabled
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+}

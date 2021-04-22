@@ -16,16 +16,17 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp"
-        >
+        android:padding="@dimen/_8sdp">
 
         <ImageView
             android:id="@+id/tbBtnBack"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/_5sdp"
             android:clickable="true"
+            android:contentDescription="@string/empty_string"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
@@ -43,7 +44,5 @@
             android:layout_centerVertical="true"
             android:text="@={viewModel.state.tootlBarTitle}"
             tools:text="Add spare card" />
-
-
     </RelativeLayout>
 </layout>

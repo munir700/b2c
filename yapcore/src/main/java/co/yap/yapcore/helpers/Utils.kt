@@ -5,18 +5,17 @@ import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.content.*
-import android.content.Intent.ACTION_VIEW
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.res.Resources
 import android.icu.util.TimeZone
-import android.net.Uri
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
-import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.util.Patterns
@@ -31,7 +30,6 @@ import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.requestdtos.Contact
-import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.loading.CircularProgressBar
@@ -39,7 +37,6 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
-import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -165,14 +162,6 @@ object Utils {
         } catch (ex: Exception) {
             ""
         }
-    }
-
-    fun convertDpToPx(context: Context, dp: Float): Float {
-        return dp * context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
-    }
-
-    fun convertPxToDp(context: Context, px: Float): Float {
-        return px / context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
     }
 
     fun getNavigationBarHeight(activity: Activity): Int {
@@ -415,47 +404,6 @@ object Utils {
         }
     }
 
-    fun openTwitter(context: Context) {
-        var intent: Intent?
-        try {
-            context.packageManager.getPackageInfo("com.twitter.android", 0)
-            intent = Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            // no Twitter app, revert to browser
-            context.startActivity(Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
-            )
-        }
-    }
-
-    fun openInstagram(context: Context) {
-        val uri = Uri.parse(Constants.URL_INSTAGRAM)
-        val likeIng = Intent(ACTION_VIEW, uri)
-        likeIng.setPackage("com.instagram.android")
-
-        try {
-            context.startActivity(likeIng)
-        } catch (e: ActivityNotFoundException) {
-            context.startActivity(
-                Intent(ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM))
-            )
-        }
-    }
-
-    fun getOpenFacebookIntent(context: Context): Intent? {
-        return try {
-            context.packageManager.getPackageInfo("com.facebook.katana", 0)
-            Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
-        } catch (e: Exception) {
-            try {
-                Intent(ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK))
-            } catch (e: Exception) {
-                null
-            }
-        }
-    }
-
     fun getFormattedPhone(mobileNo: String): String {
         return try {
             val pnu = PhoneNumberUtil.getInstance()
@@ -528,60 +476,10 @@ object Utils {
 
     }
 
-    fun getSpannableStringForLargerBalance(
-        context: Context,
-        staticString: String,
-        currencyType: String,
-        amount: String
-    ): SpannableStringBuilder? {
-        return try {
-            var textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
-            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-            val fcsLarge = AbsoluteSizeSpan(textSize)
-            val separated = staticString.split(currencyType)
-            val str = SpannableStringBuilder(staticString)
-
-            str.setSpan(
-                fcs,
-                separated[0].length,
-                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
-                    ?: 0) + 1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            str.setSpan(
-                fcsLarge,
-                separated[0].length,
-                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
-                    ?: 0) + 1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            str
-        } catch (e: Exception) {
-            return null
-        }
-
-
-    }
-
     @SuppressLint("DefaultLocale")
     fun getCountryCodeFromTelephony(context: Context): String {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return tm.networkCountryIso.toUpperCase()
-    }
-
-    fun getPhoneNumberCountryCodeForAPI(
-        defaultCountryCode: String,
-        mobileNo: String
-    ): String {
-        return try {
-            val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, defaultCountryCode)
-            //didt find any other way to get number zero
-            return """00${pn.countryCode}"""
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ""
-        }
     }
 
     fun getCountryCodeFormString(
@@ -638,7 +536,10 @@ object Utils {
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
     fun getBackgroundColorForAnalytics(context: Context, position: Int) =
-        ContextCompat.getColor(context, backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size])
+        ContextCompat.getColor(
+            context,
+            backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size]
+        )
 
     fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(
@@ -750,10 +651,6 @@ object Utils {
             .show()
     }
 
-    fun showComingSoon(context: Context) {
-        context.shortToast("Coming Soon")
-    }
-
     fun formateIbanString(iban: String?): String? {
         iban?.let {
             val sb = StringBuilder()
@@ -800,9 +697,9 @@ object Utils {
 
     fun getOtpBlockedMessage(context: Context): String {
         return "${
-            context.getString(R.string.screen_blocked_otp_display_text_message).format(
-                SessionManager.helpPhoneNumber
-            )
+        context.getString(R.string.screen_blocked_otp_display_text_message).format(
+            SessionManager.helpPhoneNumber
+        )
         }^${AlertType.DIALOG.name}"
     }
 
@@ -926,13 +823,6 @@ object Utils {
     fun dpToFloat(context: Context, dp: Float): Float {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, dp,
-            context.resources.displayMetrics
-        )
-    }
-
-    fun spToFloat(context: Context, dp: Float): Float {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP, dp,
             context.resources.displayMetrics
         )
     }
