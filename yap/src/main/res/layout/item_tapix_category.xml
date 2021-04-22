@@ -34,7 +34,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:position="@{viewModel.position}"
-            app:fullName="@{viewModel.item.name==null?` `:viewModel.item.name}"
+            app:fullName="@{viewModel.item.categoryName==null?` `:viewModel.item.categoryName}"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:maxLines="1"
-            android:text="@{viewModel.item.name}"
+            android:text="@{viewModel.item.categoryName}"
             app:layout_constraintBottom_toBottomOf="@+id/ivCategory"
             app:layout_constraintStart_toEndOf="@+id/ivCategory"
             app:layout_constraintTop_toTopOf="@+id/ivCategory"

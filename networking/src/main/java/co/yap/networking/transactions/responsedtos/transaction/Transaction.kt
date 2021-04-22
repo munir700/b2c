@@ -183,10 +183,13 @@ data class Transaction(
 data class TapixCategory(
     @SerializedName("id")
     val id: Int,
-    @SerializedName("name")
-    val name: String? = null,
-    @SerializedName("icon")
-    val icon: String? = null,
+    @SerializedName("category")
+    val categoryName: String? = null,
+    @SerializedName("categoryIcon")
+    val categoryIcon: String? = null,
+    @SerializedName("analyticIcon")
+    val analyticIcon: String? = null,
+    @Transient
     var isSelected : Boolean =  false
 ) : Parcelable{
     val isGeneral:Boolean get() = id == 11
