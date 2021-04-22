@@ -10,13 +10,12 @@ import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
-import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.android.material.tabs.TabLayout
 
 class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
     IPayBill.View, CompoundButton.OnCheckedChangeListener {
@@ -35,52 +34,66 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
+        initTabLayout()
+    }
+
+    private fun initTabLayout() {
+        getViewBinding().iAutoPayment.tabLayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    day -> {
+                        viewModel.updateAutoPaySelection(
+                            isWeek = false,
+                            isMonth = false,
+                            paymentScheduleType = PaymentScheduleType.DAY
+                        )
+                    }
+                    week -> {
+                        viewModel.updateAutoPaySelection(
+                            isWeek = true,
+                            isMonth = false,
+                            paymentScheduleType = PaymentScheduleType.WEEK
+                        )
+                    }
+                    month -> {
+                        viewModel.updateAutoPaySelection(
+                            isWeek = false,
+                            isMonth = true,
+                            paymentScheduleType = PaymentScheduleType.MONTH
+                        )
+                    }
+                }
+            }
+
+        })
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
     }
 
-    override fun removeObservers() {
-        viewModel.clickEvent.removeObservers(this)
-    }
-
-    val clickEvent = Observer<Int> {
+    private val clickEvent = Observer<Int> {
         when (it) {
-            R.id.cDay -> {
-                viewModel.state.autoPaymentScheduleTypeWeek.set(false)
-                viewModel.state.autoPaymentScheduleTypeMonth.set(false)
-                viewModel.state.autoPaymentScheduleType.set(PaymentScheduleType.DAY.name)
-            }
-            R.id.cWeek -> {
-                viewModel.state.autoPaymentScheduleTypeWeek.set(true)
-                viewModel.state.autoPaymentScheduleTypeMonth.set(false)
-                viewModel.state.autoPaymentScheduleType.set(PaymentScheduleType.WEEK.name)
-            }
-            R.id.cMonth -> {
-                viewModel.state.autoPaymentScheduleTypeWeek.set(false)
-                viewModel.state.autoPaymentScheduleTypeMonth.set(true)
-                viewModel.state.autoPaymentScheduleType.set(PaymentScheduleType.MONTH.name)
-            }
             R.id.tvDropDownWeekDays -> {
-                this.childFragmentManager.let { fManager ->
-                    val coreBottomSheet = CoreBottomSheet(
-                        object :
-                            OnItemClickListener {
-                            override fun onItemClick(view: View, data: Any, pos: Int) {
-                                viewModel.state.selectedWeekDay.set(weekDaysList[pos])
-                            }
-                        },
-                        bottomSheetItems = composeWeekDaysList(),
-                        configuration = BottomSheetConfiguration(
-                            heading = getString(Strings.screen_pay_bill_select_week_day_text),
-                            showSearch = false,
-                            showHeaderSeparator = false
-                        ),
-                        viewType = Constants.VIEW_ITEM_WITHOUT_SEPARATOR
-                    )
-                    coreBottomSheet.show(fManager, "")
-                }
+                openMonthDaysSheet(
+                    title = getString(Strings.screen_pay_bill_select_week_day_text),
+                    list = weekDaysList,
+                    isDaySelection = true
+                )
+            }
+            R.id.tvDropDownMonthDays -> {
+                openMonthDaysSheet(
+                    title = getString(Strings.screen_pay_bill_select_month_day_text),
+                    list = monthDaysList,
+                    isDaySelection = false
+                )
             }
             R.id.btnPay -> {
                 showToast("btnPay clicked")
@@ -88,20 +101,32 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         }
     }
 
-    override fun composeWeekDaysList(): MutableList<CoreBottomSheetData> {
-        val list: MutableList<CoreBottomSheetData> = arrayListOf()
-        weekDaysList.forEach { weekDay ->
-            list.add(
-                CoreBottomSheetData(
-                    content = weekDay,
-                    subTitle = weekDay,
-                    sheetImage = null
-                )
-            )
-        }
-        return list
-    }
+    private fun openMonthDaysSheet(title: String, list: List<String>, isDaySelection: Boolean) {
+        this.childFragmentManager.let { fManager ->
+            val coreBottomSheet = CoreBottomSheet(
+                object :
+                    OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                        if (isDaySelection)
+                            viewModel.state.selectedWeekDay.set(list[pos])
+                        else
+                            viewModel.state.selectedMonthDay.set(
+                                list[pos]
+                            )
 
+                    }
+                },
+                bottomSheetItems = viewModel.composeWeekDaysList(list),
+                configuration = BottomSheetConfiguration(
+                    heading = title,
+                    showSearch = false,
+                    showHeaderSeparator = false
+                ),
+                viewType = Constants.VIEW_ITEM_WITHOUT_SEPARATOR
+            )
+            coreBottomSheet.show(fManager, "")
+        }
+    }
 
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         when (buttonView.id) {
@@ -116,6 +141,10 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
 
     override fun getViewBinding(): FragmentPayBillBinding {
         return viewDataBinding as FragmentPayBillBinding
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObservers(this)
     }
 
     override fun onDestroy() {

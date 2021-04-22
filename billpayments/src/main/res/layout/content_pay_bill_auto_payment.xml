@@ -34,62 +34,55 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/screen_pay_bill_payment_type_text" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:theme="@style/Theme.MaterialComponents.Light"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:visibility="visible"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPayType"
-            android:layout_marginTop="@dimen/margin_normal"
-            app:selectionRequired="true"
-            app:singleSelection="true">
+            app:tabBackground="@drawable/contacts_tab_layout_selector"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabRippleColor="@null"
+            app:tabTextAppearance="@style/TabTextAppearance">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/cDay"
-                style="@style/ChipsTheme"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checkable="true"
-                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
-                android:padding="@dimen/margin_small"
-                android:text="Day"
-                android:textColor="@color/colorPrimary"
-                android:theme="@style/Theme.MaterialComponents.Light" />
+                android:text="@string/screen_pay_bill_payment_every_day_text"
+                tools:text="Day"
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/cWeek"
-                style="@style/ChipsTheme"
+                />
+
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checkable="true"
-                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
-                android:padding="@dimen/margin_small"
-                android:text="Week"
-                android:textColor="@color/colorPrimary"
-                android:theme="@style/Theme.MaterialComponents.Light" />
+                android:text="@string/screen_pay_bill_payment_every_week_text"
+                tools:text="Week"
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/cMonth"
-                style="@style/ChipsTheme"
+                />
+
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checkable="true"
-                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
-                android:padding="@dimen/margin_small"
-                android:text="Month"
-                android:textColor="@color/colorPrimary"
-                android:theme="@style/Theme.MaterialComponents.Light" />
+                android:text="@string/screen_pay_bill_payment_every_month_text"
+                tools:text="Month"
 
-        </com.google.android.material.chip.ChipGroup>
+                />
+
+        </com.google.android.material.tabs.TabLayout>
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
             android:orientation="vertical">
 
             <include

@@ -2333,10 +2333,18 @@ object Strings {
         "screen_pay_bill_auto_payment_day_month"
     const val screen_pay_bill_select_week_day_text: String =
         "screen_pay_bill_select_week_day_text"
+    const val screen_pay_bill_select_month_day_text: String =
+        "screen_pay_bill_select_month_day_text"
     const val screen_pay_bill_select_selection_text: String =
         "screen_pay_bill_selection_text"
     const val screen_pay_bill_select_selection_remind_text: String =
         "screen_pay_bill_selection_remind_text"
     const val screen_pay_bill_payment_type_text: String =
         "screen_pay_bill_payment_type_text"
+    const val screen_pay_bill_payment_every_day_text: String =
+        "screen_pay_bill_payment_every_day_text"
+    const val screen_pay_bill_payment_every_week_text: String =
+        "screen_pay_bill_payment_every_week_text"
+    const val screen_pay_bill_payment_every_month_text: String =
+        "screen_pay_bill_payment_every_month_text"
 }

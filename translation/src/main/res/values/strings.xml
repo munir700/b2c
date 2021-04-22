@@ -1453,8 +1453,16 @@
     <string name="screen_pay_bill_auto_payment_day_week">Week</string>
     <string name="screen_pay_bill_auto_payment_day_month">Month</string>
     <string name="screen_pay_bill_select_week_day_text">Select day in week</string>
+    <string name="screen_pay_bill_select_month_day_text">Select day in month</string>
     <string name="screen_pay_bill_selection_text">Make this an auto-payment</string>
     <string name="screen_pay_bill_selection_remind_text">Remind me in advance by</string>
     <string name="screen_pay_bill_payment_type_text">Pay every</string>
+    <string name="screen_pay_bill_payment_every_day_text">Day</string>
+    <string name="screen_pay_bill_payment_every_week_text">Week</string>
+    <string name="screen_pay_bill_payment_every_month_text">Month</string>
+
+    <string name="screen_pay_bill_payment_reminder_every_days_text">3 days</string>
+    <string name="screen_pay_bill_payment_reminder_every_week_text">1 week</string>
+    <string name="screen_pay_bill_payment_reminder_every_weeks_text">3 weeks</string>
 
 </resources>

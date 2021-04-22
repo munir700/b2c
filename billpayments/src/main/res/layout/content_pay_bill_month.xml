@@ -30,13 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="Select day in month"
+            android:text="@string/screen_pay_bill_select_month_day_text"
             android:textColor="#80272262"
+            app:text="@{Strings.screen_pay_bill_select_month_day_text}"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Select day in month" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDropDown"
+            android:id="@+id/tvDropDownMonthDays"
             style="@style/ARegular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

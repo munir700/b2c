@@ -34,56 +34,49 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/screen_pay_bill_selection_remind_text" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/margin_normal"
-            android:orientation="horizontal"
-            android:theme="@style/Theme.MaterialComponents.Light"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPayType"
-            app:selectionRequired="true"
-            app:singleSelection="true">
+            app:tabBackground="@drawable/contacts_tab_layout_selector"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabRippleColor="@null"
+            app:tabTextAppearance="@style/TabTextAppearance">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/cThreeDays"
-                style="@style/ChipsTheme"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checkable="true"
-                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
-                android:padding="@dimen/margin_small"
-                android:text="3 days"
-                android:textColor="@color/colorPrimary"
-                android:theme="@style/Theme.MaterialComponents.Light" />
+                android:text="@string/screen_pay_bill_payment_reminder_every_days_text"
+                tools:text="3 days"
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/cOneWeek"
-                style="@style/ChipsTheme"
+                />
+
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checkable="true"
-                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
-                android:padding="@dimen/margin_small"
-                android:text="1 week"
-                android:textColor="@color/colorPrimary"
-                android:theme="@style/Theme.MaterialComponents.Light" />
+                android:text="@string/screen_pay_bill_payment_reminder_every_week_text"
+                tools:text="1 week"
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/cTwoWeeks"
-                style="@style/ChipsTheme"
+                />
+
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checkable="true"
-                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
-                android:padding="@dimen/margin_small"
-                android:text="2 weeks"
-                android:textColor="@color/colorPrimary"
-                android:theme="@style/Theme.MaterialComponents.Light" />
+                android:text="@string/screen_pay_bill_payment_reminder_every_weeks_text"
+                tools:text="2 weeks"
 
-        </com.google.android.material.chip.ChipGroup>
+                />
+
+        </com.google.android.material.tabs.TabLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

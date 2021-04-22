@@ -3,6 +3,7 @@ package co.yap.billpayments.paybill
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.billpayments.databinding.FragmentPayBillBinding
+import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -23,20 +24,65 @@ interface IPayBill {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         fun handlePressView(id: Int)
+        fun updateAutoPaySelection(
+            isWeek: Boolean,
+            isMonth: Boolean,
+            paymentScheduleType: PaymentScheduleType
+        )
+
+        fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
     }
 
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
         fun getViewBinding(): FragmentPayBillBinding
-        fun composeWeekDaysList(): MutableList<CoreBottomSheetData>
+        val day: Int get() = 0
+        val week: Int get() = 1
+        val month: Int get() = 2
         val weekDaysList: List<String>
-            get() = listOf("Monday",
+            get() = listOf(
+                "Monday",
                 "Tuesday",
                 "Wednesday",
                 "Thursday",
                 "Friday",
                 "Saturday",
-                "Sunday")
+                "Sunday"
+            )
+        val monthDaysList: List<String>
+            get() = listOf(
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31"
+            )
     }
 }

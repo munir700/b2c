@@ -3,6 +3,8 @@ package co.yap.billpayments.paybill
 import android.app.Application
 import co.yap.billpayments.R
 import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
+import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -36,5 +38,29 @@ class PayBillViewModel(application: Application) :
 
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData> {
+        val list: MutableList<CoreBottomSheetData> = arrayListOf()
+        listData.forEach { weekDay ->
+            list.add(
+                CoreBottomSheetData(
+                    content = weekDay,
+                    subTitle = weekDay,
+                    sheetImage = null
+                )
+            )
+        }
+        return list
+    }
+
+    override fun updateAutoPaySelection(
+        isWeek: Boolean,
+        isMonth: Boolean,
+        paymentScheduleType: PaymentScheduleType
+    ) {
+        state.autoPaymentScheduleTypeWeek.set(isWeek)
+        state.autoPaymentScheduleTypeMonth.set(isMonth)
+        state.autoPaymentScheduleType.set(paymentScheduleType.name)
     }
 }
