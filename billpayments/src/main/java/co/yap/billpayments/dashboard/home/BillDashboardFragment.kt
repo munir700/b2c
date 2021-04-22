@@ -38,6 +38,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.parentViewModel?.getViewBills()
         setObservers()
     }
 
@@ -64,6 +65,10 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.parentViewModel?.billsAdapterList?.observe(this, Observer {
+            viewModel.state.showBillCategory.set(viewModel.checkIfBillDue())
+            viewModel.setData()
+        })
         viewModel.state.stateLiveData?.observe(this, Observer {
             handleState(it)
         })
@@ -92,7 +97,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         }
     }
 
-    val categoryItemListener = object : OnItemClickListener {
+    private val categoryItemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             onCategorySelection(data as BillProviderModel)
         }

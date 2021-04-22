@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.dashboard.editbill.EditBillViewModel" />
+            type="co.yap.billpayments.billdetail.editbill.EditBillViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -60,7 +60,7 @@
                 android:layout_height="@dimen/_36sdp"
                 app:fullName="@{viewModel.parentViewModel.selectedBill.billerInfo.billerName}"
                 app:imageUrl="@{viewModel.parentViewModel.selectedBill.billerInfo.logo}"
-                app:position="@{viewModel.state.billPosition}" />
+                app:position="@{viewModel.parentViewModel.selectedBillPosition}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBillerName"
@@ -110,9 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_large"
                 android:textColor="?attr/colorPrimaryAttr"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnEditBill"

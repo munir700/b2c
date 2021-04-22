@@ -1,16 +1,14 @@
-package co.yap.billpayments.dashboard.billaccountdetail
+package co.yap.billpayments.billdetail.billaccountdetail
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.base.BillDashboardBaseFragment
-import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
 
 class BillAccountDetailFragment :
-    BillDashboardBaseFragment<IBillAccountDetail.ViewModel>(),
+    BillDetailBaseFragment<IBillAccountDetail.ViewModel>(),
     IBillAccountDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -20,15 +18,12 @@ class BillAccountDetailFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            viewModel.state.billPosition.set(it.getInt(ExtraKeys.SELECTED_BILL_POSITION.name, 0))
-        }
         setObservers()
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, onViewClickObserver)
-        viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
+        viewModel.parentViewModel?.toolBarClickEvent?.observe(this, toolbarClickObserver)
     }
 
     val onViewClickObserver = Observer<Int> {
@@ -42,8 +37,7 @@ class BillAccountDetailFragment :
     private val toolbarClickObserver = Observer<Int> {
         when (it) {
             R.id.ivRightIcon -> navigate(
-                destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment,
-                args = bundleOf(ExtraKeys.SELECTED_BILL_POSITION.name to viewModel.state.billPosition)
+                destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
             )
         }
     }

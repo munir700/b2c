@@ -3,9 +3,9 @@ package co.yap.billpayments.dashboard.home
 import android.app.Application
 import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
-import co.yap.billpayments.dashboard.home.adapter.DueBill
 import co.yap.billpayments.dashboard.home.adapter.DueBillsAdapter
 import co.yap.billpayments.dashboard.home.notification.DueBillsNotificationAdapter
+import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -13,9 +13,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.FORMATE_DATE_MONTH_YEAR
-import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
+import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 
@@ -23,10 +21,11 @@ class BillDashboardViewModel(application: Application) :
     BillDashboardBaseViewModel<IBillDashboard.State>(application),
     IBillDashboard.ViewModel, IRepositoryHolder<CustomersRepository> {
 
-    override val repository: CustomersRepository = CustomersRepository
-    override val state: IBillDashboard.State =
-        BillDashboardState()
+    override var adapter: BillCategoryAdapter = BillCategoryAdapter(mutableListOf())
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override val repository: CustomersRepository = CustomersRepository
+    override var dueBills: MutableList<BillModel> = mutableListOf()
+    override val state: IBillDashboard.State = BillDashboardState()
     override val dueBillsAdapter: DueBillsAdapter =
         DueBillsAdapter(arrayListOf())
     override val notificationAdapter: DueBillsNotificationAdapter =
@@ -34,7 +33,27 @@ class BillDashboardViewModel(application: Application) :
             context,
             arrayListOf()
         )
-    override var adapter: BillCategoryAdapter = BillCategoryAdapter(mutableListOf())
+
+    fun checkIfBillDue(): Boolean {
+        parentViewModel?.billsAdapterList?.value?.forEach {
+            if (it.billStatus == BillStatus.OVERDUE.title || it.billStatus == BillStatus.BILL_DUE.title) {
+                dueBills.add(it)
+            }
+        }
+        return dueBills.size == 0
+    }
+
+    fun setData() {
+        if (state.showBillCategory.get()) {
+            if (parentViewModel?.billcategories.isNullOrEmpty())
+                getBillProviders()
+            else {
+                parentViewModel?.billcategories?.let { adapter.setList(it) }
+            }
+        } else {
+            setBillsData()
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -44,66 +63,8 @@ class BillDashboardViewModel(application: Application) :
         parentViewModel?.state?.leftIconVisibility?.set(true)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        if (state.showBillCategory.get()) {
-            if (parentViewModel?.billcategories.isNullOrEmpty())
-                getBillProviders()
-            else {
-                parentViewModel?.billcategories?.let { adapter.setList(it) }
-            }
-        } else {
-            getBillCategoriesApi()
-        }
-    }
-
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
-    }
-
-    private fun getDueBills(): ArrayList<DueBill> {
-        val arr = ArrayList<DueBill>()
-        arr.add(
-            DueBill(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                billerName = "Etisalat",
-                billNickName = "My iPhoneX",
-                billDueDate = "2021-08-12T06:53:35",
-                amount = "250.000",
-                currency = "AED"
-            )
-        )
-        arr.add(
-            DueBill(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                billerName = "Etisalat",
-                billNickName = "My iPhoneX",
-                billDueDate = "2020-08-12T06:53:35",
-                amount = "250.000",
-                currency = "AED"
-            )
-        )
-        arr.add(
-            DueBill(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                billerName = "Etisalat",
-                billNickName = "My iPhoneX",
-                billDueDate = "2020-08-12T06:53:35",
-                amount = "250.000",
-                currency = "AED"
-            )
-        )
-        arr.add(
-            DueBill(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                billerName = "Etisalat",
-                billNickName = "My iPhoneX",
-                billDueDate = "2021-08-12T06:53:35",
-                amount = "250.000",
-                currency = "AED"
-            )
-        )
-        return arr
     }
 
     private fun getBillProviders() {
@@ -132,21 +93,14 @@ class BillDashboardViewModel(application: Application) :
         }
     }
 
-    override fun getBillCategoriesApi() {
+    override fun setBillsData() {
         launch {
-            state.loading = true;
-            val list = getDueBills()
-            list.addAll(getDueBills())
-            dueBillsAdapter.setList(list)
-            notificationAdapter.setList(list)
+            state.loading = true
+            dueBillsAdapter.setList(dueBills)
+            notificationAdapter.setList(dueBills)
             var total = 0.00;
             dueBillsAdapter.getDataList().forEach {
-                total = total.plus(it.amount.toDouble())
-                it.billDueDate = DateUtils.reformatStringDate(
-                    it.billDueDate,
-                    SERVER_DATE_FULL_FORMAT,
-                    FORMATE_DATE_MONTH_YEAR
-                )
+                total = total.plus(it.amount?.toDouble() ?: 0.0)
             }
             state.totalDueAmount.set(
                 total.toString().toFormattedCurrency(true, SessionManager.getDefaultCurrency())

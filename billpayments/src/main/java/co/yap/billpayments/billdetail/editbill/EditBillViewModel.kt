@@ -1,10 +1,10 @@
-package co.yap.billpayments.dashboard.editbill
+package co.yap.billpayments.billdetail.editbill
 
 import android.app.Application
 import android.view.View
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
-import co.yap.billpayments.base.BillDashboardBaseViewModel
+import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -13,7 +13,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EditBillViewModel(application: Application) :
-    BillDashboardBaseViewModel<IEditBill.State>(application),
+    BillDetailBaseViewModel<IEditBill.State>(application),
     IEditBill.ViewModel, IRepositoryHolder<CustomersRepository> {
     override val repository: CustomersRepository = CustomersRepository
     override val state: IEditBill.State = EditBillState()

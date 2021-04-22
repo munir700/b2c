@@ -2,17 +2,19 @@ package co.yap.billpayments.dashboard.mybills
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.BillDashboardBaseFragment
+import co.yap.billpayments.billdetail.BillDetailActivity
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
@@ -25,21 +27,24 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getMyBillsAPI()
+        if (viewModel.parentViewModel?.bills?.value.isNullOrEmpty()) {
+            viewModel.parentViewModel?.getViewBills()
+        } else {
+            viewModel.setData()
+        }
         setObservers()
     }
 
     override fun setObservers() {
-        viewModel.bills.observe(this, Observer {
-            viewModel.setScreenTitle()
-            viewModel.bills.value?.let { it1 -> viewModel.adapter.setList(it1) }
+        viewModel.parentViewModel?.billsAdapterList?.observe(this, Observer {
+            viewModel.setData()
         })
         viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
         viewModel.adapter.setItemListener(onItemClickListener)
         viewModel.clickEvent.observe(this, onViewClickObserver)
     }
 
-    val onViewClickObserver = Observer<Int> {
+    private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.btnPay -> {
             }
@@ -48,11 +53,20 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
 
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.parentViewModel?.selectedBill = viewModel.billsList[pos]
-            navigate(
-                destinationId = R.id.action_myBillsFragment_to_billAccountDetailFragment,
-                args = bundleOf(ExtraKeys.SELECTED_BILL_POSITION.name to pos)
-            )
+            launchActivity<BillDetailActivity>(requestCode = RequestCodes.REQUEST_BILL_DETAIL) {
+                putExtra(
+                    ExtraKeys.SELECTED_BILL.name,
+                    viewModel.parentViewModel?.bills?.value?.get(pos)
+                )
+                putExtra(
+                    ExtraKeys.SELECTED_BILL_POSITION.name,
+                    pos
+                )
+            }
+            requireActivity().overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            );
         }
     }
 
@@ -80,7 +94,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
     }
 
     override fun removeObservers() {
-        viewModel.bills.removeObservers(this)
+        viewModel.parentViewModel?.billsAdapterList?.removeObservers(this)
         viewModel.clickEvent.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
     }

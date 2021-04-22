@@ -24,6 +24,11 @@
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/add_bill_navigation" />
         </activity>
+        <activity
+            android:name=".billdetail.BillDetailActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/bill_detail_navigation" />
+        </activity>
 
     </application>
 </manifest>

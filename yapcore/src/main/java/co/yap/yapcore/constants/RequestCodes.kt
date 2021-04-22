@@ -29,6 +29,5 @@ object RequestCodes {
     const val REQUEST_DELETE_RECEIPT = 10025
     const val REQUEST_STORAGE_PERMISSION: Int = 10026
     const val REQUEST_ADD_BILL: Int = 10027
-
-
+    const val REQUEST_BILL_DETAIL: Int = 10028
 }

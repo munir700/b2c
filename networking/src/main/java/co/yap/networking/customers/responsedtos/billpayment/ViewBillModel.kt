@@ -1,8 +1,11 @@
 package co.yap.networking.customers.responsedtos.billpayment
 
+import android.os.Parcelable
 import co.yap.networking.customers.models.BillerInputData
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ViewBillModel(
     @SerializedName("billNickName")
     var billNickName: String?,
@@ -24,4 +27,5 @@ data class ViewBillModel(
     var inputsData: List<BillerInputData>?,
     @SerializedName("billerInfo")
     var billerInfo: BillerInfoModel?
-)
+) : Parcelable
+

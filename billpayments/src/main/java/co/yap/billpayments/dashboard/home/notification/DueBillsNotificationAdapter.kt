@@ -5,8 +5,8 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
+import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.billpayments.databinding.ItemDueBillNotificationBinding
-import co.yap.billpayments.dashboard.home.adapter.DueBill
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
@@ -14,9 +14,9 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class DueBillsNotificationAdapter(
     private val context: Context,
-    private val listItems: MutableList<DueBill>
+    private val listItems: MutableList<BillModel>
 ) :
-    BaseBindingRecyclerAdapter<DueBill, DueBillsNotificationAdapter.ViewHolder>(listItems) {
+    BaseBindingRecyclerAdapter<BillModel, DueBillsNotificationAdapter.ViewHolder>(listItems) {
     private var dimensions: IntArray = Utils.getCardDimensions(context, 80, 15)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
@@ -31,7 +31,7 @@ class DueBillsNotificationAdapter(
 
     inner class ViewHolder(val binding: ItemDueBillNotificationBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(dueBill: DueBill) {
+        fun onBind(dueBill: BillModel) {
             val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams
             params.width = dimensions[0]
             binding.cvNotification.layoutParams = params
@@ -40,7 +40,7 @@ class DueBillsNotificationAdapter(
             ImageBinding.loadAvatar(
                 binding.ivNotification,
                 fullName = dueBill.billerName,
-                imageUrl = dueBill.logoUrl,
+                imageUrl = dueBill.logo,
                 position = adapterPosition
             )
             binding.tvDescription.text = "You have a ${dueBill.amount.toFormattedCurrency(

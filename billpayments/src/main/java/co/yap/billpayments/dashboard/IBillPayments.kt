@@ -3,7 +3,10 @@ package co.yap.billpayments.dashboard
 import android.graphics.drawable.Drawable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.networking.customers.responsedtos.billpayment.BillResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.IBase
@@ -25,7 +28,11 @@ interface IBillPayments {
         var selectedBillerCatalog: BillerCatalogModel?
         var onToolbarClickEvent: SingleClickEvent
         var selectedBill: ViewBillModel?
+        var bills: MutableLiveData<MutableList<ViewBillModel>>?
+        var billsAdapterList: MutableLiveData<MutableList<BillModel>>?
         fun onToolbarClick(id: Int)
+        fun getViewBillsFromJSONFile(): BillResponse
+        fun getViewBills()
     }
 
     interface View : IBase.View<ViewModel>

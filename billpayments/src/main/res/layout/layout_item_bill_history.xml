@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryViewModel" />
+            type="co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryViewModel" />
 
     </data>
 
@@ -26,9 +26,9 @@
             android:text="@{viewModel.billHistoryModel.key}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvHistoryValue"
+            app:layout_constraintHorizontal_weight="4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_weight="4"
             tools:text="Last Payment" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -40,9 +40,9 @@
             android:text="@{viewModel.billHistoryModel.value}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="6"
             app:layout_constraintStart_toEndOf="@id/tvHistoryKey"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_weight="6"
             tools:text="July, 2019: AED 800" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

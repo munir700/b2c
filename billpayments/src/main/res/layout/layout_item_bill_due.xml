@@ -10,7 +10,8 @@
             type="co.yap.billpayments.dashboard.home.adapter.DueBillsItemViewModel" />
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
-        <import type="co.yap.translation.Strings"/>
+
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <RelativeLayout
@@ -49,12 +50,11 @@
             </RelativeLayout>
         </LinearLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/foregroundContainer"
             android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivIcon"
@@ -62,7 +62,7 @@
                 android:layout_height="@dimen/_36sdp"
                 android:layout_marginStart="@dimen/margin_medium"
                 app:fullName="@{viewModel.dueBill.billerName}"
-                app:imageUrl="@{viewModel.dueBill.logoUrl}"
+                app:imageUrl="@{viewModel.dueBill.logo}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{viewModel.dueBill.billerName+` - `+viewModel.dueBill.billNickName}"
+                android:text="@{viewModel.dueBill.billerName+` - `+viewModel.dueBill.nickName}"
                 app:layout_constrainedWidth="true"
                 tools:text="Etsiast" />
 
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@{`Due - `+viewModel.dueBill.billDueDate}"
+                android:text="@{`Due - `+viewModel.dueBill.dueDate}"
                 app:layout_constrainedWidth="true"
                 tools:text="Etsilat" />
 

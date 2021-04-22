@@ -1,7 +1,10 @@
 package co.yap.networking.customers.responsedtos.billpayment
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class IoCatalogModel(
     @SerializedName("name")
     var name: String? = null,
@@ -19,4 +22,5 @@ data class IoCatalogModel(
     var ioId: Int? = null,
     @SerializedName("operation")
     var operation: Int? = null
-)
+) : Parcelable
+

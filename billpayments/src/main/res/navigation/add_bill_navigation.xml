@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bill_payments_main_navigation"
+    android:id="@+id/add_bill_navigation"
     app:startDestination="@id/billersFragment">
 
     <fragment
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/billerDetailFragment"
-        tools:layout="@layout/fragment_biller_detail"
         android:name="co.yap.billpayments.addbiller.addbillerdetail.AddBillerDetailFragment"
-        android:label="BillerDetailFragment" />
+        android:label="BillerDetailFragment"
+        tools:layout="@layout/fragment_biller_detail" />
 </navigation>
