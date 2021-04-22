@@ -35,6 +35,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:position="@{viewModel.position}"
             app:fullName="@{viewModel.item.categoryName==null?` `:viewModel.item.categoryName}"
+            app:imageUrl="@{viewModel.item.categoryIcon ?? ` `}"
             />
 
         <androidx.appcompat.widget.AppCompatTextView

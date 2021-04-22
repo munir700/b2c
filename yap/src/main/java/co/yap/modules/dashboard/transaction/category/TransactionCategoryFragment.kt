@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.transaction.category
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -37,6 +39,9 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
     val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnConfirm -> {
+                val intent = Intent()
+                intent.putExtra("UpdatedCategory", viewModel.selectedCategory)
+                requireActivity().setResult(Activity.RESULT_OK)
                 requireActivity().finish()
             }
         }

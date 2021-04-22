@@ -94,7 +94,10 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 showAddReceiptOptions()
             }
             R.id.tvTapToChange ->{
-                startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
+                startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name){resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK)
+                        showFeedbackSuccessDialog()
+                }
             }
             R.id.tvImproveLogo -> {
                 startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name){resultCode, _ ->

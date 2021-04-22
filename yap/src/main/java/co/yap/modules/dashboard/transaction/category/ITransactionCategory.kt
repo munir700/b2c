@@ -15,10 +15,11 @@ interface ITransactionCategory {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
-        fun fetchTransactionCategories(): MutableList<TapixCategory>
+        fun fetchTransactionCategories()
         var categoryAdapter : TransactionCategoryAdapter
         fun selectCategory(data : TapixCategory, position : Int)
         var tapixCategories: MutableList<TapixCategory>
+        var selectedCategory: TapixCategory?
     }
 
     interface State : IBase.State
