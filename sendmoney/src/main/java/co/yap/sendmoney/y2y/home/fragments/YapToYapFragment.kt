@@ -70,11 +70,13 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.layoutSearchView -> {
-                viewModel.parentViewModel?.selectedTabPos?.value = tabLayout.selectedTabPosition
-                navigate(R.id.action_yapToYapHome_to_y2YSearchContactsFragment)
+                if (viewModel.parentViewModel?.y2yBeneficiries?.value?.isEmpty() == false || viewModel.parentViewModel?.yapContactLiveData?.value?.isEmpty() == false) {
+                    viewModel.parentViewModel?.selectedTabPos?.value = tabLayout.selectedTabPosition
+                    navigate(R.id.action_yapToYapHome_to_y2YSearchContactsFragment)
+                }
             }
             R.id.tvCancel -> {
-                activity?.finish()
+               requireActivity().finish()
             }
             R.id.tvHideRecents, R.id.recents -> {
                 viewModel.state.isRecentsVisible.set(getBindingView().layoutRecent.recyclerView.visibility == View.VISIBLE)
