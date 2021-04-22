@@ -25,7 +25,7 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
-        viewModel.state.firstNameError.observe(this, Observer {
+        viewModel.state.firstNameError.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()) {
                 etFirstName.settingUIForError(it)
             } else {
@@ -33,7 +33,7 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
             }
         })
 
-        viewModel.state.lastNameError.observe(this, Observer {
+        viewModel.state.lastNameError.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()) {
                 etLastName.settingUIForError(it)
             } else {
@@ -50,7 +50,7 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     private val nextButtonObserver = Observer<Boolean> {
         trackEvent(
             SignupEvents.SIGN_UP_NAME.type,
-            viewModel.state.firstName + " " + viewModel.state.firstName
+            viewModel.state.firstName.trim() + " " + viewModel.state.firstName.trim()
         )
         trackEventWithScreenName(FirebaseEvent.SIGNUP_NAME)
         navigate(R.id.emailFragment)
