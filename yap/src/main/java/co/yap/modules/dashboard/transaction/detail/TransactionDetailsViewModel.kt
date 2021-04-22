@@ -99,7 +99,7 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     override fun requestAllApis() {
-        requestReceiptsAndTotalPurchases { totalPurchasesResponse, receiptResponse ->
+        requestTransactionDetails { totalPurchasesResponse, receiptResponse ->
             launch(Dispatcher.Main) {
                 when (totalPurchasesResponse) {
                     is RetroApiResponse.Success -> {
@@ -140,7 +140,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     }
 
-    private fun requestReceiptsAndTotalPurchases(responses: (RetroApiResponse<TotalPurchasesResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
+    private fun requestTransactionDetails(responses: (RetroApiResponse<TotalPurchasesResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             coroutineScope {

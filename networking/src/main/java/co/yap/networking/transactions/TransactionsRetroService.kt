@@ -253,4 +253,7 @@ interface TransactionsRetroService {
         @Query("merchantName")
         merchantName: String? = null
     ): Response<TotalPurchasesResponse>
+
+    @GET(TransactionsRepository.URL_TRANSACTIONS_VIEW_CATEGORIES )
+    suspend fun getAllTransactionCategories(): Response<TransactionCategoryResponse>
 }

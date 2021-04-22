@@ -1,10 +1,13 @@
 package co.yap.modules.dashboard.transaction.category
 
 import android.app.Application
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
+import co.yap.yapcore.managers.SessionManager
 
 class TransactionCategoryViewModel(application: Application) :
     BaseViewModel<ITransactionCategory.State>(application), ITransactionCategory.ViewModel {
@@ -15,6 +18,8 @@ class TransactionCategoryViewModel(application: Application) :
         TransactionCategoryAdapter(mutableListOf())
 
     val repository: TransactionsRepository = TransactionsRepository
+
+    override var tapixCategories: MutableList<TapixCategory> = arrayListOf()
 
     override fun onCreate() {
         super.onCreate()
@@ -27,6 +32,19 @@ class TransactionCategoryViewModel(application: Application) :
     }
 
     override fun fetchTransactionCategories(): MutableList<TapixCategory> {
+        /*launch {
+            state.loading = true
+            when (val response = repository.getAllTransactionCategories()) {
+                is RetroApiResponse.Success -> {
+                    response.data.txnCategories?.let { tapixCategories.addAll(it)
+                    categoryAdapter.setList(tapixCategories)}
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                }
+            }
+        }*/
         val list: MutableList<TapixCategory> = arrayListOf()
         list.add(TapixCategory(id = 0, categoryName = "Groceries", categoryIcon = ""))
         list.add(TapixCategory(id = 1, categoryName = "Transport", categoryIcon = "",isSelected =true))

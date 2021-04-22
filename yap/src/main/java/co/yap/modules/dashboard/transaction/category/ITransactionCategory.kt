@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.transaction.category
 import androidx.databinding.ObservableField
 import co.yap.databinding.FragmentMerchantAnalyticsBinding
 import co.yap.databinding.FragmentTransactionCategoryBinding
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -17,6 +18,7 @@ interface ITransactionCategory {
         fun fetchTransactionCategories(): MutableList<TapixCategory>
         var categoryAdapter : TransactionCategoryAdapter
         fun selectCategory(data : TapixCategory, position : Int)
+        var tapixCategories: MutableList<TapixCategory>
     }
 
     interface State : IBase.State
