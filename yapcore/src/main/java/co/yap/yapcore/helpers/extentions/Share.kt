@@ -12,10 +12,10 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_SHARE_PLAY_STORE
 
 @Keep
-/**
- * Opens the url in the available application
- * @return A boolean representing if the action was successful or not
- */
+        /**
+         * Opens the url in the available application
+         * @return A boolean representing if the action was successful or not
+         */
 fun Context.openUrl(url: String, newTask: Boolean = false): Boolean {
     return try {
         Intent().apply {
@@ -154,25 +154,26 @@ fun Context.openWhatsApp() {
         startActivity(i)
 }
 
-///**
-// * Opens the SMS application to send an SMS
-// * @param number A phone number to send an SMS
-// * @param text An optional predefined text message for the SMS
-// * @return A boolean representing if the action was successful or not
-// */
-//fun Context.sendSms(number: String, text: String = ""): Boolean {
-//    return try {
-//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:$number")).apply {
-//            putExtra("sms_body", text)
-//        }
-//        if (intent.resolveActivity(packageManager) != null) {
-//            startActivity(intent)
-//            true
-//        } else false
-//    } catch (e: Exception) {
-//        false
-//    }
-//}
+/**
+ * Opens the SMS application to send an SMS
+ * @param number A phone number to send an SMS
+ * @param text An optional predefined text message for the SMS
+ * @return A boolean representing if the action was successful or not
+ */
+fun Context.sendSms(number: String, text: String = ""): Boolean {
+    return try {
+        val intent = Intent(ACTION_VIEW, Uri.parse("sms:$number")).apply {
+            putExtra("sms_body", text)
+        }.also {
+            it.resolveActivity(packageManager)?.run {
+                startActivity(it)
+            }
+        }
+        true
+    } catch (e: Exception) {
+        false
+    }
+}
 
 /**
  * Opens your application page inside the play store
