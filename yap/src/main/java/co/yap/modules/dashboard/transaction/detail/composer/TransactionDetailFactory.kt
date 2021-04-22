@@ -270,8 +270,12 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                     }
                     TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                     TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName
-                        ?: ""
+                    TransactionProductCode.POS_PURCHASE.pCode -> {
+                        "In store shopping"
+                    }
+                    TransactionProductCode.ECOM.pCode -> {
+                        "Online shopping"
+                    }
                     TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
                     TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                         if (transaction.category.equals(
@@ -340,6 +344,20 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun isAtmTransaction(): Boolean =
         (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
 
-    fun showTransactionCategory(): Boolean =
-        (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) || (transaction.productCode == TransactionProductCode.ECOM.pCode)
+    fun showTransactionCategory(): Boolean = (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode)
+
+     fun isCategoryGeneral(): Boolean =
+        (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                && transaction.tapixCategory?.isGeneral == true
+
+     fun getCategoryDescription(): String {
+        return when {
+            isCategoryGeneral() -> {
+                "Check back later to see the category updated "
+            }
+            else -> {
+                "Tap to change category"
+            }
+        }
+    }
 }
