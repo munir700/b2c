@@ -5,6 +5,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionProductType
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.yapcore.base.BaseTestCase
 import com.google.gson.GsonBuilder
@@ -116,6 +117,7 @@ class TransactionsTests : BaseTestCase() {
                 TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
                     R.drawable.ic_outgoing_transaction_y2y
                 }
+
                 else -> android.R.color.transparent
             }
         }

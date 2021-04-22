@@ -14,12 +14,14 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.fragments.YapForYouBaseFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.repositories.InviteFriendRepository
+import co.yap.translation.Strings
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.YAPForYouGoalAction
 import co.yap.yapcore.enums.YapForYouGoalType
-import co.yap.yapcore.helpers.extentions.inviteFriendIntent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.managers.SessionManager
 
 class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDetail.ViewModel>(),
@@ -65,7 +67,12 @@ class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDeta
     private fun performActionOnClick(controller: String) {
         when (controller) {
             YapForYouGoalType.INVITE_FRIEND.name -> {
-                context?.inviteFriendIntent()
+                requireContext().share(
+                    text = getString(
+                        Strings.screen_invite_friend_display_text_share_url,
+                        Utils.getAdjustURL()
+                    )
+                )
                 InviteFriendRepository().inviteAFriend {
                     viewModel.parentViewModel?.getAchievements()
                 }

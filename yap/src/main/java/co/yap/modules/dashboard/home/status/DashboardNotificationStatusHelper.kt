@@ -180,7 +180,7 @@ class DashboardNotificationStatusHelper(
                 PaymentCardOnboardingStage.SHIPPING -> {
                     return (when {
                         SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status || SessionManager.user?.partnerBankStatus == PartnerBankStatus.DOCUMENT_UPLOADED.status -> {
-                            if (SessionManager.user?.notificationStatuses == NotificationStatus.FATCA_GENERATED.name) StageProgress.ACTIVE else StageProgress.INACTIVE
+                            if (SessionManager.user?.notificationStatuses == NotificationStatus.EMP_INFO_COMPLETED.name) StageProgress.ACTIVE else StageProgress.INACTIVE
                         }
                         card.deliveryStatus == CardDeliveryStatus.ORDERED.name || card.deliveryStatus == CardDeliveryStatus.BOOKED.name || card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
                             StageProgress.ACTIVE

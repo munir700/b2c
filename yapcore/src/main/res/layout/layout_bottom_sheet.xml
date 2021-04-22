@@ -62,7 +62,7 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:background="@drawable/bg_round_corners"
             android:backgroundTint="@color/divider"
-            android:visibility="@{viewModel.state.searchBarVisibility ? View.VISIBLE : View.GONE }"
+            android:visibility="@{viewModel.state.headerSeparatorVisibility ? View.VISIBLE : View.GONE }"
             app:layout_constraintTop_toBottomOf="@+id/lySearchView" />
 
         <androidx.recyclerview.widget.RecyclerView

@@ -139,7 +139,7 @@ class TransactionsViewHelper(
 
         view?.let {
             val text = String.format(
-                Locale.US,
+                Locale.getDefault(),
                 "%s \nAED %s",
                 DateUtils.reformatStringDate(
                     data.originalDate ?: "",

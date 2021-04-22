@@ -8,12 +8,14 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast.LENGTH_SHORT
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
 import co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackFragment
+import co.yap.modules.dashboard.transaction.category.TransactionCategoryFragment
 import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
@@ -90,6 +92,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
             R.id.clRecipt -> {
                 showAddReceiptOptions()
+            }
+            R.id.tvTapToChange ->{
+                startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
             }
             R.id.tvImproveLogo -> {
                 startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name){resultCode, _ ->
