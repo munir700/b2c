@@ -11,9 +11,9 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <variable
-            name="pinCode"
-            type="String" />
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
 
     </data>
 
@@ -30,9 +30,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:titleString='@{""}'
+            />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivMap"
@@ -62,12 +72,12 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvImprovementComponents"
+            recycleViewAdapter="@{viewModel.adapter}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_medium"
-            tools:itemCount="4"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            recycleViewAdapter="@{viewModel.adapter}"
+            tools:itemCount="4"
             tools:listitem="@layout/item_improvement_components" />
 
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
@@ -93,7 +103,7 @@
                 android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{Strings.screen_transaction_feedback_additional_detail_label}" />
+                app:text="@{Strings.screen_transaction_feedback_additional_detail_label}" />
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
         <co.yap.widgets.CoreButton
@@ -103,8 +113,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_extra_large"
-            android:text="@string/common_button_submit"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:text="@string/common_button_submit"
+            app:btn_enable="true"
             app:btn_size="small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

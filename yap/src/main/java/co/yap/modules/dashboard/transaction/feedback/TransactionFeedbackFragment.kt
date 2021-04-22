@@ -29,6 +29,7 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
     val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnDone -> {
+                requireActivity().finish()
             }
         }
     }
