@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackViewModel" />
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvMerchant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/_5sdp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/margin_medium_large">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icMerchantImage"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/ic_achievement_complete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvMerchantName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:text="Starbucks"
+                style="@style/ASmallGrey"
+                android:textColor="@color/colorMidnightExpress"
+                app:layout_constraintStart_toEndOf="@id/icMerchantImage"
+                app:layout_constraintTop_toTopOf="@id/icMerchantImage"
+                tools:text="StarBucks"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvMerchantLocation"
+                style="@style/AMicroGrey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Media City Dubai, ARE, UAE"
+                app:layout_constraintStart_toStartOf="@id/tvMerchantName"
+                app:layout_constraintTop_toBottomOf="@id/tvMerchantName"
+                app:layout_constraintBottom_toBottomOf="@+id/icMerchantImage"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

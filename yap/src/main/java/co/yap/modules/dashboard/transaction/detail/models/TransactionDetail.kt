@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.transaction.detail.models
 
 data class TransactionDetail(
-    val transactionTitle: String?,
+    val transactionTitle : String?,
     val noteValue: String?,
     val noteAddedDate: String?,
     val categoryTitle: String?,
@@ -18,8 +18,9 @@ data class TransactionDetail(
     val isAtmTransaction: Boolean?,
     val showCategory: Boolean?,
     val categoryType: Boolean?,
-    val categoryDescription: String?
+    val categoryDescription: String?,
     //val categoryIcon: Boolean?,
+    val showFeedBack : Boolean?
 )
 
 

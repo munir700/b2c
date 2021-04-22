@@ -34,7 +34,8 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 isAtmTransaction = transactionDetailFactory?.isAtmTransaction(),
                 showCategory = transactionDetailFactory?.showTransactionCategory(),
                 categoryType =transactionDetailFactory?.isCategoryGeneral(),
-                categoryDescription =transactionDetailFactory?.getCategoryDescription()
+                categoryDescription =transactionDetailFactory?.getCategoryDescription(),
+                showFeedBack = transactionDetailFactory?.showFeedbackOption()
             )
         } ?: return null
     }

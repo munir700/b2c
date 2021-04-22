@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
+import co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackFragment
 import co.yap.modules.dashboard.transaction.category.TransactionCategoryFragment
 import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
@@ -95,7 +96,20 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             R.id.tvTapToChange ->{
                 startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
             }
+            R.id.tvImproveLogo -> {
+                startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name){resultCode, _ ->
+                    if (resultCode == Activity.RESULT_OK)
+                        showFeedbackSuccessDialog()
+                }
+            }
         }
+    }
+
+    private fun showFeedbackSuccessDialog() {
+        this.showReceiptSuccessDialog(
+            description = getString(Strings.screen_transaction_details_feedback_success_label),
+            addOtherVisibility= false
+        )
     }
 
     private fun showAddReceiptOptions() {
@@ -134,9 +148,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     R.id.tvAddAnother -> {
                         viewModel.requestAllApis()
                         showAddReceiptOptions()
-                    }
-                    R.id.tvTapToChange -> {
-                        startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name)
                     }
                 }
             }
@@ -239,11 +250,10 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         viewModel.transaction.get()?.receiverTransactionNoteDate =
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
-
                     viewModel.state.transactionNoteDate = "Note added  ${
-                        DateUtils.getCurrentDateWithFormat(
-                            DateUtils.FORMAT_LONG_OUTPUT
-                        )
+                    DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
                     }"
                 }
 

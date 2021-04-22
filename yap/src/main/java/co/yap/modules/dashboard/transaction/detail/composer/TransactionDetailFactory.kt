@@ -360,4 +360,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
         }
     }
+
+    fun showFeedbackOption():Boolean = (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) ||
+            (transaction.productCode == TransactionProductCode.ECOM.pCode)||
+            (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode)||
+            (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
 }

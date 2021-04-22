@@ -46,7 +46,8 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         val showTransactionCategory: Boolean,
         val isCategoryGeneral: Boolean,
         val tapixCategoryDesc: String?,
-        val CategoryIcon: String?
+        val CategoryIcon: String?,
+        val showFeedback : Boolean
     )
 
     @BeforeEach
@@ -165,7 +166,11 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             )
             Assert.assertEquals(expectation.showTotalPurchase, txnDetail?.showTotalPurchase)
             Assert.assertEquals(expectation.isCategoryGeneral, txnDetail?.categoryType)
-            Assert.assertEquals(expectation.tapixCategoryDesc, txnDetail?.categoryDescription)
+            Assert.assertEquals(expectation.tapixCategoryDesc, txnDetail?.categoryDescription)#
+            Assert.assertEquals(
+                expectation.showFeedback,
+                txnDetail?.showFeedBack
+            )
         }
     }
 

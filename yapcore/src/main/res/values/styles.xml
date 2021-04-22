@@ -142,6 +142,8 @@
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
+
+
     <style name="Micro" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -281,6 +283,13 @@
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/greyDark</item>
+    </style>
+
+    <style name="DarkGreyMedium" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="purpleLabel" parent="AppFontRegular">

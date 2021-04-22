@@ -28,16 +28,16 @@ class TransactionCategoryViewModel(application: Application) :
 
     override fun fetchTransactionCategories(): MutableList<TapixCategory> {
         val list: MutableList<TapixCategory> = arrayListOf()
-        list.add(TapixCategory(id = 0, name = "Groceries", icon = ""))
-        list.add(TapixCategory(id = 1, name = "Transport", icon = "",isSelected =true))
-        list.add(TapixCategory(id = 2, name = "Eating out", icon = ""))
-        list.add(TapixCategory(id = 3, name = "Kids", icon = ""))
-        list.add(TapixCategory(id = 4, name = "Shopping", icon = ""))
-        list.add(TapixCategory(id = 5, name = "Personal", icon = ""))
-        list.add(TapixCategory(id = 6, name = "Entertainment", icon = ""))
-        list.add(TapixCategory(id = 7, name = "Services & utilities", icon = ""))
-        list.add(TapixCategory(id = 8, name = "Travel", icon = ""))
-        list.add(TapixCategory(id = 9, name = "Health", icon = ""))
+        list.add(TapixCategory(id = 0, categoryName = "Groceries", categoryIcon = ""))
+        list.add(TapixCategory(id = 1, categoryName = "Transport", categoryIcon = "",isSelected =true))
+        list.add(TapixCategory(id = 2, categoryName = "Eating out", categoryIcon = ""))
+        list.add(TapixCategory(id = 3, categoryName = "Kids", categoryIcon = ""))
+        list.add(TapixCategory(id = 4, categoryName = "Shopping", categoryIcon = ""))
+        list.add(TapixCategory(id = 5, categoryName = "Personal", categoryIcon = ""))
+        list.add(TapixCategory(id = 6, categoryName = "Entertainment", categoryIcon = ""))
+        list.add(TapixCategory(id = 7, categoryName = "Services & utilities", categoryIcon = ""))
+        list.add(TapixCategory(id = 8, categoryName = "Travel", categoryIcon = ""))
+        list.add(TapixCategory(id = 9, categoryName = "Health", categoryIcon = ""))
         return list
     }
 
