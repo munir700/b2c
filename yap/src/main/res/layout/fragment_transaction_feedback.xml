@@ -63,7 +63,9 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_medium"
             tools:itemCount="4"
-            tools:listitem="@layout/layout_improvement_components" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            recycleViewAdapter=""
+            tools:listitem="@layout/item_improvement_components" />
 
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
             android:id="@+id/tvAdditionalDetailLabel"
