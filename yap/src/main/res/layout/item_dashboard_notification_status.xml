@@ -41,7 +41,7 @@
             app:markerPaddingBottom="@dimen/_8sdp"
             app:markerPaddingTop="@dimen/_8sdp"
             app:markerSize="@dimen/_23sdp"
-            app:startLineColor="@color/transparent" />
+            app:startLineColor="@color/transparent"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

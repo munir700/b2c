@@ -27,5 +27,4 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var coverImage: ObservableInt = ObservableInt()
     override var showTotalPurchases: ObservableBoolean = ObservableBoolean(false)
     override var showErrorMessage: ObservableBoolean = ObservableBoolean(false)
-
 }
