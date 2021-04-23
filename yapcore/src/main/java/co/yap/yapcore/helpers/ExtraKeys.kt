@@ -18,4 +18,5 @@ enum class ExtraKeys {
     BILL_PROVIDER,
     SELECTED_BILL_POSITION,
     SELECTED_BILL,
+    BILL_MODEL
 }

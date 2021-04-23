@@ -1,0 +1,66 @@
+package co.yap.billpayments.paybill
+
+import android.app.Application
+import co.yap.billpayments.R
+import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
+import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.SessionManager
+
+class PayBillViewModel(application: Application) :
+    PayBillMainBaseViewModel<IPayBill.State>(application),
+    IPayBill.ViewModel {
+
+    override val state: IPayBill.State = PayBillState()
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override fun onCreate() {
+        super.onCreate()
+        state.availableBalanceString.set(context.resources.getText(
+            getString(Strings.screen_cash_transfer_display_text_available_balance),
+            context.color(
+                R.color.colorPrimaryDark,
+                SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true)
+                    ?: ""
+            )
+        ))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setToolBarTitle(getString(Strings.screen_pay_bill_text_title))
+        toggleRightIconVisibility(true)
+    }
+
+    override fun handlePressView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData> {
+        val list: MutableList<CoreBottomSheetData> = arrayListOf()
+        listData.forEach { weekDay ->
+            list.add(
+                CoreBottomSheetData(
+                    content = weekDay,
+                    subTitle = weekDay,
+                    sheetImage = null
+                )
+            )
+        }
+        return list
+    }
+
+    override fun updateAutoPaySelection(
+        isWeek: Boolean,
+        isMonth: Boolean,
+        paymentScheduleType: PaymentScheduleType
+    ) {
+        state.autoPaymentScheduleTypeWeek.set(isWeek)
+        state.autoPaymentScheduleTypeMonth.set(isMonth)
+        state.autoPaymentScheduleType.set(paymentScheduleType.name)
+    }
+}

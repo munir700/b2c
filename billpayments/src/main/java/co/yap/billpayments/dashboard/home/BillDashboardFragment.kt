@@ -10,9 +10,10 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.BillDashboardBaseFragment
-import co.yap.billpayments.dashboard.home.adapter.DueBill
 import co.yap.billpayments.databinding.FragmentBillDashboardBinding
+import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -110,15 +111,17 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
             R.id.lAddBill -> navigate(R.id.action_payBillsFragment_to_addBillFragment)
             R.id.btnPayNow -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
-                    startPayBillFlow(payload.itemData as DueBill)
+                    startPayBillFlow(payload.itemData as ViewBillModel)
                 }
                 viewModel.clickEvent.setPayload(null)
             }
         }
     }
 
-    private fun startPayBillFlow(dueBill: DueBill) {
-
+    private fun startPayBillFlow(viewBillModel: ViewBillModel) {
+        launchActivity<PayBillMainActivity> {
+            putExtra(ExtraKeys.BILL_MODEL.name, viewBillModel)
+        }
     }
 
     private fun onCategorySelection(billCategory: BillProviderModel?) {

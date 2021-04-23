@@ -29,4 +29,9 @@ abstract class BillDashboardBaseViewModel<S : IBase.State>(application: Applicat
     fun setRightIconDrawable(drawable: Drawable) {
         parentViewModel?.state?.rightIconDrawable?.set(drawable)
     }
+
+    fun toogleLeftIconVisibility(visibility: Boolean){
+        parentViewModel?.state?.leftIconVisibility?.set(visibility)
+
+    }
 }
