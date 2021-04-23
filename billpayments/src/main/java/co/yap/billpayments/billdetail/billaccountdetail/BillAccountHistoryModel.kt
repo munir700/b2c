@@ -1,4 +1,4 @@
-package co.yap.billpayments.dashboard.billaccountdetail
+package co.yap.billpayments.billdetail.billaccountdetail
 
 data class BillAccountHistoryModel(
     var lastPaymentMonth: String?,

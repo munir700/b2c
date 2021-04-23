@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.main.AddBillActivity
-import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.billpayments.dashboard.home.adapter.DueBill
-import co.yap.billpayments.databinding.FragmentPayBillsBinding
+import co.yap.billpayments.databinding.FragmentBillDashboardBinding
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
@@ -24,20 +24,21 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.fragment_pay_bills.*
+import kotlinx.android.synthetic.main.fragment_bill_dashboard.*
 import kotlinx.android.synthetic.main.layout_item_bill_due.*
 
-class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
-    IPayBills.View {
+class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel>(),
+    IBillDashboard.View {
     private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_pay_bills
+    override fun getLayoutId(): Int = R.layout.fragment_bill_dashboard
 
-    override val viewModel: PayBillsViewModel
-        get() = ViewModelProviders.of(this).get(PayBillsViewModel::class.java)
+    override val viewModel: BillDashboardViewModel
+        get() = ViewModelProviders.of(this).get(BillDashboardViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.parentViewModel?.getViewBills()
         setObservers()
     }
 
@@ -64,6 +65,10 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.parentViewModel?.billsAdapterList?.observe(this, Observer {
+            viewModel.state.showBillCategory.set(viewModel.checkIfBillDue())
+            viewModel.setData()
+        })
         viewModel.state.stateLiveData?.observe(this, Observer {
             handleState(it)
         })
@@ -74,8 +79,8 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
         viewModel.clickEvent.removeObservers(this)
     }
 
-    override fun getBindings(): FragmentPayBillsBinding {
-        return viewDataBinding as FragmentPayBillsBinding
+    override fun getBindings(): FragmentBillDashboardBinding {
+        return viewDataBinding as FragmentBillDashboardBinding
     }
 
     private val notificationClickEvent = object : OnItemClickListener {
@@ -92,7 +97,7 @@ class PayBillsFragment : PayBillBaseFragment<IPayBills.ViewModel>(),
         }
     }
 
-    val categoryItemListener = object : OnItemClickListener {
+    private val categoryItemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             onCategorySelection(data as BillProviderModel)
         }

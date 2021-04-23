@@ -13,7 +13,7 @@ class MyBillsItemViewHolder(private val layoutItemMyBillsBinding: LayoutItemMyBi
     RecyclerView.ViewHolder(layoutItemMyBillsBinding.root) {
 
     fun onBind(
-        billModel: MyBillModel?,
+        billModel: BillModel?,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {

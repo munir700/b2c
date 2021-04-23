@@ -1,10 +1,10 @@
-package co.yap.billpayments.addbiller.main
+package co.yap.billpayments.billdetail
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -15,36 +15,43 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-class AddBillActivity : BaseBindingActivity<IAddBill.ViewModel>(), INavigator,
+class BillDetailActivity : BaseBindingActivity<IBillDetail.ViewModel>(), INavigator,
     IFragmentHolder {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_add_bill
+    override fun getLayoutId(): Int = R.layout.activity_bill_detail
 
-    override val viewModel: IAddBill.ViewModel
-        get() = ViewModelProviders.of(this).get(AddBillViewModel::class.java)
+    override val viewModel: IBillDetail.ViewModel
+        get() = ViewModelProviders.of(this).get(BillDetailViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
-            this@AddBillActivity,
-            R.id.add_bill_nav_host_fragment
+            this@BillDetailActivity,
+            R.id.bill_detail_nav_host_fragment
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (intent.hasExtra(ExtraKeys.BILL_PROVIDER.name)) {
-            viewModel.selectedBillProvider = intent.getValue(
-                ExtraKeys.BILL_PROVIDER.name,
+        if (intent.hasExtra(ExtraKeys.SELECTED_BILL.name)) {
+            viewModel.selectedBill = intent.getValue(
+                ExtraKeys.SELECTED_BILL.name,
                 ExtraType.PARCEABLE.name
-            ) as BillProviderModel?
+            ) as ViewBillModel?
+        }
+        if (intent.hasExtra(ExtraKeys.SELECTED_BILL.name)) {
+            viewModel.selectedBillPosition = intent.getValue(
+                ExtraKeys.SELECTED_BILL_POSITION.name,
+                ExtraType.INT.name
+            ) as Int?
         }
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.add_bill_navigation)
+        val fragment = supportFragmentManager.findFragmentById(R.id.bill_detail_navigation)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     override fun onToolBarClick(id: Int) {

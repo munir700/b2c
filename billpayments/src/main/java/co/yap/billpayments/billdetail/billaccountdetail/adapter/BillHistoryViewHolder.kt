@@ -1,4 +1,4 @@
-package co.yap.billpayments.dashboard.billaccountdetail.adapter
+package co.yap.billpayments.billdetail.billaccountdetail.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.databinding.LayoutItemBillHistoryBinding

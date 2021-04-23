@@ -1,7 +1,7 @@
 package co.yap.billpayments.billcategory
 
 import android.app.Application
-import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -12,7 +12,7 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 
 class BillCategoryViewModel(application: Application) :
-    PayBillBaseViewModel<IBillCategory.State>(application), IBillCategory.ViewModel,
+    BillDashboardBaseViewModel<IBillCategory.State>(application), IBillCategory.ViewModel,
     IRepositoryHolder<CustomersRepository> {
     override val repository: CustomersRepository = CustomersRepository
     override val state: IBillCategory.State = BillCategoryState()

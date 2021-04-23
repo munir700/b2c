@@ -1,10 +1,9 @@
-package co.yap.billpayments.dashboard.billaccountdetail
+package co.yap.billpayments.billdetail.billaccountdetail
 
 import android.app.Application
-import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseViewModel
-import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryAdapter
-import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryModel
+import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
+import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryAdapter
+import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryModel
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
@@ -14,7 +13,7 @@ import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
 import co.yap.yapcore.managers.SessionManager
 
 class BillAccountDetailViewModel(application: Application) :
-    PayBillBaseViewModel<IBillAccountDetail.State>(application),
+    BillDetailBaseViewModel<IBillAccountDetail.State>(application),
     IBillAccountDetail.ViewModel {
     override val state: IBillAccountDetail.State = BillAccountDetailState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -27,7 +26,6 @@ class BillAccountDetailViewModel(application: Application) :
         getBillAccountHistory()
         setToolBarTitle(getString(Strings.screen_bill_account_detail_toolbar_title))
         toggleRightIconVisibility(true)
-        context.getDrawable(R.drawable.ic_edit)?.let { setRightIconDrawable(it) }
         state.dueAmount =
             parentViewModel?.selectedBill?.totalAmountDue.getAvailableBalanceWithFormat(true)
         state.billStatus.set(

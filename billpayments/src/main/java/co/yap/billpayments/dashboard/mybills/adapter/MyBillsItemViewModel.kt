@@ -4,7 +4,7 @@ import android.view.View
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class MyBillsItemViewModel(
-    val billModel: MyBillModel?,
+    val billModel: BillModel?,
     val position: Int,
     private val onItemClickListener: OnItemClickListener?
 ) {

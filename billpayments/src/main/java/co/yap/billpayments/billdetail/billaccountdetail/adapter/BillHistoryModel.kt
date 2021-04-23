@@ -1,4 +1,4 @@
-package co.yap.billpayments.dashboard.billaccountdetail.adapter
+package co.yap.billpayments.billdetail.billaccountdetail.adapter
 
 data class BillHistoryModel(
     var key: String,

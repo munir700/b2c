@@ -1,9 +1,8 @@
-package co.yap.billpayments.dashboard.billaccountdetail
+package co.yap.billpayments.billdetail.billaccountdetail
 
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
-import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryAdapter
-import co.yap.billpayments.dashboard.billaccountdetail.adapter.BillHistoryModel
+import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryAdapter
+import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -28,6 +27,5 @@ interface IBillAccountDetail {
         var screenTitle: ObservableField<String>
         var dueAmount: CharSequence
         var billStatus: ObservableField<String>
-        var billPosition: ObservableInt
     }
 }

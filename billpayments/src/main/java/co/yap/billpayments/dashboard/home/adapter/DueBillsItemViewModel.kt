@@ -1,18 +1,19 @@
 package co.yap.billpayments.dashboard.home.adapter
 
 import android.view.View
+import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import java.text.SimpleDateFormat
 
 class DueBillsItemViewModel(
-    val dueBill: DueBill,
+    val dueBill: BillModel,
     val position: Int,
     private val onItemClickListener: OnItemClickListener?
 ) {
     fun calculateIsOverDue(): Boolean {
         if (DateUtils.isDatePassed(
-                dueBill.billDueDate,
+                dueBill.dueDate.toString(),
                 SimpleDateFormat(DateUtils.FORMATE_DATE_MONTH_YEAR)
             )
         ) {

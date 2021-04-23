@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.dashboard.billaccountdetail.BillAccountDetailViewModel" />
+            type="co.yap.billpayments.billdetail.billaccountdetail.BillAccountDetailViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -32,7 +32,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:position="@{viewModel.state.billPosition}" />
+                app:position="@{viewModel.parentViewModel.selectedBillPosition}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBillerName"
