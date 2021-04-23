@@ -27,7 +27,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel.parentViewModel?.bills?.value.isNullOrEmpty()) {
+        if (viewModel.parentViewModel?.billsResponse?.value.isNullOrEmpty()) {
             viewModel.parentViewModel?.getViewBills()
         } else {
             viewModel.setBillList()
@@ -36,7 +36,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
     }
 
     override fun setObservers() {
-        viewModel.parentViewModel?.billsAdapterList?.observe(this, Observer {
+        viewModel.parentViewModel?.billsResponse?.observe(this, Observer {
             viewModel.setBillList()
         })
         viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
@@ -53,7 +53,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
         launchActivity<BillDetailActivity>(requestCode = RequestCodes.REQUEST_BILL_DETAIL) {
             putExtra(
                 ExtraKeys.SELECTED_BILL.name,
-                viewModel.parentViewModel?.bills?.value?.get(pos)
+                viewModel.parentViewModel?.billsResponse?.value?.get(pos)
             )
             putExtra(
                 ExtraKeys.SELECTED_BILL_POSITION.name,
@@ -90,7 +90,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
     }
 
     override fun removeObservers() {
-        viewModel.parentViewModel?.billsAdapterList?.removeObservers(this)
+        viewModel.parentViewModel?.billsResponse?.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
     }
 

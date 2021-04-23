@@ -58,19 +58,19 @@ class MyBillsViewModel(application: Application) :
     }
 
     override fun setScreenTitle() {
-        if (parentViewModel?.billsAdapterList?.value?.size == 1) {
+        if (parentViewModel?.billsResponse?.value?.size == 1) {
             state.screenTitle.set(
                 Translator.getString(
                     context,
                     Strings.screen_my_bills_text_title_you_have_one_bill_registered
                 )
             )
-        } else if (2 <= parentViewModel?.billsAdapterList?.value?.size ?: 0) {
+        } else if (2 <= parentViewModel?.billsResponse?.value?.size ?: 0) {
             state.screenTitle.set(
                 Translator.getString(
                     context,
                     Strings.screen_my_bills_text_title_you_have_n_bills_registered,
-                    parentViewModel?.billsAdapterList?.value?.size.toString()
+                    parentViewModel?.billsResponse?.value?.size.toString()
                 )
             )
         }
@@ -78,7 +78,7 @@ class MyBillsViewModel(application: Application) :
 
     override fun setBillList() {
         setScreenTitle()
-        parentViewModel?.billsAdapterList?.value?.toMutableList()?.let { adapter.setList(it) }
+        parentViewModel?.billsResponse?.value?.toMutableList()?.let { adapter.setList(it) }
 
     }
 
@@ -91,13 +91,13 @@ class MyBillsViewModel(application: Application) :
                     adapter.getDataList().sortWith(
                         compareBy {
                             BillStatus.values()
-                                .firstOrNull() { it1 -> it1.title.equals(it.billStatus) }?.ordinal
+                                .firstOrNull() { it1 -> it1.title.equals(it.status) }?.ordinal
                         }
                     )
                 }
                 sortByRecentlyAdded -> {
                     adapter.getDataList().sortWith(compareByDescending {
-                        it.creationDate?.let { it1 ->
+                        it.createdAt?.let { it1 ->
                             DateUtils.stringToDate(
                                 it1, DateUtils.FORMATE_DATE_MONTH_YEAR
                             )
@@ -105,10 +105,10 @@ class MyBillsViewModel(application: Application) :
                     })
                 }
                 sortByAToZAscending -> {
-                    adapter.getDataList().sortBy { billModel -> billModel.billerName }
+                    adapter.getDataList().sortBy { billModel -> billModel.billerInfo?.billerName }
                 }
                 sortByZToADescending -> {
-                    adapter.getDataList().sortByDescending { billModel -> billModel.billerName }
+                    adapter.getDataList().sortByDescending { billModel -> billModel.billerInfo?.billerName }
                 }
             }
             adapter.notifyDataSetChanged()

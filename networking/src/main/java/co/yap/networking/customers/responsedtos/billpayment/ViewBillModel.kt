@@ -8,24 +8,34 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class ViewBillModel(
     @SerializedName("billNickName")
-    var billNickName: String?,
+    var billNickName: String? = null,
     @SerializedName("billDueDate")
-    var billDueDate: String?,
+    var billDueDate: String? = null,
     @SerializedName("totalAmountDue")
-    var totalAmountDue: String?,
+    var totalAmountDue: String? = null,
     @SerializedName("billAmountDue")
-    var billAmountDue: String?,
+    var billAmountDue: String? = null,
     @SerializedName("indicativeFXRate")
-    var indicativeFXRate: String?,
+    var indicativeFXRate: String? = null,
     @SerializedName("settlementCurrency")
-    var settlementCurrency: String?,
+    var settlementCurrency: String? = null,
     @SerializedName("baseCurrency")
-    var baseCurrency: String?,
+    var baseCurrency: String? = null,
     @SerializedName("status")
-    var status: String?,
+    var status: String? = null,
+    @SerializedName("createdAt")
+    var createdAt: String? = null,
+    @SerializedName("billerID")
+    var billerID: String? = null,
+    @SerializedName("skuId")
+    var skuId: String? = null,
+    @SerializedName("customerUUID")
+    var customerUUID: String? = null,
     @SerializedName("inputsData")
-    var inputsData: List<BillerInputData>?,
-    @SerializedName("billerInfo")
-    var billerInfo: BillerInfoModel?
+    var inputsData: List<BillerInputData>? = null,
+    @SerializedName("billerCatalog")
+    var billerInfo: BillerInfoModel? = null,
+    @Transient
+    var formattedDueDate: String? = null
 ) : Parcelable
 

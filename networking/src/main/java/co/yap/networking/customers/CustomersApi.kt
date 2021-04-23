@@ -6,6 +6,7 @@ import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoRes
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
+import co.yap.networking.customers.responsedtos.billpayment.BillResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
@@ -126,4 +127,5 @@ interface CustomersApi {
     suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse>
     suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse>
     suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<ApiResponse>
+    suspend fun getAddedBills(): RetroApiResponse<BillResponse>
 }

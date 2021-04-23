@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@{`Due - `+viewModel.dueBill.billDueDate}"
+                android:text="@{`Due - `+viewModel.dueBill.formattedDueDate}"
                 app:layout_constrainedWidth="true"
                 tools:text="Etsilat" />
 
@@ -131,7 +131,7 @@
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.dueBill.totalAmountDue,false,viewModel.dueBill.billerInfo.currency,true)}"
+                android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.dueBill.totalAmountDue,false,viewModel.dueBill.settlementCurrency,true)}"
                 android:textColor="@{viewModel.dueBill.status.equals(BillStatus.OVERDUE.name) ? @color/red : @color/colorPrimaryDark }"
                 tools:text="200.00" />
 
@@ -140,7 +140,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.dueBill.billerInfo.currency}"
+                android:text="@{viewModel.dueBill.settlementCurrency}"
                 tools:text="AED" />
 
             <View

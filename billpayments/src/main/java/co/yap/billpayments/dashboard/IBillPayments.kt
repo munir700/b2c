@@ -28,8 +28,7 @@ interface IBillPayments {
         var selectedBillerCatalog: BillerCatalogModel?
         var onToolbarClickEvent: SingleClickEvent
         var selectedBill: ViewBillModel?
-        var bills: MutableLiveData<MutableList<ViewBillModel>>?
-        var billsAdapterList: MutableLiveData<MutableList<BillModel>>?
+        var billsResponse: MutableLiveData<MutableList<ViewBillModel>>?
         fun onToolbarClick(id: Int)
         fun getViewBillsFromJSONFile(): BillResponse
         fun getViewBills()

@@ -7,24 +7,22 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class BillerInfoModel(
     @SerializedName("billerType")
-    var billerType: String,
+    var billerType: String? = null,
     @SerializedName("countryName")
-    var countryName: String,
+    var countryName: String? = null,
     @SerializedName("countryCode")
-    var countryCode: String,
+    var countryCode: String? = null,
     @SerializedName("billerDescription")
-    var billerDescription: String,
+    var billerDescription: String? = null,
     @SerializedName("billerName")
-    var billerName: String,
+    var billerName: String? = null,
     @SerializedName("billerID")
-    var billerID: String,
-    @SerializedName("creationDate")
-    var creationDate: String?,
-    @SerializedName("currency")
-    var currency: String?,
+    var billerID: String? = null,
     @SerializedName("logo")
-    var logo: String?,
-    @SerializedName("skuInfos")
-    var skuInfos: BillerInputDetails?
+    var logo: String? = null,
+    @SerializedName("categoryId")
+    var categoryId: String? = null,
+    @SerializedName("skuCatalogs")
+    var skuInfos: List<SkuCatalogs>? = null
 ) : Parcelable
 

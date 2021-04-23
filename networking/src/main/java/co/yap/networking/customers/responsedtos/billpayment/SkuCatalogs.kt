@@ -5,38 +5,38 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class BillerInputDetails(
+data class SkuCatalogs(
     @SerializedName("skuId")
-    var skuId: String?,
+    var skuId: String? = null,
     @SerializedName("billerID")
-    var billerID: String?,
+    var billerID: String? = null,
     @SerializedName("daysToPost")
-    var daysToPost: String?,
+    var daysToPost: String? = null,
     @SerializedName("currency")
     var currency: String? = null,
     @SerializedName("businessDays")
-    var businessDays: String?,
+    var businessDays: String? = null,
     @SerializedName("pastDuePaymentAllowed")
-    var pastDuePaymentAllowed: String?,
+    var pastDuePaymentAllowed: String? = null,
     @SerializedName("amount")
-    var amount: String?,
+    var amount: String? = null,
     @SerializedName("minAmount")
-    var MinAmount: String?,
+    var MinAmount: String? = null,
     @SerializedName("description")
-    var Description: String?,
+    var Description: String? = null,
     @SerializedName("inquiryAvailable")
-    var inquiryAvailable: String?,
+    var inquiryAvailable: String? = null,
     @SerializedName("excessPaymentAllowed")
-    var excessPaymentAllowed: String?,
+    var excessPaymentAllowed: String? = null,
     @SerializedName("partialPaymentAllowed")
-    var partialPaymentAllowed: String?,
+    var partialPaymentAllowed: String? = null,
     @SerializedName("maxAmount")
-    var maxAmount: String?,
+    var maxAmount: String? = null,
     @SerializedName("ioCatalogs")
-    var ioCatalogs: List<IoCatalogModel>?,
+    var ioCatalogs: List<IoCatalogModel>? = null,
     @SerializedName("isPostpaid")
     var isPostpaid: String? = null,
-    @SerializedName("catalogVersion")
-    var catalogVersion: String? = null
+    @SerializedName("type")
+    var type: String? = null
 ) : Parcelable
 

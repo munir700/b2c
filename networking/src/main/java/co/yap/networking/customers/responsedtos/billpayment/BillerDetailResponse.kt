@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class BillerDetailResponse(
     @SerializedName("data")
-    val billerInputsData: BillerInputDetails? = null
+    val billerInputsData: SkuCatalogs? = null
 ) : ApiResponse()
