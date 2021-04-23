@@ -32,11 +32,7 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
             val id = bundle.getString(Constants.TRANSACTION_ID)
             val name = bundle.getString(Constants.PRE_SELECTED_CATEGORY)
             viewModel.transactionId.set(id)
-            viewModel.tapixCategories.find {
-                it.categoryName == name
-            }.also { tapix ->
-                tapix?.isSelected ?: false
-            }
+            viewModel.categoryName.set(name)
         }
     }
 

@@ -27,6 +27,7 @@ class TransactionCategoryViewModel(application: Application) :
     override var tapixCategories: MutableList<TapixCategory> = arrayListOf()
     override var selectedCategory: ObservableField<TapixCategory> = ObservableField()
     override var transactionId: ObservableField<String> = ObservableField()
+    override var categoryName: ObservableField<String> = ObservableField()
 
     override fun onCreate() {
         super.onCreate()
@@ -44,6 +45,11 @@ class TransactionCategoryViewModel(application: Application) :
             when (val response = repository.getAllTransactionCategories()) {
                 is RetroApiResponse.Success -> {
                     response.data.txnCategories?.let { tapixCategories.addAll(it)
+                        tapixCategories.find { list ->
+                            list.categoryName == categoryName.get()
+                        }.also { category ->
+                            category?.isSelected = true
+                        }
                     categoryAdapter.setList(tapixCategories)
                     }
                     state.loading = false

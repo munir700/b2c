@@ -22,6 +22,7 @@ interface ITransactionCategory {
         var tapixCategories: MutableList<TapixCategory>
         var selectedCategory: ObservableField<TapixCategory>
         var transactionId : ObservableField<String>
+        var categoryName : ObservableField<String>
         fun updateCategory(context: Activity)
     }
 
