@@ -10,10 +10,7 @@ import co.yap.networking.transactions.responsedtos.achievement.AchievementsRespo
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
-import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
+import co.yap.networking.transactions.responsedtos.transaction.*
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
 
@@ -82,6 +79,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_TRANSACTIONS_RECEIPT_SAVE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_TOTAL_PURCHASES = "/transactions/api/total-purchases"
+    const val URL_TRANSACTIONS_VIEW_CATEGORIES = "/transactions/api/category"
+    const val URL_TRANSACTIONS_UPDATE_CATEGORY =
+        "/transactions/api/category/update-transaction-category"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -330,6 +330,18 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 productCode = totalPurchaseRequest.productCode,
                 merchantName = totalPurchaseRequest.merchantName)
         })
+
+    override suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse> =
+        executeSafely(call = {
+            api.getAllTransactionCategories()
+        })
+
+    override suspend fun updateTransactionCategory(
+        categoryId: String,
+        transactionId: String
+    ): RetroApiResponse<ApiResponse> = executeSafely(call = {
+        api.updateTransactionCategory(categoryId, transactionId)
+    })
 
 }
 

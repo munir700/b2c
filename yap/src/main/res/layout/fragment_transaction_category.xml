@@ -12,9 +12,10 @@
         <import type="co.yap.R" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -33,10 +34,11 @@
             android:id="@+id/svCategories"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="1"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent">
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -48,7 +50,10 @@
                     android:paddingBottom="@dimen/margin_extra_small"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:adapter="@{viewModel.categoryAdapter}"
-                    tools:itemCount="10"
+                    tools:itemCount="1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     tools:listitem="@layout/item_tapix_category"
                     android:nestedScrollingEnabled="false"/>
                 <co.yap.widgets.CoreButton
@@ -57,13 +62,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:btn_size="small"
+                    app:layout_constraintTop_toBottomOf="@+id/rvCategories"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:text="Done"
-                    app:enableCoreButton="@{true}"
+                    app:enableCoreButton="@{viewModel.selectedCategory != null}"
                     app:layout_goneMarginTop="@dimen/margin_extra_large"
                     android:layout_marginBottom="@dimen/margin_medium_large"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -344,15 +344,16 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun isAtmTransaction(): Boolean =
         (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
 
-    fun showTransactionCategory(): Boolean = (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode)
+    fun showTransactionCategory(): Boolean =
+        (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode)
 
-     fun isCategoryGeneral(): Boolean =
+    fun isCategoryGeneral(): Boolean =
         (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
                 && transaction.tapixCategory?.isGeneral == true
 
-     fun getCategoryDescription(): String {
+    fun getCategoryDescription(): String {
         return when {
-            isCategoryGeneral() -> {
+            transaction.tapixCategory == null || isCategoryGeneral() -> {
                 "Check back later to see the category updated "
             }
             else -> {
@@ -361,8 +362,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         }
     }
 
-    fun showFeedbackOption():Boolean = (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) ||
-            (transaction.productCode == TransactionProductCode.ECOM.pCode)||
-            (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode)||
-            (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
+    fun showFeedbackOption(): Boolean =
+        (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) ||
+                (transaction.productCode == TransactionProductCode.ECOM.pCode) ||
+                (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
+                (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
 }
