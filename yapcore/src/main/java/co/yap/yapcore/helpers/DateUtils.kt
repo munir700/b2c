@@ -61,17 +61,17 @@ object DateUtils {
         val dd = if (day < 10) "0$day" else "" + day
         val mm = if (month < 10) "0$month" else "" + month
         val yy = if (year < 10) "0$year" else "" + year
-        val format = SimpleDateFormat("dd-mm-yy", Locale.US)
+        val format = SimpleDateFormat("dd-mm-yy", Locale.getDefault())
         return format.parse("$dd-$mm-$yy")
     }
 
     fun reformatStringDate(
-            date: String,
-            inputFormatter: String? = DEFAULT_DATE_FORMAT,
-            outFormatter: String? = DEFAULT_DATE_FORMAT
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outFormatter: String? = DEFAULT_DATE_FORMAT
     ): String {
         var result = ""
-        val formatter = SimpleDateFormat(outFormatter, Locale.US)
+        val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
         try {
             // formatter.timeZone = TIME_ZONE_Default
             result = formatter.format(stringToDate(date, inputFormatter ?: ""))
@@ -107,23 +107,23 @@ object DateUtils {
     }
 
     fun reformatDate(
-            date: String?,
-            inputFormatter: String = DEFAULT_DATE_FORMAT,
-            outFormatter: String = DEFAULT_DATE_FORMAT,
-            inputTimeZone: TimeZone = GMT,
-            outTimeZone: TimeZone = TIME_ZONE_Default
+        date: String?,
+        inputFormatter: String = DEFAULT_DATE_FORMAT,
+        outFormatter: String = DEFAULT_DATE_FORMAT,
+        inputTimeZone: TimeZone = GMT,
+        outTimeZone: TimeZone = TIME_ZONE_Default
     ): String {
         var result = ""
         date?.let {
             try {
-                val formatter = SimpleDateFormat(outFormatter, Locale.US)
+                val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
                 formatter.timeZone = outTimeZone
                 result = formatter.format(
-                        stringToDate(
-                                dateStr = it,
-                                format = inputFormatter,
-                                timeZone = inputTimeZone
-                        )!!
+                    stringToDate(
+                        dateStr = it,
+                        format = inputFormatter,
+                        timeZone = inputTimeZone
+                    )!!
                 )
             } catch (e: Exception) {
             }
@@ -132,12 +132,12 @@ object DateUtils {
     }
 
     fun reformatLiveStringDate(
-            date: String,
-            inputFormatter: String? = DEFAULT_DATE_FORMAT,
-            outFormatter: String? = DEFAULT_DATE_FORMAT
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outFormatter: String? = DEFAULT_DATE_FORMAT
     ): String {
         var result = ""
-        val formatter = SimpleDateFormat(outFormatter, Locale.US)
+        val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
         try {
             formatter.timeZone = TIME_ZONE_Default
             result = formatter.format(stringToDate(date, inputFormatter ?: ""))
@@ -149,13 +149,13 @@ object DateUtils {
     }
 
     fun dateToString(
-            date: Date?,
-            format: String = DEFAULT_DATE_FORMAT,
-            isApplyTimeZone: Boolean = true
+        date: Date?,
+        format: String = DEFAULT_DATE_FORMAT,
+        isApplyTimeZone: Boolean = true
     ): String {
         return try {
-            SimpleDateFormat(format, Locale.US).format(date)
-            val sdf = SimpleDateFormat(format, Locale.US)
+            SimpleDateFormat(format, Locale.getDefault()).format(date)
+            val sdf = SimpleDateFormat(format, Locale.getDefault())
             if (isApplyTimeZone) sdf.timeZone = TimeZone.getTimeZone("UTC")
             return sdf.format(date)
         } catch (e: Exception) {
@@ -166,7 +166,7 @@ object DateUtils {
     fun dateToString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
         date?.let {
             var result = ""
-            val formatter = SimpleDateFormat(format, Locale.US)
+            val formatter = SimpleDateFormat(format, Locale.getDefault())
             formatter.timeZone = timeZone
 //            val symbols = DateFormatSymbols(Locale.getDefault())
 //            symbols.amPmStrings = arrayOf("am", "pm")
@@ -183,13 +183,13 @@ object DateUtils {
 
     fun stringToDate(dateStr: String, format: String): Date? {
         var d: Date? = null
-        val formatter = SimpleDateFormat(format, Locale.US)
+        val formatter = SimpleDateFormat(format, Locale.getDefault())
         formatter.timeZone = UTC
         try {
             formatter.isLenient = false
             d = formatter.parse(dateStr)
             formatter.timeZone = TIME_ZONE_Default
-            val newDate = SimpleDateFormat(format, Locale.US).format(d)
+            val newDate = SimpleDateFormat(format, Locale.getDefault()).format(d)
             d = formatter.parse(newDate)
         } catch (e: Exception) {
             d = null
@@ -228,13 +228,13 @@ object DateUtils {
     }
 
     fun reformatLocalDate(
-            date: String,
-            inputFormatter: String? = DEFAULT_DATE_FORMAT,
-            outputFormatter: String? = DEFAULT_DATE_FORMAT
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outputFormatter: String? = DEFAULT_DATE_FORMAT
     ): Date? {
         return try {
-            val inFormatter = SimpleDateFormat(inputFormatter, Locale.US)
-            val outFormatter = SimpleDateFormat(outputFormatter, Locale.US)
+            val inFormatter = SimpleDateFormat(inputFormatter, Locale.getDefault())
+            val outFormatter = SimpleDateFormat(outputFormatter, Locale.getDefault())
             val newDate = outFormatter.format(inFormatter.parse(date))
             outFormatter.parse(newDate)
         } catch (e: Exception) {
@@ -243,12 +243,12 @@ object DateUtils {
     }
 
     fun reformatToLocalString(
-            date: Date?,
-            outputFormatter: String
+        date: Date?,
+        outputFormatter: String
     ): String {
         return try {
-            SimpleDateFormat(outputFormatter, Locale.US).format(date)
-            val outFormatter = SimpleDateFormat(outputFormatter, Locale.US)
+            SimpleDateFormat(outputFormatter, Locale.getDefault()).format(date)
+            val outFormatter = SimpleDateFormat(outputFormatter, Locale.getDefault())
             outFormatter.format(date)
         } catch (e: Exception) {
             ""
@@ -257,7 +257,7 @@ object DateUtils {
 
     fun stringToDateLeanPlum(dateStr: String): Date? {
         var d: Date? = null
-        val formatter = SimpleDateFormat(LEAN_PLUM_FORMAT, Locale.US)
+        val formatter = SimpleDateFormat(LEAN_PLUM_FORMAT, Locale.getDefault())
         formatter.timeZone = GMT
         try {
             formatter.isLenient = false
@@ -290,28 +290,28 @@ object DateUtils {
     }
 
     fun getCurrentDateWithFormat(formal: String): String {
-        val sdf = SimpleDateFormat(formal, Locale.US)
+        val sdf = SimpleDateFormat(formal, Locale.getDefault())
         sdf.timeZone = TimeZone.getDefault()
         return sdf.format(Date())
     }
 
     fun getCurrentDateWithFormat(formal: String, timeZone: TimeZone): String {
-        val sdf = SimpleDateFormat(formal, Locale.US)
+        val sdf = SimpleDateFormat(formal, Locale.getDefault())
         sdf.timeZone = timeZone
         return sdf.format(Date())
     }
 
     fun convertServerDateToLocalDate(serverDate: String): Date? {
         return try {
-            val serverSdf = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US)
+            val serverSdf = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.getDefault())
             serverSdf.timeZone = TimeZone.getTimeZone("UTC")
             val serverDate = serverSdf.parse(serverDate)
 
-            val localSdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val localSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             localSdf.timeZone = TimeZone.getDefault()
             val localDate = localSdf.format(serverDate)
 
-            val convertedSdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val convertedSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             convertedSdf.parse(localDate)
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -320,8 +320,8 @@ object DateUtils {
     }
 
     fun getStartAndEndOfMonthAndDay(
-            currentDate: Date,
-            format: String = FORMATE_MONTH_DAY
+        currentDate: Date,
+        format: String = FORMATE_MONTH_DAY
     ): String {
         val calendar = Calendar.getInstance()
         calendar.time = currentDate
@@ -401,7 +401,7 @@ object DateUtils {
         calendar2.time = date2
         val sameYear = calendar1[Calendar.YEAR] == calendar2[Calendar.YEAR]
         val sameMonth =
-                calendar1[Calendar.MONTH] == calendar2[Calendar.MONTH]
+            calendar1[Calendar.MONTH] == calendar2[Calendar.MONTH]
         return sameMonth && sameYear
     }
 
@@ -409,9 +409,9 @@ object DateUtils {
     fun isToday(date: Date?) = date?.let { android.text.format.DateUtils.isToday(it.time) } ?: false
 
     fun isToday(date: String, format: String, timeZone: TimeZone) =
-            android.text.format.DateUtils.isToday(
-                    stringToDate(date, format, timeZone)?.time ?: Date().time
-            )
+        android.text.format.DateUtils.isToday(
+            stringToDate(date, format, timeZone)?.time ?: Date().time
+        )
 
     fun isTomorrow(date: Date?): Boolean {
         // Check if yesterday
@@ -424,7 +424,7 @@ object DateUtils {
     }
 
     fun isTomorrow(date: Date?, timeZone: TimeZone) =
-            afterDay(timeZone) == dateToString(date, DEFAULT_DATE_FORMAT, timeZone)
+        afterDay(timeZone) == dateToString(date, DEFAULT_DATE_FORMAT, timeZone)
 
     fun isYesterday(date: Date?): Boolean {
         // Check if yesterday
@@ -437,16 +437,16 @@ object DateUtils {
     }
 
     fun isYesterday(date: Date?, timeZone: TimeZone) =
-            befoDay(timeZone) == dateToString(date, DEFAULT_DATE_FORMAT, timeZone)
+        befoDay(timeZone) == dateToString(date, DEFAULT_DATE_FORMAT, timeZone)
 
     fun isYesterday(date: String, format: String, timeZone: TimeZone) =
-            stringToDate(date, format, timeZone)?.let {
-                isYesterday(it)
-            } ?: false
+        stringToDate(date, format, timeZone)?.let {
+            isYesterday(it)
+        } ?: false
 
     fun afterDay(timeZone: TimeZone) = dateToString(
-            nextDay(Date(), 1),
-            DEFAULT_DATE_FORMAT, timeZone
+        nextDay(Date(), 1),
+        DEFAULT_DATE_FORMAT, timeZone
     )
 
     fun befoDay(timeZone: TimeZone) = befoDay(DEFAULT_DATE_FORMAT, timeZone)
@@ -462,35 +462,35 @@ object DateUtils {
 
     fun befoDay(format: String, timeZone: TimeZone): String? {
         return dateToString(
-                nextDay(
-                        Date(),
-                        -1
-                ), format, timeZone
+            nextDay(
+                Date(),
+                -1
+            ), format, timeZone
         )
     }
 
     fun getFormattedLogDate(
-            context: Context,
-            date: String?,
-            inputFormatter: String = SERVER_DATE_FORMAT,
-            outFormatter: String = LEAN_PLUM_FORMAT,
-            inputTimeZone: TimeZone = GMT,
-            outTimeZone: TimeZone = TIME_ZONE_Default
+        context: Context,
+        date: String?,
+        inputFormatter: String = SERVER_DATE_FORMAT,
+        outFormatter: String = LEAN_PLUM_FORMAT,
+        inputTimeZone: TimeZone = GMT,
+        outTimeZone: TimeZone = TIME_ZONE_Default
     ): String? {
         return date?.let {
             val dateTime = stringToDate(it, inputFormatter, inputTimeZone)
             when {
                 isToday(dateTime) -> context.getString(
-                        R.string.today,
-                        dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                    R.string.today,
+                    dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
                 )
                 isTomorrow(dateTime) -> context.getString(
-                        R.string.tomorrow,
-                        dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                    R.string.tomorrow,
+                    dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
                 )
                 isYesterday(dateTime) -> context.getString(
-                        R.string.yesterday,
-                        dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
+                    R.string.yesterday,
+                    dateToString(dateTime, FORMAT_TIME_12H, TIME_ZONE_Default)
                 )
                 else -> dateToString(dateTime, outFormatter, outTimeZone)
             }

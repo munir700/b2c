@@ -63,7 +63,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
-import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -87,7 +86,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
-        NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+    NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null
@@ -107,7 +106,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         super.onCreate(savedInstanceState)
         viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
         parentViewModel =
-                activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
+            activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
     }
 
     private fun startFlowForSetPin(card: Card?) {
@@ -131,7 +130,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setClickOnWelcomeYapItem() {
         getBindings().lyInclude.multiStateView.getView(MultiStateView.ViewState.EMPTY)
-                ?.setOnClickListener { openYapForYou() }
+            ?.setOnClickListener { openYapForYou() }
     }
 
     private fun openYapForYou() {
@@ -141,11 +140,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun initComponents() {
         getBindings().lyInclude.rvTransaction.layoutManager = LinearLayoutManager(context)
         getBindings().lyInclude.rvTransaction.adapter =
-                TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
+            TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
         skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
-                R.layout.item_transaction_list_shimmer,
-                5
+            R.layout.item_transaction_list_shimmer,
+            5
         )
         viewModel.state.showTxnShimmer.observe(this, Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
@@ -165,7 +164,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             } else {
                 if (Math.abs(verticalOffset) > 0)
                     getBindings().lyInclude.lyHomeAction.alpha =
-                            10 / abs(verticalOffset).toFloat()
+                        10 / abs(verticalOffset).toFloat()
                 pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
@@ -196,11 +195,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private val transactionClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.clickEvent.setPayload(
-                    SingleClickEvent.AdaptorPayLoadHolder(
-                            view,
-                            data,
-                            pos
-                    )
+                SingleClickEvent.AdaptorPayLoadHolder(
+                    view,
+                    data,
+                    pos
+                )
             )
             viewModel.clickEvent.setValue(view.id)
         }
@@ -210,11 +209,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
             trackEventWithScreenName(FirebaseEvent.CLICK_FILTER_TRANSACTIONS)
             startActivityForResult(
-                    TransactionFiltersActivity.newIntent(
-                            requireContext(),
-                            viewModel.txnFilters
-                    ),
-                    RequestCodes.REQUEST_TXN_FILTER
+                TransactionFiltersActivity.newIntent(
+                    requireContext(),
+                    viewModel.txnFilters
+                ),
+                RequestCodes.REQUEST_TXN_FILTER
             )
         }
     }
@@ -245,21 +244,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             val childPosition = it.position
                             val groupPosition = it.itemData as Int
                             val transaction: Transaction? =
-                                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
-                                            childPosition
-                                    )
+                                getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                                    childPosition
+                                )
                             launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
                                 putExtra(
-                                        ExtraKeys.TRANSACTION_OBJECT_STRING.name,
-                                        transaction
+                                    ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                                    transaction
                                 )
                                 putExtra(
-                                        ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
-                                        groupPosition
+                                    ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                                    groupPosition
                                 )
                                 putExtra(
-                                        ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
-                                        childPosition
+                                    ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                                    childPosition
                                 )
                             }
                         }
@@ -268,21 +267,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     viewModel.EVENT_SET_CARD_PIN -> {
                         SessionManager.getPrimaryCard()?.let { card ->
                             startActivityForResult(
-                                    SetCardPinWelcomeActivity.newIntent(
-                                            requireContext(),
-                                            card
-                                    ), RequestCodes.REQUEST_FOR_SET_PIN
+                                SetCardPinWelcomeActivity.newIntent(
+                                    requireContext(),
+                                    card
+                                ), RequestCodes.REQUEST_FOR_SET_PIN
                             )
                         } ?: showToast("Debit card not found.")
                     }
-                    viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
-                        startActivityForResult(
-                                FragmentPresenterActivity.getIntent(
-                                        requireContext(),
-                                        MODE_MEETING_CONFORMATION,
-                                        null
-                                ), RequestCodes.REQUEST_MEETING_CONFIRMED
-                        )
+                    viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {//This Fragment is attached in Location Selection Activity 's CardOnTheWayFragment. We have commented this line because we have implemented new
+//                        startActivityForResult(
+//                            FragmentPresenterActivity.getIntent(          //Design on completion of Onboarding in the above mentioned fragment.
+//                                requireContext(),
+//                                MODE_MEETING_CONFORMATION,
+//                                null
+//                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
+//                        )☻
+                        SessionManager.getAccountInfo {
+                            GlobalScope.launch(Main) {
+                                setUpDashBoardNotificationsView()
+                            }
+                        }
                     }
                     R.id.ivMenu -> {
 
@@ -376,7 +380,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         //if transaction is empty and filter is applied then state would be Error where no transaction image show
                         if (homeTransactionsRequest.totalAppliedFilter > 0) {
                             getBindings().lyInclude.multiStateView.viewState =
-                                    MultiStateView.ViewState.ERROR
+                                MultiStateView.ViewState.ERROR
                         } else {
                             viewModel.state.isUserAccountActivated.set(false)
                             SessionManager.getAccountInfo {
@@ -414,30 +418,30 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getRecycleViewAdaptor()?.setItemListener(transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
         getBindings().lyInclude.rvTransaction.addOnScrollListener(
-                object :
-                        RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
-                        val layoutManager =
-                                getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
-                        val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                        if (viewModel.state.showTxnShimmer.value?.status == Status.SUCCESS)
-                            if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                                if (false == viewModel.isLoadMore.value && false == viewModel.isLast.value) {
-                                    viewModel.isLoadMore.value = true
-                                }
+            object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager =
+                        getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
+                    val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    if (viewModel.state.showTxnShimmer.value?.status == Status.SUCCESS)
+                        if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                            if (false == viewModel.isLoadMore.value && false == viewModel.isLast.value) {
+                                viewModel.isLoadMore.value = true
                             }
-                    }
-                })
+                        }
+                }
+            })
 
         viewModel.isLoadMore.observe(this, Observer
         {
             if (it) {
                 homeTransactionsRequest.number =
-                        homeTransactionsRequest.number + 1
+                    homeTransactionsRequest.number + 1
                 val item =
-                        getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
-                                ?.copy()
+                    getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
+                        ?.copy()
                 item?.totalAmount = "loader"
                 getRecycleViewAdaptor()?.addListItem(item!!)
                 viewModel.loadMore()
@@ -445,38 +449,43 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         })
         viewModel.parentViewModel?.isYapHomeFragmentVisible?.observe(
-                this,
-                Observer { isHomeFragmentVisible ->
-                    if (isHomeFragmentVisible) {
-                        viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
-                    } else {
-                        tourStep?.let {
-                            if (it.isShowing) {
-                                it.dismiss()
-                            }
+            this,
+            Observer { isHomeFragmentVisible ->
+                if (isHomeFragmentVisible) {
+                    viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
+                } else {
+                    tourStep?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
                         }
                     }
-                })
+                }
+            })
         viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.observe(
-                this,
-                Observer { isUnverifiedScreenVisible ->
-                    if (isUnverifiedScreenVisible) {
-                        viewModel.parentViewModel?.isShowHomeTour?.value = isUnverifiedScreenVisible
-                    }
-                })
+            this,
+            Observer { isUnverifiedScreenVisible ->
+                if (isUnverifiedScreenVisible) {
+                    viewModel.parentViewModel?.isShowHomeTour?.value = isUnverifiedScreenVisible
+                }
+            })
 
         viewModel.parentViewModel?.isShowHomeTour?.observe(this, Observer {
             if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true && viewModel.state.showTxnShimmer.value?.status != Status.LOADING) {
                 showHomeTourGuide()
             }
         })
+
+        viewModel.parentViewModel?.isKycCompelted?.observe(this, Observer {
+            if(it)
+                viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
+        })
     }
 
     private fun getTransactionPosition(item: HomeTransactionListData): Int? {
         return getRecycleViewAdaptor()?.getDataList()
-                ?.indexOf(getRecycleViewAdaptor()?.getDataList()?.first {
-                    it.date == item.date
-                })
+            ?.indexOf(getRecycleViewAdaptor()?.getDataList()?.first {
+                it.date == item.date
+            })
     }
 
     private fun checkUserStatus() {
@@ -500,12 +509,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
                 getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(150)
                 getBindings().lyInclude.rvNotificationList.setItemTransformer(
-                        ScaleTransformer.Builder()
-                                .setMaxScale(1.05f)
-                                .setMinScale(1f)
-                                .setPivotX(Pivot.X.CENTER) // CENTER is a default one
-                                //.setPivotY(Pivot.Y.BOTTOM) // CENTER is a default one
-                                .build()
+                    ScaleTransformer.Builder()
+                        .setMaxScale(1.05f)
+                        .setMinScale(1f)
+                        .setPivotX(Pivot.X.CENTER) // CENTER is a default one
+                        //.setPivotY(Pivot.Y.BOTTOM) // CENTER is a default one
+                        .build()
                 )
             }
         }
@@ -530,9 +539,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             viewModel.state.isTransEmpty.set(false)
             view?.let {
                 transactionViewHelper = TransactionsViewHelper(
-                        requireContext(),
-                        it,
-                        viewModel
+                    requireContext(),
+                    it,
+                    viewModel
                 )
                 getGraphRecycleViewAdapter()?.helper = transactionViewHelper
             }
@@ -549,9 +558,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             viewModel.state.isTransEmpty.set(false)
             view?.let {
                 transactionViewHelper = TransactionsViewHelper(
-                        requireContext(),
-                        it,
-                        viewModel
+                    requireContext(),
+                    it,
+                    viewModel
                 )
             }
         }
@@ -595,8 +604,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             NotificationAction.COMPLETE_VERIFICATION -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(
-                            Constants.name,
-                            SessionManager.user?.currentCustomer?.firstName.toString()
+                        Constants.name,
+                        SessionManager.user?.currentCustomer?.firstName.toString()
                     )
                     putExtra(Constants.data, false)
                 }
@@ -611,19 +620,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             NotificationAction.UPDATE_EMIRATES_ID -> {
                 if (SessionManager.user?.otpBlocked == true) {
                     if (SessionManager.eidStatus == EIDStatus.NOT_SET &&
-                            PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
+                        PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
                     ) {
                         launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                             putExtra(
-                                    Constants.name,
-                                    SessionManager.user?.currentCustomer?.firstName.toString()
+                                Constants.name,
+                                SessionManager.user?.currentCustomer?.firstName.toString()
                             )
                             putExtra(Constants.data, true)
                             putExtra(
-                                    "document",
-                                    GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
-                                            identityNo = SessionManager.user?.currentCustomer?.identityNo
-                                    )
+                                "document",
+                                GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                                    identityNo = SessionManager.user?.currentCustomer?.identityNo
+                                )
                             )
                         }
                     } else {
@@ -631,29 +640,29 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
                 } else {
                     launchActivity<DocumentsDashboardActivity>(
-                            requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
-                            type = FeatureSet.UPDATE_EID
+                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                        type = FeatureSet.UPDATE_EID
                     ) {
                         putExtra(
-                                Constants.name,
-                                SessionManager.user?.currentCustomer?.firstName.toString()
+                            Constants.name,
+                            SessionManager.user?.currentCustomer?.firstName.toString()
                         )
                         putExtra(Constants.data, true)
                         putExtra(
-                                "document",
-                                GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
-                                        identityNo = SessionManager.user?.currentCustomer?.identityNo
-                                )
+                            "document",
+                            GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                                identityNo = SessionManager.user?.currentCustomer?.identityNo
+                            )
                         )
                     }
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {
                 startActivity(
-                        FragmentPresenterActivity.getIntent(
-                                requireContext(),
-                                Constants.MODE_HELP_SUPPORT, null
-                        )
+                    FragmentPresenterActivity.getIntent(
+                        requireContext(),
+                        Constants.MODE_HELP_SUPPORT, null
+                    )
                 )
             }
             NotificationAction.CARD_FEATURES_BLOCKED -> {
@@ -682,23 +691,23 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             RequestCodes.REQUEST_KYC_DOCUMENTS -> {
                 data?.let {
                     val result =
-                            data.getBooleanExtra(Constants.result, false)
+                        data.getBooleanExtra(Constants.result, false)
                     if (result) {
                         startActivityForResult(
-                                LocationSelectionActivity.newIntent(
-                                        context = requireContext(),
-                                        address = SessionManager.userAddress ?: Address(),
-                                        headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
-                                        subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
-                                        onBoarding = true
-                                ), RequestCodes.REQUEST_FOR_LOCATION
+                            LocationSelectionActivity.newIntent(
+                                context = requireContext(),
+                                address = SessionManager.userAddress ?: Address(),
+                                headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                                subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                                onBoarding = true
+                            ), RequestCodes.REQUEST_FOR_LOCATION
                         )
                     } else {
                         val kycAction =
-                                data.getValue(
-                                        "status",
-                                        ExtraType.STRING.name
-                                ) as? String
+                            data.getValue(
+                                "status",
+                                ExtraType.STRING.name
+                            ) as? String
 //                        if (KYCAction.ACTION_EID_UPDATE.name == kycAction) checkUserStatus()
                     }
                 }
@@ -714,7 +723,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             RequestCodes.REQUEST_TXN_FILTER -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val filters: TransactionFilters? =
-                            data?.getParcelableExtra<TransactionFilters?>("txnRequest")
+                        data?.getParcelableExtra<TransactionFilters?>("txnRequest")
                     if (viewModel.txnFilters != filters) {
                         setTransactionRequest(filters)
                         getFilterTransactions()
@@ -727,9 +736,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             RequestCodes.REQUEST_FOR_SET_PIN -> {
                 data?.let {
                     val isPinSet =
-                            it.getBooleanExtra(Constants.isPinCreated, false)
+                        it.getBooleanExtra(Constants.isPinCreated, false)
                     val isSkip =
-                            it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
+                        it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet) {
                         SessionManager.getDebitCard {
@@ -751,55 +760,55 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
                 val groupPosition = data.let { intent ->
                     intent?.getIntExtra(
-                            ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
-                            -1
+                        ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                        -1
                     )
                 }
                 val childPosition = data.let { intent ->
                     intent?.getIntExtra(
-                            ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
-                            -1
+                        ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                        -1
                     )
                 }
                 if (groupPosition != -1 && childPosition != -1) {
                     getRecycleViewAdaptor()?.getDataForPosition(
-                            groupPosition ?: 0
+                        groupPosition ?: 0
                     )?.transaction?.get(
-                            childPosition ?: 0
+                        childPosition ?: 0
                     )?.transactionNote =
-                            (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
 
                     getRecycleViewAdaptor()?.getDataForPosition(
-                            groupPosition ?: 0
+                        groupPosition ?: 0
                     )?.transaction?.get(
-                            childPosition ?: 0
+                        childPosition ?: 0
                     )?.receiverTransactionNote =
-                            (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNote
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNote
 
                     getRecycleViewAdaptor()?.getDataForPosition(
-                            groupPosition ?: 0
+                        groupPosition ?: 0
                     )?.transaction?.get(
-                            childPosition ?: 0
+                        childPosition ?: 0
                     )?.transactionNoteDate =
-                            (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
-                            groupPosition ?: 0,
-                            getRecycleViewAdaptor()?.getDataForPosition(
-                                    groupPosition ?: 0
-                            )?.transaction?.get(childPosition ?: 0)
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
                     )
 
                     getRecycleViewAdaptor()?.getDataForPosition(
-                            groupPosition ?: 0
+                        groupPosition ?: 0
                     )?.transaction?.get(
-                            childPosition ?: 0
+                        childPosition ?: 0
                     )?.receiverTransactionNoteDate =
-                            (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNoteDate
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
-                            groupPosition ?: 0,
-                            getRecycleViewAdaptor()?.getDataForPosition(
-                                    groupPosition ?: 0
-                            )?.transaction?.get(childPosition ?: 0)
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
                     )
 
                 }
@@ -829,10 +838,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
             homeTransactionsRequest.categories = it.categories
             homeTransactionsRequest.statues =
-                    if (it.pendingTxn == true) arrayListOf(
-                            TransactionStatus.PENDING.name,
-                            TransactionStatus.IN_PROGRESS.name
-                    ) else null
+                if (it.pendingTxn == true) arrayListOf(
+                    TransactionStatus.PENDING.name,
+                    TransactionStatus.IN_PROGRESS.name
+                ) else null
         }
     }
 
@@ -863,12 +872,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun registerTransactionBroadcast() {
         LocalBroadcastManager.getInstance(requireContext())
-                .registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_UPDATE_TRANSACTION))
+            .registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_UPDATE_TRANSACTION))
     }
 
     private fun unregisterTransactionBroadcast() {
         LocalBroadcastManager.getInstance(requireContext())
-                .unregisterReceiver(broadCastReceiver)
+            .unregisterReceiver(broadCastReceiver)
     }
 
     private val broadCastReceiver = object : BroadcastReceiver() {
@@ -888,46 +897,46 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
-                GuidedTourViewDetail(
-                        getBindings().ivMenu,
-                        getString(R.string.screen_dashboard_tour_guide_display_text_top_menu),
-                        getString(R.string.screen_dashboard_tour_guide_display_text_top_menu_des),
-                        padding = -getDimension(R.dimen._20sdp),
-                        circleRadius = getDimension(R.dimen._60sdp),
-                        callBackListener = homeTourItemListener
-                )
+            GuidedTourViewDetail(
+                getBindings().ivMenu,
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_menu),
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_menu_des),
+                padding = -getDimension(R.dimen._20sdp),
+                circleRadius = getDimension(R.dimen._60sdp),
+                callBackListener = homeTourItemListener
+            )
         )
         list.add(
-                GuidedTourViewDetail(
-                        getBindings().tvAvailableBalance,
-                        getString(R.string.screen_dashboard_tour_guide_display_text_balance),
-                        getString(R.string.screen_dashboard_tour_guide_display_text_balance_des),
-                        padding = getDimension(R.dimen._70sdp),
-                        circleRadius = getDimension(R.dimen._70sdp),
-                        callBackListener = homeTourItemListener
-                )
+            GuidedTourViewDetail(
+                getBindings().tvAvailableBalance,
+                getString(R.string.screen_dashboard_tour_guide_display_text_balance),
+                getString(R.string.screen_dashboard_tour_guide_display_text_balance_des),
+                padding = getDimension(R.dimen._70sdp),
+                circleRadius = getDimension(R.dimen._70sdp),
+                callBackListener = homeTourItemListener
+            )
         )
         list.add(
-                GuidedTourViewDetail(
-                        getParentActivity().cvYapIt,
-                        getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it),
-                        getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it_des),
-                        padding = getDimension(R.dimen._260sdp),
-                        circleRadius = getDimension(R.dimen._70sdp),
-                        callBackListener = homeTourItemListener
-                )
+            GuidedTourViewDetail(
+                getParentActivity().cvYapIt,
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it),
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it_des),
+                padding = getDimension(R.dimen._260sdp),
+                circleRadius = getDimension(R.dimen._70sdp),
+                callBackListener = homeTourItemListener
+            )
         )
         list.add(
-                GuidedTourViewDetail(
-                        getBindings().ivSearch,
-                        getString(R.string.screen_dashboard_tour_guide_display_text_search),
-                        getString(R.string.screen_dashboard_tour_guide_display_text_search_des),
-                        padding = getDimension(R.dimen._45sdp),
-                        circleRadius = getDimension(R.dimen._60sdp),
-                        btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
-                        showSkip = false,
-                        callBackListener = homeTourItemListener
-                )
+            GuidedTourViewDetail(
+                getBindings().ivSearch,
+                getString(R.string.screen_dashboard_tour_guide_display_text_search),
+                getString(R.string.screen_dashboard_tour_guide_display_text_search_des),
+                padding = getDimension(R.dimen._45sdp),
+                circleRadius = getDimension(R.dimen._60sdp),
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
+                showSkip = false,
+                callBackListener = homeTourItemListener
+            )
         )
         return list
     }
@@ -947,15 +956,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private val graphTourItemListener = object : OnTourItemClickListener {
         override fun onTourCompleted(pos: Int) {
             TourGuideManager.lockTourGuideScreen(
-                    TourGuideType.DASHBOARD_GRAPH_SCREEN,
-                    completed = true
+                TourGuideType.DASHBOARD_GRAPH_SCREEN,
+                completed = true
             )
         }
 
         override fun onTourSkipped(pos: Int) {
             TourGuideManager.lockTourGuideScreen(
-                    TourGuideType.DASHBOARD_GRAPH_SCREEN,
-                    skipped = true
+                TourGuideType.DASHBOARD_GRAPH_SCREEN,
+                skipped = true
             )
         }
     }
@@ -966,9 +975,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setUpDashBoardNotificationsView() {
         dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
-                this,
-                getBindings(),
-                viewModel
+            this,
+            getBindings(),
+            viewModel
         )
     }
 
@@ -976,18 +985,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun setGraphViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
-                GuidedTourViewDetail(
-                        getBindings().lyInclude.llGraph,
-                        getString(R.string.screen_dashboard_tour_guide_display_text_graph),
-                        getString(R.string.screen_dashboard_tour_guide_display_text_graph_des),
-                        padding = getDimension(R.dimen._5sdp),
-                        circleRadius = getDimension(R.dimen._80sdp),
-                        btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
-                        showSkip = false,
-                        showPageNo = false,
-                        callBackListener = graphTourItemListener,
-                        circlePadding = getDimension(R.dimen._25sdp)
-                )
+            GuidedTourViewDetail(
+                getBindings().lyInclude.llGraph,
+                getString(R.string.screen_dashboard_tour_guide_display_text_graph),
+                getString(R.string.screen_dashboard_tour_guide_display_text_graph_des),
+                padding = getDimension(R.dimen._5sdp),
+                circleRadius = getDimension(R.dimen._80sdp),
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
+                showSkip = false,
+                showPageNo = false,
+                callBackListener = graphTourItemListener,
+                circlePadding = getDimension(R.dimen._25sdp)
+            )
         )
         return list
     }
@@ -995,9 +1004,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private suspend fun startGraphTour() {
         if (parentView?.isDrawerOpen() == false && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
             tourStep =
-                    requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
-                        addAll(setGraphViewsArray())
-                    }
+                requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
+                    addAll(setGraphViewsArray())
+                }
             delay(300)
             drawerButtonEnabled = true
         }

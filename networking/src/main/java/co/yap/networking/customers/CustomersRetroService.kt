@@ -9,6 +9,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesRe
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
@@ -297,4 +298,10 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_COMPLETE_VERIFICATION)
     suspend fun completeVerification(@Body completeVerificationRequest: CompleteVerificationRequest): Response<SignUpResponse>
+
+    @GET(CustomersRepository.URL_GET_INDUSTRY_SEGMENTS)
+    suspend fun getIndustriesSegments(): Response<IndustrySegmentsResponse>
+
+    @POST(CustomersRepository.URL_SAVE_EMPLOYMENT_INFO)
+    suspend fun submitEmploymentInfo(@Body employmentInfoRequest: EmploymentInfoRequest): Response<ApiResponse>
 }

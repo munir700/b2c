@@ -2,6 +2,7 @@ package co.yap.modules.webview
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -211,17 +212,27 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     }
 
     private fun callPhoneNumber(url: String) {
-        val intent = Intent(Intent.ACTION_DIAL, Uri.parse(url))
-        startActivity(intent)
+        try {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse(url))
+            if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                startActivity(intent)
+            }
+        } catch (e: ActivityNotFoundException) {
+        }
     }
 
     private fun sendEmail(url: String) {
-        val mail = url.replaceFirst("mailto:", "")
-        val intent = Intent(Intent.ACTION_SENDTO)
-        intent.type = "text/plain"
-        intent.data = Uri.parse("mailto:$mail")
-        intent.putExtra(Intent.EXTRA_EMAIL, mail)
-        startActivity(Intent.createChooser(intent, "Send Email"))
+        try {
+            val mail = url.replaceFirst("mailto:", "")
+            val intent = Intent(Intent.ACTION_SENDTO)
+            intent.type = "text/plain"
+            intent.data = Uri.parse("mailto:$mail")
+            intent.putExtra(Intent.EXTRA_EMAIL, mail)
+            if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                startActivity(Intent.createChooser(intent, "Send Email"))
+            }
+        } catch (e: ActivityNotFoundException) {
+        }
     }
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {

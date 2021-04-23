@@ -13,6 +13,11 @@
         <action
             android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"
             app:destination="@id/eidInfoReviewFragment" />
+        <action
+            android:id="@+id/action_KYCHomeFragment_to_informationErrorFragment"
+            app:destination="@id/informationErrorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -77,4 +82,5 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
+
 </navigation>

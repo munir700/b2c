@@ -13,6 +13,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -42,24 +43,24 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
  */
 @JvmOverloads
 fun Context.confirm(
-        message: String,
-        title: String = "",
-        positiveButton: String? = null,
-        negativeButton: String? = null,
-        cancelable: Boolean = true,
-        callback: DialogInterface.() -> Unit
+    message: String,
+    title: String = "",
+    positiveButton: String? = null,
+    negativeButton: String? = null,
+    cancelable: Boolean = true,
+    callback: DialogInterface.() -> Unit
 ) =
-        AlertDialog.Builder(this).apply {
-            if (title.isEmpty().not())
-                setTitle(title)
-            setMessage(message)
-            setPositiveButton(
-                    positiveButton ?: getString(android.R.string.ok)
-            ) { dialog, _ -> dialog.callback() }
-            setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
-            setCancelable(cancelable)
-            show()
-        }
+    AlertDialog.Builder(this).apply {
+        if (title.isEmpty().not())
+            setTitle(title)
+        setMessage(message)
+        setPositiveButton(
+            positiveButton ?: getString(android.R.string.ok)
+        ) { dialog, _ -> dialog.callback() }
+        setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
+        setCancelable(cancelable)
+        show()
+    }
 
 /**
  * Display AlertDialog instantly with confirm
@@ -74,29 +75,29 @@ fun Context.confirm(
  */
 @JvmOverloads
 fun Context.confirm(
-        message: String,
-        title: String = "",
-        positiveButton: String? = null,
-        negativeButton: String? = null,
-        cancelable: Boolean = true,
-        positiveCallback: DialogInterface.() -> Unit,
-        negativeCallback: DialogInterface.() -> Unit
+    message: String,
+    title: String = "",
+    positiveButton: String? = null,
+    negativeButton: String? = null,
+    cancelable: Boolean = true,
+    positiveCallback: DialogInterface.() -> Unit,
+    negativeCallback: DialogInterface.() -> Unit
 ) =
-        AlertDialog.Builder(this).apply {
-            if (title.isEmpty().not())
-                setTitle(title)
-            setMessage(message)
-            setPositiveButton(
-                    positiveButton ?: getString(android.R.string.ok)
-            )
-            { dialog, _ -> dialog.positiveCallback() }
-            setNegativeButton(
-                    negativeButton ?: getString(android.R.string.no)
-            )
-            { dialog, _ -> dialog.negativeCallback() }
-            setCancelable(cancelable)
-            show()
-        }
+    AlertDialog.Builder(this).apply {
+        if (title.isEmpty().not())
+            setTitle(title)
+        setMessage(message)
+        setPositiveButton(
+            positiveButton ?: getString(android.R.string.ok)
+        )
+        { dialog, _ -> dialog.positiveCallback() }
+        setNegativeButton(
+            negativeButton ?: getString(android.R.string.no)
+        )
+        { dialog, _ -> dialog.negativeCallback() }
+        setCancelable(cancelable)
+        show()
+    }
 
 /**
  * Display AlertDialog instantly with confirm
@@ -110,12 +111,12 @@ fun Context.confirm(
  */
 @JvmOverloads
 fun Fragment.confirm(
-        message: String,
-        title: String? = "",
-        positiveButton: String? = "Yes",
-        negativeButton: String? = "No",
-        cancelable: Boolean = true,
-        callback: DialogInterface.() -> Unit
+    message: String,
+    title: String = "",
+    positiveButton: String? = "Yes",
+    negativeButton: String? = "No",
+    cancelable: Boolean = true,
+    callback: DialogInterface.() -> Unit
 ) =
         AlertDialog.Builder(requireContext()).apply {
             if (title?.isEmpty()?.not() == true)
@@ -199,24 +200,24 @@ fun Fragment.confirm(
  */
 @JvmOverloads
 fun Context.alert(
-        message: String,
-        title: String = "",
-        positiveButton: String? = null,
-        cancelable: Boolean = true,
-        callback: (DialogInterface) -> Unit = {}
+    message: String,
+    title: String = "",
+    positiveButton: String? = null,
+    cancelable: Boolean = true,
+    callback: (DialogInterface) -> Unit = {}
 ) =
-        AlertDialog.Builder(this).apply {
-            if (title.isEmpty().not())
-                setTitle(title)
-            setMessage(message)
-            setPositiveButton(positiveButton ?: getString(android.R.string.ok)) { dialog, _ ->
-                callback(
-                        dialog
-                )
-            }
-            setCancelable(cancelable)
-            show()
+    AlertDialog.Builder(this).apply {
+        if (title.isEmpty().not())
+            setTitle(title)
+        setMessage(message)
+        setPositiveButton(positiveButton ?: getString(android.R.string.ok)) { dialog, _ ->
+            callback(
+                dialog
+            )
         }
+        setCancelable(cancelable)
+        show()
+    }
 
 /**
  * Display AlertDialog instantly
@@ -321,15 +322,15 @@ fun Context.showCardDetailsPopup(cardDetail: CardDetail?, card: Card?) {
 }
 
 fun Context.showYapAlertDialog(
-        title: String? = null,
-        message: String?
+    title: String? = null,
+    message: String?
 ) {
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
     val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     title?.let { builder.setTitle(title) }
     val dialogLayout: View =
-            inflater.inflate(R.layout.alert_dialogue, null)
+        inflater.inflate(R.layout.alert_dialogue, null)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
     val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
@@ -348,9 +349,9 @@ fun Context.showYapAlertDialog(
 }
 
 fun Activity.showAlertCustomDialog(
-        title: String? = "",
-        message: String? = "",
-        buttonText: String? = "OK"
+    title: String? = "",
+    message: String? = "",
+    buttonText: String? = "OK"
 ) {
     val dialogLayout = Dialog(this)
     dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -371,23 +372,23 @@ fun Activity.showAlertCustomDialog(
 }
 
 fun Activity.showAlertDialogAndExitApp(
-        Title: String? = null,
-        dialogTitle: String? = "",
-        message: String?,
-        leftButtonText: String = "OK",
-        rightButtonText: String = "Cancel",
-        callback: () -> Unit = {},
-        titleVisibility: Boolean = false,
-        closeActivity: Boolean = true,
-        isOtpBlocked: Boolean = false,
-        isTwoButton: Boolean = false
+    Title: String? = null,
+    dialogTitle: String? = "",
+    message: String?,
+    leftButtonText: String = "OK",
+    rightButtonText: String = "Cancel",
+    callback: () -> Unit = {},
+    titleVisibility: Boolean = false,
+    closeActivity: Boolean = true,
+    isOtpBlocked: Boolean = false,
+    isTwoButton: Boolean = false
 ) {
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
     val inflater: LayoutInflater = layoutInflater
     Title?.let { builder.setTitle(Title) }
     val dialogLayout: View =
-            inflater.inflate(R.layout.alert_dialogue, null)
+        inflater.inflate(R.layout.alert_dialogue, null)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
     val dTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
@@ -416,12 +417,12 @@ fun Activity.showAlertDialogAndExitApp(
     }
     if (isOtpBlocked) {
         label.makeLinks(
-                Pair(SessionManager.helpPhoneNumber, View.OnClickListener {
-                    makeCall(SessionManager.helpPhoneNumber)
-                }),
-                Pair("live chat", View.OnClickListener {
-                    ChatManager.config(ok.context as BaseActivity<*>)
-                })
+            Pair(SessionManager.helpPhoneNumber, View.OnClickListener {
+                makeCall(SessionManager.helpPhoneNumber)
+            }),
+            Pair("live chat", View.OnClickListener {
+                ChatManager.config(ok.context as BaseActivity<*>)
+            })
         )
     }
 
@@ -431,14 +432,15 @@ fun Activity.showAlertDialogAndExitApp(
 
     alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     alertDialog.show()
+
 }
 
 
 fun Activity.showReceiptSuccessDialog(
-        description: String? = null,
-        addOtherVisibility: Boolean? = true,
-        addAnotherText: String? = "",
-        callback: (Int) -> Unit = {}
+    description: String? = null,
+    addOtherVisibility: Boolean? = true,
+    addAnotherText: String? = "",
+    callback: (Int) -> Unit = {}
 ) {
     val dialogLayout = Dialog(this)
     dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -460,6 +462,31 @@ fun Activity.showReceiptSuccessDialog(
         dialogLayout.dismiss()
     }
 
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
+}
+
+fun Context.infoDialog(
+    title: String = "",
+    message: String,
+    buttonText: String? = null,
+    callback: () -> Unit = {}
+) {
+
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.dialog_information)
+    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
+    messageView.text = message
+    dialogTitle.text = title
+    val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
+    btnClose.text = buttonText
+    btnClose.setOnClickListener {
+        callback.invoke()
+        dialogLayout.dismiss()
+    }
     dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
     dialogLayout.show()
 }

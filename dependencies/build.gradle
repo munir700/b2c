@@ -42,10 +42,13 @@ project.ext {
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
             material                 : 'com.google.android.material:material:1.3.0-alpha02',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2',
+            otpView                  : 'com.github.aabhasr1:OtpView:v1.1.2',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.12.10',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
             gson                     : 'com.google.code.gson:gson:2.8.5',
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",
+            baloon                   : "com.github.skydoves:balloon:1.1.4",
+            quickAction              : "me.piruin:quickaction:2.4.3",
             tooltip                  : 'com.github.sephiroth74:android-target-tooltip:2.0.4',
             rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
             datePicker               : "com.wdullaer:materialdatetimepicker:4.2.3",
@@ -104,7 +107,8 @@ project.ext {
             playServicesPlaces       : "com.google.android.gms:play-services-places:$playServicesVersion",
             playLibPlaces            : 'com.google.android.libraries.places:places:1.1.0',
 
-            glideTransformation      : 'com.github.bumptech.glide:glide:4.11.0',
+            glideTransformation      : 'com.github.bumptech.glide:glide:4.12.0',
+            glideCompoler            : 'com.github.bumptech.glide:compiler:4.12.0',
 
             // Animations
             androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
@@ -112,7 +116,7 @@ project.ext {
             expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
             // Live chat
-            livechat                 : 'com.liveperson.android:lp_messaging_sdk:4.2.1',
+            livechat                 : 'com.liveperson.android:lp_messaging_sdk:5.5.1',
 
             //phone lib
             phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:8.12.10',
@@ -253,6 +257,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
+            [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
@@ -271,6 +277,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
@@ -307,6 +314,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.recyclerfastscroll],
             [configuration: "implementation", dependency: libraries.gson],
             [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "kapt", dependency: libraries.glideCompoler],
             [configuration: "implementation", dependency: libraries.androidanimations],
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.biometric],
@@ -321,7 +329,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.tagmanager],
             [configuration: "implementation", dependency: libraries.analytics],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
-            [configuration: "implementation", dependency: libraries.rangeSeekbar]
+            [configuration: "implementation", dependency: libraries.rangeSeekbar],
+            [configuration: "implementation", dependency: libraries.viewpagerDots]
 
     ]
     // dependencies which need to be added in translation module only in conjunction with commonDependencies

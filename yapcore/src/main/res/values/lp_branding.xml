@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="conversation_background">#ffffff</color>
-
-    <color name="lp_colorPrimary">@color/white</color>
+    <color name="conversation_background">@android:color/white</color>
 
     <!-- all bubbles -->
     <color name="bubble_selected_background_color">#5597a7e3</color>
@@ -39,6 +37,17 @@
 
     <!-- system bubble-->
     <color name="system_bubble_text_color">@color/grey</color>
+
+    <!--    Conversation Activity Style - (activity mode only!)-->
+    <color name="conversation_toolbar_color">#f5f5f5</color>
+    <color name="feedback_toolbar_background">#f5f5f5</color>
+    <color name="lp_colorPrimary">#f5f5f5</color>
+    <color name="lp_colorOnPrimary">@android:color/black</color>
+    <color name="lp_textColorSecondary">@android:color/black</color>
+    <color name="lp_progress_bar_color">#018786</color>
+    <color name="lp_brand_color">#EF6C00</color>
+    <color name="lp_colorSecondary">#f5f5f5</color>
+
 
     <!-- consumer bubble link_preview -->
     <color name="consumer_bubble_link_preview_background_color">@android:color/white</color>
@@ -139,10 +148,12 @@
     <color name="edit_text_underline_color">#90CAF9</color>
     <color name="lp_enter_msg_text">@android:color/black</color>
     <color name="lp_enter_msg_hint">@android:color/darker_gray</color>
-    <color name="lp_send_button_text_enable">#004dc9</color>
-    <color name="lp_send_button_text_disable">#b7b8b9</color>
+    <drawable name="use_send_image_button">@drawable/ic_send_money</drawable>
+    <color name="enter_message_background_color">@color/white</color>
+    <bool name="use_send_image_button">true</bool>
+    <color name="lp_file_attach_icon_clip_color">@color/colorWhite</color>
+    <color name="lp_file_close_icon_clip_color">@color/colorPrimaryLight</color>
 
-    <bool name="use_send_image_button">false</bool>
 
     <!--Clear History-->
     <bool name="clear_history_show_confirm_dialog">true</bool>
@@ -156,12 +167,13 @@
     <integer name="full_image_compression_rate">50</integer>
     <integer name="thumbnail_longer_dimension_resize">100</integer>
     <integer name="full_image_longer_dimension_resize">800</integer>
-    <integer name="max_image_size_kb">3000</integer>
 
     <color name="attachment_menu_item_background_color">@color/lp_blue</color>
     <color name="lp_attachment_menu_item_icon_color">@color/lp_light_gray_1</color>
     <color name="lp_attachment_menu_item_text_color">@color/lp_dark_gray_1</color>
-    <color name="lp_attachment_menu_background_color">@color/lp_light_gray_2</color>
+    <color name="lp_attachment_menu_background_color">@color/white</color>
+    <color name="conversation_separator_text_color">@color/grey</color>
+
 
     <!--Links-->
     <string name="lp_bubble_phone_links_regex" />
@@ -171,7 +183,7 @@
     <!--Conversation Separator-->
     <bool name="enable_conversation_resolved_message">true</bool>
     <bool name="enable_conversation_resolved_separator">true</bool>
-    <color name="conversation_separator_text_color">@color/colorPrimaryDark</color>
+    <color name="enter_message_top_separator_color">#66dae0f0</color>
 
     <!-- Link Preview-->
     <bool name="link_preview_enable_real_time_preview">true</bool>
@@ -194,9 +206,6 @@
 
     <!-- Off hours notification -->
 
-    <!--Enter message-->
-    <color name="lp_file_attach_icon_clip_color">#FF767678</color>
-    <color name="lp_file_close_icon_clip_color">#FF767678</color>
 
     <!--Accessibility-->
     <integer name="snackbar_duration_for_accessibility">60000</integer>
