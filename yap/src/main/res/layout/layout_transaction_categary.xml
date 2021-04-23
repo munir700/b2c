@@ -19,14 +19,12 @@
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/margin_medium"
-            android:background="@drawable/round_light_gery_background"
             android:contentDescription="@string/empty_string"
-            android:padding="@dimen/margin_small"
-            android:src="@drawable/ic_lock"
+            app:fullName="@{categoryViewModel.state.updatedCategory.categoryName==null?`General`:categoryViewModel.state.updatedCategory.categoryName}"
+            app:imageUrl="@{categoryViewModel.state.updatedCategory.categoryIcon ?? ` `}"
             app:isBackground="@{true}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showFirstInitials="@{true}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvEatingOut"
@@ -34,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:text="Eating out"
+            android:text="@{categoryViewModel.state.updatedCategory.categoryName == null?`General`:categoryViewModel.state.updatedCategory.categoryName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivEatingOut"
             app:layout_constraintTop_toTopOf="@+id/ivEatingOut" />
@@ -44,9 +42,10 @@
             style="@style/MicroGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_small"
             android:onClick="@{(v)-> categoryViewModel.handlePressOnView(v.id)}"
-            android:text="@{categoryViewModel.state.transactionData.categoryDescription}"
+            android:paddingBottom="@dimen/margin_small"
+            android:enabled="@{categoryViewModel.state.updatedCategory.type?false:true}"
+            android:text="@{categoryViewModel.state.categoryDescription}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvEatingOut"
             app:layout_constraintTop_toBottomOf="@+id/tvEatingOut" />

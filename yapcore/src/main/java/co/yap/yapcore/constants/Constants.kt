@@ -202,5 +202,8 @@ object Constants {
     const val PRIME_CARD_PLAN = "PRIME_CARD_PLAN"
     const val METAL_CARD_PLAN = "METAL_CARD_PLAN"
 
+    // Transaction Details
+    const val UPDATED_CATEGORY = "UPDATED_CATEGORY"
+    const val PRE_SELECTED_CATEGORY = "PRE_SELECTED_CATEGORY"
 
 }

@@ -190,8 +190,10 @@ data class TapixCategory(
     @SerializedName("analyticIcon")
     val analyticIcon: String? = null,
     @Transient
-    var isSelected : Boolean =  false
-) : Parcelable{
-    val isGeneral:Boolean get() = id == 11
-
+    var isSelected: Boolean = false ,
+    @Transient
+    var type: Boolean? = null
+) : Parcelable {
+    val isGeneral: Boolean get() = categoryName.equals("General")
+    val description: String get() = if (isGeneral) "Check back later to see the category updated " else "Tap to change category"
 }
