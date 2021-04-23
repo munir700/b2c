@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers.validation.rule
 
 import android.widget.TextView
+import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import co.yap.yapcore.R
 import java.lang.reflect.InvocationTargetException
@@ -8,6 +9,7 @@ import java.lang.reflect.InvocationTargetException
 /**
  * Created irfan arshad on 10/6/2020.
  */
+@Keep
 abstract class TypeRule(
     view: TextView?,
     value: FieldType?,

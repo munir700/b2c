@@ -1,6 +1,8 @@
 package co.yap.yapcore.helpers.validation.binding
 
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.Keep
 import androidx.databinding.BindingAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.validation.rule.TypeRule
@@ -11,6 +13,8 @@ import co.yap.yapcore.helpers.validation.util.ViewTagHelper
 /**
  * Created irfan arshad on 10/6/2020.
  */
+
+@Keep
 object TypeBindings {
     @JvmStatic
     @BindingAdapter(
@@ -27,9 +31,11 @@ object TypeBindings {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
         }
-        val fieldType =
-            getFieldTypeByText(fieldTypeText)
         try {
+
+            val fieldType =
+                    getFieldTypeByText(fieldTypeText)
+
             val handledErrorMessage = ErrorMessageHelper.getStringOrDefault(
                 view,
                 errorMessage, fieldType.errorMessageId
@@ -40,6 +46,7 @@ object TypeBindings {
                 fieldType.instantiate(view, handledErrorMessage, errorEnabled)
             )
         } catch (ignored: Exception) {
+            Toast.makeText(view?.context, ignored.toString(), Toast.LENGTH_LONG).show()
         }
     }
 

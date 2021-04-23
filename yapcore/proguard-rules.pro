@@ -186,3 +186,11 @@
   <fields>;
 }
 
+-keep class co.yap.yapcore.helpers.validation.** { *; }
+-keep class co.yap.yapcore.helpers.validation.rule.TypeRule
+-keep class co.yap.yapcore.helpers.validation.binding.TypeBindings
+-keep class co.yap.yapcore.helpers.validation.rule.FirstNameRule
+-keep class co.yap.yapcore.helpers.validation.rule.LastNameRule
+-keep class co.yap.yapcore.helpers.validation.binding.MobileNoBinding
+
+
