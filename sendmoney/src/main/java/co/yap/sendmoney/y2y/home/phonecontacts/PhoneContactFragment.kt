@@ -3,6 +3,7 @@ package co.yap.sendmoney.y2y.home.phonecontacts
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
@@ -25,7 +26,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_phone_contacts
     override val viewModel: PhoneContactViewModel
-        get() = ViewModelProviders.of(this).get(PhoneContactViewModel::class.java)
+        get() = ViewModelProvider(this).get(PhoneContactViewModel::class.java)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
