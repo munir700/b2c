@@ -31,7 +31,6 @@ import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.requestdtos.Contact
-import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.loading.CircularProgressBar
@@ -39,7 +38,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
-import co.yap.yapcore.helpers.extentions.share
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -891,8 +890,7 @@ object Utils {
 
     fun getAdjustURL(): String {
         val userId = SessionManager.user?.currentCustomer?.customerId
-        val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
-        val time = date.replace(" ", "_")
+        val time = DateUtils.getCurrentDateWithFormat(SERVER_DATE_FULL_FORMAT)
         return (when (YAPApplication.configManager?.flavor) {
             ProductFlavour.PROD.flavour -> {
                 "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
