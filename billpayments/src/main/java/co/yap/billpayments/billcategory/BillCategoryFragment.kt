@@ -34,7 +34,7 @@ class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
         viewModel.adapter.setItemListener(categoryItemListener)
     }
 
-    val categoryItemListener = object : OnItemClickListener {
+    private val categoryItemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             onCategorySelection(data as BillProviderModel)
         }

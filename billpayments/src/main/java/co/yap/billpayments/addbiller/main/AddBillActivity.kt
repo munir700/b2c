@@ -41,7 +41,7 @@ class AddBillActivity : BaseBindingActivity<IAddBill.ViewModel>(), INavigator,
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.bill_payments_main_navigation)
+        val fragment = supportFragmentManager.findFragmentById(R.id.add_bill_navigation)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }

@@ -28,7 +28,7 @@ class PayBillMainActivity : BaseBindingActivity<IPayBillMain.ViewModel>(), IPayB
 
     override fun onBackPressed() {
         val fragment =
-            supportFragmentManager.findFragmentById(R.id.pay_bill_payments_main_navigation)
+            supportFragmentManager.findFragmentById(R.id.pay_bill_navigation)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }

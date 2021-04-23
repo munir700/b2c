@@ -46,7 +46,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/add_bill_navigation" />
+            app:navGraph="@navigation/pay_bill_navigation" />
 
     </LinearLayout>
 </layout>
