@@ -30,44 +30,40 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
         if (viewModel.parentViewModel?.bills?.value.isNullOrEmpty()) {
             viewModel.parentViewModel?.getViewBills()
         } else {
-            viewModel.setData()
+            viewModel.setBillList()
         }
         setObservers()
     }
 
     override fun setObservers() {
         viewModel.parentViewModel?.billsAdapterList?.observe(this, Observer {
-            viewModel.setData()
+            viewModel.setBillList()
         })
         viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
         viewModel.adapter.setItemListener(onItemClickListener)
-        viewModel.clickEvent.observe(this, onViewClickObserver)
-    }
-
-    private val onViewClickObserver = Observer<Int> {
-        when (it) {
-            R.id.btnPay -> {
-            }
-        }
     }
 
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            launchActivity<BillDetailActivity>(requestCode = RequestCodes.REQUEST_BILL_DETAIL) {
-                putExtra(
-                    ExtraKeys.SELECTED_BILL.name,
-                    viewModel.parentViewModel?.bills?.value?.get(pos)
-                )
-                putExtra(
-                    ExtraKeys.SELECTED_BILL_POSITION.name,
-                    pos
-                )
-            }
-            requireActivity().overridePendingTransition(
-                R.anim.slide_in_right,
-                R.anim.slide_out_left
-            );
+            openBillDetailActivity(pos)
         }
+    }
+
+    fun openBillDetailActivity(pos: Int) {
+        launchActivity<BillDetailActivity>(requestCode = RequestCodes.REQUEST_BILL_DETAIL) {
+            putExtra(
+                ExtraKeys.SELECTED_BILL.name,
+                viewModel.parentViewModel?.bills?.value?.get(pos)
+            )
+            putExtra(
+                ExtraKeys.SELECTED_BILL_POSITION.name,
+                pos
+            )
+        }
+        requireActivity().overridePendingTransition(
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
     }
 
     override fun openSortBottomSheet() {
@@ -95,7 +91,6 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
 
     override fun removeObservers() {
         viewModel.parentViewModel?.billsAdapterList?.removeObservers(this)
-        viewModel.clickEvent.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
     }
 

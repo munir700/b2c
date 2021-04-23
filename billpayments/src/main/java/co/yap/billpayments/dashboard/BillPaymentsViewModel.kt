@@ -40,7 +40,7 @@ class BillPaymentsViewModel(application: Application) :
     }
 
     override fun getViewBills() {
-        launch {
+        launch() {
             state.loading = true
             delay(1000L)
             val myBillResponse = getViewBillsFromJSONFile()

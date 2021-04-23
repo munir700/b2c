@@ -5,7 +5,6 @@ import androidx.databinding.ObservableField
 import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 interface IMyBills {
@@ -20,12 +19,10 @@ interface IMyBills {
         val sortByRecentlyAdded: Int get() = 1
         val sortByAToZAscending: Int get() = 2
         val sortByZToADescending: Int get() = 3
-        val clickEvent: SingleClickEvent
         val onBottomSheetItemClickListener: OnItemClickListener
         var adapter: MyBillsAdapter
         var lastSelectionSorting: Int
-        fun setData()
-        fun handlePressOnView(id: Int)
+        fun setBillList()
         fun setScreenTitle()
         fun getFiltersList(): MutableList<CoreBottomSheetData>
     }

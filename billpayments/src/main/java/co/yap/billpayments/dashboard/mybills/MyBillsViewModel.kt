@@ -8,7 +8,6 @@ import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -22,7 +21,6 @@ class MyBillsViewModel(application: Application) :
         MyBillsAdapter(
             mutableListOf()
         )
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var lastSelectionSorting: Int = -1
     override fun onResume() {
         super.onResume()
@@ -59,10 +57,6 @@ class MyBillsViewModel(application: Application) :
         return sortingOptionList
     }
 
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
-
     override fun setScreenTitle() {
         if (parentViewModel?.billsAdapterList?.value?.size == 1) {
             state.screenTitle.set(
@@ -82,7 +76,7 @@ class MyBillsViewModel(application: Application) :
         }
     }
 
-    override fun setData() {
+    override fun setBillList() {
         setScreenTitle()
         parentViewModel?.billsAdapterList?.value?.toMutableList()?.let { adapter.setList(it) }
 

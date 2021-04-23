@@ -12,6 +12,7 @@ class IEditBill {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
+        fun showPopUp()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
