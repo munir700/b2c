@@ -11,6 +11,7 @@ import co.yap.BR
 import co.yap.databinding.FragmentTransactionCategoryBinding
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.ViewModel>(),
@@ -40,8 +41,8 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
         when (id) {
             R.id.btnConfirm -> {
                 val intent = Intent()
-                intent.putExtra("UpdatedCategory", viewModel.selectedCategory)
-                requireActivity().setResult(Activity.RESULT_OK)
+                intent.putExtra(Constants.UPDATED_CATEGORY, viewModel.selectedCategory.get())
+                requireActivity().setResult(Activity.RESULT_OK,intent)
                 requireActivity().finish()
             }
         }

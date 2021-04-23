@@ -19,7 +19,7 @@ interface ITransactionCategory {
         var categoryAdapter : TransactionCategoryAdapter
         fun selectCategory(data : TapixCategory, position : Int)
         var tapixCategories: MutableList<TapixCategory>
-        var selectedCategory: TapixCategory?
+        var selectedCategory: ObservableField<TapixCategory>
     }
 
     interface State : IBase.State

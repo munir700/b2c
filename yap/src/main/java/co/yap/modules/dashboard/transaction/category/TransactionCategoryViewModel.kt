@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.category
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
@@ -20,7 +21,7 @@ class TransactionCategoryViewModel(application: Application) :
     val repository: TransactionsRepository = TransactionsRepository
 
     override var tapixCategories: MutableList<TapixCategory> = arrayListOf()
-    override var selectedCategory: TapixCategory? = null
+    override var selectedCategory: ObservableField<TapixCategory> = ObservableField()
 
     override fun onCreate() {
         super.onCreate()
@@ -54,7 +55,8 @@ class TransactionCategoryViewModel(application: Application) :
         }.also {
             it?.isSelected = false
         }
-        selectedCategory = data
+        selectedCategory.set(data)
         categoryAdapter.getDataList()[position].isSelected = true
-        categoryAdapter.notifyDataSetChanged()    }
+        categoryAdapter.notifyDataSetChanged()
+    }
 }

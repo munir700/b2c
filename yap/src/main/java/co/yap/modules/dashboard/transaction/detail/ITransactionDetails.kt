@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAd
 import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.TotalPurchases
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
@@ -55,5 +56,6 @@ interface ITransactionDetails {
         var coverImage: ObservableInt
         var showTotalPurchases : ObservableBoolean
         var showErrorMessage : ObservableBoolean
+        var updatedCategory : ObservableField<TapixCategory>
     }
 }

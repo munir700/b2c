@@ -21,6 +21,7 @@ import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransaction
 import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.ReceiptModel
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -94,9 +95,14 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 showAddReceiptOptions()
             }
             R.id.tvTapToChange ->{
-                startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name){resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK)
-                        showFeedbackSuccessDialog()
+                startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name){resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK){
+                        val category = data?.getValue(Constants.UPDATED_CATEGORY,"PARCEABLE") as TapixCategory
+                        viewModel.state.updatedCategory.set(category)
+                        makeToast(this,"category updated sucessfully", LENGTH_SHORT)
+
+                    }
+
                 }
             }
             R.id.tvImproveLogo -> {
