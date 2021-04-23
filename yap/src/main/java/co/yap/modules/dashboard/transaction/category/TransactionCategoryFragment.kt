@@ -1,13 +1,11 @@
 package co.yap.modules.dashboard.transaction.category
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.R
 import co.yap.BR
+import co.yap.R
 import co.yap.databinding.FragmentTransactionCategoryBinding
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseBindingFragment
@@ -25,7 +23,15 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initArguments()
         setListener()
+    }
+
+    private fun initArguments() {
+        arguments?.let { bundle ->
+            val id = bundle.getString(Constants.TRANSACTION_ID)
+            viewModel.transactionId.set(id)
+        }
     }
 
     private fun setListener() {
@@ -40,10 +46,7 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
     val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnConfirm -> {
-                val intent = Intent()
-                intent.putExtra(Constants.UPDATED_CATEGORY, viewModel.selectedCategory.get())
-                requireActivity().setResult(Activity.RESULT_OK,intent)
-                requireActivity().finish()
+                viewModel.updateCategory(requireActivity())
             }
         }
     }

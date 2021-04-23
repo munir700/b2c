@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.category
 
+import android.app.Activity
 import androidx.databinding.ObservableField
 import co.yap.databinding.FragmentMerchantAnalyticsBinding
 import co.yap.databinding.FragmentTransactionCategoryBinding
@@ -20,6 +21,8 @@ interface ITransactionCategory {
         fun selectCategory(data : TapixCategory, position : Int)
         var tapixCategories: MutableList<TapixCategory>
         var selectedCategory: ObservableField<TapixCategory>
+        var transactionId : ObservableField<String>
+        fun updateCategory(context: Activity)
     }
 
     interface State : IBase.State

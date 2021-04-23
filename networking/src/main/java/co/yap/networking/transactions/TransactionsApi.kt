@@ -106,5 +106,6 @@ interface TransactionsApi {
         totalPurchaseRequest: TotalPurchaseRequest
     ): RetroApiResponse<TotalPurchasesResponse>
     suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse>
+    suspend fun updateTransactionCategory(categoryId : String, transactionId : String): RetroApiResponse<ApiResponse>
 
 }

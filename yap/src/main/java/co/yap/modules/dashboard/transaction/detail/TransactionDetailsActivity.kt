@@ -107,7 +107,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     }
 
     private fun updateCategory() {
-        startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name){resultCode, data ->
+        startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name,
+        bundleOf(Constants.TRANSACTION_ID to viewModel.transaction.get()?.transactionId)){resultCode, data ->
             if (resultCode == Activity.RESULT_OK){
                 val category = data?.getValue(Constants.UPDATED_CATEGORY,"PARCEABLE") as TapixCategory
                 viewModel.state.updatedCategory.set(category)

@@ -80,6 +80,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_TOTAL_PURCHASES = "/transactions/api/total-purchases"
     const val URL_TRANSACTIONS_VIEW_CATEGORIES = "/transactions/api/category"
+    const val URL_TRANSACTIONS_UPDATE_CATEGORY =
+        "/transactions/api/category/update-transaction-category"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -333,6 +335,13 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = {
             api.getAllTransactionCategories()
         })
+
+    override suspend fun updateTransactionCategory(
+        categoryId: String,
+        transactionId: String
+    ): RetroApiResponse<ApiResponse> = executeSafely(call = {
+        api.updateTransactionCategory(categoryId, transactionId)
+    })
 
 }
 
