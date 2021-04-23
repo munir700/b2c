@@ -10,6 +10,7 @@ import co.yap.R
 import co.yap.databinding.FragmentWaitingListBinding
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
+import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
@@ -107,6 +108,7 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnShare -> {
+                InviteFriendRepository().inviteAFriend()
                 requireContext().share(
                     text = getString(
                         Strings.screen_invite_friend_display_text_share_url,
