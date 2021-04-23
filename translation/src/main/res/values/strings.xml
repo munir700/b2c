@@ -1444,6 +1444,8 @@
     <string name="screen_edit_bill_title_text">Edit your account details</string>
     <string name="screen_edit_bill_button_text">Edit</string>
     <string name="screen_edit_bill_bottom_button_text">Delete this bill</string>
+    <string name="screen_edit_bill_dialog_title">Are you sure you want to delete this bill?</string>
+    <string name="screen_edit_bill_dialog_description">You will loose all the data stored of past bill payments.</string>
 
     <!--Pay Bill-->
     <string name="screen_pay_bill_text_title">Pay bill</string>

@@ -27,3 +27,4 @@ data class BillerInfoModel(
     @SerializedName("skuInfos")
     var skuInfos: BillerInputDetails?
 ) : Parcelable
+

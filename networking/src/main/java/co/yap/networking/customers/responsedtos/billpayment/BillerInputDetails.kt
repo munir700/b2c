@@ -39,3 +39,4 @@ data class BillerInputDetails(
     @SerializedName("catalogVersion")
     var catalogVersion: String? = null
 ) : Parcelable
+

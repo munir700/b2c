@@ -1,8 +1,7 @@
-package co.yap.billpayments.dashboard.editbill
+package co.yap.billpayments.billdetail.editbill
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.yapcore.IBase
@@ -13,6 +12,7 @@ class IEditBill {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()
+        fun showPopUp()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -26,6 +26,5 @@ class IEditBill {
     interface State : IBase.State {
         var screenTitle: ObservableField<String>
         var valid: ObservableBoolean
-        var billPosition: ObservableInt
     }
 }

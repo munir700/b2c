@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class BillModel(
+data class ViewBillModel(
     @SerializedName("billNickName")
     var billNickName: String?,
     @SerializedName("billDueDate")
@@ -26,7 +26,6 @@ data class BillModel(
     @SerializedName("inputsData")
     var inputsData: List<BillerInputData>?,
     @SerializedName("billerInfo")
-    var billerInfo: BillerInfoModel?,
-    @Transient
-    var isSelected: Boolean = false
+    var billerInfo: BillerInfoModel?
 ) : Parcelable
+

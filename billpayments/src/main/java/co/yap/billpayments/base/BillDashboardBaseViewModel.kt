@@ -6,7 +6,7 @@ import co.yap.billpayments.dashboard.IBillPayments
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 
-abstract class PayBillBaseViewModel<S : IBase.State>(application: Application) :
+abstract class BillDashboardBaseViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
     var parentViewModel: IBillPayments.ViewModel? = null
 

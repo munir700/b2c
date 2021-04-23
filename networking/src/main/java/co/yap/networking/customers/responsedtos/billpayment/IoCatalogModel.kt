@@ -23,3 +23,4 @@ data class IoCatalogModel(
     @SerializedName("operation")
     var operation: Int? = null
 ) : Parcelable
+

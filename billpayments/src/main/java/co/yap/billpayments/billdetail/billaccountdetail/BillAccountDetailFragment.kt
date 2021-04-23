@@ -1,19 +1,17 @@
-package co.yap.billpayments.dashboard.billaccountdetail
+package co.yap.billpayments.billdetail.billaccountdetail
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.addbiller.main.AddBillActivity
-import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
 import co.yap.billpayments.paybill.main.PayBillMainActivity
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchActivity
 
-class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewModel>(),
+class BillAccountDetailFragment :
+    BillDetailBaseFragment<IBillAccountDetail.ViewModel>(),
     IBillAccountDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -23,21 +21,18 @@ class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            viewModel.state.billPosition.set(it.getInt(ExtraKeys.SELECTED_BILL_POSITION.name, 0))
-        }
         setObservers()
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, onViewClickObserver)
-        viewModel.parentViewModel?.onToolbarClickEvent?.observe(this, toolbarClickObserver)
+        viewModel.parentViewModel?.toolBarClickEvent?.observe(this, toolbarClickObserver)
     }
 
     private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.btnPayNow -> {
-                launchActivity<PayBillMainActivity>() {
+                launchActivity<PayBillMainActivity> {
                     putExtra(ExtraKeys.BILL_MODEL.name, viewModel.parentViewModel?.selectedBill)
                 }
             }
@@ -47,8 +42,7 @@ class BillAccountDetailFragment : PayBillBaseFragment<IBillAccountDetail.ViewMod
     private val toolbarClickObserver = Observer<Int> {
         when (it) {
             R.id.ivRightIcon -> navigate(
-                destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment,
-                args = bundleOf(ExtraKeys.SELECTED_BILL_POSITION.name to viewModel.state.billPosition)
+                destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
             )
         }
     }
