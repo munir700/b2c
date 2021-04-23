@@ -372,7 +372,7 @@ class CoreDialerPad @JvmOverloads constructor(
         context.getDrawable(R.drawable.ic_fingerprint_purple)?.let {
             val drawableRight: Drawable =
                 DrawableCompat.wrap(it)
-            if (SharedPreferenceManager(context).getThemeValue()
+            if (SharedPreferenceManager.getInstance(context).getThemeValue()
                     .equals(Constants.THEME_HOUSEHOLD)
             ) {
                 DrawableCompat.setTint(drawableRight, Color.RED);

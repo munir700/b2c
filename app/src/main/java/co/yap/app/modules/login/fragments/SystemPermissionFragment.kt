@@ -26,8 +26,6 @@ import co.yap.yapcore.managers.SessionManager
 class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
     ISystemPermission.View {
 
-    private lateinit var sharedPreferenceManager: SharedPreferenceManager
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_biometric_permission
@@ -37,9 +35,6 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        sharedPreferenceManager = SharedPreferenceManager(requireContext())
-
         viewModel.screenType = getScreenType()
         viewModel.registerLifecycleOwner(this)
 
@@ -60,7 +55,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
 
     private val permissionGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
-            sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
+            SharedPreferenceManager.getInstance(requireContext()).save(KEY_TOUCH_ID_ENABLED, true)
             trackEvent(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type,"TouchID")
             trackEventWithScreenName(FirebaseEvent.SETUP_TOUCH_ID)
             val action =
@@ -77,7 +72,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     private val permissionNotGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             trackEventWithScreenName(FirebaseEvent.NO_TOUCH_ID)
-            sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, false)
+            SharedPreferenceManager.getInstance(requireContext()).save(KEY_TOUCH_ID_ENABLED, false)
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
                     Constants.NOTIFICATION_SCREEN_TYPE

@@ -22,7 +22,7 @@ class AdjustReferrerReceiver : AppCompatActivity() {
             customerId?.let { cusId ->
                 uri.getQueryParameter(Constants.REFERRAL_TIME)?.let { time ->
                     val date = time.replace("_", " ")
-                    SharedPreferenceManager(this).setReferralInfo(
+                    SharedPreferenceManager.getInstance(this).setReferralInfo(
                         ReferralInfo(
                             cusId,
                             date

@@ -39,7 +39,6 @@ class EmailViewModel(application: Application) :
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override fun onResume() {
         super.onResume()
@@ -85,18 +84,18 @@ class EmailViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    sharedPreferenceManager.save(
+                    SharedPreferenceManager.getInstance(context).save(
                         KEY_IS_USER_LOGGED_IN,
                         true
                     )
 
                     parentViewModel?.onboardingData?.passcode?.let { passCode ->
-                        sharedPreferenceManager.savePassCodeWithEncryption(passCode)
+                        SharedPreferenceManager.getInstance(context).savePassCodeWithEncryption(passCode)
                     } ?: toast(context, "Invalid pass code")
 
                     trackEvent(SignupEvents.SIGN_UP_EMAIL.type, state.twoWayTextWatcher)
                     trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL)
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
+                    SharedPreferenceManager.getInstance(context).saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
                     state.setSuccessUI()
                     state.loading = false
@@ -165,7 +164,7 @@ class EmailViewModel(application: Application) :
     override fun postDemographicData() {
 
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         launch {
             state.valid = false
             state.loading = true
@@ -236,13 +235,13 @@ class EmailViewModel(application: Application) :
     }
 
     private fun requestSaveReferral() {
-        SharedPreferenceManager(context).getReferralInfo()?.let {
+        SharedPreferenceManager.getInstance(context).getReferralInfo()?.let {
             launch {
                 when (val response =
                     repository.saveReferalInvitation(SaveReferalRequest(it.id, it.date))) {
 
                     is RetroApiResponse.Success -> {
-                        SharedPreferenceManager(context).setReferralInfo(null)
+                        SharedPreferenceManager.getInstance(context).setReferralInfo(null)
                     }
                     is RetroApiResponse.Error -> {
                     }

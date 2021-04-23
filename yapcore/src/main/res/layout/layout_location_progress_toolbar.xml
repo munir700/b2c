@@ -42,6 +42,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_5sdp"
             android:clickable="true"
+            android:contentDescription="@string/empty_string"
             android:focusable="true"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:enabled="@{false}"

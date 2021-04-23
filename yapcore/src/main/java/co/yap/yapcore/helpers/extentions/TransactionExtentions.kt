@@ -413,5 +413,5 @@ fun List<Transaction>?.getTotalAmount(): String {
 }
 
 fun Transaction?.isNonAEDTransaction(): Boolean {
-    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && this.currency != SessionManager.getDefaultCurrency()
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || this?.productCode == TransactionProductCode.ECOM.pCode) && this.currency != SessionManager.getDefaultCurrency()
 }

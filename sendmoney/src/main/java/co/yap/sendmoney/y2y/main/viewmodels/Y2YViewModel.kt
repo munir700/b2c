@@ -1,6 +1,7 @@
 package co.yap.sendmoney.y2y.main.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact
@@ -49,6 +50,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
                     is RetroApiResponse.Success -> {
                         y2yRecentResponse.data.data.parseRecentItems(context)
                         y2yRecentBeneficiries.value = y2yRecentResponse.data.data
+                        success.invoke(y2yRecentBeneficiries.value ?: arrayListOf())
                     }
                     is RetroApiResponse.Error -> {
                     }
@@ -67,7 +69,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
                         )
                         y2yBeneficiries.value = contacts.first
                         yapContactLiveData.value = contacts.second
-                        success.invoke(y2yRecentBeneficiries.value ?: arrayListOf())
+
                     }
                 }
             }

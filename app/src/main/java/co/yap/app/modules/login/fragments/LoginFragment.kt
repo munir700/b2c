@@ -59,10 +59,10 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
+        if (!SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
                 KEY_IS_USER_LOGGED_IN,
                 false
-            ) == false
+            )
         ) {
             etEmailField.requestKeyboard()
         }

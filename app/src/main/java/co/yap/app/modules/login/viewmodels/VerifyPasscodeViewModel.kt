@@ -227,7 +227,7 @@ class VerifyPasscodeViewModel(application: Application) :
 
     fun logout(success: () -> Unit) {
         val deviceId: String? =
-            SharedPreferenceManager(context).getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
         launch {
             state.loading = true
             when (repository.logout(deviceId.toString())) {
