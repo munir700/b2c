@@ -13,6 +13,7 @@ import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.TotalPurchases
 import co.yap.networking.transactions.responsedtos.TotalPurchasesResponse
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import co.yap.translation.Strings
@@ -64,6 +65,7 @@ class TransactionDetailsViewModel(application: Application) :
             it.showTotalPurchase?.let { it1 -> state.showTotalPurchases.set(it1) }
             it.showError?.let { bool -> state.showErrorMessage.set(bool) }
             state.receiptVisibility.set(it.showReceipts ?: false)
+            state.categoryDescription.set(it.categoryDescription)
         }
     }
 

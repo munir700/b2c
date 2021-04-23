@@ -57,5 +57,6 @@ interface ITransactionDetails {
         var showTotalPurchases : ObservableBoolean
         var showErrorMessage : ObservableBoolean
         var updatedCategory : ObservableField<TapixCategory>
+        var categoryDescription : ObservableField<String>
     }
 }

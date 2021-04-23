@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail.composer
 
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
@@ -352,7 +353,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
      fun getCategoryDescription(): String {
         return when {
-            isCategoryGeneral() -> {
+             transaction.tapixCategory ==null || isCategoryGeneral() -> {
                 "Check back later to see the category updated "
             }
             else -> {

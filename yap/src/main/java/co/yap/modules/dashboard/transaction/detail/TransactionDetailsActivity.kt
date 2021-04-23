@@ -95,21 +95,24 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 showAddReceiptOptions()
             }
             R.id.tvTapToChange ->{
-                startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name){resultCode, data ->
-                    if (resultCode == Activity.RESULT_OK){
-                        val category = data?.getValue(Constants.UPDATED_CATEGORY,"PARCEABLE") as TapixCategory
-                        viewModel.state.updatedCategory.set(category)
-                        makeToast(this,"category updated sucessfully", LENGTH_SHORT)
-
-                    }
-
-                }
+              updateCategory()
             }
             R.id.tvImproveLogo -> {
                 startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name){resultCode, _ ->
                     if (resultCode == Activity.RESULT_OK)
                         showFeedbackSuccessDialog()
                 }
+            }
+        }
+    }
+
+    private fun updateCategory() {
+        startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name){resultCode, data ->
+            if (resultCode == Activity.RESULT_OK){
+                val category = data?.getValue(Constants.UPDATED_CATEGORY,"PARCEABLE") as TapixCategory
+                viewModel.state.updatedCategory.set(category)
+                viewModel.state.categoryDescription.set(viewModel.state.updatedCategory.get()?.description)
+                makeToast(this,"category updated sucessfully", LENGTH_SHORT)
             }
         }
     }
