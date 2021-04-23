@@ -208,9 +208,8 @@ class QRCodeFragment(
                     data?.getParcelableExtra(Beneficiary::class.java.name)
                         ?: Beneficiary()
                 callBack(beneficiary)
+                dismiss()
             }
         }
     }
-
-
 }
