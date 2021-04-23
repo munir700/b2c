@@ -257,7 +257,7 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_TRANSACTIONS_VIEW_CATEGORIES )
     suspend fun getAllTransactionCategories(): Response<TransactionCategoryResponse>
 
-    @GET(TransactionsRepository.URL_TRANSACTIONS_UPDATE_CATEGORY )
+    @PUT(TransactionsRepository.URL_TRANSACTIONS_UPDATE_CATEGORY )
     suspend fun updateTransactionCategory(
         @Query("category-id")
         categoryId: String,

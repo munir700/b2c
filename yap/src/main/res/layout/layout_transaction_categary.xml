@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{(v)-> categoryViewModel.handlePressOnView(v.id)}"
             android:paddingBottom="@dimen/margin_small"
-            android:enabled="@{categoryViewModel.state.transactionData.categoryType?false:true}"
+            android:enabled="@{categoryViewModel.state.updatedCategory.type?false:true}"
             android:text="@{categoryViewModel.state.categoryDescription}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvEatingOut"

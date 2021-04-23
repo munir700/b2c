@@ -66,6 +66,7 @@ class TransactionDetailsViewModel(application: Application) :
             it.showError?.let { bool -> state.showErrorMessage.set(bool) }
             state.receiptVisibility.set(it.showReceipts ?: false)
             state.categoryDescription.set(it.categoryDescription)
+            state.updatedCategory.get()?.type = it.categoryType
         }
     }
 

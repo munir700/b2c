@@ -44,7 +44,8 @@ class TransactionCategoryViewModel(application: Application) :
             when (val response = repository.getAllTransactionCategories()) {
                 is RetroApiResponse.Success -> {
                     response.data.txnCategories?.let { tapixCategories.addAll(it)
-                    categoryAdapter.setList(tapixCategories)}
+                    categoryAdapter.setList(tapixCategories)
+                    }
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
@@ -56,7 +57,7 @@ class TransactionCategoryViewModel(application: Application) :
     override fun updateCategory(context: Activity){
          launch {
              state.loading = true
-             when (val response = repository.getAllTransactionCategories()) {
+             when (val response = repository.updateTransactionCategory(selectedCategory.get()?.id.toString(),transactionId = transactionId.get()?:"")) {
                  is RetroApiResponse.Success -> {
                      val intent = Intent()
                      intent.putExtra(Constants.UPDATED_CATEGORY, selectedCategory.get())
@@ -65,6 +66,7 @@ class TransactionCategoryViewModel(application: Application) :
                      state.loading = false
                  }
                  is RetroApiResponse.Error -> {
+                     state.toast = response.error.message
                      state.loading = false
                  }
              }
@@ -77,8 +79,10 @@ class TransactionCategoryViewModel(application: Application) :
         }.also {
             it?.isSelected = false
         }
-        selectedCategory.set(data)
         categoryAdapter.getDataList()[position].isSelected = true
+        selectedCategory.set(categoryAdapter.getDataList()[position]).also{
+            selectedCategory.get()?.type = categoryAdapter.getDataList()[position].isGeneral
+        }
         categoryAdapter.notifyDataSetChanged()
     }
 }
