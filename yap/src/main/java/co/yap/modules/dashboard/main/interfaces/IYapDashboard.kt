@@ -21,7 +21,6 @@ interface IYapDashboard {
         var userNameImage: ObservableField<String>
         var appVersion: ObservableField<String>
         var isFounder: ObservableField<Boolean>
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -41,6 +40,7 @@ interface IYapDashboard {
         var isYapMoreFragmentVisible: MutableLiveData<Boolean>
         var isUnverifiedScreenNotVisible: MutableLiveData<Boolean>
         var isShowHomeTour: MutableLiveData<Boolean>
+        var isKycCompelted: MutableLiveData<Boolean>
         fun populateState()
     }
 

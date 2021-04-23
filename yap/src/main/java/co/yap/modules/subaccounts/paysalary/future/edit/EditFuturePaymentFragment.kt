@@ -36,7 +36,7 @@ class EditFuturePaymentFragment :
                 state.futureTransaction?.value?.let {
                     confirm(
                         message = "Are you sure you want to cancel this scheduled salary?",
-                        title = null
+                        title = ""
                     ) {
                         viewModel.cancelSchedulePayment(it.scheduledPaymentUuid)
                     }

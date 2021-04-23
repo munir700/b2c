@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
+import java.io.IOException
 import java.math.RoundingMode
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -116,11 +117,7 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//            if (p0?.length ?: 0 > 0) {
-//                this@afterTextChanged.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-//            } else {
-//                this@afterTextChanged.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-//            }
+
         }
 
         override fun afterTextChanged(editable: Editable?) {
@@ -234,14 +231,6 @@ fun String.getCountryTwoDigitCodeFromThreeDigitCode(): String {
 }
 
 fun Double?.roundVal(): Double {
-//    this?.let {
-//        val floatingMultiplier = it * 100
-//        val rounded =
-//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
-//        val floatingDivisor = rounded ?: 0.0.div(100)
-//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
-//    } ?: return 0.0
-
     val floatingMultiplier = (this ?: 0.0) * 100
     val rounded =
         floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
@@ -250,14 +239,6 @@ fun Double?.roundVal(): Double {
 }
 
 fun Double?.roundValHalfEven(): Double {
-//    this?.let {
-//        val floatingMultiplier = it * 100
-//        val rounded =
-//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
-//        val floatingDivisor = rounded ?: 0.0.div(100)
-//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
-//    } ?: return 0.0
-
     val floatingMultiplier = (this ?: 0.0) * 100
     val rounded =
         floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN)?.toDouble()
@@ -306,12 +287,4 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     } catch (e: Exception) {
     }
     return drawable
-}
-
-fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
-    if (first.size != second.size) {
-        return false
-    }
-
-    return first.zip(second).all { (x, y) -> x == y }
 }

@@ -224,7 +224,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 getString(Strings.screen_topup_transfer_display_text_transaction_fee),
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    transactionFee.toFormattedCurrency(showCurrency = true)
+                    transactionFee.parseToDouble().roundValHalfEven().toString().toFormattedCurrency(showCurrency = true)
                 )
             )
         }

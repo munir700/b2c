@@ -36,7 +36,7 @@ class RecurringPaymentFragment :
                 state.recurringTransaction?.value?.let {
                     confirm(
                         message = "Are you sure you want to cancel this recurring salary?",
-                        title = null
+                        title = ""
                     ) {
                         viewModel.cancelSchedulePayment(it.scheduledPaymentUuid)
                     }

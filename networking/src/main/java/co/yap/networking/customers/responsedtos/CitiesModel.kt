@@ -19,5 +19,7 @@ data class City(
     @SerializedName("cityCode")
     var cityCode: String? = "0",
     @SerializedName("active")
-    var active: Boolean? = false
+    var active: Boolean? = false,
+    @SerializedName("iata3Code")
+    var iata3Code: String? = ""
 ) : Parcelable

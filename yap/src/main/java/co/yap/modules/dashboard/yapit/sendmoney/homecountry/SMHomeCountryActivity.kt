@@ -27,7 +27,8 @@ import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 
-class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), ISMHomeCountry.View {
+class
+SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), ISMHomeCountry.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_sm_home_country
     override val viewModel: ISMHomeCountry.ViewModel

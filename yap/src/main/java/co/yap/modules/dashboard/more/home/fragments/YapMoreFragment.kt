@@ -181,24 +181,11 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         }
     }
 
-    private fun openNotifications() {
-        startActivity(Intent(requireContext(), NotificationsActivity::class.java))
-    }
-
-    private fun openMaps() {
-        //for zoom level z=zoom
-        val uri = Uri.parse("geo:3.4241,53.847?q=" + Uri.encode("Rakbank Atm"))
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        intent.setPackage("com.google.android.apps.maps")
-        if (intent.resolveActivity(requireContext().packageManager) != null) {
-            startActivity(intent)
-        }
-    }
-
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgProfile, R.id.imgSettings -> {
-                startActivity(MoreActivity.newIntent(requireContext()))
+                requireActivity().launchActivity<MoreActivity>(requestCode = RequestCodes.REQUEST_CODE_MORE_ACTIVITY) {
+                }
             }
             R.id.btnBankDetails -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_BANK_DETAILS)

@@ -22,7 +22,7 @@ fun isValidLatLng(lat: Double, lng: Double): Boolean {
 
 fun Activity.openGoogleMapDirection(start: LatLng, destination: LatLng) {
     val uri: String = String.format(
-        Locale.ENGLISH,
+        Locale.getDefault(),
         "http://maps.google.com/maps?daddr=%f,%f",
         destination.latitude,
         destination.longitude
@@ -41,7 +41,7 @@ fun Activity.openGoogleMapDirection(start: LatLng, destination: LatLng) {
 
 fun Context.openGoogleMapDirection(start: LatLng, destination: LatLng) {
     val uri: String = String.format(
-        Locale.ENGLISH,
+        Locale.getDefault(),
         "http://maps.google.com/maps?daddr=%f,%f",
         destination.latitude,
         destination.longitude
@@ -60,7 +60,7 @@ fun Context.openGoogleMapDirection(start: LatLng, destination: LatLng) {
 
 fun Fragment.openGoogleMapDirection(destination: LatLng) {
     val uri: String = String.format(
-        Locale.ENGLISH,
+        Locale.getDefault(),
         "http://maps.google.com/maps?daddr=%f,%f",
         destination.latitude,
         destination.longitude
@@ -79,7 +79,7 @@ fun Fragment.openGoogleMapDirection(destination: LatLng) {
 
 fun Fragment.openGoogleMapNavigation(start: LatLng, destination: LatLng) {
     val uri: String = String.format(
-        Locale.ENGLISH,
+        Locale.getDefault(),
         "google.navigation:q=%f,%f",
         destination.latitude,
         destination.longitude
@@ -98,7 +98,7 @@ fun Fragment.openGoogleMapNavigation(start: LatLng, destination: LatLng) {
 
 fun Activity.openGoogleMapNavigation(start: LatLng, destination: LatLng) {
     val uri: String = String.format(
-        Locale.ENGLISH,
+        Locale.getDefault(),
         "google.navigation:q=%f,%f",
         destination.latitude,
         destination.longitude
@@ -117,7 +117,7 @@ fun Activity.openGoogleMapNavigation(start: LatLng, destination: LatLng) {
 
 fun Context.openGoogleMapNavigation(start: LatLng, destination: LatLng) {
     val uri: String = String.format(
-        Locale.ENGLISH,
+        Locale.getDefault(),
         "google.navigation:q=%f,%f",
         destination.latitude,
         destination.longitude

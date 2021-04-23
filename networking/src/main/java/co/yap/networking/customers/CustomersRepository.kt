@@ -10,6 +10,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
@@ -33,7 +34,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_POST_DEMOGRAPHIC_DATA_SIGN_IN = "/customers/api/demographics/device-login"
     const val URL_POST_DEMOGRAPHIC_DATA = "/customers/api/demographics/"
     const val URL_VALIDATE_DEMOGRAPHIC_DATA =
-            "customers/api/demographics/validate/user-device/{device_id}"
+        "customers/api/demographics/validate/user-device/{device_id}"
     const val URL_GET_DOCUMENTS = "customers/api/customer-documents"
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
     const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
@@ -42,7 +43,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_VALIDATE_PHONE_NUMBER = "customers/api/validate-mobile-number"
     const val URL_VALIDATE_EMAIL = "customers/api/validate-email"
     const val URL_CHANGE_MOBILE_NUMBER =
-            "customers/api/change-mobile-number/{country-code}/{mobile-number}"
+        "customers/api/change-mobile-number/{country-code}/{mobile-number}"
     const val URL_CHANGE_VERIFIED_EMAIL = "customers/api/change-email/{email}"
     const val URL_CHANGE_UNVERIFIED_EMAIL = "customers/api/change-unverified-email"
     const val URL_Y2Y_BENEFICIARIES = "customers/api/y2y-beneficiaries"
@@ -52,9 +53,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CREATE_BENEFICIARIY = "customers/api/mastercard/beneficiaries"
     const val URL_CARDS_LIMITS = "customers/api/mastercard/beneficiaries/limits"
     const val URL_GET_COUNTRY_DATA_WITH_ISO_DIGIT =
-            "customers/api/countries/CountryCode2Digit/{country-code}"
+        "customers/api/countries/CountryCode2Digit/{country-code}"
     const val URL_GET_COUNTRY_TRANSACTION_LIMITS =
-            "/customers/api/bank-transfer/transaction/limit"
+        "/customers/api/bank-transfer/transaction/limit"
 
     const val URL_DETECT = "digi-ocr/detect/"
     const val URL_SAVE_REFERAL_INVITATION = "/customers/api/save-referral-invitation"
@@ -63,7 +64,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_RECENT_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer/recent"
     const val URL_GET_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/{beneficiary-id}"
     const val URL_DELETE_BENEFICIARY_BY_ID =
-            "/customers/api/beneficiaries/bank-transfer/{beneficiary-id}"
+        "/customers/api/beneficiaries/bank-transfer/{beneficiary-id}"
     const val URL_EDIT_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/bank-transfer"
     const val URL_GET_COUNTRIES = "/customers/api/bank-transfer/countries"
     const val URL_ADD_BENEFICIARY = "/customers/api/beneficiaries/bank-transfer"
@@ -84,10 +85,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     val URL_SWIFT = "transactions/api/swift "
     val URL_CASH_PICKUP = "/transactions/api/cashpayout "
     val URL_CASH_PICKUP_PARTNER =
-            "customers/api/pickup-partner/currency-code/{currency-code}/country-code/{country-code} "
+        "customers/api/pickup-partner/currency-code/{currency-code}/country-code/{country-code} "
 
     const val URL_CURRENCIES_BY_COUNTRY_CODE =
-            "customers/api/country/{country}/currencies"
+        "customers/api/country/{country}/currencies"
 
     const val URL_VERIFY_HOUSEHOLD_MOBILE = "customers/api/on-board/verify/household-mobile"
     const val URL_VERIFY_PARENT_HOUSEHOLD_MOBILE = "customers/api/verify/parent-mobile-no/household"
@@ -126,12 +127,13 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
     const val URL_SEND_INVITE_FRIEND = "customers/api/save-invite"
-    const val URL_ADDITIONAL_SUBMIT =
-            "customers/api/update-notification-status"
+    const val URL_ADDITIONAL_SUBMIT = "customers/api/update-notification-status"
     const val URL_GET_RANKING = "customers/api/fetch-ranking"
     const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
+    const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
+    const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     private val api: CustomersRetroService =
-            RetroNetwork.createService(CustomersRetroService::class.java)
+        RetroNetwork.createService(CustomersRetroService::class.java)
 
     override suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse> {
         val response = executeSafely(call = { api.signUp(signUpRequest) })
@@ -145,118 +147,118 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     }
 
     override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse> =
-            executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })
+        executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })
 
 
     override suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse> =
-            executeSafely(call = { api.getAccountInfo() })
+        executeSafely(call = { api.getAccountInfo() })
 
     override suspend fun generateOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.generateOTPForDeviceVerification(demographicDataRequest) })
+        executeSafely(call = { api.generateOTPForDeviceVerification(demographicDataRequest) })
 
     override suspend fun verifyOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<OtpValidationResponse> =
-            executeSafely(call = { api.verifyOTPForDeviceVerification(demographicDataRequest) })
+        executeSafely(call = { api.verifyOTPForDeviceVerification(demographicDataRequest) })
 
     override suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.postDemographicData(demographicDataRequest) })
+        executeSafely(call = { api.postDemographicData(demographicDataRequest) })
 
     override suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ValidateDeviceResponse> =
-            executeSafely(call = { api.validateDemographicData(deviceId) })
+        executeSafely(call = { api.validateDemographicData(deviceId) })
 
     override suspend fun getDocuments(): RetroApiResponse<GetDocumentsResponse> =
-            executeSafely(call = { api.getDocuments() })
+        executeSafely(call = { api.getDocuments() })
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
-            document.run {
-                val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                val files = ArrayList<MultipartBody.Part>()
-                filePaths.forEach {
-                    val file = File(it)
-                    val reqFile: RequestBody =
-                            RequestBody.create(MediaType.parse("image/" + file.extension), file)
-                    val body = MultipartBody.Part.createFormData("files", file.name, reqFile)
-                    files.add(body)
-                }
-
-                executeSafely(call = {
-                    api.uploadDocuments(
-                            files,
-                            RequestBody.create(MediaType.parse("multipart/form-dataList"), documentType),
-                            RequestBody.create(MediaType.parse("multipart/form-dataList"), firstName),
-                            middleName = RequestBody.create(
-                                    MediaType.parse("multipart/form-dataList"),
-                                    middleName ?: ""
-                            ),
-                            lastName = RequestBody.create(
-                                    MediaType.parse("multipart/form-dataList"), lastName ?: ""
-                            ),
-                            nationality = RequestBody.create(
-                                    MediaType.parse("multipart/form-dataList"),
-                                    nationality
-                            ),
-                            dateExpiry = RequestBody.create(
-                                    MediaType.parse("multipart/form-dataList"),
-                                    dateFormatter.format(dateExpiry)
-                            ),
-                            dob = RequestBody.create(
-                                    MediaType.parse("multipart/form-dataList"),
-                                    dateFormatter.format(dob)
-                            ),
-                            fullName = RequestBody.create(
-                                    MediaType.parse("multipart/form-dataList"),
-                                    fullName
-                            ),
-                            gender = RequestBody.create(MediaType.parse("multipart/form-dataList"), gender),
-                            identityNo = RequestBody.create(
-                                    MediaType.parse("multipart/form-dataList"),
-                                    identityNo
-                            )
-                    )
-                })
+        document.run {
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val files = ArrayList<MultipartBody.Part>()
+            filePaths.forEach {
+                val file = File(it)
+                val reqFile: RequestBody =
+                    RequestBody.create(MediaType.parse("image/" + file.extension), file)
+                val body = MultipartBody.Part.createFormData("files", file.name, reqFile)
+                files.add(body)
             }
 
+            executeSafely(call = {
+                api.uploadDocuments(
+                    files,
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), documentType),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), firstName),
+                    middleName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        middleName ?: ""
+                    ),
+                    lastName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"), lastName ?: ""
+                    ),
+                    nationality = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        nationality
+                    ),
+                    dateExpiry = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        dateFormatter.format(dateExpiry)
+                    ),
+                    dob = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        dateFormatter.format(dob)
+                    ),
+                    fullName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        fullName
+                    ),
+                    gender = RequestBody.create(MediaType.parse("multipart/form-dataList"), gender),
+                    identityNo = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        identityNo
+                    )
+                )
+            })
+        }
+
     override suspend fun getMoreDocumentsByType(documentType: String): RetroApiResponse<GetMoreDocumentsResponse> =
-            executeSafely(call = { api.getMoreDocumentsByType(documentType) })
+        executeSafely(call = { api.getMoreDocumentsByType(documentType) })
 
     override suspend fun uploadProfilePicture(profilePicture: MultipartBody.Part): RetroApiResponse<UploadProfilePictureResponse> =
-            executeSafely(call = { api.uploadProfilePicture(profilePicture) })
+        executeSafely(call = { api.uploadProfilePicture(profilePicture) })
 
     override suspend fun validatePhoneNumber(
-            countryCode: String,
-            mobileNumber: String
+        countryCode: String,
+        mobileNumber: String
     ): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.validatePhoneNumber(countryCode, mobileNumber) })
+        executeSafely(call = { api.validatePhoneNumber(countryCode, mobileNumber) })
 
 
     override suspend fun changeMobileNumber(
-            countryCode: String,
-            mobileNumber: String
+        countryCode: String,
+        mobileNumber: String
     ): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.changeMobileNumber(countryCode, mobileNumber) })
+        executeSafely(call = { api.changeMobileNumber(countryCode, mobileNumber) })
 
 
     override suspend fun validateEmail(email: String): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.validateEmail(email) })
+        executeSafely(call = { api.validateEmail(email) })
 
     override suspend fun changeVerifiedEmail(email: String): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.changeVerifiedEmail(email) })
+        executeSafely(call = { api.changeVerifiedEmail(email) })
 
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
+        executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
     override suspend fun detectCardData(file: MultipartBody.Part) =
-            executeSafely(call = { api.uploadIdCard(file) })
+        executeSafely(call = { api.uploadIdCard(file) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
-            executeSafely(call = { api.getY2YBeneficiaries(contacts) })
+        executeSafely(call = { api.getY2YBeneficiaries(contacts) })
 
     override suspend fun getRecentY2YBeneficiaries() =
-            executeSafely(call = { api.getRecentY2YBeneficiaries() })
+        executeSafely(call = { api.getRecentY2YBeneficiaries() })
 
     /*  send money */
 
     override suspend fun getRecentBeneficiaries() =
-            executeSafely(call = { api.getRecentBeneficiaries() })
+        executeSafely(call = { api.getRecentBeneficiaries() })
 
     override suspend fun getAllBeneficiaries() = executeSafely(call = { api.getAllBeneficiaries() })
 
@@ -265,41 +267,41 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getAllCountries() = executeSafely(call = { api.getAllCountries() })
 
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
-            executeSafely(call = { api.addBeneficiary(beneficiary) })
+        executeSafely(call = { api.addBeneficiary(beneficiary) })
 
     override suspend fun validateBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.validateBeneficiary(beneficiary) })
+        executeSafely(call = { api.validateBeneficiary(beneficiary) })
 
     override suspend fun editBeneficiary(beneficiary: Beneficiary?): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.editBeneficiary(beneficiary) })
+        executeSafely(call = { api.editBeneficiary(beneficiary) })
 
     override suspend fun deleteBeneficiaryFromList(beneficiaryId: String): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.deleteBeneficiaryById(beneficiaryId) })
+        executeSafely(call = { api.deleteBeneficiaryById(beneficiaryId) })
 
     override suspend fun getTopUpBeneficiaries() =
-            executeSafely(call = { api.getTopUpBeneficiaries() })
+        executeSafely(call = { api.getTopUpBeneficiaries() })
 
     override suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.deleteBeneficiary(cardId) })
+        executeSafely(call = { api.deleteBeneficiary(cardId) })
 
     override suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse> =
-            executeSafely(call = { api.createBeneficiary(createBeneficiaryRequest) })
+        executeSafely(call = { api.createBeneficiary(createBeneficiaryRequest) })
 
     override suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse> =
-            executeSafely(call = { api.getCardsLimit() })
+        executeSafely(call = { api.getCardsLimit() })
 
     override suspend fun getCurrenciesByCountryCode(country: String) =
-            executeSafely(call = { api.getCurrenciesByCountryCode(country) })
+        executeSafely(call = { api.getCurrenciesByCountryCode(country) })
 
     override suspend fun findOtherBank(otherBankQuery: OtherBankQuery): RetroApiResponse<RAKBankModel> =
-            executeSafely(call = { api.findOtherBank(otherBankQuery) })
+        executeSafely(call = { api.findOtherBank(otherBankQuery) })
 
     override suspend fun getOtherBankParams(countryName: String): RetroApiResponse<BankParamsResponse> =
-            executeSafely(call = { api.getOtherBankParams(countryName) })
+        executeSafely(call = { api.getOtherBankParams(countryName) })
 
     /* Household */
     override suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.verifyHouseholdMobile(verifyHouseholdMobileRequest) })
+        executeSafely(call = { api.verifyHouseholdMobile(verifyHouseholdMobileRequest) })
 
     override suspend fun verifyHouseholdParentMobile(
             mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
@@ -324,138 +326,145 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             executeSafely(call = { api.getCountryDataWithISODigit(countryCodeWith2Digit) })
 
     override suspend fun getCountryTransactionLimits(
-            countryCode: String,
-            currencyCode: String
+        countryCode: String,
+        currencyCode: String
     ): RetroApiResponse<CountryLimitsResponseDTO> =
-            executeSafely(call = { api.getCountryTransactionLimits(countryCode, currencyCode) })
+        executeSafely(call = { api.getCountryTransactionLimits(countryCode, currencyCode) })
 
     override suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO> =
-            executeSafely(call = { api.getSectionedCountries() })
+        executeSafely(call = { api.getSectionedCountries() })
 
     override suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse> =
-            executeSafely(call = { api.verifyUsername(username) })
+        executeSafely(call = { api.verifyUsername(username) })
 
     override suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.forgotPasscode(forgotPasscodeRequest) })
+        executeSafely(call = { api.forgotPasscode(forgotPasscodeRequest) })
 
     override suspend fun validateCurrentPasscode(verifyPasscodeRequest: VerifyPasscodeRequest): RetroApiResponse<OtpValidationResponse> =
-            executeSafely(call = { api.validateCurrentPasscode(verifyPasscodeRequest) })
+        executeSafely(call = { api.validateCurrentPasscode(verifyPasscodeRequest) })
 
     override suspend fun changePasscode(changePasscodeRequest: ChangePasscodeRequest): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.changePasscode(changePasscodeRequest) })
+        executeSafely(call = { api.changePasscode(changePasscodeRequest) })
 
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> =
-            executeSafely(call = { api.appUpdate() })
+        executeSafely(call = { api.appUpdate() })
 
     override suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse> =
             executeSafely(call = { api.subAccountInvitation(notificationStatus) })
 
     override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
+        executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
 
     override suspend fun getCities(): RetroApiResponse<CitiesModel> =
-            executeSafely(call = { api.getCities() })
+        executeSafely(call = { api.getCities() })
 
     override suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse> =
-            executeSafely(call = { api.getTaxReasons() })
+        executeSafely(call = { api.getTaxReasons() })
 
     override suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.saveBirthInfo(birthInfoRequest) })
+        executeSafely(call = { api.saveBirthInfo(birthInfoRequest) })
 
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
-            executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
+        executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
-            executeSafely(call = { api.getAllCurrencies() })
+        executeSafely(call = { api.getAllCurrencies() })
 
     override suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse> =
-            executeSafely(call = { api.getCurrencyByCode(currencyCode ?: "") })
+        executeSafely(call = { api.getCurrencyByCode(currencyCode ?: "") })
 
     override suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.resendVerificationEmail() })
+        executeSafely(call = { api.resendVerificationEmail() })
 
     override suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.removeProfilePicture() })
+        executeSafely(call = { api.removeProfilePicture() })
 
     override suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO> =
-            executeSafely(call = {
-                api.getCoolingPeriod(
-                        smCoolingPeriodRequest.beneficiaryId,
-                        smCoolingPeriodRequest.productCode
-                )
-            })
+        executeSafely(call = {
+            api.getCoolingPeriod(
+                smCoolingPeriodRequest.beneficiaryId,
+                smCoolingPeriodRequest.productCode
+            )
+        })
 
     override suspend fun getSubscriptionsNotifications() =
             TransactionsRepository.executeSafely(call = { api.getSubscriptionsNotifications() })
 
     override suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse> =
-            executeSafely(call = { api.getQRContact(qrContactRequest) })
+        executeSafely(call = { api.getQRContact(qrContactRequest) })
 
     override suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse> =
-            executeSafely(call = { api.updateHomeCountry(UpdateHomeCountryRequest(homeCountry)) })
+        executeSafely(call = { api.updateHomeCountry(UpdateHomeCountryRequest(homeCountry)) })
 
     override suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse> =
-            executeSafely(call = { api.updateFxRate(fxRate) })
+        executeSafely(call = { api.updateFxRate(fxRate) })
 
     override suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse> =
-            executeSafely(call = { api.updateTourGuideStatus(tourGuide) })
+        executeSafely(call = { api.updateTourGuideStatus(tourGuide) })
 
     override suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse> =
-            executeSafely(call = { api.getTourGuides() })
+        executeSafely(call = { api.getTourGuides() })
 
     override suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse> =
-            executeSafely(call = { api.getAdditionalInfoRequired() })
+        executeSafely(call = { api.getAdditionalInfoRequired() })
 
     override suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
-            uploadAdditionalInfo.run {
-                val reqFile: RequestBody =
-                        RequestBody.create(
-                                MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
-                                uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name
-                                        ?: "")
-                        )
-                val body =
-                        MultipartBody.Part.createFormData(
-                                "files",
-                                uploadAdditionalInfo.files?.name,
-                                reqFile
-                        )
-                executeSafely(call = {
-                    api.uploadAdditionalDocuments(
-                            files = body,
-                            documentType = RequestBody.create(
-                                    MediaType.parse("multipart/form-dataList"),
-                                    documentType ?: ""
-                            )
+        uploadAdditionalInfo.run {
+            val reqFile: RequestBody =
+                RequestBody.create(
+                    MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
+                    uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
+                )
+            val body =
+                MultipartBody.Part.createFormData(
+                    "files",
+                    uploadAdditionalInfo.files?.name,
+                    reqFile
+                )
+            executeSafely(call = {
+                api.uploadAdditionalDocuments(
+                    files = body,
+                    documentType = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        documentType ?: ""
                     )
-                })
-            }
+                )
+            })
+        }
 
 
     override suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
-            executeSafely(call = {
-                api.uploadAdditionalQuestion(uploadAdditionalInfo)
-            })
+        executeSafely(call = {
+            api.uploadAdditionalQuestion(uploadAdditionalInfo)
+        })
 
     override suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse> =
-            executeSafely(call = {
-                api.sendInviteFriend(sendInviteFriendRequest)
-            })
+        executeSafely(call = {
+            api.sendInviteFriend(sendInviteFriendRequest)
+        })
 
     override suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
-            executeSafely(call = {
-                api.submitAdditionalInfo(uploadAdditionalInfo)
-            })
+        executeSafely(call = {
+            api.submitAdditionalInfo(uploadAdditionalInfo)
+        })
 
     override suspend fun getWaitingRanking(): RetroApiResponse<WaitingRankingResponse> =
-            executeSafely(call = {
-                api.getWaitingRanking()
-            })
+        executeSafely(call = {
+            api.getWaitingRanking()
+        })
 
     override suspend fun completeVerification(completeVerificationRequest: CompleteVerificationRequest): RetroApiResponse<SignUpResponse> =
-            executeSafely(call = {
-                api.completeVerification(completeVerificationRequest)
-            })
+        executeSafely(call = {
+            api.completeVerification(completeVerificationRequest)
+        })
 
+    override suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse> =
+        executeSafely(call = {
+            api.getIndustriesSegments()
+        })
 
+    override suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.submitEmploymentInfo(employmentInfoRequest)
+        })
 }

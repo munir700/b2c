@@ -31,7 +31,6 @@ class InviteFriendRepository : IRepositoryHolder<CustomersRepository>, IInviteAF
 
                 }
             }
-
         }
     }
 }

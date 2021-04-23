@@ -22,7 +22,7 @@ import co.yap.yapcore.helpers.extentions.getScreenWidth
 import kotlin.math.abs
 
 
-class DrawableClickEditText(context: Context, attrs: AttributeSet) :
+open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     AppCompatEditText(context, attrs) {
     private var mPopupWindow: PopupWindow? = null
     private var popupView: View? = null
@@ -38,6 +38,7 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     private var popupTextValue = ""
     private var onDrawableClickListener: OnDrawableClickListener? = null
     private var defaultClickListener: OnDrawableClickListener? = null
+
     private val defaultClickListenerAdapter: OnDrawableClickListener =
         object : OnDrawableClickListener {
             override fun onClick(target: DrawablePosition) {
@@ -52,8 +53,10 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
 
                     }
                     DrawablePosition.RIGHT -> {
-                        val xoff = Utils.getDimensionInPercent(context, true, 6)
-                        showAsPopUp(this@DrawableClickEditText, xoff, 0)
+                        if (popupTextValue.isNotEmpty()){
+                            val xoff = Utils.getDimensionInPercent(context,true,6)
+                            showAsPopUp(this@DrawableClickEditText, xoff, 0)
+                        }
                     }
                 }
             }
@@ -100,12 +103,7 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
         setPopupContent()
         val popUpWindowWidth = getScreenWidth() - Utils.getDimensionInPercent(context, true, 11)
         mPopupWindow =
-            PopupWindow(
-                popupView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                true
-            )
+            PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
         mPopupWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setCancelable(true)
     }
@@ -305,4 +303,16 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     fun setDrawableClickListener(OnDrawableClickListener: OnDrawableClickListener) {
         this.onDrawableClickListener = OnDrawableClickListener
     }
+
+    interface OnDrawableClickListener {
+        fun onClick(target: DrawablePosition)
+    }
+    @Keep
+    enum class DrawablePosition {
+        LEFT,
+        RIGHT,
+        TOP,
+        BOTTOM
+    }
+
 }

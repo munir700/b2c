@@ -10,10 +10,12 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat.getColor
 import co.yap.yapcore.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.signature.ObjectKey
 import java.io.File
 
 
@@ -111,13 +113,24 @@ fun setCircleCropImage(imageView: ImageView, url: String, fallback: Int) {
         .into(imageView)
 }
 
-fun setCircleCropImage(imageView: ImageView, url: String, fallback: Drawable) {
+fun setCircleCropImage(
+    imageView: ImageView,
+    url: String,
+    fallback: Drawable,
+    signature: String? = null
+) {
 
     if (url.isBlank()) {
         imageView.setImageDrawable(fallback)
     } else {
+        var requestOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)
+        signature?.let {
+            requestOptions =
+                RequestOptions.signatureOf(ObjectKey(it))
+        }
+
         val mUrl = getUrl(url)
-        Glide.with(imageView).load(mUrl)
+        Glide.with(imageView).load(mUrl).apply(requestOptions)
             .error(fallback)
             .placeholder(fallback)
             .into(imageView)

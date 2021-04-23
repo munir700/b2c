@@ -25,14 +25,7 @@ class LocationViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-
     fun showMessage(msg: String) {
         state.toast = "$msg^${AlertType.DIALOG.name}"
     }
-
-    override fun onResume() {
-        super.onResume()
-        state.toolbarVisibility.set(true)
-    }
-
 }

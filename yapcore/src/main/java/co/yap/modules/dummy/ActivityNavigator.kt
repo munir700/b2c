@@ -16,4 +16,8 @@ interface ActivityNavigator {
     fun startHouseHoldModule(activity: FragmentActivity)
 
     fun handleDeepLinkFlow(activity: AppCompatActivity, flowId: String?)
+
+    fun startDocumentDashboardActivity(
+        activity: FragmentActivity
+    )
 }
