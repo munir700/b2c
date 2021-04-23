@@ -5,8 +5,8 @@ import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
 import co.yap.billpayments.dashboard.home.adapter.DueBillsAdapter
 import co.yap.billpayments.dashboard.home.notification.DueBillsNotificationAdapter
-import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -24,7 +24,6 @@ class BillDashboardViewModel(application: Application) :
     override var adapter: BillCategoryAdapter = BillCategoryAdapter(mutableListOf())
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CustomersRepository = CustomersRepository
-    override var dueBills: MutableList<BillModel> = mutableListOf()
     override val state: IBillDashboard.State = BillDashboardState()
     override val dueBillsAdapter: DueBillsAdapter =
         DueBillsAdapter(arrayListOf())
@@ -34,25 +33,8 @@ class BillDashboardViewModel(application: Application) :
             arrayListOf()
         )
 
-    fun checkIfBillDue(): Boolean {
-        parentViewModel?.billsAdapterList?.value?.forEach {
-            if (it.billStatus == BillStatus.OVERDUE.title || it.billStatus == BillStatus.BILL_DUE.title) {
-                dueBills.add(it)
-            }
-        }
-        return dueBills.size == 0
-    }
-
-    fun setData() {
-        if (state.showBillCategory.get()) {
-            if (parentViewModel?.billcategories.isNullOrEmpty())
-                getBillProviders()
-            else {
-                parentViewModel?.billcategories?.let { adapter.setList(it) }
-            }
-        } else {
-            setBillsData()
-        }
+    override fun handlePressView(id: Int) {
+        clickEvent.setValue(id)
     }
 
     override fun onResume() {
@@ -63,8 +45,37 @@ class BillDashboardViewModel(application: Application) :
         parentViewModel?.state?.leftIconVisibility?.set(true)
     }
 
-    override fun handlePressView(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleBillsResponse(billsList: List<ViewBillModel>?) {
+        val dueBillsList =
+            billsList?.filter { it.status == BillStatus.OVERDUE.name || it.status == BillStatus.BILL_DUE.name }
+        initDashboard(dueBillsList.isNullOrEmpty(), dueBillsList)
+        state.showBillCategory.set(dueBillsList.isNullOrEmpty())
+    }
+
+    private fun initDashboard(isBillsDue: Boolean, list: List<ViewBillModel>?) {
+        if (isBillsDue) {
+            if (parentViewModel?.billcategories.isNullOrEmpty())
+                getBillProviders()
+            else {
+                parentViewModel?.billcategories?.let { adapter.setList(it) }
+            }
+        } else {
+            list?.let {
+                initDueBillsAdapter(it)
+            }
+        }
+    }
+
+    private fun initDueBillsAdapter(dueBillsList: List<ViewBillModel>) {
+        dueBillsAdapter.setList(dueBillsList)
+        notificationAdapter.setList(dueBillsList)
+        var total = 0.00
+        dueBillsAdapter.getDataList().forEach {
+            total = total.plus(it.totalAmountDue?.toDouble() ?: 0.0)
+        }
+        state.totalDueAmount.set(
+            total.toString().toFormattedCurrency(true, SessionManager.getDefaultCurrency())
+        )
     }
 
     private fun getBillProviders() {
@@ -90,22 +101,6 @@ class BillDashboardViewModel(application: Application) :
                     }
                 }
             }
-        }
-    }
-
-    override fun setBillsData() {
-        launch {
-            state.loading = true
-            dueBillsAdapter.setList(dueBills)
-            notificationAdapter.setList(dueBills)
-            var total = 0.00;
-            dueBillsAdapter.getDataList().forEach {
-                total = total.plus(it.amount?.toDouble() ?: 0.0)
-            }
-            state.totalDueAmount.set(
-                total.toString().toFormattedCurrency(true, SessionManager.getDefaultCurrency())
-            )
-            state.loading = false
         }
     }
 }

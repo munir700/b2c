@@ -66,22 +66,14 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.parentViewModel?.billsAdapterList?.observe(this, Observer {
-            viewModel.state.showBillCategory.set(viewModel.checkIfBillDue())
-            viewModel.setData()
+        viewModel.parentViewModel?.bills?.observe(this, Observer { billsList ->
+            viewModel.handleBillsResponse(billsList)
         })
+
         viewModel.state.stateLiveData?.observe(this, Observer {
             handleState(it)
         })
         viewModel.adapter.setItemListener(categoryItemListener)
-    }
-
-    override fun removeObservers() {
-        viewModel.clickEvent.removeObservers(this)
-    }
-
-    override fun getBindings(): FragmentBillDashboardBinding {
-        return viewDataBinding as FragmentBillDashboardBinding
     }
 
     private val notificationClickEvent = object : OnItemClickListener {
@@ -103,6 +95,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
             onCategorySelection(data as BillProviderModel)
         }
     }
+
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.lMyBills -> navigate(R.id.action_payBillsFragment_to_myBillsFragment)
@@ -194,6 +187,14 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                 throw IllegalStateException("State is not handled " + state?.status)
             }
         }
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObservers(this)
+    }
+
+    override fun getBindings(): FragmentBillDashboardBinding {
+        return viewDataBinding as FragmentBillDashboardBinding
     }
 
     override fun onResume() {

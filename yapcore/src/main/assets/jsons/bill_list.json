@@ -8,7 +8,7 @@
       "indicativeFXRate": "19.8862",
       "settlementCurrency": "MXN",
       "baseCurrency": "USD",
-      "status": "Overdue",
+      "status": "OVERDUE",
       "inputsData": [
         {
           "key": "Mobile Number",
@@ -82,7 +82,7 @@
       "indicativeFXRate": "19.8862",
       "settlementCurrency": "MXN",
       "baseCurrency": "USD",
-      "status": "Paid",
+      "status": "PAID",
       "inputsData": [
         {
           "key": "Consumer Number",
