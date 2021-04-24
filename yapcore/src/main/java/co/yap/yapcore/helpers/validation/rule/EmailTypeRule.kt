@@ -8,6 +8,7 @@ import co.yap.yapcore.helpers.validation.util.EditTextHandler.setError
 /**
  * Created irfan arshad on 10/6/2020.
  */
+
 class EmailTypeRule(
     view: TextView?,
     errorMessage: String?,

@@ -22,7 +22,7 @@ class HHAddUserContactFragment :
                 viewModel.verifyMobileNumber {
                     if (it == true) {
                         state.request?.value?.countryCode = state.countryCode.value
-                        state.request?.value?.mobileNo = state.phone.value
+                        state.request?.value?.mobileNo = state.phone.value?.replace(" ", "") ?: ""
                         navigateForwardWithAnimation(
                             HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToHouseHoldConfirmPaymentFragment(),
                             arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.request?.value)),
