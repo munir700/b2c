@@ -179,7 +179,7 @@ class TransactionDetailsViewModel(application: Application) :
                         "Outgoing Transfer"
                     }
                     TransactionProductCode.CARD_REORDER.pCode -> "Fee"
-                    TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
+                    TransactionProductCode.FUND_LOAD.pCode -> "Incoming funds"
                     TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName
                         ?: ""
                     TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"

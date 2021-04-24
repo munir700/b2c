@@ -101,7 +101,7 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
         return when {
             txn.getProductType() == TransactionProductType.IS_TRANSACTION_FEE -> "Fee"
             txn.getProductType() == TransactionProductType.IS_REFUND -> "Refund"
-            txn.getProductType() == TransactionProductType.IS_INCOMING -> "Inward Bank Transfer"
+            txn.getProductType() == TransactionProductType.IS_INCOMING ->"Inward bank transfer"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Add money"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
