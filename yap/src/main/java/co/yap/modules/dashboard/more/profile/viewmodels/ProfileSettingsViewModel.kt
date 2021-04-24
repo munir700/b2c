@@ -203,16 +203,17 @@ class ProfileSettingsViewModel(application: Application) :
     override fun requestRemoveProfilePicture(apiRes: (Boolean) -> Unit) {
         launch {
             state.loading = true
-            when (val response = repository.removeProfilePicture()) {
+            when (repository.removeProfilePicture()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
+                    state.profilePictureUrl = ""
+                    state.fullName = SessionManager.user?.currentCustomer?.getFullName() ?: ""
                     SessionManager.user?.currentCustomer?.setPicture("")
                     apiRes.invoke(true)
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    apiRes.invoke(false)
                 }
             }
         }
