@@ -95,7 +95,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun logoutAlert() {
-        AlertDialog.Builder(this.activity!!)
+        AlertDialog.Builder(requireActivity())
             .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
             .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
             .setPositiveButton(
@@ -211,29 +211,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         ivProfilePic.setImageURI(mediaFile.file.toUri())
     }
 
-    private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {
-        path.firstOrNull()?.let { mediaFile ->
-            val ext = mediaFile.file.extension
-            if (!ext.isBlank()) {
-                when (ext) {
-                    "png", "jpg", "jpeg" -> {
-                        viewModel.clickEvent.call()
-                        viewModel.requestUploadProfilePicture(mediaFile.file)
-                        ivProfilePic.setImageURI(mediaFile.file.toUri())
-                        ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
-
-                    }
-                    else -> {
-                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                    }
-
-                }
-            } else {
-                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-            }
-        }
-    }
-
     private val itemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when ((data as BottomSheetItem).tag) {
@@ -250,24 +227,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 PhotoSelectionType.REMOVE_PHOTO.name -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_PHOTO)
                     viewModel.requestRemoveProfilePicture {
-                        if (it) ivProfilePic.setImageDrawable(null)
                     }
                 }
             }
         }
-        // viewModel.requestRemoveProfilePicture {
-        //                    if (it) {
-        //                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
-        //                        SessionManager.user?.let { user ->
-        //                            ImageBinding.loadAvatar(
-        //                                ivProfilePic,
-        //                                user.currentCustomer.getPicture(),
-        //                                user.currentCustomer.getFullName(),
-        //                                user.currentCustomer.parsedColor
-        //                            )
-        //
-        //                        }
-        //                    }
-        //                }
     }
 }
