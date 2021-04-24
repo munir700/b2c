@@ -47,8 +47,9 @@ fun Transaction?.getTitle(): String {
             }
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
             TransactionProductCode.REFUND_MASTER_CARD.pCode -> "Refund from ${transaction.merchantName}"
-            TransactionProductCode.FUND_LOAD.pCode -> if (transaction.initiator.isNullOrBlank()) transaction.title
-                ?: "Unknown" else "Received from ${transaction.initiator}"
+            TransactionProductCode.FUND_LOAD.pCode -> transaction.senderName?.let { "Received from ${transaction.senderName}" }
+                ?: "Received transfer"
+
 
             else -> transaction.title ?: "Unknown"
         })
