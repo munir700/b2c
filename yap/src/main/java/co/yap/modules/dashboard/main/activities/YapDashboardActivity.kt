@@ -225,7 +225,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnCopy -> shareAccountInfo()
+                R.id.btnCopy -> {
+                    trackEventWithScreenName(FirebaseEvent.SHARE_ACCOUNT_DETAILS)
+                    context.share(text = viewModel.getAccountInfo(), title = "Share")
+                }
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
@@ -247,14 +250,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             } else
                 viewModel.isUnverifiedScreenNotVisible.value = true
         })
-    }
-
-    private fun shareAccountInfo() {
-        trackEventWithScreenName(FirebaseEvent.SHARE_ACCOUNT_DETAILS)
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, viewModel.getAccountInfo())
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun showUnverifiedPopup() {
