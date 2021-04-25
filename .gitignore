@@ -47,3 +47,5 @@ app/~/tmp/full-r8-config.txt
 /.idea/gradle.xml
 /fastlane/*
 /wallet/build/*
+wallet/src/main/res/raw/pepk_public_certificate.pem
+wallet/src/main/res/raw/tav_private_key.pem

@@ -38,7 +38,7 @@ fun Context.getTestPayloadForSamsung(
             .withDataValidUntilTimestamp(dataValidUntilTimestamp)// "2021-03-25T16:10:59Z"
             .withPrivateKey(
                 EncryptionUtils.loadDecryptionKey(
-                    resources.openRawResource(R.raw.privatekey)
+                    resources.openRawResource(R.raw.tav_private_key)
                 )
             ).build()
 
@@ -46,7 +46,7 @@ fun Context.getTestPayloadForSamsung(
             TAVSignatureMethod.createBase64DigitalSignature(tavSignatureConfig)
         //TAV process End
         val iss =
-            resources.openRawResource(R.raw.pepk_certificate)
+            resources.openRawResource(R.raw.pepk_public_certificate)
         val cardInfoData =
             "{\"cardInfoData\": {\"accountNumber\": \"$cardNumber\",\"expiryMonth\": \"$expiryMonth\",\"expiryYear\":\"$expiryYear\",\"source\": \"$source\",\"cardholderName\": \"$cardholderName\"}}"
         val encryptionCertificate =
