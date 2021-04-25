@@ -40,10 +40,6 @@ fun Context.getTestPayloadForSamsung(
                 EncryptionUtils.loadDecryptionKey(
                     resources.openRawResource(R.raw.privatekey)
                 )
-            ).withPublicKey(
-                EncryptionUtils.loadPublicKey(
-                    resources.openRawResource(R.raw.tav_public_key)
-                )
             ).build()
 
         val base64DigitalSignature =
