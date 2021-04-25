@@ -47,8 +47,9 @@ fun Transaction?.getTitle(): String {
             }
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
             TransactionProductCode.REFUND_MASTER_CARD.pCode -> "Refund from ${transaction.merchantName}"
-            TransactionProductCode.FUND_LOAD.pCode -> if (transaction.initiator.isNullOrBlank()) transaction.title
-                ?: "Unknown" else "Received from ${transaction.initiator}"
+            TransactionProductCode.FUND_LOAD.pCode -> transaction.senderName?.let { "Received from ${transaction.senderName}" }
+                ?: "Received transfer"
+
 
             else -> transaction.title ?: "Unknown"
         })
@@ -100,7 +101,7 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
         return when {
             txn.getProductType() == TransactionProductType.IS_TRANSACTION_FEE -> "Fee"
             txn.getProductType() == TransactionProductType.IS_REFUND -> "Refund"
-            txn.getProductType() == TransactionProductType.IS_INCOMING -> "Inward Bank Transfer"
+            txn.getProductType() == TransactionProductType.IS_INCOMING ->"Inward bank transfer"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Add money"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
