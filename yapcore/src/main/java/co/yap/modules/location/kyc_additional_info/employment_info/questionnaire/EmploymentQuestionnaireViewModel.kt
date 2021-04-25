@@ -33,8 +33,6 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 
 class EmploymentQuestionnaireViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaire.State>(application),
@@ -226,18 +224,18 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            coroutineScope {
-                val deferredCountriesResponse = async {
-                    repository.getAllCountries()
-                }
-                val deferredIndustrySegmentsResponse = async {
-                    repository.getIndustrySegments()
-                }
-                responses(
-                    deferredCountriesResponse.await(),
-                    deferredIndustrySegmentsResponse.await()
-                )
+//            coroutineScope {
+            val deferredCountriesResponse = launchAsync {
+                repository.getAllCountries()
             }
+            val deferredIndustrySegmentsResponse = launchAsync {
+                repository.getIndustrySegments()
+            }
+            responses(
+                deferredCountriesResponse.await(),
+                deferredIndustrySegmentsResponse.await()
+            )
+//            }
         }
     }
 

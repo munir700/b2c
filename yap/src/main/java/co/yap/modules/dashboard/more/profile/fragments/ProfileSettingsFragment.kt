@@ -28,10 +28,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.hasBitmap
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.launchSheet
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.exoplayer2.source.MediaSource
@@ -132,14 +129,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     findNavController().navigate(action)
                 }
 
-                R.id.tvPrivacyView -> {
-                    Utils.showComingSoon(requireContext())
-                }
-
-                R.id.tvNotificationsView -> {
-                    Utils.showComingSoon(requireContext())
-                }
-
                 R.id.tvChangePasscode -> {
                     launchActivity<ChangePasscodeActivity>(type = FeatureSet.CHANGE_PASSCODE)
                 }
@@ -161,18 +150,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         ), showToolBar = false
                     )
                 }
-                R.id.tvFollowOnInstagram -> {
-                    Utils.openInstagram(requireContext())
-                }
-
-                R.id.tvFollowOnTwitter -> {
-                    Utils.openTwitter(requireContext())
-                }
-
-                R.id.tvLikeUsOnFaceBook -> {
-                    Utils.getOpenFacebookIntent(requireContext())
-                        ?.let { startActivity(it) }
-                }
+                R.id.tvFollowOnInstagram -> requireContext().openInstagram()
+                R.id.tvFollowOnTwitter -> requireContext().openTwitter()
+                R.id.tvLikeUsOnFaceBook -> requireContext().openFacebook()
 
                 R.id.ivProfilePic -> {
                 }

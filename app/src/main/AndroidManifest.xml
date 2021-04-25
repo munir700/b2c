@@ -80,7 +80,6 @@
 
         <service
             android:name=".YapFirebaseMessagingService"
-            android:directBootAware="true"
             android:exported="false"
             android:permission="${applicationId}.permission">
             <intent-filter>

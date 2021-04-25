@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import co.yap.app.BuildConfig
 import co.yap.app.main.MainActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.yapcore.adjust.ReferralInfo
@@ -16,22 +17,24 @@ import com.adjust.sdk.Adjust
 class AdjustReferrerReceiver : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intent.data?.let { uri ->
-            Adjust.appWillOpenUrl(uri, this)
-            val customerId = uri.getQueryParameter(Constants.REFERRAL_ID)
-            customerId?.let { cusId ->
-                uri.getQueryParameter(Constants.REFERRAL_TIME)?.let { time ->
-                    val date = time.replace("_", " ")
-                    SharedPreferenceManager.getInstance(this).setReferralInfo(
-                        ReferralInfo(
-                            cusId,
-                            date
+        if (intent.resolveActivity(packageManager)!=null && intent.resolveActivity(packageManager).packageName == BuildConfig.APPLICATION_ID) {
+            intent.data?.let { uri ->
+                Adjust.appWillOpenUrl(uri, this)
+                val customerId = uri.getQueryParameter(Constants.REFERRAL_ID)
+                customerId?.let { cusId ->
+                    uri.getQueryParameter(Constants.REFERRAL_TIME)?.let { time ->
+                        val date = time.replace("_", " ")
+                        SharedPreferenceManager.getInstance(this).setReferralInfo(
+                            ReferralInfo(
+                                cusId,
+                                date
+                            )
                         )
-                    )
-                    takeDecision()
+                        takeDecision()
+                    } ?: takeDecision()
                 } ?: takeDecision()
             } ?: takeDecision()
-        } ?: takeDecision()
+        }
     }
 
     private fun isRunning(ctx: Context): Boolean {
