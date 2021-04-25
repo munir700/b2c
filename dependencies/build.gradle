@@ -28,7 +28,8 @@ project.ext {
             kyc             : ':identityscanner_v2',
             sendmoney       : ':sendmoney',
             security        : ':security',
-            qrcodereaderview: ':qrcodereaderview'
+            qrcodereaderview: ':qrcodereaderview',
+            wallet     : ':wallet'
     ]
 
     // All libraries that any module can contain
@@ -225,6 +226,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.household)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: project(modules.sendmoney)],
+            [configuration: "implementation", dependency: project(modules.wallet)],
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
@@ -238,6 +240,7 @@ project.ext {
     // dependencies which need to be added in app module only in conjunction with commonDependencies
     yapDependencies = [
             [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: project(modules.wallet)],
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: project(modules.kyc)],
@@ -343,6 +346,23 @@ project.ext {
             [configuration: "implementation", dependency: libraries.coroutineAndroid],
             [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics]
+    ]
+    // dependencies which need to be added in Wallet module only/-
+    walletDependencies = [
+            [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: libraries.sdp],
+            [configuration: "implementation", dependency: libraries.kotlinStdlib],
+            [configuration: "implementation", dependency: libraries.kotlinreflect],
+            // [configuration: "kapt", dependency: libraries.databindingCompiler],
+            [configuration: "implementation", dependency: libraries.material],
+            [configuration: "implementation", dependency: libraries.dagger],
+            [configuration: "implementation", dependency: libraries.daggerAndroid],
+            [configuration: "implementation", dependency: libraries.daggerAndroidSupport],
+            [configuration: "kapt", dependency: libraries.daggerCompiler],
+            [configuration: "kapt", dependency: libraries.daggerAndroidProcessor],
+            [configuration: "implementation", dependency: libraries.appcompat],
+            [configuration: "implementation", dependency: libraries.coreKtx],
+            [configuration: "implementation", dependency: libraries.gson]
     ]
 }
 

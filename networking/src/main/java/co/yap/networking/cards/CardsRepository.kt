@@ -35,8 +35,8 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_REPORT_LOST_OR_STOLEN_CARD = "/cards/api/card-hot-list"
     const val URL_REORDER_DEBIT_CARD = "/cards/api/cards/debit/reorder"
     const val URL_REORDER_SUPPLEMENTARY_CARD = "/cards/api/cards/supplementary/reorder"
-
     const val URL_ATM_CDM = "cards/api/atm-cdm/"
+    const val URL_GET_SAMSUNG_PAY_TOKEN = "/cards/api/samsung-pay/token"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -150,6 +150,9 @@ object CardsRepository : BaseRepository(), CardsApi {
 
     override suspend fun getCardsAtmCdm() =
         AuthRepository.executeSafely(call = { API.getCardsAtmCdm() })
+
+    override suspend fun getCardTokenForSamsungPay() =
+        AuthRepository.executeSafely(call = { API.getCardTokenForSamsungPay() })
 
     override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<HouseHoldCardsDesignResponse> =
         AuthRepository.executeSafely(call = { API.getHouseHoldCardsDesign(accountType) })

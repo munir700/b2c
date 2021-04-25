@@ -1,8 +1,10 @@
 package co.yap.modules.dashboard.cards.home.viewholder
 
+import android.content.Context
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.BR
 import co.yap.databinding.ItemYapCardBinding
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardItemViewModel
 import co.yap.modules.others.helper.Constants
@@ -12,7 +14,10 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
 
-class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) :
+class YapCardItemViewHolder(
+    private val context: Context,
+    private val itemYapCardBinding: ItemYapCardBinding
+) :
     RecyclerView.ViewHolder(itemYapCardBinding.root) {
 
     fun onBind(
@@ -58,7 +63,7 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
         }
         itemYapCardBinding.tvCardName.text = cardName
         itemYapCardBinding.viewModel =
-            YapCardItemViewModel(paymentCard, position, onItemClickListener)
+            YapCardItemViewModel(context,paymentCard, position, onItemClickListener)
         itemYapCardBinding.executePendingBindings()
     }
 }
