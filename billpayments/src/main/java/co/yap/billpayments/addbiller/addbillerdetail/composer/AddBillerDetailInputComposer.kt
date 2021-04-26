@@ -16,7 +16,7 @@ class AddBillerDetailInputComposer : AddBillerDetailsInputComposer {
         list.add(
             AddBillerDetailInputFieldModel(
                 lable = "Enter nickname",
-                placeholder = "Nickname",
+                description = "Enter nickname",
                 maxLength = 255,
                 minLength = 1,
                 inputType = InputType.TYPE_CLASS_TEXT
@@ -26,7 +26,7 @@ class AddBillerDetailInputComposer : AddBillerDetailsInputComposer {
             list.add(
                 AddBillerDetailInputFieldModel(
                     lable = ioCatLog.name,
-                    placeholder = ioCatLog.description,
+                    description = ioCatLog.description,
                     maxLength = ioCatLog.maxLength,
                     minLength = ioCatLog.minLength,
                     inputType = getInputType(ioCatLog.dataType)

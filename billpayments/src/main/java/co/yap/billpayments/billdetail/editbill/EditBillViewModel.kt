@@ -2,6 +2,7 @@ package co.yap.billpayments.billdetail.editbill
 
 import android.app.Application
 import android.view.View
+import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
@@ -40,14 +41,20 @@ class EditBillViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (lengthValidation())
-                state.valid.set(textChangedValidation())
-            else
-                state.valid.set(false)
+            when (view.id) {
+                R.id.etUserInput -> {
+                    if (lengthValidation())
+                        state.valid.set(textChangedValidation())
+                    else
+                        state.valid.set(false)
+                }
+            }
         }
     }
+
 
     private fun textChangedValidation(): Boolean {
         adapter.getDataList().forEachIndexed { index, field ->
