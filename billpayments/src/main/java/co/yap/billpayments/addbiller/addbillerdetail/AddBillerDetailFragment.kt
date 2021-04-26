@@ -1,5 +1,6 @@
 package co.yap.billpayments.addbiller.addbillerdetail
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
@@ -9,7 +10,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.base.AddBillBaseFragment
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.successDialog
 
 class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(),
@@ -54,16 +55,16 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
                 message = description,
                 buttonText = getString(Strings.screen_bill_detail_success_dialog_button_text),
                 bottomText = getString(Strings.screen_bill_detail_success_dialog_button_text_do_it_later)
-            ) {
-                setIntentResult()
+            ) { isSkip ->
+                setIntentResult(isSkip)
             }
         }
     }
 
-    private fun setIntentResult() {
+    private fun setIntentResult(isSkip: Boolean) {
         val intent = Intent()
-        intent.putExtra("IS_SKIP", true)
-        requireActivity().setResult(RequestCodes.REQUEST_CODE_CREATE_PASSCODE, intent)
+        intent.putExtra(ExtraKeys.IS_SKIP_PAY_BILL.name, isSkip)
+        requireActivity().setResult(Activity.RESULT_OK, intent)
         requireActivity().finish()
     }
 

@@ -96,13 +96,14 @@ class MyBillsViewModel(application: Application) :
                     )
                 }
                 sortByRecentlyAdded -> {
-                    adapter.getDataList().sortWith(compareByDescending {
-                        it.createdAt?.let { it1 ->
+                    adapter.getDataList().sortBy {
+                       val a = it.createdAt?.let { it1 ->
                             DateUtils.stringToDate(
                                 it1, DateUtils.FORMATE_DATE_MONTH_YEAR
                             )
                         }
-                    })
+                        a
+                    }
                 }
                 sortByAToZAscending -> {
                     adapter.getDataList().sortBy { billModel -> billModel.billerInfo?.billerName }

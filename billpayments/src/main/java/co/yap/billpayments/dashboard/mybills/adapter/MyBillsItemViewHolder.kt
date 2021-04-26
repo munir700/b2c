@@ -32,6 +32,8 @@ class MyBillsItemViewHolder(private val layoutItemMyBillsBinding: LayoutItemMyBi
                 )
             }
         }
+
+
         layoutItemMyBillsBinding.viewModel =
             MyBillsItemViewModel(
                 billModel,

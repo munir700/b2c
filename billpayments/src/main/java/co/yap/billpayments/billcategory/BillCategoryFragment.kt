@@ -9,9 +9,12 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.BillDashboardBaseFragment
+import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -63,6 +66,18 @@ class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_ADD_BILL -> {
+                    val isSkipPayFlow = data?.getValue(
+                        ExtraKeys.IS_SKIP_PAY_BILL.name,
+                        ExtraType.BOOLEAN.name
+                    ) as Boolean
+                    if (isSkipPayFlow) {
+                        navigateBack()
+                        viewModel.parentViewModel?.getViewBills()
+                    } else {
+                        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL)
+                    }
+                }
+                RequestCodes.REQUEST_PAY_BILL -> {
 
                 }
             }

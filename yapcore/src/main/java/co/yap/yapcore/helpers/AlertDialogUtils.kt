@@ -328,7 +328,7 @@ fun Context.successDialog(
     buttonText: String? = null,
     bottomText: String? = null,
     topIcon: Int? = -1,
-    callback: () -> Unit = {}
+    callback: (isDismiss: Boolean) -> Unit = {}
 ) {
 
     val dialogLayout = Dialog(this)
@@ -354,11 +354,11 @@ fun Context.successDialog(
     else
         tvBottomButton.text = bottomText
     btnPay.setOnClickListener {
-        callback.invoke()
+        callback.invoke(false)
         dialogLayout.dismiss()
     }
     tvBottomButton.setOnClickListener {
-        callback.invoke()
+        callback.invoke(true)
         dialogLayout.dismiss()
     }
     dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)

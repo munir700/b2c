@@ -33,7 +33,7 @@ class BillAccountDetailFragment :
         when (it) {
             R.id.btnPayNow -> {
                 launchActivity<PayBillMainActivity> {
-                    putExtra(ExtraKeys.BILL_MODEL.name, viewModel.parentViewModel?.selectedBill)
+                    putExtra(ExtraKeys.SELECTED_BILL.name, viewModel.parentViewModel?.selectedBill)
                 }
             }
         }

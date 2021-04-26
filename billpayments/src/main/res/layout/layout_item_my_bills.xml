@@ -97,7 +97,7 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.billModel.status}"
+            android:text="@{viewModel.formattedBillStatus}"
             android:textColor="@{viewModel.billModel.status.equals(BillStatus.OVERDUE.name)?@color/red: @color/greyDark}"
             tools:text="Paid" />
     </androidx.constraintlayout.widget.ConstraintLayout>

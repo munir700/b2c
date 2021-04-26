@@ -113,7 +113,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     private fun startPayBillFlow(viewBillModel: ViewBillModel) {
         launchActivity<PayBillMainActivity> {
-            putExtra(ExtraKeys.BILL_MODEL.name, viewBillModel)
+            putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
         }
     }
 
