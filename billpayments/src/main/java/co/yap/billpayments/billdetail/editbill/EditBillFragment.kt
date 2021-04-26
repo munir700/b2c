@@ -89,7 +89,6 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
                             viewModel.state.selectedMonthDay.set(
                                 list[pos]
                             )
-
                     }
                 },
                 bottomSheetItems = viewModel.composeWeekDaysList(list),
