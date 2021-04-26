@@ -161,7 +161,7 @@
     boolean isLimitAdTrackingEnabled();
 }
 -keep public class com.android.installreferrer.** { *; }
-
+-keep class co.yap.yapcore.helpers.validation.** { *; }
 #All Other rule will goes above (Important)
 # Crashlytics 2.+
 -keep class com.crashlytics.** { *; }

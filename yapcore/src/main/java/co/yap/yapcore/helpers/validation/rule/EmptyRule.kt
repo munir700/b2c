@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers.validation.rule
 
-import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import co.yap.yapcore.helpers.extentions.isEmpty

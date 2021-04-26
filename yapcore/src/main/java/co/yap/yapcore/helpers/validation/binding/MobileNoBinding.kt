@@ -1,7 +1,6 @@
 package co.yap.yapcore.helpers.validation.binding
 
 import android.widget.TextView
-import androidx.annotation.Keep
 import androidx.databinding.BindingAdapter
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.yapcore.R
@@ -11,7 +10,6 @@ import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import co.yap.yapcore.helpers.validation.util.ErrorMessageHelper
 import co.yap.yapcore.helpers.validation.util.ViewTagHelper
 
-@Keep
 object MobileNoBinding {
     @JvmStatic
     @BindingAdapter(
@@ -35,24 +33,32 @@ object MobileNoBinding {
         ViewTagHelper.appendValue(
             R.id.validator_rule,
             view,
-            MobileNoRule(view, countryCode?.replace("+", ""), handledErrorMessage, errorEnabled,isOptional)
+            MobileNoRule(
+                view,
+                countryCode?.replace("+", ""),
+                handledErrorMessage,
+                errorEnabled,
+                isOptional
+            )
         )
     }
 
     @BindingAdapter(
-        value = ["validateMobile", "validateMobileMessage", "validateMobileAutoDismiss"],
+        value = ["validateMobile", "isoCountryCode", "validateMobileMessage", "validateMobileAutoDismiss"],
         requireAll = false
     )
     @JvmStatic
     fun bindingPassword(
-        view: TextView?,
+        view: PrefixSuffixEditText?,
         comparableView: TextView?,
+        countryCode: String?,
         errorMessage: String?,
         autoDismiss: Boolean
     ) {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
         }
+        countryCode?.let { view?.prefix = it }
         val handledErrorMessage = ErrorMessageHelper.getStringOrDefault(
             view,
             errorMessage, R.string.error_message_not_equal_phone
