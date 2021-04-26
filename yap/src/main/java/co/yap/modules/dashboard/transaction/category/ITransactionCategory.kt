@@ -24,6 +24,7 @@ interface ITransactionCategory {
         var transactionId : ObservableField<String>
         var categoryName : ObservableField<String>
         fun updateCategory(context: Activity)
+        fun setPreSelectedCategory(name: String)
     }
 
     interface State : IBase.State

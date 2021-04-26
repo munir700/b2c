@@ -32,7 +32,7 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
             val id = bundle.getString(Constants.TRANSACTION_ID)
             val name = bundle.getString(Constants.PRE_SELECTED_CATEGORY)
             viewModel.transactionId.set(id)
-            viewModel.categoryName.set(name)
+            viewModel.setPreSelectedCategory(name?:"General")
         }
     }
 
