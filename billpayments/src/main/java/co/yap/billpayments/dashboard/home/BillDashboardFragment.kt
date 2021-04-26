@@ -66,7 +66,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.parentViewModel?.bills?.observe(this, Observer { billsList ->
+        viewModel.parentViewModel?.billsResponse?.observe(this, Observer { billsList ->
             viewModel.handleBillsResponse(billsList)
         })
 
@@ -113,7 +113,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     private fun startPayBillFlow(viewBillModel: ViewBillModel) {
         launchActivity<PayBillMainActivity> {
-            putExtra(ExtraKeys.BILL_MODEL.name, viewBillModel)
+            putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
         }
     }
 

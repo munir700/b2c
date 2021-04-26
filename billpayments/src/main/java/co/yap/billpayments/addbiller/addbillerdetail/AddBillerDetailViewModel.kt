@@ -10,7 +10,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.BillerInputData
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillerInputDetails
+import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -33,7 +33,7 @@ class AddBillerDetailViewModel(application: Application) :
     override val addBillerDetailItemComposer: AddBillerDetailInputComposer =
         AddBillerDetailInputComposer()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val billerDetailsResponse: MutableLiveData<BillerInputDetails> = MutableLiveData()
+    override val billerDetailsResponse: MutableLiveData<SkuCatalogs> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -143,7 +143,7 @@ class AddBillerDetailViewModel(application: Application) :
     }
 
 
-    override fun getBillerInformationRequest(billerInformation: BillerInputDetails?): AddBillerInformationRequest {
+    override fun getBillerInformationRequest(billerInformation: SkuCatalogs?): AddBillerInformationRequest {
         val inputsData = ArrayList<BillerInputData>()
         adapterAdd.getDataList().forEachIndexed { index, inputData ->
             if (index > 0)

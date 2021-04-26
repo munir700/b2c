@@ -18,5 +18,5 @@ enum class ExtraKeys {
     BILL_PROVIDER,
     SELECTED_BILL_POSITION,
     SELECTED_BILL,
-    BILL_MODEL
+    IS_SKIP_PAY_BILL
 }

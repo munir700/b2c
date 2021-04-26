@@ -27,8 +27,8 @@
             android:layout_height="@dimen/_36sdp"
             android:layout_marginVertical="@dimen/margin_medium_large"
             android:layout_marginStart="@dimen/margin_normal_large"
-            app:fullName="@{viewModel.billModel.billerName}"
-            app:imageUrl="@{viewModel.billModel.logo}"
+            app:fullName="@{viewModel.billModel.billerInfo.billerName}"
+            app:imageUrl="@{viewModel.billModel.billerInfo.logo}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{viewModel.billModel.billerName}"
+            android:text="@{viewModel.billModel.billerInfo.billerName}"
             tools:text="Etsilat" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{viewModel.billModel.creationDate + `-`+ viewModel.billModel.nickName}"
+            android:text="@{viewModel.billModel.formattedDueDate + `-`+ viewModel.billModel.billNickName}"
             tools:text="Etsilatkdsjf;kdsjfskadjfksdjfl;askdjfl;kasdjflkasdjfl;kasdjf;laskdjfsfsdfsadf" />
 
         <androidx.constraintlayout.helper.widget.Flow
@@ -89,7 +89,7 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.billModel.currency+` `+viewModel.billModel.amount}"
+            android:text="@{viewModel.billModel.settlementCurrency+` `+viewModel.billModel.totalAmountDue}"
             tools:text="AED 200" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -97,8 +97,8 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.billModel.billStatus}"
-            android:textColor="@{viewModel.billModel.billStatus.equals(BillStatus.OVERDUE.title)?@color/red: @color/greyDark}"
+            android:text="@{viewModel.formattedBillStatus}"
+            android:textColor="@{viewModel.billModel.status.equals(BillStatus.OVERDUE.name)?@color/red: @color/greyDark}"
             tools:text="Paid" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

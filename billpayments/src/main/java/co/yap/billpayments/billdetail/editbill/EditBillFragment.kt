@@ -29,7 +29,8 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
 
     val clickObserver = Observer<Int> {
         when (it) {
-            R.id.btnEditBill -> showPopUp()
+            R.id.btnEditBill ->{}
+            R.id.tvDeleteThisButton -> showPopUp()
         }
     }
 

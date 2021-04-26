@@ -6,6 +6,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BillerInputData(
-    @SerializedName("key") val key: String,
-    @SerializedName("value") val value: String
+    @SerializedName("key") val key: String? = null,
+    @SerializedName("value") val value: String? = null
 ) : Parcelable

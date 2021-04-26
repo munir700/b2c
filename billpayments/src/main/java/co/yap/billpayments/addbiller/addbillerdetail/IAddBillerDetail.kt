@@ -7,7 +7,7 @@ import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdap
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillerInputDetails
+import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
@@ -23,13 +23,13 @@ interface IAddBillerDetail {
         var adapterAdd: AddBillerDetailAdapter
         val addBillerDetailItemComposer: AddBillerDetailInputComposer
         var clickEvent: SingleClickEvent
-        val billerDetailsResponse: MutableLiveData<BillerInputDetails>
+        val billerDetailsResponse: MutableLiveData<SkuCatalogs>
         fun handlePressOnView(id: Int)
         fun getScreenTitle(billCategory: BillCategory?): String
         fun readBillerDetailsFromFile(): BillerDetailResponse
         fun getBillerDetails(billerId: String)
         fun addBiller(billerInformationRequest: AddBillerInformationRequest, success: () -> Unit)
-        fun getBillerInformationRequest(billerInformation: BillerInputDetails?): AddBillerInformationRequest
+        fun getBillerInformationRequest(billerInformation: SkuCatalogs?): AddBillerInformationRequest
     }
 
     interface State : IBase.State {
