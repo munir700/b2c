@@ -6,6 +6,6 @@ import co.yap.yapcore.BaseState
 
 class BillDashboardState : BaseState(),
     IBillDashboard.State {
-    override var showBillCategory: ObservableBoolean = ObservableBoolean(true)
+    override var showBillCategory: ObservableBoolean = ObservableBoolean(false)
     override var totalDueAmount: ObservableField<String> = ObservableField("")
 }

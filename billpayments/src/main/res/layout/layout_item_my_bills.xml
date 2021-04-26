@@ -12,6 +12,8 @@
         <import type="co.yap.yapcore.enums.BillStatus" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,7 +91,7 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.billModel.settlementCurrency+` `+viewModel.billModel.totalAmountDue}"
+            android:text="@{SessionManager.INSTANCE.defaultCurrency+` `+viewModel.billModel.totalAmountDue}"
             tools:text="AED 200" />
 
         <androidx.appcompat.widget.AppCompatTextView

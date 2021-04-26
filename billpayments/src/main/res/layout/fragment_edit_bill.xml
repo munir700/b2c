@@ -20,9 +20,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/margin_large"
-            android:paddingTop="@dimen/margin_large">
+            android:paddingTop="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_medium">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvScreenTitle"
@@ -88,19 +89,90 @@
                 tools:itemCount="5"
                 tools:listitem="@layout/layout_item_biller_detail" />
 
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/fAutoPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:orientation="horizontal"
+                app:constraint_referenced_ids="tvAutoPayment,swAutoPayment"
+                app:flow_horizontalStyle="spread_inside"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvRecyler" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAutoPayment"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:text="@{Strings.screen_edit_bill_switch_text_this_an_auto_payment}"
+                tools:text="@string/screen_edit_bill_switch_text_this_an_auto_payment" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAutoPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/CustomSwitch" />
+
+            <include
+                android:id="@+id/iAutoPayment"
+                layout="@layout/content_edit_bill_auto_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fAutoPayment"
+                app:viewModel="@{viewModel}" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/fBillReminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:orientation="horizontal"
+                app:constraint_referenced_ids="tvBillReminder,swBillReminder"
+                app:flow_horizontalStyle="spread_inside"
+                app:layout_constraintTop_toBottomOf="@+id/iAutoPayment" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBillReminder"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:text="@{Strings.screen_edit_bill_switch_text_bill_reminder}"
+                tools:text="@string/screen_edit_bill_switch_text_bill_reminder" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swBillReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/CustomSwitch" />
+
+            <include
+                android:id="@+id/iBillReminder"
+                layout="@layout/content_edit_bill_set_bill_reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:layout_constraintTop_toBottomOf="@id/fBillReminder"
+                app:viewModel="@{viewModel}" />
+
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnEditBill"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_80sdp"
+                android:layout_marginTop="@dimen/_40sdp"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvRecyler"
+                app:layout_constraintTop_toBottomOf="@+id/iBillReminder"
                 app:layout_constraintVertical_bias="1.0"
                 app:text="@{Strings.screen_edit_bill_button_text}" />
 
@@ -110,6 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
+                android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

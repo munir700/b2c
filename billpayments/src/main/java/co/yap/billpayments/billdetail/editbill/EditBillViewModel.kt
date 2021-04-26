@@ -5,6 +5,8 @@ import android.view.View
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
+import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -71,6 +73,30 @@ class EditBillViewModel(application: Application) :
             }
         }
         return isValid
+    }
+
+    override fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData> {
+        val list: MutableList<CoreBottomSheetData> = arrayListOf()
+        listData.forEach { weekDay ->
+            list.add(
+                CoreBottomSheetData(
+                    content = weekDay,
+                    subTitle = weekDay,
+                    sheetImage = null
+                )
+            )
+        }
+        return list
+    }
+
+    override fun updateAutoPaySelection(
+        isWeek: Boolean,
+        isMonth: Boolean,
+        paymentScheduleType: PaymentScheduleType
+    ) {
+        state.autoPaymentScheduleTypeWeek.set(isWeek)
+        state.autoPaymentScheduleTypeMonth.set(isMonth)
+        state.autoPaymentScheduleType.set(paymentScheduleType.name)
     }
 
     override fun setEditBillDetails() {

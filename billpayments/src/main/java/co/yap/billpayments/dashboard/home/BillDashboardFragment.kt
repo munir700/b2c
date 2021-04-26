@@ -20,6 +20,8 @@ import co.yap.widgets.Status
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -126,6 +128,8 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         }
     }
 
+
+
     private fun initSwipeListener() {
         activity?.let { activity ->
             onTouchListener =
@@ -221,7 +225,15 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_ADD_BILL -> {
-
+                    val isSkipPayFlow = data?.getValue(
+                        ExtraKeys.IS_SKIP_PAY_BILL.name,
+                        ExtraType.BOOLEAN.name
+                    ) as Boolean
+                    if (isSkipPayFlow) {
+                        viewModel.parentViewModel?.getViewBills()
+                    } else {
+                        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL)
+                    }
                 }
             }
         }

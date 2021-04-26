@@ -2321,6 +2321,10 @@ object Strings {
         "screen_edit_bill_dialog_title"
     const val screen_edit_bill_dialog_description: String =
         "screen_edit_bill_dialog_description"
+    const val screen_edit_bill_switch_text_this_an_auto_payment: String =
+        "screen_edit_bill_switch_text_this_an_auto_payment"
+    const val screen_edit_bill_switch_text_bill_reminder: String =
+        "screen_edit_bill_switch_text_bill_reminder"
 
     //PayBill
     const val screen_pay_bill_text_title: String =

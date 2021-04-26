@@ -5,6 +5,7 @@ import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryAdapt
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.BillStatus
 
 interface IBillAccountDetail {
     interface View : IBase.View<ViewModel> {
@@ -20,7 +21,7 @@ interface IBillAccountDetail {
         fun handlePressOnView(id: Int)
         fun getBillAccountHistory()
         fun getBillHistory(): MutableList<BillHistoryModel>
-        fun getBillStatusString(billStatus: String): String
+        fun getBillStatusString(billStatus: BillStatus): String
     }
 
     interface State : IBase.State {
