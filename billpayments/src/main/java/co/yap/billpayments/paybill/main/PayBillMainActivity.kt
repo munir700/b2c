@@ -6,12 +6,19 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.ActivityPayBillMainBinding
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import com.google.android.material.snackbar.Snackbar
 
 class PayBillMainActivity : BaseBindingActivity<IPayBillMain.ViewModel>(), IPayBillMain.View,
     IFragmentHolder, INavigator {
@@ -37,6 +44,32 @@ class PayBillMainActivity : BaseBindingActivity<IPayBillMain.ViewModel>(), IPayB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        viewModel.billModel.value =
+            intent.getValue(ExtraKeys.SELECTED_BILL.name, ExtraType.PARCEABLE.name) as ViewBillModel
+    }
+
+    override fun setObservers() {
+        viewModel.toolBarClickEvent.observe(this, onToolBarClick)
+        viewModel.errorEvent.observe(this, errorEvent)
+    }
+
+    val errorEvent = Observer<String> {
+        if (!it.isNullOrEmpty())
+            showErrorSnackBar(it)
+        else
+            hideErrorSnackBar()
+    }
+
+
+    private fun showErrorSnackBar(errorMessage: String) {
+        showTextUpdatedAbleSnackBar(
+            errorMessage,
+            Snackbar.LENGTH_INDEFINITE
+        )
+    }
+
+    private fun hideErrorSnackBar() {
+        cancelAllSnackBar()
     }
 
     val onToolBarClick = Observer<Int> {
@@ -47,12 +80,13 @@ class PayBillMainActivity : BaseBindingActivity<IPayBillMain.ViewModel>(), IPayB
         }
     }
 
-    override fun setObservers() {
-        viewModel.onToolbarClickEvent.observe(this, onToolBarClick)
+    override fun removeObservers() {
+        viewModel.toolBarClickEvent.removeObserver(onToolBarClick)
     }
 
-    override fun removeObservers() {
-        viewModel.onToolbarClickEvent.removeObserver(onToolBarClick)
+    override fun onDestroy() {
+        removeObservers()
+        super.onDestroy()
     }
 
     override fun getViewBinding(): ActivityPayBillMainBinding =

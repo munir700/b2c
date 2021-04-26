@@ -2,7 +2,9 @@ package co.yap.billpayments.paybill.main
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.databinding.ActivityPayBillMainBinding
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -13,8 +15,8 @@ interface IPayBillMain {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var onToolbarClickEvent: SingleClickEvent
-        fun handlePressView(id: Int)
+        var errorEvent: MutableLiveData<String>
+        val billModel: MutableLiveData<ViewBillModel>
     }
 
     interface View : IBase.View<ViewModel> {
