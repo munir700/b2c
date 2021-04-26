@@ -1843,6 +1843,14 @@ object Strings {
         "screen_waiting_list_display_text_rank_hashtag"
     const val screen_waiting_list_display_text_notification_jump_rank: String =
         "screen_waiting_list_display_text_notification_jump_rank"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide"
 
     //Change Card Pin screen
 
