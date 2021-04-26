@@ -17,9 +17,9 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.wallet.encriptions.utils.EncodingUtils
-import co.yap.wallet.samsung.SamsungPayStatus
 import co.yap.wallet.samsung.SamsungPayWalletManager
 import co.yap.wallet.samsung.getTestPayloadForSamsung
+import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
@@ -239,8 +239,8 @@ class YapCardsViewModel(application: Application) :
     }
 
     fun getSPayCardFormYapCard(
-        card: Card,sPaycard: (com.samsung.android.sdk.samsungpay.v2.card.Card?) -> Unit
-    ){
+        card: Card, sPaycard: (com.samsung.android.sdk.samsungpay.v2.card.Card?) -> Unit
+    ) {
         SamsungPayWalletManager.getInstance(context).getAllCards { samsungPayStatus, allSPayCarad ->
             sPaycard.invoke(allSPayCarad?.let {
                 it.firstOrNull { c ->
@@ -252,7 +252,13 @@ class YapCardsViewModel(application: Application) :
     }
 
 
-    override fun getAllSamSungCards(cardSerialNumber: String, success: (CardDetail?) -> Unit) {
-
+    override fun openFavoriteCard(cardId: String?, success: (State) -> Unit) {
+        SamsungPayWalletManager.getInstance(context).openFavoriteCard(cardId) {
+            when (it.status) {
+                Status.ERROR -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
+                else -> {
+                }
+            }
+        }
     }
 }

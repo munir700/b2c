@@ -229,8 +229,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 R.id.btnSamsungPay -> {
                     viewModel.getSPayCardFormYapCard(card) { SCard ->
                         SCard?.let {
-                            SamsungPayWalletManager.getInstance(requireContext())
-                                .openFavoriteCard(SCard.cardId)
+                            viewModel.openFavoriteCard(SCard.cardId){
+
+                            }
                         } ?: run {
                             viewModel.getCardDetails(card.cardSerialNumber) { details ->
                             }

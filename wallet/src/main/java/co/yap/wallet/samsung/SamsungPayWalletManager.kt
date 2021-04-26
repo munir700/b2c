@@ -88,7 +88,7 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
             )
             mCardManager?.addCard(addCardInfo, object : AddCardListener {
                 override fun onSuccess(status: Int, p1: Card?) {
-                    success.invoke(State.success("Card successfully added."))
+                    success.invoke(State.success("Card successfully added in SamSung Wallet."))
                 }
 
                 override fun onFail(errorCode: Int, errorData: Bundle?) {
@@ -108,7 +108,7 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
         }
     }
 
-    fun openFavoriteCard(cardId: String?) {
+    fun openFavoriteCard(cardId: String?, success: (State) -> Unit) {
         val metaData =
             bundleOf(
                 PaymentManager.EXTRA_ISSUER_NAME to "YAP PAYMENT SERVICES PROVIDER LLC",
@@ -120,10 +120,15 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
                 .setCardMetaData(metaData).build()
         mPaymentManager?.startSimplePay(cardInfo, object : StatusListener {
             override fun onSuccess(p0: Int, p1: Bundle?) {
+                success.invoke(State.success(""))
             }
 
-            override fun onFail(p0: Int, p1: Bundle?) {
-                Log.d("","")
+            override fun onFail(errorCode: Int, errorData: Bundle?) {
+                success.invoke(
+                    State.error(
+                        ErrorCode.getInstance().getSPayError(errorCode, errorData)
+                    )
+                )
             }
         })
     }
