@@ -3,7 +3,6 @@ package co.yap.yapcore.helpers
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -17,7 +16,6 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
-import android.util.DisplayMetrics
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
@@ -37,7 +35,6 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
-import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -48,7 +45,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 
-@SuppressLint("StaticFieldLeak")
+//@SuppressLint("StaticFieldLeak")
 object Utils {
     @JvmStatic
     fun getDimensionsByPercentage(context: Context, width: Int, height: Int): IntArray {
@@ -57,13 +54,6 @@ object Utils {
         dimensions[1] = getDimensionInPercent(context, false, height)
         return dimensions
     }
-
-    fun getColor(context: Context, @ColorRes color: Int) =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            context.resources.getColor(color, null)
-        } else {
-            context.getColor(color)
-        }
 
     fun requestKeyboard(view: View, request: Boolean, forced: Boolean) {
         view.requestFocus()
@@ -162,18 +152,6 @@ object Utils {
         } catch (ex: Exception) {
             ""
         }
-    }
-
-    fun getNavigationBarHeight(activity: Activity): Int {
-        val metrics = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(metrics)
-        val usableHeight = metrics.heightPixels
-        activity.windowManager.defaultDisplay.getRealMetrics(metrics)
-        val realHeight = metrics.heightPixels
-        return if (realHeight > usableHeight)
-            realHeight - usableHeight
-        else
-            0
     }
 
     fun getCardDimensions(context: Context, width: Int, height: Int): IntArray {
@@ -669,30 +647,30 @@ object Utils {
         existingVersion: String,
         newVersion: String
     ): Boolean {
-        var existingVersion = existingVersion
-        var newVersion = newVersion
-        if (existingVersion.isEmpty() || newVersion.isEmpty()) {
+        var existing = existingVersion
+        var new = newVersion
+        if (existing.isEmpty() || new.isEmpty()) {
             return false
         }
-        existingVersion = existingVersion.replace("\\.".toRegex(), "")
-        newVersion = newVersion.replace("\\.".toRegex(), "")
-        val existingVersionLength = existingVersion.length
-        val newVersionLength = newVersion.length
+        existing = existing.replace("\\.".toRegex(), "")
+        new = new.replace("\\.".toRegex(), "")
+        val existingVersionLength = existing.length
+        val newVersionLength = new.length
         val versionBuilder = java.lang.StringBuilder()
         if (newVersionLength > existingVersionLength) {
-            versionBuilder.append(existingVersion)
+            versionBuilder.append(existing)
             for (i in existingVersionLength until newVersionLength) {
                 versionBuilder.append("0")
             }
-            existingVersion = versionBuilder.toString()
+            existing = versionBuilder.toString()
         } else if (existingVersionLength > newVersionLength) {
-            versionBuilder.append(newVersion)
+            versionBuilder.append(new)
             for (i in newVersionLength until existingVersionLength) {
                 versionBuilder.append("0")
             }
-            newVersion = versionBuilder.toString()
+            new = versionBuilder.toString()
         }
-        return newVersion.toInt() > existingVersion.toInt()
+        return new.toInt() > existing.toInt()
     }
 
     fun getOtpBlockedMessage(context: Context): String {
@@ -708,7 +686,7 @@ object Utils {
         addOIndex: Boolean = true
     ): ArrayList<Country>? {
         val sortedList = list?.sortedWith(compareBy { it.name })
-        var countries: ArrayList<Country> = ArrayList()
+        val countries: ArrayList<Country> = ArrayList()
         return sortedList?.let { it ->
             countries.clear()
             if (addOIndex) {
@@ -828,12 +806,12 @@ object Utils {
     }
 
     fun getStringWithEmojiSupport(str: String): String {
-        val emo_regex =
+        val emoRegex =
             "(?:[ @\"^[a-zA-Z]+\$]|[\\uD83C\\uDF00-\\uD83D\\uDDFF]|[\\uD83E\\uDD00-\\uD83E\\uDDFF]|[\\uD83D\\uDE00-\\uD83D\\uDE4F]|[\\uD83D\\uDE80-\\uD83D\\uDEFF]|[\\u2600-\\u26FF]\\uFE0F?|[\\u2700-\\u27BF]\\uFE0F?|\\u24C2\\uFE0F?|[\\uD83C\\uDDE6-\\uD83C\\uDDFF]{1,2}|[\\uD83C\\uDD70\\uD83C\\uDD71\\uD83C\\uDD7E\\uD83C\\uDD7F\\uD83C\\uDD8E\\uD83C\\uDD91-\\uD83C\\uDD9A]\\uFE0F?|[\\u0023\\u002A\\u0030-\\u0039]\\uFE0F?\\u20E3|[\\u2194-\\u2199\\u21A9-\\u21AA]\\uFE0F?|[\\u2B05-\\u2B07\\u2B1B\\u2B1C\\u2B50\\u2B55]\\uFE0F?|[\\u2934\\u2935]\\uFE0F?|[\\u3030\\u303D]\\uFE0F?|[\\u3297\\u3299]\\uFE0F?|[\\uD83C\\uDE01\\uD83C\\uDE02\\uD83C\\uDE1A\\uD83C\\uDE2F\\uD83C\\uDE32-\\uD83C\\uDE3A\\uD83C\\uDE50\\uD83C\\uDE51]\\uFE0F?|[\\u203C\\u2049]\\uFE0F?|[\\u25AA\\u25AB\\u25B6\\u25C0\\u25FB-\\u25FE]\\uFE0F?|[\\u00A9\\u00AE]\\uFE0F?|[\\u2122\\u2139]\\uFE0F?|\\uD83C\\uDC04\\uFE0F?|\\uD83C\\uDCCF\\uFE0F?|[\\u231A\\u231B\\u2328\\u23CF\\u23E9-\\u23F3\\u23F8-\\u23FA]\\uFE0F?)"
 
         val cardFullName = str.trim { it <= ' ' }
         if (cardFullName.isNotEmpty()) {
-            val firstNameMatcher = Pattern.compile(emo_regex).matcher(cardFullName)
+            val firstNameMatcher = Pattern.compile(emoRegex).matcher(cardFullName)
             var firstData = ""
 
             while (firstNameMatcher.find()) {
