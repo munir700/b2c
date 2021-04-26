@@ -24,6 +24,6 @@ interface IWaitingList {
         var rank: ObservableField<String>?
         var jump: ObservableField<String>?
         var gainPoints: ObservableField<String>?
-        var rankList: MutableList<String>?
+        var rankList: MutableList<Int>?
     }
 }

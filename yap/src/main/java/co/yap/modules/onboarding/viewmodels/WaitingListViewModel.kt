@@ -32,7 +32,9 @@ class WaitingListViewModel(application: Application) :
                     state.waitingBehind?.set(response.data.data?.waitingBehind ?: "0")
                     state.rank?.set(response.data.data?.rank ?: "0")
                     state.jump?.set(response.data.data?.jump ?: "0")
-                    state.rankList = state.rank?.get()?.trim()?.split("")?.toMutableList()
+                    val formattedRank = String.format("%07d", state.rank?.get()?.toInt()) // 0009
+                    val digits = formattedRank.map { it.toString().toInt() }
+                    state.rankList = digits as MutableList<Int>?
                     state.gainPoints?.set(response.data.data?.gainPoints ?: "0")
                     if (response.data.data?.viewable == true) {
                         stopRankingMsgRequest()

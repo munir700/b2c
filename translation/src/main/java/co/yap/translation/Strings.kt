@@ -1843,6 +1843,8 @@ object Strings {
         "screen_waiting_list_display_text_rank_hashtag"
     const val screen_waiting_list_display_text_notification_jump_rank: String =
         "screen_waiting_list_display_text_notification_jump_rank"
+    const val screen_waiting_list_display_text_signed_up_users: String =
+        "screen_waiting_list_display_text_signed_up_users"
 
     //Change Card Pin screen
 

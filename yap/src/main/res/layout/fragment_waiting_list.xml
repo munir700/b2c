@@ -65,8 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
-                app:constraint_referenced_ids="dtvRankOne,dtvRankTwo,dtvRankThree,dtvRankFour"
-                app:flow_horizontalGap="@dimen/margin_small"
+                app:constraint_referenced_ids="dtvRankOne,dtvRankTwo,dtvRankThree,dtvRankFour,dtvRankFive,dtvRankSix,dtvRankSeven"
+                app:flow_horizontalGap="@dimen/margin_extra_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvQueueDetail" />
@@ -94,6 +94,27 @@
 
             <co.yap.widgets.RollingCounterView
                 android:id="@+id/dtvRankFour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                tools:textColor="@color/colorPrimaryDark" />
+
+            <co.yap.widgets.RollingCounterView
+                android:id="@+id/dtvRankFive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                tools:textColor="@color/colorPrimaryDark" />
+
+            <co.yap.widgets.RollingCounterView
+                android:id="@+id/dtvRankSix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                tools:textColor="@color/colorPrimaryDark" />
+
+            <co.yap.widgets.RollingCounterView
+                android:id="@+id/dtvRankSeven"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"
@@ -150,9 +171,20 @@
                 android:paddingTop="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_medium_large"
                 android:paddingBottom="@dimen/margin_medium_large"
-                app:constraint_referenced_ids="tvLeadBankText"
+                app:constraint_referenced_ids="tvJump,tvLeadBankText,tvSignedUpUsers"
                 app:flow_verticalGap="@dimen/margin_normal"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotifyYoutext" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvJump"
+                style="@style/RegularGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:lineSpacingExtra="3sp"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_want_to_jump)}"
+                tools:text="@string/screen_waiting_list_display_text_want_to_jump" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLeadBankText"
@@ -163,6 +195,17 @@
                 android:lineSpacingExtra="3sp"
                 android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_lead_the_bank_description,viewModel.state.jump)}"
                 tools:text="@string/screen_waiting_list_display_text_lead_the_bank_description" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSignedUpUsers"
+                style="@style/RegularGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingExtra="3sp"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_signed_up_users,viewModel.state.jump)}"
+                android:textColor="@color/colorPrimary"
+                tools:text="@string/screen_waiting_list_display_text_signed_up_users" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnShare"
