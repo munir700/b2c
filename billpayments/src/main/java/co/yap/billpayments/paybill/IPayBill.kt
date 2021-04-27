@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import co.yap.billpayments.databinding.FragmentPayBillBinding
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,6 +20,10 @@ interface IPayBill {
         var autoPaymentScheduleType: ObservableField<String>
         var autoPaymentScheduleTypeWeek: ObservableBoolean
         var autoPaymentScheduleTypeMonth: ObservableBoolean
+        val valid: ObservableBoolean
+        var amount: String
+        val minLimit: ObservableField<Double>
+        val maxLimit: ObservableField<Double>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -31,6 +36,7 @@ interface IPayBill {
         )
 
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
+        fun setMinMaxLimitForPostPaid(viewBillModel: ViewBillModel)
     }
 
     interface View : IBase.View<ViewModel> {

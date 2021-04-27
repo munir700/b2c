@@ -90,26 +90,25 @@ class MyBillsViewModel(application: Application) :
                 sortByDueDate -> {
                     adapter.getDataList().sortWith(
                         compareBy {
-                            BillStatus.values()
-                                .firstOrNull() { it1 -> it1.title.equals(it.status) }?.ordinal
+                            it.status?.let { it1 -> BillStatus.valueOf(it1) }
                         }
                     )
                 }
                 sortByRecentlyAdded -> {
-                    adapter.getDataList().sortBy {
-                       val a = it.createdAt?.let { it1 ->
+                    adapter.getDataList().sortWith(compareByDescending {
+                        it.createdAt?.let { it1 ->
                             DateUtils.stringToDate(
-                                it1, DateUtils.FORMATE_DATE_MONTH_YEAR
+                                it1, DateUtils.SERVER_DATE_FULL_FORMAT
                             )
                         }
-                        a
-                    }
+                    })
                 }
                 sortByAToZAscending -> {
                     adapter.getDataList().sortBy { billModel -> billModel.billerInfo?.billerName }
                 }
                 sortByZToADescending -> {
-                    adapter.getDataList().sortByDescending { billModel -> billModel.billerInfo?.billerName }
+                    adapter.getDataList()
+                        .sortByDescending { billModel -> billModel.billerInfo?.billerName }
                 }
             }
             adapter.notifyDataSetChanged()

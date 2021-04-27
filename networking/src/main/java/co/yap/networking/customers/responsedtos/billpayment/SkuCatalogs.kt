@@ -21,22 +21,26 @@ data class SkuCatalogs(
     @SerializedName("amount")
     var amount: String? = null,
     @SerializedName("minAmount")
-    var MinAmount: String? = null,
+    var minAmount: Double? = null,
     @SerializedName("description")
     var Description: String? = null,
     @SerializedName("inquiryAvailable")
     var inquiryAvailable: String? = null,
     @SerializedName("excessPaymentAllowed")
-    var excessPaymentAllowed: String? = null,
+    var excessPaymentAllowed: Int? = null,
     @SerializedName("partialPaymentAllowed")
-    var partialPaymentAllowed: String? = null,
+    var partialPaymentAllowed: Int? = null,
     @SerializedName("maxAmount")
-    var maxAmount: String? = null,
+    var maxAmount: Double? = null,
     @SerializedName("ioCatalogs")
     var ioCatalogs: List<IoCatalogModel>? = null,
     @SerializedName("isPostpaid")
-    var isPostpaid: String? = null,
+    var isPostpaid: Int? = null,
     @SerializedName("type")
     var type: String? = null
-) : Parcelable
+) : Parcelable {
+    val isPrepaid: Boolean get() = isPostpaid == 0
+    val isExcessPayment: Boolean get() = excessPaymentAllowed == 1
+    val isPartialPayment: Boolean get() = partialPaymentAllowed == 1
+}
 

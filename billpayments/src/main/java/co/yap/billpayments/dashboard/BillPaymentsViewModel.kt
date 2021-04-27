@@ -2,7 +2,6 @@ package co.yap.billpayments.dashboard
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.customers.responsedtos.billpayment.BillResponse
@@ -15,6 +14,8 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
@@ -49,14 +50,22 @@ class BillPaymentsViewModel(application: Application) :
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
+
+
+                        billsResponse?.value = response.data.viewBillList.toMutableList()
+                        var total: Double = 0.0
                         billsResponse?.value?.forEach {
+                            total = total.plus(it.totalAmountDue?.toDouble() ?: 0.0)
                             it.formattedDueDate = DateUtils.reformatStringDate(
                                 it.billDueDate.toString(),
                                 DateUtils.SERVER_DATE_FULL_FORMAT,
                                 DateUtils.FORMATE_DATE_MONTH_YEAR
                             )
                         }
-                        billsResponse?.value = response.data.viewBillList.toMutableList()
+                        state.totalDueAmount.set(
+                            total.toString()
+                                .toFormattedCurrency(true, SessionManager.getDefaultCurrency())
+                        )
                         state.viewState.value = false
                     }
 

@@ -66,6 +66,8 @@ object Strings {
         "common_display_text_no_country_found"
     const val common_display_text_percentage: String =
         "common_display_text_percentage"
+    const val common_display_text_available_balance_error_without_fee: String =
+        "common_display_text_available_balance_error_without_fee"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -2321,6 +2323,10 @@ object Strings {
         "screen_edit_bill_dialog_title"
     const val screen_edit_bill_dialog_description: String =
         "screen_edit_bill_dialog_description"
+    const val screen_edit_bill_switch_text_this_an_auto_payment: String =
+        "screen_edit_bill_switch_text_this_an_auto_payment"
+    const val screen_edit_bill_switch_text_bill_reminder: String =
+        "screen_edit_bill_switch_text_bill_reminder"
 
     //PayBill
     const val screen_pay_bill_text_title: String =

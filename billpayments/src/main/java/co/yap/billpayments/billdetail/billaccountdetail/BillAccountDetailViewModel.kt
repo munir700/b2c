@@ -29,7 +29,11 @@ class BillAccountDetailViewModel(application: Application) :
         state.dueAmount =
             parentViewModel?.selectedBill?.totalAmountDue.getAvailableBalanceWithFormat(true)
         state.billStatus.set(
-            getBillStatusString(parentViewModel?.selectedBill?.status.toString())
+            parentViewModel?.selectedBill?.status?.let { BillStatus.valueOf(it) }?.let {
+                getBillStatusString(
+                    it
+                )
+            }
         )
     }
 
@@ -37,8 +41,8 @@ class BillAccountDetailViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun getBillStatusString(billStatus: String): String {
-        return when (BillStatus.values().firstOrNull() { it -> it.title == billStatus }) {
+    override fun getBillStatusString(billStatus: BillStatus): String {
+        return when (billStatus) {
             BillStatus.BILL_DUE -> getString(Strings.screen_bill_account_detail_text_bill_status_due)
             BillStatus.PAID -> getString(Strings.screen_bill_account_detail_text_bill_status_paid)
             BillStatus.OVERDUE -> getString(Strings.screen_bill_account_detail_text_bill_status_over_due)
