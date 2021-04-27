@@ -10,9 +10,9 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
-import co.yap.networking.transactions.responsedtos.transaction.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -236,4 +236,9 @@ interface TransactionsRetroService {
         @Query("receipt-image") receipt: String,
         @Query("transaction-id") transactionId: String
     ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_PAY_BILL)
+    suspend fun payBill(@Body payBillRequest: PayBillRequest): Response<ApiResponse>
+
+
 }

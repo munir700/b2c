@@ -6,8 +6,13 @@ import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.PayBillRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble
@@ -18,20 +23,25 @@ import co.yap.yapcore.managers.SessionManager
 
 class PayBillViewModel(application: Application) :
     PayBillMainBaseViewModel<IPayBill.State>(application),
-    IPayBill.ViewModel {
+    IPayBill.ViewModel, IRepositoryHolder<TransactionsRepository> {
 
+    override val repository: TransactionsRepository = TransactionsRepository
     override val state: IPayBill.State = PayBillState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override fun onCreate() {
         super.onCreate()
-        state.availableBalanceString.set(context.resources.getText(
-            getString(Strings.screen_cash_transfer_display_text_available_balance),
-            context.color(
-                R.color.colorPrimaryDark,
-                SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true)
-                    ?: ""
+        state.availableBalanceString.set(
+            context.resources.getText(
+                getString(Strings.screen_cash_transfer_display_text_available_balance),
+                context.color(
+                    R.color.colorPrimaryDark,
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                        showCurrency = true
+                    )
+                        ?: ""
+                )
             )
-        ))
+        )
     }
 
     override fun onResume() {
@@ -42,6 +52,25 @@ class PayBillViewModel(application: Application) :
 
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun payBill(payBillRequest: PayBillRequest, success: () -> Unit) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.payBill(payBillRequest)
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        success.invoke()
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        showToast(response.error.message)
+                    }
+                }
+            }
+        }
     }
 
     override fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData> {
@@ -132,4 +161,12 @@ class PayBillViewModel(application: Application) :
         parentViewModel?.errorEvent?.value = des
     }
 
+    override fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest {
+        return PayBillRequest(
+            billerId = billModel?.billerID ?: "",
+            skuId = billModel?.skuId ?: "",
+            billAmount = state.amount,
+            billInputData = billModel?.inputsData
+        )
+    }
 }

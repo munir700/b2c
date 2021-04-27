@@ -132,8 +132,14 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
                 )
             }
             R.id.btnPay -> {
-                viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
-                navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)
+                viewModel.payBill(
+                    viewModel.getPayBillRequest(
+                        viewModel.parentViewModel?.billModel?.value,
+                        viewModel.state.amount
+                    )
+                ) {
+                    viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
+                    navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)                }
             }
         }
     }
