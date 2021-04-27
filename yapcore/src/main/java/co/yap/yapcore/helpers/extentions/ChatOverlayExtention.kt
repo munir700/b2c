@@ -20,7 +20,6 @@ import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 
 
 const val BRAND_ID: String = "17038977"
-private val appInstallId = SessionManager.user?.uuid
 
 fun Activity.initializeChatOverLayButton(unreadCount: Int = 0) {
     initLivePersonChatOnly()
@@ -127,17 +126,19 @@ private fun Activity.openChatActivity() {
 }
 
 fun Activity.getCountUnreadMessage() {
-    LivePerson.getUnreadMessagesCount(
-        appInstallId,
-        object : ICallback<Int, java.lang.Exception> {
-            override fun onSuccess(count: Int?) {
-                updateCount(count ?: 0)
-            }
+    SessionManager.user?.let {
+        LivePerson.getUnreadMessagesCount(
+            it.uuid,
+            object : ICallback<Int, java.lang.Exception> {
+                override fun onSuccess(count: Int?) {
+                    updateCount(count ?: 0)
+                }
 
-            override fun onError(p0: java.lang.Exception?) {
+                override fun onError(p0: java.lang.Exception?) {
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 private fun Activity.updateCount(unreadCount: Int) {
