@@ -34,6 +34,8 @@ class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel
         }
     }
 
+    override fun onBackPressed(): Boolean = true
+
     private fun setIntentResult() {
         val intent = Intent()
         requireActivity().setResult(Activity.RESULT_OK, intent)
