@@ -26,7 +26,7 @@ class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel
         viewModel.clickEvent.observe(this, clickListener)
     }
 
-    val clickListener = Observer<Int> {
+    private val clickListener = Observer<Int> {
         when (it) {
             R.id.btnGoToDashboard -> {
                 setIntentResult()

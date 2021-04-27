@@ -28,30 +28,40 @@ class PayBillViewModel(application: Application) :
     override val repository: TransactionsRepository = TransactionsRepository
     override val state: IPayBill.State = PayBillState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override fun handlePressView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun onCreate() {
         super.onCreate()
-        state.availableBalanceString.set(
-            context.resources.getText(
-                getString(Strings.screen_cash_transfer_display_text_available_balance),
-                context.color(
-                    R.color.colorPrimaryDark,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
-                        showCurrency = true
-                    )
-                        ?: ""
-                )
-            )
-        )
+        state.availableBalanceString.set(getAvailableBalance())
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_pay_bill_text_title))
         toggleRightIconVisibility(true)
+        state.billReferences.set(getBillReferences())
+
     }
 
-    override fun handlePressView(id: Int) {
-        clickEvent.setValue(id)
+    private fun getBillReferences(): String {
+        return parentViewModel?.billModel?.value?.inputsData?.joinToString(
+            separator = " | "
+        ) { billerInputData -> billerInputData.value.toString() }?:""
+    }
+
+    private fun getAvailableBalance(): CharSequence {
+        return context.resources.getText(
+            getString(Strings.screen_cash_transfer_display_text_available_balance),
+            context.color(
+                R.color.colorPrimaryDark,
+                SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                    showCurrency = true
+                )
+                    ?: ""
+            )
+        )
     }
 
     override fun payBill(payBillRequest: PayBillRequest, success: () -> Unit) {

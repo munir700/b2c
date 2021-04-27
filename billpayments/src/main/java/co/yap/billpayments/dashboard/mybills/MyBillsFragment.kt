@@ -16,6 +16,8 @@ import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -73,10 +75,22 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_BILL_DETAIL -> {
-                    navigateBack()
-                    viewModel.parentViewModel?.getViewBills()
+                    handleBillDetailsResult(data)
                 }
             }
+        }
+    }
+
+    private fun handleBillDetailsResult(data: Intent?) {
+        val isBillDeleted =
+            data?.getValue(ExtraKeys.IS_DELETED.name, ExtraType.BOOLEAN.name) as? Boolean
+        val isBillUpdated =
+            data?.getValue(ExtraKeys.IS_UPDATED.name, ExtraType.BOOLEAN.name) as? Boolean
+        if (isBillDeleted == true || isBillUpdated == true)
+            viewModel.parentViewModel?.getViewBills()
+        else {
+            navigateBack()
+            viewModel.parentViewModel?.getViewBills()
         }
     }
 

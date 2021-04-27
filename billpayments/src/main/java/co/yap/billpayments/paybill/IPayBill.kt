@@ -25,6 +25,7 @@ interface IPayBill {
         var amount: String
         val minLimit: ObservableField<Double>
         val maxLimit: ObservableField<Double>
+        val billReferences: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

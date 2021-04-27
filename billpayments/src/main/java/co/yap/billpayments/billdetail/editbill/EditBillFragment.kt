@@ -16,6 +16,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
@@ -142,14 +143,16 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
             closeActivity = false,
             callback = {
                 viewModel.deleteBill {
-                    setIntentResult()
+                    setIntentResult(isDeleted = true)
                 }
             }
         )
     }
 
-    private fun setIntentResult() {
+    private fun setIntentResult(isDeleted: Boolean = false, isUpdated: Boolean = false) {
         val intent = Intent()
+        intent.putExtra(ExtraKeys.IS_DELETED.name, isDeleted)
+        intent.putExtra(ExtraKeys.IS_UPDATED.name, isUpdated)
         requireActivity().setResult(Activity.RESULT_OK, intent)
         requireActivity().finish()
     }

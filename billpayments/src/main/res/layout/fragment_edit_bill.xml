@@ -21,6 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:paddingHorizontal="@dimen/margin_large"
             android:paddingTop="@dimen/margin_large"
             android:paddingBottom="@dimen/margin_medium">
@@ -86,7 +87,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardFlow"
                 app:recycleViewAdapter="@{viewModel.adapter}"
-                tools:itemCount="5"
+                tools:itemCount="2"
                 tools:listitem="@layout/layout_item_biller_detail" />
 
             <androidx.constraintlayout.helper.widget.Flow
@@ -166,14 +167,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
+                app:layout_constraintBottom_toTopOf="@+id/tvDeleteThisButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iBillReminder"
                 app:layout_constraintVertical_bias="1.0"
+                android:layout_marginBottom="@dimen/margin_medium"
                 app:text="@{Strings.screen_edit_bill_button_text}" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -181,12 +184,12 @@
                 style="@style/Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                 android:textColor="?attr/colorPrimaryAttr"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnEditBill"
                 app:text="@{Strings.screen_edit_bill_bottom_button_text}"
                 tools:text="@string/screen_edit_bill_bottom_button_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>

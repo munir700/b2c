@@ -58,20 +58,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
                 tools:text="Etisalat" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/tvIban"
-                style="@style/AMicroGrey"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvReferenceId"
+                style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_extra_small"
-                android:background="@color/transparent"
-                android:text="@{`5314 5678 0987 0987`}"
-                app:editable="@{false}"
-                app:ibanMask="@{`#### #### #### #### #### #### #### #### ###`}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-                tools:text="AE 1234543112341234" />
+                android:layout_marginTop="@dimen/_6sdp"
+                android:text="@{viewModel.state.billReferences}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvFullName"
+                tools:text="5314 5678 0987 0987" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvNickName"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_two_dp"
+                android:text="@{viewModel.parentViewModel.billModel.billNickName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvReferenceId"
+                tools:text="My Personal Number" />
 
             <TextView
                 android:id="@+id/tvCurrency"
@@ -82,7 +91,7 @@
                 android:text="AED"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvIban"
+                app:layout_constraintTop_toBottomOf="@+id/tvNickName"
                 tools:text="AED" />
 
             <!-- ALERT:  DO NOT APPLY DATA BINDING FOR THIS FIELD-->

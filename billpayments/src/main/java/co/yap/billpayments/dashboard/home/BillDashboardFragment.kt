@@ -10,6 +10,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.BillDashboardBaseFragment
+import co.yap.billpayments.billdetail.BillDetailActivity
 import co.yap.billpayments.databinding.FragmentBillDashboardBinding
 import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
@@ -88,6 +89,9 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                                 .isNullOrEmpty()
                         ) View.GONE else View.VISIBLE
                 }
+                R.id.cvNotification -> {
+                    openBillDetailActivity(pos, data as ViewBillModel)
+                }
             }
         }
     }
@@ -110,11 +114,17 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                 }
                 viewModel.clickEvent.setPayload(null)
             }
+            R.id.foregroundContainer -> {
+                viewModel.clickEvent.getPayload()?.let { payload ->
+                    openBillDetailActivity(payload.position, payload.itemData as ViewBillModel)
+                }
+                viewModel.clickEvent.setPayload(null)
+            }
         }
     }
 
     private fun startPayBillFlow(viewBillModel: ViewBillModel, pos: Int = 0) {
-        launchActivity<PayBillMainActivity> {
+        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
             putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
             putExtra(ExtraKeys.SELECTED_BILL_POSITION.name, pos)
         }
@@ -127,6 +137,23 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                 billCategory
             )
         }
+    }
+
+    private fun openBillDetailActivity(pos: Int, viewBillModel: ViewBillModel) {
+        launchActivity<BillDetailActivity>(requestCode = RequestCodes.REQUEST_BILL_DETAIL) {
+            putExtra(
+                ExtraKeys.SELECTED_BILL.name,
+                viewBillModel
+            )
+            putExtra(
+                ExtraKeys.SELECTED_BILL_POSITION.name,
+                pos
+            )
+        }
+        requireActivity().overridePendingTransition(
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
     }
 
 
@@ -225,17 +252,26 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_ADD_BILL -> {
-                    val isSkipPayFlow = data?.getValue(
-                        ExtraKeys.IS_SKIP_PAY_BILL.name,
-                        ExtraType.BOOLEAN.name
-                    ) as Boolean
-                    if (isSkipPayFlow) {
-                        viewModel.parentViewModel?.getViewBills()
-                    } else {
-                        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL)
-                    }
+                    handleAddBillResult(data)
+                }
+                RequestCodes.REQUEST_PAY_BILL, RequestCodes.REQUEST_BILL_DETAIL -> {
+                    viewModel.parentViewModel?.getViewBills()
                 }
             }
         }
     }
+
+
+    private fun handleAddBillResult(data: Intent?) {
+        val isSkipPayFlow = data?.getValue(
+            ExtraKeys.IS_SKIP_PAY_BILL.name,
+            ExtraType.BOOLEAN.name
+        ) as Boolean
+        if (isSkipPayFlow) {
+            viewModel.parentViewModel?.getViewBills()
+        } else {
+//            launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL)
+        }
+    }
+
 }
