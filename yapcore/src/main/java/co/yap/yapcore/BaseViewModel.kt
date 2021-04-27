@@ -104,7 +104,6 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     fun <T>launchAsync(block: suspend () -> T): Deferred<T> =
         viewModelScope.async(Dispatchers.IO) {
             block()
-
         }
 
     fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {

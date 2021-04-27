@@ -82,6 +82,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
+            android:text="@{viewModel.cardName}"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
             app:layout_constraintTop_toBottomOf="@+id/imgCard"

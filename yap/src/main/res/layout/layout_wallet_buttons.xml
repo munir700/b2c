@@ -33,7 +33,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             tools:visibility="gone" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnSamsungPay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,13 +41,14 @@
             android:background="@drawable/bg_rounded_corner_black"
             android:onClick="@{(v) -> viewModel.handlePressOnSamsung(v)}"
             android:src="@drawable/ic_samsung_pay"
-            android:text="Samsung Pay"
+
             android:visibility="@{viewModel.sPayStatus instanceof SamsungPayStatus.SPAY_NOT_SUPPORTED?View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@+id/btnGooglePay"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+
             app:layout_constraintVertical_chainStyle="packed"
             app:srcCompat="@drawable/ic_samsung_pay"
             tools:visibility="visible" />
