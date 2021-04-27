@@ -11,7 +11,9 @@ import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -114,5 +116,24 @@ class EditBillViewModel(application: Application) :
             item.value?.set(parentViewModel?.selectedBill?.inputsData?.get(index)?.value)
         }
         adapter.setList(list)
+    }
+
+    override fun deleteBill(success: () -> Unit) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = parentViewModel?.selectedBill?.id?.let { repository.deleteBill(it) }
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        success.invoke()
+                    }
+                    is RetroApiResponse.Error -> {
+                        showToast(response.error.message)
+                        state.viewState.value = false
+                    }
+                }
+            }
+        }
     }
 }

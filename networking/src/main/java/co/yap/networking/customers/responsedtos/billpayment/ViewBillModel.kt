@@ -7,6 +7,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ViewBillModel(
+    @SerializedName("id")
+    var id: String? = null,
     @SerializedName("billNickName")
     var billNickName: String? = null,
     @SerializedName("billDueDate")

@@ -74,6 +74,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
             when (requestCode) {
                 RequestCodes.REQUEST_BILL_DETAIL -> {
                     navigateBack()
+                    viewModel.parentViewModel?.getViewBills()
                 }
             }
         }
