@@ -1124,8 +1124,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_waiting_list_display_text_your_place_in_queue">Your place in the queue</string>
     <string name="screen_waiting_list_display_text_waiting_behind_you">waiting behind you</string>
     <string name="screen_waiting_list_display_text_we_will_notify_you">We will notify you when you\’ve reached the top. Log back in to see your updated place in the queue.</string>
-    <string name="screen_waiting_list_display_text_want_to_jump">Grow your YAP network!</string>
-    <string name="screen_waiting_list_display_text_lead_the_bank_description">Want to jump the queue? \n\n Boost yourself up the queue by %1s for every friend registered. 🚀</string>
+    <string name="screen_waiting_list_display_text_want_to_jump">Want to jump the queue?</string>
+    <string name="screen_waiting_list_display_text_lead_the_bank_description">Boost yourself up the queue by %1s for every friend you refer that signs up.🚀</string>
     <string name="screen_waiting_list_display_text_log_back">Log back in to see your rank in the queue.</string>
     <string name="screen_waiting_list_display_text_rank_hashtag">#%1s</string>
     <string name="screen_waiting_list_display_text_notification_jump_rank">Congrats! You were bumped up by %1s spots! Keep on referring to get to the top faster!</string>
@@ -1133,6 +1133,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count">You referred %1s friends! 👏</string>
     <string name="screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count">You have been bumped up by 1000 spots.</string>
     <string name="screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide">Once your referred friends sign up, you will see their names listed below and your place in the queue bumped up by %1s spots for each friend!</string>
+    <string name="screen_waiting_list_display_text_signed_up_users">Signed up friends: %1s</string>
 
     <!-- Blocked Screen-->
 

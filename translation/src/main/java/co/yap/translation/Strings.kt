@@ -1851,6 +1851,8 @@ object Strings {
         "screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count"
     const val screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide: String =
         "screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide"
+    const val screen_waiting_list_display_text_signed_up_users: String =
+        "screen_waiting_list_display_text_signed_up_users"
 
     //Change Card Pin screen
 
