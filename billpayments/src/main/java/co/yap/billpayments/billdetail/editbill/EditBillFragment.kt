@@ -1,5 +1,7 @@
 package co.yap.billpayments.billdetail.editbill
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
@@ -138,8 +140,18 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
             titleVisibility = true,
             isTwoButton = true,
             closeActivity = false,
-            callback = { showToast("Delete this bill") }
+            callback = {
+                viewModel.deleteBill {
+                    setIntentResult()
+                }
+            }
         )
+    }
+
+    private fun setIntentResult() {
+        val intent = Intent()
+        requireActivity().setResult(Activity.RESULT_OK, intent)
+        requireActivity().finish()
     }
 
     override fun removeObservers() {
