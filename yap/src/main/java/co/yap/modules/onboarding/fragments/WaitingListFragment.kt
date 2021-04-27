@@ -121,6 +121,9 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
                     )
                 )
             }
+            R.id.tvSignedUpUsers -> {
+
+            }
         }
     }
 

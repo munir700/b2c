@@ -17,7 +17,7 @@ class WaitingListViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: WaitingListState = WaitingListState()
 
-    override fun handlePressOnNext(id: Int) {
+    override fun onPressView(id: Int) {
         clickEvent.setValue(id)
     }
 
@@ -36,6 +36,9 @@ class WaitingListViewModel(application: Application) :
                     val digits = formattedRank.map { it.toString().toInt() }
                     state.rankList = digits as MutableList<Int>?
                     state.gainPoints?.set(response.data.data?.gainPoints ?: "0")
+                    state.signedUpUsers?.set((response.data.data?.inviteeDetails?.size
+                        ?: 0).toString())
+
                     if (response.data.data?.viewable == true) {
                         stopRankingMsgRequest()
                         //Add delay because snack-bar needs some delay to be shown after api call.

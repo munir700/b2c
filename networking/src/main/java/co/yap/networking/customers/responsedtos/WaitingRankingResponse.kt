@@ -14,6 +14,12 @@ data class WaitingRankingResponse(
         @SerializedName("completedKyc") var completedKyc: Boolean?,
         @SerializedName("waiting") var waiting: Boolean?,
         @SerializedName("viewable") var viewable: Boolean?,
-        @SerializedName("gainPoints") var gainPoints: String?
+        @SerializedName("gainPoints") var gainPoints: String?,
+        @SerializedName("inviteeDetails") var inviteeDetails: ArrayList<InviteeDetails>?
+    )
+
+    data class InviteeDetails(
+        val inviteeCustomerId: String,
+        val inviteeCustomerName: String
     )
 }

@@ -10,4 +10,5 @@ class WaitingListState : BaseState(), IWaitingList.State {
     override var rank: ObservableField<String>? = ObservableField("0")
     override var gainPoints: ObservableField<String>? = ObservableField("0")
     override var rankList: MutableList<Int>? = mutableListOf()
+    override var signedUpUsers: ObservableField<String>? = ObservableField("0")
 }
