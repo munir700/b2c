@@ -10,7 +10,7 @@ import co.yap.yapcore.R
 import java.util.*
 
 class RollingCounterView : FrameLayout {
-    private val ANIMATION_DURATION = 110
+    private val ANIMATION_DURATION = 100
     var currentTextView: TextView? = null
     var nextTextView: TextView? = null
 
@@ -27,7 +27,7 @@ class RollingCounterView : FrameLayout {
         currentTextView = rootView.findViewById(R.id.currentTextView)
         nextTextView = rootView.findViewById(R.id.nextTextView)
         nextTextView?.translationY = height.toFloat()
-        setValue(0)
+        setValue(9)
     }
 
     fun setValue(realValue: Int) {

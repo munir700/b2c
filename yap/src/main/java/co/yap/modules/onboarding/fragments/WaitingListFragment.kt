@@ -96,13 +96,19 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
 
     private fun runAnimation() {
         CoroutineScope(Main).launch {
-            getBinding().dtvRankOne.setValue(viewModel.state.rankList?.get(1)?.parseToInt() ?: 0)
-            getBinding().dtvRankTwo.setValue(viewModel.state.rankList?.get(2)?.parseToInt() ?: 0)
+            getBinding().dtvRankOne.setValue(viewModel.state.rankList?.get(0) ?: 0)
+            getBinding().dtvRankTwo.setValue(viewModel.state.rankList?.get(1) ?: 0)
                 .apply { delay(100) }
-            getBinding().dtvRankThree.setValue(viewModel.state.rankList?.get(3)?.parseToInt() ?: 0)
+            getBinding().dtvRankThree.setValue(viewModel.state.rankList?.get(2) ?: 0)
                 .apply { delay(150) }
-            getBinding().dtvRankFour.setValue(viewModel.state.rankList?.get(4)?.parseToInt() ?: 0)
+            getBinding().dtvRankFour.setValue(viewModel.state.rankList?.get(3) ?: 0)
                 .apply { delay(200) }
+            getBinding().dtvRankFive.setValue(viewModel.state.rankList?.get(4) ?: 0)
+                .apply { delay(250) }
+            getBinding().dtvRankSix.setValue(viewModel.state.rankList?.get(5) ?: 0)
+                .apply { delay(300) }
+            getBinding().dtvRankSeven.setValue(viewModel.state.rankList?.get(6) ?: 0)
+                .apply { delay(350) }
         }
     }
 
@@ -120,6 +126,9 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
                         Utils.getAdjustURL()
                     )
                 )
+            }
+            R.id.tvSignedUpUsers -> {
+
             }
         }
     }
