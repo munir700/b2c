@@ -4,73 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.category.TransactionCategoryViewModel" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.R" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{R.drawable.ic_close}"
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_settings}"
             app:rightIconVisibility="@{false}"
-            app:titleString='@{"Select category"}'
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-        <ScrollView
-            android:id="@+id/svCategories"
+            app:titleString='@{"Select category"}' />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategories"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:adapter="@{viewModel.categoryAdapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/margin_extra_large"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvCategories"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:paddingBottom="@dimen/margin_extra_small"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:adapter="@{viewModel.categoryAdapter}"
-                    tools:itemCount="1"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
-                    tools:listitem="@layout/item_tapix_category"
-                    android:layout_marginBottom="@dimen/margin_small" />
-                <co.yap.widgets.CoreButton
-                    android:id="@+id/btnConfirm"
-                    style="@style/FragmentsBtnStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:btn_size="small"
-                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:text="Done"
-                    app:enableCoreButton="@{viewModel.selectedCategory != null}"
-                    android:layout_marginBottom="@dimen/margin_medium_large"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            tools:itemCount="30"
+            tools:listitem="@layout/item_tapix_category" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnConfirm"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:text="Done"
+            app:btn_size="small"
+            app:enableCoreButton="@{viewModel.selectedCategory != null}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

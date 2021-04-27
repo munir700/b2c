@@ -23,10 +23,11 @@
             app:fullName="@{categoryViewModel.state.updatedCategory.categoryName==null?`General`:categoryViewModel.state.updatedCategory.categoryName}"
             app:imageUrl="@{categoryViewModel.state.updatedCategory.categoryIcon ?? ` `}"
             app:isBackground="@{true}"
+            app:imageDrawable ="@{categoryViewModel.state.updatedCategory.categoryName ==`General` || categoryViewModel.state.updatedCategory.categoryName==null ? @drawable/ic_general :null}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvEatingOut"
             style="@style/DarkSlateBlue"
             android:layout_width="0dp"
@@ -37,18 +38,21 @@
             app:layout_constraintStart_toEndOf="@+id/ivEatingOut"
             app:layout_constraintTop_toTopOf="@+id/ivEatingOut" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTapToChange"
             style="@style/MicroGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:enabled="@{categoryViewModel.state.updatedCategory != null}"
             android:onClick="@{(v)-> categoryViewModel.handlePressOnView(v.id)}"
             android:paddingBottom="@dimen/margin_small"
-            android:enabled="@{categoryViewModel.state.updatedCategory != null}"
             android:text="@{categoryViewModel.state.categoryDescription}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvEatingOut"
             app:layout_constraintTop_toBottomOf="@+id/tvEatingOut" />
+        <!--
+                    android:enabled="@{categoryViewModel.state.updatedCategory != null}"
+        -->
 
         <View
             android:id="@+id/vLine"

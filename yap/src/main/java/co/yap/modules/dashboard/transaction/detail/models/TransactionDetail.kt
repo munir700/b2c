@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.transaction.detail.models
 
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
+
 data class TransactionDetail(
     val transactionTitle : String?,
     val noteValue: String?,
@@ -19,7 +21,7 @@ data class TransactionDetail(
     val showCategory: Boolean?,
     val categoryType: Boolean?,
     val categoryDescription: String?,
-    //val categoryIcon: Boolean?,
+    val tapixCategory: TapixCategory?,
     val showFeedBack : Boolean?
 )
 

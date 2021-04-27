@@ -66,8 +66,8 @@ class TransactionDetailsViewModel(application: Application) :
             it.showError?.let { bool -> state.showErrorMessage.set(bool) }
             state.receiptVisibility.set(it.showReceipts ?: false)
             state.categoryDescription.set(it.categoryDescription)
+            state.updatedCategory.set(it.tapixCategory)
         }
-        state.updatedCategory.set(transaction.tapixCategory)
     }
 
     override fun getTotalPurchaseRequest(): TotalPurchaseRequest {

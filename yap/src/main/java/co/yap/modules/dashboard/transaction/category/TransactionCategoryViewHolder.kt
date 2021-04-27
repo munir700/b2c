@@ -19,6 +19,7 @@ class TransactionCategoryViewHolder(val binding: ItemTapixCategoryBinding) :
                 item,
                 position, onItemClickListener
             )
+
         binding.clCategory.foreground = binding.clCategory.context.getDrawable(R.drawable.bg_ripple)
         binding.executePendingBindings()
     }

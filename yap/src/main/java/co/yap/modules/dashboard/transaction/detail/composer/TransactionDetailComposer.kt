@@ -35,6 +35,7 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 showCategory = transactionDetailFactory?.showTransactionCategory(),
                 categoryType =transactionDetailFactory?.isCategoryGeneral(),
                 categoryDescription =transactionDetailFactory?.getCategoryDescription(),
+                tapixCategory = transactionDetailFactory?.getTapixCategory(),
                 showFeedBack = transactionDetailFactory?.showFeedbackOption()
             )
         } ?: return null

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail.composer
 
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
@@ -248,7 +249,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                     R.drawable.ic_cash
                 }
-                TransactionProductCode.POS_PURCHASE.pCode,TransactionProductCode.ECOM.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
+                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
 
                 else -> 0
             })
@@ -367,4 +368,14 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 (transaction.productCode == TransactionProductCode.ECOM.pCode) ||
                 (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
                 (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
+
+
+    fun getTapixCategory(): TapixCategory? = if (isCategoryGeneral()) TapixCategory(
+        id = 0,
+        categoryName = "General",
+        categoryIcon = "",
+        analyticIcon = "",
+        isSelected = true,
+        type = true
+    ) else transaction.tapixCategory
 }
