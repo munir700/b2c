@@ -248,7 +248,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                     R.drawable.ic_cash
                 }
-                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
+                TransactionProductCode.POS_PURCHASE.pCode,TransactionProductCode.ECOM.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
 
                 else -> 0
             })
@@ -349,7 +349,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
     fun isCategoryGeneral(): Boolean =
         (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
-                && transaction.tapixCategory?.isGeneral == true
+                && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
 
     fun getCategoryDescription(): String {
         return when {
