@@ -3,6 +3,7 @@ package co.yap.billpayments.addbiller.addbillerdetail
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.billpayments.addbiller.base.AddBillBaseViewModel
@@ -10,8 +11,8 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.BillerInputData
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
-import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
+import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -67,7 +68,11 @@ class AddBillerDetailViewModel(application: Application) :
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            validate()
+            when (view.id) {
+                R.id.etUserInput -> {
+                    validate()
+                }
+            }
         }
     }
 

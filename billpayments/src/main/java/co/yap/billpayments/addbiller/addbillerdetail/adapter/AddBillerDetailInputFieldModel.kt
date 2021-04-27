@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 
 data class AddBillerDetailInputFieldModel(
     var lable: String? = "",
-    var placeholder: String? = "",
+    var description: String? = "",
     var minLength: Int? = 0,
     var maxLength: Int? = 0,
     var inputType: Int? = InputType.TYPE_CLASS_TEXT,
