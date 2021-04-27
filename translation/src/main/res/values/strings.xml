@@ -48,6 +48,8 @@
     <string name="common_display_text_no_results">No results</string>
     <string name="common_display_text_no_country_found">No country found</string>
     <string name="common_display_text_percentage">%</string>
+    <string name="common_display_text_available_balance_error_without_fee">Uh oh! You’ll need to have a minimum balance of %1s to proceed with this payment. </string>
+
 
 
     <!-- Home Screen -->

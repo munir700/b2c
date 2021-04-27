@@ -66,6 +66,8 @@ object Strings {
         "common_display_text_no_country_found"
     const val common_display_text_percentage: String =
         "common_display_text_percentage"
+    const val common_display_text_available_balance_error_without_fee: String =
+        "common_display_text_available_balance_error_without_fee"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
