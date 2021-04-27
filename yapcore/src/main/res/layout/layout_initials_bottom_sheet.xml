@@ -39,11 +39,11 @@
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_normal_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
-            app:text="@{Strings.screen_employee_information_display_bottom_sheet_text_heading}"
-            tools:text="@string/screen_employee_information_display_bottom_sheet_text_heading"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sepretorTop" />
+            app:layout_constraintTop_toBottomOf="@+id/sepretorTop"
+            app:text="@{Strings.screen_employee_information_display_bottom_sheet_text_heading}"
+            tools:text="@string/screen_employee_information_display_bottom_sheet_text_heading" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHeadingSubTitle"
@@ -53,12 +53,12 @@
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_extra_small"
             android:layout_marginEnd="@dimen/margin_medium_large"
-            app:text="@{Strings.screen_employee_information_display_bottom_sheet_text_heading}"
-            tools:text="@string/screen_employee_information_display_bottom_sheet_text_heading"
-            app:layout_constraintEnd_toEndOf="parent"
             android:lineSpacingExtra="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvHeadingTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvHeadingTitle"
+            app:text="@{Strings.screen_employee_information_display_bottom_sheet_text_heading}"
+            tools:text="@string/screen_employee_information_display_bottom_sheet_text_heading" />
 
         <View
             android:id="@+id/sepretorLine"
@@ -74,10 +74,9 @@
             android:id="@+id/rvBottomSheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:visibility="@{viewModel.state.noItemFound ? View.GONE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/sepretorLine"
-            tools:listitem="@layout/item_initials_bottom_sheet"/>
+            tools:listitem="@layout/item_initials_bottom_sheet" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableField
+import co.yap.networking.customers.responsedtos.WaitingRankingResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -17,6 +18,7 @@ interface IWaitingList {
         fun onPressView(id: Int)
         fun requestWaitingRanking(success: (showNotification: Boolean) -> Unit)
         fun stopRankingMsgRequest()
+        var inviteeDetails: ArrayList<WaitingRankingResponse.InviteeDetails>?
     }
 
     interface State : IBase.State {
@@ -26,5 +28,6 @@ interface IWaitingList {
         var gainPoints: ObservableField<String>?
         var rankList: MutableList<Int>?
         var signedUpUsers: ObservableField<String>?
+        var totalGainedPoints: ObservableField<String>?
     }
 }

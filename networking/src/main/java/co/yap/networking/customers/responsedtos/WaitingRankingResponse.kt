@@ -15,7 +15,8 @@ data class WaitingRankingResponse(
         @SerializedName("waiting") var waiting: Boolean?,
         @SerializedName("viewable") var viewable: Boolean?,
         @SerializedName("gainPoints") var gainPoints: String?,
-        @SerializedName("inviteeDetails") var inviteeDetails: ArrayList<InviteeDetails>?
+        @SerializedName("inviteeDetails") var inviteeDetails: ArrayList<InviteeDetails>?,
+        @SerializedName("totalGainedPoints") var totalGainedPoints: String?
     )
 
     data class InviteeDetails(
