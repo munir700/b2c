@@ -89,11 +89,19 @@ interface TransactionsApi {
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
 
     suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
-    suspend fun addTransactionReceipt(transactionId: String, transactionReceipt: MultipartBody.Part): RetroApiResponse<ApiResponse>
+    suspend fun addTransactionReceipt(
+        transactionId: String,
+        transactionReceipt: MultipartBody.Part
+    ): RetroApiResponse<ApiResponse>
+
     suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse>
     suspend fun deleteTransactionReceipt(
         transactionId: String,
         receipt: String
     ): RetroApiResponse<ApiResponse>
+
     suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
+
+    //Pay bill from bill payment
+    suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>
 }

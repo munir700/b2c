@@ -51,8 +51,7 @@ class BillPaymentsViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
 
-
-                        billsResponse?.value = response.data.viewBillList.toMutableList()
+                        billsResponse?.value = response.data.viewBillList?.toMutableList()
                         var total: Double = 0.0
                         billsResponse?.value?.forEach {
                             total = total.plus(it.totalAmountDue?.toDouble() ?: 0.0)

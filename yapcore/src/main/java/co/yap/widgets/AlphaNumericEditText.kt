@@ -20,7 +20,8 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getScreenWidth
 import kotlin.math.abs
 
-class AlphaNumericEditText : AppCompatEditText {
+class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
+    AppCompatEditText(context, attrs) {
 
     private var backupString = ""
     private var mPopupWindow: PopupWindow? = null
@@ -36,54 +37,6 @@ class AlphaNumericEditText : AppCompatEditText {
     private var onDrawableClickListener: OnDrawableClickListener? = null
     private var defaultClickListener: OnDrawableClickListener? = null
     var popupTextValue: String? = ""
-        set(value) {
-            field = value
-            popupTextValue?.let {
-                if (it.isNotEmpty()) {
-                    tvPopupContent?.text = it
-                    invalidate()
-                }
-            }
-        }
-
-    constructor(context: Context) : super(context) {
-        addTextChangedListener((textWatcher))
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        addTextChangedListener((textWatcher))
-        parseAttributes(
-            context.obtainStyledAttributes(
-                attrs,
-                R.styleable.AlphaNumericEditText
-            )
-        )
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-        addTextChangedListener((textWatcher))
-        parseAttributes(
-            context.obtainStyledAttributes(
-                attrs,
-                R.styleable.AlphaNumericEditText
-            )
-        )
-//        initTextWatchers()
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        updateValue(text.toString())
-    }
-
-    private fun updateValue(text: String) {
-        setText(text)
-    }
-
     private val textWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
 
@@ -119,41 +72,46 @@ class AlphaNumericEditText : AppCompatEditText {
         }
     }
 
-    private fun initTextWatchers() {
-        addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                charSequence: CharSequence,
-                i: Int,
-                i1: Int,
-                i2: Int
-            ) {
-            }
+    private val defaultClickListenerAdapter: OnDrawableClickListener =
+        object : OnDrawableClickListener {
+            override fun onClick(target: DrawablePosition) {
+                when (target) {
+                    DrawablePosition.BOTTOM -> {
 
-            override fun onTextChanged(
-                charSequence: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                this@AlphaNumericEditText.removeTextChangedListener(this)
-                val orignalString = charSequence.toString()
-                if (orignalString.isNotEmpty() && Character.isWhitespace(charSequence[0])) {
-                    if (text?.length ?: 0 > 1) {
-                        setText(backupString)
-                    } else
-                        setText("")
-                } else {
+                    }
+                    DrawablePosition.LEFT -> {
 
-                    backupString = orignalString
+                    }
+                    DrawablePosition.TOP -> {
+
+                    }
+                    DrawablePosition.RIGHT -> {
+                        if (popupTextValue?.isNotEmpty() == true) {
+                            val xoff = Utils.getDimensionInPercent(context, true, 6)
+                            showAsPopUp(this@AlphaNumericEditText, xoff, 0)
+                        }
+                    }
                 }
-
-                this@AlphaNumericEditText.addTextChangedListener(this)
             }
+        }
 
-            override fun afterTextChanged(editable: Editable) {
+    init {
+        addTextChangedListener((textWatcher))
+        parseAttributes(
+            context.obtainStyledAttributes(
+                attrs,
+                R.styleable.AlphaNumericEditText
+            )
+        )
+    }
 
-            }
-        })
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        updateValue(text.toString())
+    }
+
+    private fun updateValue(text: String) {
+        setText(text)
     }
 
     override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
@@ -184,34 +142,18 @@ class AlphaNumericEditText : AppCompatEditText {
         addTextChangedListener(textWatcher)
     }
 
-    private val defaultClickListenerAdapter: OnDrawableClickListener =
-        object : OnDrawableClickListener {
-            override fun onClick(target: DrawablePosition) {
-                when (target) {
-                    DrawablePosition.BOTTOM -> {
-
-                    }
-                    DrawablePosition.LEFT -> {
-
-                    }
-                    DrawablePosition.TOP -> {
-
-                    }
-                    DrawablePosition.RIGHT -> {
-                        if (popupTextValue?.isNotEmpty() == true) {
-                            val xoff = Utils.getDimensionInPercent(context, true, 6)
-                            showAsPopUp(this@AlphaNumericEditText, xoff, 0)
-                        }
-                    }
-                }
-            }
-        }
-
     private fun parseAttributes(obtainStyledAttributes: TypedArray) {
         isDrawableShownWhenTextIsEmpty = obtainStyledAttributes.getBoolean(
             R.styleable.AlphaNumericEditText_showDrawableWhenTextIsEmpty,
             isDrawableShownWhenTextIsEmpty
         )
+        popupTextValue = resources.getText(
+            obtainStyledAttributes
+                .getResourceId(
+                    R.styleable.AlphaNumericEditText_popupContentText,
+                    R.string.empty_string
+                )
+        ).toString()
         obtainStyledAttributes.recycle()
         hasDrawable(isDrawableShownWhenTextIsEmpty)
         defaultClickListener = defaultClickListenerAdapter
@@ -253,7 +195,7 @@ class AlphaNumericEditText : AppCompatEditText {
     private fun showAsPopUp(anchor: View, xoff: Int, yoff: Int) {
         initPopupWindow()
         mPopupWindow?.animationStyle = R.style.AnimationUpPopup
-        anchor.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        anchor.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val height = anchor.measuredHeight
         val ivHeight = drawableRight?.intrinsicHeight ?: 0
         val location = IntArray(2)
@@ -261,7 +203,7 @@ class AlphaNumericEditText : AppCompatEditText {
         mPopupWindow?.showAtLocation(
             anchor,
             Gravity.TOP,
-            location[0] - xoff,
+            abs(location[0] - xoff),
             location[1] - height - ivHeight * 2
         )
     }
