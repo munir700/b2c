@@ -1,4 +1,4 @@
-package co.yap.app.modules.login.fragments.bottomsheet_with_initials
+package co.yap.widgets.bottomsheet.bottomsheet_with_initials
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,6 +24,9 @@ class CoreInitialsBottomSheet(
     private val configuration: BottomSheetConfiguration,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
 ) : CoreBottomSheet(mListener, bottomSheetItems, viewType, configuration) {
+    override val adapter: CoreInitialsBottomSheetAdapter by lazy {
+        CoreInitialsBottomSheetAdapter(bottomSheetItems, viewType)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,9 +51,8 @@ class CoreInitialsBottomSheet(
     private fun initViews() {
         viewDataBinding.setVariable(BR.viewModel, viewModel)
         viewDataBinding.executePendingBindings()
-        adapter.onItemClickListener = null
+        adapter.onItemClickListener = mListener
         adapter.allowFullItemClickListener = true
-        viewModel.state.searchBarVisibility.set(viewType != Constants.VIEW_WITHOUT_FLAG)
         configuration.heading?.let {
             getBinding().tvHeadingTitle.text = it
         }

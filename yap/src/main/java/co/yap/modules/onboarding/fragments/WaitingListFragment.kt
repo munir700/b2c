@@ -10,11 +10,16 @@ import co.yap.R
 import co.yap.databinding.FragmentWaitingListBinding
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchInitialBottomSheet
+import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.helpers.showSnackBar
@@ -134,6 +139,40 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
             gravity = Gravity.TOP,
             duration = 10000,
             marginTop = 0
+        )
+    }
+
+    fun showListingBottomSheet() {
+        requireActivity().launchInitialBottomSheet(
+            itemClickListener = null,
+            configuration = BottomSheetConfiguration(
+                heading = getString(
+                    Strings.screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count,
+                    "120"
+                ),
+                subHeading = getString(
+                    Strings.screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count,
+                    "10050"
+                )
+            ),
+            viewType = Constants.VIEW_WITHOUT_FLAG,
+            listData = arrayListOf(
+                CoreBottomSheetData(content = "Sufyan shabbir"),
+                CoreBottomSheetData(content = "tehreem bacha"),
+                CoreBottomSheetData(content = "Irfan bro")
+            ).toMutableList()
+        )
+    }
+
+    fun showEmptyBottomSheet() {
+        requireActivity().launchSheet(
+            itemClickListener = null,
+            itemsList = arrayListOf(),
+            heading = getString(Strings.screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users),
+            subHeading = getString(
+                Strings.screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide,
+                "100"
+            ), showDivider = false
         )
     }
 
