@@ -43,6 +43,7 @@ class BillersFragment : AddBillBaseFragment<IBillers.ViewModel>(),
     val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.parentViewModel?.selectedBillerCatalog = (data as BillerCatalogModel)
+            viewModel.parentViewModel?.state?.selectedBillerPosition?.set(pos)
             navigate(R.id.action_billersFragment_to_billerDetailFragment)
         }
     }

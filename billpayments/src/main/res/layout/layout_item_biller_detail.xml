@@ -44,7 +44,7 @@
                 android:textColorHint="@color/colorPrimaryDarkFadedLight"
                 android:theme="@style/Theme.EditText.Primary"
                 app:isDrawableShownWhenTextIsEmpty="true"
-                app:popupContentText="@string/common_display_text_no_country_found"
+                app:popupTextValue="@{viewModel.addBillerDetailInputFieldModel.description}"
                 tools:hint="Email" />
 
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
