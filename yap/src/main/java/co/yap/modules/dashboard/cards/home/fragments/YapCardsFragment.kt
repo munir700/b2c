@@ -25,6 +25,8 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.wallet.samsung.SamsungPayWalletManager
+import co.yap.wallet.samsung.isSamsungPayFeatureEnabled
+import co.yap.widgets.Status
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -33,9 +35,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CARD_ADDED
 import co.yap.yapcore.enums.*
-import co.yap.yapcore.helpers.TourGuideManager
-import co.yap.yapcore.helpers.TourGuideType
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchTourGuide
 import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
@@ -76,19 +76,19 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 //        viewModel.getCards()
-        viewModel.cards.observe(this, Observer {
+        viewModel.cards.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 viewModel.adapter.setList(it)
                 updateCardCount()
             }
         })
-        SessionManager.card.observe(this, Observer {
+        SessionManager.card.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewModel.getCards()
             }
         })
         viewModel.parentViewModel?.isYapCardsFragmentVisible?.observe(
-            this,
+            viewLifecycleOwner,
             Observer { isCardsFragmentVisible ->
                 if (isCardsFragmentVisible) {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
@@ -227,37 +227,59 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
                 R.id.btnSamsungPay -> {
-                    viewModel.getSPayCardFormYapCard(card) { SCard ->
-                        SCard?.let {
-                            viewModel.openFavoriteCard(SCard.cardId){
-
-                            }
-                        } ?: run {
-                            viewModel.getCardDetails(card.cardSerialNumber) { details ->
-                            }
-                        }
-
-                    }
-//                    requireContext().alert("Card Already Added")
-//                    SamsungPayWalletManager.getInstance(requireContext())
-//                        .getWalletInfo { status, bundle ->
-
-//                    SamsungPayWalletManager.getInstance(requireContext())
-//                        .getWalletInfo {status, bundle ->
-//                            viewModel.getCardTokenForSamsungPay { data ->
-//                                val toJson =
-//                                    GsonBuilder().disableHtmlEscaping().create()
-//                                        .toJson(data)
-//                                val finalPayload =
-//                                    EncodingUtils.base64Encode(toJson.toByteArray(Charsets.UTF_8))
-//                                SamsungPayWalletManager.getInstance(requireContext())
-//                                    .addYapCardToSamsungPay(
-//                                        finalPayload
-//                                    )
+                    if (requireContext().isSamsungPayFeatureEnabled()) {
+//                    Internal testing only
+//                        viewModel.getSPayCardFormYapCard(card) { SCard ->
+//                            SCard?.let {
+//                                viewModel.openFavoriteCard(SCard.cardId) {
+//
+//                                }
+//                            } ?: run {
+//                                confirm(
+//                                    message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
+//                                    title = "Add card to Samsung Pay",
+//                                    positiveButton = "YES"
+//                                ) {
+//                                    viewModel.getCardDetails(card.cardSerialNumber) { details ->
+//                                    }
+//                                }
 //
 //                            }
+//
 //                        }
-//                    }
+
+//                    Connected TO BE fetch card paylod from BE
+                    SamsungPayWalletManager.getInstance(requireContext())
+                        .getWalletInfo { i, bundle, state ->
+                            addCardToSamSungPay(card)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addCardToSamSungPay(card: Card) {
+        viewModel.getSPayCardFormYapCard(card) { SCard ->
+            SCard?.let {
+                SamsungPayWalletManager.getInstance(requireActivity())
+                    .openFavoriteCard(SCard.cardId) { state ->
+                        when (state.status) {
+                            Status.ERROR -> requireActivity().alert(
+                                state.message ?: ""
+                            )
+                            else -> {
+                            }
+                        }
+                    }
+            } ?: run {
+                confirm(
+                    message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
+                    title = "Add card to Samsung Pay",
+                    positiveButton = "YES"
+                ) {
+                    viewModel.getSamsungPayloadAndAddCard { sPayCard, state ->
+                    }
                 }
             }
         }

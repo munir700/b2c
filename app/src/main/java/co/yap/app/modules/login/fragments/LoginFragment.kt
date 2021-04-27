@@ -15,19 +15,14 @@ import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
-import co.yap.wallet.encriptions.utils.EncodingUtils
-import co.yap.wallet.samsung.SamsungPayWalletManager
-import co.yap.wallet.samsung.getTestPayloadForSamsung
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.chatSetup
 import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
-import java.nio.charset.StandardCharsets
 
 
 class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
@@ -76,7 +71,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
-        viewModel.state.emailError.observe(this, Observer {
+        viewModel.state.emailError.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()) {
                 etEmailField.settingUIForError(it)
                 etEmailField.settingErrorColor(R.color.error)
@@ -92,25 +87,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 }
             }
         })
-//
-//        tvSignUp.setOnClickListener {
-//            requireContext().getTestPayloadForSamsung { paylaod ->
-//                val data = paylaod.toByteArray(StandardCharsets.UTF_8)
-//                val finalPayload = EncodingUtils.base64Encode(data)
-//                SamsungPayWalletManager.getInstance(requireContext())
-//                    .addYapCardToSamsungPay(finalPayload)
-//            }
-//
-////            SamsungPayWalletManager.getInstance(requireContext())
-////                .getWalletInfo { status, bundle ->
-////                    requireContext().getTestPayloadForSamsung { paylaod ->
-////                        val data = paylaod.toByteArray(StandardCharsets.UTF_8)
-////                        val finalPayload = EncodingUtils.base64Encode(data)
-////                        SamsungPayWalletManager.getInstance(requireContext())
-////                            .addYapCardToSamsungPay(finalPayload)
-////                    }
-////                }
-//        }
     }
 
     override fun onDestroy() {

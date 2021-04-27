@@ -20,7 +20,7 @@ interface IYapCards {
         fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(size: Int)
         fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
-        fun getCardTokenForSamsungPay(success: (SPayCardData?) -> Unit)
+        fun getSamsungPayloadAndAddCard(success: (String?, co.yap.widgets.State) -> Unit)
         fun getCardDetails(cardSerialNumber:String,success: (CardDetail?) -> Unit)
         fun openFavoriteCard(cardId: String?,success: (co.yap.widgets.State) -> Unit)
     }
