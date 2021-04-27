@@ -205,5 +205,7 @@ object Constants {
     // Transaction Details
     const val UPDATED_CATEGORY = "UPDATED_CATEGORY"
     const val PRE_SELECTED_CATEGORY = "PRE_SELECTED_CATEGORY"
+    const val FEEDBACK_LOCATION = "FEEDBACK_LOCATION"
+    const val FEEDBACK_TITLE = "FEEDBACK_TITLE"
 
 }

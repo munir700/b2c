@@ -378,4 +378,5 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         isSelected = true,
         type = true
     ) else transaction.tapixCategory
+
 }

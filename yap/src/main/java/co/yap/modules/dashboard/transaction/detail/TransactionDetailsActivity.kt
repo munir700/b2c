@@ -98,7 +98,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
               updateCategory()
             }
             R.id.tvImproveLogo -> {
-                startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name){resultCode, _ ->
+                startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name, bundleOf(
+                    Constants.FEEDBACK_LOCATION to viewModel.state.transactionData.get()?.locationValue,
+                    Constants.FEEDBACK_TITLE to viewModel.state.transactionData.get()?.transactionTitle,
+                    Constants.TRANSACTION_DETAIL to viewModel.transaction.get()
+                )){resultCode, _ ->
                     if (resultCode == Activity.RESULT_OK)
                         showFeedbackSuccessDialog()
                 }

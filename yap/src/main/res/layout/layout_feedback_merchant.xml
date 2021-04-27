@@ -20,28 +20,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/margin_medium_large">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/icMerchantImage"
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivMerchantImage"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginBottom="@dimen/margin_normal"
+                app:isBackground="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/ic_achievement_complete"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_normal"
+                app:fullName="@{viewModel.title==null?` `:viewModel.title}"
+                />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMerchantName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:text="Starbucks"
+                android:text="@{viewModel.title != null ? viewModel.title : `No title available`}"
                 style="@style/ASmallGrey"
                 android:textColor="@color/colorMidnightExpress"
-                app:layout_constraintStart_toEndOf="@id/icMerchantImage"
-                app:layout_constraintTop_toTopOf="@id/icMerchantImage"
+                app:layout_constraintStart_toEndOf="@id/ivMerchantImage"
+                app:layout_constraintTop_toTopOf="@id/ivMerchantImage"
                 tools:text="StarBucks"
                 />
 
@@ -50,10 +51,10 @@
                 style="@style/AMicroGrey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Media City Dubai, ARE, UAE"
+                android:text="@{viewModel.location != null ? viewModel.location :`No location found`}"
                 app:layout_constraintStart_toStartOf="@id/tvMerchantName"
                 app:layout_constraintTop_toBottomOf="@id/tvMerchantName"
-                app:layout_constraintBottom_toBottomOf="@+id/icMerchantImage"/>
+                app:layout_constraintBottom_toBottomOf="@+id/ivMerchantImage"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

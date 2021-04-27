@@ -50,7 +50,7 @@
                 android:src="@drawable/ic_map" />
 
             <include
-                android:id="@+id/layout_merchant"
+                android:id="@+id/layoutMerchant"
                 layout="@layout/layout_feedback_merchant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
