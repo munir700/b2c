@@ -1080,15 +1080,14 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_household_home_display_text_waiting_for_card_activation">Waiting for card activation</string>
     <string name="screen_household_home_display_text_total_balance">Total Balance</string>
 
-    <string name="screen_yap_house_hold_confirm_payment_share_text">Hi %1s,\n%2s has added you as their Household on YAP. Download YAP from the link below and login with these credentials:\n\nUsername: %3s\nPasscode:%4s\n\nDownload on App Store:\n%5s\n\nDownload on Play Store:\n%6s</string>
-
+    <string name="screen_yap_house_hold_confirm_payment_share_text"> Hi! I’d like you to be a part of my YAP Household plan so that I can send you your salary and expense money instantly.  Download the app and use this information while signing in. \n\n\Mobile number: %1s\n\nYour temporary passcode:%2s\n\nRemember, click on SIGN IN and not sign up!\n\n%3s</string>
 
     <!-- Notification Listing -->
     <string name="screen_notification_listing_display_text_toolbar_title">Notifications</string>
     <string name="screen_notification_listing_display_text_delete_alert_title">Delete</string>
     <string name="screen_notification_listing_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
 
-    <!--    Notification settings screen-->
+    <!-- Notification settings screen-->
     <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
     <string name="screen_notification_settings_display_text_in_app_notifications">In-app notifications</string>
     <string name="screen_notification_settings_display_text_sms_notifications">SMS notifications</string>

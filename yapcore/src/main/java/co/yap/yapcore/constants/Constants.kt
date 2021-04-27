@@ -57,6 +57,8 @@ object Constants {
     val URL_SHARE_PLAY_STORE =
         "https://play.google.com/store/apps/details?id=${YAPApplication.configManager?.applicationId}"
 
+    val URL_UNIVERSAL_SHARE_PLAY_STORE = "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis"
+
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
     const val MODE_MEETING_CONFORMATION: Int = 12

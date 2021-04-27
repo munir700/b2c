@@ -31,12 +31,9 @@ class HHAddUserSuccessFragment :
                 trackEvent(HHSubscriptionEvents.HH_SHARE.type)
                 requireContext().share(
                     getString(Strings.screen_yap_house_hold_confirm_payment_share_text).format(
-                        state.onBoardRequest?.value?.getFullName(),
-                        SessionManager.user?.currentCustomer?.firstName,
-                        state.onBoardRequest?.value?.countryCode.plus(state.onBoardRequest?.value?.mobileNo),
+                         state.onBoardRequest?.value?.countryCode.plus(state.onBoardRequest?.value?.mobileNo),
                         state.onBoardRequest?.value?.tempPassCode,
-                        Constants.URL_SHARE_APP_STORE,
-                        Constants.URL_SHARE_PLAY_STORE
+                         Constants.URL_UNIVERSAL_SHARE_PLAY_STORE
                     )
                 )
             }
