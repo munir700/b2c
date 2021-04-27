@@ -74,11 +74,14 @@ class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(
                         navigateBack()
                         viewModel.parentViewModel?.getViewBills()
                     } else {
-                        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL)
+                        navigateBack()
+                        viewModel.parentViewModel?.getViewBills()
+//                        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL)
                     }
                 }
                 RequestCodes.REQUEST_PAY_BILL -> {
-
+                    navigateBack()
+                    viewModel.parentViewModel?.getViewBills()
                 }
             }
         }

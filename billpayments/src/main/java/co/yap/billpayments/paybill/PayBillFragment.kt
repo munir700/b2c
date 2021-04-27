@@ -132,7 +132,8 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
                 )
             }
             R.id.btnPay -> {
-                showToast("btnPay clicked")
+                viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
+                navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)
             }
         }
     }

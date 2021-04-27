@@ -51,7 +51,6 @@
     <string name="common_display_text_available_balance_error_without_fee">Uh oh! You’ll need to have a minimum balance of %1s to proceed with this payment. </string>
 
 
-
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
     <string name="screen_home_display_text_account_selection">I want an account for</string>
@@ -1470,5 +1469,11 @@
     <string name="screen_pay_bill_payment_reminder_every_days_text">3 days</string>
     <string name="screen_pay_bill_payment_reminder_every_week_text">1 week</string>
     <string name="screen_pay_bill_payment_reminder_every_weeks_text">3 weeks</string>
+
+
+    <!--Pay Bill Success-->
+    <string name="screen_pay_bill_success_toolbar_title">Transfer successful!</string>
+    <string name="screen_pay_bill_success_you_have_paid">You have paid</string>
+    <string name="screen_pay_bill_success_button_text">Back to dashboard</string>
 
 </resources>

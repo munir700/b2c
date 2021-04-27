@@ -60,7 +60,8 @@
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
                 app:fullName="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
-                app:imageUrl="@{viewModel.parentViewModel.selectedBillerCatalog.logo}" />
+                app:imageUrl="@{viewModel.parentViewModel.selectedBillerCatalog.logo}"
+                app:position="@{viewModel.parentViewModel.state.selectedBillerPosition}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBillerName"
@@ -76,10 +77,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecyler"
                 android:layout_width="0dp"
-                android:nestedScrollingEnabled="false"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

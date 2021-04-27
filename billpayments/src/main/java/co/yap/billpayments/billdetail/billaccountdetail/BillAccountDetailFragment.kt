@@ -1,5 +1,7 @@
 package co.yap.billpayments.billdetail.billaccountdetail
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -7,6 +9,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
 import co.yap.billpayments.paybill.main.PayBillMainActivity
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchActivity
 
@@ -32,7 +35,7 @@ class BillAccountDetailFragment :
     private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.btnPayNow -> {
-                launchActivity<PayBillMainActivity> {
+                launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
                     putExtra(ExtraKeys.SELECTED_BILL.name, viewModel.parentViewModel?.selectedBill)
                 }
             }
@@ -45,6 +48,23 @@ class BillAccountDetailFragment :
                 destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
             )
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_PAY_BILL -> {
+                    setIntentResult()
+                }
+            }
+        }
+    }
+
+    private fun setIntentResult() {
+        val intent = Intent()
+        requireActivity().setResult(Activity.RESULT_OK, intent)
+        requireActivity().finish()
     }
 
     override fun removeObservers() {

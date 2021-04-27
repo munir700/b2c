@@ -40,7 +40,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:position="@{1}" />
+                app:position="@{viewModel.parentViewModel.state.selectedBillPosition}" />
 
 
             <TextView
@@ -163,10 +163,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintTop_toBottomOf="@+id/fAutoPayment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fAutoPayment"
                 app:viewModel="@{viewModel}" />
 
             <androidx.constraintlayout.helper.widget.Flow
@@ -198,8 +198,8 @@
                 layout="@layout/content_pay_bill_set_bill_reminder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
                 android:layout_marginTop="@dimen/margin_medium"
+                android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/fBillReminder"
                 app:viewModel="@{viewModel}" />
 
@@ -209,15 +209,15 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
                 android:layout_marginTop="@dimen/margin_extra_large"
+                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
                 app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
-                app:layout_constraintTop_toBottomOf="@+id/iBillReminder"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iBillReminder"
+                app:layout_constraintVertical_bias="1.0"
                 app:text="@{Strings.screen_pay_bill_pay_button_text}"
                 tools:text="@string/screen_pay_bill_pay_button_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>

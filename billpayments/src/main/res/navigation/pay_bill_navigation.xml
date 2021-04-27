@@ -10,5 +10,14 @@
         android:id="@+id/payBillFragment"
         android:name="co.yap.billpayments.paybill.PayBillFragment"
         android:label="PayBillFragment"
-        tools:layout="@layout/fragment_pay_bill" />
+        tools:layout="@layout/fragment_pay_bill">
+        <action
+            android:id="@+id/action_payBillFragment_to_payBillSuccessFragment"
+            app:destination="@id/payBillSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/payBillSuccessFragment"
+        android:name="co.yap.billpayments.paybill.paybillsuccess.PayBillSuccessFragment"
+        android:label="PayBillSuccessFragment"
+        tools:layout="@layout/fragment_pay_bill_success" />
 </navigation>
