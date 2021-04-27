@@ -184,7 +184,7 @@ data class TapixCategory(
     @SerializedName("id")
     val id: Int,
     @SerializedName("category")
-    val categoryName: String? = null,
+    var categoryName: String? = "General",
     @SerializedName("categoryIcon")
     val categoryIcon: String? = null,
     @SerializedName("analyticIcon")

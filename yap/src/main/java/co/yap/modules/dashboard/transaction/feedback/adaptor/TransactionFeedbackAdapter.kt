@@ -19,7 +19,7 @@ class TransactionFeedbackAdapter (val list: MutableList<ItemFeedback>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is TransactionFeedbackViewHolder){
-            holder.onBind(position,list[position])
+            holder.onBind(position,list[position],onItemClickListener)
         }
     }
 }

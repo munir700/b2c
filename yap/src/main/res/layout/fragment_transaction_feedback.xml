@@ -123,7 +123,7 @@
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/common_button_submit"
-                app:btn_enable="true"
+                app:enableCoreButton="@{viewModel.feedbackSelected}"
                 app:btn_size="small" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -70,8 +70,8 @@ android {
         }
 
         yapinternal {
-            versionCode 109
-            versionName "0.10.9"
+            versionCode 110
+            versionName "0.11.0"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP Mock"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"

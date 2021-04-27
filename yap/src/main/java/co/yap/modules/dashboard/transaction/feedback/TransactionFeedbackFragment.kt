@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.ViewModel>(),
     ITransactionFeedback.View {
@@ -24,14 +25,32 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
 
     override fun setObserver() {
         viewModel.clickEvent.observe(this, clickObserver)
-
+        viewModel.adapter.setItemListener(onClickItem)
     }
+
 
     val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnDone -> {
-                    requireActivity().setResult(Activity.RESULT_OK)
-                    requireActivity().finish()
+                requireActivity().setResult(Activity.RESULT_OK)
+                requireActivity().finish()
+            }
+        }
+    }
+    val onClickItem = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when (view.id) {
+                R.id.cbRequireTransaction -> {
+                viewModel.selectFeedback(pos)
+                }
+            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                requireActivity().finish()
             }
         }
     }
@@ -40,14 +59,6 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
         viewModel.clickEvent.removeObserver(clickObserver)
     }
 
-    override fun onToolBarClick(id: Int) {
-        when(id){
-            R.id.ivLeftIcon ->{
-                requireActivity().finish()
-            }
-
-        }
-    }
     override fun onDestroyView() {
         removeObserver()
         super.onDestroyView()
