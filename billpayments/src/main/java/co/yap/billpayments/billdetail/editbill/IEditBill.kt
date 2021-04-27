@@ -24,6 +24,7 @@ class IEditBill {
         )
 
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
+        fun deleteBill(success: () -> Unit)
     }
 
     interface State : IBase.State {

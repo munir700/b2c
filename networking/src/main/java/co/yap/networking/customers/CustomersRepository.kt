@@ -136,6 +136,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_BILLER_INPUTS_DETAILS = "customers/api/billpayment/biller-details/{biller-id}"
     const val URL_ADD_BILLER = "customers/api/billpayment/add-biller"
     const val URL_GET_ADDED_BILLS = "customers/api/billpayment/all-added-billers"
+    const val URL_DELETE_BILL = "customers/api/billpayment/delete-biller/{id}"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -461,6 +462,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = {
             api.getIndustriesSegments()
         })
+
     override suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse> =
         executeSafely(call = {
             api.getBillProviders()
@@ -482,4 +484,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getAddedBills(): RetroApiResponse<BillResponse> =
         executeSafely(call = { api.getAddedBills() })
+
+    override suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.deleteBill(id) })
 }
