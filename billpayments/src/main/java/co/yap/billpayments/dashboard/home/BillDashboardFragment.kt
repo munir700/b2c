@@ -113,9 +113,10 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         }
     }
 
-    private fun startPayBillFlow(viewBillModel: ViewBillModel) {
+    private fun startPayBillFlow(viewBillModel: ViewBillModel, pos: Int = 0) {
         launchActivity<PayBillMainActivity> {
             putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
+            putExtra(ExtraKeys.SELECTED_BILL_POSITION.name, pos)
         }
     }
 
@@ -127,7 +128,6 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
             )
         }
     }
-
 
 
     private fun initSwipeListener() {

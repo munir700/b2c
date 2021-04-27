@@ -138,8 +138,8 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
                         viewModel.state.amount
                     )
                 ) {
-//                    navigate()
-                }
+                    viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
+                    navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)                }
             }
         }
     }

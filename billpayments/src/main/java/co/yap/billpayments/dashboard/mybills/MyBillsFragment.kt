@@ -1,5 +1,7 @@
 package co.yap.billpayments.dashboard.mybills
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -64,6 +66,17 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
             R.anim.slide_in_right,
             R.anim.slide_out_left
         )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_BILL_DETAIL -> {
+                    navigateBack()
+                }
+            }
+        }
     }
 
     override fun openSortBottomSheet() {
