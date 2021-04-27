@@ -7,6 +7,12 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.getCountUnreadMessage
+import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.isUserLogin
+import kotlin.random.Random
 
 abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 
@@ -32,7 +38,15 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
         viewDataBinding.executePendingBindings()
     }
 
-    fun <VB : ViewDataBinding> getDataBindingView()  = viewDataBinding as VB
+    override fun onResume() {
+        super.onResume()
+        if (shouldShowChatChatOverLay()==true)
+            requireActivity().getCountUnreadMessage()
+    }
+
+    open fun shouldShowChatChatOverLay() = requireContext().isUserLogin()
+
+    fun <VB : ViewDataBinding> getDataBindingView() = viewDataBinding as VB
 
     /**MV
      * Override for set binding variable

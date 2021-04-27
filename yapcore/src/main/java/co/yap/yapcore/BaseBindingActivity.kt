@@ -7,6 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.app.YAPApplication
 import co.yap.localization.LocaleManager
+import co.yap.yapcore.helpers.extentions.getCountUnreadMessage
+import co.yap.yapcore.helpers.extentions.initializeChatOverLayButton
+import co.yap.yapcore.managers.isUserLogin
 
 abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
@@ -21,6 +24,14 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         }
         super.onCreate(savedInstanceState)
         performDataBinding()
+        if (shouldShowChatChatOverLay() == true)
+            initializeChatOverLayButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (shouldShowChatChatOverLay() == true)
+            getCountUnreadMessage()
     }
 
     private fun restartApp() {
@@ -33,6 +44,8 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()
     }
+
+    open fun shouldShowChatChatOverLay() = isUserLogin()
 
     /**
      * Override for set binding variable

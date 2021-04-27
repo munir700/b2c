@@ -7,6 +7,8 @@ import android.widget.FrameLayout
 import co.yap.networking.authentication.AuthRepository
 import co.yap.widgets.CounterFloatingActionButton
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants.KEY_LP_CHAT_COUNT
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.ICallback
@@ -22,26 +24,29 @@ import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 const val BRAND_ID: String = "17038977"
 
 fun Activity.initializeChatOverLayButton(unreadCount: Int = 0) {
-    initLivePersonChatOnly()
-    val param = FrameLayout.LayoutParams(
-        FrameLayout.LayoutParams.WRAP_CONTENT,
-        FrameLayout.LayoutParams.WRAP_CONTENT
-    )
-    param.setMargins(
-        dimen(R.dimen.margin_medium),
-        dimen(R.dimen.margin_medium),
-        dimen(R.dimen.margin_medium),
-        dimen(R.dimen.margin_btn_side_paddings_xl)
-    )
-    param.gravity = Gravity.END or Gravity.BOTTOM
-    val view = layoutInflater.inflate(
-        R.layout.layout_overlay_live_chat,
-        null
-    ) as? CounterFloatingActionButton
-    (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
-        .addView(view, param)
-    view?.setOnClickListener { chatSetup() }
-    updateCount(unreadCount)
+    try {
+        initLivePersonChatOnly()
+        val param = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+        param.setMargins(
+            dimen(R.dimen.margin_medium),
+            dimen(R.dimen.margin_medium),
+            dimen(R.dimen.margin_medium),
+            dimen(R.dimen.margin_btn_side_paddings_xl)
+        )
+        param.gravity = Gravity.END or Gravity.BOTTOM
+        val view = layoutInflater.inflate(
+            R.layout.layout_overlay_live_chat,
+            null
+        ) as? CounterFloatingActionButton
+        (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
+            .addView(view, param)
+        view?.setOnClickListener { chatSetup() }
+        updateCount(unreadCount)
+    } catch (e: Exception) {
+    }
 }
 
 fun Activity.overLayButtonVisibility(visibility: Int) {
@@ -115,7 +120,9 @@ private fun Activity.openChatActivity() {
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
             .setHistoryConversationsMaxDays(180)
             .setReadOnlyMode(false)
+
         showConversation(authParams, params)
+        SharedPreferenceManager.getInstance(this).save(KEY_LP_CHAT_COUNT, 0)
         val consumerProfile = ConsumerProfile.Builder()
             .setFirstName(it.firstName)
             .setLastName(it.lastName)
@@ -126,11 +133,14 @@ private fun Activity.openChatActivity() {
 }
 
 fun Activity.getCountUnreadMessage() {
+    updateCount(SharedPreferenceManager.getInstance(this).getValueInt(KEY_LP_CHAT_COUNT))
     SessionManager.user?.let {
         LivePerson.getUnreadMessagesCount(
             it.uuid,
             object : ICallback<Int, java.lang.Exception> {
                 override fun onSuccess(count: Int?) {
+                    SharedPreferenceManager.getInstance(this@getCountUnreadMessage)
+                        .save(KEY_LP_CHAT_COUNT, count ?: 0)
                     updateCount(count ?: 0)
                 }
 
@@ -142,8 +152,11 @@ fun Activity.getCountUnreadMessage() {
 }
 
 private fun Activity.updateCount(unreadCount: Int) {
-    val fab =
-        (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat) as? CounterFloatingActionButton
-    fab?.count = unreadCount
-    fab?.visibility = (if (unreadCount > 0) View.VISIBLE else View.GONE)
+    try {
+        val fab =
+            (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat) as? CounterFloatingActionButton
+        fab?.count = unreadCount
+        fab?.visibility = (if (unreadCount > 0) View.VISIBLE else View.GONE)
+    } catch (e: Exception) {
+    }
 }

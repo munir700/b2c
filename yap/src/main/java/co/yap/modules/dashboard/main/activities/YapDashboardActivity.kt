@@ -93,7 +93,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupNewYapButtons()
         logEvent()
-        initializeChatOverLayButton()
         lifecycleScope.launch {
             delay(100)
             mNavigator?.handleDeepLinkFlow(
@@ -473,7 +472,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onResume() {
         super.onResume()
-        getCountUnreadMessage()
         if (bottomNav.selectedItemId == R.id.yapHome) {
             SessionManager.getAccountInfo() {
                 viewModel.populateState()

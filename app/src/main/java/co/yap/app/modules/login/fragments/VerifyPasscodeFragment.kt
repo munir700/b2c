@@ -373,13 +373,12 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     )
                     activity?.finish()
                 } else {
-                    startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-//                    if (accountInfo?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-//                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-//                    else {
-//                        SessionManager.sendFcmTokenToServer(requireContext()) {}
-//                        navigate(R.id.action_goto_yapDashboardActivity)
-//                    }
+                    if (accountInfo?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                    else {
+                        SessionManager.sendFcmTokenToServer(requireContext()) {}
+                        navigate(R.id.action_goto_yapDashboardActivity)
+                    }
                     activity?.finish()
 
                 }

@@ -24,8 +24,6 @@ import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.firebase.trackScreenViewEvent
 import co.yap.yapcore.helpers.*
-import co.yap.yapcore.helpers.extentions.getCountUnreadMessage
-import co.yap.yapcore.helpers.extentions.initializeChatOverLayButton
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
@@ -64,8 +62,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             YAPApplication.configManager?.isReleaseBuild() == true
                     && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
         )
-        if (shouldShowChatChatOverLay())
-            initializeChatOverLayButton()
+
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
@@ -88,11 +85,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (shouldShowChatChatOverLay())
-            getCountUnreadMessage()
-    }
+
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
         when (prefs.getThemeValue()) {
@@ -300,7 +293,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     }
 
     override fun getScreenName(): String? = ""
-    open fun shouldShowChatChatOverLay() = true
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(LocaleManager.setLocale(base))
