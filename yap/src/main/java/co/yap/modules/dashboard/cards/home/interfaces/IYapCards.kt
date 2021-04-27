@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardDetail
 import co.yap.networking.cards.responsedtos.SPayCardData
+import co.yap.widgets.State
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,9 +20,9 @@ interface IYapCards {
         fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(size: Int)
         fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
-        fun getCardTokenForSamsungPay(success: (SPayCardData?) -> Unit)
+        fun getSamsungPayloadAndAddCard(success: (String?, co.yap.widgets.State) -> Unit)
         fun getCardDetails(cardSerialNumber:String,success: (CardDetail?) -> Unit)
-        fun getAllSamSungCards(cardSerialNumber:String,success: (CardDetail?) -> Unit)
+        fun openFavoriteCard(cardId: String?,success: (co.yap.widgets.State) -> Unit)
     }
 
     interface State : IBase.State {

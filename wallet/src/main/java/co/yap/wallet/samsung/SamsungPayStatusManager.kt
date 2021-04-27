@@ -6,10 +6,12 @@ import co.yap.yapcore.helpers.SingletonHolder
 import com.samsung.android.sdk.samsungpay.v2.SamsungPay
 import com.samsung.android.sdk.samsungpay.v2.StatusListener
 
+fun Context.isSamsungPayFeatureEnabled() = true
 class SamsungPayStatusManager private constructor(private val context: Context) {
     private var mSamsungPay: SamsungPay? = SamsungPayWalletManager.getInstance(context).mSamsungPay
 
     companion object : SingletonHolder<SamsungPayStatusManager, Context>(::SamsungPayStatusManager)
+
 
     fun getSamsungPayStatus(sPayStatus: ((SamsungPayStatus?) -> Unit)?) {
         mSamsungPay?.getSamsungPayStatus(object : StatusListener {

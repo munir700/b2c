@@ -30,7 +30,7 @@ import co.yap.yapcore.managers.SessionManager
  * @param[callback] callback of click ok button
  */
 @JvmOverloads
-fun Context.confirm(
+fun Activity.confirm(
     message: String,
     title: String = "",
     positiveButton: String? = null,
