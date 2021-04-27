@@ -82,8 +82,13 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_TRANSACTIONS_RECEIPT_SAVE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
 
+    // Bill payment
+    const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
+
+
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
+
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -319,6 +324,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<ApiResponse> = executeSafely(call = {
         api.deleteTransactionReceipt(receipt, transactionId)
     })
+
+    override suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.payBill(payBillRequest)
+        })
 
 }
 
