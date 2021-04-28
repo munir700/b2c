@@ -10,7 +10,9 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.parseToInt
 import kotlinx.coroutines.delay
+import kotlin.math.absoluteValue
 
 class WaitingListViewModel(application: Application) :
     BaseViewModel<IWaitingList.State>(application), IWaitingList.ViewModel,
@@ -34,8 +36,8 @@ class WaitingListViewModel(application: Application) :
                     state.waitingBehind?.set(response.data.data?.waitingBehind ?: "0")
                     state.rank?.set(response.data.data?.rank ?: "0")
                     state.jump?.set(response.data.data?.jump ?: "0")
-                    val formattedRank = String.format("%07d", state.rank?.get()?.toInt()) // 0009
-                    val digits = formattedRank.map { it.toString().toInt() }
+                    val formattedRank = String.format("%07d", state.rank?.get()?.parseToInt()?.absoluteValue) // 0009
+                    val digits = formattedRank.map { it.toString().parseToInt().absoluteValue }
                     state.rankList = digits as MutableList<Int>?
                     state.gainPoints?.set(response.data.data?.gainPoints ?: "0")
                     state.totalGainedPoints?.set(response.data.data?.totalGainedPoints ?: "0")
