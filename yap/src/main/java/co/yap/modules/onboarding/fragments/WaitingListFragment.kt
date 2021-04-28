@@ -169,7 +169,7 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
                     viewModel.state.totalGainedPoints?.get() ?: "0"
                 )
             ),
-            viewType = Constants.VIEW_WITHOUT_FLAG,
+            viewType = Constants.VIEW_FIXED_HEIGHT,
             listData = composeSignedUpList()
         )
     }
