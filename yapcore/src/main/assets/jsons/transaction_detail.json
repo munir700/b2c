@@ -1253,7 +1253,7 @@
       "tapixCategoryTitle": "",
       "tapixCategoryDesc": "Tap to change category",
       "isCategoryGeneral" : false,
-      "showFeedback" : false,
+      "showFeedback" : true,
       "items": [
         {
           "label": "Amount",
@@ -1995,7 +1995,7 @@
       "tapixCategoryTitle": "",
       "tapixCategoryDesc": "Tap to change category",
       "isCategoryGeneral" : false,
-      "showFeedback" : false,
+      "showFeedback" : true,
       "items": [
         {
           "label": "Amount",

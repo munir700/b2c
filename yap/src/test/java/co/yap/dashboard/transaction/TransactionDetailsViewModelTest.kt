@@ -165,7 +165,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 txnDetail?.showCategory
             )
             Assert.assertEquals(expectation.showTotalPurchase, txnDetail?.showTotalPurchase)
-            Assert.assertEquals(expectation.isCategoryGeneral, txnDetail?.categoryType)
+            Assert.assertEquals(expectation.isCategoryGeneral, isCategoryGeneral(transaction))
             Assert.assertEquals(expectation.tapixCategoryDesc, txnDetail?.categoryDescription)
             Assert.assertEquals(
                 expectation.showFeedback,
@@ -174,6 +174,9 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         }
     }
 
+    private fun isCategoryGeneral(transaction: Transaction): Boolean =
+        (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
     private fun expectedTransferCategoryIcon(transaction: Transaction?): Int {
         transaction?.let {
             if (transaction.getProductType() == TransactionProductType.IS_TRANSACTION_FEE) {
@@ -189,7 +192,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                     R.drawable.ic_cash
                 }
-                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
+                TransactionProductCode.POS_PURCHASE.pCode,TransactionProductCode.ECOM.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
 
                 else -> 0
             })
@@ -218,9 +221,6 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         ), itemType)
     }
 
-    private fun isCategoryGeneral(transaction: Transaction): Boolean =
-        (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
-                && transaction.tapixCategory?.isGeneral == true
 
     private fun getCategoryDescription(transaction: Transaction): String {
         return when {
