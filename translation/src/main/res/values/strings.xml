@@ -1130,7 +1130,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_waiting_list_display_text_rank_hashtag">#%1s</string>
     <string name="screen_waiting_list_display_text_notification_jump_rank">Congrats! You were bumped up by %1s spots! Keep on referring to get to the top faster!</string>
     <string name="screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users">You referred 0 friends! 😏</string>
-    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count">You referred %1s friend(s)! 👏</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count">You referred %1s friends! 👏</string>
     <string name="screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count">You have been bumped up by %1s spots.</string>
     <string name="screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide">Once your referred friends sign up, you will see their names listed below and your place in the queue bumped up by %1s spots for each friend!</string>
     <string name="screen_waiting_list_display_text_signed_up_users">Signed up friends: %1s</string>
