@@ -11,6 +11,7 @@ import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -52,6 +53,13 @@ class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(
         }
     }
 
+    private fun startPayBillFlow(viewBillModel: ViewBillModel, pos: Int = 0) {
+        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
+            putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
+            putExtra(ExtraKeys.SELECTED_POSITION.name, pos)
+        }
+    }
+
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
     }
@@ -66,24 +74,41 @@ class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_ADD_BILL -> {
-                    val isSkipPayFlow = data?.getValue(
-                        ExtraKeys.IS_SKIP_PAY_BILL.name,
-                        ExtraType.BOOLEAN.name
-                    ) as Boolean
-                    if (isSkipPayFlow) {
-                        navigateBack()
-                        viewModel.parentViewModel?.getViewBills()
-                    } else {
-                        navigateBack()
-                        viewModel.parentViewModel?.getViewBills()
-//                        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL)
-                    }
+                    handleAddBillResult(data)
                 }
+                RequestCodes.REQUEST_PAY_BILL -> {
+                    navigateBack(R.id.billsDashboardFragment)
+                    viewModel.parentViewModel?.getViewBills()
+                }
+            }
+        } else {
+            when (requestCode) {
                 RequestCodes.REQUEST_PAY_BILL -> {
                     navigateBack()
                     viewModel.parentViewModel?.getViewBills()
                 }
             }
+        }
+    }
+
+    private fun handleAddBillResult(data: Intent?) {
+        val isSkipPayFlow = data?.getValue(
+            ExtraKeys.IS_SKIP_PAY_BILL.name,
+            ExtraType.BOOLEAN.name
+        ) as Boolean
+
+        val viewBillModel = data.getValue(
+            ExtraKeys.SELECTED_BILL.name,
+            ExtraType.PARCEABLE.name
+        ) as? ViewBillModel
+
+        if (isSkipPayFlow) {
+            navigateBack()
+            viewModel.parentViewModel?.getViewBills()
+        } else {
+            viewBillModel?.let {
+                startPayBillFlow(viewBillModel)
+            } ?: viewModel.parentViewModel?.getViewBills()
         }
     }
 }

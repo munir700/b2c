@@ -60,7 +60,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
                 viewModel.parentViewModel?.billsResponse?.value?.get(pos)
             )
             putExtra(
-                ExtraKeys.SELECTED_BILL_POSITION.name,
+                ExtraKeys.SELECTED_POSITION.name,
                 pos
             )
         }

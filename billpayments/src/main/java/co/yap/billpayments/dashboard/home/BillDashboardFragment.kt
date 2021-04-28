@@ -36,7 +36,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
     private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_bill_dashboard
-
+    override var isFromSwipePayBill: Boolean = false
     override val viewModel: BillDashboardViewModel
         get() = ViewModelProviders.of(this).get(BillDashboardViewModel::class.java)
 
@@ -110,6 +110,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
             R.id.lAddBill -> navigate(R.id.action_payBillsFragment_to_addBillFragment)
             R.id.btnPayNow -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
+                    isFromSwipePayBill = true
                     startPayBillFlow(payload.itemData as ViewBillModel)
                 }
                 viewModel.clickEvent.setPayload(null)
@@ -126,7 +127,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
     private fun startPayBillFlow(viewBillModel: ViewBillModel, pos: Int = 0) {
         launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
             putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
-            putExtra(ExtraKeys.SELECTED_BILL_POSITION.name, pos)
+            putExtra(ExtraKeys.SELECTED_POSITION.name, pos)
         }
     }
 
@@ -146,7 +147,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                 viewBillModel
             )
             putExtra(
-                ExtraKeys.SELECTED_BILL_POSITION.name,
+                ExtraKeys.SELECTED_POSITION.name,
                 pos
             )
         }
@@ -258,6 +259,9 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                     viewModel.parentViewModel?.getViewBills()
                 }
             }
+        } else {
+            if (requestCode == RequestCodes.REQUEST_PAY_BILL && !isFromSwipePayBill)
+                viewModel.parentViewModel?.getViewBills()
         }
     }
 
@@ -267,11 +271,18 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
             ExtraKeys.IS_SKIP_PAY_BILL.name,
             ExtraType.BOOLEAN.name
         ) as Boolean
+
+        val viewBillModel = data.getValue(
+            ExtraKeys.SELECTED_BILL.name,
+            ExtraType.PARCEABLE.name
+        ) as? ViewBillModel
+
         if (isSkipPayFlow) {
             viewModel.parentViewModel?.getViewBills()
         } else {
-//            launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL)
+            viewBillModel?.let {
+                startPayBillFlow(viewBillModel)
+            } ?: viewModel.parentViewModel?.getViewBills()
         }
     }
-
 }
