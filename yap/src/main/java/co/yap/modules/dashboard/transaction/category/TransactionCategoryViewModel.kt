@@ -18,13 +18,10 @@ class TransactionCategoryViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var categoryAdapter: TransactionCategoryAdapter =
         TransactionCategoryAdapter(mutableListOf())
-
     val repository: TransactionsRepository = TransactionsRepository
-
     override var tapixCategories: MutableList<TapixCategory> = arrayListOf()
     override var selectedCategory: ObservableField<TapixCategory> = ObservableField()
-    override var transactionId: ObservableField<String> = ObservableField()
-    override var categoryName: ObservableField<String> = ObservableField()
+
 
     override fun onCreate() {
         super.onCreate()
@@ -42,13 +39,7 @@ class TransactionCategoryViewModel(application: Application) :
             when (val response = repository.getAllTransactionCategories()) {
                 is RetroApiResponse.Success -> {
                     response.data.txnCategories?.let {
-                        tapixCategories.addAll(it)
-                        tapixCategories.find { list ->
-                            list.categoryName == categoryName.get()
-                        }.also { category ->
-                            category?.isSelected = true
-                            selectedCategory.set(category)
-                        }
+                        addAndSortCategories(it)
                         categoryAdapter.setList(tapixCategories)
                     }
                     state.loading = false
@@ -60,12 +51,28 @@ class TransactionCategoryViewModel(application: Application) :
         }
     }
 
+    private fun addAndSortCategories(list: List<TapixCategory>) {
+        tapixCategories.clear()
+        tapixCategories.addAll(list)
+        tapixCategories.sortWith(
+            compareBy {
+                it.categoryName
+            }
+        )
+        tapixCategories.find { category ->
+            category.categoryName == state.categoryName.get()
+        }.also { category ->
+            category?.isSelected = true
+            selectedCategory.set(category)
+        }
+    }
+
     override fun updateCategory(context: Activity) {
         launch {
             state.loading = true
             when (val response = repository.updateTransactionCategory(
                 selectedCategory.get()?.id.toString(),
-                transactionId = transactionId.get() ?: ""
+                transactionId = state.transactionId.get() ?: ""
             )) {
                 is RetroApiResponse.Success -> {
                     val intent = Intent()
@@ -83,7 +90,7 @@ class TransactionCategoryViewModel(application: Application) :
     }
 
     override fun setPreSelectedCategory(name: String) {
-        categoryName.set(name)
+        state.categoryName.set(name)
         tapixCategories.find {
             it.categoryName == name
         }.also {

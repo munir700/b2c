@@ -13,7 +13,6 @@ import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.TotalPurchases
 import co.yap.networking.transactions.responsedtos.TotalPurchasesResponse
-import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import co.yap.translation.Strings
@@ -44,7 +43,8 @@ class TransactionDetailsViewModel(application: Application) :
             mutableListOf()
         )
     override var transactionAdapter: TransactionDetailItemAdapter =
-        TransactionDetailItemAdapter(arrayListOf()
+        TransactionDetailItemAdapter(
+            arrayListOf()
         )
     override var totalPurchase: ObservableField<TotalPurchases> = ObservableField()
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
@@ -74,31 +74,43 @@ class TransactionDetailsViewModel(application: Application) :
         transaction.get()?.let { data ->
             return when (data.productCode) {
                 TransactionProductCode.Y2Y_TRANSFER.pCode -> {
-                    if (data.txnType == TxnType.DEBIT.type) TotalPurchaseRequest(txnType = data.txnType
-                        ?: "",
+                    if (data.txnType == TxnType.DEBIT.type) TotalPurchaseRequest(
+                        txnType = data.txnType
+                            ?: "",
                         productCode = data.productCode ?: "",
-                        receiverCustomerId = data.customerId2 ?: "")
+                        receiverCustomerId = data.customerId2 ?: ""
+                    )
                     else
-                        TotalPurchaseRequest(txnType = data.txnType ?: "",
+                        TotalPurchaseRequest(
+                            txnType = data.txnType ?: "",
                             productCode = data.productCode ?: "",
-                            senderCustomerId = data.customerId2 ?: "")
+                            senderCustomerId = data.customerId2 ?: ""
+                        )
                 }
                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode -> {
-                    TotalPurchaseRequest(txnType = data.txnType ?: "",
+                    TotalPurchaseRequest(
+                        txnType = data.txnType ?: "",
                         productCode = data.productCode ?: "",
-                        beneficiaryId = data.beneficiaryId ?: "")
+                        beneficiaryId = data.beneficiaryId ?: ""
+                    )
                 }
                 TransactionProductCode.ECOM.pCode, TransactionProductCode.POS_PURCHASE.pCode -> {
-                    TotalPurchaseRequest(txnType = data.txnType ?: "",
-                        productCode = data.productCode ?: "", merchantName = data.merchantName)
+                    TotalPurchaseRequest(
+                        txnType = data.txnType ?: "",
+                        productCode = data.productCode ?: "", merchantName = data.merchantName
+                    )
                 }
-                else -> TotalPurchaseRequest(txnType = data.txnType ?: "",
-                    productCode = data.productCode ?: "")
+                else -> TotalPurchaseRequest(
+                    txnType = data.txnType ?: "",
+                    productCode = data.productCode ?: ""
+                )
             }
 
         }
-        return TotalPurchaseRequest(txnType = transaction.get()?.txnType ?: "",
-            productCode = transaction.get()?.productCode ?: "")
+        return TotalPurchaseRequest(
+            txnType = transaction.get()?.txnType ?: "",
+            productCode = transaction.get()?.productCode ?: ""
+        )
     }
 
     override fun requestAllApis() {
@@ -180,7 +192,8 @@ class TransactionDetailsViewModel(application: Application) :
                     adapter.getDataList().size
                 )
             list.size > 1 -> getString(Strings.screen_transaction_details_added_receipt_label).format(
-                adapter.getDataList().size)
+                adapter.getDataList().size
+            )
             else -> getString(Strings.screen_transaction_details_receipt_label)
         }
 

@@ -4,10 +4,10 @@ import android.view.View
 import co.yap.modules.dashboard.transaction.feedback.models.ItemFeedback
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class TransactionFeedbackItemViewModel  (
+class TransactionFeedbackItemViewModel(
     val item: ItemFeedback,
     val position: Int, private val onItemClickListener: OnItemClickListener?
-){
+) {
     fun onViewClicked(view: View) {
         onItemClickListener?.onItemClick(view, item!!, position)
     }

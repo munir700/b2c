@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.transaction.feedback
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import co.yap.databinding.FragmentTransactionCategoryBinding
 import co.yap.databinding.FragmentTransactionFeedbackBinding
 import co.yap.modules.dashboard.transaction.feedback.adaptor.TransactionFeedbackAdapter
 import co.yap.yapcore.IBase
@@ -22,9 +21,10 @@ interface ITransactionFeedback {
         var clickEvent: SingleClickEvent
         var feedbackSelected: ObservableBoolean
         fun selectFeedback(pos: Int)
-        val location : ObservableField<String>
-        val title : ObservableField<String>
     }
 
-    interface State : IBase.State
+    interface State : IBase.State{
+        val location: ObservableField<String>
+        val title: ObservableField<String>
+    }
 }

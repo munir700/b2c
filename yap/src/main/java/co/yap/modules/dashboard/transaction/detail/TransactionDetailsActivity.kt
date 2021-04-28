@@ -14,8 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
-import co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackFragment
 import co.yap.modules.dashboard.transaction.category.TransactionCategoryFragment
+import co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackFragment
 import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
@@ -94,15 +94,17 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             R.id.clRecipt -> {
                 showAddReceiptOptions()
             }
-            R.id.tvTapToChange ->{
-              updateCategory()
+            R.id.tvTapToChange -> {
+                updateCategory()
             }
             R.id.tvImproveLogo -> {
-                startFragmentForResult<TransactionFeedbackFragment>(TransactionFeedbackFragment::class.java.name, bundleOf(
-                    Constants.FEEDBACK_LOCATION to viewModel.state.transactionData.get()?.locationValue,
-                    Constants.FEEDBACK_TITLE to viewModel.state.transactionData.get()?.transactionTitle,
-                    Constants.TRANSACTION_DETAIL to viewModel.transaction.get()
-                )){resultCode, _ ->
+                startFragmentForResult<TransactionFeedbackFragment>(
+                    TransactionFeedbackFragment::class.java.name, bundleOf(
+                        Constants.FEEDBACK_LOCATION to viewModel.state.transactionData.get()?.locationValue,
+                        Constants.FEEDBACK_TITLE to viewModel.state.transactionData.get()?.transactionTitle,
+                        Constants.TRANSACTION_DETAIL to viewModel.transaction.get()
+                    )
+                ) { resultCode, _ ->
                     if (resultCode == Activity.RESULT_OK)
                         showFeedbackSuccessDialog()
                 }
@@ -111,14 +113,19 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     }
 
     private fun updateCategory() {
-        startFragmentForResult<TransactionCategoryFragment>(TransactionCategoryFragment::class.java.name,
-        bundleOf(Constants.TRANSACTION_ID to viewModel.transaction.get()?.transactionId, Constants.PRE_SELECTED_CATEGORY to viewModel.state.updatedCategory.get()?.categoryName)
-        ){resultCode, data ->
-            if (resultCode == Activity.RESULT_OK){
-                val category = data?.getValue(Constants.UPDATED_CATEGORY,"PARCEABLE") as TapixCategory
+        startFragmentForResult<TransactionCategoryFragment>(
+            TransactionCategoryFragment::class.java.name,
+            bundleOf(
+                Constants.TRANSACTION_ID to viewModel.transaction.get()?.transactionId,
+                Constants.PRE_SELECTED_CATEGORY to viewModel.state.updatedCategory.get()?.categoryName
+            )
+        ) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                val category =
+                    data?.getValue(Constants.UPDATED_CATEGORY, "PARCEABLE") as TapixCategory
                 viewModel.state.updatedCategory.set(category)
                 viewModel.state.categoryDescription.set(viewModel.state.updatedCategory.get()?.description)
-                makeToast(this,"category updated sucessfully", LENGTH_SHORT)
+                makeToast(this, "category updated sucessfully", LENGTH_SHORT)
             }
         }
     }
@@ -126,7 +133,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     private fun showFeedbackSuccessDialog() {
         this.showReceiptSuccessDialog(
             description = getString(Strings.screen_transaction_details_feedback_success_label),
-            addOtherVisibility= false
+            addOtherVisibility = false
         )
     }
 
@@ -269,9 +276,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
                     viewModel.state.transactionNoteDate = "Note added  ${
-                    DateUtils.getCurrentDateWithFormat(
-                        DateUtils.FORMAT_LONG_OUTPUT
-                    )
+                        DateUtils.getCurrentDateWithFormat(
+                            DateUtils.FORMAT_LONG_OUTPUT
+                        )
                     }"
                 }
 

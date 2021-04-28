@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.transaction.feedback
 import android.app.Application
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.transaction.feedback.adaptor.TransactionFeedbackAdapter
 import co.yap.modules.dashboard.transaction.feedback.models.ItemFeedback
 import co.yap.yapcore.BaseViewModel
@@ -17,18 +16,14 @@ class TransactionFeedbackViewModel(application: Application) :
     override var feedbackSelected: ObservableBoolean = ObservableBoolean(false)
     override val adapter: TransactionFeedbackAdapter = TransactionFeedbackAdapter(mutableListOf())
 
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
-
     override val state: TransactionFeedbackState = TransactionFeedbackState()
-
-    override val location: ObservableField<String>  = ObservableField()
-    override val title: ObservableField<String> = ObservableField()
 
     override fun onCreate() {
         super.onCreate()
         adapter.setList(getImprovementComponent())
+    }
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
     }
 
     private fun getImprovementComponent(): MutableList<ItemFeedback> {

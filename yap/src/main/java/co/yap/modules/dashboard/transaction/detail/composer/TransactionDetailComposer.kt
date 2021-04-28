@@ -33,8 +33,8 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 showReceipts = transactionDetailFactory?.isShowReceiptSection(),
                 isAtmTransaction = transactionDetailFactory?.isAtmTransaction(),
                 showCategory = transactionDetailFactory?.showTransactionCategory(),
-                categoryType =transactionDetailFactory?.isCategoryGeneral(),
-                categoryDescription =transactionDetailFactory?.getCategoryDescription(),
+                categoryType = transactionDetailFactory?.isCategoryGeneral(),
+                categoryDescription = transactionDetailFactory?.getCategoryDescription(),
                 tapixCategory = transactionDetailFactory?.getTapixCategory(),
                 showFeedBack = transactionDetailFactory?.showFeedbackOption()
             )

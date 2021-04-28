@@ -36,11 +36,11 @@ interface ITransactionDetails {
         fun getReceiptItems(receiptList: List<String>): List<ReceiptModel>
         fun receiptItemName(index: Int): String
         fun composeTransactionDetail(transaction: Transaction)
-        fun getTotalPurchaseRequest() : TotalPurchaseRequest
+        fun getTotalPurchaseRequest(): TotalPurchaseRequest
         fun requestAllApis()
         var itemsComposer: TransactionDetailComposer
         var transactionAdapter: TransactionDetailItemAdapter
-        var totalPurchase : ObservableField<TotalPurchases>
+        var totalPurchase: ObservableField<TotalPurchases>
     }
 
     interface State : IBase.State {
@@ -54,9 +54,9 @@ interface ITransactionDetails {
         var isTransactionInProcessOrRejected: ObservableBoolean
         var transactionData: ObservableField<TransactionDetail>
         var coverImage: ObservableInt
-        var showTotalPurchases : ObservableBoolean
-        var showErrorMessage : ObservableBoolean
-        var updatedCategory : ObservableField<TapixCategory>
-        var categoryDescription : ObservableField<String>
+        var showTotalPurchases: ObservableBoolean
+        var showErrorMessage: ObservableBoolean
+        var updatedCategory: ObservableField<TapixCategory>
+        var categoryDescription: ObservableField<String>
     }
 }

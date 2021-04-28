@@ -21,11 +21,12 @@ interface ITransactionCategory {
         fun selectCategory(data : TapixCategory, position : Int)
         var tapixCategories: MutableList<TapixCategory>
         var selectedCategory: ObservableField<TapixCategory>
-        var transactionId : ObservableField<String>
-        var categoryName : ObservableField<String>
         fun updateCategory(context: Activity)
         fun setPreSelectedCategory(name: String)
     }
 
-    interface State : IBase.State
+    interface State : IBase.State{
+        var transactionId : ObservableField<String>
+        var categoryName : ObservableField<String>
+    }
 }

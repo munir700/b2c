@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentTransactionCategoryBinding
 import co.yap.databinding.FragmentTransactionFeedbackBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseBindingFragment
@@ -38,12 +37,12 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
     private fun initArguments() {
         arguments?.let { bundle ->
             bundle.getParcelable<Transaction>(Constants.TRANSACTION_DETAIL)?.let {
-                setTransactionImage(transaction =it)
+                setTransactionImage(transaction = it)
             }
-            val title = bundle.getString(Constants.FEEDBACK_TITLE )
+            val title = bundle.getString(Constants.FEEDBACK_TITLE)
             val location = bundle.getString(Constants.FEEDBACK_LOCATION)
-            viewModel.title.set(title)
-            viewModel.location.set(location)
+            viewModel.state.title.set(title)
+            viewModel.state.location.set(location)
         }
     }
 
@@ -65,7 +64,7 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.cbRequireTransaction -> {
-                viewModel.selectFeedback(pos)
+                    viewModel.selectFeedback(pos)
                 }
             }
         }
@@ -135,6 +134,7 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
         )
 
     }
+
     private fun setVirtualCardIcon(
         transaction: Transaction,
         imageView: ImageView

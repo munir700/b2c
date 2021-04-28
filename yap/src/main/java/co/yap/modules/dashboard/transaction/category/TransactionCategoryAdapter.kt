@@ -23,7 +23,7 @@ class TransactionCategoryAdapter(
         super.onBindViewHolder(holder, position)
         if (holder is TransactionCategoryViewHolder) {
 
-            holder.onBind(position, list[position],onItemClickListener)
+            holder.onBind(position, list[position], onItemClickListener)
         }
     }
 }
