@@ -32,7 +32,7 @@
       "postedFees": 0.00,
       "vatAmount": 0.00,
       "cardType": "DEBIT",
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Received from Vikas Khanna",
@@ -116,7 +116,7 @@
       "cardType": "DEBIT",
       "senderProfilePictureUrl": "https://s3-eu-west-1.amazonaws.com//stg-yap-documents-public/profile_image/customer_data/1000001167/documents/1608196056681_ei_1608196055485.jpg",
       "fixedFee": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent to Vikas Khanna",
@@ -195,7 +195,7 @@
       "cardType": "DEBIT",
       "senderProfilePictureUrl": "https://s3-eu-west-1.amazonaws.com//stg-yap-documents-public/profile_image/customer_data/1000001167/documents/1608196056681_ei_1608196055485.jpg",
       "fixedFee": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent from Vikas Khanna",
@@ -275,7 +275,7 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT",
       "fixedFee": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Remove from Virtual Card",
@@ -348,7 +348,7 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT",
       "fixedFee": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Add to Virtual Card",
@@ -422,7 +422,7 @@
       "identifier": "01",
       "billed": false,
       "fixedFee": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Top up via *0007",
@@ -502,7 +502,7 @@
       "otherBankName": "Al Masraf",
       "otherBankBIC": "ABINAEAAXXX",
       "countryOfResidence": "AE",
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent to UAE Cbwsi",
@@ -593,7 +593,7 @@
       "otherBankBIC": "CTBAAU2S",
       "countryOfResidence": "WF",
       "fixedFee": 30,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent to Australia BT",
@@ -719,7 +719,7 @@
       "feeTransactionsDetailDTO": [],
       "txnTransactionsDetailDTO": [],
       "fixedFee": 30.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent to Afghanistan Beneficiary",
@@ -822,7 +822,7 @@
       "otherBankCountry": "PK",
       "fxRate": "0.026098",
       "fixedFee": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent to Bs Ban",
@@ -918,7 +918,7 @@
       "identifier": "01",
       "otherBankCountry": "JO",
       "vatPercentage": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent to nuha aaa",
@@ -993,7 +993,7 @@
       "cardType": "DEBIT",
       "identifier": "01",
       "adjustmentDate": "2021-01-21",
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Manual Adjustment",
@@ -1073,7 +1073,7 @@
       "postedFees": 0.00,
       "vatAmount": 0.00,
       "fxRate": "1.000000",
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Received from RAK",
@@ -1153,7 +1153,7 @@
       "makerUuid": "9cee389e-6a54-4d80-906b-7879f0170aa3",
       "makerAction": "settle_at_fss_bank",
       "lienExpiryDays": "08/08/2023 00:00:00.000",
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Withdrawal",
@@ -1236,7 +1236,7 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT",
       "source": "",
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Withdrawal",
@@ -1320,7 +1320,7 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT",
       "source": "",
-      "tapixCategory": {
+      "yapCategoryDTO": {
         "id": 11,
         "name": "General",
         "icon": "efwefjwof",
@@ -1432,7 +1432,7 @@
       "reversal": true,
       "dispute": false,
       "createdOn": "2021-02-20T05:56:57",
-      "tapixCategory": {
+      "yapCategoryDTO": {
         "id": 13,
         "name": "Shopping",
         "icon": "efwefjwof",
@@ -1535,7 +1535,7 @@
       "cardType": "DEBIT",
       "billed": false,
       "vatPercentage": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Al Nakheel Branch 0002",
@@ -1614,7 +1614,7 @@
       "postedFees": 15.00,
       "vatAmount": 0.75,
       "cardType": "DEBIT",
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Virtual Card Issuance Fee",
@@ -1700,7 +1700,7 @@
       "identifier": "08",
       "otherBankCountry": "AE",
       "fixedFee": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent to testing  flow",
@@ -1811,7 +1811,7 @@
       "dispute": false,
       "reversal": true,
       "createdOn": "2020-11-06T13:58:08",
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Sent to testing  flow",
@@ -1896,7 +1896,7 @@
       "identifier": "01",
       "otherBankCountry": "AE",
       "fixedFee": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "To nick jonas ",
@@ -1978,7 +1978,7 @@
       "cardType": "DEBIT",
       "billed": false,
       "vatPercentage": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Cash deposit",
@@ -2063,7 +2063,7 @@
       "vatAmount": 0.00,
       "cardType": "DEBIT",
       "source": "MCI",
-      "tapixCategory": {
+      "yapCategoryDTO": {
         "id": 13,
         "name": "Shopping",
         "icon": "efwefjwof",
@@ -2151,7 +2151,7 @@
       "cardType": "DEBIT",
       "billed": false,
       "vatPercentage": 0.00,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "Balance Inquiry",
@@ -2230,7 +2230,7 @@
       "title": "FEE",
       "postedFees": 10.00,
       "vatAmount": 0.50,
-      "tapixCategory": {}
+      "yapCategoryDTO": {}
     },
     "detailExpectation": {
       "title": "FEE",

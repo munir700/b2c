@@ -166,7 +166,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             )
             Assert.assertEquals(expectation.showTotalPurchase, txnDetail?.showTotalPurchase)
             Assert.assertEquals(expectation.isCategoryGeneral, txnDetail?.categoryType)
-            Assert.assertEquals(expectation.tapixCategoryDesc, txnDetail?.categoryDescription)#
+            Assert.assertEquals(expectation.tapixCategoryDesc, txnDetail?.categoryDescription)
             Assert.assertEquals(
                 expectation.showFeedback,
                 txnDetail?.showFeedBack
