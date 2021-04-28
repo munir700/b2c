@@ -10,11 +10,16 @@ import co.yap.R
 import co.yap.databinding.FragmentWaitingListBinding
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchInitialBottomSheet
+import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.helpers.showSnackBar
 import com.google.android.exoplayer2.Player
@@ -55,7 +60,11 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
         andExoPlayerView?.player?.repeatMode = Player.REPEAT_MODE_OFF
         andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
             override fun onError() {
-                andExoPlayerView.setSource(co.yap.yapcore.R.raw.card_on_its_way)
+                if (firstVideoPlayed)
+                    andExoPlayerView.setSource(
+                        co.yap.yapcore.R.raw.waiting_list_second_part)
+                else andExoPlayerView.setSource(
+                    co.yap.yapcore.R.raw.waiting_list_first_part)
             }
 
             override fun onTracksChanged(
@@ -122,7 +131,9 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
                 )
             }
             R.id.tvSignedUpUsers -> {
-
+                if ((viewModel.state.signedUpUsers?.get()
+                        ?: "0").toInt() > 0
+                ) showListingBottomSheet() else showEmptyBottomSheet()
             }
         }
     }
@@ -143,6 +154,42 @@ class WaitingListFragment : BaseBindingFragment<IWaitingList.ViewModel>(), IWait
             duration = 10000,
             marginTop = 0
         )
+    }
+
+    private fun showListingBottomSheet() {
+        requireActivity().launchInitialBottomSheet(
+            itemClickListener = null,
+            configuration = BottomSheetConfiguration(
+                heading = getString(
+                    Strings.screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count,
+                    viewModel.state.signedUpUsers?.get() ?: "0"
+                ),
+                subHeading = getString(
+                    Strings.screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count,
+                    viewModel.state.totalGainedPoints?.get() ?: "0"
+                )
+            ),
+            viewType = Constants.VIEW_WITHOUT_FLAG,
+            listData = composeSignedUpList()
+        )
+    }
+
+    private fun showEmptyBottomSheet() {
+        requireActivity().launchSheet(
+            itemClickListener = null,
+            itemsList = arrayListOf(),
+            heading = getString(Strings.screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users),
+            subHeading = getString(
+                Strings.screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide,
+                viewModel.state.totalGainedPoints?.get() ?: "0"
+            ), showDivider = false
+        )
+    }
+
+    private fun composeSignedUpList(): MutableList<CoreBottomSheetData>? {
+        val signedUpUser: MutableList<CoreBottomSheetData> = arrayListOf()
+        viewModel.inviteeDetails?.map { signedUpUser.add(CoreBottomSheetData(content = it.inviteeCustomerName)) }
+        return signedUpUser
     }
 
     fun getBinding(): FragmentWaitingListBinding = viewDataBinding as FragmentWaitingListBinding

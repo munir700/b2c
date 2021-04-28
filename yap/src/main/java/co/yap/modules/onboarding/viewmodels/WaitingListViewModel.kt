@@ -4,6 +4,7 @@ import android.app.Application
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.states.WaitingListState
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.WaitingRankingResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -16,6 +17,7 @@ class WaitingListViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: WaitingListState = WaitingListState()
+    override var inviteeDetails: ArrayList<WaitingRankingResponse.InviteeDetails>? = arrayListOf()
 
     override fun onPressView(id: Int) {
         clickEvent.setValue(id)
@@ -36,8 +38,10 @@ class WaitingListViewModel(application: Application) :
                     val digits = formattedRank.map { it.toString().toInt() }
                     state.rankList = digits as MutableList<Int>?
                     state.gainPoints?.set(response.data.data?.gainPoints ?: "0")
+                    state.totalGainedPoints?.set(response.data.data?.totalGainedPoints ?: "0")
                     state.signedUpUsers?.set((response.data.data?.inviteeDetails?.size
                         ?: 0).toString())
+                    inviteeDetails = response.data.data?.inviteeDetails
 
                     if (response.data.data?.viewable == true) {
                         stopRankingMsgRequest()

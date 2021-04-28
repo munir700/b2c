@@ -36,47 +36,47 @@
             style="@style/ALarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            app:text="@{Strings.screen_employee_information_display_bottom_sheet_text_heading}"
-            tools:text="@string/screen_employee_information_display_bottom_sheet_text_heading"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sepretorTop" />
+            app:layout_constraintTop_toBottomOf="@+id/sepretorTop"
+            app:text="@{Strings.screen_employee_information_display_bottom_sheet_text_heading}"
+            tools:text="@string/screen_employee_information_display_bottom_sheet_text_heading" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHeadingSubTitle"
-            style="@style/ALarge"
+            style="@style/SmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            app:text="@{Strings.screen_employee_information_display_bottom_sheet_text_heading}"
-            tools:text="@string/screen_employee_information_display_bottom_sheet_text_heading"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:lineSpacingExtra="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvHeadingTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvHeadingTitle"
+            app:text="@{Strings.screen_employee_information_display_bottom_sheet_text_heading}"
+            tools:text="@string/screen_employee_information_display_bottom_sheet_text_heading" />
 
         <View
             android:id="@+id/sepretorLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_one_dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium_large"
             android:background="@drawable/bg_round_corners"
             android:backgroundTint="@color/divider"
-            android:visibility="@{viewModel.state.searchBarVisibility ? View.VISIBLE : View.GONE }"
             app:layout_constraintTop_toBottomOf="@+id/tvHeadingSubTitle" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBottomSheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:visibility="@{viewModel.state.noItemFound ? View.GONE : View.VISIBLE}"
-            app:layout_constraintTop_toBottomOf="@+id/sepretorLine" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/sepretorLine"
+            tools:listitem="@layout/item_initials_bottom_sheet" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
