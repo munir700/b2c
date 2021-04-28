@@ -54,6 +54,9 @@ class TransactionCategoryViewModel(application: Application) :
     private fun addAndSortCategories(list: List<TapixCategory>) {
         tapixCategories.clear()
         tapixCategories.addAll(list)
+        tapixCategories.removeAll {
+            it.categoryName.equals("General")
+        }
         tapixCategories.sortWith(
             compareBy {
                 it.categoryName
