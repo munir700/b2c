@@ -62,6 +62,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             YAPApplication.configManager?.isReleaseBuild() == true
                     && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
         )
+
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
@@ -83,6 +84,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             }
         })
     }
+
+
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
         when (prefs.getThemeValue()) {
@@ -289,7 +292,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    override fun getScreenName():String? = ""
+    override fun getScreenName(): String? = ""
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(LocaleManager.setLocale(base))
