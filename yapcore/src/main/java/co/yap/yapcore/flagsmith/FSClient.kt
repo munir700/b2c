@@ -29,7 +29,6 @@ class FSClient : FeatureFlagClient {
     private fun getFeatureFlagClient(): FlagsmithClient {
         return FlagsmithClient.newBuilder()
             .setApiKey(YAPApplication.configManager?.flagSmithAPIKey)
-            .enableLogging()
             .build()
     }
 }
