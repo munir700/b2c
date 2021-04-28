@@ -62,7 +62,7 @@ class CoreInitialsBottomSheet(
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
         val params = getBinding().rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
         params.height =
-            if (viewType == Constants.VIEW_WITH_FLAG) (getScreenHeight() / 2) + 100 else params.height
+            if (viewType == Constants.VIEW_FIXED_HEIGHT) (getScreenHeight() / 2) + 100 else params.height
         getBinding().rvBottomSheet.layoutParams = params
         getBinding().rvBottomSheet.adapter = adapter
     }
