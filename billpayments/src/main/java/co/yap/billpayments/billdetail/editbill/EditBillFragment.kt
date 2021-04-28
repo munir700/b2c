@@ -137,7 +137,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         requireActivity().showAlertDialogAndExitApp(
             dialogTitle = getString(Strings.screen_edit_bill_dialog_title),
             message = getString(Strings.screen_edit_bill_dialog_description),
-            leftButtonText = getString(Strings.common_button_confirm),
+            leftButtonText = getString(Strings.common_button_yes),
             titleVisibility = true,
             isTwoButton = true,
             closeActivity = false,
