@@ -7,10 +7,7 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -479,7 +476,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse> =
         executeSafely(call = { api.getBillerInputsDetails(billerId) })
 
-    override suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<BillAddedResponse> =
         executeSafely(call = { api.addBiller(billerInformation) })
 
     override suspend fun getAddedBills(): RetroApiResponse<BillResponse> =

@@ -13,6 +13,7 @@ import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -127,7 +128,7 @@ class AddBillerDetailViewModel(application: Application) :
 
     override fun addBiller(
         billerInformationRequest: AddBillerInformationRequest,
-        success: () -> Unit
+        success: (ViewBillModel?) -> Unit
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
@@ -136,7 +137,7 @@ class AddBillerDetailViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
-                        success.invoke()
+                        success.invoke(response.data.viewBillModel)
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false

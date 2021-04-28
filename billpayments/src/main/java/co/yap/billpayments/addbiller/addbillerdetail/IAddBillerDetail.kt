@@ -8,6 +8,7 @@ import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInp
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
@@ -28,7 +29,11 @@ interface IAddBillerDetail {
         fun getScreenTitle(billCategory: BillCategory?): String
         fun readBillerDetailsFromFile(): BillerDetailResponse
         fun getBillerDetails(billerId: String)
-        fun addBiller(billerInformationRequest: AddBillerInformationRequest, success: () -> Unit)
+        fun addBiller(
+            billerInformationRequest: AddBillerInformationRequest,
+            success: (ViewBillModel?) -> Unit
+        )
+
         fun getBillerInformationRequest(billerInformation: SkuCatalogs?): AddBillerInformationRequest
     }
 

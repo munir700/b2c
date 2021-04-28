@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.base.AddBillBaseFragment
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.successDialog
@@ -43,27 +44,35 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
         val request =
             viewModel.getBillerInformationRequest(viewModel.billerDetailsResponse.value)
         viewModel.addBiller(request) {
-            val title =
-                getString(Strings.screen_bill_detail_success_dialog_title).format(viewModel.parentViewModel?.selectedBillerCatalog?.billerName)
-            val description =
-                getString(Strings.screen_bill_detail_success_dialog_button_description).format(
-                    viewModel.parentViewModel?.selectedBillerCatalog?.billerName
-                )
-            requireContext().successDialog(
-                topIcon = R.drawable.ic_tick,
-                title = title,
-                message = description,
-                buttonText = getString(Strings.screen_bill_detail_success_dialog_button_text),
-                bottomText = getString(Strings.screen_bill_detail_success_dialog_button_text_do_it_later)
-            ) { isSkip ->
-                setIntentResult(isSkip)
-            }
+            onBillAdded(it)
         }
     }
 
-    private fun setIntentResult(isSkip: Boolean) {
+    private fun onBillAdded(viewBillModel: ViewBillModel?) {
+        val title =
+            getString(Strings.screen_bill_detail_success_dialog_title).format(viewModel.parentViewModel?.selectedBillerCatalog?.billerName)
+        val description =
+            getString(Strings.screen_bill_detail_success_dialog_button_description).format(
+                viewModel.parentViewModel?.selectedBillerCatalog?.billerName
+            )
+        requireContext().successDialog(
+            topIcon = R.drawable.ic_tick,
+            title = title,
+            message = description,
+            buttonText = getString(Strings.screen_bill_detail_success_dialog_button_text),
+            bottomText = getString(Strings.screen_bill_detail_success_dialog_button_text_do_it_later)
+        ) { isSkip ->
+            setIntentResult(isSkip, viewBillModel)
+        }
+    }
+
+    private fun setIntentResult(
+        isSkip: Boolean,
+        viewBillModel: ViewBillModel?
+    ) {
         val intent = Intent()
         intent.putExtra(ExtraKeys.IS_SKIP_PAY_BILL.name, isSkip)
+        if (!isSkip) intent.putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
         requireActivity().setResult(Activity.RESULT_OK, intent)
         requireActivity().finish()
     }

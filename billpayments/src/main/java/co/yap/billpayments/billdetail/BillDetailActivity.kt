@@ -40,7 +40,7 @@ class BillDetailActivity : BaseBindingActivity<IBillDetail.ViewModel>(), INaviga
         }
         if (intent.hasExtra(ExtraKeys.SELECTED_BILL.name)) {
             viewModel.selectedBillPosition = intent.getValue(
-                ExtraKeys.SELECTED_BILL_POSITION.name,
+                ExtraKeys.SELECTED_POSITION.name,
                 ExtraType.INT.name
             ) as Int?
         }

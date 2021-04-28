@@ -109,7 +109,7 @@ class EditBillViewModel(application: Application) :
     }
 
     override fun setEditBillDetails() {
-        var list =
+        val list =
             addBillerDetailItemComposer.compose(parentViewModel?.selectedBill?.billerInfo?.skuInfos?.first()?.ioCatalogs as ArrayList<IoCatalogModel>)
         list.removeAt(0)
         list.forEachIndexed { index, item ->

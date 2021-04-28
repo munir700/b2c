@@ -26,6 +26,7 @@ interface IBillDashboard {
     }
 
     interface View : IBase.View<ViewModel> {
+        var isFromSwipePayBill: Boolean
         fun setObservers()
         fun removeObservers()
         fun getBindings(): FragmentBillDashboardBinding
