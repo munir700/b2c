@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.SharedPreferenceManager
+import androidx.lifecycle.lifecycleScope
 import co.yap.yapcore.helpers.extentions.getCountUnreadMessage
-import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.managers.isUserLogin
-import kotlin.random.Random
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 
@@ -40,8 +39,18 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 
     override fun onResume() {
         super.onResume()
-        if (shouldShowChatChatOverLay()==true)
+        if (shouldShowChatChatOverLay() == true)
             requireActivity().getCountUnreadMessage()
+    }
+
+    fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {
+        lifecycleScope.launch(
+            when (dispatcher) {
+                Dispatcher.Main -> Dispatchers.Main
+                Dispatcher.Background -> Dispatchers.IO
+                Dispatcher.LongOperation -> Dispatchers.Default
+            }
+        ) { block() }
     }
 
     open fun shouldShowChatChatOverLay() = requireContext().isUserLogin()
