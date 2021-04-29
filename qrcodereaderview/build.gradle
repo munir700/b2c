@@ -22,6 +22,17 @@ group = "com.dlazaro66.qrcodereaderview"
 version = libVersionCode
 
 android {
+  dataBinding {
+    enabled = true
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_1_8
+  }
 
   lintOptions {
     abortOnError false
@@ -44,12 +55,28 @@ android {
     }
   }
 }
-
+kapt {
+  generateStubs = true
+}
 dependencies {
   implementation 'com.google.zxing:core:3.4.0'
   testImplementation 'junit:junit:4.13'
   testImplementation 'org.mockito:mockito-core:3.0.0'
   testImplementation "org.robolectric:robolectric:4.2.1"
+
+  // Add missing dependencies for JDK 9+
+  if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
+    // Add both if you're using both Kotlin and Java
+
+    // If you're using Kotlin
+    kapt "com.sun.xml.bind:jaxb-core:2.3.0.1"
+    kapt "javax.xml.bind:jaxb-api:2.3.1"
+    kapt "com.sun.xml.bind:jaxb-impl:2.3.2"
+
+    // If you're using Java
+    annotationProcessor "com.sun.xml.bind:jaxb-core:2.3.0.1"
+    annotationProcessor "javax.xml.bind:jaxb-api:2.3.1"
+  }
 }
 
 install {
