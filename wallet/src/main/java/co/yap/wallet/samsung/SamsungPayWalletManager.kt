@@ -129,7 +129,7 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
                 }
 
                 override fun onProgress(currentCount: Int, p1: Int, bundleData: Bundle?) {
-                    //success.invoke(State.loading("Card adding in progress"))
+                    //success.invoke(State.loading("Card adding in progress"))PENDING_ACTIVATION  DSAPMC0000153622bd92d7712a3240ceab97efcc5739aeb7
 //                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                 }
             })

@@ -12,7 +12,7 @@
             android:value="Y" />
 <!--        <meta-data-->
 <!--            android:name="spay_debug_api_key"-->
-<!--            android:value="98413ff2c07e4883a5c5981823db8a6b" />-->
+<!--            android:value="4d1f9f31ca6f42f389f71046cac60731" />-->
                 <meta-data
                     android:name="spay_debug_api_key"
                     android:value="a9bde6e6ec48490f8e714be8a3d80d3b" />

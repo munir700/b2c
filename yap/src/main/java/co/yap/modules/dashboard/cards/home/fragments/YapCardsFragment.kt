@@ -229,30 +229,27 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 R.id.btnSamsungPay -> {
                     if (requireContext().isSamsungPayFeatureEnabled()) {
 //                    Internal testing only
-//                        viewModel.getSPayCardFormYapCard(card) { SCard ->
-//                            SCard?.let {
-//                                viewModel.openFavoriteCard(SCard.cardId) {
-//
-//                                }
-//                            } ?: run {
-//                                confirm(
-//                                    message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
-//                                    title = "Add card to Samsung Pay",
-//                                    positiveButton = "YES"
-//                                ) {
-//                                    viewModel.getCardDetails(card.cardSerialNumber) { details ->
-//                                    }
-//                                }
-//
-//                            }
-//
-//                        }
+                        viewModel.getSPayCardFormYapCard(card) { SCard ->
+                            SCard?.let {
+                                viewModel.openFavoriteCard(SCard.cardId) {
+                                }
+                            } ?: run {
+                                confirm(
+                                    message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
+                                    title = "Add card to Samsung Pay",
+                                    positiveButton = "YES"
+                                ) {
+                                    viewModel.getCardDetails(card.cardSerialNumber) { details ->
+                                    }
+                                }
+                            }
+                        }
 
 //                    Connected TO BE fetch card paylod from BE
-                    SamsungPayWalletManager.getInstance(requireContext())
-                        .getWalletInfo { i, bundle, state ->
-                            addCardToSamSungPay(card)
-                        }
+//                    SamsungPayWalletManager.getInstance(requireContext())
+//                        .getWalletInfo { i, bundle, state ->
+//                            addCardToSamSungPay(card)
+//                        }
                     }
                 }
             }
