@@ -105,8 +105,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         Constants.TRANSACTION_DETAIL to viewModel.transaction.get()
                     )
                 ) { resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK)
-                        showFeedbackSuccessDialog()
+                    if (resultCode == Activity.RESULT_OK){}
+                    //    showFeedbackSuccessDialog()
                 }
             }
         }

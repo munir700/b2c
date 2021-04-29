@@ -12,12 +12,14 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTransactionFeedbackBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.getIcon
+import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.ViewModel>(),
@@ -55,8 +57,7 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
     val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnDone -> {
-                requireActivity().setResult(Activity.RESULT_OK)
-                requireActivity().finish()
+                showFeedbackSuccessDialog()
             }
         }
     }
@@ -157,5 +158,19 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
             } catch (e: Exception) {
             }
         } ?: imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
+    }
+
+    private fun showFeedbackSuccessDialog() {
+        requireActivity().showReceiptSuccessDialog(
+            description = getString(Strings.screen_transaction_details_feedback_success_label),
+            addOtherVisibility = false,
+            callback = {
+                when (it) {
+                    R.id.btnActionDone -> {
+                        requireActivity().setResult(Activity.RESULT_OK)
+                        requireActivity().finish()                    }
+                }
+            }
+        )
     }
 }
