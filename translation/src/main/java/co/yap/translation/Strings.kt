@@ -2291,6 +2291,8 @@ object Strings {
         "screen_bill_detail_success_dialog_button_description"
     const val screen_bill_detail_success_dialog_button_text_do_it_later: String =
         "screen_bill_detail_success_dialog_button_text_do_it_later"
+    const val screen_bill_detail_field_label: String =
+        "screen_bill_detail_field_label"
 
     // Bill Account Detail
     const val screen_bill_account_detail_toolbar_title: String =
@@ -2327,6 +2329,8 @@ object Strings {
         "screen_edit_bill_switch_text_this_an_auto_payment"
     const val screen_edit_bill_switch_text_bill_reminder: String =
         "screen_edit_bill_switch_text_bill_reminder"
+    const val screen_edit_bill_field_label: String =
+        "screen_edit_bill_field_label"
 
     //PayBill
     const val screen_pay_bill_text_title: String =

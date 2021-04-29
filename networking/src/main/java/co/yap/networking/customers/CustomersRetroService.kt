@@ -314,4 +314,7 @@ interface CustomersRetroService {
 
     @DELETE(CustomersRepository.URL_DELETE_BILL)
     suspend fun deleteBill(@Path("id") id: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_EDIT_BILL)
+    suspend fun editBill(@Body editBillInformationRequest: EditBillInformationRequest): Response<ApiResponse>
 }

@@ -7,4 +7,5 @@ import co.yap.yapcore.BaseState
 class AddBillerDetailState : BaseState(), IAddBillerDetail.State {
     override var screenTitle: ObservableField<String> = ObservableField("")
     override var valid: ObservableBoolean = ObservableBoolean()
+    override var nickNameValue: ObservableField<String> = ObservableField("")
 }

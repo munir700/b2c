@@ -1424,6 +1424,7 @@
     <string name="screen_bill_detail_success_dialog_button_text">Yes, pay now</string>
     <string name="screen_bill_detail_success_dialog_button_description">Pay your %1s bill now?</string>
     <string name="screen_bill_detail_success_dialog_button_text_do_it_later">No, I\'ll do it later</string>
+    <string name="screen_bill_detail_field_label">Enter nickname</string>
 
 
     <!-- Add Biller Detail Screen-->
@@ -1449,6 +1450,8 @@
     <string name="screen_edit_bill_dialog_description">You will loose all the data stored of past bill payments.</string>
     <string name="screen_edit_bill_switch_text_this_an_auto_payment">This an auto-payment.</string>
     <string name="screen_edit_bill_switch_text_bill_reminder">Bill reminder</string>
+    <string name="screen_edit_bill_field_label">Enter nickname</string>
+
 
     <!--Pay Bill-->
     <string name="screen_pay_bill_text_title">Pay bill</string>

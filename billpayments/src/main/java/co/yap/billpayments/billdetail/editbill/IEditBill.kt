@@ -7,6 +7,7 @@ import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInp
 import co.yap.billpayments.databinding.FragmentEditBillBinding
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.networking.customers.requestdtos.EditBillInformationRequest
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -25,6 +26,11 @@ class IEditBill {
 
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
         fun deleteBill(success: () -> Unit)
+        fun lengthValidation(): Boolean
+        fun textChangedValidation(): Boolean
+        fun editBill(editBillInformationRequest: EditBillInformationRequest, success: () -> Unit)
+        fun getBillerInformationRequest(): EditBillInformationRequest
+        fun validation()
     }
 
     interface State : IBase.State {
@@ -37,6 +43,7 @@ class IEditBill {
         var autoPaymentScheduleType: ObservableField<String>
         var autoPaymentScheduleTypeWeek: ObservableBoolean
         var autoPaymentScheduleTypeMonth: ObservableBoolean
+        var nickNameValue: ObservableField<String>
     }
 
     interface View : IBase.View<ViewModel> {
