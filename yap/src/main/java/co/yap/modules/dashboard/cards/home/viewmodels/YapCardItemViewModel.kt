@@ -74,7 +74,7 @@ class YapCardItemViewModel(
                 SamsungPayStatus.ERROR_SPAY_SETUP_NOT_COMPLETE -> {
                     if (context is Activity)
                         context.confirm(
-                            message = "Samsung Pay app needs to be set up. Activate the app to adda card to Samsung Pay app",
+                            message = "Samsung Pay app needs to be set up. Activate the app to add a card to Samsung Pay app",
                             title = "Activate Samsung Pay",
                             positiveButton = "Continue"
                         ) {

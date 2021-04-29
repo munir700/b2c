@@ -40,33 +40,25 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var progress: Dialog? = null
     open lateinit var context: Context
     open fun onToolBarClick(id: Int) {}
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
         trackScreenViewEvent()
-//        setUpFirebaseAnalytics()
-
         applySelectedTheme(SharedPreferenceManager.getInstance(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
         NetworkConnectionManager.init(this)
         NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
         registerStateListeners()
-
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(
             YAPApplication.configManager?.isReleaseBuild() == true
                     && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
         )
-
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
-
         viewModel.state.viewState.observe(this, Observer {
             it?.let {
                 when (it) {
@@ -84,8 +76,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             }
         })
     }
-
-
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
         when (prefs.getThemeValue()) {
