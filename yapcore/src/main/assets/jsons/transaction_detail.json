@@ -1322,9 +1322,9 @@
       "source": "",
       "yapCategoryDTO": {
         "id": 11,
-        "name": "General",
-        "icon": "efwefjwof",
-        "isGeneral" : true
+        "category": "General",
+        "categoryIcon": "efwefjwof",
+        "analyticIcon": "efwefjwof"
       }
     },
     "detailExpectation": {
@@ -1434,9 +1434,9 @@
       "createdOn": "2021-02-20T05:56:57",
       "yapCategoryDTO": {
         "id": 13,
-        "name": "Shopping",
-        "icon": "efwefjwof",
-        "isGeneral" : false
+        "category": "Shopping",
+        "categoryIcon": "efwefjwof",
+        "analyticIcon": "efwefjwof"
       }
     },
     "detailExpectation": {
@@ -2065,9 +2065,9 @@
       "source": "MCI",
       "yapCategoryDTO": {
         "id": 13,
-        "name": "Shopping",
-        "icon": "efwefjwof",
-        "isGeneral" : false
+        "category": "Shopping",
+        "categoryIcon": "efwefjwof",
+        "analyticIcon": "efwefjwof"
       }
     },
     "detailExpectation": {
