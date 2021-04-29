@@ -308,7 +308,7 @@
                 app:receiptViewModel="@{viewModel}" />
 
             <include
-                android:id="@+id/layout_rating"
+                android:id="@+id/layoutRating"
                 layout="@layout/layout_marchant_rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -328,7 +328,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_normal_large"
                 android:visibility="@{viewModel.state.showTotalPurchases?View.VISIBLE : View.GONE}"
-                app:layout_constraintTop_toBottomOf="@+id/layout_rating"
+                app:layout_constraintTop_toBottomOf="@+id/layoutRating"
                 app:purchaseViewModel="@{viewModel}" />
 
             <androidx.appcompat.widget.AppCompatTextView
