@@ -308,6 +308,18 @@
                 app:receiptViewModel="@{viewModel}" />
 
             <include
+                android:id="@+id/layout_rating"
+                layout="@layout/layout_marchant_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clReceiptParent"
+                app:ratingViewModel="@{viewModel}"/>
+
+
+            <include
                 android:id="@+id/parentTotalPurchase"
                 layout="@layout/layout_total_purchases"
                 android:layout_width="match_parent"
@@ -316,7 +328,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_normal_large"
                 android:visibility="@{viewModel.state.showTotalPurchases?View.VISIBLE : View.GONE}"
-                app:layout_constraintTop_toBottomOf="@+id/clReceiptParent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_rating"
                 app:purchaseViewModel="@{viewModel}" />
 
             <androidx.appcompat.widget.AppCompatTextView
