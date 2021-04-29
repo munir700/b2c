@@ -6,7 +6,8 @@ orbs:
 
 jobs:
   build:
-    executor: android/android
+    docker:
+      - image: circleci/android:api-30
     environment:
       FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
       FASTLANE_LANE: upload_to_appcenter
