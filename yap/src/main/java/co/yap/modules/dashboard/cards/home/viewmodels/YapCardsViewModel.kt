@@ -169,11 +169,11 @@ class YapCardsViewModel(application: Application) :
         }
     }
 
-    override fun getSamsungPayloadAndAddCard(success: (String?, State) -> Unit) {
+    override fun getSamsungPayloadAndAddCard(cardSerialNumber:String, success: (String?, State) -> Unit) {
         launch {
             state.loading = true
             when (val response =
-                repository.getCardTokenForSamsungPay()) {
+                repository.getCardTokenForSamsungPay(cardSerialNumber)) {
                 is RetroApiResponse.Success -> {
                     val toJson =
                         GsonBuilder().disableHtmlEscaping().create()

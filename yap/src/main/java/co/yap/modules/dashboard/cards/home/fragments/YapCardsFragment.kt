@@ -26,7 +26,6 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.wallet.samsung.SamsungPayWalletManager
 import co.yap.wallet.samsung.isSamsungPayFeatureEnabled
-import co.yap.widgets.Status
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -229,27 +228,29 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 R.id.btnSamsungPay -> {
                     if (requireContext().isSamsungPayFeatureEnabled()) {
 //                    Internal testing only
-                        viewModel.getSPayCardFormYapCard(card) { SCard ->
-                            SCard?.let {
-                                viewModel.openFavoriteCard(SCard.cardId) {
-                                }
-                            } ?: run {
-                                confirm(
-                                    message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
-                                    title = "Add card to Samsung Pay",
-                                    positiveButton = "YES"
-                                ) {
-                                    viewModel.getCardDetails(card.cardSerialNumber) { details ->
-                                    }
-                                }
-                            }
-                        }
+//                        viewModel.getSPayCardFormYapCard(card) { SCard ->
+//                            SCard?.let {
+////                                viewModel.openFavoriteCard(SCard.cardId) {
+////
+////                                }
+//                                requireActivity().alert("Card already added in Samsung Pay")
+//                            } ?: run {
+//                                confirm(
+//                                    message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
+//                                    title = "Add card to Samsung Pay",
+//                                    positiveButton = "YES"
+//                                ) {
+//                                    viewModel.getCardDetails(card.cardSerialNumber) { details ->
+//                                    }
+//                                }
+//                            }
+//                        }
 
 //                    Connected TO BE fetch card paylod from BE
-//                    SamsungPayWalletManager.getInstance(requireContext())
-//                        .getWalletInfo { i, bundle, state ->
-//                            addCardToSamSungPay(card)
-//                        }
+                    SamsungPayWalletManager.getInstance(requireContext())
+                        .getWalletInfo { i, bundle, state ->
+                            addCardToSamSungPay(card)
+                        }
                     }
                 }
             }
@@ -259,23 +260,24 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     private fun addCardToSamSungPay(card: Card) {
         viewModel.getSPayCardFormYapCard(card) { SCard ->
             SCard?.let {
-                SamsungPayWalletManager.getInstance(requireActivity())
-                    .openFavoriteCard(SCard.cardId) { state ->
-                        when (state.status) {
-                            Status.ERROR -> requireActivity().alert(
-                                state.message ?: ""
-                            )
-                            else -> {
-                            }
-                        }
-                    }
+                requireActivity().alert("Card already added in Samsung Pay")
+//                SamsungPayWalletManager.getInstance(requireActivity())
+//                    .openFavoriteCard(SCard.cardId) { state ->
+//                        when (state.status) {
+//                            Status.ERROR -> requireActivity().alert(
+//                                state.message ?: ""
+//                            )
+//                            else -> {
+//                            }
+//                        }
+//                    }
             } ?: run {
                 confirm(
                     message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
                     title = "Add card to Samsung Pay",
                     positiveButton = "YES"
                 ) {
-                    viewModel.getSamsungPayloadAndAddCard { sPayCard, state ->
+                    viewModel.getSamsungPayloadAndAddCard(card.cardSerialNumber) { sPayCard, state ->
                     }
                 }
             }

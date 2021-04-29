@@ -151,8 +151,8 @@ object CardsRepository : BaseRepository(), CardsApi {
     override suspend fun getCardsAtmCdm() =
         AuthRepository.executeSafely(call = { API.getCardsAtmCdm() })
 
-    override suspend fun getCardTokenForSamsungPay() =
-        AuthRepository.executeSafely(call = { API.getCardTokenForSamsungPay() })
+    override suspend fun getCardTokenForSamsungPay(cardSerialNumber:String) =
+        AuthRepository.executeSafely(call = { API.getCardTokenForSamsungPay(cardSerialNumber) })
 
     override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<HouseHoldCardsDesignResponse> =
         AuthRepository.executeSafely(call = { API.getHouseHoldCardsDesign(accountType) })
