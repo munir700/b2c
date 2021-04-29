@@ -2,35 +2,34 @@ package co.yap.widgets
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Color
 import android.graphics.Rect
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.*
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatEditText
+import co.yap.widgets.popupwindow.Popup
+import co.yap.widgets.popupwindow.RelativePopupWindow.HorizontalPosition
+import co.yap.widgets.popupwindow.RelativePopupWindow.VerticalPosition
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getScreenWidth
 import kotlin.math.abs
 
 class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
     AppCompatEditText(context, attrs) {
 
     private var backupString = ""
-    private var mPopupWindow: PopupWindow? = null
-    private var popupView: View? = null
     private var drawableRight: Drawable? = null
     private var drawableLeft: Drawable? = null
     private var drawableTop: Drawable? = null
     private var drawableBottom: Drawable? = null
-    private var tvPopupContent: TextView? = null
     private var positionX: Int = 0
     private var positionY: Int = 0
     private var isDrawableShownWhenTextIsEmpty = true
@@ -59,12 +58,6 @@ class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
                 } else
                     setText("")
             } else {
-//                if (orignalString.contains("  ")) {
-//                    val selection = orignalString.indexOf("  ")
-//                    orignalString = orignalString.replace("  ", " ")
-//                    setText(orignalString)
-//                    setSelection(if (selection > -1) selection else orignalString.length)
-//                }
                 backupString = orignalString
             }
 
@@ -87,8 +80,17 @@ class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
                     }
                     DrawablePosition.RIGHT -> {
                         if (popupTextValue?.isNotEmpty() == true) {
-                            val xoff = Utils.getDimensionInPercent(context, true, 6)
-                            showAsPopUp(this@AlphaNumericEditText, xoff, 0)
+                            val popup = Popup(context, popupTextValue ?: "")
+                            popup.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                            popup.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                            popup.showOnAnchor(
+                                anchor = this@AlphaNumericEditText,
+                                vertPos = VerticalPosition.ABOVE,
+                                horizPos = HorizontalPosition.CENTER,
+                                x = 100,
+                                y = 0,
+                                fitInScreen = true
+                            )
                         }
                     }
                 }
@@ -167,60 +169,6 @@ class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
         invalidate()
     }
 
-    private fun initPopupWindow() {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        popupView = inflater.inflate(R.layout.pop_up_view, null)
-        tvPopupContent = popupView?.findViewById(R.id.tvContent)
-        setPopupContent()
-        val popUpWindowWidth = getScreenWidth() - Utils.getDimensionInPercent(context, true, 11)
-        mPopupWindow =
-            PopupWindow(
-                popupView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                true
-            )
-        mPopupWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        setCancelable(true)
-    }
-
-    private fun setPopupContent() {
-        tvPopupContent?.text = popupTextValue
-    }
-
-    private fun showAsPopUp(anchor: View) {
-        showAsPopUp(anchor, 0, 0)
-    }
-
-    private fun showAsPopUp(anchor: View, xoff: Int, yoff: Int) {
-        initPopupWindow()
-        mPopupWindow?.animationStyle = R.style.AnimationUpPopup
-        anchor.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        val height = anchor.measuredHeight
-        val ivHeight = drawableRight?.intrinsicHeight ?: 0
-        val location = IntArray(2)
-        anchor.getLocationInWindow(location)
-        mPopupWindow?.showAtLocation(
-            anchor,
-            Gravity.TOP,
-            abs(location[0] - xoff),
-            location[1] - height - ivHeight * 2
-        )
-    }
-
-    /**
-     * touch outside dismiss the popupwindow, default is ture
-     * @param isCancelable
-     */
-    private fun setCancelable(isCancelable: Boolean) {
-        if (isCancelable) {
-            mPopupWindow?.isOutsideTouchable = true
-            mPopupWindow?.isFocusable = true
-        } else {
-            mPopupWindow?.isOutsideTouchable = false
-            mPopupWindow?.isFocusable = false
-        }
-    }
 
     override fun setCompoundDrawables(
         leftDrawable: Drawable?,
@@ -238,32 +186,6 @@ class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
     override fun onTouchEvent(event: MotionEvent): Boolean {
         var bounds: Rect?
         val editText = this
-        this.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(char: CharSequence, p1: Int, p2: Int, p3: Int) {
-                if (char.isEmpty()) {
-                    if (!isDrawableShownWhenTextIsEmpty) editText.setCompoundDrawablesWithIntrinsicBounds(
-                        0,
-                        0,
-                        0,
-                        0
-                    )
-                } else editText.setCompoundDrawables(
-                    drawableLeft,
-                    drawableTop,
-                    drawableRight,
-                    drawableBottom
-                )
-            }
-
-
-        })
         if (event.action == MotionEvent.ACTION_DOWN) {
             positionX = event.x.toInt()
             positionY = event.y.toInt()
