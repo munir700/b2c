@@ -27,7 +27,6 @@ platform :android do
 
   desc "Build"
   lane :build do
-    sh("java","-version")
     gradle(
       task: 'assemble',
       flavor: 'Yapinternal',
