@@ -71,6 +71,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             viewModel.setAdapterList(it)
         })
         viewModel.adapter.setItemListener(onReceiptClickListener)
+        getBindings().layoutRating.rbMarchant.setOnRatingBarChangeListener { ratingBar, fl, b ->
+            showRatingDialogue()
+        }
     }
 
 
@@ -373,4 +376,12 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         removeObservers()
         super.onDestroy()
     }
+
+    private fun showRatingDialogue() {
+        this.showReceiptSuccessDialog(
+            description =  "Are you sure you want to submit this rating?" ,
+            addOtherVisibility = false
+        )
+    }
+
 }
