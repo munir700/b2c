@@ -89,7 +89,8 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
         sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
         sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
         sslHost = "*.yap.co";
-        flagSmithAPIKey = "jA6afrdULLjYpqHELs8kfJ";
+//        flagSmithAPIKey = "jA6afrdULLjYpqHELs8kfJ"; // qa
+        flagSmithAPIKey = "hyzRfWb6DS87tRpswTUiJB"; // dev
 
         sha1Encoded = "";
         md5Encoded = "";
