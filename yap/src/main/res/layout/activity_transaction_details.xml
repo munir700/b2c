@@ -313,10 +313,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clReceiptParent"
-                app:ratingViewModel="@{viewModel}"/>
+                app:ratingViewModel="@{viewModel}" />
 
 
             <include
