@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -30,7 +31,8 @@
             android:layout_marginTop="@dimen/margin_small"
             app:text="@{Strings.screen_transaction_details_rating_label}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vRating" />
+            app:layout_constraintTop_toBottomOf="@+id/vRating"
+            tools:text="@string/screen_transaction_details_rating_label"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/MicroGrey"
@@ -39,18 +41,22 @@
             app:text="@{Strings.screen_transaction_details_rating_tap_to_rate}"
             app:layout_constraintBottom_toBottomOf="@+id/rbMarchant"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rbMarchant" />
+            app:layout_constraintTop_toTopOf="@+id/rbMarchant"
+            tools:text="@string/screen_transaction_details_rating_tap_to_rate"/>
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/rbMarchant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
-            android:layout_marginTop="@dimen/margin_small"
-            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
             android:theme="@style/RatingBar"
             android:stepSize="1"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:isIndicator="false"
+            android:rating="5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMarchantTitle" />
 
