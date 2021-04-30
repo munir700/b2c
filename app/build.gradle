@@ -132,4 +132,10 @@ dependencies {
     project.appDependencies.each {
         add(it.configuration, it.dependency)
     }
+
+    if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
+        project.kaptBindingDependencies.each {
+            add(it.configuration, it.dependency)
+        }
+    }
 }

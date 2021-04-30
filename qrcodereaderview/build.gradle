@@ -22,6 +22,17 @@ group = "com.dlazaro66.qrcodereaderview"
 version = libVersionCode
 
 android {
+  dataBinding {
+    enabled = true
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_1_8
+  }
 
   lintOptions {
     abortOnError false
@@ -44,12 +55,20 @@ android {
     }
   }
 }
-
+kapt {
+  generateStubs = true
+}
 dependencies {
   implementation 'com.google.zxing:core:3.4.0'
   testImplementation 'junit:junit:4.13'
   testImplementation 'org.mockito:mockito-core:3.0.0'
   testImplementation "org.robolectric:robolectric:4.2.1"
+
+  if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
+    project.kaptBindingDependencies.each {
+      add(it.configuration, it.dependency)
+    }
+  }
 }
 
 install {
