@@ -101,7 +101,7 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
         return when {
             txn.getProductType() == TransactionProductType.IS_TRANSACTION_FEE -> "Fee"
             txn.getProductType() == TransactionProductType.IS_REFUND -> "Refund"
-            txn.getProductType() == TransactionProductType.IS_INCOMING ->"Inward bank transfer"
+            txn.getProductType() == TransactionProductType.IS_INCOMING -> "Inward bank transfer"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Add money"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
@@ -217,6 +217,10 @@ fun Transaction?.getCurrency(): String {
         return (when (transaction.productCode) {
             TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
                 transaction.currency.toString()
+            }
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> {
+                transaction.cardHolderBillingCurrency
+                    ?: SessionManager.getDefaultCurrency()
             }
             else -> transaction.currency.toString()
         })
@@ -336,14 +340,19 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 }
 
 fun Transaction?.getAmount(): Double {
-    if (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode || this?.isNonAEDTransaction() == true)
-        return this.amount ?: 0.0
+    this?.let {
+        return when {
+            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() -> {
+                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode) it.cardHolderBillingTotalAmount
+                    ?: 0.0 else it.amount ?: 0.0
+            }
+            it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
+                ?: 0.0
+            else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
+                ?: 0.00
+        }
 
-    (return when (this?.txnType) {
-        TxnType.DEBIT.type -> this.totalAmount ?: 0.0
-        TxnType.CREDIT.type -> this.amount ?: 0.0
-        else -> 0.0
-    })
+    } ?: return 0.00
 }
 
 fun Transaction?.getFormattedTransactionAmount(): String? {
