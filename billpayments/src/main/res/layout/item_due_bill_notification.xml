@@ -44,11 +44,14 @@
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:lines="1"
+                app:layout_constrainedWidth="true"
+                android:ellipsize="end"
+                android:maxLines="1"
                 app:layout_constraintEnd_toStartOf="@+id/ivCross"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/ivNotification"
                 app:layout_constraintTop_toTopOf="@+id/ivCross"
-                tools:text="YAP service notice." />
+                tools:text="Lahore Electricity Supply and Control Organization." />
 
             <co.yap.widgets.AutoResizeTextView
                 android:id="@+id/tvDescription"
@@ -56,13 +59,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_extra_small"
                 android:ellipsize="end"
                 android:lineSpacingExtra="0sp"
                 android:maxLines="5"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivCross"
                 app:layout_constraintStart_toEndOf="@+id/ivNotification"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintTop_toBottomOf="@+id/ivCross"
                 tools:text="Some features may appeassad asdas  Y sadsada ar bloc you made too many incorrect OTP attempts. Call or chat with us now to get full access." />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
