@@ -139,6 +139,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuOpened(menu: FloatingActionMenu) {
                     trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
                     overLayButtonVisibility(View.GONE)
+                    if (!getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag)) {
+                        actionMenu?.subActionItems?.get(1)?.view?.visibility = View.INVISIBLE
+                    } else {
+                        actionMenu?.subActionItems?.get(1)?.view?.visibility = View.VISIBLE
+                    }
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
@@ -164,10 +169,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             })
             .build()
 
-
-        if (!getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag)) {
-            (actionMenu?.subActionItems as ArrayList).removeAt(1)
-        }
     }
 
     private fun setupPager() {
