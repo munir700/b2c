@@ -9,6 +9,8 @@ import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.BillerInputData
+import co.yap.networking.customers.requestdtos.EditBillInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -45,22 +47,27 @@ class EditBillViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.etUserInput -> {
-                    if (lengthValidation())
-                        state.valid.set(textChangedValidation())
-                    else
-                        state.valid.set(false)
+                    validation()
                 }
             }
         }
     }
 
+    override fun validation() {
+        if (lengthValidation() && state.nickNameValue.get()?.length ?: 0 > 1)
+            state.valid.set(textChangedValidation())
+        else
+            state.valid.set(false)
+    }
 
-    private fun textChangedValidation(): Boolean {
+    override fun textChangedValidation(): Boolean {
+        if (state.nickNameValue.get() != parentViewModel?.selectedBill?.billNickName) {
+            return true
+        }
         adapter.getDataList().forEachIndexed { index, field ->
             if (field.value?.get() != parentViewModel?.selectedBill?.inputsData?.get(index)?.value) {
                 return true
@@ -69,7 +76,7 @@ class EditBillViewModel(application: Application) :
         return false
     }
 
-    private fun lengthValidation(): Boolean {
+    override fun lengthValidation(): Boolean {
         var isValid = false
         for (field in adapter.getDataList()) {
             if (field.minLength != null &&
@@ -111,9 +118,10 @@ class EditBillViewModel(application: Application) :
     override fun setEditBillDetails() {
         val list =
             addBillerDetailItemComposer.compose(parentViewModel?.selectedBill?.billerInfo?.skuInfos?.first()?.ioCatalogs as ArrayList<IoCatalogModel>)
-        list.removeAt(0)
-        list.forEachIndexed { index, item ->
-            item.value?.set(parentViewModel?.selectedBill?.inputsData?.get(index)?.value)
+        state.nickNameValue.set(parentViewModel?.selectedBill?.billNickName)
+        list.forEach { item ->
+            parentViewModel?.selectedBill?.inputsData?.find { it.ioId == item.ioId }
+            item.value?.set(parentViewModel?.selectedBill?.inputsData?.find { it.ioId == item.ioId }?.value)
         }
         adapter.setList(list)
     }
@@ -135,5 +143,46 @@ class EditBillViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun editBill(
+        editBillInformationRequest: EditBillInformationRequest,
+        success: () -> Unit
+    ) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.editBill(editBillInformationRequest)
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        success.invoke()
+                    }
+                    is RetroApiResponse.Error -> {
+                        showToast(response.error.message)
+                        state.viewState.value = false
+                    }
+                }
+            }
+        }
+    }
+
+    override fun getBillerInformationRequest(): EditBillInformationRequest {
+        val inputsData = ArrayList<BillerInputData>()
+        adapter.getDataList().forEach { inputData ->
+            inputsData.add(
+                BillerInputData(
+                    key = inputData.lable ?: "",
+                    value = inputData.value?.get() ?: ""
+                )
+            )
+        }
+        return EditBillInformationRequest(
+            id = parentViewModel?.selectedBill?.id ?: "",
+            billerID = parentViewModel?.selectedBill?.billerID ?: "",
+            skuId = parentViewModel?.selectedBill?.skuId ?: "",
+            billNickName = state.nickNameValue.get() ?: "",
+            inputsData = inputsData
+        )
     }
 }

@@ -126,4 +126,5 @@ interface CustomersApi {
     suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<BillAddedResponse>
     suspend fun getAddedBills(): RetroApiResponse<BillResponse>
     suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
+    suspend fun editBill(editBillInformationRequest: EditBillInformationRequest): RetroApiResponse<ApiResponse>
 }

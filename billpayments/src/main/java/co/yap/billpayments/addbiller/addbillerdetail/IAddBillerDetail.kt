@@ -40,5 +40,6 @@ interface IAddBillerDetail {
     interface State : IBase.State {
         var screenTitle: ObservableField<String>
         var valid: ObservableBoolean
+        var nickNameValue: ObservableField<String>
     }
 }

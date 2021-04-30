@@ -14,4 +14,5 @@ class EditBillState : BaseState(), IEditBill.State {
     override var selectedWeekDay: ObservableField<String> = ObservableField("Monday")
     override var selectedMonthDay: ObservableField<String> = ObservableField("1")
     override var autoPaymentScheduleType: ObservableField<String> = ObservableField("")
+    override var nickNameValue: ObservableField<String> = ObservableField("")
 }

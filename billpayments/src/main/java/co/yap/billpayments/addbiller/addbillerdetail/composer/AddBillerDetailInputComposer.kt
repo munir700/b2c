@@ -1,6 +1,5 @@
 package co.yap.billpayments.addbiller.addbillerdetail.composer
 
-import android.text.InputType
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailInputFieldModel
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.yapcore.enums.BillerDetailInputType
@@ -13,15 +12,6 @@ interface AddBillerDetailsInputComposer {
 class AddBillerDetailInputComposer : AddBillerDetailsInputComposer {
     override fun compose(ioCatLogs: ArrayList<IoCatalogModel>): MutableList<AddBillerDetailInputFieldModel> {
         val list: MutableList<AddBillerDetailInputFieldModel> = mutableListOf()
-        list.add(
-            AddBillerDetailInputFieldModel(
-                lable = "Enter nickname",
-                description = "Enter nickname",
-                maxLength = 255,
-                minLength = 1,
-                inputType = InputType.TYPE_CLASS_TEXT
-            )
-        )
         ioCatLogs.map { ioCatLog ->
             list.add(
                 AddBillerDetailInputFieldModel(
@@ -29,7 +19,8 @@ class AddBillerDetailInputComposer : AddBillerDetailsInputComposer {
                     description = ioCatLog.description,
                     maxLength = ioCatLog.maxLength,
                     minLength = ioCatLog.minLength,
-                    inputType = getInputType(ioCatLog.dataType)
+                    inputType = getInputType(ioCatLog.dataType),
+                    ioId = ioCatLog.ioId.toString()
                 )
             )
         }

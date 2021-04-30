@@ -9,5 +9,6 @@ data class AddBillerDetailInputFieldModel(
     var minLength: Int? = 0,
     var maxLength: Int? = 0,
     var inputType: Int? = InputType.TYPE_CLASS_TEXT,
-    var value: ObservableField<String>? = ObservableField()
+    var value: ObservableField<String>? = ObservableField(),
+    var ioId: String
 )
