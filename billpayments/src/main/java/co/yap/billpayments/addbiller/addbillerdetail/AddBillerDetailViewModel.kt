@@ -71,13 +71,17 @@ class AddBillerDetailViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.etUserInput -> {
-                    validate()
+                    if (validate() && state.nickNameValue.get()?.length ?: 0 > 1) {
+                        state.valid.set(true)
+                    } else {
+                        state.valid.set(false)
+                    }
                 }
             }
         }
     }
 
-    private fun validate() {
+    private fun validate(): Boolean {
         var isValid = false
         for (field in adapterAdd.getDataList()) {
             if (field.minLength != null &&
@@ -89,7 +93,7 @@ class AddBillerDetailViewModel(application: Application) :
                 isValid = true
             }
         }
-        state.valid.set(isValid)
+        return isValid
     }
 
     override fun readBillerDetailsFromFile(): BillerDetailResponse {
@@ -116,7 +120,6 @@ class AddBillerDetailViewModel(application: Application) :
                             billerDetailsResponse.value = response.data.billerInputsData
                         }
                     }
-
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
                         showToast(response.error.message)
@@ -152,18 +155,17 @@ class AddBillerDetailViewModel(application: Application) :
     override fun getBillerInformationRequest(billerInformation: SkuCatalogs?): AddBillerInformationRequest {
         val inputsData = ArrayList<BillerInputData>()
         adapterAdd.getDataList().forEachIndexed { index, inputData ->
-            if (index > 0)
-                inputsData.add(
-                    BillerInputData(
-                        key = inputData.lable ?: "",
-                        value = inputData.value?.get() ?: ""
-                    )
+            inputsData.add(
+                BillerInputData(
+                    key = inputData.lable ?: "",
+                    value = inputData.value?.get() ?: ""
                 )
+            )
         }
         return AddBillerInformationRequest(
             billerID = billerInformation?.billerID ?: "",
             skuId = billerInformation?.skuId ?: "",
-            billNickName = adapterAdd.getDataList().first().value?.get() ?: "",
+            billNickName = state.nickNameValue.get() ?: "",
             inputsData = inputsData
         )
     }

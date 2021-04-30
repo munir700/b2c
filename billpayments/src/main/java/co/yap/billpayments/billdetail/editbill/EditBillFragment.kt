@@ -17,6 +17,7 @@ import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
@@ -39,6 +40,9 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
+        getViewBinding().etNickName.afterTextChanged {
+            viewModel.validation()
+        }
         initTabLayout()
     }
 
@@ -114,6 +118,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnEditBill -> {
+                editBillClick()
             }
             R.id.tvDeleteThisButton -> showPopUp()
             R.id.tvDropDownWeekDays -> {
@@ -129,6 +134,9 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
                     list = monthDaysList,
                     isDaySelection = false
                 )
+            }
+            R.id.etNickName -> {
+                viewModel.validation()
             }
         }
     }
@@ -157,6 +165,14 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         requireActivity().finish()
     }
 
+    private fun editBillClick() {
+        val request =
+            viewModel.getBillerInformationRequest()
+        viewModel.editBill(request) {
+            setIntentResult(isUpdated = true)
+        }
+    }
+
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
     }
@@ -169,6 +185,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         super.onDestroy()
         removeObservers()
     }
+
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {

@@ -11,6 +11,7 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.translation.Translator" />
     </data>
 
     <ScrollView
@@ -75,17 +76,45 @@
                 android:text="@{viewModel.parentViewModel.selectedBill.billerInfo.billerName}"
                 tools:text="Etsilat" />
 
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/tvNickNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_edit_bill_field_label)}"
+                app:hintTextAppearance="@style/LabelTextStyl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardFlow"
+                app:textColorChangePin="@{viewModel.state.nickNameValue}">
+
+                <co.yap.widgets.AlphaNumericEditText
+                    android:id="@+id/etNickName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_edit_bill_field_label)}"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLength="255"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.nickNameValue}"
+                    android:textColorHint="@color/colorPrimaryDarkFadedLight"
+                    android:theme="@style/Theme.EditText.Primary"
+                    tools:hint="Email" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecyler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_small"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardFlow"
+                app:layout_constraintTop_toBottomOf="@+id/tvNickNameField"
                 app:recycleViewAdapter="@{viewModel.adapter}"
                 tools:itemCount="2"
                 tools:listitem="@layout/layout_item_biller_detail" />
@@ -168,6 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
@@ -176,7 +206,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iBillReminder"
                 app:layout_constraintVertical_bias="1.0"
-                android:layout_marginBottom="@dimen/margin_medium"
                 app:text="@{Strings.screen_edit_bill_button_text}" />
 
             <androidx.appcompat.widget.AppCompatTextView

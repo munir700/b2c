@@ -21,7 +21,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/margin_large"
             android:paddingTop="@dimen/margin_large">
 
@@ -74,17 +74,45 @@
                 android:text="@{viewModel.parentViewModel.selectedBillerCatalog.billerName}"
                 tools:text="Etsilat" />
 
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/tvInputField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_bill_detail_field_label)}"
+                app:hintTextAppearance="@style/LabelTextStyl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardFlow"
+                app:textColorChangePin="@{viewModel.state.nickNameValue}">
+
+                <co.yap.widgets.AlphaNumericEditText
+                    android:id="@+id/etUserInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_bill_detail_field_label)}"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLength="255"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.nickNameValue}"
+                    android:textColorHint="@color/colorPrimaryDarkFadedLight"
+                    android:theme="@style/Theme.EditText.Primary"
+                    tools:hint="Email" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecyler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_small"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardFlow"
+                app:layout_constraintTop_toBottomOf="@+id/tvInputField"
                 app:recycleViewAdapter="@{viewModel.adapterAdd}"
                 tools:itemCount="5"
                 tools:listitem="@layout/layout_item_biller_detail" />

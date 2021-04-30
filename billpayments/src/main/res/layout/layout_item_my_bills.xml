@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{viewModel.billModel.formattedDueDate + `-`+ viewModel.billModel.billNickName}"
+            android:text="@{viewModel.billModel.formattedDueDate.equals(``) ? viewModel.billModel.billNickName : viewModel.billModel.formattedDueDate + `-`+ viewModel.billModel.billNickName}"
             tools:text="Etsilatkdsjf;kdsjfskadjfksdjfl;askdjfl;kasdjflkasdjfl;kasdjf;laskdjfsfsdfsadf" />
 
         <androidx.constraintlayout.helper.widget.Flow

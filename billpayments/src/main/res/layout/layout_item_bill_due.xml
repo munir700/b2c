@@ -12,7 +12,8 @@
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <import type="co.yap.translation.Strings" />
-        <import type="co.yap.yapcore.enums.BillStatus"/>
+
+        <import type="co.yap.yapcore.enums.BillStatus" />
     </data>
 
     <RelativeLayout
@@ -108,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@{`Due - `+viewModel.dueBill.formattedDueDate}"
+                android:text="@{viewModel.dueBill.formattedDueDate.equals(``) ? `Due`: `Due - `+viewModel.dueBill.formattedDueDate}"
                 app:layout_constrainedWidth="true"
                 tools:text="Etsilat" />
 

@@ -57,7 +57,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
         launchActivity<BillDetailActivity>(requestCode = RequestCodes.REQUEST_BILL_DETAIL) {
             putExtra(
                 ExtraKeys.SELECTED_BILL.name,
-                viewModel.parentViewModel?.billsResponse?.value?.get(pos)
+                viewModel.adapter.getDataList()[pos]
             )
             putExtra(
                 ExtraKeys.SELECTED_POSITION.name,
