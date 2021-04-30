@@ -153,6 +153,10 @@
             android:name="co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".modules.dashboard.transaction.totalpurchases.TotalPurchaseActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".modules.dashboard.transaction.detail.TransactionDetailsActivity"
             android:screenOrientation="portrait" />
 
