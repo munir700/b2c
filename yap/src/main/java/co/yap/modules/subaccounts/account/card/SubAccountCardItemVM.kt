@@ -29,14 +29,16 @@ class SubAccountCardItemVM : BaseListItemViewModel<SubAccount>() {
         item.pinCreated = true
         item.accountType?.let {
             if (item.cardStatus == PartnerBankStatus.REJECTED.status) {
-                status = "Ineligible for a card"
+//                status = "Ineligible for a card"
+                status = item.cardStatus
                 statusColorResId = R.color.error
-            } else if (item.salaryTransferred == true) status = "Manage"
-            else if (item.pinCreated == true) status = "Card is active!"
-            else if (item.pinCreated == false && item.deliveryStatue == CardDeliveryStatus.SHIPPED.name) status =
-                "Card is on the way"
+            } else if (item.salaryTransferred == true)  status = item.cardStatus /*status = "Manage"*/
+            else if (item.pinCreated == true) status  = item.cardStatus /*"Card is active!"*/
+            else if (item.pinCreated == false && item.deliveryStatue == CardDeliveryStatus.SHIPPED.name) status =   item.cardStatus
+                /*"Card is on the way"*/
             else if (item.salaryTransferred == true && dayDiffFromCurrent(Calendar.getInstance().time) > 5) {
-                status = "Salary due in 5 days"
+//                status = "Salary due in 5 days"
+                status = item.cardStatus
                 statusColorResId = R.color.error
             }
         }
