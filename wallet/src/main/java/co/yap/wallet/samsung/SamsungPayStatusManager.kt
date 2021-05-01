@@ -7,7 +7,7 @@ import com.samsung.android.sdk.samsungpay.v2.SamsungPay
 import com.samsung.android.sdk.samsungpay.v2.StatusListener
 
 fun Context.isSamsungPayFeatureEnabled() = false
-class SamsungPayStatusManager private constructor(private val context: Context) {
+class SamsungPayStatusManager private constructor(context: Context) {
     private var mSamsungPay: SamsungPay? = SamsungPayWalletManager.getInstance(context).mSamsungPay
 
     companion object : SingletonHolder<SamsungPayStatusManager, Context>(::SamsungPayStatusManager)

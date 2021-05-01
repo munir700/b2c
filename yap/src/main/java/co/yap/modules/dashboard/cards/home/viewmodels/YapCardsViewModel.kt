@@ -17,7 +17,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.wallet.encriptions.utils.EncodingUtils
 import co.yap.wallet.samsung.SamsungPayWalletManager
-import co.yap.wallet.samsung.getTestPayloadForSamsung
 import co.yap.wallet.samsung.isSamsungPayFeatureEnabled
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -29,7 +28,6 @@ import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.samsung.android.sdk.samsungpay.v2.card.CardManager
 import kotlinx.coroutines.delay
-import java.nio.charset.StandardCharsets
 
 class YapCardsViewModel(application: Application) :
     YapDashboardChildViewModel<IYapCards.State>(application),
@@ -169,7 +167,10 @@ class YapCardsViewModel(application: Application) :
         }
     }
 
-    override fun getSamsungPayloadAndAddCard(cardSerialNumber:String, success: (String?, State) -> Unit) {
+    override fun getSamsungPayloadAndAddCard(
+        cardSerialNumber: String,
+        success: (String?, State) -> Unit
+    ) {
         launch {
             state.loading = true
             when (val response =
@@ -223,27 +224,27 @@ class YapCardsViewModel(application: Application) :
     }
 
     private fun addYapCardToSamsungPay(cardDetail: CardDetail?) {
-        context.getTestPayloadForSamsung(
-            cardDetail?.cardNumber,
-            cardDetail?.expiryDate?.split("/")?.get(1),
-            cardDetail?.expiryDate?.split("/")?.get(0),
-            cardDetail?.displayName
-        ) { paylaod ->
-            val data = paylaod.toByteArray(StandardCharsets.UTF_8)
-            val finalPayload = EncodingUtils.base64Encode(data)
-            SamsungPayWalletManager.getInstance(context)
-                .addYapCardToSamsungPay(finalPayload) {
-                    state.loading = false
-                    when (it.status) {
-                        Status.ERROR -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
-                        Status.LOADING -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
-                        else -> {
-                            checkCardAddedOnSamSungWallet(adapter.getDataList())
-                            state.toast = "${it.message}^${AlertType.DIALOG.name}"
-                        }
-                    }
-                }
-        }
+//        context.getTestPayloadForSamsung(
+//            cardDetail?.cardNumber,
+//            cardDetail?.expiryDate?.split("/")?.get(1),
+//            cardDetail?.expiryDate?.split("/")?.get(0),
+//            cardDetail?.displayName
+//        ) { paylaod ->
+//            val data = paylaod.toByteArray(StandardCharsets.UTF_8)
+//            val finalPayload = EncodingUtils.base64Encode(data)
+//            SamsungPayWalletManager.getInstance(context)
+//                .addYapCardToSamsungPay(finalPayload) {
+//                    state.loading = false
+//                    when (it.status) {
+//                        Status.ERROR -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
+//                        Status.LOADING -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
+//                        else -> {
+//                            checkCardAddedOnSamSungWallet(adapter.getDataList())
+//                            state.toast = "${it.message}^${AlertType.DIALOG.name}"
+//                        }
+//                    }
+//                }
+//        }
     }
 
     private fun checkCardAddedOnSamSungWallet(yapCards: MutableList<Card>?) {

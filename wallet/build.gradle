@@ -2,11 +2,6 @@ dependencies {
     //implementation fileTree(dir: 'libs', include: ['*.jar'])
     api files('libs/SamsungPaySDK_v2.14.00.jar')
 
-    // Test dependencies
-    project.testDependencies.each {
-        add(it.configuration, it.dependency)
-    }
-
     //Wallet Dependencies
     project.walletDependencies.each {
         add(it.configuration, it.dependency)
