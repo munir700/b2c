@@ -20,9 +20,6 @@ private fun fetchContacts(context: Context): MutableList<Contact> {
             Manifest.permission.READ_CONTACTS
         ) == PackageManager.PERMISSION_GRANTED
     ) {
-        val defaultCountryCode = Utils.getDefaultCountryCode(context)
-        val phoneUtil = PhoneNumberUtil.getInstance()
-
         val contacts = LinkedHashMap<Long, Contact>()
 
         val projection = arrayOf(
@@ -75,7 +72,7 @@ private fun fetchContacts(context: Context): MutableList<Contact> {
 
                             try {
                                 val pn =
-                                    phoneUtil.parse(phoneNumber, defaultCountryCode)
+                                    PhoneNumberUtil.getInstance().parse(phoneNumber, Utils.getDefaultCountryCode(context))
                                 contact.mobileNo = pn.nationalNumber.toString()
                                 contact.countryCode = "00${pn.countryCode}"
                             } catch (e: Exception) {
