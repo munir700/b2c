@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.totalpurchases
 
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 
 class TotalPurchaseActivity :BaseBindingActivity<ITotalPurchases.ViewModel>(),ITotalPurchases.View{
