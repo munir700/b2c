@@ -1449,7 +1449,7 @@
     <string name="screen_edit_bill_dialog_title">Are you sure you want to delete this bill?</string>
     <string name="screen_edit_bill_dialog_description">You will loose all the data stored of past bill payments.</string>
     <string name="screen_edit_bill_switch_text_this_an_auto_payment">This an auto-payment.</string>
-    <string name="screen_edit_bill_switch_text_bill_reminder">Bill reminder</string>
+    <string name="screen_edit_bill_switch_text_bill_reminder">Set up a bill reminder</string>
     <string name="screen_edit_bill_field_label">Enter nickname</string>
 
 

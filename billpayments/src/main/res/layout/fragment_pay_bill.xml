@@ -193,8 +193,8 @@
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/screen_pay_bill_selection_text"
-                tools:text="@string/screen_pay_bill_selection_text" />
+                app:text="@{Strings.screen_edit_bill_switch_text_bill_reminder}"
+                tools:text="@string/screen_edit_bill_switch_text_bill_reminder" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/swBillReminder"
