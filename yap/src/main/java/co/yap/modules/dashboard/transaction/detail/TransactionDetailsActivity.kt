@@ -113,9 +113,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     //    showFeedbackSuccessDialog()
                 }
             }
-            R.id.ibTotalPurchase -> {
-                context.launchActivity<TotalPurchaseActivity>()
-            }
+            /*R.id.ibTotalPurchase -> {
+                launchActivity<TotalPurchaseActivity>()
+            }*/
         }
     }
 

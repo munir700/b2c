@@ -215,10 +215,6 @@ class TransactionDetailsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun handlePressOnTotalPurchase(id: Int) {
-        clickEvent.setValue(id)
-    }
-
     override fun deleteReceipt(position: Int) {
         adapter.removeItemAt(position)
     }

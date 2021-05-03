@@ -41,7 +41,6 @@ interface ITransactionDetails {
         var itemsComposer: TransactionDetailComposer
         var transactionAdapter: TransactionDetailItemAdapter
         var totalPurchase: ObservableField<TotalPurchases>
-        fun handlePressOnTotalPurchase(id:Int)
     }
 
     interface State : IBase.State {

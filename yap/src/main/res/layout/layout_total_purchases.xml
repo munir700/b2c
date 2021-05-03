@@ -42,26 +42,25 @@
             style="@style/ALarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_extra_small"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="0dp"
+            android:onClick="@{(v)-> purchaseViewModel.handlePressOnView(v.id)}"
             android:text="@{purchaseViewModel.totalPurchase.txnCount.toString()== null ? `0` :purchaseViewModel.totalPurchase.txnCount.toString()}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/tpBaseLine"
-            app:layout_constraintEnd_toStartOf="@+id/ibTotalPurchase"
-            app:layout_constraintTop_toBottomOf="@+id/tpTopLine"
-            tools:text="23" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tpTopLine" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/ibTotalPurchase"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivTotalPurchase"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:background="@null"
-            android:onClick="@{(v)->purchaseViewModel.handlePressOnTotalPurchase(v.id)}"
-            android:paddingTop="@dimen/_2sdp"
-            android:paddingEnd="@dimen/margin_small"
             app:layout_constraintBottom_toBottomOf="@+id/tpTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tpTitle"
-            app:srcCompat="@drawable/ic_baseline_keyboard_arrow" />
+            app:srcCompat="@drawable/ic_chevron_right"
+            android:tint="@color/colorPrimary"/>
+
 
         <View
             android:id="@+id/space"
@@ -73,11 +72,11 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Total transactions"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toTopOf="@+id/tpBaseLine"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tpTopLine"
-            app:text="@{Strings.screen_transaction_details_total_purchases}" />
+            app:layout_constraintTop_toBottomOf="@+id/tpTopLine" />
 
         <View
             android:id="@+id/tpBaseLine"
@@ -118,7 +117,6 @@
             android:id="@+id/vBlank"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_small" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
