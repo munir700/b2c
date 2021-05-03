@@ -14,10 +14,18 @@
         <action
             android:id="@+id/action_payBillFragment_to_payBillSuccessFragment"
             app:destination="@id/payBillSuccessFragment" />
+        <action
+            android:id="@+id/action_payBillFragment_to_prepaidPayBillFragment"
+            app:destination="@id/prepaidPayBillFragment" />
     </fragment>
     <fragment
         android:id="@+id/payBillSuccessFragment"
         android:name="co.yap.billpayments.paybill.paybillsuccess.PayBillSuccessFragment"
         android:label="PayBillSuccessFragment"
         tools:layout="@layout/fragment_pay_bill_success" />
+    <fragment
+        android:id="@+id/prepaidPayBillFragment"
+        android:name="co.yap.billpayments.paybill.prepaid.PrepaidPayBillFragment"
+        android:label="PrepaidPayBillFragment"
+        tools:layout="@layout/fragment_prepaid_pay_bill" />
 </navigation>
