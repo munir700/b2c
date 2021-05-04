@@ -83,6 +83,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_medium_large"
                     android:checked="@={SessionManager.INSTANCE.isRemembered}"
+                    android:padding="@dimen/margin_normal"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_label_switch_text)}"
                     android:theme="@style/CustomSwitch" />
 
@@ -97,10 +98,10 @@
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:btn_size="small"
                     android:layout_gravity="center_horizontal"
                     android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_button_sign_in)}"
+                    app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}" />
 
                 <View

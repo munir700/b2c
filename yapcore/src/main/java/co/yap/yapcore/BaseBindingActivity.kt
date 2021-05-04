@@ -5,8 +5,14 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.lifecycleScope
 import co.yap.app.YAPApplication
 import co.yap.localization.LocaleManager
+import co.yap.yapcore.helpers.extentions.getCountUnreadMessage
+import co.yap.yapcore.helpers.extentions.initializeChatOverLayButton
+import co.yap.yapcore.managers.isUserLogin
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
@@ -21,6 +27,14 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         }
         super.onCreate(savedInstanceState)
         performDataBinding()
+        if (shouldShowChatChatOverLay() == true)
+            initializeChatOverLayButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (shouldShowChatChatOverLay() == true)
+            getCountUnreadMessage()
     }
 
     private fun restartApp() {
@@ -33,6 +47,18 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()
     }
+
+    fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {
+        lifecycleScope.launch(
+            when (dispatcher) {
+                Dispatcher.Main -> Dispatchers.Main
+                Dispatcher.Background -> Dispatchers.IO
+                Dispatcher.LongOperation -> Dispatchers.Default
+            }
+        ) { block() }
+    }
+
+    open fun shouldShowChatChatOverLay() = isUserLogin()
 
     /**
      * Override for set binding variable

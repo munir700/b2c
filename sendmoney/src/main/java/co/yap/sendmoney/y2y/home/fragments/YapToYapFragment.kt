@@ -9,18 +9,16 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentYapToYapBinding
-import co.yap.sendmoney.y2y.home.adaptors.PHONE_CONTACTS
-import co.yap.sendmoney.y2y.home.adaptors.TransferLandingAdaptor
-import co.yap.sendmoney.y2y.home.adaptors.YAP_CONTACTS
 import co.yap.sendmoney.y2y.home.interfaces.IYapToYap
+import co.yap.sendmoney.y2y.home.phonecontacts.PhoneContactFragment
 import co.yap.sendmoney.y2y.home.viewmodel.YapToYapViewModel
+import co.yap.sendmoney.y2y.home.yapcontacts.YapContactsFragment
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.interfaces.OnItemClickListener
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
 class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickListener {
@@ -34,13 +32,12 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         super.onCreate(savedInstanceState)
         viewModel.parentViewModel?.beneficiary?.let {
             skipYapHomeFragment()
-        } ?:setupRecent()
+        } ?: setupRecent()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdaptor()
-        setupTabs()
     }
 
     private fun setupRecent() {
@@ -59,50 +56,31 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     }
 
     private fun setupAdaptor() {
-        val adaptor = TransferLandingAdaptor(this)
-        getBindingView().viewPager.adapter = adaptor
+        val adapter = SectionsPagerAdapter(requireActivity(), childFragmentManager)
+        adapter.addFragmentInfo<YapContactsFragment>(getString(Strings.screen_y2y_display_button_yap_contacts))
+        adapter.addFragmentInfo<PhoneContactFragment>(getString(Strings.screen_y2y_display_button_all_contacts))
+        getBindingView().viewPager.adapter = adapter
+        viewModel.parentViewModel?.selectedTabPos?.value?.let {
+            getBindingView().viewPager.currentItem = it
+        }
         viewModel.recentsAdapter.allowFullItemClickListener = true
         viewModel.recentsAdapter.setItemListener(this)
-    }
-
-    private fun setupTabs() {
-        TabLayoutMediator(getBindingView().tabLayout, getBindingView().viewPager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                tab.text = getTabTitle(position)
-            }).attach()
-        getBindingView().viewPager.isUserInputEnabled = false
-        getBindingView().viewPager.offscreenPageLimit = 1
-        viewModel.parentViewModel?.selectedTabPos?.value?.let {
-            tabLayout.getTabAt(it)?.select()
-        }
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.layoutSearchView -> {
-                viewModel.parentViewModel?.selectedTabPos?.value = tabLayout.selectedTabPosition
-                navigate(R.id.action_yapToYapHome_to_y2YSearchContactsFragment)
+                if (viewModel.parentViewModel?.y2yBeneficiries?.value?.isEmpty() == false || viewModel.parentViewModel?.yapContactLiveData?.value?.isEmpty() == false) {
+                    viewModel.parentViewModel?.selectedTabPos?.value = tabLayout.selectedTabPosition
+                    navigate(R.id.action_yapToYapHome_to_y2YSearchContactsFragment)
+                }
             }
             R.id.tvCancel -> {
-                activity?.finish()
+               requireActivity().finish()
             }
             R.id.tvHideRecents, R.id.recents -> {
                 viewModel.state.isRecentsVisible.set(getBindingView().layoutRecent.recyclerView.visibility == View.VISIBLE)
             }
-        }
-    }
-
-    private fun getTabTitle(position: Int): String? {
-        return when (position) {
-            YAP_CONTACTS -> Translator.getString(
-                requireContext(),
-                Strings.screen_y2y_display_button_yap_contacts
-            )
-            PHONE_CONTACTS -> Translator.getString(
-                requireContext(),
-                Strings.screen_y2y_display_button_all_contacts
-            )
-            else -> null
         }
     }
 
@@ -119,7 +97,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
                 viewModel.parentViewModel?.beneficiary?.beneficiaryPictureUrl ?: "",
                 viewModel.parentViewModel?.beneficiary?.beneficiaryUuid ?: "",
                 viewModel.parentViewModel?.beneficiary?.title ?: "",
-                viewModel.parentViewModel?.position?:0
+                viewModel.parentViewModel?.position ?: 0
             ), screenType = FeatureSet.Y2Y_TRANSFER, navOptions = navOptions
         )
     }

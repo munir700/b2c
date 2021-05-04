@@ -52,7 +52,6 @@ class BiometricManagerX @JvmOverloads constructor(
      * Check if the device has suitable hardware for fingerprint authentication
      * and if the device has setup fingerprints to check on.
      */
-    @TargetApi(Build.VERSION_CODES.M)
     fun hasFingerprintEnrolled() = when (biometricManager?.canAuthenticate()) {
         BIOMETRIC_SUCCESS -> true
         else -> false
@@ -62,7 +61,6 @@ class BiometricManagerX @JvmOverloads constructor(
      * Subscribe for the fingerprint events by passing an [FingerListener].
      * Best place to to this is onResume.
      */
-    @TargetApi(Build.VERSION_CODES.M)
     fun subscribe(biometricCallback: BiometricCallback) {
 
 //        if (title == null) {
@@ -102,7 +100,6 @@ class BiometricManagerX @JvmOverloads constructor(
      * Subscribe for the fingerprint events by passing an [FingerListener].
      * Best place to to this is onResume.
      */
-    @TargetApi(Build.VERSION_CODES.M)
     private fun authenticate(listener: BiometricCallback) {
         fingerListener = listener
     }

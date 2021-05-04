@@ -56,7 +56,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             return if (user?.currentCustomer?.homeCountry?.count() == 3) countries.value?.find { it.isoCountryCode3Digit == user?.currentCustomer?.homeCountry }?.isoCountryCode2Digit
                 ?: "AE"
             else
-                user?.currentCustomer?.homeCountry?:"AE"
+                user?.currentCustomer?.homeCountry ?: "AE"
         }
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -280,4 +280,9 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
         }
     }
+}
+
+fun Context?.isUserLogin() = this?.let {
+    SharedPreferenceManager.getInstance(it)
+        .getValueBoolien(Constants.KEY_IS_USER_LOGGED_IN, false) && SessionManager.user != null
 }

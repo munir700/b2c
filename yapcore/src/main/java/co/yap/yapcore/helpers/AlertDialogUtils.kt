@@ -14,11 +14,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import co.yap.widgets.CoreButton
-import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.chatSetup
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
-import co.yap.yapcore.managers.ChatManager
 import co.yap.yapcore.managers.SessionManager
 
 /**
@@ -32,7 +31,7 @@ import co.yap.yapcore.managers.SessionManager
  * @param[callback] callback of click ok button
  */
 @JvmOverloads
-fun Context.confirm(
+fun Activity.confirm(
     message: String,
     title: String = "",
     positiveButton: String? = null,
@@ -252,7 +251,7 @@ fun Activity.showAlertDialogAndExitApp(
                 makeCall(SessionManager.helpPhoneNumber)
             }),
             Pair("live chat", View.OnClickListener {
-                ChatManager.config(ok.context as BaseActivity<*>)
+                this@showAlertDialogAndExitApp.chatSetup()
             })
         )
     }

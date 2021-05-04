@@ -17,8 +17,6 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 
 class SMHomeCountryViewModel(application: Application) :
     BaseViewModel<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel,
@@ -122,30 +120,30 @@ class SMHomeCountryViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            coroutineScope {
-                val deferredUpdateCountryResponse = async {
-                    repository.updateHomeCountry(
-                        homeCountry = homeCountry?.isoCountryCode2Digit ?: ""
+//            coroutineScope {
+            val deferredUpdateCountryResponse = launchAsync {
+                repository.updateHomeCountry(
+                    homeCountry = homeCountry?.isoCountryCode2Digit ?: ""
+                )
+            }
+            val response = deferredUpdateCountryResponse.await()
+            when (response) {
+                is RetroApiResponse.Success -> {
+                    val deferredExchangeRateResponse = launchAsync {
+                        repository.updateFxRate(FxRateRequest(other_bank_country = homeCountry?.isoCountryCode2Digit.toString()))
+                    }
+                    val deferredRecents = launchAsync { repository.getRecentBeneficiaries() }
+                    responses(
+                        response,
+                        deferredExchangeRateResponse.await(),
+                        deferredRecents.await()
                     )
                 }
-                val response = deferredUpdateCountryResponse.await()
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                        val deferredExchangeRateResponse = async {
-                            repository.updateFxRate(FxRateRequest(other_bank_country = homeCountry?.isoCountryCode2Digit.toString()))
-                        }
-                        val deferredRecents = async { repository.getRecentBeneficiaries() }
-                        responses(
-                            response,
-                            deferredExchangeRateResponse.await(),
-                            deferredRecents.await()
-                        )
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.viewState.postValue(false)
-                    }
+                is RetroApiResponse.Error -> {
+                    state.viewState.postValue(false)
                 }
             }
+//            }
         }
     }
 

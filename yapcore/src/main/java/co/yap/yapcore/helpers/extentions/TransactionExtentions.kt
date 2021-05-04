@@ -47,8 +47,9 @@ fun Transaction?.getTitle(): String {
             }
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
             TransactionProductCode.REFUND_MASTER_CARD.pCode -> "Refund from ${transaction.merchantName}"
-            TransactionProductCode.FUND_LOAD.pCode -> if (transaction.initiator.isNullOrBlank()) transaction.title
-                ?: "Unknown" else "Received from ${transaction.initiator}"
+            TransactionProductCode.FUND_LOAD.pCode -> transaction.senderName?.let { "Received from ${transaction.senderName}" }
+                ?: "Received transfer"
+
 
             else -> transaction.title ?: "Unknown"
         })
@@ -100,7 +101,7 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
         return when {
             txn.getProductType() == TransactionProductType.IS_TRANSACTION_FEE -> "Fee"
             txn.getProductType() == TransactionProductType.IS_REFUND -> "Refund"
-            txn.getProductType() == TransactionProductType.IS_INCOMING -> "Inward Bank Transfer"
+            txn.getProductType() == TransactionProductType.IS_INCOMING -> "Inward bank transfer"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Add money"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
@@ -216,6 +217,10 @@ fun Transaction?.getCurrency(): String {
         return (when (transaction.productCode) {
             TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
                 transaction.currency.toString()
+            }
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> {
+                transaction.cardHolderBillingCurrency
+                    ?: SessionManager.getDefaultCurrency()
             }
             else -> transaction.currency.toString()
         })
@@ -335,14 +340,19 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 }
 
 fun Transaction?.getAmount(): Double {
-    if (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode || this?.isNonAEDTransaction() == true)
-        return this.amount ?: 0.0
+    this?.let {
+        return when {
+            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() -> {
+                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode) it.cardHolderBillingTotalAmount
+                    ?: 0.0 else it.amount ?: 0.0
+            }
+            it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
+                ?: 0.0
+            else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
+                ?: 0.00
+        }
 
-    (return when (this?.txnType) {
-        TxnType.DEBIT.type -> this.totalAmount ?: 0.0
-        TxnType.CREDIT.type -> this.amount ?: 0.0
-        else -> 0.0
-    })
+    } ?: return 0.00
 }
 
 fun Transaction?.getFormattedTransactionAmount(): String? {
@@ -413,5 +423,5 @@ fun List<Transaction>?.getTotalAmount(): String {
 }
 
 fun Transaction?.isNonAEDTransaction(): Boolean {
-    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && this.currency != SessionManager.getDefaultCurrency()
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || this?.productCode == TransactionProductCode.ECOM.pCode) && this.currency != SessionManager.getDefaultCurrency()
 }

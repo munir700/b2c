@@ -11,7 +11,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -646,42 +645,6 @@ public class AdvancedWebView extends WebView {
                 if (mCustomWebViewClient != null) {
                     // if the user-specified handler asks to override the request
                     if (mCustomWebViewClient.shouldOverrideUrlLoading(view, url)) {
-                        // cancel the original request
-                        return true;
-                    }
-                }
-
-                final Uri uri = Uri.parse(url);
-                final String scheme = uri.getScheme();
-
-                if (scheme != null) {
-                    final Intent externalSchemeIntent;
-
-                    if (scheme.equals("tel")) {
-                        externalSchemeIntent = new Intent(Intent.ACTION_DIAL, uri);
-                    } else if (scheme.equals("sms")) {
-                        externalSchemeIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                    } else if (scheme.equals("mailto")) {
-                        externalSchemeIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                    } else if (scheme.equals("whatsapp")) {
-                        externalSchemeIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                        externalSchemeIntent.setPackage("com.whatsapp");
-                    } else {
-                        externalSchemeIntent = null;
-                    }
-
-                    if (externalSchemeIntent != null) {
-                        externalSchemeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        try {
-                            if (mActivity != null && mActivity.get() != null) {
-                                mActivity.get().startActivity(externalSchemeIntent);
-                            } else {
-                                getContext().startActivity(externalSchemeIntent);
-                            }
-                        } catch (ActivityNotFoundException ignored) {
-                        }
-
                         // cancel the original request
                         return true;
                     }
@@ -1372,35 +1335,35 @@ public class AdvancedWebView extends WebView {
             return null;
         }
 
-        /**
-         * Opens the given URL in an alternative browser
-         *
-         * @param context a valid `Activity` reference
-         * @param url     the URL to open
-         */
-        public static void openUrl(final Activity context, final String url) {
-            openUrl(context, url, false);
-        }
-
-        /**
-         * Opens the given URL in an alternative browser
-         *
-         * @param context           a valid `Activity` reference
-         * @param url               the URL to open
-         * @param withoutTransition whether to switch to the browser `Activity` without a transition
-         */
-        public static void openUrl(final Activity context, final String url, final boolean withoutTransition) {
-            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            intent.setPackage(getAlternative(context));
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (intent.resolveActivity(context.getPackageManager()) != null) {
-                context.startActivity(intent);
-
-                if (withoutTransition) {
-                    context.overridePendingTransition(0, 0);
-                }
-            }
-
-        }
+//        /**
+//         * Opens the given URL in an alternative browser
+//         *
+//         * @param context a valid `Activity` reference
+//         * @param url     the URL to open
+//         */
+//        public static void openUrl(final Activity context, final String url) {
+//            openUrl(context, url, false);
+//        }
+//
+//        /**
+//         * Opens the given URL in an alternative browser
+//         *
+//         * @param context           a valid `Activity` reference
+//         * @param url               the URL to open
+//         * @param withoutTransition whether to switch to the browser `Activity` without a transition
+//         */
+//        public static void openUrl(final Activity context, final String url, final boolean withoutTransition) {
+//            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            intent.setPackage(getAlternative(context));
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            if (intent.resolveActivity(context.getPackageManager()) != null) {
+//                context.startActivity(intent);
+//
+//                if (withoutTransition) {
+//                    context.overridePendingTransition(0, 0);
+//                }
+//            }
+//
+//        }
     }
 }
