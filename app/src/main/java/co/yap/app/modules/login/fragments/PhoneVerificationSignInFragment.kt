@@ -123,7 +123,7 @@ class PhoneVerificationSignInFragment :
                 SessionManager.updateCardBalance { }
                 if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                     val bundle = Bundle()
-                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    SharedPreferenceManager.getInstance(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                     bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
                     bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
                     startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
@@ -131,11 +131,11 @@ class PhoneVerificationSignInFragment :
                 } else {
                     if (BiometricUtil.hasBioMetricFeature(requireActivity())
                     ) {
-                        viewModel.parentViewModel?.shardPrefs?.save(
+                        SharedPreferenceManager.getInstance(requireContext()).save(
                             co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                             true
                         )
-                        if (SharedPreferenceManager(requireContext()).getValueBoolien(
+                        if (SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
                                 co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                                 false
                             )

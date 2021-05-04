@@ -5,6 +5,7 @@ import co.yap.base.BaseTestCase
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel
 import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
@@ -23,6 +24,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TransactionDetailsViewModelTest : BaseTestCase() {
     lateinit var sut: TransactionDetailsViewModel
@@ -47,6 +49,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         val isCategoryGeneral: Boolean,
         val tapixCategoryDesc: String?,
         val CategoryIcon: String?,
+        val tapixCategory: ArrayList<TapixCategory>,
         val showFeedback : Boolean
     )
 
@@ -167,6 +170,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             Assert.assertEquals(expectation.showTotalPurchase, txnDetail?.showTotalPurchase)
             Assert.assertEquals(expectation.isCategoryGeneral, isCategoryGeneral(transaction))
             Assert.assertEquals(expectation.tapixCategoryDesc, txnDetail?.categoryDescription)
+            Assert.assertEquals(expectation.tapixCategory[0], txnDetail?.tapixCategory)
             Assert.assertEquals(
                 expectation.showFeedback,
                 txnDetail?.showFeedBack

@@ -22,7 +22,6 @@ class LiteDashboardViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
     private val cardsRepository: CardsRepository = CardsRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override fun handlePressOnLogout() {
         logout()
@@ -30,7 +29,7 @@ class LiteDashboardViewModel(application: Application) :
 
     override fun logout() {
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = repository.logout(deviceId.toString())) {

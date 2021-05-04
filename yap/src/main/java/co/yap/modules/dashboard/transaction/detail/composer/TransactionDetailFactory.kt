@@ -374,9 +374,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         id = 0,
         categoryName = "General",
         categoryIcon = "",
-        analyticIcon = "",
-        isSelected = true,
-        type = true
+        analyticIcon = ""
     ) else transaction.tapixCategory
 
 }

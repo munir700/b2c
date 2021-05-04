@@ -12,19 +12,19 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 
-class YapCardsAdaptor(context: Context, private val list: MutableList<Card>) :
+class YapCardsAdaptor(val context: Context, private val list: MutableList<Card>) :
     BaseBindingRecyclerAdapter<Card, RecyclerView.ViewHolder>(list) {
 
     private val empty = 1
     private val actual = 2
-    private var dimensions: IntArray = Utils.getCardDimensions(context, 50, 45)
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 50, 42)
 
     override fun getLayoutIdForViewType(viewType: Int): Int =
         if (viewType == actual) R.layout.item_yap_card else R.layout.item_yap_card_empty
 
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return if (binding is ItemYapCardBinding) YapCardItemViewHolder(binding) else YapCardEmptyItemViewHolder(
+        return if (binding is ItemYapCardBinding) YapCardItemViewHolder(context,binding) else YapCardEmptyItemViewHolder(
             binding as ItemYapCardEmptyBinding
         )
     }

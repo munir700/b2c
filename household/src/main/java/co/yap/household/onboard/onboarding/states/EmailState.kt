@@ -166,7 +166,7 @@ class EmailState (application: Application) : BaseState(), IEmail.State {
                 it
             )
         }
-        if (SharedPreferenceManager(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+        if (SharedPreferenceManager.getInstance(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
             DrawableCompat.setTint(drawbleRight!!, Color.RED);
         }
     }

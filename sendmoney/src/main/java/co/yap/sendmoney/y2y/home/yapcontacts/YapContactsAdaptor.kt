@@ -26,10 +26,6 @@ class YapContactsAdaptor(private val list: MutableList<IBeneficiary>) :
 
     override fun filterItem(constraint: CharSequence?, item: IBeneficiary): Boolean {
         val filterString = constraint.toString().toLowerCase()
-//        val filterableString =
-//            item.countryCode!! + "" + item.mobileNo!!
-//        val filterableStringForName = item.title!!
-
         val filterableString = item.subtitle ?: ""
         val filterableStringForName = item.fullName ?: ""
         return (filterableString.toLowerCase()
