@@ -37,7 +37,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
 
     private fun initComponents() {
         viewModel.contactsAdapter.setItemListener(listener)
-        skeleton = getBinding().recycler.applySkeleton(
+        skeleton = getDataBindingView<FragmentYapContactsBinding>().recycler.applySkeleton(
             R.layout.layout_item_contacts_shimmer,
             5
         )
@@ -48,6 +48,8 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
         viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.y2yBeneficiries?.observe(this, Observer {
             viewModel.contactsAdapter.setList(it)
+            if (!it.isNullOrEmpty())
+                viewModel.contactsAdapter.filter.filter(viewModel.parentViewModel?.searchQuery?.value)
             viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
             viewModel.state.contactsCounts.set(it.size)
@@ -74,24 +76,16 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
             when (view.id) {
                 R.id.lyContact -> {
                     if (data is IBeneficiary && data.isYapUser) {
-                        navigateToTransferScreen(
-                            viewModel.getBundle(data, pos),
-                            viewModel.getActionId(parentFragment)
+                        navigate(
+                            viewModel.getActionId(parentFragment),
+                            args = viewModel.getBundle(data, pos),
+                            screenType = FeatureSet.Y2Y_TRANSFER
                         )
                     }
                 }
             }
         }
     }
-
-    override fun navigateToTransferScreen(args: Bundle, actionId: Int) {
-        navigate(
-            actionId,
-            args = args,
-            screenType = FeatureSet.Y2Y_TRANSFER
-        )
-    }
-
 
     private val observer = Observer<Int> {
         when (it) {
@@ -125,9 +119,5 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
                 skeleton.showOriginal()
             }
         }
-    }
-
-    private fun getBinding(): FragmentYapContactsBinding {
-        return (viewDataBinding as FragmentYapContactsBinding)
     }
 }

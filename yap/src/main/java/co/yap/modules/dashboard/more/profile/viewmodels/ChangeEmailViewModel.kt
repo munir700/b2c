@@ -21,7 +21,6 @@ open class ChangeEmailViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val success: MutableLiveData<Boolean> = MutableLiveData()
-    override val sharedPreferenceManager = SharedPreferenceManager(context)
     override val state: ChangeEmailState = ChangeEmailState(application)
 
 

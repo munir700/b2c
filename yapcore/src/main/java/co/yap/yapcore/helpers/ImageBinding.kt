@@ -138,7 +138,7 @@ object ImageBinding {
             builder.buildRect(
                 Utils.shortName(fullName ?: ""),
                 ColorUtils.setAlphaComponent(colorCode ?: -1, 25)
-            )
+            ),System.currentTimeMillis().toString()
         )
     }
 

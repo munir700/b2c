@@ -28,7 +28,6 @@ class YapDashBoardViewModel(application: Application) :
     override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
     override val repository: MessagesRepository = MessagesRepository
     val customerRepository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(application)
     override val authRepository: AuthRepository = AuthRepository
     override var EVENT_LOGOUT_SUCCESS: Int = 101
     override var isYapHomeFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -133,7 +132,7 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun logout() {
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(Constants.KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = authRepository.logout(deviceId.toString())) {
