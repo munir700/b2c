@@ -11,7 +11,13 @@ import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import com.google.gson.Gson
 import java.lang.Exception
 
-class SharedPreferenceManager(val context: Context) {
+/**
+ * To improve the performanceSharedPreferenceManager  @constructor is private.
+ * you must need to  access Singlaton instanse of SharedPreferenceManager
+ * i.e SharedPreferenceManager.getInstance(context)
+ * @see SingletonHolder
+* */
+class SharedPreferenceManager private constructor(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
     private val inviterAdjustId = "inviterAdjustId"

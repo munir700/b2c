@@ -14,7 +14,6 @@ import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
-import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
@@ -25,6 +24,8 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
+import co.yap.wallet.samsung.SamsungPayWalletManager
+import co.yap.wallet.samsung.isSamsungPayFeatureEnabled
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -33,9 +34,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CARD_ADDED
 import co.yap.yapcore.enums.*
-import co.yap.yapcore.helpers.TourGuideManager
-import co.yap.yapcore.helpers.TourGuideType
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchTourGuide
 import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
@@ -73,18 +72,20 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         setupPager()
         toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-        viewModel.getCards()
-        viewModel.cards.observe(this, Observer {
-            if (!it.isNullOrEmpty())
-                setupList(it)
+//        viewModel.getCards()
+        viewModel.cards.observe(viewLifecycleOwner, Observer {
+            if (!it.isNullOrEmpty()) {
+                viewModel.adapter.setList(it)
+                updateCardCount()
+            }
         })
-        SessionManager.card.observe(this, Observer {
+        SessionManager.card.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewModel.getCards()
             }
         })
         viewModel.parentViewModel?.isYapCardsFragmentVisible?.observe(
-            this,
+            viewLifecycleOwner,
             Observer { isCardsFragmentVisible ->
                 if (isCardsFragmentVisible) {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
@@ -102,18 +103,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             })
     }
 
-    private fun setupList(cards: ArrayList<Card>) {
-        getCardAdaptor().setList(cards)
-        updateCardCount()
-    }
-
     private fun updateCardCount() {
-        viewModel.updateCardCount(getCardAdaptor().itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
+        viewModel.updateCardCount(viewModel.adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
 
     private fun setupPager() {
         //getCardAdaptor() = YapCardsAdaptor(requireContext(), mutableListOf())
-        viewPager2.adapter = getCardAdaptor()
+        viewPager2.adapter = viewModel.adapter
 
         with(viewPager2) {
             clipToPadding = false
@@ -137,7 +133,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
         }
 
-        getCardAdaptor().setItemListener(object : OnItemClickListener {
+        viewModel.adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 if (data is Card)
                     viewModel.clickEvent.setPayload(
@@ -157,15 +153,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         val view = viewModel.clickEvent.getPayload()?.view
         viewModel.clickEvent.setPayload(null)
         if (pos != null && view != null) {
+            val card = viewModel.adapter.getDataForPosition(pos)
             when (it) {
                 R.id.imgCard -> {
-                    if (getCard(pos).cardName == Constants.addCard) {
+                    if (card.cardName == Constants.addCard) {
                         openAddCard()
                     } else
-                        when (getCard(pos).status) {
+                        when (card.status) {
                             CardStatus.ACTIVE.name -> {
-                                if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                    if (getCard(pos).pinCreated) openDetailScreen(pos) else openStatusScreen(
+                                if (card.cardType == CardType.DEBIT.type) {
+                                    if (card.pinCreated) openDetailScreen(pos) else openStatusScreen(
                                         view,
                                         pos
                                     )
@@ -176,7 +173,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 pos
                             )
                             CardStatus.INACTIVE.name -> {
-                                getCard(pos).deliveryStatus?.let {
+                                card.deliveryStatus?.let {
                                     openStatusScreen(view, pos)
                                 } ?: openDetailScreen(pos)
                             }
@@ -189,43 +186,96 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     openAddCard()
                 }
                 R.id.tvCardStatusAction -> {
-                    when (getCard(pos).status) {
+                    when (card.status) {
                         CardStatus.BLOCKED.name -> {
                             if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD)) {
                                 showBlockedFeatureAlert(requireActivity(), FeatureSet.UNFREEZE_CARD)
                             } else {
-                                viewModel.unFreezeCard(getCard(pos).cardSerialNumber) {
+                                viewModel.unFreezeCard(card.cardSerialNumber) {
                                     viewModel.getUpdatedCard(pos) { card ->
                                         card?.let {
-                                            getCardAdaptor().setItemAt(pos, card)
+                                            viewModel.adapter.setItemAt(pos, card)
                                         }
                                     }
                                 }
                             }
                         }
                         CardStatus.HOTLISTED.name -> {
-                            startReorderCardFlow(getCard(pos))
+                            startReorderCardFlow(card)
                         }
                         CardStatus.ACTIVE.name -> {
-                            if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !getCard(
-                                        pos
-                                    ).pinCreated
+                            if (card.cardType == CardType.DEBIT.type) {
+                                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated
                                 ) {
-                                    openSetPinScreen(getCard(pos))
+                                    openSetPinScreen(card)
                                 }
                             }
                         }
                         CardStatus.INACTIVE.name -> {
-                            if (getCard(pos).cardType == CardType.DEBIT.type) {
+                            if (card.cardType == CardType.DEBIT.type) {
                                 if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                    if (getCard(pos).deliveryStatus == CardDeliveryStatus.SHIPPED.name)
-                                        openSetPinScreen(getCard(pos))
+                                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name)
+                                        openSetPinScreen(card)
                                     else
                                         openStatusScreen(view, pos)
                                 }
                             }
                         }
+                    }
+                }
+                R.id.btnSamsungPay -> {
+                    if (requireContext().isSamsungPayFeatureEnabled()) {
+//                    Internal testing only
+//                        viewModel.getSPayCardFormYapCard(card) { SCard ->
+//                            SCard?.let {
+////                                viewModel.openFavoriteCard(SCard.cardId) {
+////
+////                                }
+//                                requireActivity().alert("Card already added in Samsung Pay")
+//                            } ?: run {
+//                                confirm(
+//                                    message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
+//                                    title = "Add card to Samsung Pay",
+//                                    positiveButton = "YES"
+//                                ) {
+//                                    viewModel.getCardDetails(card.cardSerialNumber) { details ->
+//                                    }
+//                                }
+//                            }
+//                        }
+
+//                    Connected TO BE fetch card paylod from BE
+                    SamsungPayWalletManager.getInstance(requireContext())
+                        .getWalletInfo { i, bundle, state ->
+                            addCardToSamSungPay(card)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addCardToSamSungPay(card: Card) {
+        viewModel.getSPayCardFormYapCard(card) { SCard ->
+            SCard?.let {
+                requireActivity().alert("Card already added in Samsung Pay")
+//                SamsungPayWalletManager.getInstance(requireActivity())
+//                    .openFavoriteCard(SCard.cardId) { state ->
+//                        when (state.status) {
+//                            Status.ERROR -> requireActivity().alert(
+//                                state.message ?: ""
+//                            )
+//                            else -> {
+//                            }
+//                        }
+//                    }
+            } ?: run {
+                confirm(
+                    message = "This Card is not currently enrolled in Samsung Pay. Would you like to add your card?",
+                    title = "Add card to Samsung Pay",
+                    positiveButton = "YES"
+                ) {
+                    viewModel.getSamsungPayloadAndAddCard(card.cardSerialNumber) { sPayCard, state ->
                     }
                 }
             }
@@ -256,21 +306,24 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     when {
                         true == removed -> {
                             viewModel.removeCard(updatedCard)
+                            viewModel.adapter.removeItemAt(selectedCardPosition)
+                            viewModel.adapter.notifyDataSetChanged()
+                            updateCardCount()
                         }
                         true == cardBlocked -> {
-                            getCardAdaptor().removeAllItems()
+                            viewModel.adapter.removeAllItems()
                             viewModel.getCards()
                         }
                         true == cardReorder -> {
-                            getCardAdaptor().removeAllItems()
+                            viewModel.adapter.removeAllItems()
                             viewModel.getCards()
                         }
                         else -> {
-                            getCardAdaptor().getDataList()
+                            viewModel.adapter.getDataList()
                                 .firstOrNull { it.cardSerialNumber == updatedCard?.cardSerialNumber }
                                 ?.let { card ->
-                                    val pos = getCardAdaptor().getDataList().indexOf(card)
-                                    updatedCard?.let { getCardAdaptor().setItemAt(pos, it) }
+                                    val pos = viewModel.adapter.getDataList().indexOf(card)
+                                    updatedCard?.let { viewModel.adapter.setItemAt(pos, it) }
                                 } ?: showToast("Card not found")
                         }
                     }
@@ -282,7 +335,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val paymentCard: Card? = data?.getParcelableExtra("paymentCard")
 //                    val cardName:String  = data?.getParcelableExtra("paymentCard")
                     if (true == updatedCard) {
-                        getCardAdaptor().removeAllItems()
+                        viewModel.adapter.removeAllItems()
                         openDetailScreen(
                             pos = viewModel.cards.value?.size ?: 0,
                             card = paymentCard
@@ -316,21 +369,21 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     } else {
                         isPinCreated?.let {
                             if (it) {
-                                getCardAdaptor().removeAllItems()
+                                viewModel.adapter.removeAllItems()
                             }
                         }
                     }
                 }
             }
             RequestCodes.REQUEST_ADD_FUNDS_WHEN_ADD -> {
-                getCardAdaptor().removeAllItems()
+                viewModel.adapter.removeAllItems()
                 viewModel.getCards()
             }
             RequestCodes.REQUEST_REORDER_CARD -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val cardReorder = data?.getBooleanExtra("cardReorder", false)
                     if (true == cardReorder) {
-                        getCardAdaptor().removeAllItems()
+                        viewModel.adapter.removeAllItems()
                         viewModel.getCards()
                     }
                 }
@@ -342,7 +395,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         viewModel.selectedCardPosition = pos
         card?.let {
             gotoPaymentCardDetailScreen(it)
-        } ?: gotoPaymentCardDetailScreen(getCard(pos))
+        } ?: gotoPaymentCardDetailScreen(viewModel.adapter.getDataForPosition(pos))
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
@@ -367,7 +420,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 FragmentPresenterActivity.getIntent(
                     context = context,
                     type = Constants.MODE_STATUS_SCREEN,
-                    payLoad = getCard(pos)
+                    payLoad = viewModel.adapter.getDataForPosition(pos)
                 ), Constants.EVENT_CREATE_CARD_PIN
             )
         }
@@ -396,12 +449,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private fun getCard(pos: Int): Card {
-        return getCardAdaptor().getDataForPosition(pos)
-    }
-
     private fun getCardFromSerialNumber(serialNumber: String): Card? {
-        return getCardAdaptor().getDataList().firstOrNull { it.cardSerialNumber == serialNumber }
+        return viewModel.adapter.getDataList()
+            .firstOrNull { it.cardSerialNumber == serialNumber }
     }
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
