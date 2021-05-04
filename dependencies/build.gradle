@@ -30,7 +30,7 @@ project.ext {
             sendmoney       : ':sendmoney',
             security        : ':security',
             qrcodereaderview: ':qrcodereaderview',
-            billpayments    : ':billpayments'
+            billpayments    : ':billpayments',
             wallet          : ':wallet'
     ]
 
@@ -164,10 +164,10 @@ project.ext {
             tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0',
 //            deeplink                 : 'com.airbnb:deeplinkdispatch:5.2.0',
 //            deeplinkprocessor        : 'com.airbnb:deeplinkdispatch-processor:5.2.0',
-            lotieAnimation           : 'com.airbnb.android:lottie:3.4.0'
+            lotieAnimation           : 'com.airbnb.android:lottie:3.4.0',
 
             //feature flag
-            flagsmith
+            flagsmith                : 'com.flagsmith:flagsmith-java-client:2.6'
     ]
 
     // Test dependencies which need to be added in all modules
