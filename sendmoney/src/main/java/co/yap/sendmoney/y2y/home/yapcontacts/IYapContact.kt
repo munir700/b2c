@@ -12,7 +12,6 @@ import co.yap.yapcore.SingleClickEvent
 interface IYapContact {
 
     interface View : IBase.View<ViewModel> {
-        fun navigateToTransferScreen(args: Bundle, actionId: Int)
     }
 
     interface ViewModel : IBase.ViewModel<State> {

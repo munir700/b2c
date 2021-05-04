@@ -20,8 +20,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getLocalContacts
 import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.helpers.extentions.removeOwnContact
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlin.math.ceil
 
 class SMSearchBeneficiaryViewModel(application: Application) :
@@ -90,11 +88,11 @@ class SMSearchBeneficiaryViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            coroutineScope {
-                val deferredSM = async { repository.getAllBeneficiaries() }
-                val deferredY2YRecents = async { repository.getRecentY2YBeneficiaries() }
+           // coroutineScope {
+                val deferredSM =launchAsync { repository.getAllBeneficiaries() }
+                val deferredY2YRecents = launchAsync { repository.getRecentY2YBeneficiaries() }
                 responses(deferredSM.await(), deferredY2YRecents.await())
-            }
+           // }
         }
     }
     private suspend fun getLocalContactsFromServer(contactsList: (List<Contact>) -> Unit) {

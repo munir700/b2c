@@ -3,7 +3,10 @@ package co.yap.yapcore
 import android.app.Application
 import android.content.Context
 import android.view.View
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import co.yap.translation.Translator
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.interfaces.CoroutineViewModel
@@ -97,6 +100,11 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
         block()
 
     }
+
+    fun <T>launchAsync(block: suspend () -> T): Deferred<T> =
+        viewModelScope.async(Dispatchers.IO) {
+            block()
+        }
 
     fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {
         viewModelScope.launch(

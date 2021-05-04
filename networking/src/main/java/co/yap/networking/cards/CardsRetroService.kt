@@ -104,5 +104,9 @@ interface CardsRetroService {
     @GET(CardsRepository.URL_GET_VIRTUAL_CARD_DESIGNS)
     suspend fun getVirtualCardDesigns(): Response<VirtualCardDesignsResponse>
 
+    // get primary card (Debit card) payload
+    @GET(CardsRepository.URL_GET_SAMSUNG_PAY_TOKEN)
+    suspend fun getCardTokenForSamsungPay(@Query("cardSerialNumber") cardSerialNumber: String): Response<SPayCardResponse>
+
 
 }

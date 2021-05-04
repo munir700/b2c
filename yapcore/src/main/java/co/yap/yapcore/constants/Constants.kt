@@ -18,6 +18,7 @@ object Constants {
     const val SUCCESS_RESULT = "SUCCESS_RESULT"
     const val LOCATION_ADDRESS = "LOCATION_ADDRESS"
     const val ERROR_MESSAGE = "ERROR_MESSAGE"
+    const val INDEX = "index"
 
     const val CARD: String = "CARD"
     const val KEY: String = "Key"
@@ -154,7 +155,7 @@ object Constants {
     const val KEY_IS_REMEMBER = "IS_REMEMBER"
     const val KEY_FCM_TOKEN = "fcm_token"
     const val KEY_IMAGE_LOADING_TIME = "image_loading_time"
-
+    const val KEY_LP_CHAT_COUNT: String = "live_person_chat_count"
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
 

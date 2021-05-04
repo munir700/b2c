@@ -18,6 +18,7 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.animation.addListener
+import androidx.core.content.ContextCompat
 import androidx.core.text.toSpannable
 import androidx.core.view.children
 import androidx.lifecycle.Observer
@@ -278,10 +279,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     append(counterText.toSpannable().apply {
                         setSpan(
                             ForegroundColorSpan(
-                                Utils.getColor(
-                                    requireContext(),
-                                    R.color.colorPrimaryDark
-                                )
+                                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
                             ),
                             0, counterText.length,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

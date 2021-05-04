@@ -10,7 +10,6 @@ interface IMain {
 
     interface ViewModel : IBase.ViewModel<State> {
         var signingInData: SigningInData
-        val shardPrefs: SharedPreferenceManager
     }
 
     interface State : IBase.State

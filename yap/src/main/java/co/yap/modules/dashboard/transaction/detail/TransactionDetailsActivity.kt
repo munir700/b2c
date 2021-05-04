@@ -2,12 +2,9 @@ package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast.LENGTH_SHORT
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -32,12 +29,10 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.PhotoSelectionType
-import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -55,7 +50,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        setTransactionImage()
         setContentDataColor(viewModel.transaction.get())
     }
 
@@ -66,6 +60,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 viewModel.transaction.set(it)
                 viewModel.composeTransactionDetail(it)
                 getBindings().ivMap.setImageResource(viewModel.state.coverImage.get())
+                viewModel.transaction.get().setTransactionImage(getBindings().ivPicture)
             }
         }
         viewModel.responseReciept.observe(this, Observer {
@@ -109,7 +104,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         Constants.TRANSACTION_DETAIL to viewModel.transaction.get()
                     )
                 ) { resultCode, _ ->
-                    if (resultCode == Activity.RESULT_OK){}
+                    if (resultCode == Activity.RESULT_OK) {
+                    }
                     //    showFeedbackSuccessDialog()
                 }
             }
@@ -197,53 +193,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         }
     }
 
-    private fun setTransactionImage() {
-        viewModel.transaction.get()?.let { transaction ->
-            when (TransactionProductCode.Y2Y_TRANSFER.pCode) {
-                transaction.productCode ?: "" -> {
-                    ImageBinding.loadAvatar(
-                        getBindings().ivPicture,
-                        if (TxnType.valueOf(
-                                transaction.txnType ?: ""
-                            ) == TxnType.DEBIT
-                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                        if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                        android.R.color.transparent,
-                        R.dimen.text_size_h2
-                    )
-                }
-                else -> {
-                    val txnIconResId = transaction.getIcon()
-                    if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
-                        setVirtualCardIcon(transaction, getBindings().ivPicture)
-                    } else if (txnIconResId != -1) {
-                        getBindings().ivPicture.setImageResource(txnIconResId)
-                        when (txnIconResId) {
-                            R.drawable.ic_rounded_plus -> {
-                                getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_grey)
-                            }
-                            R.drawable.ic_grey_minus_transactions, R.drawable.ic_grey_plus_transactions -> {
-                                getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_disabled_transaction)
-                            }
-                        }
-                    } else
-                        setInitialsAsTxnImage(transaction)
-                }
-            }
-        }
-    }
-
-    private fun setInitialsAsTxnImage(transaction: Transaction) {
-        ImageBinding.loadAvatar(
-            getBindings().ivPicture,
-            "",
-            transaction.title,
-            android.R.color.transparent,
-            R.dimen.text_size_h2
-        )
-
-    }
-
     private fun openNoteScreen(noteValue: String = "") {
         startActivityForResult(
             TransactionNoteActivity.newIntent(
@@ -295,30 +244,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 }
             }
         }
-    }
-
-    private fun setVirtualCardIcon(
-        transaction: Transaction,
-        imageView: ImageView
-    ) {
-        transaction.virtualCardDesign?.let {
-            try {
-                val startColor = Color.parseColor(it.designCodeColors?.firstOrNull()?.colorCode)
-                val endColor = Color.parseColor(
-                    if (it.designCodeColors?.size ?: 0 > 1) it.designCodeColors?.get(1)?.colorCode else it.designCodeColors?.firstOrNull()?.colorCode
-                )
-                val gd = GradientDrawable(
-                    GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(startColor, endColor)
-                )
-                gd.shape = GradientDrawable.OVAL
-
-                imageView.background = null
-                imageView.background = gd
-                imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
-
-            } catch (e: Exception) {
-            }
-        } ?: imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
     }
 
     override fun onImageReturn(mediaFile: MediaFile) {

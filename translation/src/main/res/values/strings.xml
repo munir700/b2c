@@ -1404,5 +1404,12 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
+    ERROR_INVALID_CARDINPUT
+    <!--    Samsung Pay start-->
+    <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
+    <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
+    <string name="screen_cards_display_text_error_framework_internal">The error occurred in payment framework while processing the request. Please contact support for more information.</string>
+    <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
+    <!--    Samsung Pay end-->
 
 </resources>
