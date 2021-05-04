@@ -88,7 +88,7 @@
                 app:textColorChangePin="@{viewModel.state.nickNameValue}">
 
                 <co.yap.widgets.AlphaNumericEditText
-                    android:id="@+id/etUserInput"
+                    android:id="@+id/etNickName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_bill_detail_field_label)}"

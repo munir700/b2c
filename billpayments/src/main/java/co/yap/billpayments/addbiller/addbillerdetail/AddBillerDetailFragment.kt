@@ -3,6 +3,7 @@ package co.yap.billpayments.addbiller.addbillerdetail
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,7 +13,9 @@ import co.yap.billpayments.addbiller.base.AddBillBaseFragment
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.successDialog
+import kotlinx.android.synthetic.main.fragment_biller_detail.*
 
 class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(),
     IAddBillerDetail.View {
@@ -27,6 +30,14 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
         super.onCreate(savedInstanceState)
         setObservers()
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        etNickName.afterTextChanged {
+            viewModel.listener.onItemClick(etNickName, it, -1)
+        }
+    }
+
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)

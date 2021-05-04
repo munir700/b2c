@@ -73,6 +73,8 @@ class MyBillsViewModel(application: Application) :
                     parentViewModel?.billsResponse?.value?.size.toString()
                 )
             )
+        } else {
+            state.screenTitle.set("")
         }
     }
 
