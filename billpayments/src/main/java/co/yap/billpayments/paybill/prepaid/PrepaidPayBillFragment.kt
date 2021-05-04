@@ -10,6 +10,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
@@ -17,6 +18,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
 
@@ -113,6 +115,13 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
+        viewModel.adapter.setItemListener(skuListener)
+    }
+
+    private val skuListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            getViewBinding().etAmount.setText((data as SkuCatalogs).amount.toFormattedCurrency())
+        }
     }
 
     private val clickEvent = Observer<Int> {
@@ -145,7 +154,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
             )
         ) {
             viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
-            navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)
+            navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
         }
     }
 

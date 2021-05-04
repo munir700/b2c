@@ -102,6 +102,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:clickable="false"
+                android:enabled="false"
                 app:layout_constraintHorizontal_bias="0.512"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -143,7 +145,7 @@
                 style="@style/ARegular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_xl"
                 android:background="@drawable/bg_edit_text_disable_grey_under_line"
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                 android:maxLength="@integer/notes_external_transfer_length"
@@ -209,8 +211,8 @@
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/screen_pay_bill_selection_text"
-                tools:text="@string/screen_pay_bill_selection_text" />
+                android:text="@string/screen_edit_bill_switch_text_bill_reminder"
+                tools:text="@string/screen_edit_bill_switch_text_bill_reminder" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/swBillReminder"

@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.billpayments.paybill.prepaid.skuadapter.SkuItemViewModel" />
     </data>
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/choice"
-        style="@style/ChipsTheme"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvChoice"
+        style="@style/Micro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checkable="true"
-        android:padding="@dimen/margin_small"
-        android:text="@{`+`+viewModel.skuCatalogs.amount}"
-        android:textColor="@color/colorPrimary"
-        android:theme="@style/Theme.MaterialComponents.Light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/bg_round_denominations"
+        android:onClick="@{(v)->viewModel.onViewClicked(v)}"
+        android:paddingHorizontal="@dimen/margin_normal_large"
+        android:paddingVertical="@dimen/margin_two_dp"
+        android:text="@{`+`+viewModel.amountWithZeroDecimal}"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="+100" />
 </layout>
