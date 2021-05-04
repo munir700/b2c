@@ -469,3 +469,8 @@ private fun setVirtualCardIcon(
         }
     } ?: imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
 }
+
+fun Transaction?.isCategoryGeneral(): Boolean? = this?.let { transaction ->
+    (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+    && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
+}

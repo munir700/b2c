@@ -144,11 +144,13 @@ class TransactionsListingAdapter(
                     setY2YUserImage(transaction, itemTransactionListBinding, position)
                 } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
                     setVirtualCardIcon(transaction, itemTransactionListBinding)
+                } else if (TransactionProductCode.ECOM.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
+                    setCategoryIcon(transaction, itemTransactionListBinding, position)
                 } else {
                     if (txnIconResId != -1) {
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                     } else {
-                        setInitialsAsTxnImage(transaction, itemTransactionListBinding, position)
+                        setInitialsAsImage(transaction, itemTransactionListBinding, position)
                     }
                     if (transaction.isTransactionRejected()) itemTransactionListBinding.ivTransaction.background =
                         null
@@ -168,6 +170,28 @@ class TransactionsListingAdapter(
             )
         }
 
+        private fun setCategoryIcon(
+            transaction: Transaction,
+            itemTransactionListBinding: ItemTransactionListBinding,
+            position: Int?
+        ) {
+            transaction.merchantLogo?.let { logo ->
+                itemTransactionListBinding.ivTransaction.loadImage(logo)
+            } ?: transaction.tapixCategory?.categoryIcon?.let { icon ->
+                ImageBinding.loadAnalyticsAvatar(
+                    itemTransactionListBinding.ivTransaction,
+                    transaction.tapixCategory?.categoryIcon,
+                    transaction.merchantName,
+                    position ?: 0,
+                    true,
+                    false,
+                    if (transaction.isCategoryGeneral() == true) itemTransactionListBinding.ivTransaction.context.getDrawable(
+                        R.drawable.ic_general
+                    ) else null
+                )
+            } ?: setInitialsAsImage(transaction, itemTransactionListBinding, position)
+        }
+
         private fun setY2YUserImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding, position: Int?
@@ -185,7 +209,7 @@ class TransactionsListingAdapter(
             )
         }
 
-        private fun setInitialsAsTxnImage(
+        private fun setInitialsAsImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding, position: Int?
         ) {
