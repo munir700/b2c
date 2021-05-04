@@ -18,8 +18,6 @@ import co.yap.yapcore.helpers.extentions.getLocalContacts
 import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.helpers.extentions.removeOwnContact
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlin.math.ceil
 
 class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(application),
@@ -49,6 +47,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
                     is RetroApiResponse.Success -> {
                         y2yRecentResponse.data.data.parseRecentItems(context)
                         y2yRecentBeneficiries.value = y2yRecentResponse.data.data
+                        success.invoke(y2yRecentBeneficiries.value ?: arrayListOf())
                     }
                     is RetroApiResponse.Error -> {
                     }
@@ -67,7 +66,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
                         )
                         y2yBeneficiries.value = contacts.first
                         yapContactLiveData.value = contacts.second
-                        success.invoke(y2yRecentBeneficiries.value ?: arrayListOf())
+
                     }
                 }
             }
@@ -97,10 +96,10 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
         responses: (RetroApiResponse<RecentBeneficiariesResponse>?) -> Unit
     ) {
         launch(Dispatcher.Background) {
-            coroutineScope {
-                val deferredSM = async { repository.getRecentY2YBeneficiaries() }
+//            coroutineScope {
+                val deferredSM = launchAsync{ repository.getRecentY2YBeneficiaries() }
                 responses(deferredSM.await())
-            }
+//            }
         }
     }
 

@@ -2,8 +2,6 @@ package co.yap.household.onboard.otherscreens
 
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.ACTION_DIAL
-import android.net.Uri
 import android.os.Bundle
 import co.yap.household.R
 import co.yap.modules.dummy.ActivityNavigator
@@ -36,22 +34,6 @@ class InvalidEIDActivity : DefaultActivity(), IFragmentHolder {
                 SessionManager.user?.currentCustomer?.getFullName()
             )
         setClickerListner()
-
-    }
-
-
-    /*
-    * In this function call user Number.
-    * */
-    private fun userCall() {
-        val userNumber = tvEID_NotAcceptNumber.text.toString()
-        if (userNumber.isNullOrBlank()) {
-            return
-        } else {
-            val intent = Intent(ACTION_DIAL)
-            intent.data = Uri.parse("tel:$userNumber")
-            startActivity(intent)
-        }
 
     }
 

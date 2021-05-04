@@ -26,8 +26,6 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import java.util.*
 
 
@@ -158,29 +156,29 @@ class TransactionDetailsViewModel(application: Application) :
     private fun requestTransactionDetails(responses: (RetroApiResponse<TotalPurchasesResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            coroutineScope {
-                val totalPurchaseResponse = state.showTotalPurchases.get().let { showView ->
-                    if (showView) {
-                        return@let async {
-                            repository.getTotalPurchases(
-                                getTotalPurchaseRequest()
-                            )
-                        }
+            val totalPurchaseResponse = state.showTotalPurchases.get().let { showView ->
+                if (showView) {
+                    return@let launchAsync {
 
-                    } else return@let null
-                }
+                        repository.getTotalPurchases(
+                            getTotalPurchaseRequest()
+                        )
+                    }
 
-                val receiptsResponse = transaction.get()?.let { it ->
-                    if (state.receiptVisibility.get()) {
-                        return@let async {
-                            repository.getAllTransactionReceipts(
-                                transactionId = it.transactionId ?: ""
-                            )
-                        }
-                    } else return@let null
-                }
-                responses(totalPurchaseResponse?.await(), receiptsResponse?.await())
+                } else return@let null
             }
+
+            val receiptsResponse = transaction.get()?.let { it ->
+                if (state.receiptVisibility.get()) {
+                    return@let launchAsync {
+                        repository.getAllTransactionReceipts(
+                            transactionId = it.transactionId ?: ""
+                        )
+                    }
+                } else return@let null
+            }
+            responses(totalPurchaseResponse?.await(), receiptsResponse?.await())
+
         }
     }
 

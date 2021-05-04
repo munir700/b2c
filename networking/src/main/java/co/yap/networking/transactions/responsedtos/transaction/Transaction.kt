@@ -175,7 +175,9 @@ data class Transaction(
     @SerializedName("cardAccepter")
     val cardAccepter: String? = null,
     @SerializedName("yapCategoryDTO")
-    val tapixCategory: TapixCategory? = null
+    val tapixCategory: TapixCategory? = null,
+    @SerializedName("cardHolderBillingTotalAmount")
+val cardHolderBillingTotalAmount: Double? = null
 
 ) : ApiResponse(), Parcelable
 
