@@ -44,23 +44,23 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:lineSpacingExtra="0dp"
-            android:onClick="@{(v)-> purchaseViewModel.handlePressOnView(v.id)}"
             android:text="@{purchaseViewModel.totalPurchase.txnCount.toString()== null ? `0` :purchaseViewModel.totalPurchase.txnCount.toString()}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/tpBaseLine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tpTopLine" />
+            app:layout_constraintEnd_toStartOf="@+id/ivTotalPurchase"
+            app:layout_constraintTop_toBottomOf="@+id/tpTopLine"
+            tools:text="32" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivTotalPurchase"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:onClick="@{(v)->purchaseViewModel.handlePressOnView(v.id)}"
+            android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/tpTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tpTitle"
-            app:srcCompat="@drawable/ic_chevron_right"
-            android:tint="@color/colorPrimary"/>
-
+            app:srcCompat="@drawable/ic_chevron_right" />
 
         <View
             android:id="@+id/space"
