@@ -17,12 +17,14 @@ import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.animations.animators.ScaleAnimator
 import co.yap.yapcore.constants.Constants.KEY_IMAGE_LOADING_TIME
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.openPlayStore
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
+    private var animatorSet: AnimatorSet? = null
 
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_splash
@@ -35,10 +37,11 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        animatorSet = AnimatorSet()
         viewModel.splashComplete.observe(this, Observer {
             if (it) viewModel.getAppUpdate()
         })
-        viewModel.parentViewModel?.shardPrefs?.save(
+        SharedPreferenceManager.getInstance(requireContext()).save(
             KEY_IMAGE_LOADING_TIME,
             System.currentTimeMillis().toString()
         )
@@ -48,14 +51,14 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                     it.androidAppVersionNumber
                 )
             ) {
-                activity?.alert(
+                requireContext().alert(
                     getString(R.string.screen_splash_display_text_force_update),
                     getString(R.string.screen_splash_button_force_update),
                     getString(R.string.screen_splash_button_force_update),
                     false
                 ) {
                     requireContext().openPlayStore()
-                    activity?.finish()
+                    requireActivity().finish()
                 }
             } else {
                 playAnimationAndMoveNext()
@@ -70,12 +73,11 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
             ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
         scaleDot.startDelay = 400
 
-        val set = AnimatorSet()
-        set.play(scaleLogo).with(scaleDot)
-        set.interpolator = AccelerateDecelerateInterpolator()
-        set.start()
+        animatorSet?.play(scaleLogo)?.with(scaleDot)
+        animatorSet?.interpolator = AccelerateDecelerateInterpolator()
+        animatorSet?.start()
 
-        set.addListener(object : Animator.AnimatorListener {
+        animatorSet?.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {}
             override fun onAnimationEnd(animation: Animator?) {
                 moveNext()
@@ -88,12 +90,12 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     }
 
     private fun moveNext() {
-        if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
+        if (SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
                 KEY_IS_FIRST_TIME_USER,
                 true
-            ) == true
+            )
         ) {
-            viewModel.parentViewModel?.shardPrefs?.save(
+            SharedPreferenceManager.getInstance(requireContext()).save(
                 KEY_IS_FIRST_TIME_USER,
                 false
             )
@@ -103,8 +105,18 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        animatorSet?.resume()
+    }
+    override fun onPause() {
+        super.onPause()
+        animatorSet?.pause()
+    }
     override fun onDestroyView() {
-        super.onDestroyView()
+        animatorSet?.cancel()
+        animatorSet = null
         viewModel.splashComplete.removeObservers(this)
+        super.onDestroyView()
     }
 }

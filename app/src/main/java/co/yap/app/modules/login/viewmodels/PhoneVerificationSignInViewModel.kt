@@ -40,7 +40,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
     override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
-    override var clickEvent: SingleClickEvent =SingleClickEvent()
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onCreate() {
         super.onCreate()
@@ -125,9 +125,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
     }
 
     override fun postDemographicData() {
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response =

@@ -22,8 +22,8 @@ import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class YapDashBoardViewModel(application: Application) :
-        YapDashboardChildViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel,
-        IRepositoryHolder<MessagesRepository> {
+    YapDashboardChildViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel,
+    IRepositoryHolder<MessagesRepository> {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapDashBoardState = YapDashBoardState()
@@ -32,7 +32,6 @@ class YapDashBoardViewModel(application: Application) :
             ObservableField()
     override val repository: MessagesRepository = MessagesRepository
     val customerRepository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(application)
     override val authRepository: AuthRepository = AuthRepository
     override var EVENT_LOGOUT_SUCCESS: Int = 101
     override var isYapHomeFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -72,7 +71,7 @@ class YapDashBoardViewModel(application: Application) :
             launch {
                 delay(1500)
                 showUnverifedscreen.value =
-                        SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+                    SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
             }
         }
         state.isFounder.set(SessionManager.user?.currentCustomer?.founder)
@@ -82,7 +81,7 @@ class YapDashBoardViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                    customerRepository.resendVerificationEmail()) {
+                customerRepository.resendVerificationEmail()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                 }
@@ -96,11 +95,11 @@ class YapDashBoardViewModel(application: Application) :
 
     private fun updateVersion() {
         state.appVersion.set(
-                String.format(
-                        "Version %s (%s)",
-                        YAPApplication.configManager?.versionName ?: "",
-                        YAPApplication.configManager?.versionCode ?: ""
-                )
+            String.format(
+                "Version %s (%s)",
+                YAPApplication.configManager?.versionName ?: "",
+                YAPApplication.configManager?.versionCode ?: ""
+            )
         )
     }
 
@@ -123,7 +122,7 @@ class YapDashBoardViewModel(application: Application) :
     private fun getHelpPhoneNo() {
         launch {
             when (val response =
-                    repository.getHelpDeskContact()) {
+                repository.getHelpDeskContact()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         SessionManager.helpPhoneNumber = it
@@ -137,7 +136,7 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun logout() {
         val deviceId: String? =
-                sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(Constants.KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = authRepository.logout(deviceId.toString())) {

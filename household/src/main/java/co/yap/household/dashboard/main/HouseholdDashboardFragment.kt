@@ -24,7 +24,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.translation.Strings
 import co.yap.widgets.arcmenu.FloatingActionMenu
-import co.yap.yapcore.adpters.SectionsPagerAdapter
+import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType

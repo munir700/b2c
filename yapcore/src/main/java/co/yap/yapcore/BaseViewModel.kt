@@ -16,8 +16,8 @@ import kotlin.coroutines.CoroutineContext
 
 
 abstract class BaseViewModel<S : IBase.State>(application: Application) :
-        AndroidViewModel(application),
-        IBase.ViewModel<S>, CoroutineViewModel {
+    AndroidViewModel(application),
+    IBase.ViewModel<S>, CoroutineViewModel {
     var isFirstTimeUiCreate = true
     override val context: Context = getApplication<Application>().applicationContext
     final override val viewModelJob = Job()
@@ -101,15 +101,20 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
 
     }
 
+    fun <T> launchAsync(block: suspend () -> T): Deferred<T> =
+        viewModelScope.async(Dispatchers.IO) {
+            block()
+        }
+
     override fun async(block: suspend () -> Unit) = viewModelScope.async { block }
 
     fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {
         viewModelScope.launch(
-                when (dispatcher) {
-                    Dispatcher.Main -> Dispatchers.Main
-                    Dispatcher.Background -> Dispatchers.IO
-                    Dispatcher.LongOperation -> Dispatchers.Default
-                }
+            when (dispatcher) {
+                Dispatcher.Main -> Dispatchers.Main
+                Dispatcher.Background -> Dispatchers.IO
+                Dispatcher.LongOperation -> Dispatchers.Default
+            }
         ) { block() }
     }
 

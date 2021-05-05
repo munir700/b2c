@@ -27,7 +27,7 @@ class CurrencyTextView : AppCompatTextView {
     private val _showCurrency = true
     private val _showCommas = false
 
-    constructor(context: Context?) : super(context) {}
+    constructor(context: Context) : super(context) {}
     constructor(context: Context, attrs: AttributeSet) : super(
         context,
         attrs

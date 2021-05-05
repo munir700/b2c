@@ -14,7 +14,7 @@ object AuthUtils {
 
         if (!isOnPassCode)
             navigateToSoftLogin(context)
-        val sharedPreferenceManager = SharedPreferenceManager(context)
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
         val isFirstTimeUser: Boolean =
             sharedPreferenceManager.getValueBoolien(
                 KEY_IS_FIRST_TIME_USER,

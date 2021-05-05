@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import co.yap.app.YAPApplication
@@ -40,18 +41,13 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     open lateinit var context: Context
     override var shouldRegisterViewModelLifeCycle: Boolean = true
     open fun onToolBarClick(id: Int) {}
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
         trackScreenViewEvent()
-//        setUpFirebaseAnalytics()
-
         applySelectedTheme(SharedPreferenceManager.getInstance(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
         NetworkConnectionManager.init(this)
         NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
@@ -156,7 +152,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             .setAction(
                 "Settings"
             ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            .setActionTextColor(Utils.getColor(this, R.color.colorDarkGreen))
+            .setActionTextColor(ContextCompat.getColor(this, R.color.colorDarkGreen))
+
         snackbar?.show()
     }
 

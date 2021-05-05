@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.household.R
 import co.yap.modules.sidemenu.ProfilePictureAdapter
-import co.yap.yapcore.adpters.SectionsPagerAdapter
+import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.Utils
 import javax.inject.Inject

@@ -28,10 +28,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.hasBitmap
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.launchSheet
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.exoplayer2.source.MediaSource
@@ -52,28 +49,28 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
         viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
-                SharedPreferenceManager(requireContext())
+            SharedPreferenceManager.getInstance(requireContext())
 
         if (BiometricUtil.hasBioMetricFeature(requireContext())) {
             val isTouchIdEnabled: Boolean =
-                    sharedPreferenceManager.getValueBoolien(
-                            KEY_TOUCH_ID_ENABLED,
-                            false
-                    )
+                sharedPreferenceManager.getValueBoolien(
+                    KEY_TOUCH_ID_ENABLED,
+                    false
+                )
             swTouchId.isChecked = isTouchIdEnabled
             llSignInWithTouch.visibility = View.VISIBLE
 
             swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     sharedPreferenceManager.save(
-                            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                            true
+                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        true
                     )
                     sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
                 } else {
                     sharedPreferenceManager.save(
-                            KEY_TOUCH_ID_ENABLED,
-                            false
+                        KEY_TOUCH_ID_ENABLED,
+                        false
                     )
                 }
             }
@@ -95,20 +92,20 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun logoutAlert() {
-        AlertDialog.Builder(this.requireActivity())
-                .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
-                .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
-                .setPositiveButton(
-                        getString(R.string.screen_profile_settings_logout_display_text_alert_logout)
-                ) { _, _ ->
-                    viewModel.logout()
-                }
+        AlertDialog.Builder(requireActivity())
+            .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
+            .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
+            .setPositiveButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_logout)
+            ) { _, _ ->
+                viewModel.logout()
+            }
 
-                .setNegativeButton(
-                        getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
-                        null
-                )
-                .show()
+            .setNegativeButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                null
+            )
+            .show()
     }
 
     private fun doLogout() {
@@ -128,16 +125,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.tvPersonalDetailView -> {
                     val action =
-                            ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
+                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
                     findNavController().navigate(action)
-                }
-
-                R.id.tvPrivacyView -> {
-                    Utils.showComingSoon(requireContext())
-                }
-
-                R.id.tvNotificationsView -> {
-                    Utils.showComingSoon(requireContext())
                 }
 
                 R.id.tvChangePasscode -> {
@@ -145,34 +134,25 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
                 R.id.tvTermsAndConditionView -> {
                     startFragment(
-                            fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
                             co.yap.yapcore.constants.Constants.TOOLBAR_TITLE to getString(
-                                    Strings.screen_profile_settings_display_terms_and_conditions
+                                Strings.screen_profile_settings_display_terms_and_conditions
                             )
-                    ), showToolBar = false
+                        ), showToolBar = false
                     )
                 }
 
                 R.id.tvFeesAndPricingPlansView -> {
                     startFragment(
-                            fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_FEES_AND_PRICING_PLAN
-                    ), showToolBar = false
+                        ), showToolBar = false
                     )
                 }
-                R.id.tvFollowOnInstagram -> {
-                    Utils.openInstagram(requireContext())
-                }
-
-                R.id.tvFollowOnTwitter -> {
-                    Utils.openTwitter(requireContext())
-                }
-
-                R.id.tvLikeUsOnFaceBook -> {
-                    Utils.getOpenFacebookIntent(requireContext())
-                            ?.let { startActivity(it) }
-                }
+                R.id.tvFollowOnInstagram -> requireContext().openInstagram()
+                R.id.tvFollowOnTwitter -> requireContext().openTwitter()
+                R.id.tvLikeUsOnFaceBook -> requireContext().openFacebook()
 
                 R.id.ivProfilePic -> {
                 }
@@ -184,9 +164,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.rlAddNewProfilePic -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_ADD_PHOTO)
                     requireActivity().launchSheet(
-                            itemClickListener = itemListener,
-                            itemsList = viewModel.getUploadProfileOptions(showRemovePhoto()),
-                            heading = getString(Strings.screen_update_profile_photo_display_text_title)
+                        itemClickListener = itemListener,
+                        itemsList = viewModel.getUploadProfileOptions(showRemovePhoto()),
+                        heading = getString(Strings.screen_update_profile_photo_display_text_title)
                     )
                 }
 
@@ -211,29 +191,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         ivProfilePic.setImageURI(mediaFile.file.toUri())
     }
 
-    private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {
-        path.firstOrNull()?.let { mediaFile ->
-            val ext = mediaFile.file.extension
-            if (!ext.isBlank()) {
-                when (ext) {
-                    "png", "jpg", "jpeg" -> {
-                        viewModel.clickEvent.call()
-                        viewModel.requestUploadProfilePicture(mediaFile.file)
-                        ivProfilePic.setImageURI(mediaFile.file.toUri())
-                        ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
-
-                    }
-                    else -> {
-                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                    }
-
-                }
-            } else {
-                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-            }
-        }
-    }
-
     private val itemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when ((data as BottomSheetItem).tag) {
@@ -250,24 +207,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 PhotoSelectionType.REMOVE_PHOTO.name -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_PHOTO)
                     viewModel.requestRemoveProfilePicture {
-                        if (it) ivProfilePic.setImageDrawable(null)
                     }
                 }
             }
         }
-        // viewModel.requestRemoveProfilePicture {
-        //                    if (it) {
-        //                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
-        //                        SessionManager.user?.let { user ->
-        //                            ImageBinding.loadAvatar(
-        //                                ivProfilePic,
-        //                                user.currentCustomer.getPicture(),
-        //                                user.currentCustomer.getFullName(),
-        //                                user.currentCustomer.parsedColor
-        //                            )
-        //
-        //                        }
-        //                    }
-        //                }
     }
 }

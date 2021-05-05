@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.store.young.subaccounts
 
-import co.yap.yapcore.adpters.SectionsPagerAdapter
+import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope

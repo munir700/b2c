@@ -21,20 +21,20 @@ fun Transaction?.getTitle(): String {
         return (when (transaction.productCode) {
             TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.DOMESTIC.pCode -> {
                 String.format(
-                        "%s %s",
-                        if (transaction.txnType == TxnType.DEBIT.type) "Sent to" else "Received from",
-                        if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName
-                                ?: transaction.title else transaction.senderName
-                                ?: transaction.title
+                    "%s %s",
+                    if (transaction.txnType == TxnType.DEBIT.type) "Sent to" else "Received from",
+                    if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName
+                        ?: transaction.title else transaction.senderName
+                        ?: transaction.title
 
                 )
             }
             TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
                 transaction.maskedCardNo?.let {
                     String.format(
-                            "%s %s",
-                            "Top up via",
-                            "*" + it.substring(it.length - 4, it.length)
+                        "%s %s",
+                        "Top up via",
+                        "*" + it.substring(it.length - 4, it.length)
                     )
                 } ?: transaction.title ?: "Unknown"
 
@@ -51,8 +51,9 @@ fun Transaction?.getTitle(): String {
             }
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
             TransactionProductCode.REFUND_MASTER_CARD.pCode -> "Refund from ${transaction.merchantName}"
-            TransactionProductCode.FUND_LOAD.pCode -> if (transaction.initiator.isNullOrBlank()) transaction.title
-                    ?: "Unknown" else "Received from ${transaction.initiator}"
+            TransactionProductCode.FUND_LOAD.pCode -> transaction.senderName?.let { "Received from ${transaction.senderName}" }
+                ?: "Received transfer"
+
 
             else -> transaction.title ?: "Unknown"
         })
@@ -88,7 +89,7 @@ fun Transaction?.getIcon(): Int {
 fun Transaction?.getStatus(): String {
     return when (this?.productCode) {
         TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> this.cardAcceptorLocation
-                ?: ""
+            ?: ""
         TransactionProductCode.FUND_LOAD.pCode -> this.otherBankName ?: ""
         else ->
             when {
@@ -104,7 +105,7 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
         return when {
             txn.getProductType() == TransactionProductType.IS_TRANSACTION_FEE -> "Fee"
             txn.getProductType() == TransactionProductType.IS_REFUND -> "Refund"
-            txn.getProductType() == TransactionProductType.IS_INCOMING -> "Inward Bank Transfer"
+            txn.getProductType() == TransactionProductType.IS_INCOMING -> "Inward bank transfer"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Add money"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
@@ -121,9 +122,9 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
             }
             transactionType == TransactionAdapterType.ANALYTICS_DETAILS -> {
                 DateUtils.reformatStringDate(
-                        date = this.creationDate ?: "",
-                        inputFormatter = SERVER_DATE_FORMAT,
-                        outFormatter = FORMATE_MONTH_DAY
+                    date = this.creationDate ?: "",
+                    inputFormatter = SERVER_DATE_FORMAT,
+                    outFormatter = FORMATE_MONTH_DAY
                 )
             }
             else -> return (when (txn.productCode) {
@@ -165,9 +166,9 @@ fun Transaction?.getStatusIcon(): Int {
 fun String?.getMerchantCategoryIcon(): Int {
     this?.let { title ->
         return ImageBinding.getResId(
-                "ic_" + ImageBinding.getDrawableName(
-                        title
-                ) + "_no_bg"
+            "ic_" + ImageBinding.getDrawableName(
+                title
+            ) + "_no_bg"
         )
     } ?: return -1
 }
@@ -220,6 +221,10 @@ fun Transaction?.getCurrency(): String {
         return (when (transaction.productCode) {
             TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
                 transaction.currency.toString()
+            }
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> {
+                transaction.cardHolderBillingCurrency
+                    ?: SessionManager.getDefaultCurrency()
             }
             else -> transaction.currency.toString()
         })
@@ -292,28 +297,28 @@ fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = Transac
 fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
     return (when {
         DateUtils.reformatStringDate(
-                this?.updatedDate ?: "",
-                SERVER_DATE_FORMAT,
-                outputFormat
+            this?.updatedDate ?: "",
+            SERVER_DATE_FORMAT,
+            outputFormat
         ).isBlank() -> DateUtils.reformatStringDate(
-                this?.creationDate ?: "",
-                SERVER_DATE_FORMAT,
-                outputFormat
+            this?.creationDate ?: "",
+            SERVER_DATE_FORMAT,
+            outputFormat
         )
         else -> DateUtils.reformatStringDate(
-                this?.creationDate ?: "",
-                SERVER_DATE_FORMAT,
-                outputFormat
+            this?.creationDate ?: "",
+            SERVER_DATE_FORMAT,
+            outputFormat
         )
     })
 }
 
 fun Transaction?.getTransactionNoteDate(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
     return (DateUtils.reformatStringDate(
-            if (this?.txnType == TxnType.DEBIT.type) this.transactionNoteDate
-                    ?: "" else this?.receiverTransactionNoteDate ?: "",
-            SERVER_DATE_FORMAT,
-            outputFormat
+        if (this?.txnType == TxnType.DEBIT.type) this.transactionNoteDate
+            ?: "" else this?.receiverTransactionNoteDate ?: "",
+        SERVER_DATE_FORMAT,
+        outputFormat
     ))
 }
 
@@ -339,23 +344,28 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 }
 
 fun Transaction?.getAmount(): Double {
-    if (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode || this?.isNonAEDTransaction() == true)
-        return this.amount ?: 0.0
+    this?.let {
+        return when {
+            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() -> {
+                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode) it.cardHolderBillingTotalAmount
+                    ?: 0.0 else it.amount ?: 0.0
+            }
+            it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
+                ?: 0.0
+            else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
+                ?: 0.00
+        }
 
-    (return when (this?.txnType) {
-        TxnType.DEBIT.type -> this.totalAmount ?: 0.0
-        TxnType.CREDIT.type -> this.amount ?: 0.0
-        else -> 0.0
-    })
+    } ?: return 0.00
 }
 
 fun Transaction?.getFormattedTransactionAmount(): String? {
     return String.format(
-            "%s %s", this?.getTransactionAmountPrefix(),
-            this?.getAmount().toString().toFormattedCurrency(
-                    showCurrency = false,
-                    currency = this?.currency ?: SessionManager.getDefaultCurrency()
-            )
+        "%s %s", this?.getTransactionAmountPrefix(),
+        this?.getAmount().toString().toFormattedCurrency(
+            showCurrency = false,
+            currency = this?.currency ?: SessionManager.getDefaultCurrency()
+        )
     )
 }
 
@@ -392,7 +402,7 @@ fun List<Transaction>?.getTotalAmount(): String {
             }
             else -> {
                 if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
-                        ?: 0.0) else total += (it.amount ?: 0.0)
+                    ?: 0.0) else total += (it.amount ?: 0.0)
             }
         }
     }
@@ -401,15 +411,15 @@ fun List<Transaction>?.getTotalAmount(): String {
     when {
         total.toString().startsWith("-") -> {
             totalAmount =
-                    ((total * -1).toString().toFormattedCurrency(
-                            showCurrency = false,
-                            currency = SessionManager.getDefaultCurrency()
-                    ))
+                ((total * -1).toString().toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                ))
             totalAmount = "- ${SessionManager.getDefaultCurrency()} $totalAmount"
         }
         else -> {
             totalAmount = (total.toString()
-                    .toFormattedCurrency(false, currency = SessionManager.getDefaultCurrency()))
+                .toFormattedCurrency(false, currency = SessionManager.getDefaultCurrency()))
             totalAmount = "+ ${SessionManager.getDefaultCurrency()} $totalAmount"
         }
     }
@@ -417,15 +427,15 @@ fun List<Transaction>?.getTotalAmount(): String {
 }
 
 fun Transaction?.isNonAEDTransaction(): Boolean {
-    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) && this.currency != SessionManager.getDefaultCurrency()
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || this?.productCode == TransactionProductCode.ECOM.pCode) && this.currency != SessionManager.getDefaultCurrency()
 }
 
 object TransactionBinding {
     @JvmStatic
     @BindingAdapter("transaction")
     fun loadAvatarForTransaction(
-            ivTransaction: ImageView,
-            transactionData: Transaction
+        ivTransaction: ImageView,
+        transactionData: Transaction
     ) {
         transactionData.let { it ->
             val txnIconResId = it.getIcon()
@@ -436,14 +446,14 @@ object TransactionBinding {
                 } else {
                     if (TransactionProductCode.Y2Y_TRANSFER.pCode == pCode) {
                         ImageBinding.loadAvatar(
-                                ivTransaction,
-                                if (TxnType.valueOf(
-                                                it.txnType ?: ""
-                                        ) == TxnType.DEBIT
-                                ) it.receiverProfilePictureUrl else it.senderProfilePictureUrl,
-                                if (it.txnType == TxnType.DEBIT.type) it.receiverName else it.senderName,
-                                android.R.color.transparent,
-                                R.dimen.text_size_h2
+                            ivTransaction,
+                            if (TxnType.valueOf(
+                                    it.txnType ?: ""
+                                ) == TxnType.DEBIT
+                            ) it.receiverProfilePictureUrl else it.senderProfilePictureUrl,
+                            if (it.txnType == TxnType.DEBIT.type) it.receiverName else it.senderName,
+                            android.R.color.transparent,
+                            R.dimen.text_size_h2
                         )
                     } else {
                         if (txnIconResId != -1) {
@@ -458,17 +468,17 @@ object TransactionBinding {
                             }
                         } else {
                             ImageBinding.loadAvatar(
-                                    ivTransaction,
-                                    "",
-                                    it.title,
-                                    android.R.color.transparent,
-                                    R.dimen.text_size_h2
+                                ivTransaction,
+                                "",
+                                it.title,
+                                android.R.color.transparent,
+                                R.dimen.text_size_h2
                             )
                         }
                         ivTransaction.alpha = 1.0f
                         ImageViewCompat.setImageTintList(
-                                ivTransaction,
-                                ColorStateList.valueOf(ivTransaction.context.getColors(R.color.colorPrimary))
+                            ivTransaction,
+                            ColorStateList.valueOf(ivTransaction.context.getColors(R.color.colorPrimary))
                         )
                     }
                 }

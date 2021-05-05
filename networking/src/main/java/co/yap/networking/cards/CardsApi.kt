@@ -54,6 +54,7 @@ interface CardsApi {
     suspend fun reorderDebitCard(address: Address): RetroApiResponse<ApiResponse>
     suspend fun reorderSupplementryCard(address: Address): RetroApiResponse<ApiResponse>
     suspend fun getCardsAtmCdm(): RetroApiResponse<AtmCdmResponse>
+    suspend fun getCardTokenForSamsungPay(cardSerialNumber:String): RetroApiResponse<SPayCardResponse>
 
     suspend fun getHouseHoldCardsDesign(
         accountType: String

@@ -24,7 +24,7 @@ import co.yap.yapcore.leanplum.trackEvent
 
 
 class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuccess.ViewModel>(),
-    ITransferSuccess.View, InviteBottomSheet.OnItemClickListener {
+    ITransferSuccess.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_transfer_success
@@ -178,51 +178,51 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuc
 
     }
 
-    override fun onClick(viewId: Int, data: Any) {
-        if (data is String)
-            when (viewId) {
-                R.id.tvChooseEmail -> inviteViaEmail(data)
-                R.id.tvChooseSMS -> inviteViaSms(data)
-                R.id.tvChooseWhatsapp -> inviteViaWhatsapp(data)
-            }
-
-    }
-
-    private fun inviteViaWhatsapp(referenceNumber: String) {
-        val url =
-            "https://wa.me/?text=${referenceNumber})}"
-        val i = Intent(Intent.ACTION_SEND, Uri.fromParts("", "", null))
-        i.data = Uri.parse(url)
-        if (canHandleIntent(intent = i, activity = activity))
-            startActivity(i)
-    }
-
-    private fun inviteViaEmail(referenceNumber: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.fromParts("mailto", "", null))
-        intent.putExtra(Intent.EXTRA_TEXT, referenceNumber)
-        startActivity(Intent.createChooser(intent, "Send mail..."))
-    }
-
-    private fun inviteViaSms(referenceNumber: String) {
-        val sendIntent = Intent(Intent.ACTION_VIEW)
-        sendIntent.data = Uri.parse("sms:")
-        sendIntent.putExtra("sms_body", referenceNumber)
-        if (canHandleIntent(intent = sendIntent, activity = activity))
-            startActivity(sendIntent)
-    }
-
-    private fun canHandleIntent(intent: Intent, activity: Activity?): Boolean {
-        val packageManager = activity?.packageManager
-        packageManager?.let {
-            return if (intent.resolveActivity(packageManager) != null) {
-                true
-            } else {
-                showToast("No app available to handle action")
-                false
-            }
-        }
-        return false
-    }
+//    override fun onClick(viewId: Int, data: Any) {
+//        if (data is String)
+//            when (viewId) {
+//                R.id.tvChooseEmail -> inviteViaEmail(data)
+//                R.id.tvChooseSMS -> inviteViaSms(data)
+//                R.id.tvChooseWhatsapp -> inviteViaWhatsapp(data)
+//            }
+//
+//    }
+//
+//    private fun inviteViaWhatsapp(referenceNumber: String) {
+//        val url =
+//            "https://wa.me/?text=${referenceNumber})}"
+//        val i = Intent(Intent.ACTION_SEND, Uri.fromParts("", "", null))
+//        i.data = Uri.parse(url)
+//        if (canHandleIntent(intent = i, activity = activity))
+//            startActivity(i)
+//    }
+//
+//    private fun inviteViaEmail(referenceNumber: String) {
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.fromParts("mailto", "", null))
+//        intent.putExtra(Intent.EXTRA_TEXT, referenceNumber)
+//        startActivity(Intent.createChooser(intent, "Send mail..."))
+//    }
+//
+//    private fun inviteViaSms(referenceNumber: String) {
+//        val sendIntent = Intent(Intent.ACTION_VIEW)
+//        sendIntent.data = Uri.parse("sms:")
+//        sendIntent.putExtra("sms_body", referenceNumber)
+//        if (canHandleIntent(intent = sendIntent, activity = activity))
+//            startActivity(sendIntent)
+//    }
+//
+//    private fun canHandleIntent(intent: Intent, activity: Activity?): Boolean {
+//        val packageManager = activity?.packageManager
+//        packageManager?.let {
+//            return if (intent.resolveActivity(packageManager) != null) {
+//                true
+//            } else {
+//                showToast("No app available to handle action")
+//                false
+//            }
+//        }
+//        return false
+//    }
 
     private fun getBindings(): FragmentTransferSuccessBinding {
         return viewDataBinding as FragmentTransferSuccessBinding

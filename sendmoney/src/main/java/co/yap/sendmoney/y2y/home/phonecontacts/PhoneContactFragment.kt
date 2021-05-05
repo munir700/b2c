@@ -1,9 +1,9 @@
 package co.yap.sendmoney.y2y.home.phonecontacts
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
@@ -17,7 +17,6 @@ import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -27,7 +26,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_phone_contacts
     override val viewModel: PhoneContactViewModel
-        get() = ViewModelProviders.of(this).get(PhoneContactViewModel::class.java)
+        get() = ViewModelProvider(this).get(PhoneContactViewModel::class.java)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,11 +43,12 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
         )
     }
 
-
     private fun setObservers() {
         viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             viewModel.adaptor.setList(it)
+            if (!it.isNullOrEmpty())
+                viewModel.adaptor.filter.filter(viewModel.parentViewModel?.searchQuery?.value)
             viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
         })
@@ -77,22 +77,15 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
                 }
                 R.id.lyContact -> {
                     if (data is IBeneficiary && data.isYapUser) {
-                        navigateToTransferScreen(
-                            viewModel.getBundle(data, pos),
-                            viewModel.getActionId(parentFragment)
+                        navigate(
+                            viewModel.getActionId(parentFragment),
+                            args = viewModel.getBundle(data, pos),
+                            screenType = FeatureSet.Y2Y_TRANSFER
                         )
                     }
                 }
             }
         }
-    }
-
-    override fun navigateToTransferScreen(args: Bundle, actionId: Int) {
-        navigate(
-            actionId,
-            args = args,
-            screenType = FeatureSet.Y2Y_TRANSFER
-        )
     }
 
     private fun handleShimmerState(state: State?) {
@@ -110,6 +103,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(), IPhoneC
                 viewModel.state.isShowContactsCounter.set(false)
             }
             Status.SUCCESS -> {
+                viewModel.state.isNoSearchResult.set(false)
                 viewModel.state.isShowContactsCounter.set(true)
                 skeleton.showOriginal()
             }

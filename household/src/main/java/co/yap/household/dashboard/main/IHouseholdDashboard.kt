@@ -4,7 +4,7 @@ import androidx.databinding.ObservableField
 import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.adpters.SectionsPagerAdapter
+import co.yap.yapcore.adapters.SectionsPagerAdapter
 
 interface IHouseholdDashboard {
     interface View : IBase.View<ViewModel> {}

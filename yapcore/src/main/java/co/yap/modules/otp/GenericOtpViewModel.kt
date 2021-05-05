@@ -198,15 +198,14 @@ class GenericOtpViewModel(application: Application) :
     }
 
     private fun getUserName(): String? {
-        val sharedPreferenceManager = SharedPreferenceManager(context)
-        return if (!SharedPreferenceManager(context).getValueBoolien(
+        return if (!SharedPreferenceManager.getInstance(context).getValueBoolien(
                 Constants.KEY_IS_USER_LOGGED_IN,
                 false
             )
         ) {
             state.otpDataModel?.username
         } else {
-            sharedPreferenceManager.getDecryptedUserName()
+            SharedPreferenceManager.getInstance(context).getDecryptedUserName()
         }
     }
 

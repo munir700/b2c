@@ -211,8 +211,8 @@ fun getFormattedDate(creationDate: String?): String {
 private fun isBioMetricEnabled(context: Context?): Boolean {
     return context?.let {
         return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it).getValueBoolien(
-                KEY_TOUCH_ID_ENABLED,
-                false
+            KEY_TOUCH_ID_ENABLED,
+            false
         ))
 
     } ?: false

@@ -162,6 +162,13 @@
 }
 -keep public class com.android.installreferrer.** { *; }
 -keep class co.yap.yapcore.helpers.validation.** { *; }
+#Samsung ProGuard rules start
+-dontwarn com.samsung.android.sdk.samsungpay.**
+-keep class com.samsung.android.sdk.** { *; }
+-keep interface com.samsung.android.sdk.** { *; }
+-keep class co.yap.wallet.samsung.** { *; }
+#Samsung ProGuard rules end
+
 #All Other rule will goes above (Important)
 # Crashlytics 2.+
 -keep class com.crashlytics.** { *; }

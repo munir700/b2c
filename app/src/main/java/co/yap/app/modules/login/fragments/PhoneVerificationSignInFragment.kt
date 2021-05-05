@@ -44,7 +44,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PhoneVerificationSignInFragment :
-        MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
+    MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
     private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel
@@ -89,11 +89,11 @@ class PhoneVerificationSignInFragment :
 
     private fun initBroadcast() {
         appSMSBroadcastReceiver =
-                MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
-                    override fun onReceive(code: Intent?) {
-                        startActivityForResult(code, SMS_CONSENT_REQUEST)
-                    }
-                })
+            MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
+                override fun onReceive(code: Intent?) {
+                    startActivityForResult(code, SMS_CONSENT_REQUEST)
+                }
+            })
     }
 
     private val postDemographicDataObserver = Observer<Boolean> {
@@ -104,16 +104,16 @@ class PhoneVerificationSignInFragment :
         if (!it.isWaiting) {
             if (it.fssRequestRefNo.isNullOrBlank()) {
                 startFragment(
-                        fragmentName = ReachedTopQueueFragment::class.java.name,
-                        clearAllPrevious = true
+                    fragmentName = ReachedTopQueueFragment::class.java.name,
+                    clearAllPrevious = true
                 )
             } else {
                 getCardAndTourInfo(it)
             }
         } else {
             startFragment(
-                    fragmentName = WaitingListFragment::class.java.name,
-                    clearAllPrevious = true
+                fragmentName = WaitingListFragment::class.java.name,
+                clearAllPrevious = true
             )
         }
     }
@@ -132,14 +132,14 @@ class PhoneVerificationSignInFragment :
                 } else {
                     if (BiometricUtil.hasBioMetricFeature(requireActivity())
                     ) {
-                        viewModel.parentViewModel?.shardPrefs?.save(
-                                co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                                true
+                        SharedPreferenceManager.getInstance(requireContext()).save(
+                            co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                            true
                         )
-                        if (SharedPreferenceManager(requireContext()).getValueBoolien(
-                                        co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
-                                        false
-                                )
+                        if (SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
+                                co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                                false
+                            )
                         ) {
                             if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name, clearAllPrevious = true)
@@ -148,8 +148,8 @@ class PhoneVerificationSignInFragment :
                                 if (!this.isWaiting) {
                                     if (this.iban.isNullOrBlank()) {
                                         startFragment(
-                                                fragmentName = ReachedTopQueueFragment::class.java.name,
-                                                clearAllPrevious = true
+                                            fragmentName = ReachedTopQueueFragment::class.java.name,
+                                            clearAllPrevious = true
                                         )
 
                                     } else {
@@ -157,17 +157,17 @@ class PhoneVerificationSignInFragment :
                                     }
                                 } else {
                                     startFragment(
-                                            fragmentName = WaitingListFragment::class.java.name,
-                                            clearAllPrevious = true
+                                        fragmentName = WaitingListFragment::class.java.name,
+                                        clearAllPrevious = true
                                     )
                                 }
 
                             }
                         } else {
                             val action =
-                                    PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                                            Constants.TOUCH_ID_SCREEN_TYPE
-                                    )
+                                PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                                    Constants.TOUCH_ID_SCREEN_TYPE
+                                )
                             findNavController().navigate(action)
                         }
 
@@ -247,9 +247,9 @@ class PhoneVerificationSignInFragment :
 
     private fun getData() {
         viewModel.state.username =
-                arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).username } as String
+            arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).username } as String
         viewModel.state.passcode =
-                arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
+            arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

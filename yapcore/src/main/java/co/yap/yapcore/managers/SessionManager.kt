@@ -321,3 +321,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         return false
     }
 }
+
+fun Context?.isUserLogin() = this?.let {
+    SharedPreferenceManager.getInstance(it)
+        .getValueBoolien(Constants.KEY_IS_USER_LOGGED_IN, false) && SessionManager.user != null
+}

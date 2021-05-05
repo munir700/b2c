@@ -11,6 +11,12 @@ import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import com.google.gson.Gson
 import javax.inject.Inject
 
+/**
+ * To improve the performanceSharedPreferenceManager  @constructor is private.
+ * you must need to  access Singlaton instanse of SharedPreferenceManager
+ * i.e SharedPreferenceManager.getInstance(context)
+ * @see SingletonHolder
+* */
 class SharedPreferenceManager @Inject constructor(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
@@ -65,7 +71,7 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
                 editor.remove(entry)
             }
             editor.apply()
-        } catch (ex: Exception) {
+        }catch (ex:Exception){
             ex.printStackTrace()
         }
     }

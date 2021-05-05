@@ -11,13 +11,22 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.CardDetail
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
+import co.yap.wallet.encriptions.utils.EncodingUtils
+import co.yap.wallet.samsung.SamsungPayWalletManager
+import co.yap.wallet.samsung.isSamsungPayFeatureEnabled
+import co.yap.widgets.State
+import co.yap.widgets.Status
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.managers.SessionManager
+import com.google.gson.GsonBuilder
+import com.samsung.android.sdk.samsungpay.v2.card.CardManager
 import kotlinx.coroutines.delay
 
 class YapCardsViewModel(application: Application) :
@@ -50,6 +59,8 @@ class YapCardsViewModel(application: Application) :
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
                             cards.value = cardsList
+                            if (context.isSamsungPayFeatureEnabled())
+                                checkCardAddedOnSamSungWallet(cards.value)
                         }
                     }
                     state.loading = false
@@ -153,6 +164,149 @@ class YapCardsViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
+            }
+        }
+    }
+
+    override fun getSamsungPayloadAndAddCard(
+        cardSerialNumber: String,
+        success: (String?, State) -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.getCardTokenForSamsungPay(cardSerialNumber)) {
+                is RetroApiResponse.Success -> {
+                    val toJson =
+                        GsonBuilder().disableHtmlEscaping().create()
+                            .toJson(response.data.data)
+                    val finalPayload =
+                        EncodingUtils.base64Encode(toJson.toByteArray(Charsets.UTF_8))
+                    SamsungPayWalletManager.getInstance(context)
+                        .addYapCardToSamsungPay(finalPayload) {
+                            state.loading = false
+                            when (it.status) {
+                                Status.ERROR -> state.toast =
+                                    "${it.message}^${AlertType.DIALOG.name}"
+                                Status.LOADING -> state.toast =
+                                    "${it.message}^${AlertType.DIALOG.name}"
+                                else -> {
+                                    checkCardAddedOnSamSungWallet(adapter.getDataList())
+                                    state.toast = "${it.message}^${AlertType.DIALOG.name}"
+                                }
+                            }
+                            success.invoke(finalPayload, it)
+                        }
+                }
+                is RetroApiResponse.Error -> {
+                    success.invoke(null, State.error(""))
+                    state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
+            }
+        }
+    }
+
+    override fun getCardDetails(cardSerialNumber: String, success: (CardDetail?) -> Unit) {
+        launch(Dispatcher.Main) {
+            state.loading = true
+            when (val response = repository.getCardDetails(cardSerialNumber)) {
+                is RetroApiResponse.Success -> {
+                    addYapCardToSamsungPay(response.data.data)
+                    success.invoke(response.data.data)
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
+            }
+
+        }
+    }
+
+    private fun addYapCardToSamsungPay(cardDetail: CardDetail?) {
+//        context.getTestPayloadForSamsung(
+//            cardDetail?.cardNumber,
+//            cardDetail?.expiryDate?.split("/")?.get(1),
+//            cardDetail?.expiryDate?.split("/")?.get(0),
+//            cardDetail?.displayName
+//        ) { paylaod ->
+//            val data = paylaod.toByteArray(StandardCharsets.UTF_8)
+//            val finalPayload = EncodingUtils.base64Encode(data)
+//            SamsungPayWalletManager.getInstance(context)
+//                .addYapCardToSamsungPay(finalPayload) {
+//                    state.loading = false
+//                    when (it.status) {
+//                        Status.ERROR -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
+//                        Status.LOADING -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
+//                        else -> {
+//                            checkCardAddedOnSamSungWallet(adapter.getDataList())
+//                            state.toast = "${it.message}^${AlertType.DIALOG.name}"
+//                        }
+//                    }
+//                }
+//        }
+    }
+
+    private fun checkCardAddedOnSamSungWallet(yapCards: MutableList<Card>?) {
+        SamsungPayWalletManager.getInstance(context)
+            .getAllCards { samsungPayStatus, allSPayCarad, status ->
+                if (status?.status == Status.SUCCESS) {
+                    allSPayCarad?.let { sPayCars ->
+                        val firstListObjectIds =
+                            sPayCars.map { it.cardInfo.getString(CardManager.EXTRA_LAST4_FPAN) }
+                                .toSet()
+                        val yapSPayCars: List<Card>? =
+                            yapCards?.filter {
+                                firstListObjectIds.contains(
+                                    it.maskedCardNo.takeLast(
+                                        4
+                                    )
+                                )
+                            }
+                        yapSPayCars?.forEachIndexed { index, card ->
+                            card.isAddedSamsungPay = true
+                            adapter.getDataList()
+                                .find { it.cardSerialNumber == card.cardSerialNumber }?.isAddedSamsungPay =
+                                true
+                            adapter.notifyItemChanged(adapter.getDataList().indexOf(card))
+                        }
+                    }
+                }
+            }
+    }
+
+    fun getSPayCardFormYapCard(
+        card: Card, sPaycard: (com.samsung.android.sdk.samsungpay.v2.card.Card?) -> Unit
+    ) {
+        SamsungPayWalletManager.getInstance(context)
+            .getAllCards { samsungPayStatus, allSPayCarad, status ->
+                status?.let {
+                    when (it.status) {
+                        Status.SUCCESS -> {
+                            sPaycard.invoke(allSPayCarad?.let {
+                                it.firstOrNull { c ->
+                                    c.cardInfo.getString(CardManager.EXTRA_LAST4_FPAN)
+                                        ?.contains(card.maskedCardNo.takeLast(4))!!
+                                }
+                            })
+                        }
+                        else -> {
+                            state.toast = "${it.message}^${AlertType.DIALOG.name}"
+                        }
+                    }
+                }
+            }
+    }
+
+    override fun openFavoriteCard(cardId: String?, success: (State) -> Unit) {
+        state.loading = true
+        SamsungPayWalletManager.getInstance(context).openFavoriteCard(cardId) {
+            state.loading = false
+            when (it.status) {
+                Status.ERROR -> state.toast = "${it.message}^${AlertType.DIALOG.name}"
+                else -> {
                 }
             }
         }

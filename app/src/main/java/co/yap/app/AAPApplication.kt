@@ -3,7 +3,6 @@ package co.yap.app
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -41,7 +40,6 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.initializeAdjustSdk
-import com.airbnb.deeplinkdispatch.DeepLinkHandler
 import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -117,8 +115,6 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
     }
 
     private fun initAllModules() {
-        val intentFilter = IntentFilter(DeepLinkHandler.ACTION)
-        LocalBroadcastManager.getInstance(this).registerReceiver(DeepLinkReceiver(), intentFilter)
         initNetworkLayer()
 //        switchTheme(YAPThemes.HOUSEHOLD())
         switchTheme(YAPThemes.CORE())
@@ -230,10 +226,10 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
             }
 
             override fun startDocumentDashboardActivity(
-                activity: FragmentActivity
+                activity:FragmentActivity
             ) {
                 var intent = Intent(activity, DocumentsDashboardActivity::class.java)
-                intent.putExtra("GO_ERROR", true)
+                intent.putExtra("GO_ERROR",true)
                 activity.startActivity(intent)
             }
 

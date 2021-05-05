@@ -101,7 +101,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
         setupNewYapButtons()
         logEvent()
-        initializeChatOverLayButton()
         lifecycleScope.launch {
             delay(100)
             mNavigator?.handleDeepLinkFlow(
@@ -233,7 +232,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnCopy -> shareAccountInfo()
+                R.id.btnCopy -> {
+                    trackEventWithScreenName(FirebaseEvent.SHARE_ACCOUNT_DETAILS)
+                    context.share(text = viewModel.getAccountInfo(), title = "Share")
+                }
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
@@ -255,14 +257,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             } else
                 viewModel.isUnverifiedScreenNotVisible.value = true
         })
-    }
-
-    private fun shareAccountInfo() {
-        trackEventWithScreenName(FirebaseEvent.SHARE_ACCOUNT_DETAILS)
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, viewModel.getAccountInfo())
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun showUnverifiedPopup() {
@@ -486,7 +480,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onResume() {
         super.onResume()
-        getCountUnreadMessage()
         if (bottomNav.selectedItemId == R.id.yapHome) {
             SessionManager.getAccountInfo() {
                 viewModel.populateState()

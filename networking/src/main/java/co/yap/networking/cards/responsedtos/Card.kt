@@ -36,9 +36,10 @@ data class Card(
     var pinCreated: Boolean,
     val accountNumber: String,
     val productCode: String,
-    var frontImage: String,
     var backImage: String,
     var shipmentDate: String? = null,
     var activationDate: String? = null,
-    var pinStatus: String? = null
-)  : ApiResponse(), Parcelable
+    var frontImage: String? = null,
+    var pinStatus: String? = null,
+    @Transient var isAddedSamsungPay: Boolean? = false
+) :ApiResponse(), Parcelable

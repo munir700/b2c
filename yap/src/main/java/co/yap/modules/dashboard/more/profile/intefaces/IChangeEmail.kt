@@ -17,7 +17,6 @@ interface IChangeEmail {
         val success: MutableLiveData<Boolean>
         fun changeEmail()
         val changeEmailSuccessEvent: SingleClickEvent
-        val sharedPreferenceManager: SharedPreferenceManager
     }
 
     interface State : IBase.State {

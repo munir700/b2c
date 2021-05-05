@@ -12,7 +12,6 @@ import co.yap.yapcore.managers.SessionManager
 class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailViewModel(application) {
     override val success: MutableLiveData<Boolean> = MutableLiveData()
     override val repository: CustomersRepository = CustomersRepository
-    override val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
 
     override fun onHandlePressOnNextButton() {
         if (state.newEmailValidation() && state.confirmEmailValidation()) {
@@ -45,7 +44,7 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
                 repository.changeUnverifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
                     SessionManager.user?.currentCustomer?.email = state.newEmail
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.newEmail)
+                    SharedPreferenceManager.getInstance(context).saveUserNameWithEncryption(state.newEmail)
                     success.value = true
                 }
 

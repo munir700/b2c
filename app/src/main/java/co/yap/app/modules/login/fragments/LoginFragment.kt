@@ -24,7 +24,6 @@ import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessFragment
 import co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.chatSetup
 import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
 import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.helpers.extentions.startFragment
@@ -59,10 +58,10 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
+        if (!SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
                 KEY_IS_USER_LOGGED_IN,
                 false
-            ) == false
+            )
         ) {
             etEmailField.requestKeyboard()
         }
@@ -76,7 +75,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
-        viewModel.state.emailError.observe(this, Observer {
+        viewModel.state.emailError.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()) {
                 etEmailField.settingUIForError(it)
                 etEmailField.settingErrorColor(R.color.error)

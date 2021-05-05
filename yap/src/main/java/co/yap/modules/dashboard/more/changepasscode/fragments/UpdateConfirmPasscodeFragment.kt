@@ -53,7 +53,8 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                 R.id.btnAction -> {
                     if (viewModel.state.passCode == parentActivity.passCodeData.newPassCode) {
                         viewModel.updatePassCodeRequest {
-                            moveToSuccessScreen()
+                            SharedPreferenceManager.getInstance(requireContext()).savePassCodeWithEncryption(viewModel.state.passCode)
+                            navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
                         }
                     } else
                         getBinding().dialer.startAnimation()
@@ -65,13 +66,6 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                 }
             }
         })
-    }
-
-    private fun moveToSuccessScreen() {
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
-        sharedPreferenceManager.savePassCodeWithEncryption(viewModel.state.passCode)
-
-        navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
     }
 
     private fun startOtpFragment(name: String) {

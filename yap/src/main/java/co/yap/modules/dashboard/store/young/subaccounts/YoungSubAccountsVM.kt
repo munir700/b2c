@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.modules.dashboard.cards.analytics.fragments.CardAnalyticsFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
-import co.yap.yapcore.adpters.SectionsPagerAdapter
+import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 

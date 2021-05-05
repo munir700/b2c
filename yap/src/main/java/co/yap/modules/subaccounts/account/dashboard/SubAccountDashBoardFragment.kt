@@ -4,7 +4,7 @@ import android.os.Bundle
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSubAccountDashBoardBinding
-import co.yap.yapcore.adpters.SectionsPagerAdapter
+import co.yap.yapcore.adapters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import javax.inject.Inject
 

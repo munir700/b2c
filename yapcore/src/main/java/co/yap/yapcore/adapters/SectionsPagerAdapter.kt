@@ -1,4 +1,4 @@
-package co.yap.yapcore.adpters
+package co.yap.yapcore.adapters
 
 
 import android.os.Bundle
@@ -11,7 +11,7 @@ import co.yap.yapcore.constants.Constants.INDEX
 import java.util.*
 import javax.inject.Inject
 
-class SectionsPagerAdapter @Inject constructor(
+class SectionsPagerAdapter  @Inject constructor(
     private val mContext: FragmentActivity,
     fm: FragmentManager
 ) :
