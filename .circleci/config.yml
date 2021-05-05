@@ -11,7 +11,7 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
       GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
-      FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
+      FL_OUTPUT_DIR: outputs/apk
       FASTLANE_LANE: upload_to_appcenter
     steps:
       - checkout
@@ -29,4 +29,4 @@ workflows:
           filters:
             branches:
               only:
-                - circle_ci
+                - Sprint/SPRINT-YAP-RAK-8-A-bill-payments

@@ -96,7 +96,7 @@
                     android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_edit_bill_field_label)}"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:maxLength="255"
+                    android:maxLength="@integer/bill_payments_bill_nickname_length"
                     android:singleLine="true"
                     android:text="@={viewModel.state.nickNameValue}"
                     android:textColorHint="@color/colorPrimaryDarkFadedLight"
