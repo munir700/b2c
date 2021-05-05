@@ -69,7 +69,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         })
         viewModel.adapter.setItemListener(onReceiptClickListener)
         getBindings().layoutRating.rbMarchant.setOnRatingBarChangeListener { ratingBar, fl, b ->
-            showRatingDialogue()
+          //  showRatingDialogue()
         }
     }
 
