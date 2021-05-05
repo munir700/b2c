@@ -37,7 +37,7 @@ platform :android do
     gradle(
       task: 'assemble',
       flavor: "#{scheme}",
-      build_type: 'Release --no-daemon'
+      build_type: 'Release'
     )
  end
 
