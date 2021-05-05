@@ -258,6 +258,9 @@ fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = Transac
         TransactionAdapterType.TRANSACTION -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
+        else -> {
+            getFormattedTime(DateUtils.FORMAT_TIME_12H)
+        }
     }
 }
 
@@ -456,6 +459,7 @@ private fun setInitialsAsTxnImage(transaction: Transaction,imageView : CoreCircu
     )
 
 }
+
 private fun setVirtualCardIcon(
     transaction: Transaction,
     imageView: ImageView
