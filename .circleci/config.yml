@@ -11,7 +11,6 @@ jobs:
     environment:
       JVM_OPTS: -Xmx4096m
       GRADLE_OPTS: -Xmx4096m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      FL_OUTPUT_DIR: outputs/apk
       FASTLANE_LANE: upload_to_appcenter
     steps:
       - checkout
