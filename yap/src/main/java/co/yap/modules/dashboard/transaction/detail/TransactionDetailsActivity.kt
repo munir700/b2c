@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -106,7 +107,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 ) { resultCode, _ ->
                     if (resultCode == Activity.RESULT_OK) {
                     }
-                    //    showFeedbackSuccessDialog()
+                    makeToast(this, "feedback submitted successfully", Toast.LENGTH_SHORT)
                 }
             }
             R.id.ivTotalPurchase -> {
@@ -135,13 +136,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 makeToast(this, "category updated sucessfully", LENGTH_SHORT)
             }
         }
-    }
-
-    private fun showFeedbackSuccessDialog() {
-        this.showReceiptSuccessDialog(
-            description = getString(Strings.screen_transaction_details_feedback_success_label),
-            addOtherVisibility = false
-        )
     }
 
     private fun showAddReceiptOptions() {
