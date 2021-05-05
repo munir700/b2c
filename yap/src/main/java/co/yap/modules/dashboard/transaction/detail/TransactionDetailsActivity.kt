@@ -16,7 +16,7 @@ import co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackFragment
 import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
-import co.yap.modules.dashboard.transaction.totalpurchases.TotalPurchaseActivity
+import co.yap.modules.dashboard.transaction.totalpurchases.TotalPurchaseFragment
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
@@ -109,9 +109,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     //    showFeedbackSuccessDialog()
                 }
             }
-            /*R.id.ibTotalPurchase -> {
-                launchActivity<TotalPurchaseActivity>()
-            }*/
+            R.id.ivTotalPurchase -> {
+                startFragment<TotalPurchaseFragment>(TotalPurchaseFragment::class.java.name,bundle = bundleOf(
+                    Constants.TRANSACTION_COUNT to viewModel.totalPurchase.get()?.txnCount,
+                    Constants.TRANSACTION_DETAIL to viewModel.transaction.get(),
+                    Constants.TOTAL_TRANSACTION to viewModel.totalPurchase.get()?.totalSpendAmount
+                ))
+            }
         }
     }
 
