@@ -3,12 +3,14 @@ package co.yap.billpayments.paybill.paybillsuccess
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.databinding.FragmentPayBillSuccessBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
-import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.strikeThroughText
 
 class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel>(),
     IPayBillSuccess.View {
@@ -20,6 +22,11 @@ class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getViewBinding().tvDueAmount.strikeThroughText(!viewModel.state.isSuccessful.get())
     }
 
     override fun setObservers() {
@@ -49,5 +56,9 @@ class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    override fun getViewBinding(): FragmentPayBillSuccessBinding {
+        return viewDataBinding as FragmentPayBillSuccessBinding
     }
 }

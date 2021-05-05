@@ -11,12 +11,29 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/margin_medium_large">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDelineMessage"
+            style="@style/ALarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:gravity="center"
+            android:visibility="@{!viewModel.state.isSuccessful?View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_pay_bill_decline_top_message}"
+            tools:text="@string/screen_pay_bill_decline_top_message" />
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivLogo"
@@ -27,7 +44,7 @@
             app:imageUrl="@{viewModel.parentViewModel.billModel.billerInfo.logo}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDelineMessage"
             app:position="@{viewModel.parentViewModel.state.selectedBillPosition}" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -49,10 +66,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_6sdp"
             android:text="@{viewModel.state.inputFieldString}"
+            android:visibility="@{viewModel.state.isSuccessful ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvBillerName"
             tools:text="5314 5678 0987 0987" />
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvNickName"
@@ -61,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_two_dp"
             android:text="@{viewModel.parentViewModel.billModel.billNickName}"
+            android:visibility="@{viewModel.state.isSuccessful ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvReferenceId"
@@ -72,11 +92,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_large"
+            android:gravity="center"
+            android:lineSpacingExtra="8sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvNickName"
-            app:text="@{Strings.screen_pay_bill_success_you_have_paid}"
-            tools:text="My Personal Number" />
+            app:text="@{viewModel.state.isSuccessful ? Strings.screen_pay_bill_success_you_have_paid : Strings.screen_pay_bill_decline_toolbar_text_dont_worry}"
+            tools:text="Don’t worry you were not charged anything \nTotal amount attempted to pay." />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDueAmount"
@@ -94,10 +116,10 @@
             android:layout_width="@dimen/_76sdp"
             android:layout_height="@dimen/_76sdp"
             android:layout_marginTop="@dimen/margin_extra_large"
+            android:src="@{viewModel.state.isSuccessful ? @drawable/ic_checkmark : @drawable/ic_decline}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDueAmount"
-            app:srcCompat="@drawable/ic_checkmark" />
+            app:layout_constraintTop_toBottomOf="@id/tvDueAmount" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnGoToDashboard"
@@ -112,7 +134,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            app:text="@{Strings.screen_pay_bill_success_button_text}"
+            app:text="@{viewModel.state.isSuccessful ? Strings.screen_pay_bill_success_button_text : Strings.screen_pay_bill_decline_button_text_back_to_bill_payments}"
             tools:text="@string/screen_pay_bill_success_button_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

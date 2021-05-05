@@ -15,12 +15,24 @@ class PayBillSuccessViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         toggleRightIconVisibility(false)
-        setToolBarTitle(getString(Strings.screen_pay_bill_success_toolbar_title))
+        setToolBarTitle(getToolbarTitle())
+
         state.paidAmount.set(
             parentViewModel?.state?.paidAmount?.get()
                 .toFormattedCurrency(showCurrency = true, withComma = true)
         )
-        state.inputFieldString.set(parentViewModel?.billModel?.value?.inputsData?.joinToString(separator = " | ") {billerInputData ->billerInputData.value.toString()})
+        state.inputFieldString.set(
+            parentViewModel?.billModel?.value?.inputsData?.joinToString(
+                separator = " | "
+            ) { billerInputData -> billerInputData.value.toString() })
+    }
+
+
+    override fun getToolbarTitle(): String {
+        return if (state.isSuccessful.get())
+            getString(Strings.screen_pay_bill_success_toolbar_title)
+        else
+            getString(Strings.screen_pay_bill_decline_toolbar_text_decline)
     }
 
     override fun handleOnPressView(id: Int) {
