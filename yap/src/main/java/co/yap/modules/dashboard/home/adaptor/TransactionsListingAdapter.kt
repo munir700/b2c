@@ -31,7 +31,7 @@ class TransactionsListingAdapter(
     var analyticsItemTitle: String? = null
     var analyticsItemImgUrl: String? = null
     override fun getLayoutIdForViewType(viewType: Int): Int {
-        return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) R.layout.item_analytics_transaction_list else R.layout.item_transaction_list
+        return if (adapterType == TransactionAdapterType.TRANSACTION) R.layout.item_transaction_list else R.layout.item_analytics_transaction_list
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -48,13 +48,13 @@ class TransactionsListingAdapter(
     }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) {
-            TransactionAnalyticsViewHolder(
-                binding as ItemAnalyticsTransactionListBinding
-            )
-        } else
+        return if (adapterType == TransactionAdapterType.TRANSACTION) {
             TransactionListingViewHolder(
                 binding as ItemTransactionListBinding
+            )
+        } else
+            TransactionAnalyticsViewHolder(
+                binding as ItemAnalyticsTransactionListBinding
             )
     }
 
