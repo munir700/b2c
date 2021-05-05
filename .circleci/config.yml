@@ -10,7 +10,7 @@ jobs:
       - image: circleci/android:api-30
     environment:
       JVM_OPTS: -Xmx4096m
-      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
+      GRADLE_OPTS: -Xmx4096m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       FL_OUTPUT_DIR: outputs/apk
       FASTLANE_LANE: upload_to_appcenter
     steps:
