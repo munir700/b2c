@@ -23,13 +23,17 @@ platform :android do
     scheme = get_scheme(git_branch)
     app_center_api_token =  get_appcenter_token(scheme)
     app_center_app_name = get_appcenter_app_name(scheme)
-    UI.important "Initiating job for scheme #{scheme}"
-    UI.important "Initiating job for api_token #{app_center_api_token}"
-    UI.important "Initiating job for app_name #{app_center_app_name}"
+    UI.important "Initiating job for scheme #{scheme.downcase}"
  end
 
   desc "Build"
   lane :build do
+    version = appcenter_fetch_version_number(
+      api_token: "#{app_center_api_token}",
+      owner_name: "android-yap.com",
+      app_name: "#{app_center_app_name}",
+    )
+    UI.important "Fasttlanne build number job  #{version}"
     gradle(
       task: 'assemble',
       flavor: "#{scheme}",
@@ -44,7 +48,7 @@ platform :android do
       api_token: "#{app_center_api_token}",
       owner_name: "android-yap.com",
       app_name: "#{app_center_app_name}",
-      file: "./app/build/outputs/apk/yapinternal/release/app-#{scheme}.downcase-release.apk",
+      file: "./app/build/outputs/apk/#{scheme.downcase}/release/app-#{scheme.downcase}-release.apk",
       notify_testers: false
     )
  end
