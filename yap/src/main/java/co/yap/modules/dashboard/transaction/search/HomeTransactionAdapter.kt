@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.search
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
@@ -233,6 +234,7 @@ class HomeTransactionAdapter(
 
         }
 
+
         private fun setVirtualCardIcon(
             transaction: Transaction,
             itemSearchTransactionBinding: ItemSearchTransactionChildBinding
@@ -271,6 +273,7 @@ class HomeTransactionAdapter(
                 colorType = "Beneficiary"
             )
         }
+        @SuppressLint("UseCompatLoadingForDrawables")
         private fun setCategoryIcon(
             transaction: Transaction,
             itemSearchTransactionBinding: ItemSearchTransactionChildBinding,
