@@ -2,23 +2,25 @@
 version: 2.1
 
 orbs:
- android: circleci/android@0.2.0
+ android: circleci/android@1.0
 
 jobs:
- build:
-   executor: android/android
-   environment:
-     FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
-     FASTLANE_LANE: upload_to_appcenter
-
-   steps:
-     - checkout
-     - run:
-         name: Install fastlane
-         command: bundle install
-     - run:
-        name: Execute fastlane
-        command: bundle exec fastlane $FASTLANE_LANE
+  build:
+    docker:
+      - image: circleci/android:api-30
+    environment:
+      JVM_OPTS: -Xmx3200m
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+      FL_OUTPUT_DIR: ./app/build/outputs/apk/yapinternal/release/app-yapinternal-release.apk
+      FASTLANE_LANE: upload_to_appcenter
+    steps:
+      - checkout
+      - run:
+          name: Install fastlane
+          command: bundle install
+      - run:
+          name: Execute fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
 
 workflows:
   build_and_test:

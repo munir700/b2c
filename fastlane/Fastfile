@@ -27,7 +27,6 @@ platform :android do
 
   desc "Build"
   lane :build do
-
     gradle(
       task: 'assemble',
       flavor: 'Yapinternal',
