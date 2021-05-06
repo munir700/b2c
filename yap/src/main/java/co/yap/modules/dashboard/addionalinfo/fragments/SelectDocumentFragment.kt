@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.addionalinfo.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.NonNull
@@ -20,7 +21,9 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AdditionalInfoScreenType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.extentions.launchSheet
+import co.yap.yapcore.helpers.extentions.openFilePicker
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -105,7 +108,18 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                 }
 
                 PhotoSelectionType.GALLERY.name -> {
-                    initEasyImage(pickPhoto)
+                    requireActivity().openFilePicker("File picker",
+                        completionHandler = { _, dataUri ->
+                            uploadDocumentAndMoveNext(
+                                FileUtils.getFile(requireContext(), dataUri?.data),
+                                currentPos ?: 0,
+                                currentDocument ?: AdditionalDocument(),
+                                isFromCamera = false,
+                                contentType = requireContext().contentResolver.getType(
+                                    dataUri?.data ?: Uri.EMPTY
+                                )
+                            )
+                        })
                 }
 
                 PhotoSelectionType.REMOVE_PHOTO.name -> {
@@ -132,27 +146,37 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                     uploadDocumentAndMoveNext(
                         file,
                         currentPos ?: 0,
-                        currentDocument ?: AdditionalDocument()
+                        currentDocument ?: AdditionalDocument(), isFromCamera = true,
+                        contentType = null
                     )
                 }
             }
         }
     }
 
-    private fun uploadDocumentAndMoveNext(file: File?, pos: Int, data: AdditionalDocument) {
+    private fun uploadDocumentAndMoveNext(
+        file: File?,
+        pos: Int,
+        data: AdditionalDocument,
+        isFromCamera: Boolean = false,
+        contentType: String? = null
+    ) {
         file?.let {
             viewModel.uploadDocument(
                 file,
-                data.documentType ?: ""
-            ) {
-                if (data.status == "PENDING")
-                    data.status = "DONE"
-                viewModel.uploadAdditionalDocumentAdapter.setItemAt(
-                    pos,
-                    data
-                )
-                viewModel.setEnabled(viewModel.uploadAdditionalDocumentAdapter.getDataList()) {
-                    viewModel.setSubTitle(it)
+                data.documentType ?: "", contentType = contentType
+            ) { isUploadedSuccessfully ->
+                if (isFromCamera) file.deleteRecursively()
+                if (isUploadedSuccessfully) {
+                    if (data.status == "PENDING")
+                        data.status = "DONE"
+                    viewModel.uploadAdditionalDocumentAdapter.setItemAt(
+                        pos,
+                        data
+                    )
+                    viewModel.setEnabled(viewModel.uploadAdditionalDocumentAdapter.getDataList()) {
+                        viewModel.setSubTitle(it)
+                    }
                 }
             }
         } ?: showToast("Invalid Image")
@@ -272,6 +296,4 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     override fun onBackPressed(): Boolean {
         return true
     }
-
-
 }
