@@ -4,17 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.text.TextUtils
-import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import com.google.android.material.textfield.TextInputLayout
-import okio.Utf8
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 /**
  * Checks if a string is a valid email
@@ -95,4 +95,16 @@ fun String?.decodeToUTF8(): String {
         return URLDecoder.decode(it, StandardCharsets.UTF_8.name())
     } ?: return ""
 
+}
+
+fun String?.getOtpFromMessage(): String? {
+    var otpCode = ""
+    this?.let {
+        val pattern: Pattern = Pattern.compile("(|^)\\d{6}")
+        val matcher: Matcher = pattern.matcher(it)
+        if (matcher.find()) {
+            otpCode = matcher.group(0) ?: ""
+        }
+    }
+    return otpCode
 }

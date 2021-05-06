@@ -67,6 +67,7 @@ class PhoneVerificationViewModel(application: Application) :
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10, context)
                     state.validResend = false
+                    nextButtonPressEvent.setValue(R.id.btnResend)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
