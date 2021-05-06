@@ -113,7 +113,7 @@
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="@id/tvAmount"
                 app:layout_constraintStart_toStartOf="@+id/content"
-                app:layout_constraintTop_toBottomOf="@+id/lyAnalyticsImage" />
+                app:layout_constraintTop_toBottomOf="@+id/tvSpendingPercentage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

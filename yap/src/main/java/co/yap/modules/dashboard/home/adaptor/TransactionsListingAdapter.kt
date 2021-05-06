@@ -44,7 +44,7 @@ class TransactionsListingAdapter(
                 list[position],
                 analyticsItemPosition,
                 analyticsItemTitle,
-                analyticsItemImgUrl
+                analyticsItemImgUrl, adapterType
             )
     }
 
@@ -65,7 +65,8 @@ class TransactionsListingAdapter(
             transaction: Transaction,
             position: Int,
             analyticsItemTitle: String?,
-            analyticsItemImgUrl: String?
+            analyticsItemImgUrl: String?,
+            type: TransactionAdapterType
         ) {
             itemAnalyticsTransactionListBinding.viewModel =
                 ItemAnalyticsTransactionVM(
@@ -74,6 +75,8 @@ class TransactionsListingAdapter(
                     analyticsItemTitle,
                     analyticsItemImgUrl
                 )
+            itemAnalyticsTransactionListBinding.dividerBottom.visibility =
+                if (type == TransactionAdapterType.TOTAL_PURCHASE) View.VISIBLE else View.GONE
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }

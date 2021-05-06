@@ -177,8 +177,7 @@ data class Transaction(
     @SerializedName("yapCategoryDTO")
     val tapixCategory: TapixCategory? = null,
     @SerializedName("cardHolderBillingTotalAmount")
-val cardHolderBillingTotalAmount: Double? = null
-
+    val cardHolderBillingTotalAmount: Double? = null
 ) : ApiResponse(), Parcelable
 
 @Parcelize
@@ -192,7 +191,7 @@ data class TapixCategory(
     @SerializedName("analyticIcon")
     val analyticIcon: String? = null,
     @Transient
-    var isSelected: Boolean = false ,
+    var isSelected: Boolean = false,
     @Transient
     var type: Boolean? = null
 ) : Parcelable {

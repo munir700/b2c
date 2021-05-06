@@ -121,6 +121,7 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         android:layout_marginTop="@dimen/margin_medium_large"
+                        android:visibility="gone"
                         app:layout_constraintTop_toBottomOf="@+id/pieViewConstraintLayout"
                         tools:text="Monthly average is AED 1,600.47" />
 

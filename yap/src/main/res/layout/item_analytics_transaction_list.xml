@@ -88,7 +88,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
             tools:text="- 21.00 \u2022 jun 01" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCurrency"
             style="@style/SmallGrey"
             android:layout_width="0dp"
@@ -98,5 +98,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
             tools:text="AED" />
+        <View
+            android:id="@+id/dividerBottom"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/divider"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            app:layout_constraintStart_toStartOf="@id/tvTransactionTimeAndCategory"
+            app:layout_constraintTop_toBottomOf="@id/tvTransactionTimeAndCategory"
+            app:layout_constraintEnd_toEndOf="@id/tvCurrency" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
