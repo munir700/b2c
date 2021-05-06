@@ -77,6 +77,7 @@ class TransactionsListingAdapter(
                 )
             itemAnalyticsTransactionListBinding.dividerBottom.visibility =
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) View.VISIBLE else View.GONE
+            itemAnalyticsTransactionListBinding.tvCurrency.alpha = if (type == TransactionAdapterType.TOTAL_PURCHASE) 0.5f else 1f
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
