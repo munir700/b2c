@@ -9,6 +9,9 @@
             type="co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,7 +24,7 @@
             android:layout_height="1dp"
             android:background="@color/colorDarkGreyGradient"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMarchantTitle"
@@ -29,33 +32,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
-            app:text="@{Strings.screen_transaction_details_rating_label}"
             app:layout_constraintStart_toStartOf="parent"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginEnd="@dimen/margin_medium"
             app:layout_constraintTop_toBottomOf="@+id/vRating"
-            tools:text="@string/screen_transaction_details_rating_label"/>
+            android:text="@{String.format(Translator.INSTANCE.getString(context,Strings.screen_transaction_details_rating_label),ratingViewModel.transaction.merchantName) }"
+            tools:text="@string/screen_transaction_details_rating_label" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:text="@{Strings.screen_transaction_details_rating_tap_to_rate}"
             app:layout_constraintBottom_toBottomOf="@+id/rbMarchant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/rbMarchant"
-            tools:text="@string/screen_transaction_details_rating_tap_to_rate"/>
+            app:text="@{Strings.screen_transaction_details_rating_tap_to_rate}"
+            tools:text="@string/screen_transaction_details_rating_tap_to_rate" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/rbMarchant"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:numStars="5"
             android:layout_marginTop="@dimen/margin_extra_small"
-            style="@style/Widget.AppCompat.RatingBar.Indicator"
-            android:theme="@style/RatingBar"
-            android:stepSize="1"
+            android:isIndicator="false"
+            android:numStars="5"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:isIndicator="false"
+            android:stepSize="1"
+            android:theme="@style/RatingBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMarchantTitle" />
 
