@@ -61,7 +61,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 viewModel.transaction.set(it)
                 viewModel.composeTransactionDetail(it)
                 getBindings().ivMap.setImageResource(viewModel.state.coverImage.get())
-                viewModel.transaction.get().setTransactionImage(getBindings().ivPicture)
+                viewModel.setMerchantImage(getBindings().ivPicture)
             }
         }
         viewModel.responseReciept.observe(this, Observer {
@@ -69,7 +69,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         })
         viewModel.adapter.setItemListener(onReceiptClickListener)
         getBindings().layoutRating.rbMarchant.setOnRatingBarChangeListener { ratingBar, fl, b ->
-          //  showRatingDialogue()
+            //  showRatingDialogue()
         }
     }
 
@@ -111,11 +111,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 }
             }
             R.id.ivTotalPurchase -> {
-                startFragment<TotalPurchaseFragment>(TotalPurchaseFragment::class.java.name,bundle = bundleOf(
-                    Constants.TRANSACTION_COUNT to viewModel.totalPurchase.get()?.txnCount,
-                    Constants.TRANSACTION_DETAIL to viewModel.transaction.get(),
-                    Constants.TOTAL_TRANSACTION to viewModel.totalPurchase.get()?.totalSpendAmount
-                ))
+                startFragment<TotalPurchaseFragment>(
+                    TotalPurchaseFragment::class.java.name, bundle = bundleOf(
+                        Constants.TRANSACTION_COUNT to viewModel.totalPurchase.get()?.txnCount,
+                        Constants.TRANSACTION_DETAIL to viewModel.transaction.get(),
+                        Constants.TOTAL_TRANSACTION to viewModel.totalPurchase.get()?.totalSpendAmount
+                    )
+                )
             }
         }
     }
@@ -306,7 +308,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     private fun showRatingDialogue() {
         this.showReceiptSuccessDialog(
-            description =  "Are you sure you want to submit this rating?" ,
+            description = "Are you sure you want to submit this rating?",
             addOtherVisibility = false
         )
     }

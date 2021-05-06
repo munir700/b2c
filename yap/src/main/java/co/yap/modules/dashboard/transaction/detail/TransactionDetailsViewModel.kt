@@ -16,6 +16,7 @@ import co.yap.networking.transactions.responsedtos.TotalPurchasesResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import co.yap.translation.Strings
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
@@ -46,8 +47,8 @@ class TransactionDetailsViewModel(application: Application) :
         )
     override var totalPurchase: ObservableField<TotalPurchases> = ObservableField()
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
-    override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
 
+    override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
     override fun onCreate() {
         super.onCreate()
         setStatesData()
@@ -66,6 +67,12 @@ class TransactionDetailsViewModel(application: Application) :
             state.categoryDescription.set(it.categoryDescription)
             state.updatedCategory.set(it.tapixCategory)
         }
+    }
+
+    override fun setMerchantImage(view: CoreCircularImageView) {
+        transaction.get()?.merchantLogo?.let {logo ->
+            view.loadImage(logo)
+        }?: transaction.get().setTransactionImage(view)
     }
 
     override fun getTotalPurchaseRequest(): TotalPurchaseRequest {
