@@ -55,12 +55,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         super.onViewCreated(view, savedInstanceState)
         setCardDimens()
         addBenefitRecyclerView()
-        context?.let { SharedPreferenceManager.getInstance(it).removeValue(KEY_AVAILABLE_BALANCE) }
+        SharedPreferenceManager.getInstance(requireActivity()).removeValue(KEY_AVAILABLE_BALANCE)
 
-        activity?.let {
-            ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java).state.tootlBarTitle =
-                "Add a virtual spare card"
-        }
+        ViewModelProviders.of(requireActivity())
+            .get(AddPaymentCardViewModel::class.java).state.tootlBarTitle =
+            "Add a virtual spare card"
+
         setObservers()
     }
 
@@ -125,10 +125,10 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         viewModel.errorEvent.observe(this, Observer {
             requireActivity().finish()
         })
-        viewModel.isFeeReceived.observe(this, Observer {
+        viewModel.isFeeReceived.observe(requireActivity(), Observer {
             if (it) viewModel.updateFees("")
         })
-        viewModel.updatedFee.observe(this, Observer {
+        viewModel.updatedFee.observe(requireActivity(), Observer {
             viewModel.state.virtualCardFee = it
             viewModel.parentViewModel?.virtualCardFee = it
         })
