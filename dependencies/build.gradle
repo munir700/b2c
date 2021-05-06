@@ -159,7 +159,8 @@ project.ext {
             tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0',
 //            deeplink                 : 'com.airbnb:deeplinkdispatch:5.2.0',
 //            deeplinkprocessor        : 'com.airbnb:deeplinkdispatch-processor:5.2.0',
-            lotieAnimation           : 'com.airbnb.android:lottie:3.4.0'
+            lotieAnimation           : 'com.airbnb.android:lottie:3.4.0',
+            uxcam           : 'com.uxcam:uxcam:3.3.5@aar'
 
     ]
 
@@ -227,7 +228,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.analytics],
 //            [configuration: "implementation", dependency: libraries.directboot],
             [configuration: "implementation", dependency: libraries.androidanimations],
-            [configuration: "implementation", dependency: libraries.androidanimationseasing]
+            [configuration: "implementation", dependency: libraries.androidanimationseasing],
+            [configuration: "implementation", dependency: libraries.uxcam]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies

@@ -36,6 +36,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import com.uxcam.UXCam
 import timber.log.Timber
 import java.util.*
 
@@ -92,6 +93,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                 configManager?.hasValidSignature = true
             }
         })
+        UXCam.startWithKey("7z7psf07jm1kjoz");
     }
 
     private fun initAllModules() {
