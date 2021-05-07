@@ -49,8 +49,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
 
     //    private val EVENT_CARD_ADDED: Int get() = 12
-    private var selectedCardPosition: Int = 0
-
     //lateinit var adapter: YapCardsAdaptor
     private var tourStep: TourSetup? = null
 
@@ -307,9 +305,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
                     when {
                         true == removed -> {
-                            viewModel.adapter.removeItemAt(selectedCardPosition)
-                            viewModel.adapter.notifyDataSetChanged()
-                            updateCardCount()
+                            viewModel.removeCard(updatedCard)
                         }
                         true == cardBlocked -> {
                             viewModel.adapter.removeAllItems()
@@ -393,7 +389,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openDetailScreen(pos: Int = 0, card: Card? = null) {
-        selectedCardPosition = pos
+        viewModel.selectedCardPosition = pos
         card?.let {
             gotoPaymentCardDetailScreen(it)
         } ?: gotoPaymentCardDetailScreen(viewModel.adapter.getDataForPosition(pos))

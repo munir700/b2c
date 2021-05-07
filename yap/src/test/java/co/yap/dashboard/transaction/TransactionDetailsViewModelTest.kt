@@ -3,6 +3,8 @@ package co.yap.dashboard.transaction
 import co.yap.app.YAPApplication
 import co.yap.base.BaseTestCase
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel
+import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
+import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
@@ -38,7 +40,9 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         val currency: String,
         val amount: Double,
         val foreignAmount: Double,
-        val spentAmount: Double
+        val spentAmount: Double,
+        val items: ArrayList<ItemTransactionDetail>,
+        val showTotalPurchase : Boolean
     )
 
     @BeforeEach
@@ -50,9 +54,9 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
     @TestFactory
     fun test_add_receipt_section_should_show_or_not(): Collection<DynamicTest>? {
         val tests: MutableSet<DynamicTest> = LinkedHashSet()
-        getTransactions().forEach {
+        getTransactionsForDetail().forEach {
             val expectedValue = when (it.transaction.productCode) {
-                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> true
+                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> true
                 else -> false
             }
             tests.add(addReceiptNewTest(it.transaction, expectedValue))
@@ -76,15 +80,42 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             "test_receipt_visibility_for_product_code_%s",
             transaction.productCode
         )
+        val transactionDetailComposer = TransactionDetailComposer()
+        val txnDetail = transactionDetailComposer.compose(transaction)
         return DynamicTest.dynamicTest(displayName) {
-            Assert.assertEquals(expectation, sut.isShowReceiptSection(transaction))
+            Assert.assertEquals(expectation, txnDetail?.showReceipts)
+        }
+    }
+
+    @TestFactory
+    fun test_transaction_detail_items(): Collection<DynamicTest>? {
+        val tests: MutableSet<DynamicTest> = LinkedHashSet()
+        getTransactionsForDetail().forEach {
+            tests.add(detailListItemTest(it.transaction, it.detailExpectation))
+
+        }
+        return tests
+    }
+
+    private fun detailListItemTest(
+        transaction: Transaction, expectation: TransactionExpectation
+    ): DynamicTest {
+        val displayName: String = java.lang.String.format(
+            Locale.getDefault(),
+            "test_transaction_for_detail_items_%s",
+            transaction.productCode
+        )
+        val transactionDetailComposer = TransactionDetailComposer()
+        val txnDetail = transactionDetailComposer.compose(transaction)
+        return DynamicTest.dynamicTest(displayName) {
+            Assert.assertEquals(expectation.items, txnDetail?.transactionItem)
         }
     }
 
     @TestFactory
     fun test_transaction(): Collection<DynamicTest>? {
         val tests: MutableSet<DynamicTest> = LinkedHashSet()
-        getTransactions().forEach {
+        getTransactionsForDetail().forEach {
             tests.add(addNewTest(it.transaction, it.detailExpectation))
         }
         return tests
@@ -99,36 +130,32 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             "test_transaction_for_product_code_%s",
             transaction.productCode
         )
+
+        val transactionDetailComposer = TransactionDetailComposer()
+        val txnDetail = transactionDetailComposer.compose(transaction)
         return DynamicTest.dynamicTest(displayName) {
-            Assert.assertEquals(expectation.detailTransferType, sut.getTransferType(transaction))
+            Assert.assertEquals(expectation.detailTransferType, txnDetail?.transferType)
             Assert.assertEquals(
                 expectation.transferCategory,
-                sut.getTransferCategoryTitle(transaction)
+                txnDetail?.categoryTitle
             )
             Assert.assertEquals(
                 expectedTransferCategoryIcon(transaction),
-                sut.getTransferCategoryIcon(transaction)
+                txnDetail?.categoryIcon
             )
             Assert.assertEquals(
                 expectation.amount,
-                sut.getCalculatedTotalAmount(transaction), 0.2
-            )
-            Assert.assertEquals(
-                expectation.spentAmount,
-                sut.getSpentAmount(transaction), 0.2
-            )
-            Assert.assertEquals(
-                expectation.foreignAmount,
-                sut.getForeignAmount(transaction), 0.2
+                txnDetail?.totalAmount ?: 0.0, 0.2
             )
             Assert.assertEquals(
                 expectation.location ?: "",
-                sut.getLocation(transaction)
+                txnDetail?.locationValue
             )
             Assert.assertEquals(
                 getExpectedStatusIcon(transaction),
-                sut.getStatusIcon(transaction)
+                txnDetail?.statusIcon
             )
+            Assert.assertEquals(expectation.showTotalPurchase, txnDetail?.showTotalPurchase)
         }
     }
 
@@ -168,17 +195,18 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         }
     }
 
-    private fun getTransactions(): List<TransactionTest> {
+    private fun getTransactionsForDetail(): List<TransactionTest> {
         val gson = GsonBuilder().create();
         val itemType = object : TypeToken<List<TransactionTest>>() {}.type
 
-        return gson.fromJson<List<TransactionTest>>(readJsonFile(), itemType)
+        return gson.fromJson<List<TransactionTest>>(readJsonFile(
+        ), itemType)
     }
 
     @Throws(IOException::class)
     private fun readJsonFile(): String? {
         val br =
-            BufferedReader(InputStreamReader(FileInputStream("../yapcore/src/main/assets/jsons/transaction.json")))
+            BufferedReader(InputStreamReader(FileInputStream("../yapcore/src/main/assets/jsons/transaction_detail.json")))
         val sb = StringBuilder()
         var line: String? = br.readLine()
         while (line != null) {
