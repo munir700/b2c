@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/lyAnalyti_csImage"
+                android:id="@+id/lyAnalyticsImage"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="center_horizontal"
@@ -52,10 +52,10 @@
                 android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/lyAnalyticsImage"
+                app:layout_constraintBottom_toBottomOf="@id/lyAnalyticsImage"
                 app:layout_constraintEnd_toStartOf="@+id/tvAmount"
-                app:layout_constraintStart_toEndOf="@+id/lyAnalyticsImage"
-                app:layout_constraintTop_toTopOf="@+id/lyAnalyticsImage">
+                app:layout_constraintStart_toEndOf="@id/lyAnalyticsImage"
+                app:layout_constraintTop_toTopOf="@id/lyAnalyticsImage">
 
                 <TextView
                     android:id="@+id/tvName"
