@@ -1,4 +1,4 @@
-package co.yap.billpayments.paybill.paybillsuccess
+package co.yap.billpayments.payall.singledecline
 
 import android.app.Application
 import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
@@ -6,24 +6,20 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
-class PayBillSuccessViewModel(application: Application) :
-    PayBillMainBaseViewModel<IPayBillSuccess.State>(application),
-    IPayBillSuccess.ViewModel {
+class SingleDeclineViewModel(application: Application) :
+    PayBillMainBaseViewModel<ISingleDecline.State>(application),
+    ISingleDecline.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: IPayBillSuccess.State = PayBillSuccessState()
+    override val state: ISingleDecline.State = SingleDeclineState()
 
     override fun onResume() {
         super.onResume()
         toggleRightIconVisibility(false)
-        setToolBarTitle(getString(Strings.screen_pay_bill_success_toolbar_title))
+        setToolBarTitle(getString(Strings.screen_single_decline_toolbar_text_decline))
         state.paidAmount.set(
             parentViewModel?.state?.paidAmount?.get()
                 .toFormattedCurrency(showCurrency = true, withComma = true)
         )
-        state.inputFieldString.set(
-            parentViewModel?.billModel?.value?.inputsData?.joinToString(
-                separator = " | "
-            ) { billerInputData -> billerInputData.value.toString() })
     }
 
     override fun handleOnPressView(id: Int) {

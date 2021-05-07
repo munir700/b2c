@@ -1,24 +1,32 @@
-package co.yap.billpayments.paybill.paybillsuccess
+package co.yap.billpayments.payall.singledecline
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.databinding.FragmentSingleDeclineBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
+import co.yap.yapcore.helpers.extentions.strikeThroughText
 
-class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel>(),
-    IPayBillSuccess.View {
+class SingleDeclineFragment : PayBillMainBaseFragment<ISingleDecline.ViewModel>(),
+    ISingleDecline.View {
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_pay_bill_success
-    override val viewModel: IPayBillSuccess.ViewModel
-        get() = ViewModelProviders.of(this).get(PayBillSuccessViewModel::class.java)
+    override fun getLayoutId(): Int = R.layout.fragment_single_decline
+    override val viewModel: ISingleDecline.ViewModel
+        get() = ViewModelProviders.of(this).get(SingleDeclineViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getViewBinding().tvDueAmount.strikeThroughText(true)
     }
 
     override fun setObservers() {
@@ -48,5 +56,9 @@ class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    override fun getViewBinding(): FragmentSingleDeclineBinding {
+        return viewDataBinding as FragmentSingleDeclineBinding
     }
 }

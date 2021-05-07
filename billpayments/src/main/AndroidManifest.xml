@@ -35,6 +35,11 @@
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/pay_bill_navigation" />
         </activity>
+        <activity
+            android:name=".payall.main.PayAllMainActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/pay_all_navigation" />
+        </activity>
 
     </application>
 </manifest>

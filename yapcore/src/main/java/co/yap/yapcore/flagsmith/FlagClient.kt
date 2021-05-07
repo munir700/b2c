@@ -2,15 +2,13 @@ package co.yap.yapcore.flagsmith
 
 import co.yap.yapcore.BuildConfig
 
-private val client: FSClient by lazy {
-    FSClient()
-}
 
-val getFeatureFlagClient: FeatureFlagClient
+val getFeatureFlagClient: FSClient
     get() {
         return if (BuildConfig.DEBUG) {
-            client //MockFeatureClient()
+            FSClient.get() //MockFeatureClient()
         } else {
-            client
+            FSClient.get()
         }
     }
+
