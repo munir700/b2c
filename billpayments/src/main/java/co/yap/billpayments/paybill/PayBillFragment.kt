@@ -32,7 +32,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.get(0)?.isPrepaid == true)
+        if (viewModel.parentViewModel?.isPrepaid() == true)
             skipPayBillFragment()
         else
             setObservers()
@@ -77,7 +77,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         getViewBinding().etAmount.afterTextChanged {
             if (it.isNotBlank()) {
                 viewModel.state.amount = it
-                if (viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.first()?.isPrepaid == false)
+                if (viewModel.parentViewModel?.isPrepaid() == false)
                     viewModel.checkOnTextChangeValidation(viewModel.state.amount.parseToDouble())
                 else
                     viewModel.state.valid.set(true)

@@ -17,7 +17,6 @@ import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
@@ -41,32 +40,13 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
         initTabLayout()
         setEditTextWatcher()
-        setValidation()
-    }
-
-    private fun setValidation() {
-        viewModel.parentViewModel?.billModel?.value?.let {
-            if (it.billerInfo?.skuInfos?.first()?.isPrepaid == false) {
-                viewModel.setMinMaxLimitForPostPaid(it)
-                getViewBinding().etAmount.setText(it.totalAmountDue ?: "0.00")
-                if (it.billerInfo?.skuInfos?.first()?.isExcessPayment == false && it.billerInfo?.skuInfos?.first()?.isPartialPayment == false) {
-                    getViewBinding().etAmount.isClickable = false
-                    getViewBinding().etAmount.isEnabled = false
-                    getViewBinding().etAmount.isFocusable = false
-                    getViewBinding().etAmount.isFocusableInTouchMode = false
-                }
-            }
-        }
     }
 
     private fun setEditTextWatcher() {
         getViewBinding().etAmount.afterTextChanged {
             if (it.isNotBlank()) {
                 viewModel.state.amount = it
-                if (viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.first()?.isPrepaid == false)
-                    viewModel.checkOnTextChangeValidation(viewModel.state.amount.parseToDouble())
-                else
-                    viewModel.state.valid.set(true)
+                viewModel.state.valid.set(true)
             } else {
                 viewModel.state.valid.set(false)
                 cancelAllSnackBar()
