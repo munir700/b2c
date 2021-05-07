@@ -20,5 +20,6 @@ enum class ExtraKeys {
     SELECTED_BILL,
     IS_SKIP_PAY_BILL,
     IS_DELETED,
-    IS_UPDATED
+    IS_UPDATED,
+    ALL_BILLS
 }
