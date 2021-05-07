@@ -37,7 +37,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     private val pickPhoto = 2
     internal var permissionHelper: PermissionHelper? = null
     private var currentPos: Int? = null
-    lateinit var easyImage: EasyImage
+//    lateinit var easyImage: EasyImage
     private var currentDocument: AdditionalDocument? = null
 
     override val viewModel: SelectDocumentViewModel

@@ -142,10 +142,9 @@ class TransactionDetailsViewModel(application: Application) :
     private fun requestReceiptsAndTotalPurchases(responses: (RetroApiResponse<TotalPurchasesResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            coroutineScope {
                 val totalPurchaseResponse = state.showTotalPurchases.get().let { showView ->
                     if (showView) {
-                        return@let async {
+                        return@let launchAsync {
                             repository.getTotalPurchases(
                                 getTotalPurchaseRequest()
                             )
@@ -156,7 +155,7 @@ class TransactionDetailsViewModel(application: Application) :
 
                 val receiptsResponse = transaction.get()?.let { it ->
                     if (state.receiptVisibility.get()) {
-                        return@let async {
+                        return@let launchAsync {
                             repository.getAllTransactionReceipts(
                                 transactionId = it.transactionId ?: ""
                             )
@@ -164,7 +163,6 @@ class TransactionDetailsViewModel(application: Application) :
                     } else return@let null
                 }
                 responses(totalPurchaseResponse?.await(), receiptsResponse?.await())
-            }
         }
     }
 
