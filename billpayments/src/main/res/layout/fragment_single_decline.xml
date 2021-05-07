@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.payall.singledecline.SingleDeclineViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/margin_medium_large">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDelineMessage"
+            style="@style/ALarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_single_decline_top_message}"
+            tools:text="@string/screen_single_decline_top_message" />
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            app:fullName="@{viewModel.parentViewModel.billModel.billerInfo.billerName}"
+            app:imageUrl="@{viewModel.parentViewModel.billModel.billerInfo.logo}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDelineMessage"
+            app:position="@{viewModel.parentViewModel.state.selectedBillPosition}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBillerName"
+            style="@style/Title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:text="@{viewModel.parentViewModel.billModel.billerInfo.billerName}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLogo"
+            tools:text="Ehtisalat" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPaidText"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:gravity="center"
+            android:lineSpacingExtra="8sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBillerName"
+            app:text="@{Strings.screen_single_decline_toolbar_text_dont_worry}"
+            tools:text="@string/screen_single_decline_toolbar_text_dont_worry" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDueAmount"
+            style="@style/Title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_two_dp"
+            android:text="@{viewModel.state.paidAmount}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPaidText"
+            tools:text="AED 100.00" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_76sdp"
+            android:layout_height="@dimen/_76sdp"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDueAmount"
+            app:srcCompat="@drawable/ic_decline" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnGoToDashboard"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
+            app:btn_size="large"
+            app:enableCoreButton="@{true}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:text="@{Strings.screen_single_decline_button_text_back_to_bill_payments}"
+            tools:text="@string/screen_pay_bill_success_button_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
