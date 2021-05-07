@@ -11,16 +11,22 @@ import com.google.android.gms.common.api.Status
 class MySMSBroadcastReceiver(private val onSmsReceiveListener: OnSmsReceiveListener) :
     BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (SmsRetriever.SMS_RETRIEVED_ACTION == intent?.action) {
-            val extras = intent.extras
-            val status: Status? = extras!![SmsRetriever.EXTRA_STATUS] as Status?
-            when (status?.statusCode) {
-                CommonStatusCodes.SUCCESS -> {
-                    val consentIntent =
-                        extras.getParcelable<Intent>(SmsRetriever.EXTRA_CONSENT_INTENT)
-                    onSmsReceiveListener.onReceive(consentIntent)
-                }
-                CommonStatusCodes.TIMEOUT -> {
+        context?.let { con ->
+            if (SmsRetriever.SMS_RETRIEVED_ACTION == intent?.action) {
+                val extras = intent.extras
+                val status: Status? = extras!![SmsRetriever.EXTRA_STATUS] as Status?
+                when (status?.statusCode) {
+                    CommonStatusCodes.SUCCESS -> {
+                        extras.getParcelable<Intent>(SmsRetriever.EXTRA_CONSENT_INTENT)?.apply {
+                            resolveActivity(con.packageManager)?.run {
+                                if (packageName == "com.google.android.gms" && className == "com.google.android.gms.auth.api.phone.ui.UserConsentPromptActivity"
+                                )
+                                    onSmsReceiveListener.onReceive(this@apply)
+                            }
+                        }
+                    }
+                    CommonStatusCodes.TIMEOUT -> {
+                    }
                 }
             }
         }
