@@ -33,12 +33,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
-            android:singleLine="true"
+            android:maxLines="2"
             android:ellipsize="end"
             android:layout_marginEnd="@dimen/margin_medium"
             app:layout_constraintTop_toBottomOf="@+id/vRating"
             android:text="@{String.format(Translator.INSTANCE.getString(context,Strings.screen_transaction_details_rating_label),ratingViewModel.transaction.merchantName) }"
-            tools:text="@string/screen_transaction_details_rating_label" />
+            tools:text="uihug ytftyv trdtfgv tfrdfcvghg derfcv ghvtyf gdtcv gghvygtrd rtgv " />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/MicroGrey"
