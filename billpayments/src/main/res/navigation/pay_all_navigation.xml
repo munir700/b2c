@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pay_all_navigation"
+    app:startDestination="@id/singleDeclineFragment">
+
+
+    <fragment
+        android:id="@+id/singleDeclineFragment"
+        android:name="co.yap.billpayments.payall.singledecline.SingleDeclineFragment"
+        android:label="SingleDeclineFragment"
+        tools:layout="@layout/fragment_single_decline" />
+</navigation>

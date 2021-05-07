@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -24,6 +25,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -291,4 +293,9 @@ fun Context?.getJsonDataFromAsset(fileName: String): String? {
         return null
     }
     return jsonString
+}
+
+fun AppCompatTextView.strikeThroughText(isStrikeThrough: Boolean) {
+    this.paintFlags =
+        if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
 }
