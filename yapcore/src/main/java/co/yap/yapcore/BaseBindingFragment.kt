@@ -7,6 +7,11 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.lifecycleScope
+import co.yap.yapcore.helpers.extentions.getCountUnreadMessage
+import co.yap.yapcore.managers.isUserLogin
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 
@@ -31,6 +36,26 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
         //viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (shouldShowChatChatOverLay() == true)
+            requireActivity().getCountUnreadMessage()
+    }
+
+    fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {
+        lifecycleScope.launch(
+            when (dispatcher) {
+                Dispatcher.Main -> Dispatchers.Main
+                Dispatcher.Background -> Dispatchers.IO
+                Dispatcher.LongOperation -> Dispatchers.Default
+            }
+        ) { block() }
+    }
+
+    open fun shouldShowChatChatOverLay() = requireContext().isUserLogin()
+
+    fun <VB : ViewDataBinding> getDataBindingView() = viewDataBinding as VB
 
     /**MV
      * Override for set binding variable

@@ -14,6 +14,7 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.managers.SessionManager
 
@@ -40,7 +41,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
 
         viewModel.changeEmailSuccessEvent.observe(this, Observer {
             SessionManager.user?.currentCustomer?.email = viewModel.state.newEmail
-            viewModel.sharedPreferenceManager.saveUserNameWithEncryption(
+            SharedPreferenceManager.getInstance(requireContext()).saveUserNameWithEncryption(
                 viewModel.state.newEmail
             )
             val action =

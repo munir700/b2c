@@ -2,6 +2,7 @@ package co.yap.modules.webview
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -22,6 +23,8 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.PAGE_URL
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
+import co.yap.yapcore.helpers.extentions.makeCall
+import co.yap.yapcore.helpers.extentions.sendEmail
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import kotlinx.android.synthetic.main.fragment_webview.*
 
@@ -134,11 +137,13 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
         if (request?.url.toString().startsWith("tel:")) {
-            callPhoneNumber(request?.url.toString())
+            requireContext().makeCall(request?.url.toString().replaceFirst("tel:",""))
             return true
         } else {
             if (request?.url.toString().startsWith("mailto")) {
-                sendEmail(request?.url.toString())
+                requireContext().sendEmail(
+                    email = request?.url.toString().replaceFirst("mailto:", "")
+                )
                 return true
             }
 
@@ -208,20 +213,6 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
             permissions as Array<String>,
             grantResults
         )
-    }
-
-    private fun callPhoneNumber(url: String) {
-        val intent = Intent(Intent.ACTION_DIAL, Uri.parse(url))
-        startActivity(intent)
-    }
-
-    private fun sendEmail(url: String) {
-        val mail = url.replaceFirst("mailto:", "")
-        val intent = Intent(Intent.ACTION_SENDTO)
-        intent.type = "text/plain"
-        intent.data = Uri.parse("mailto:$mail")
-        intent.putExtra(Intent.EXTRA_EMAIL, mail)
-        startActivity(Intent.createChooser(intent, "Send Email"))
     }
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {

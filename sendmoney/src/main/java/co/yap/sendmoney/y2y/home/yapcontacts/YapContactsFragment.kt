@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
+import co.yap.repositories.InviteFriendRepository
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentYapContactsBinding
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
@@ -17,6 +18,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContact.View {
@@ -35,7 +37,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
 
     private fun initComponents() {
         viewModel.contactsAdapter.setItemListener(listener)
-        skeleton = getBinding().recycler.applySkeleton(
+        skeleton = getDataBindingView<FragmentYapContactsBinding>().recycler.applySkeleton(
             R.layout.layout_item_contacts_shimmer,
             5
         )
@@ -46,6 +48,8 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
         viewModel.state.stateLiveData?.observe(this, Observer { handleShimmerState(it) })
         viewModel.parentViewModel?.y2yBeneficiries?.observe(this, Observer {
             viewModel.contactsAdapter.setList(it)
+            if (!it.isNullOrEmpty())
+                viewModel.contactsAdapter.filter.filter(viewModel.parentViewModel?.searchQuery?.value)
             viewModel.state.stateLiveData?.value =
                 if (it.isNullOrEmpty()) State.error(null) else State.success(null)
             viewModel.state.contactsCounts.set(it.size)
@@ -72,9 +76,10 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
             when (view.id) {
                 R.id.lyContact -> {
                     if (data is IBeneficiary && data.isYapUser) {
-                        navigateToTransferScreen(
-                            viewModel.getBundle(data, pos),
-                            viewModel.getActionId(parentFragment)
+                        navigate(
+                            viewModel.getActionId(parentFragment),
+                            args = viewModel.getBundle(data, pos),
+                            screenType = FeatureSet.Y2Y_TRANSFER
                         )
                     }
                 }
@@ -82,20 +87,12 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
         }
     }
 
-    override fun navigateToTransferScreen(args: Bundle, actionId: Int) {
-        navigate(
-            actionId,
-            args = args,
-            screenType = FeatureSet.Y2Y_TRANSFER
-        )
-    }
-
-
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnInvite -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_INVITE)
-                Utils.shareText(requireContext(), Utils.getGeneralInvitationBody(requireContext()))
+                InviteFriendRepository().inviteAFriend()
+                requireContext().share(text = Utils.getGeneralInvitationBody(requireContext()))
             }
         }
     }
@@ -122,9 +119,5 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContac
                 skeleton.showOriginal()
             }
         }
-    }
-
-    private fun getBinding(): FragmentYapContactsBinding {
-        return (viewDataBinding as FragmentYapContactsBinding)
     }
 }

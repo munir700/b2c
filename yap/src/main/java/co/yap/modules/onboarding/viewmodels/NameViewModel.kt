@@ -19,8 +19,8 @@ class NameViewModel(application: Application) : OnboardingChildViewModel<IName.S
     }
 
     override fun handlePressOnNext() {
-        parentViewModel?.onboardingData?.firstName = state.firstName
-        parentViewModel?.onboardingData?.lastName = state.lastName
+        parentViewModel?.onboardingData?.firstName = state.firstName.trim()
+        parentViewModel?.onboardingData?.lastName = state.lastName.trim()
         nextButtonPressEvent.value = true
     }
 

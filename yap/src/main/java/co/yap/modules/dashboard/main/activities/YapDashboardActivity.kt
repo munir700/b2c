@@ -1,14 +1,10 @@
 package co.yap.modules.dashboard.main.activities
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
@@ -27,9 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
@@ -46,16 +40,13 @@ import co.yap.modules.dashboard.store.fragments.YapStoreFragment
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
-import co.yap.widgets.CounterFloatingActionButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.widgets.qrcode.QRCodeFragment
@@ -93,18 +84,15 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     lateinit var adapter: YapDashboardAdaptor
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
-    var view: CounterFloatingActionButton? = null
     private var mNavigator: ActivityNavigator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mNavigator = (applicationContext as NavigatorProvider).provideNavigator()
         SessionManager.getCountriesFromServer { _, _ -> }
-        inflateFloatingActonButton()
         setupPager()
         addObservers()
         addListeners()
-        //  setupOldYapButtons()
         setupNewYapButtons()
         logEvent()
         lifecycleScope.launch {
@@ -119,54 +107,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun logEvent() {
         val logger: AppEventsLogger = AppEventsLogger.newLogger(this)
         logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP)
-    }
-
-    private fun setupOldYapButtons() {
-        actionMenu = FloatingActionMenu.Builder(this)
-            .setStartAngle(0)
-            .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
-            .setAnimationHandler(SlideInAnimationHandler())
-            .addSubActionView(
-                getString(R.string.yap_to_yap),
-                R.drawable.ic_yap_to_yap,
-                R.layout.component_yap_menu_sub_button,
-                this, 1
-            )
-            .addSubActionView(
-                getString(R.string.top_up),
-                R.drawable.ic_top_up,
-                R.layout.component_yap_menu_sub_button,
-                this, 2
-            )
-            .addSubActionView(
-                getString(R.string.send_money),
-                R.drawable.ic_send_money,
-                R.layout.component_yap_menu_sub_button,
-                this, 3
-            )
-            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
-            .setTxtYapIt(getViewBinding().txtYapIt)
-            .setStateChangeListener(object :
-                FloatingActionMenu.MenuStateChangeListener {
-                override fun onMenuOpened(menu: FloatingActionMenu) {
-                    overLayButtonVisibility(View.GONE)
-                }
-
-                override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
-                    when (subActionButtonId) {
-                        1 -> {
-                            checkPermission()
-                        }
-                        2 -> {
-                            launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
-                        }
-                        3 -> {
-                            launchActivity<SMBeneficiaryParentActivity>(type = FeatureSet.SEND_MONEY)
-                        }
-                    }
-                }
-            }).build()
     }
 
     private fun setupNewYapButtons() {
@@ -200,23 +140,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
+                    lifecycleScope.launch {
+                        delay(300)
+                        overLayButtonVisibility(View.VISIBLE)
+                    }
                     when (subActionButtonId) {
                         1 -> {
                             trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
                             launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
-                            /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                checkPermission()
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }*/
-                        }
-                        2 -> {
-                            /* if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                 openTopUpScreen()
-                             } else {
-                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                             }*/
                         }
                         3 -> {
                             launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
@@ -292,20 +223,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         })
     }
 
-    @SuppressLint("InflateParams")
-    private fun inflateFloatingActonButton() {
-        val layoutInflater =
-            layoutInflater.inflate(
-                co.yap.yapcore.R.layout.layout_overlay_live_chat,
-                null
-            )
-        if (layoutInflater is CounterFloatingActionButton) view = layoutInflater
-    }
-
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnCopy -> shareAccountInfo()
+                R.id.btnCopy -> {
+                    trackEventWithScreenName(FirebaseEvent.SHARE_ACCOUNT_DETAILS)
+                    context.share(text = viewModel.getAccountInfo(), title = "Share")
+                }
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
@@ -327,14 +251,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             } else
                 viewModel.isUnverifiedScreenNotVisible.value = true
         })
-    }
-
-    private fun shareAccountInfo() {
-        trackEventWithScreenName(FirebaseEvent.SHARE_ACCOUNT_DETAILS)
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, viewModel.getAccountInfo())
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun showUnverifiedPopup() {
@@ -441,14 +357,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         else drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
-    private fun setupDrawerNavigation(navController: NavController) {
-        getViewBinding().drawerNav.setupWithNavController(navController)
-    }
-
-    private fun setupBottomNavigation(navController: NavController) {
-        getViewBinding().bottomNav.setupWithNavController(navController)
-    }
-
     override fun onBackPressed() {
         if (actionMenu?.isOpen == true && actionMenu?.isAnimating() == false) {
             actionMenu?.toggle(getViewBinding().ivYapIt, true)
@@ -480,8 +388,15 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener {
             trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
-            QRCodeFragment {beneficary ->
-                startY2YTransfer(beneficary, true)
+            QRCodeFragment { beneficary ->
+                launchActivity<YapToYapDashboardActivity>(
+                    requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+                    type = FeatureSet.Y2Y_TRANSFER
+                ) {
+                    putExtra(Beneficiary::class.java.name, beneficary)
+                    putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, true)
+                    putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
+                }
             }.show(this.supportFragmentManager, "")
             closeDrawer()
         }
@@ -565,31 +480,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
     }
 
-    private fun checkPermission() {
-        permissionHelper = PermissionHelper(
-            this, arrayOf(
-                Manifest.permission.READ_CONTACTS
-            ), 100
-        )
-        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
-            override fun onPermissionGranted() {
-                openY2YScreen()
-            }
-
-            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                openY2YScreen()
-            }
-
-            override fun onPermissionDenied() {
-                openY2YScreen()
-            }
-
-            override fun onPermissionDeniedBySystem() {
-                openY2YScreen()
-            }
-        })
-    }
-
     private fun openY2YScreen() {
         launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
             putExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, false)
@@ -598,7 +488,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onResume() {
         super.onResume()
-        view?.let { getCountUnreadMessage(it) }
         if (bottomNav.selectedItemId == R.id.yapHome) {
             SessionManager.getAccountInfo() {
                 viewModel.populateState()
@@ -635,7 +524,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
             }
 
-            RequestCodes.REQUEST_CODE_MORE_ACTIVITY ->{
+            RequestCodes.REQUEST_CODE_MORE_ACTIVITY -> {
                 data?.let {
                     val result =
                         data.getBooleanExtra(Constants.result, false)
@@ -657,10 +546,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
             .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
-            .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
-                DialogInterface.OnClickListener { dialog, which ->
-                    viewModel.logout()
-                })
+            .setPositiveButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_logout)
+            ) { dialog, which ->
+                viewModel.logout()
+            }
 
             .setNegativeButton(
                 getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
@@ -672,10 +562,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun doLogout() {
         SessionManager.doLogout(this)
         finishAffinity()
-    }
-
-    fun findVisibleFragment() {
-//        supportFragmentManager.findFragmentById(YapHomeFragment::class.java)
     }
 
     private fun startY2YTransfer(

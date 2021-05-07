@@ -27,7 +27,6 @@ import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
 class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel>() {
 
-    private lateinit var sharedPreferenceManager: SharedPreferenceManager
     private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -44,7 +43,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
-        sharedPreferenceManager = SharedPreferenceManager(requireContext())
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
         if (BiometricUtil.isFingerprintSupported
             && BiometricUtil.isHardwareSupported(requireContext())
             && BiometricUtil.isPermissionGranted(requireContext())
