@@ -39,6 +39,11 @@ class SelectDocumentViewModel(application: Application) :
         setEnabled(uploadAdditionalDocumentAdapter.getDataList()) {
             setSubTitle(it)
         }
+        if (parentViewModel?.stepCount?.value == 2) {
+            parentViewModel?.state?.buttonTitle?.set(getString(Strings.screen_add_beneficiary_button_next))
+        } else {
+            parentViewModel?.state?.buttonTitle?.set(getString(Strings.common_button_submit))
+        }
     }
 
 
@@ -96,7 +101,7 @@ class SelectDocumentViewModel(application: Application) :
                     }
                 }
             } else {
-                showToast("File size not supported")
+                showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
                 success(false)
             }
         }
