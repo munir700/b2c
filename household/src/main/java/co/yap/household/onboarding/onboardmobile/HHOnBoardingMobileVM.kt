@@ -5,9 +5,7 @@ import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.requestdtos.VerifyHouseholdMobileRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
-import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.getCountryCodeForRegionWithZeroPrefix
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
@@ -35,10 +33,10 @@ class HHOnBoardingMobileVM @Inject constructor(
             state.loading = true
             val request = VerifyHouseholdMobileRequest(
                 countryCode = getCountryCodeForRegionWithZeroPrefix(state.countryCode?.value),
-                mobileNo = state.phone?.value
+                mobileNo = state.phone?.value?.replace(" ", "")
             )
             when (val response =
-                repository.verifyHouseholdParentMobile(state.phone?.value, request)) {
+                repository.verifyHouseholdParentMobile(request)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         SessionManager.user?.notificationStatuses = it

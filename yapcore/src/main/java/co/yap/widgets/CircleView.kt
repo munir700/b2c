@@ -27,7 +27,7 @@ class CircleView(context: Context, attrs: AttributeSet? = null) : View(context, 
     var circleColor: Int = Color.WHITE
         set(value) {
             field = value
-            manageCircleColor()
+            manageCircleColorSimple()
             invalidate()
         }
     var circleColorStart: Int? = null
@@ -224,6 +224,13 @@ class CircleView(context: Context, attrs: AttributeSet? = null) : View(context, 
                 circleColorStart ?: Color.GRAY, circleColorDirection
             )
         }
+    }
+
+    private fun manageCircleColorSimple() {
+        paint.shader = createLinearGradient(
+            circleColorStart ?: circleColor,
+            circleColorEnd ?: circleColor, circleColorDirection
+        )
     }
 
     private fun manageBorderColor() {

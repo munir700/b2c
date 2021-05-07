@@ -108,8 +108,8 @@ android {
             }
         }
         hh {
-            versionCode 8
-            versionName "0.0.8"
+            versionCode 16
+            versionName "0.0.16"
             applicationIdSuffix ".dev"
             resValue "string", "app_name", "YAP Young"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"

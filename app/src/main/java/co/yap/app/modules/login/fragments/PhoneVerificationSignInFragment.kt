@@ -102,7 +102,7 @@ class PhoneVerificationSignInFragment :
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         if (!it.isWaiting) {
-            if (it.fssRequestRefNo.isNullOrBlank()) {
+            if (it.fssRequestRefNo.isNullOrBlank() && !SessionManager.shouldGoToHousehold()) {
                 startFragment(
                     fragmentName = ReachedTopQueueFragment::class.java.name,
                     clearAllPrevious = true
@@ -127,7 +127,7 @@ class PhoneVerificationSignInFragment :
                 if (SessionManager.shouldGoToHousehold()) {
                     SessionManager.user?.uuid?.let { it1 ->
                         SwitchProfileLiveData.get(it1, this@PhoneVerificationSignInFragment)
-                                .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
+                            .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
                     }
                 } else {
                     if (BiometricUtil.hasBioMetricFeature(requireActivity())
@@ -142,7 +142,10 @@ class PhoneVerificationSignInFragment :
                             )
                         ) {
                             if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                                startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name, clearAllPrevious = true)
+                                startFragment(
+                                    fragmentName = OtpBlockedInfoFragment::class.java.name,
+                                    clearAllPrevious = true
+                                )
                             else {
                                 SessionManager.sendFcmTokenToServer(requireContext()) {}
                                 if (!this.isWaiting) {
@@ -173,14 +176,17 @@ class PhoneVerificationSignInFragment :
 
                     } else {
                         if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
-                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name, clearAllPrevious = true)
+                            startFragment(
+                                fragmentName = OtpBlockedInfoFragment::class.java.name,
+                                clearAllPrevious = true
+                            )
                         } else {
                             SessionManager.sendFcmTokenToServer(requireContext()) {}
                             if (!this.isWaiting) {
                                 if (this.iban.isNullOrBlank()) {
                                     startFragment(
-                                            fragmentName = ReachedTopQueueFragment::class.java.name,
-                                            clearAllPrevious = true
+                                        fragmentName = ReachedTopQueueFragment::class.java.name,
+                                        clearAllPrevious = true
                                     )
 
                                 } else {
@@ -189,8 +195,8 @@ class PhoneVerificationSignInFragment :
                                 }
                             } else {
                                 startFragment(
-                                        fragmentName = WaitingListFragment::class.java.name,
-                                        clearAllPrevious = true
+                                    fragmentName = WaitingListFragment::class.java.name,
+                                    clearAllPrevious = true
                                 )
                             }
                         }
@@ -210,8 +216,8 @@ class PhoneVerificationSignInFragment :
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
                     putExtra(
-                            NAVIGATION_Graph_START_DESTINATION_ID,
-                            R.id.HHOnBoardingWelcomeFragment
+                        NAVIGATION_Graph_START_DESTINATION_ID,
+                        R.id.HHOnBoardingWelcomeFragment
                     )
                 }
 //                launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
@@ -223,14 +229,14 @@ class PhoneVerificationSignInFragment :
 
     private fun gotoYapDashboard() {
         if (BiometricUtil.isFingerprintSupported
-                && BiometricUtil.isHardwareSupported(requireActivity())
-                && BiometricUtil.isPermissionGranted(requireActivity())
-                && BiometricUtil.isFingerprintAvailable(requireActivity())
+            && BiometricUtil.isHardwareSupported(requireActivity())
+            && BiometricUtil.isPermissionGranted(requireActivity())
+            && BiometricUtil.isFingerprintAvailable(requireActivity())
         ) {
             val action =
-                    PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                            Constants.TOUCH_ID_SCREEN_TYPE
-                    )
+                PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                    Constants.TOUCH_ID_SCREEN_TYPE
+                )
             findNavController().navigate(action)
         } else {
             if (SessionManager.isExistingUser()) {

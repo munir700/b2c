@@ -163,6 +163,7 @@
             android:layout_marginTop="@dimen/margin_normal"
             android:text="@{viewModel.state.selectedPlan.amount}"
             android:textSize="@dimen/text_size_h4"
+            app:ctv_showCurrency="false"
             tools:text="723220.00" />
 
         <androidx.appcompat.widget.AppCompatTextView

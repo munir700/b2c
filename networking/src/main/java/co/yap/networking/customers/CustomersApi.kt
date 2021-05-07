@@ -72,8 +72,7 @@ interface CustomersApi {
     /* Household */
 
     suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse>
-    suspend fun verifyHouseholdParentMobile(
-        mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+    suspend fun verifyHouseholdParentMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
     ): RetroApiResponse<ValidateParentMobileResponse>
 
     suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest?): RetroApiResponse<HouseholdOnBoardingResponse>

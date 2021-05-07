@@ -24,7 +24,7 @@ class CurrencyTextView : AppCompatTextView {
     private var symbolSize = 0f
     private var decimalSize = 0f
     private var prefixSuffixSize = 0f
-    private val _showCurrency = true
+    private var _showCurrency = true
     private val _showCommas = false
 
     constructor(context: Context) : super(context) {}
@@ -100,6 +100,7 @@ class CurrencyTextView : AppCompatTextView {
         strikeThrough =
             ta.getBoolean(R.styleable.CurrencyTextView_ctv_strikeThrough, false)
         nullToZero = ta.getBoolean(R.styleable.CurrencyTextView_ctv_nullToZero, true)
+        _showCurrency = ta.getBoolean(R.styleable.CurrencyTextView_ctv_showCurrency, true)
         symbolSize = ta.getDimensionPixelSize(
             R.styleable.CurrencyTextView_ctv_currencySymbolSize,
             textSize.toInt()
@@ -137,12 +138,13 @@ class CurrencyTextView : AppCompatTextView {
             }
         }
         oriPriceChars = setUpNumberStyle(oriPrice)
-        spanny.append(currencySymbol, AbsoluteSizeSpan(symbolSize.toInt(), false))
-            .append(
-                oriPriceChars,
-                if (strikeThrough) StrikethroughSpan() else null
-            )
-            .append(suffixText, AbsoluteSizeSpan(prefixSuffixSize.toInt(), false))
+        if (_showCurrency)
+            spanny.append(currencySymbol, AbsoluteSizeSpan(symbolSize.toInt(), false))
+        spanny.append(
+                    oriPriceChars,
+                    if (strikeThrough) StrikethroughSpan() else null
+                )
+                .append(suffixText, AbsoluteSizeSpan(prefixSuffixSize.toInt(), false))
         return spanny
     }
 
@@ -207,7 +209,8 @@ class CurrencyTextView : AppCompatTextView {
             // String.format("%2d", decimalD.intValueExact())
             if (str.parseToInt() in 0..9)
                 str = "0$str"
-            result.append(str,
+            result.append(
+                str,
                 // BigDecimal(str).intValueExact().toString(),
                 AbsoluteSizeSpan(decimalSize.toInt(), false)
             )

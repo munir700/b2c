@@ -6,10 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
-import co.yap.yapcore.dagger.base.viewmodel.DaggerCoroutineViewModel
-import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModelFactory
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
