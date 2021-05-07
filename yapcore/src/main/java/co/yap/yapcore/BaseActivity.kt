@@ -11,9 +11,11 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import co.yap.app.YAPApplication
+import co.yap.localization.LocaleManager
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -38,23 +40,17 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var progress: Dialog? = null
     open lateinit var context: Context
     open fun onToolBarClick(id: Int) {}
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
         trackScreenViewEvent()
-//        setUpFirebaseAnalytics()
-
-        applySelectedTheme(SharedPreferenceManager(this))
+        applySelectedTheme(SharedPreferenceManager.getInstance(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
         NetworkConnectionManager.init(this)
         NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
         registerStateListeners()
-
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(
             YAPApplication.configManager?.isReleaseBuild() == true
@@ -63,7 +59,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
-
         viewModel.state.viewState.observe(this, Observer {
             it?.let {
                 when (it) {
@@ -174,7 +169,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             .setAction(
                 "Settings"
             ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            .setActionTextColor(Utils.getColor(this, R.color.colorDarkGreen))
+            .setActionTextColor(ContextCompat.getColor(this, R.color.colorDarkGreen))
+
         snackbar?.show()
     }
 
@@ -286,5 +282,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    override fun getScreenName():String? = ""
+    override fun getScreenName(): String? = ""
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleManager.setLocale(base))
+    }
 }

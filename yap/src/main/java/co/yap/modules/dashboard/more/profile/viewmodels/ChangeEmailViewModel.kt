@@ -21,7 +21,6 @@ open class ChangeEmailViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val success: MutableLiveData<Boolean> = MutableLiveData()
-    override val sharedPreferenceManager = SharedPreferenceManager(context)
     override val state: ChangeEmailState = ChangeEmailState(application)
 
 
@@ -47,7 +46,6 @@ open class ChangeEmailViewModel(application: Application) :
             } else {
                 state.setErrors(getString(Strings.screen_change_email_display_text_email_match_error))
             }
-
         }
     }
 

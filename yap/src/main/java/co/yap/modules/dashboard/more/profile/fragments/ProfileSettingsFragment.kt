@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
@@ -26,21 +25,15 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
-import co.yap.yapcore.helpers.extentions.hasBitmap
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.launchSheet
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import com.google.android.exoplayer2.source.MediaSource
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
 import pl.aprilapps.easyphotopicker.MediaFile
@@ -58,7 +51,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
         viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
-            SharedPreferenceManager(requireContext())
+            SharedPreferenceManager.getInstance(requireContext())
 
         if (BiometricUtil.hasBioMetricFeature(requireContext())) {
             val isTouchIdEnabled: Boolean =
@@ -101,7 +94,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun logoutAlert() {
-        AlertDialog.Builder(this.activity!!)
+        AlertDialog.Builder(requireActivity())
             .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
             .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
             .setPositiveButton(
@@ -138,14 +131,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     findNavController().navigate(action)
                 }
 
-                R.id.tvPrivacyView -> {
-                    Utils.showComingSoon(requireContext())
-                }
-
-                R.id.tvNotificationsView -> {
-                    Utils.showComingSoon(requireContext())
-                }
-
                 R.id.tvChangePasscode -> {
                     launchActivity<ChangePasscodeActivity>(type = FeatureSet.CHANGE_PASSCODE)
                 }
@@ -167,18 +152,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         ), showToolBar = false
                     )
                 }
-                R.id.tvFollowOnInstagram -> {
-                    Utils.openInstagram(requireContext())
-                }
-
-                R.id.tvFollowOnTwitter -> {
-                    Utils.openTwitter(requireContext())
-                }
-
-                R.id.tvLikeUsOnFaceBook -> {
-                    Utils.getOpenFacebookIntent(requireContext())
-                        ?.let { startActivity(it) }
-                }
+                R.id.tvFollowOnInstagram -> requireContext().openInstagram()
+                R.id.tvFollowOnTwitter -> requireContext().openTwitter()
+                R.id.tvLikeUsOnFaceBook -> requireContext().openFacebook()
 
                 R.id.ivProfilePic -> {
                 }
@@ -228,29 +204,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         ivProfilePic.setImageURI(mediaFile.file.toUri())
     }
 
-    private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {
-        path.firstOrNull()?.let { mediaFile ->
-            val ext = mediaFile.file.extension
-            if (!ext.isBlank()) {
-                when (ext) {
-                    "png", "jpg", "jpeg" -> {
-                        viewModel.clickEvent.call()
-                        viewModel.requestUploadProfilePicture(mediaFile.file)
-                        ivProfilePic.setImageURI(mediaFile.file.toUri())
-                        ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
-
-                    }
-                    else -> {
-                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                    }
-
-                }
-            } else {
-                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-            }
-        }
-    }
-
     private val itemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when ((data as BottomSheetItem).tag) {
@@ -267,25 +220,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 PhotoSelectionType.REMOVE_PHOTO.name -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_PHOTO)
                     viewModel.requestRemoveProfilePicture {
-                        if (it) ivProfilePic.setImageDrawable(null)
                     }
                 }
             }
         }
-        // viewModel.requestRemoveProfilePicture {
-        //                    if (it) {
-        //                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
-        //                        SessionManager.user?.let { user ->
-        //                            ImageBinding.loadAvatar(
-        //                                ivProfilePic,
-        //                                user.currentCustomer.getPicture(),
-        //                                user.currentCustomer.getFullName(),
-        //                                user.currentCustomer.parsedColor
-        //                            )
-        //
-        //                        }
-        //                    }
-        //                }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

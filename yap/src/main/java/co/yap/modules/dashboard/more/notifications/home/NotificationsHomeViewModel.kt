@@ -19,8 +19,6 @@ import co.yap.yapcore.leanplum.deleteLeanPlumMessage
 import co.yap.yapcore.leanplum.markReadLeanPlumMessage
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 
 
 class NotificationsHomeViewModel(application: Application) :
@@ -64,10 +62,10 @@ class NotificationsHomeViewModel(application: Application) :
     override fun getFcmNotifications() {
         launch {
             val notifications = mutableListOf<HomeNotification>()
-            val notification = viewModelBGScope.async(Dispatchers.IO) {
+            val notification = launchAsync {
                 repository.getAllNotifications()
             }
-            val leanplumMessages = viewModelBGScope.async(Dispatchers.IO) {
+            val leanplumMessages = launchAsync {
                 loadLeanPlumMessages()
             }
             val notificationWait = notification.await()
@@ -185,12 +183,14 @@ class NotificationsHomeViewModel(application: Application) :
                     lastName = it.title,
                     currency = "",
                     amount = "",
-                    createdAt = DateUtils.dateToString(it.deliveryTimestamp,
+                    createdAt = DateUtils.dateToString(
+                        it.deliveryTimestamp,
                         SERVER_DATE_FORMAT,
-                        DateUtils.TIME_ZONE_Default),
+                        UTC
+                    ),
                     isRead = it.isRead,
                     isDeletable = true,
-                    description = "",
+                    description = it.subtitle,
                     action = NotificationAction.LEANPLUM,
                     subTitle = it.title,
                     imgResId = null

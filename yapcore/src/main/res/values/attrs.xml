@@ -75,6 +75,7 @@
         <attr name="view_id" format="integer" />
         <attr name="view_plain_background" format="boolean" />
         <attr name="showKeyboard" format="boolean" />
+        <attr name="useStartMultiplySpaceFilter" format="boolean" />
         <attr name="view_input_text_imei_actions" format="enum">
             <enum name="IME_ACTION_DONE" value="1" />
             <enum name="IME_ACTION_NEXT" value="2" />
@@ -96,14 +97,6 @@
         </attr>
 
     </declare-styleable>
-
-
-    <!-- Font Awesome attr-->
-    <declare-styleable name="FontTextView">
-        <attr name="brand_icon" format="boolean" />
-        <attr name="solid_icon" format="boolean" />
-    </declare-styleable>
-
 
     <declare-styleable name="CountryCodePicker">
         <!--{@deprecated Use defaultNameCode instead.}-->

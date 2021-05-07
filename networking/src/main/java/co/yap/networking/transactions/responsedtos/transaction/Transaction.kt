@@ -171,6 +171,8 @@ data class Transaction(
     @SerializedName("cardName1")
     val cardName1: String? = null,
     @SerializedName("cardName2")
-    val cardName2: String? = null
+    val cardName2: String? = null,
+    @SerializedName("cardHolderBillingTotalAmount")
+    val cardHolderBillingTotalAmount: Double? = null
 
 ):ApiResponse() ,Parcelable

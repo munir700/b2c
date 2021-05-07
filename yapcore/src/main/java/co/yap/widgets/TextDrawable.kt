@@ -8,7 +8,6 @@ import android.graphics.drawable.shapes.RoundRectShape
 import java.util.*
 
 
-
 class TextDrawable private constructor(builder: Builder) : ShapeDrawable(builder.shape) {
     private var textPaint: Paint = Paint()
     private var borderPaint: Paint = Paint()

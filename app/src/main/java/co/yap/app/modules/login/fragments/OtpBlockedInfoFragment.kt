@@ -13,19 +13,11 @@ import co.yap.app.modules.login.viewmodels.OtpBlockedInfoViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.extentions.chatSetup
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
-import com.liveperson.infra.ConversationViewParams
-import com.liveperson.infra.InitLivePersonProperties
-import com.liveperson.infra.LPConversationsHistoryStateToDisplay
-import com.liveperson.infra.auth.LPAuthenticationParams
-import com.liveperson.infra.auth.LPAuthenticationType
-import com.liveperson.infra.callbacks.InitLivePersonCallBack
-import com.liveperson.messaging.sdk.api.LivePerson
-import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 
 class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     IOtpBlockedInfo.View {
@@ -33,9 +25,6 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     override fun getLayoutId(): Int = R.layout.fragment_otp_blocked_info
     override val viewModel: IOtpBlockedInfo.ViewModel
         get() = ViewModelProviders.of(this).get(OtpBlockedInfoViewModel::class.java)
-
-    private val brandId = "17038977"
-    private val appInstallId = SessionManager.user?.uuid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +50,7 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
                     requireContext().makeCall(viewModel.state.helpPhoneNo.get())
                 }),
                 Pair("Live Chat", View.OnClickListener {
-                    chatSetup()
+                    requireActivity().chatSetup()
                 })
             )
         } else if (SessionManager.user?.otpBlocked == true) {
@@ -74,47 +63,10 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
                     requireContext().makeCall(viewModel.state.helpPhoneNo.get())
                 }),
                 Pair("Live Chat", View.OnClickListener {
-                    chatSetup()
+                    requireActivity().chatSetup()
                 })
             )
         }
-    }
-
-    private fun chatSetup() {
-        viewModel.state.loading = true
-        viewModel.getJwtToken()
-        LivePerson.initialize(
-            requireContext(),
-            InitLivePersonProperties(
-                brandId, appInstallId,
-                object : InitLivePersonCallBack {
-                    override fun onInitSucceed() {
-                        openActivity()
-                        viewModel.state.loading = false
-                    }
-
-                    override fun onInitFailed(e: Exception) {
-                        viewModel.state.toast = "Unable to open chat^${AlertType.DIALOG.name}"
-                        viewModel.state.loading = true
-                    }
-                })
-        )
-    }
-
-    private fun openActivity() {
-        val authParams = LPAuthenticationParams(LPAuthenticationType.AUTH)
-        authParams.hostAppJWT = viewModel.state.token.get()
-        val params = ConversationViewParams(false)
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
-            .setHistoryConversationsMaxDays(180)
-            .setReadOnlyMode(false)
-        LivePerson.showConversation(requireActivity(), authParams, params)
-        val consumerProfile = ConsumerProfile.Builder()
-            .setFirstName(SessionManager.user?.currentCustomer?.firstName)
-            .setLastName(SessionManager.user?.currentCustomer?.lastName)
-            .setPhoneNumber(SessionManager.user?.currentCustomer?.getCompletePhone())
-            .build()
-        LivePerson.setUserProfile(consumerProfile)
     }
 
     private val onClickObserver = Observer<Int> {

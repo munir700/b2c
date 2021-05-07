@@ -209,16 +209,17 @@ class ProfileSettingsViewModel(application: Application) :
     override fun requestRemoveProfilePicture(apiRes: (Boolean) -> Unit) {
         launch {
             state.loading = true
-            when (val response = repository.removeProfilePicture()) {
+            when (repository.removeProfilePicture()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
+                    state.profilePictureUrl = ""
+                    state.fullName = SessionManager.user?.currentCustomer?.getFullName() ?: ""
                     SessionManager.user?.currentCustomer?.setPicture("")
                     apiRes.invoke(true)
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    apiRes.invoke(false)
                 }
             }
         }
@@ -256,13 +257,13 @@ class ProfileSettingsViewModel(application: Application) :
         when (isGranted) {
             true -> {
                 trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
-                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, true)
+                SharedPreferenceManager.getInstance(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, true)
                 state.isNotificationsEnabled.set(isGranted)
 
             }
             else -> {
                 trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
-                SharedPreferenceManager(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, false)
+                SharedPreferenceManager.getInstance(context).save(ENABLE_LEAN_PLUM_NOTIFICATIONS, false)
                 state.isNotificationsEnabled.set(isGranted)
             }
         }

@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:src="@{content.imageResource}"
             tools:ignore="MissingConstraints"
-            tools:src="@drawable/rose_gold" />
+            tools:src="@drawable/card_spare" />
 
         <TextView
             android:id="@+id/tvDescription"

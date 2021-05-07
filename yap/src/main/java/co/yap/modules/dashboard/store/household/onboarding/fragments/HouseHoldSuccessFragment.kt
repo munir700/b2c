@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.store.household.onboarding.fragments
 
-import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -11,6 +10,7 @@ import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHold
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldSuccessViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.managers.SessionManager
 
 class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewModel>(),
@@ -35,7 +35,7 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
                 }
 
                 R.id.btnShare -> {
-                    shareInfo()
+                    requireContext().share(text = getBody(), title = "Share")
                 }
             }
         })
@@ -49,13 +49,6 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-    }
-
-    private fun shareInfo() {
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody())
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun getBody(): String {

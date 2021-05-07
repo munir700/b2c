@@ -23,7 +23,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
@@ -36,8 +35,6 @@ import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
 import java.io.IOException
 import java.math.RoundingMode
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 @Keep
 enum class ExtraType {
@@ -76,20 +73,6 @@ fun Activity.preventTakeScreenShot(isPrevent: Boolean) {
         window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
 }
 
-fun ImageView.loadImage(path: String, requestOptions: RequestOptions) {
-    Glide.with(this)
-        .load(path)
-        .apply(requestOptions)
-        .into(this)
-}
-
-fun ImageView.loadImage(resourceId: Int, requestOptions: RequestOptions) {
-    Glide.with(this)
-        .load(resourceId)
-        .apply(requestOptions)
-        .into(this)
-}
-
 fun ImageView.loadImage(path: String) {
     Glide.with(this)
         .load(path).centerCrop()
@@ -110,11 +93,7 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//            if (p0?.length ?: 0 > 0) {
-//                this@afterTextChanged.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-//            } else {
-//                this@afterTextChanged.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-//            }
+
         }
 
         override fun afterTextChanged(editable: Editable?) {
@@ -123,29 +102,9 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     })
 }
 
-fun AppCompatActivity.addFragment(tag: String?, id: Int, fragment: Fragment) {
-    val fragmentTransaction = supportFragmentManager.beginTransaction()
-    fragmentTransaction.add(id, fragment, tag)
-    fragmentTransaction.addToBackStack(tag)
-    fragmentTransaction.commit()
-}
-
 fun AppCompatActivity.replaceFragment(tag: String?, id: Int, fragment: Fragment) {
     val fragmentTransaction = supportFragmentManager.beginTransaction()
     fragmentTransaction.replace(id, fragment, tag)
-    fragmentTransaction.commit()
-}
-
-fun Fragment.addFragment(tag: String?, id: Int, fragmentManager: FragmentManager) {
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.add(id, this, tag)
-    fragmentTransaction.addToBackStack(tag)
-    fragmentTransaction.commit()
-}
-
-fun Fragment.replaceFragment(tag: String?, id: Int, fragmentManager: FragmentManager) {
-    val fragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.replace(id, this, tag)
     fragmentTransaction.commit()
 }
 
@@ -245,14 +204,6 @@ fun String.getCountryTwoDigitCodeFromThreeDigitCode(): String {
 }
 
 fun Double?.roundVal(): Double {
-//    this?.let {
-//        val floatingMultiplier = it * 100
-//        val rounded =
-//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
-//        val floatingDivisor = rounded ?: 0.0.div(100)
-//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
-//    } ?: return 0.0
-
     val floatingMultiplier = (this ?: 0.0) * 100
     val rounded =
         floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
@@ -261,14 +212,6 @@ fun Double?.roundVal(): Double {
 }
 
 fun Double?.roundValHalfEven(): Double {
-//    this?.let {
-//        val floatingMultiplier = it * 100
-//        val rounded =
-//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
-//        val floatingDivisor = rounded ?: 0.0.div(100)
-//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
-//    } ?: return 0.0
-
     val floatingMultiplier = (this ?: 0.0) * 100
     val rounded =
         floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN)?.toDouble()
@@ -276,34 +219,15 @@ fun Double?.roundValHalfEven(): Double {
     return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN)?.toDouble() ?: 0.0
 }
 
-fun ImageView?.hasBitmap(): Boolean {
-    return this?.let {
-        this.drawable != null && (this.drawable is BitmapDrawable)
-    } ?: false
-}
-
-
 fun Context?.startSmsConsent() {
     this?.let {
-        SmsRetriever.getClient(this).startSmsUserConsent(null)
+        SmsRetriever.getClient(it).startSmsUserConsent(null)
             .addOnSuccessListener {
 
             }.addOnFailureListener {
 
             }
     }
-}
-
-fun Context.getOtpFromMessage(message: String?): String? {
-    var otpCode = ""
-    message?.let {
-        val pattern: Pattern = Pattern.compile("(|^)\\d{6}")
-        val matcher: Matcher = pattern.matcher(message)
-        if (matcher.find()) {
-            otpCode = matcher.group(0) ?: ""
-        }
-    }
-    return otpCode
 }
 
 fun Context.generateQrCode(resourceKey: String): Drawable? {
@@ -317,14 +241,6 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     } catch (e: Exception) {
     }
     return drawable
-}
-
-fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
-    if (first.size != second.size) {
-        return false
-    }
-
-    return first.zip(second).all { (x, y) -> x == y }
 }
 
 fun Context?.getJsonDataFromAsset(fileName: String): String? {

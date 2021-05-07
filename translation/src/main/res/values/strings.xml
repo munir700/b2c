@@ -517,6 +517,9 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_update_profile_photo_display_text_take_photo">Take photo</string>
     <string name="screen_update_profile_photo_display_text_re_take_photo">Re-take photo</string>
     <string name="screen_update_profile_photo_display_text_remove_photo">Remove photo</string>
+    <string name="screen_upload_documents_display_sheet_text_scan_single_document">Scan a single document</string>
+    <string name="screen_upload_documents_display_sheet_text_upload_from_files">Upload from files</string>
+    <string name="screen_upload_documents_display_sheet_text_upload_from_files_descriptions">Include all necessary documents in one file</string>
 
     <!-- personal detail screen -->
 
@@ -551,7 +554,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
     <string name="screen_change_email_placeholder_confirm_email_address">enter in one more time</string>
-    <string name="screen_change_email_display_text_description">A verification email will now be sent to this address​</string>
+    <string name="screen_change_email_display_text_description">A verification email will be sent to this email address</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
     <string name="screen_change_email_display_text_confirm_email_title">Enter in one more time</string>
     <string name="screen_change_email_display_text_email_match_error">Email doesn\'t match what you first entered</string>
@@ -1395,5 +1398,12 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
+    ERROR_INVALID_CARDINPUT
+    <!--    Samsung Pay start-->
+    <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
+    <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
+    <string name="screen_cards_display_text_error_framework_internal">The error occurred in payment framework while processing the request. Please contact support for more information.</string>
+    <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
+    <!--    Samsung Pay end-->
 
 </resources>

@@ -188,7 +188,7 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
     fun setDrawableTint() {
         drawbleRight = mContext.getDrawable(R.drawable.path)?.let { DrawableCompat.wrap(it) }
         drawbleRight?.let {
-            if (SharedPreferenceManager(mContext).getThemeValue()
+            if (SharedPreferenceManager.getInstance(mContext).getThemeValue()
                     .equals(Constants.THEME_HOUSEHOLD)
             ) {
                 DrawableCompat.setTint(it, Color.RED)

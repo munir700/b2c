@@ -7,7 +7,6 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
-import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -165,7 +164,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
         document.run {
-            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val files = ArrayList<MultipartBody.Part>()
             filePaths.forEach {
                 val file = File(it)
@@ -401,7 +400,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         uploadAdditionalInfo.run {
             val reqFile: RequestBody =
                 RequestBody.create(
-                    MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
+                    MediaType.parse(
+                        uploadAdditionalInfo.contentType
+                            ?: "image/" + uploadAdditionalInfo.files?.extension
+                    ),
                     uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
                 )
             val body =

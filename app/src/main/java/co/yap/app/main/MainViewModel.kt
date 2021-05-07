@@ -9,6 +9,4 @@ class MainViewModel(application: Application) : BaseViewModel<IMain.State>(appli
     IMain.ViewModel {
     override var signingInData: SigningInData = SigningInData()
     override val state: IMain.State = MainState()
-    override val shardPrefs: SharedPreferenceManager =
-        SharedPreferenceManager.getInstance(application)
 }
