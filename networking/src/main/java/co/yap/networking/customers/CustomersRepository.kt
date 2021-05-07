@@ -400,7 +400,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         uploadAdditionalInfo.run {
             val reqFile: RequestBody =
                 RequestBody.create(
-                    MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
+                    MediaType.parse(
+                        uploadAdditionalInfo.contentType
+                            ?: "image/" + uploadAdditionalInfo.files?.extension
+                    ),
                     uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
                 )
             val body =

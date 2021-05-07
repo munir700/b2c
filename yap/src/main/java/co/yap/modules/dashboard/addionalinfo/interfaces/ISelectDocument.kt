@@ -14,7 +14,13 @@ interface ISelectDocument {
     interface ViewModel : IBase.ViewModel<State> {
         val uploadAdditionalDocumentAdapter: UploadAdditionalDocumentAdapter
         fun moveToNext()
-        fun uploadDocument(file: File, documentType: String, success: () -> Unit)
+        fun uploadDocument(
+            file: File,
+            documentType: String,
+            contentType: String? = null,
+            success: (Boolean) -> Unit
+        )
+
         fun setEnabled(list: List<AdditionalDocument>, isUploaded: (Boolean) -> Unit)
         fun setSubTitle(isUploaded: Boolean)
         fun getUploadDocumentOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem>
