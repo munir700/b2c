@@ -2385,8 +2385,20 @@ object Strings {
     // Pay All Success
     const val screen_pay_all_success_toolbar_title: String =
         "screen_pay_all_success_toolbar_title"
-    const val screen_pay_all_success_title_text: String =
-        "screen_pay_all_success_title_text"
-    const val screen_pay_all_success_text_total_paid: String =
-        "screen_pay_all_success_text_total_paid"
+    const val screen_pay_all_success_title_all_paid: String =
+        "screen_pay_all_success_title_all_paid"
+    const val screen_pay_all_success_text_paid_status: String =
+        "screen_pay_all_success_text_paid_status"
+    const val screen_pay_all_success_toolbar_title_transfer_status: String =
+        "screen_pay_all_success_toolbar_title_transfer_status"
+    const val screen_pay_all_success_button_text: String =
+        "screen_pay_all_success_button_text"
+    const val screen_pay_all_success_toolbar_title_transfer_unsuccessful: String =
+        "screen_pay_all_success_toolbar_title_transfer_unsuccessful"
+    const val screen_pay_all_success_title_partial_paid: String =
+        "screen_pay_all_success_title_partial_paid"
+    const val screen_pay_all_success_title_all_decline: String =
+        "screen_pay_all_success_title_all_decline"
+    const val screen_pay_all_success_text_decline_status: String =
+        "screen_pay_all_success_text_decline_status"
 }

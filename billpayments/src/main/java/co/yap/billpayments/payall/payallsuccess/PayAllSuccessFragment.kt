@@ -7,9 +7,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
+import co.yap.billpayments.payall.base.PayAllBaseFragment
 
-class PayAllSuccessFragment : PayBillMainBaseFragment<IPayAllSuccess.ViewModel>(),
+class PayAllSuccessFragment : PayAllBaseFragment<IPayAllSuccess.ViewModel>(),
     IPayAllSuccess.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pay_all_success
