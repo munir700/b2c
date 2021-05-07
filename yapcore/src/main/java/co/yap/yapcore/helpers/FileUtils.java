@@ -33,7 +33,7 @@ import timber.log.Timber;
 public class FileUtils {
     public static final String DOCUMENTS_DIR = "documents";
     // configured android:authorities in AndroidManifest (https://developer.android.com/reference/android/support/v4/content/FileProvider)
-    public static final String AUTHORITY = BuildConfig.LIBRARY_PACKAGE_NAME; //"YOUR_AUTHORITY.provider";
+    public static final String AUTHORITY = "${BuildConfig.LIBRARY_PACKAGE_NAME}.provider"; //"YOUR_AUTHORITY.provider";
     public static final String HIDDEN_PREFIX = ".";
     /**
      * TAG for log messages.
