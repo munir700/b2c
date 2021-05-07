@@ -34,7 +34,6 @@
                 android:layout_width="@dimen/_62sdp"
                 android:layout_height="@dimen/_62sdp"
                 android:layout_marginTop="@dimen/margin_large"
-                android:src="@drawable/ic_store_b2b"
                 app:colorType="@{`Beneficiary`}"
                 app:fullName="@{viewModel.parentViewModel.beneficiary.fullName() ??` `}"
                 app:imageUrl="@{viewModel.parentViewModel.beneficiary.beneficiaryPictureUrl ?? ` `}"

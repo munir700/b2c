@@ -313,6 +313,7 @@
                             android:editable="false"
                             android:imeOptions="actionDone"
                             android:inputType="phone"
+                            android:hint="@string/empty_string"
                             android:maxLength="@{viewModel.state.mobileNoLength}"
                             android:paddingEnd="@dimen/margin_normal"
                             android:singleLine="true"
