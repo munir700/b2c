@@ -10,6 +10,7 @@
             type="co.yap.modules.dashboard.store.viewmodels.YapStoreItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="android.view.View" />
     </data>
 
 
@@ -42,6 +43,7 @@
                 android:text="Coming soon"
                 android:elevation="4dp"
                 android:textColor="@color/white"
+                android:visibility="@{viewModel.storeData.isComingSoon ? View.VISIBLE : View.GONE}"
                 app:btn_unpressed_color="@color/disabledLight"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
