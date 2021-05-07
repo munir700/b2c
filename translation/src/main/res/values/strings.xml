@@ -1485,9 +1485,11 @@
     <string name="screen_pay_bill_success_toolbar_title">Transfer successful!</string>
     <string name="screen_pay_bill_success_you_have_paid">You have paid</string>
     <string name="screen_pay_bill_success_button_text">Back to dashboard</string>
-    <string name="screen_pay_bill_decline_top_message">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
-    <string name="screen_pay_bill_decline_toolbar_text_decline">Transfer declined</string>
-    <string name="screen_pay_bill_decline_toolbar_text_dont_worry">Don’t worry you were not charged anything \nTotal amount attempted to pay.</string>
-    <string name="screen_pay_bill_decline_toolbar_text_total_amount_attempted_to_pay">Total amount attempted to pay</string>
-    <string name="screen_pay_bill_decline_button_text_back_to_bill_payments">Back to Bill Payments</string>
+
+    <!--Single Decline Screen-->
+    <string name="screen_single_decline_top_message">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
+    <string name="screen_single_decline_toolbar_text_decline">Transfer declined</string>
+    <string name="screen_single_decline_toolbar_text_dont_worry">Don’t worry you were not charged anything \nTotal amount attempted to pay.</string>
+    <string name="screen_single_decline_toolbar_text_total_amount_attempted_to_pay">Total amount attempted to pay</string>
+    <string name="screen_single_decline_button_text_back_to_bill_payments">Back to Bill Payments</string>
 </resources>

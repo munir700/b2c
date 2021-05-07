@@ -2369,14 +2369,16 @@ object Strings {
         "screen_pay_bill_success_you_have_paid"
     const val screen_pay_bill_success_button_text: String =
         "screen_pay_bill_success_button_text"
-    const val screen_pay_bill_decline_top_message: String =
-        "screen_pay_bill_decline_top_message"
-    const val screen_pay_bill_decline_toolbar_text_decline: String =
-        "screen_pay_bill_decline_toolbar_text_decline"
-    const val screen_pay_bill_decline_toolbar_text_dont_worry: String =
-        "screen_pay_bill_decline_toolbar_text_dont_worry"
-    const val screen_pay_bill_decline_toolbar_text_total_amount_attempted_to_pay: String =
-        "screen_pay_bill_decline_toolbar_text_total_amount_attempted_to_pay"
-    const val screen_pay_bill_decline_button_text_back_to_bill_payments: String =
-        "screen_pay_bill_decline_button_text_back_to_bill_payments"
+
+    //Single Decline
+    const val screen_single_decline_top_message: String =
+        "screen_single_decline_top_message"
+    const val screen_single_decline_toolbar_text_decline: String =
+        "screen_single_decline_toolbar_text_decline"
+    const val screen_single_decline_toolbar_text_dont_worry: String =
+        "screen_single_decline_toolbar_text_dont_worry"
+    const val screen_single_decline_toolbar_text_total_amount_attempted_to_pay: String =
+        "screen_single_decline_toolbar_text_total_amount_attempted_to_pay"
+    const val screen_single_decline_button_text_back_to_bill_payments: String =
+        "screen_single_decline_button_text_back_to_bill_payments"
 }
