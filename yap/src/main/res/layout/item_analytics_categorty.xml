@@ -36,7 +36,7 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/empty_string"
-                app:fullName="@{viewModel.analyticsItem.title==null?` `:viewModel.analyticsItem.title}"
+                app:fullName="@{viewModel.analyticsItem.title==null?`Other`:viewModel.analyticsItem.title}"
                 app:imageUrl="@{viewModel.analyticsItem.analyticLogo == null ? ` ` : viewModel.analyticsItem.analyticLogo}"
                 app:isBackground="@{true}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
                     android:lines="1"
-                    android:text="@{viewModel.analyticsItem.title}"
+                    android:text="@{viewModel.analyticsItem.title.empty || viewModel.analyticsItem.title == null ? `Other`:viewModel.analyticsItem.title}"
                     android:textSize="@dimen/text_size_h2"
                     tools:text="Shopping" />
 
