@@ -1,21 +1,16 @@
 package co.yap.modules.dashboard.store.household.paymentconfirmation
 
 import android.os.Bundle
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.networking.models.RetroApiResponse
-import co.yap.translation.Strings
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.PackageType
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
@@ -49,12 +44,14 @@ class HouseHoldConfirmPaymentVM @Inject constructor(override var state: IHouseHo
             state.loading = true
             state.onBoardRequest?.value?.feeFrequency =
                 state.selectedPlan?.value?.type?.toUpperCase(Locale.US)
+            state.onBoardRequest?.value?.countryCode =
+                "00${state.onBoardRequest?.value?.countryCode?.replace("+", "")}"
             when (val response = repository.onboardHousehold(state.onBoardRequest?.value)) {
                 is RetroApiResponse.Success -> {
                     trackEvent(HHSubscriptionEvents.HH_PLAN_CONFIRM.type)
                     trackEventWithAttributes(SessionManager.user, isMainUser = true)
-                    if(SessionManager.user?.accountType == AccountType.B2C_HOUSEHOLD.name){
-                        if(state.selectedPlan?.value?.type == PackageType.MONTHLY.type) {
+                    if (SessionManager.user?.accountType == AccountType.B2C_HOUSEHOLD.name) {
+                        if (state.selectedPlan?.value?.type == PackageType.MONTHLY.type) {
                             trackEventWithAttributes(
                                 SessionManager.user,
                                 accountActiveMonthly = true

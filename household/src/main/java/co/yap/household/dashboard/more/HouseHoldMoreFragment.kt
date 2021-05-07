@@ -13,18 +13,20 @@ import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.more.notifications.main.NotificationsActivity
 import co.yap.modules.webview.WebViewFragment
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.livedata.LogOutLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -56,7 +58,11 @@ class HouseHoldMoreFragment :
             when (option.id) {
                 R.id.more_atm_cdm -> startFragment(CdmMapFragment::class.java.name)
                 R.id.more_help_support -> startFragment(HelpSupportFragment::class.java.name)
-                R.id.more_notification -> toast("Coming Soon")
+                R.id.more_notification -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_NOTIFICATIONS)
+                    requireActivity().launchActivity<NotificationsActivity>(requestCode = RequestCodes.REQUEST_NOTIFICATION_FLOW) {
+                    }
+                }
                 R.id.more_terms_condition -> startFragment(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         Constants.PAGE_URL to Constants.URL_TERMS_CONDITION

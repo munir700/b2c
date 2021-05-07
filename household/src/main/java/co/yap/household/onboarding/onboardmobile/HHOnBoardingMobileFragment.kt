@@ -29,12 +29,14 @@ class HHOnBoardingMobileFragment :
         when (id) {
             R.id.btnConfirm -> viewModel.verifyHouseholdParentMobile {
                 it?.let {
-                    arguments?.putInt(Constants.INDEX, 50)
-                    navigateForwardWithAnimation(
-                        HHOnBoardingMobileFragmentDirections.toHHOnBoardingPassCodeFragment(),
-                        arguments,
-                        null
-                    )
+                    if (it.isNotEmpty()) {
+                        arguments?.putInt(Constants.INDEX, 50)
+                        navigateForwardWithAnimation(
+                            HHOnBoardingMobileFragmentDirections.toHHOnBoardingPassCodeFragment(),
+                            arguments,
+                            null
+                        )
+                    }
                 }
             }
             R.id.tvTermsAndConditions -> {

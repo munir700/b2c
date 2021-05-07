@@ -54,8 +54,8 @@ class NotificationsHomeViewModel(application: Application) :
                 mNotificationsHomeAdapter?.get()?.setData(
                     state.mNotifications?.value ?: arrayListOf()
                 )
-            }
-        }
+            } ?: state.stateLiveData?.setValue(State.empty(null))
+        } ?: state.stateLiveData?.setValue(State.empty(null))
 
     }
 

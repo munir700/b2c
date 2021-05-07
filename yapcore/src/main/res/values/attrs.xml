@@ -557,6 +557,7 @@
         <attr name="ctv_prefixSuffixTextSize" format="dimension|reference" />
         <attr name="ctv_strikeThrough" format="boolean" />
         <attr name="ctv_nullToZero" format="boolean" />
+        <attr name="ctv_showCurrency" format="boolean" />
     </declare-styleable>
 
     <!-- CurrencyEditText -->

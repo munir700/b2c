@@ -303,12 +303,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.verifyHouseholdMobile(verifyHouseholdMobileRequest) })
 
-    override suspend fun verifyHouseholdParentMobile(
-            mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+    override suspend fun verifyHouseholdParentMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
     ): RetroApiResponse<ValidateParentMobileResponse> =
             executeSafely(call = {
                 api.verifyHouseholdParentMobile(
-                        mobileNumber,
+                    verifyHouseholdMobileRequest.mobileNo,
                         verifyHouseholdMobileRequest
                 )
             })

@@ -76,6 +76,7 @@
             android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:btn_size="mini_small"
             app:layout_constraintTop_toBottomOf="@+id/tv_card_number"
             app:text="@{Strings.screen_household_my_card_screen_card_details_text}"
             tools:text="@string/screen_household_my_card_screen_card_details_text" />

@@ -86,6 +86,7 @@
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/common_button_add"
+                android:layout_gravity="center_horizontal"
                 android:visibility="@{SessionManager.INSTANCE.existingUser?View.GONE:View.VISIBLE}"
                 app:enableCoreButton="@{viewModel.state.cardDesigns.empty?false:true}"
                 app:text="@{Strings.screen_congratulations_display_button_complete_setup}" />

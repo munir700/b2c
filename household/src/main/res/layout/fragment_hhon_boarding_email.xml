@@ -68,6 +68,8 @@
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/common_button_add"
+                app:btn_size="medium"
+                android:layout_gravity="center_horizontal"
                 app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:text="@{Strings.common_button_add}" />
         </androidx.appcompat.widget.LinearLayoutCompat>

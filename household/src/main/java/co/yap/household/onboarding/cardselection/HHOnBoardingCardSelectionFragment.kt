@@ -66,7 +66,9 @@ class HHOnBoardingCardSelectionFragment :
                             dimen(R.dimen._24sdp)
                         )
                         try {
-                            view.circleColor = Color.parseColor(it[position].designColorCode)
+                            view.circleColorStart = Color.parseColor(it[position].designColorCode)
+                            view.circleColorEnd = Color.parseColor(it[position].designColorCode)
+                            view.circleColorDirection = CircleView.GradientDirection.TOP_TO_BOTTOM
                             //tab.tag = it[position]
                         } catch (e: Exception) {
                         }

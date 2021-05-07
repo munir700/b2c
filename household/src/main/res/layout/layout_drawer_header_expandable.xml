@@ -8,21 +8,25 @@
             name="viewModel"
             type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
 
+        <import type="co.yap.yapcore.enums.PartnerBankStatus" />
+
         <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="android.view.View" />
     </data>
 
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expandableLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:el_duration="300"
-        app:el_expanded="false"
+        app:el_expanded="true"
         app:el_parallax="0.5">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_normal">
+            android:layout_marginTop="@dimen/margin_extra_small">
 
             <TextView
                 android:id="@+id/tvAccountHeading"
@@ -30,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Account"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,20 +66,17 @@
                 app:layout_constraintStart_toStartOf="@id/tvIbanHeading"
                 app:layout_constraintTop_toBottomOf="@id/tvIbanHeading" />
 
-            <co.yap.widgets.CoreButton
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnCopyHH"
-                android:layout_width="@dimen/_40sdp"
+                android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.getId())}"
-                android:text="Copy"
-                app:btn_pressed_color="@color/disabledLight"
-                app:btn_round_radius="@dimen/_10sdp"
-                app:btn_shape_type="rectangle"
-                app:btn_text_color="@color/colorPrimary"
-                app:btn_text_size="@dimen/text_size_c3"
-                app:btn_unpressed_color="@color/disabledLight"
+                android:text="Share"
+                android:textColor="?attr/colorPrimaryAttr"
+                android:textSize="@dimen/text_size_c3"
+                android:visibility="@{SessionManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
