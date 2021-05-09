@@ -24,6 +24,7 @@
             android:layout_centerVertical="true"
             android:clickable="true"
             android:focusable="true"
+            android:contentDescription="@string/empty_string"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
             app:layout_constraintStart_toStartOf="parent"

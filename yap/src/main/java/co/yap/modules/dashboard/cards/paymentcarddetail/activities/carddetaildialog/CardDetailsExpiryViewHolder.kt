@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildi
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.databinding.DialogCardDetailsCardExpiryBinding
 import co.yap.yapcore.helpers.extentions.loadCardImage
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CardDetailsExpiryViewHolder(private val dialogCardDetailsCardExpiryBinding: DialogCardDetailsCardExpiryBinding) :
     RecyclerView.ViewHolder(dialogCardDetailsCardExpiryBinding.root) {

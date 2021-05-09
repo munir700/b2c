@@ -32,7 +32,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/small"
             android:contentDescription="@string/empty_string"
-            android:src="@drawable/ic_store_b2b"
             app:fullName="@{viewModel.bank.other_bank_name}"
             app:beneficiaryPicture="@{` `}"
             app:layout_constraintStart_toStartOf="parent"

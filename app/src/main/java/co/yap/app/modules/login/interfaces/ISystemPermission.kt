@@ -6,16 +6,17 @@ import co.yap.yapcore.SingleLiveEvent
 
 interface ISystemPermission {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel>{
+        fun setObservers()
+        fun removeObservers()
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         var screenType: String
-        fun permissionGranted()
-        fun permissionNotGranted()
-        fun handlePressOnTermsAndConditions(id:Int)
-        val permissionGrantedPressEvent: SingleLiveEvent<Boolean>
-        val permissionNotGrantedPressEvent: SingleLiveEvent<Boolean>
-        val handlePressOnTermsAndConditionsPressEvent: SingleClickEvent
+        fun handleOnPressView(id: Int)
+        val clickEvent: SingleClickEvent
+        fun getTouchScreenValues(isGranted : Boolean)
+        fun getNotificationScreenValues(isGranted : Boolean)
     }
 
     interface State : IBase.State {

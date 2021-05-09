@@ -34,7 +34,6 @@
                     android:layout_width="@dimen/_42sdp"
                     android:layout_height="@dimen/_42sdp"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:src="@drawable/ic_store_b2b"
                     android:visibility="gone"
                     app:colorType="@{`Beneficiary`}"
                     app:fullName="@{SessionManager.INSTANCE.getUser().currentCustomer.fullName}"
