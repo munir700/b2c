@@ -517,6 +517,9 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_update_profile_photo_display_text_take_photo">Take photo</string>
     <string name="screen_update_profile_photo_display_text_re_take_photo">Re-take photo</string>
     <string name="screen_update_profile_photo_display_text_remove_photo">Remove photo</string>
+    <string name="screen_upload_documents_display_sheet_text_scan_single_document">Scan a single document</string>
+    <string name="screen_upload_documents_display_sheet_text_upload_from_files">Upload from files</string>
+    <string name="screen_upload_documents_display_sheet_text_upload_from_files_descriptions">Include all necessary documents in one file</string>
 
     <!-- personal detail screen -->
 

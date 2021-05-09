@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
 import co.yap.app.modules.refreal.DeepLinkNavigation
-import co.yap.household.onboard.otherscreens.InvalidEIDActivity
 import co.yap.localization.LocaleManager
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dummy.ActivityNavigator
@@ -38,7 +37,6 @@ import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import timber.log.Timber
 import java.util.*
-
 
 class AAPApplication : YAPApplication(), NavigatorProvider {
 
@@ -172,12 +170,12 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         return object : ActivityNavigator {
             override fun startEIDNotAcceptedActivity(activity: FragmentActivity) {
 
-                activity.startActivity(
-                    Intent(
-                        activity,
-                        InvalidEIDActivity::class.java
-                    )
-                )
+//                activity.startActivity(
+//                    Intent(
+//                        activity,
+//                        InvalidEIDActivity::class.java
+//                    )
+//                )
             }
 
             override fun startVerifyPassCodePresenterActivity(
