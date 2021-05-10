@@ -37,7 +37,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 getForeignAmount().toString().toFormattedCurrency(true, transaction.currency, true)
             }
             TransactionDetailItem.EXCHANGE_RATE -> {
-                if (isInternationalPOS(transaction)) "${transaction.currency} 1.00 = AED ${
+                if (transaction.isNonAEDTransaction()) "${transaction.currency} 1.00 = AED ${
                     getExchangeRateForInternationalPOS(
                         transaction
                     )
@@ -104,7 +104,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     }
 
     private fun isInternationalPOS(transaction: Transaction): Boolean {
-        return transaction.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && transaction.currency != SessionManager.getDefaultCurrency()
+        return (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode) && transaction.currency != SessionManager.getDefaultCurrency()
     }
 
     private fun getSpentAmount(transaction: Transaction): Double {
@@ -117,7 +117,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: 0.00)
                 }
-                it.productCode == TransactionProductCode.POS_PURCHASE.pCode -> {
+                it.isNonAEDTransaction() -> {
                     it.cardHolderBillingAmount ?: 0.00
                 }
                 else -> it.amount ?: 0.00
@@ -127,7 +127,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
     private fun fee(forTransaction: Transaction): String {
         return when {
-            isInternationalPOS(forTransaction) -> {
+            transaction.isNonAEDTransaction() -> {
                 forTransaction.markupFees.toString()
                     .toFormattedCurrency(true, SessionManager.getDefaultCurrency(), true)
             }
@@ -143,18 +143,13 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
     private fun getCalculatedTotalAmount(transaction: Transaction): Double {
         transaction.let {
-            return when (it.productCode) {
-                TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+            return when {
+                it.productCode == TransactionProductCode.RMT.pCode || it.productCode == TransactionProductCode.SWIFT.pCode -> {
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
                     (it.settlementAmount ?: 0.00).plus(totalFee)
                 }
-                TransactionProductCode.POS_PURCHASE.pCode -> {
-                    if (it.currency != SessionManager.getDefaultCurrency()) {
-                        (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00)
-                    } else {
-                        if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.0 else it.amount
-                            ?: 0.0
-                    }
+                it.isNonAEDTransaction() -> {
+                    (it.cardHolderBillingTotalAmount ?: 0.00)
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
                     ?: 0.00
@@ -308,8 +303,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     }
 
     fun getForeignAmount(): Double {
-        return when (transaction.productCode) {
-            TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+        return when {
+            transaction.productCode == TransactionProductCode.RMT.pCode || transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.isNonAEDTransaction()
+            -> {
                 transaction.amount ?: 0.00
             }
             else -> 0.00
@@ -337,7 +333,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
     }
 
-    fun isAtmTransaction() : Boolean{
+    fun isAtmTransaction(): Boolean {
         return (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
     }
 }
