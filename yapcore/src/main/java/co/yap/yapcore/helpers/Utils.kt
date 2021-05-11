@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -35,6 +36,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
+import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -765,8 +768,7 @@ object Utils {
 
     fun getAdjustURL(): String {
         val userId = SessionManager.user?.currentCustomer?.customerId
-        val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
-        val time = date.replace(" ", "_")
+        val time = DateUtils.getCurrentDateWithFormat(SERVER_DATE_FULL_FORMAT)
         return (when (YAPApplication.configManager?.flavor) {
             ProductFlavour.PROD.flavour -> {
                 "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
