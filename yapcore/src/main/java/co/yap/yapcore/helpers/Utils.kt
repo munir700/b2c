@@ -3,7 +3,6 @@ package co.yap.yapcore.helpers
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -23,7 +22,6 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
@@ -37,7 +35,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
-import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -686,9 +683,9 @@ object Utils {
 
     fun getOtpBlockedMessage(context: Context): String {
         return "${
-        context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            SessionManager.helpPhoneNumber
-        )
+            context.getString(R.string.screen_blocked_otp_display_text_message).format(
+                SessionManager.helpPhoneNumber
+            )
         }^${AlertType.DIALOG.name}"
     }
 
