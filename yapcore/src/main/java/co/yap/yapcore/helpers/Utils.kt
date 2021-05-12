@@ -771,7 +771,7 @@ object Utils {
                 "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             ProductFlavour.PREPROD.flavour -> {
-                "https://grwl.adj.st?adjust_t=v3jlxlh_oo71763&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+                "https://7s29.adj.st?adjust_t=v3jlxlh_oo71763&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             ProductFlavour.STG.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
