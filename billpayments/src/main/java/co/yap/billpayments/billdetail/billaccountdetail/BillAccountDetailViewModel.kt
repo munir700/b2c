@@ -80,7 +80,7 @@ class BillAccountDetailViewModel(application: Application) :
                 value = DateUtils.reformatStringDate(
                     billAccountHistoryModel?.lastPaymentMonth.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
-                    DateUtils.FORMAT_MONTH_YEAR
+                    DateUtils.FORMAT_MON_YEAR
                 ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.lastPaymentAmount
             ),
             BillHistoryModel(
@@ -92,7 +92,7 @@ class BillAccountDetailViewModel(application: Application) :
                 value = DateUtils.reformatStringDate(
                     billAccountHistoryModel?.highestMonth.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
-                    DateUtils.FORMAT_MONTH_YEAR
+                    DateUtils.FORMAT_MON_YEAR
                 ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.highestAmount
             ),
             BillHistoryModel(
@@ -100,7 +100,7 @@ class BillAccountDetailViewModel(application: Application) :
                 value = DateUtils.reformatStringDate(
                     billAccountHistoryModel?.lowestMonth.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
-                    DateUtils.FORMAT_MONTH_YEAR
+                    DateUtils.FORMAT_MON_YEAR
                 ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.lowestAmount
             )
         )

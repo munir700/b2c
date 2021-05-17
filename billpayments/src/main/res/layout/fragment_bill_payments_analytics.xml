@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.yapcore.R" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.dashboard.analytics.BillPaymentAnalyticsViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <RelativeLayout
+                        android:id="@+id/pieViewConstraintLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <co.yap.widgets.pieview.PieChart
+                            android:id="@+id/chart1"
+                            android:layout_width="@dimen/_200sdp"
+                            android:layout_height="@dimen/_200sdp"
+                            android:layout_centerHorizontal="true" />
+
+                        <LinearLayout
+                            android:id="@+id/rlDetails"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            android:layout_centerInParent="true"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical|center"
+                            android:orientation="vertical"
+                            android:soundEffectsEnabled="false">
+
+                            <TextView
+                                android:id="@+id/tvPieViewPrice"
+                                style="@style/Regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                tools:textColor="@color/colorPrimaryDark"
+                                android:text="@{viewModel.state.selectedItemSpentValue}"
+                                android:textSize="@dimen/_10sdp"
+                                tools:text="AED 20" />
+
+                            <TextView
+                                android:id="@+id/tvPieViewTitle"
+                                style="@style/Regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_extra_small"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@{viewModel.state.selectedItemName}"
+                                android:textColor="@color/greyDark"
+                                android:textSize="@dimen/_10sdp"
+                                tools:text="Retail Stores" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="0dp">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:elevation="0dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/headerContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivPrevious"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.state.previousMonth}"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:padding="@dimen/_10sdp"
+                        android:tint="@{viewModel.state.previousMonth ? @color/colorPrimary : @color/greyDark}"
+                        app:layout_constraintBottom_toBottomOf="@id/tvTransactionMonth"
+                        app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
+                        app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
+                        app:layout_constraintHorizontal_bias="0.58"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
+                        app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
+                        app:srcCompat="@drawable/ic_chevron_left" />
+
+                    <TextView
+                        android:id="@+id/tvTransactionMonth"
+                        style="@style/AMicroGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:text="@{viewModel.state.displayMonth}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="April 2021" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivNext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.state.nextMonth}"
+                        android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                        android:padding="@dimen/_10sdp"
+                        android:tint="@{viewModel.state.nextMonth ? @color/colorPrimary : @color/greyDark}"
+                        app:layout_constraintBottom_toBottomOf="@id/tvTransactionMonth"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.42"
+                        app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
+                        app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
+                        app:srcCompat="@drawable/ic_chevron_right" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

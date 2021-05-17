@@ -11,11 +11,14 @@
         android:label="PayBillsFragment"
         tools:layout="@layout/fragment_bill_dashboard">
         <action
-            android:id="@+id/action_payBillsFragment_to_myBillsFragment"
+            android:id="@+id/action_billsDashboardFragment_to_myBillsFragment"
             app:destination="@id/myBillsFragment" />
         <action
-            android:id="@+id/action_payBillsFragment_to_addBillFragment"
+            android:id="@+id/action_billsDashboardFragment_to_addBillFragment"
             app:destination="@id/billCategoryFragment" />
+        <action
+            android:id="@+id/action_billsDashboardFragment_to_billPaymentAnalyticsFragment"
+            app:destination="@id/billPaymentAnalyticsFragment" />
     </fragment>
 
     <fragment
@@ -33,4 +36,9 @@
         android:name="co.yap.billpayments.billcategory.BillCategoryFragment"
         android:label="BillCategoryFragment"
         tools:layout="@layout/fragment_bill_category" />
+    <fragment
+        android:id="@+id/billPaymentAnalyticsFragment"
+        tools:layout="@layout/fragment_bill_payments_analytics"
+        android:name="co.yap.billpayments.dashboard.analytics.BillPaymentAnalyticsFragment"
+        android:label="BillPaymentAnalyticsFragment" />
 </navigation>

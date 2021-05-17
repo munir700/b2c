@@ -19,7 +19,6 @@ object DateUtils {
     const val SERVER_DATE_FULL_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
     const val LEAN_PLUM_EVENT_FORMAT = "yyyy-MM-dd HH:mm:ss"//2015-11-28 10:17:18
     const val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
-    const val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
     const val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "HH:mm"
@@ -27,6 +26,7 @@ object DateUtils {
     const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
     const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
     const val FORMATE_DATE_MONTH_YEAR = "dd MMM yyyy" // 12 Jan 2012
+    const val FORMATE_DATE_MONTH_YEAR_ENG = "MMM yyyy" // april 2021
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
