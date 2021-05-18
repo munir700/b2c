@@ -7,14 +7,15 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Store(
-    var id: Int=0,
+    var id: Int?=0,
     @SerializedName("title")
     var name: String?=null,
     @SerializedName("description")
     var desc: String?=null,
     @SerializedName("urlToImage")
     var image: Int?=0,
-    var storeIcon: Int?=0
+    var storeIcon: Int?=0,
+    val isComingSoon: Boolean?
 ) :ApiResponse(), Parcelable
 
 @Parcelize

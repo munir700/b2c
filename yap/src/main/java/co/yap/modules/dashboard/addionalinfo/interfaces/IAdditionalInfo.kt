@@ -26,5 +26,6 @@ interface IAdditionalInfo {
         var documentList: ArrayList<AdditionalDocument>
         var questionList: ArrayList<AdditionalQuestion>
         var screenType: ObservableField<String>
+        var buttonTitle: ObservableField<String>
     }
 }

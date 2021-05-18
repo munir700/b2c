@@ -116,7 +116,6 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
 
     private fun initAllModules() {
         initNetworkLayer()
-//        switchTheme(YAPThemes.HOUSEHOLD())
         switchTheme(YAPThemes.CORE())
         setAppUniqueId(this)
         inItLeanPlum()
@@ -176,11 +175,12 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
 
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
-        SharedPreferenceManager.getInstance(context).setThemeValue(THEME_YAP)
-        uuid = SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
+        val sharedPrefs = SharedPreferenceManager.getInstance(context)
+        sharedPrefs.setThemeValue(Constants.THEME_YAP)
+        uuid = sharedPrefs.getValueString(KEY_APP_UUID)
         if (uuid == null) {
             uuid = UUID.randomUUID().toString()
-            SharedPreferenceManager.getInstance(context).save(KEY_APP_UUID, uuid)
+            sharedPrefs.save(KEY_APP_UUID, uuid)
         }
     }
 
@@ -198,6 +198,13 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
                         InvalidEIDActivity::class.java
                     )
                 )*/
+
+//                activity.startActivity(
+//                    Intent(
+//                        activity,
+//                        InvalidEIDActivity::class.java
+//                    )
+//                )
             }
 
             override fun startVerifyPassCodePresenterActivity(
@@ -226,10 +233,10 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider, HasActivityInj
             }
 
             override fun startDocumentDashboardActivity(
-                activity:FragmentActivity
+                activity: FragmentActivity
             ) {
                 var intent = Intent(activity, DocumentsDashboardActivity::class.java)
-                intent.putExtra("GO_ERROR",true)
+                intent.putExtra("GO_ERROR", true)
                 activity.startActivity(intent)
             }
 

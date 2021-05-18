@@ -104,6 +104,9 @@ interface TransactionsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
+    suspend fun getTotalPurchases(
+        totalPurchaseRequest: TotalPurchaseRequest
+    ): RetroApiResponse<TotalPurchasesResponse>
 
     //    House Hold API calls fees/subscriptions
     suspend fun getPrepaidUserSubscriptionsPlans(

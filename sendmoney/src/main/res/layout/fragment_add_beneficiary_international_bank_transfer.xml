@@ -320,6 +320,7 @@
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etMobileNumber"
                     style="@style/Yap.App.Widget.TextInputEditText"
+                    android:hint="@string/empty_string"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:paddingBottom="16dp"

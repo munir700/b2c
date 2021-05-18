@@ -1,12 +1,14 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ScrollView
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
@@ -53,6 +55,12 @@ fun ChipGroup.generateChipViews(@LayoutRes itemView: Int, list: List<String>) {
         chip.text = categoryName
         this.addView(chip)
     }
+}
+
+fun ImageView?.hasBitmap(): Boolean {
+    return this?.let {
+        this.drawable != null && (this.drawable is BitmapDrawable)
+    } ?: false
 }
 
 fun View.detachFromParent() {

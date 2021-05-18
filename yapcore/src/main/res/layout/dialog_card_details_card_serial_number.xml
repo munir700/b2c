@@ -13,14 +13,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/margin_medium">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCard"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_150sdp"
-            app:background="@drawable/card_spare"
             android:contentDescription="@string/empty_string"
+            app:background="@drawable/card_spare"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +60,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCardType"
             tools:text="Spare Card" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rlCardNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +79,9 @@
                 android:text="Card number"
                 android:textColor="@color/greyDark"
                 android:textSize="@dimen/text_size_h2"
-                app:fontFamily="@font/roboto_regular" />
+                app:fontFamily="@font/roboto_regular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCardNumberValue"
@@ -86,7 +89,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.cardDetailsModel.cardNumber}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCardNumber"
                 tools:text="5381 2301 0000 7021" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCopyCard"
+                style="@style/purpleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:background="@drawable/bg_card_plan_purple"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="Copy"
+                android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvCardNumberValue"
+                app:layout_constraintTop_toBottomOf="@id/tvCardNumber"
+                tools:text="Copy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -171,6 +171,7 @@ object Constants {
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
     const val SUCCESS_BUTTON_LABEL = "successButtonLabel"
+    const val ENABLE_LEAN_PLUM_NOTIFICATIONS = "enableLeanPlumNotifications"
 
     //Sms consent
     const val SMS_CONSENT_REQUEST = 2
@@ -199,5 +200,15 @@ object Constants {
     const val VIEW_WITH_FLAG = 2
     const val VIEW_FIXED_HEIGHT = 3
     const val VIEW_ITEM_WITHOUT_SEPARATOR = 4
+
+    //Yap Store
+    const val ITEM_STORE_CARD_PLANS = 0
+    const val ITEM_STORE_YOUNG = 1
+    const val ITEM_STORE_HOUSE_HOLD = 2
+
+    // Card Plans
+    const val PRIME_CARD_PLAN = "PRIME_CARD_PLAN"
+    const val METAL_CARD_PLAN = "METAL_CARD_PLAN"
+
 
 }

@@ -29,7 +29,6 @@ fun Activity.hideKeyboard(): Boolean {
     return false
 }
 
-
 /**
  * Opens up the keyboard by focusing on the view
  * @receiver View
@@ -67,8 +66,16 @@ fun View?.hideKeyboard(): Boolean {
 
 fun Context.hideKeyboard() {
     try {
-        val activity =
-            getActivityFromContext(this)
+        val activity = getActivityFromContext(this)
+        activity?.hideKeyboard()
+
+    } catch (ignored: Exception) {
+    }
+}
+
+fun Context.hideSoftKeyboard() {
+    try {
+        val activity = getActivityFromContext(this)
         activity?.hideKeyboard()
 
     } catch (ignored: Exception) {

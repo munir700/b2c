@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.store.responsedtos.Store
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import kotlinx.coroutines.delay
 
 class YapStoreViewModel(application: Application) :
@@ -36,18 +37,32 @@ class YapStoreViewModel(application: Application) :
             delay(1000)
             list.add(
                 Store(
-                    R.id.youngStore,
-                    "YAP Young",
-                    "Open a bank account for your children and help empower them financially.",
-                    R.drawable.ic_store_young, R.drawable.ic_young_smile
+                    id = Constants.ITEM_STORE_CARD_PLANS,
+                    name = getString(Strings.screen_yap_store_card_plans_label_text),
+                    desc = getString(Strings.screen_yap_store_card_plans_description_text),
+                    image = R.drawable.banner_card_plans,
+                    storeIcon = R.drawable.ic_card_plans,
+                    isComingSoon = false
                 )
             )
             list.add(
                 Store(
-                    R.id.houseHoldStore,
-                    "YAP Household",
-                    "Manage your household salaries digitally.",
-                    R.drawable.ic_store_household, R.drawable.ic_young_household
+                    id = R.id.youngStore,
+                    name = getString(Strings.screen_yap_store_young_label_text),
+                    desc = getString(Strings.screen_yap_store_young_description_text),
+                    image = R.drawable.ic_store_young,
+                    storeIcon = R.drawable.ic_young_smile,
+                    isComingSoon = true
+                )
+            )
+            list.add(
+                Store(
+                    id = R.id.houseHoldStore,
+                    name = getString(Strings.screen_yap_store_household_label_text),
+                    desc = getString(Strings.screen_yap_store_household_description_text),
+                    image = R.drawable.ic_store_household,
+                    storeIcon = R.drawable.ic_young_household,
+                    isComingSoon = true
                 )
             )
             storesLiveData.value = list

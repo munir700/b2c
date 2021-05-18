@@ -36,8 +36,6 @@ import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
 import java.io.IOException
 import java.math.RoundingMode
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 @Keep
 enum class ExtraType {
@@ -246,34 +244,15 @@ fun Double?.roundValHalfEven(): Double {
     return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN)?.toDouble() ?: 0.0
 }
 
-fun ImageView?.hasBitmap(): Boolean {
-    return this?.let {
-        this.drawable != null && (this.drawable is BitmapDrawable)
-    } ?: false
-}
-
-
 fun Context?.startSmsConsent() {
     this?.let {
-        SmsRetriever.getClient(this).startSmsUserConsent(null)
+        SmsRetriever.getClient(it).startSmsUserConsent(null)
             .addOnSuccessListener {
 
             }.addOnFailureListener {
 
             }
     }
-}
-
-fun Context.getOtpFromMessage(message: String?): String? {
-    var otpCode = ""
-    message?.let {
-        val pattern: Pattern = Pattern.compile("(|^)\\d{6}")
-        val matcher: Matcher = pattern.matcher(message)
-        if (matcher.find()) {
-            otpCode = matcher.group(0) ?: ""
-        }
-    }
-    return otpCode
 }
 
 fun Context.generateQrCode(resourceKey: String): Drawable? {
@@ -288,3 +267,13 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     }
     return drawable
 }
+//fun Context?.getJsonDataFromAsset(fileName: String): String? {
+//    val jsonString: String
+//    try {
+//        jsonString = this?.assets?.open(fileName)?.bufferedReader().use { it?.readText() ?: "" }
+//    } catch (ioException: IOException) {
+//        ioException.printStackTrace()
+//        return null
+//    }
+//    return jsonString
+//}

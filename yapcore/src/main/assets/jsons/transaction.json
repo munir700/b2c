@@ -43,16 +43,6 @@
       "amount": 100.00,
       "icon": null,
       "statusIcon": null
-    },
-    "detailExpectation": {
-      "title": "Received from Vikas Khanna",
-      "detailTransferType": "YTY transfer",
-      "transferCategory": "Incoming Transfer",
-      "currency": "AED",
-      "amount": 100.00,
-      "spentAmount": 100.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -99,16 +89,6 @@
       "amount": 1000.00,
       "icon": null,
       "statusIcon": "icon_transaction_type_debit"
-    },
-    "detailExpectation": {
-      "title": "Sent to Vikas Khanna",
-      "detailTransferType": "YTY transfer",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 1000.00,
-      "spentAmount": 1000.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -155,16 +135,6 @@
       "amount": 1111.00,
       "icon": null,
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "Sent from Vikas Khanna",
-      "detailTransferType": "YTY transfer",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 1111.00,
-      "spentAmount": 1111.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -212,17 +182,6 @@
       "amount": 100.00,
       "icon": "icon_virtual_card_transaction",
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "Remove from Virtual Card",
-      "detailTransferType": "Money moved",
-      "transferCategory": "",
-      "currency": "AED",
-      "amount": 100.00,
-      "spentAmount": 100.00,
-      "foreignAmount": null,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -267,16 +226,6 @@
       "amount": 124.00,
       "icon": "icon_virtual_card_transaction",
       "statusIcon": "icon_identifire_atm_deposit"
-    },
-    "detailExpectation": {
-      "title": "Add to Virtual Card",
-      "detailTransferType": "Money moved",
-      "transferCategory": "",
-      "currency": "AED",
-      "amount": 124.0,
-      "spentAmount": 124.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -298,6 +247,7 @@
       "transactionId": "179358858544",
       "receiverMobileNo": "3214084099",
       "receiverEmail": "java@yap.com",
+      "senderName": "Top Up Via Card",
       "receiverName": "Umar Aziz",
       "maskedCardNo": "222300xxxxxx0007",
       "cardHolderBillingCurrency": "AED",
@@ -322,16 +272,6 @@
       "amount": 100.00,
       "icon": "icon_card_transfer",
       "statusIcon": "icon_identifire_atm_deposit"
-    },
-    "detailExpectation": {
-      "title": "Top up via *0007",
-      "detailTransferType": "Add money",
-      "transferCategory": "Incoming Transfer",
-      "currency": "AED",
-      "amount": 100.00,
-      "spentAmount": 100.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -384,16 +324,6 @@
       "amount": 100.99,
       "icon": "icon_send_money",
       "statusIcon": "icon_transaction_type_debit"
-    },
-    "detailExpectation": {
-      "title": "Sent to UAE Cbwsi",
-      "detailTransferType": "Send money",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 100.99,
-      "spentAmount": 100.99,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -452,17 +382,6 @@
       "amount": 39.00,
       "icon": "icon_send_money",
       "statusIcon": "icon_transaction_type_debit"
-    },
-    "detailExpectation": {
-      "title": "Sent to Australia BT",
-      "detailTransferType": "Send money",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 203.75,
-      "spentAmount": 102.95,
-      "foreignAmount": 39.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -540,17 +459,6 @@
       "amount": 100.00,
       "icon": "icon_send_money",
       "statusIcon": "icon_transaction_type_debit"
-    },
-    "detailExpectation": {
-      "title": "Sent to Afghanistan Beneficiary",
-      "detailTransferType": "Transfer Pending",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 438.69,
-      "spentAmount": 368.5,
-      "foreignAmount": 100.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -604,17 +512,6 @@
       "amount": 15000.00,
       "icon": "icon_send_money",
       "statusIcon": "icon_transaction_type_debit"
-    },
-    "detailExpectation": {
-      "title": "Sent to Bs Ban",
-      "detailTransferType": "Send money",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 391.47,
-      "spentAmount": 391.47,
-      "foreignAmount": 15000.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -662,16 +559,6 @@
       "amount": 564.00,
       "icon": "icon_cash_payout",
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "Sent to nuha aaa",
-      "detailTransferType": "Send money",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 564.00,
-      "spentAmount":564.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -714,16 +601,6 @@
       "amount": 100.80,
       "icon": "icon_transaction_fee",
       "statusIcon": null
-    },
-    "detailExpectation": {
-      "title": "Manual Adjustment",
-      "detailTransferType": "Fee",
-      "transferCategory": "Fee",
-      "currency": "AED",
-      "amount": 100.80,
-      "spentAmount":100.80,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -771,16 +648,6 @@
       "amount": 100.00,
       "icon": "icon_send_money",
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "Received from RAK",
-      "detailTransferType": "Inward Bank Transfer",
-      "transferCategory": "Incoming Funds",
-      "currency": "AED",
-      "amount": 100.00,
-      "spentAmount":100.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -828,16 +695,6 @@
       "amount": 8000.99,
       "icon": "icon_cash_payout",
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "Withdrawal",
-      "detailTransferType": "Withdraw money",
-      "transferCategory": "",
-      "currency": "AED",
-      "amount": 8000.99,
-      "spentAmount":8000.99,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -888,17 +745,6 @@
       "amount": 102.00,
       "icon": "icon_cash_payout",
       "statusIcon": "icon_identifire_atm_withdrawal"
-    },
-    "detailExpectation": {
-      "title": "Withdrawal",
-      "detailTransferType": "Withdraw money",
-      "transferCategory": "Cash withdraw",
-      "location": "AE",
-      "currency": "AED",
-      "amount": 102.00,
-      "spentAmount": 100.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -949,17 +795,6 @@
       "amount": 102.00,
       "icon": null,
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "Spent at AL Jaz Branch ATM 0054",
-      "detailTransferType": "Transaction",
-      "transferCategory": "Clothing stores Retail store",
-      "location": "AE",
-      "currency": "AED",
-      "amount": 102.00,
-      "spentAmount": 100.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1033,18 +868,6 @@
       "amount": 60.00,
       "icon": "",
       "statusIcon": ""
-    },
-    "detailExpectation": {
-      "title": "Spent at ENGLISH TEA HOUSE     ",
-      "detailTransferType": "Transfer Pending",
-      "transferCategory": "Miscellaneous Stores",
-      "location": "ENGLISH TEA HOUSE     ,LAHORE       , ,PK",
-      "currency": "AED",
-      "amount": 174.65,
-      "spentAmount":173.44,
-      "foreignAmount": null,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1093,17 +916,6 @@
       "amount": 100.00,
       "icon": "icon_transaction_fee",
       "statusIcon": null
-    },
-    "detailExpectation": {
-      "title": "Al Nakheel Branch 0002",
-      "detailTransferType": "Fee",
-      "transferCategory": "Fee",
-      "location": "AE",
-      "currency": "AED",
-      "amount": 100.00,
-      "spentAmount": 0.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1144,16 +956,6 @@
       "amount": 15.75,
       "icon": "icon_virtual_card_issuance_fee",
       "statusIcon": null
-    },
-    "detailExpectation": {
-      "title": "Virtual Card Issuance Fee",
-      "detailTransferType": "Fee",
-      "transferCategory": "Fee",
-      "currency": "AED",
-      "amount": 15.75,
-      "spentAmount": 0.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1207,16 +1009,6 @@
       "amount": 100.00,
       "icon": "icon_send_money",
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "Sent to testing  flow",
-      "detailTransferType": "Send money",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 100.00,
-      "spentAmount": 100.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1295,16 +1087,6 @@
       "amount": 208.5300,
       "icon": "icon_send_money",
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "Sent to testing  flow",
-      "detailTransferType": "Transfer Rejected",
-      "transferCategory": "Outgoing Transfer",
-      "currency": "AED",
-      "amount": 208.53,
-      "spentAmount": 0.0,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1357,16 +1139,6 @@
       "amount": 1414.00,
       "icon": "icon_refund_transaction",
       "statusIcon": "icon_transaction_type_inprogress"
-    },
-    "detailExpectation": {
-      "title": "To nick jonas ",
-      "detailTransferType": "Refund",
-      "transferCategory": "",
-      "currency": "AED",
-      "amount": 1414.00,
-      "spentAmount": 1414.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1416,17 +1188,6 @@
       "amount": 500.00,
       "icon": "icon_cash_payout",
       "statusIcon": "icon_identifire_atm_deposit"
-    },
-    "detailExpectation": {
-      "title": "Cash deposit",
-      "detailTransferType": "Deposit",
-      "transferCategory": "Cash deposit",
-      "location": "AE",
-      "currency": "AED",
-      "amount": 500.00,
-      "spentAmount": 500.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1478,17 +1239,6 @@
       "amount": 205.298,
       "icon": "icon_send_money",
       "statusIcon": null
-    },
-    "detailExpectation": {
-      "title": "Spent at AMAZON PAY INDIA PRIVA",
-      "detailTransferType": "Transaction",
-      "transferCategory": "",
-      "location": "AMAZON PAY INDIA PRIVA,BANGALORE    ,null,IN",
-      "currency": "AED",
-      "amount": 205.298,
-      "spentAmount": 205.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1538,17 +1288,6 @@
       "amount": 1.05,
       "icon": "icon_transaction_fee",
       "statusIcon": null
-    },
-    "detailExpectation": {
-      "title": "Balance Inquiry",
-      "detailTransferType": "Fee",
-      "transferCategory": "Fee",
-      "location": "AE",
-      "currency": "AED",
-      "amount": 1.05,
-      "spentAmount": 0.00,
-      "icon": "",
-      "statusIcon": ""
     }
   },
   {
@@ -1589,16 +1328,6 @@
       "amount": 10.50,
       "icon": "icon_transaction_fee",
       "statusIcon": null
-    },
-    "detailExpectation": {
-      "title": "FEE",
-      "detailTransferType": "Fee",
-      "transferCategory": "Fee",
-      "currency": "AED",
-      "amount": 10.50,
-      "spentAmount": 0.00,
-      "icon": "",
-      "statusIcon": ""
     }
   }
 ]

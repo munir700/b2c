@@ -1,30 +1,32 @@
 package co.yap.modules.dashboard.store.fragments
 
- import android.os.Bundle
- import android.view.View
- import android.widget.Toast
- import androidx.lifecycle.Observer
- import androidx.lifecycle.ViewModelProviders
- import co.yap.BR
- import co.yap.R
- import co.yap.databinding.FragmentYapStoreBinding
- import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
- import co.yap.networking.store.responsedtos.Store
- import co.yap.widgets.guidedtour.OnTourItemClickListener
- import co.yap.widgets.guidedtour.TourSetup
- import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
- import co.yap.yapcore.SingleClickEvent
- import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
- import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
- import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
- import co.yap.yapcore.helpers.TourGuideManager
- import co.yap.yapcore.helpers.TourGuideType
- import co.yap.yapcore.helpers.extentions.launchActivity
- import co.yap.yapcore.helpers.extentions.launchTourGuide
- import co.yap.yapcore.interfaces.OnItemClickListener
- import co.yap.yapcore.managers.SessionManager
- import com.liveperson.infra.configuration.Configuration.getDimension
- import kotlinx.android.synthetic.main.fragment_yap_store.*
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
+import co.yap.R
+import co.yap.databinding.FragmentYapStoreBinding
+import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.dashboard.store.cardplans.activities.CardPlansActivity
+import co.yap.networking.store.responsedtos.Store
+import co.yap.widgets.guidedtour.OnTourItemClickListener
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.helpers.TourGuideManager
+import co.yap.yapcore.helpers.TourGuideType
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchTourGuide
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
+import com.liveperson.infra.configuration.Configuration.getDimension
+import kotlinx.android.synthetic.main.fragment_yap_store.*
 
 class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapStore.View {
 
@@ -50,7 +52,7 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
     }
 
     private fun setObservers() {
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
+        viewModel.clickEvent.observe(viewLifecycleOwner, Observer { onClick(it) })
         viewModel.storesLiveData.observe(viewLifecycleOwner, Observer {
             (recycler_stores.adapter as YapStoreAdaptor).setList(it)
         })
@@ -91,6 +93,9 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
                 viewModel.clickEvent.getPayload()?.let {
                     if (it.itemData is Store) {
                         when ((it.itemData as Store).id) {
+                            Constants.ITEM_STORE_CARD_PLANS -> {
+                                launchActivity<CardPlansActivity> { }
+                            }
                             R.id.youngStore -> {
                                 launchActivity<NavHostPresenterActivity> {
                                     putExtra(

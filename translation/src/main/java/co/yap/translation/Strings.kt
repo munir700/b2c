@@ -67,6 +67,9 @@ object Strings {
     const val common_display_text_percentage: String =
         "common_display_text_percentage"
 
+    const val common_yap_share_content: String =
+        "common_yap_share_content"
+
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
     const val screen_home_display_text_account_selection: String =
@@ -500,6 +503,19 @@ object Strings {
     const val screen_yap_store_display_text_title: String = "screen_yap_store_display_text_title"
     const val screen_yap_store_display_text_heading: String =
         "screen_yap_store_display_text_heading"
+    const val screen_yap_store_card_plans_label_text: String =
+        "screen_yap_store_card_plans_label_text"
+    const val screen_yap_store_card_plans_description_text: String =
+        "screen_yap_store_card_plans_description_text"
+    const val screen_yap_store_young_label_text: String =
+        "screen_yap_store_young_label_text"
+    const val screen_yap_store_young_description_text: String =
+        "screen_yap_store_young_description_text"
+    const val screen_yap_store_household_label_text: String =
+        "screen_yap_store_household_label_text"
+    const val screen_yap_store_household_description_text: String =
+        "screen_yap_store_household_description_text"
+
 
     //Yap card home screen
     const val screen_cards_display_text_inactive_description: String =
@@ -821,6 +837,12 @@ object Strings {
         "screen_update_profile_photo_display_text_take_photo"
     const val screen_update_profile_photo_display_text_remove_photo: String =
         "screen_update_profile_photo_display_text_remove_photo"
+    const val screen_upload_documents_display_sheet_text_scan_single_document: String =
+        "screen_upload_documents_display_sheet_text_scan_single_document"
+    const val screen_upload_documents_display_sheet_text_upload_from_files: String =
+        "screen_upload_documents_display_sheet_text_upload_from_files"
+    const val screen_upload_documents_display_sheet_text_upload_from_files_descriptions: String =
+        "screen_upload_documents_display_sheet_text_upload_from_files_descriptions"
 
 
 //  personal detail screen

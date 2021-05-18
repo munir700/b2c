@@ -45,7 +45,7 @@ import kotlinx.coroutines.launch
 
 class PhoneVerificationSignInFragment :
     MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
-    private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+    private var intentFilter: IntentFilter? = null
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -79,7 +79,12 @@ class PhoneVerificationSignInFragment :
         viewModel.state.otp.addOnPropertyChangedCallback(stateObserver)
         context?.startSmsConsent()
         initBroadcast()
-        context?.registerReceiver(appSMSBroadcastReceiver, intentFilter)
+        requireContext().registerReceiver(
+            appSMSBroadcastReceiver,
+            intentFilter,
+            SmsRetriever.SEND_PERMISSION,
+            null
+        )
         viewModel.clickEvent.observe(this, Observer {
             viewModel.verifyOtp()
         })
@@ -88,10 +93,17 @@ class PhoneVerificationSignInFragment :
     }
 
     private fun initBroadcast() {
+        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
         appSMSBroadcastReceiver =
             MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
                 override fun onReceive(code: Intent?) {
-                    startActivityForResult(code, SMS_CONSENT_REQUEST)
+                    code?.let {
+                        it.resolveActivity(requireContext().packageManager)?.run {
+                            if (packageName == "com.google.android.gms" && className == "com.google.android.gms.auth.api.phone.ui.UserConsentPromptActivity"
+                            )
+                                startActivityForResult(it, SMS_CONSENT_REQUEST)
+                        }
+                    }
                 }
             })
     }
@@ -99,7 +111,6 @@ class PhoneVerificationSignInFragment :
     private val postDemographicDataObserver = Observer<Boolean> {
         viewModel.getAccountInfo()
     }
-
     private val onFetchAccountInfo = Observer<AccountInfo> {
         if (!it.isWaiting) {
             if (it.fssRequestRefNo.isNullOrBlank() && !SessionManager.shouldGoToHousehold()) {
@@ -263,8 +274,9 @@ class PhoneVerificationSignInFragment :
         when (requestCode) {
             SMS_CONSENT_REQUEST ->
                 if (resultCode == Activity.RESULT_OK) {
-                    val message = data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
-                    viewModel.state.otp.set(context?.getOtpFromMessage(message ?: "") ?: "")
+                    data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE).also {
+                        viewModel.state.otp.set(it?.getOtpFromMessage() ?: "")
+                    }
                 }
         }
     }
@@ -274,7 +286,6 @@ class PhoneVerificationSignInFragment :
         viewModel.postDemographicDataResult.removeObservers(this)
         viewModel.accountInfo.removeObservers(this)
         viewModel.clickEvent.removeObservers(this)
-        context?.unregisterReceiver(appSMSBroadcastReceiver)
     }
 
     override fun onDestroy() {

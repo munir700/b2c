@@ -10,6 +10,7 @@
             type="co.yap.modules.dashboard.store.fragments.YapStoreItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="android.view.View" />
     </data>
 
 
@@ -43,6 +44,7 @@
                 android:text="Coming soon"
                 android:elevation="4dp"
                 android:textColor="@color/white"
+                android:visibility="@{viewModel.storeData.isComingSoon ? View.VISIBLE : View.GONE}"
                 app:btn_unpressed_color="@color/disabledLight"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -56,8 +58,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:src="@{viewModel.storeData.image}"
-                tools:srcCompat="@drawable/ic_store_b2b" />
+                app:src="@{viewModel.storeData.image}" />
 
             <ImageView
                 android:id="@+id/imgStoreType"
