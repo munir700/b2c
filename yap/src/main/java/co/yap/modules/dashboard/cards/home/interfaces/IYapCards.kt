@@ -21,10 +21,10 @@ interface IYapCards {
         fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(size: Int)
         fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
-        fun removeCard(card : Card?)
         fun getSamsungPayloadAndAddCard(cardSerialNumber:String, success: (String?, co.yap.widgets.State) -> Unit)
         fun getCardDetails(cardSerialNumber:String,success: (CardDetail?) -> Unit)
         fun openFavoriteCard(cardId: String?,success: (co.yap.widgets.State) -> Unit)
+        fun removeCard(card : Card?)
     }
 
     interface State : IBase.State {
