@@ -1,23 +1,15 @@
 package co.yap.modules.dashboard.transaction.category
 
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTransactionCategoryBinding
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TxnType
-import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.extentions.getIcon
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.ViewModel>(),
@@ -40,7 +32,7 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
             val id = bundle.getString(Constants.TRANSACTION_ID)
             val name = bundle.getString(Constants.PRE_SELECTED_CATEGORY)
             viewModel.state.transactionId.set(id)
-            viewModel.setPreSelectedCategory(name?:"General")
+            viewModel.setPreSelectedCategory(name ?: "General")
         }
     }
 
