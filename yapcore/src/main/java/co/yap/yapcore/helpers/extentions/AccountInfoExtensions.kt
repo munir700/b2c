@@ -123,7 +123,8 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.UNFREEZE_CARD
             )
         }
-        UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.EID_EXPIRED -> {
+
+        UserAccessRestriction.EID_EXPIRED -> {
             arrayListOf(
                 FeatureSet.DOMESTIC_TRANSFER,
                 FeatureSet.UAEFTS_TRANSFER,
@@ -137,6 +138,21 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.UNFREEZE_CARD,
                 FeatureSet.CHANGE_PIN,
                 FeatureSet.FORGOT_PIN
+            )
+        }
+
+        UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL -> {
+            arrayListOf(
+                FeatureSet.DOMESTIC_TRANSFER,
+                FeatureSet.UAEFTS_TRANSFER,
+                FeatureSet.RMT_TRANSFER,
+                FeatureSet.SWIFT_TRANSFER,
+                FeatureSet.CBWSI_TRANSFER,
+                FeatureSet.ADD_FUNDS,
+                FeatureSet.REMOVE_FUNDS,
+                FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
+                FeatureSet.Y2Y_TRANSFER,
+                FeatureSet.UNFREEZE_CARD
             )
         }
         UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT -> {
@@ -149,9 +165,7 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD,
-                FeatureSet.CHANGE_PIN,
-                FeatureSet.FORGOT_PIN
+                FeatureSet.UNFREEZE_CARD
             )
         }
         UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
@@ -159,9 +173,7 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.UNFREEZE_CARD,
-                FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
-                FeatureSet.CHANGE_PIN,
-                FeatureSet.FORGOT_PIN
+                FeatureSet.TOP_UP_BY_EXTERNAL_CARD
             )
         }
         UserAccessRestriction.OTP_BLOCKED -> {
