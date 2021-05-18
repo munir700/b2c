@@ -45,6 +45,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
+import com.uxcam.UXCam
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
 class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
@@ -75,6 +76,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         dialer.setNumberKeyboardListener(this)
         dialer.upDatedDialerPad(viewModel.state.passcode)
         dialer.removeError()
+        UXCam.occludeSensitiveViewWithoutGesture(dialer)
     }
 
     private fun addObservers() {

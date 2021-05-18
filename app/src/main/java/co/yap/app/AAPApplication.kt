@@ -83,7 +83,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin1 = originalSign.sslPin1,
             sslPin2 = originalSign.sslPin2,
             sslPin3 = originalSign.sslPin3,
-            sslHost = originalSign.sslHost
+            sslHost = originalSign.sslHost,
+            uxCamKey = originalSign.uxCamKey
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -91,7 +92,6 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                 configManager?.hasValidSignature = true
             }
         })
-        UXCam.startWithKey("7z7psf07jm1kjoz");
     }
 
     private fun initAllModules() {
@@ -101,6 +101,11 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
         initFacebook()
+        initUxCam(configManager)
+    }
+
+    private fun initUxCam(configManager: BuildConfigManager?) {
+        UXCam.startWithKey(configManager?.uxCamKey)
     }
 
     private fun initNetworkLayer() {
