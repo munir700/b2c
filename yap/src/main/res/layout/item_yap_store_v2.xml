@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:src="@{viewModel.item.image}"
-                tools:srcCompat="@drawable/ic_store_b2b" />
+                tools:srcCompat="@drawable/ic_store_b2c" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgStoreType"

@@ -45,7 +45,7 @@
                 android:id="@+id/ivUserImage"
                 style="@style/Yap.App.Widget.ImageView.Circle"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_store_b2b"
+                android:src="@drawable/ic_store_b2c"
                 app:colorType="@{`Beneficiary`}"
                 app:fullName="@{futurePaymentVM.state.subAccount.fullName}"
                 app:imageUrl="@{futurePaymentVM.state.subAccount.profilePictureUrl ?? ` `}"

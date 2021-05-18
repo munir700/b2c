@@ -62,7 +62,7 @@ class YapStoreViewModel(application: Application) :
                     desc = getString(Strings.screen_yap_store_household_description_text),
                     image = R.drawable.ic_store_household,
                     storeIcon = R.drawable.ic_young_household,
-                    isComingSoon = true
+                    isComingSoon = false
                 )
             )
             storesLiveData.value = list
