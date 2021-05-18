@@ -19,6 +19,9 @@ import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -114,6 +117,17 @@ class HHOnBoardingCardSelectionFragment :
                                             HHOnBoardingCardSelectionFragmentDirections.toHHOnBoardingInvalidEidFragment(),
                                             arguments
                                         )
+                                    else
+                                        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
+                                            putExtra(
+                                                NAVIGATION_Graph_ID,
+                                                R.navigation.hh_main_nav_graph
+                                            )
+                                            putExtra(
+                                                NAVIGATION_Graph_START_DESTINATION_ID,
+                                                R.id.householdDashboardFragment
+                                            )
+                                        }
                                 }
                             }
 

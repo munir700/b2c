@@ -21,7 +21,7 @@ class GetAccountBalanceLiveData : LiveDataCallAdapter<CardBalance?>() {
                 }
                 is RetroApiResponse.Error->
                 {
-                    value = CardBalance(availableBalance = "342333.00")
+                  //  value = CardBalance(availableBalance = "342333.00")
                     cardBalance.value = value
                     SessionManager.cardBalance = cardBalance
                 }
