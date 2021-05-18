@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentSingleDeclineBinding
@@ -16,8 +16,9 @@ class SingleDeclineFragment : PayBillMainBaseFragment<ISingleDecline.ViewModel>(
     ISingleDecline.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_single_decline
+    private val singleDeclineViewModel: SingleDeclineViewModel by viewModels()
     override val viewModel: ISingleDecline.ViewModel
-        get() = ViewModelProviders.of(this).get(SingleDeclineViewModel::class.java)
+        get() = singleDeclineViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
