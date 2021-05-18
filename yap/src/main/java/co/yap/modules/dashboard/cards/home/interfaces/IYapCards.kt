@@ -16,6 +16,7 @@ interface IYapCards {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         val cards: MutableLiveData<ArrayList<Card>>
+        var selectedCardPosition: Int
         fun getCards()
         fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(size: Int)
@@ -23,6 +24,7 @@ interface IYapCards {
         fun getSamsungPayloadAndAddCard(cardSerialNumber:String, success: (String?, co.yap.widgets.State) -> Unit)
         fun getCardDetails(cardSerialNumber:String,success: (CardDetail?) -> Unit)
         fun openFavoriteCard(cardId: String?,success: (co.yap.widgets.State) -> Unit)
+        fun removeCard(card : Card?)
     }
 
     interface State : IBase.State {

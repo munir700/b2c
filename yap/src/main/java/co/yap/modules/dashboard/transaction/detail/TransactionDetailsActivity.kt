@@ -26,14 +26,16 @@ import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import pl.aprilapps.easyphotopicker.MediaFile
 
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
@@ -42,164 +44,31 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_transaction_details
-
     override val viewModel: ITransactionDetails.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addObservers()
-        setSpentLabel()
-        setAmount()
-        setMapImageView()
+        setObservers()
         setTransactionImage()
-        setCardMaskNo()
-        setSubTitle()
-        setTotalAmount()
-        setDestinationAmount()
-        setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
-        setLocationText()
-        setStatusIcon()
     }
 
-    private fun addObservers() {
+    override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         if (intent?.hasExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) == true) {
             intent.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name)?.let {
-                viewModel.transaction.set(
-                    it
-                )
+                viewModel.transaction.set(it)
+                viewModel.composeTransactionDetail(it)
+                getBindings().ivMap.setImageResource(viewModel.state.coverImage.get())
             }
         }
-    }
-
-    private fun setStatusIcon() {
-        getBindings().ivIncoming.setImageResource(viewModel.getStatusIcon(viewModel.transaction.get()))
-    }
-
-    private fun setDestinationAmount() {
-        getBindings().tvDestinationAmount.text =
-            viewModel.getForeignAmount(
-                transaction = viewModel.transaction.get()
-            ).toString()
-                .toFormattedCurrency(
-                    showCurrency = true,
-                    currency = viewModel.transaction.get().getCurrency(),
-                    withComma = true
-                )
-        setReceiptListener()
-        setObserver()
-    }
-
-    private fun setObserver() {
         viewModel.responseReciept.observe(this, Observer {
             viewModel.setAdapterList(it)
         })
-    }
-
-    private fun setAmount() {
-        getBindings().tvCardSpendAmount.text =
-            viewModel.getSpentAmount(viewModel.transaction.get()).toString()
-                .toFormattedCurrency(showCurrency = viewModel.transaction.get()?.status != TransactionStatus.FAILED.name)
-
-    }
-
-    private fun setTxnFailedReason() {
-        val msg = viewModel.transaction.get()?.let {
-            when {
-                it.isTransactionInProgress() || it.isTransactionRejected() -> {
-                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
-                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                    getBindings().tvTransactionSubheading.alpha = 0.5f
-                    getBindings().ivCategoryIcon.alpha = 0.5f
-                    return@let if (it.isTransactionRejected()) getCancelReason() else getCutOffMsg(
-                        it
-                    )
-                }
-                else -> ""
-            }
-        } ?: ""
-        if (msg.isBlank()) {
-            getBindings().cancelReasonLy.visibility = View.GONE
-        } else {
-            getBindings().tvCanceReason.text = msg
-        }
-    }
-
-    private fun getCutOffMsg(transaction: Transaction): String {
-        return if (transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
-    }
-
-    private fun getCancelReason(): String {
-        return getString(R.string.screen_transaction_detail_text_cancelled_reason)
-    }
-
-    private fun setTotalAmount() {
-        val totalAmount = viewModel.getCalculatedTotalAmount(viewModel.transaction.get()).toString()
-
-        getBindings().tvTotalAmountValueCalculated.text =
-            totalAmount.toFormattedCurrency()
-        getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
-                totalAmount.toFormattedCurrency(
-                    showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency()
-                )
-            }" else "+ ${
-                totalAmount.toFormattedCurrency(
-                    showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency()
-                )
-            }"
-
-        viewModel.transaction.get()?.let {
-            when {
-                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                    getBindings().tvTotalAmountValueCalculated.visibility = View.VISIBLE
-                    getBindings().tvTotalAmount.visibility = View.VISIBLE
-                }
-                else -> {
-                    getBindings().tvTotalAmountValueCalculated.visibility = View.GONE
-                    getBindings().tvTotalAmount.visibility = View.GONE
-                }
-            }
-        }
-    }
-
-    private fun setSubTitle() {
-        viewModel.transaction.get()?.let {
-            getBindings().tvTxnSubTitle.text =
-                viewModel.getTransferType(it)
-        }
-    }
-
-    private fun setLocationText() {
-        val location = viewModel.getLocation(viewModel.transaction.get())
-        getBindings().tvLocation.visibility =
-            if (location.isEmpty()) View.GONE else View.VISIBLE
-        getBindings().tvLocation.text = location
-
-    }
-
-    private fun setCardMaskNo() {
-        val maskCardNo = viewModel.transaction.get()?.maskedCardNo?.split(" ")?.lastOrNull()
-        maskCardNo?.let {
-            getBindings().tvCardMask.text = "*${maskCardNo}"
-        }
-    }
-
-    private fun setSpentLabel() {
-        if (viewModel.transaction.get()?.productCode.equals(TransactionProductCode.POS_PURCHASE.pCode) && viewModel.transaction.get()?.currency != SessionManager.getDefaultCurrency()) {
-            getBindings().tvCardSpent.text = "Spent in AED"
-        } else {
-            getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
-        }
-    }
-
-    private fun setReceiptListener() {
         viewModel.adapter.setItemListener(onReceiptClickListener)
     }
+
 
     private val onReceiptClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -244,7 +113,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         showAddReceiptSuccessDialog()
                 }
             }
-
             PhotoSelectionType.GALLERY.name -> openImagePicker(PhotoSelectionType.GALLERY)
         }
     }
@@ -256,10 +124,12 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             callback = {
                 when (it) {
                     R.id.btnActionDone -> {
-                        viewModel.getAllReceipts()
+                        viewModel.requestAllApis()
+
                     }
                     R.id.tvAddAnother -> {
-                        viewModel.getAllReceipts()
+                        viewModel.requestAllApis()
+
                         showAddReceiptOptions()
                     }
                 }
@@ -276,14 +146,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 viewModel.adapter.getDataList() as ArrayList<ReceiptModel>
             )
         }
-    }
-
-    private fun setMapImageView() {
-        val mapResId = viewModel.transaction.get().getMapImage()
-        if (mapResId != -1)
-            getBindings().ivMap.setImageResource(mapResId)
-        else
-            getBindings().ivMap.visibility = View.GONE
     }
 
     private fun setTransactionImage() {
@@ -372,14 +234,16 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
 
-                    viewModel.state.transactionNoteDate =
-                        viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                    viewModel.state.transactionNoteDate = "Note added  ${
+                        DateUtils.getCurrentDateWithFormat(
                             DateUtils.FORMAT_LONG_OUTPUT
                         )
+                    }"
                 }
 
                 RequestCodes.REQUEST_DELETE_RECEIPT -> {
-                    viewModel.getAllReceipts()
+                    viewModel.requestAllApis()
+
                 }
             }
         }
@@ -453,11 +317,19 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         finish()
     }
 
-    fun getBindings(): ActivityTransactionDetailsBinding {
-        return viewDataBinding as ActivityTransactionDetailsBinding
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObserver(clickEvent)
     }
+
+    fun getBindings(): ActivityTransactionDetailsBinding =
+        viewDataBinding as ActivityTransactionDetailsBinding
 
     override fun onBackPressed() {
         setResult()
+    }
+
+    override fun onDestroy() {
+        removeObservers()
+        super.onDestroy()
     }
 }

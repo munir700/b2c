@@ -360,7 +360,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.state.cardTypeText =
                     getString(Strings.screen_spare_card_landing_display_text_virtual_card)
             }
-            viewModel.state.cardNameText = viewModel.card.value?.cardName?:""
+            viewModel.state.cardNameText = viewModel.card.value?.cardName ?: ""
             viewModel.getCardBalance { balance ->
                 llAddFunds.alpha = 1f
                 llAddFunds.isEnabled = true
@@ -651,7 +651,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun showCardDetailsPopup() {
-        val dialog = Dialog(this)
+        val dialog = Dialog(this, R.style.DialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_card_details)
@@ -718,7 +718,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         indicator?.setViewPager2(viewPager)
         dialog.show()
     }
-
 
     private fun setUpTransactionsListRecyclerView() {
         rvTransaction.setHasFixedSize(true)

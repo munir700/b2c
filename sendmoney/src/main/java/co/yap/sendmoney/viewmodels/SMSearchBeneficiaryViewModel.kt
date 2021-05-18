@@ -88,11 +88,9 @@ class SMSearchBeneficiaryViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-           // coroutineScope {
                 val deferredSM =launchAsync { repository.getAllBeneficiaries() }
                 val deferredY2YRecents = launchAsync { repository.getRecentY2YBeneficiaries() }
                 responses(deferredSM.await(), deferredY2YRecents.await())
-           // }
         }
     }
     private suspend fun getLocalContactsFromServer(contactsList: (List<Contact>) -> Unit) {

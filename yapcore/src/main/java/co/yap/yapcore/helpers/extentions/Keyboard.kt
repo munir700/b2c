@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.NonNull
 
+
 /**
  * Hides the soft keyboard
  * @receiver Activity
@@ -53,6 +54,7 @@ fun Context.hideSoftKeyboard() {
     }
 
 }
+
 fun getActivityFromContext(@NonNull context: Context): Activity? {
     var context = context
     while (context is ContextWrapper) {

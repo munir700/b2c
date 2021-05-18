@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.content.Context
 import android.text.format.DateFormat
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
@@ -169,49 +170,6 @@ fun String?.getMerchantCategoryIcon(): Int {
     } ?: return -1
 }
 
-fun Transaction?.getMapImage(): Int {
-    this?.let { transaction ->
-        if (TransactionProductType.IS_TRANSACTION_FEE == getProductType()) {
-            return R.drawable.ic_image_light_red_background
-        }
-        return (when (transaction.productCode) {
-            TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_image_blue_background
-            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_brown_background
-            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
-            TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
-            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_image_light_blue_background
-            else -> -1
-        })
-    } ?: return -1
-}
-
-fun Transaction?.getSpentLabelText(): String {
-    this?.let { transaction ->
-        transaction.productCode?.let { productCode ->
-            return (when (productCode) {
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Amount"
-                else -> {
-                    when (transaction.txnType) {
-                        TxnType.CREDIT.type -> "Amount"
-                        TxnType.DEBIT.type -> {
-                            when (transaction.productCode) {
-                                TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                                    "Amount"
-                                }
-                                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                                    if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
-                                }
-                                else -> "Amount"
-                            }
-                        }
-                        else -> ""
-                    }
-                }
-            })
-        } ?: return ""
-    } ?: return ""
-}
-
 fun Transaction?.getCurrency(): String {
     this?.let { transaction ->
         return (when (transaction.productCode) {
@@ -244,6 +202,9 @@ fun Transaction?.getProductType(): TransactionProductType? {
             }
             TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode -> {
                 TransactionProductType.IS_INCOMING
+            }
+            TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
+                TransactionProductType.IS_SEND_MONEY
             }
             else -> null
         })
@@ -383,8 +344,9 @@ fun Transaction?.getTransactionAmountColor(): Int {
 }
 
 fun Transaction?.showCutOffMsg(): Boolean {
-    return (this?.productCode == TransactionProductCode.SWIFT.pCode)
+    return (this?.productCode == TransactionProductCode.SWIFT.pCode && this.txnState == TransactionState.RAK_CUT_OFF_TIME_HOLD.name)
 }
+
 
 fun List<Transaction>?.getTotalAmount(): String {
     var total = 0.0
@@ -424,4 +386,16 @@ fun List<Transaction>?.getTotalAmount(): String {
 
 fun Transaction?.isNonAEDTransaction(): Boolean {
     return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || this?.productCode == TransactionProductCode.ECOM.pCode) && this.currency != SessionManager.getDefaultCurrency()
+}
+
+fun Transaction.getTransactionStatusMessage(context: Context): String {
+    return when {
+        this.isTransactionRejected() -> {
+            context.getString(R.string.screen_transaction_detail_text_cancelled_reason)
+        }
+        this.showCutOffMsg() -> {
+            context.getString(R.string.screen_transaction_detail_text_cut_off_msg)
+        }
+        else -> ""
+    }
 }
