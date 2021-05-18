@@ -75,7 +75,6 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                             }
                             adapter.setList(list)
                         } else viewState.value = Constants.EVENT_EMPTY
-
                     }
                 }
                 is RetroApiResponse.Error -> {
