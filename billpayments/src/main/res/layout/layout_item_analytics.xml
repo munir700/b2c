@@ -9,6 +9,10 @@
             name="viewModel"
             type="co.yap.billpayments.dashboard.analytics.adapter.BPAnalyticsItemViewModel" />
 
+        <variable
+            name="selected"
+            type="Boolean" />
+
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
@@ -24,7 +28,7 @@
             android:id="@+id/foregroundContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@{selected? @color/greySoft : @color/white}"
             android:onClick="@{viewModel::onViewClicked}">
 
             <co.yap.widgets.CoreCircularImageView

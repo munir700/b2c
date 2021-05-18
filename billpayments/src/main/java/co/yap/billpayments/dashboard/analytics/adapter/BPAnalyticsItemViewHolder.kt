@@ -9,16 +9,18 @@ class BPAnalyticsItemViewHolder(private val layoutItemAnalyticsBinding: LayoutIt
         RecyclerView.ViewHolder(layoutItemAnalyticsBinding.root) {
 
     fun onBind(
-            bpAnalyticsModel: BPAnalyticsModel,
-            position: Int,
-            onItemClickListener: OnItemClickListener?
+        selectedItem: Int,
+        bpAnalyticsModel: BPAnalyticsModel,
+        position: Int,
+        onItemClickListener: OnItemClickListener?
     ) {
+        layoutItemAnalyticsBinding.selected = selectedItem == position
         layoutItemAnalyticsBinding.viewModel =
-                BPAnalyticsItemViewModel(
-                        bpAnalyticsModel,
-                        position,
-                        onItemClickListener
-                )
+            BPAnalyticsItemViewModel(
+                bpAnalyticsModel,
+                position,
+                onItemClickListener
+            )
         layoutItemAnalyticsBinding.executePendingBindings()
     }
 }

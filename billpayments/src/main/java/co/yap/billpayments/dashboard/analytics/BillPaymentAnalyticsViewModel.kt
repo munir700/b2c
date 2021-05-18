@@ -171,7 +171,17 @@ class BillPaymentAnalyticsViewModel(application: Application) :
         return entries
     }
 
-    override fun setSelectedItemState(model: BPAnalyticsModel) {
+    override fun setSelectedItemState(
+        model: BPAnalyticsModel,
+        currentPosition: Int
+    ) {
+        // update selection of item
+        val previousPosition: Int = analyticsAdapter.selectedItem
+        analyticsAdapter.selectedItem = currentPosition
+        analyticsAdapter.notifyItemChanged(previousPosition)
+        analyticsAdapter.notifyItemChanged(currentPosition)
+
+        // update selected data in pie-chart
         state.selectedItemSpentValue =
             model.totalSpending.toFormattedCurrency(
                 showCurrency = true,

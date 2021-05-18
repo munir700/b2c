@@ -36,7 +36,7 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
         viewModel.analyticsData.observe(this, Observer {
             setupPieChart(it)
             if (!it.isNullOrEmpty())
-                viewModel.setSelectedItemState(it.first())
+                viewModel.setSelectedItemState(it.first(),  0)
         })
     }
 
@@ -52,8 +52,9 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
     private val itemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             showPieView(pos)
-            if (data is BPAnalyticsModel)
-                viewModel.setSelectedItemState(data)
+            if (data is BPAnalyticsModel) {
+                viewModel.setSelectedItemState(model = data, currentPosition = pos)
+            }
         }
     }
 
@@ -100,9 +101,10 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
         h?.let { highlight ->
             if (!viewModel.analyticsAdapter.getDataList().isNullOrEmpty())
                 viewModel.setSelectedItemState(
-                    viewModel.analyticsAdapter.getDataForPosition(
+                    model = viewModel.analyticsAdapter.getDataForPosition(
                         highlight.x.toInt()
-                    )
+                    ),
+                    currentPosition = highlight.x.toInt()
                 )
         }
     }

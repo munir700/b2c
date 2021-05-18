@@ -24,7 +24,10 @@ interface IBillPaymentAnalytics {
         val analyticsData: MutableLiveData<List<BPAnalyticsModel>>
         fun handlePressOnView(id: Int)
         fun getEntries(it: List<BPAnalyticsModel>?): ArrayList<PieEntry>
-        fun setSelectedItemState(model: BPAnalyticsModel)
+        fun setSelectedItemState(
+            model: BPAnalyticsModel,
+            currentPosition: Int
+        )
     }
 
     interface State : IBase.State {

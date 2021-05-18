@@ -9,9 +9,10 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class BPAnalyticsAdapter(private val list: MutableList<BPAnalyticsModel>) :
         BaseBindingRecyclerAdapter<BPAnalyticsModel, RecyclerView.ViewHolder>(list) {
+    var selectedItem = 0
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return BPAnalyticsItemViewHolder(
-                binding as LayoutItemAnalyticsBinding
+            binding as LayoutItemAnalyticsBinding
         )
     }
 
@@ -19,7 +20,7 @@ class BPAnalyticsAdapter(private val list: MutableList<BPAnalyticsModel>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BPAnalyticsItemViewHolder) {
-            holder.onBind(list[position], position, onItemClickListener)
+            holder.onBind(selectedItem, list[position], position, onItemClickListener)
         }
     }
 }
