@@ -48,7 +48,6 @@ class CardAnalyticsDetailsViewModel(application: Application) :
 
     override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
         launch {
-            state.loading = true
             when (val response = repository.getTransactionsOfMerchant(
                 merchantType,
                 SessionManager.getCardSerialNumber(),
@@ -76,11 +75,9 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                             }
                             adapter.setList(list)
                         } else viewState.value = Constants.EVENT_EMPTY
-                        state.loading = false
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
                     state.toast = response.error.message
                     viewState.value = Constants.EVENT_EMPTY
                 }
