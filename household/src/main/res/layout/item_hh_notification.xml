@@ -88,6 +88,7 @@
                 app:btn_size="mini_small"
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginTop="@dimen/margin_small"
+                android:onClick="@{(view) -> viewModel.handleOnClick(view)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription"

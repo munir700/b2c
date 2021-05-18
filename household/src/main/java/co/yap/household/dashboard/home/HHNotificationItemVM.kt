@@ -9,8 +9,10 @@ import co.yap.yapcore.BaseListItemViewModel
 
 class HHNotificationItemVM : BaseListItemViewModel<HomeNotification>() {
     private lateinit var mItem: HomeNotification
+    private var mPosition: Int = 0
     override fun setItem(item: HomeNotification, position: Int) {
         mItem = item
+        mPosition = position
     }
 
     override fun getItem() = mItem
@@ -20,5 +22,8 @@ class HHNotificationItemVM : BaseListItemViewModel<HomeNotification>() {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
+    }
+    fun handleOnClick(view: View) {
+        onChildViewClickListener?.invoke(view, mPosition, getItem())
     }
 }

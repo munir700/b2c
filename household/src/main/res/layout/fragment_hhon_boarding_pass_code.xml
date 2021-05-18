@@ -116,8 +116,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:text="@{Strings.screen_create_passcode_button_create_passcode}"
+            app:text="@{Strings.screen_create_passcode_onboarding_button_create_passcode}"
             tools:ignore="MissingConstraints"
-            tools:text="@string/screen_create_passcode_button_create_passcode" />
+            tools:text="@string/screen_create_passcode_onboarding_button_create_passcode" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

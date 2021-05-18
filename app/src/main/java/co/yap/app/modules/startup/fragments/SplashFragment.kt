@@ -17,9 +17,13 @@ import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.animations.animators.ScaleAnimator
 import co.yap.yapcore.constants.Constants.KEY_IMAGE_LOADING_TIME
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.openPlayStore
 import kotlinx.android.synthetic.main.fragment_splash.*
 
@@ -37,6 +41,13 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
+            putExtra(NAVIGATION_Graph_ID, co.yap.R.navigation.add_house_hold_user_navigation)
+            putExtra(
+                NAVIGATION_Graph_START_DESTINATION_ID,
+                co.yap.R.id.HHAddUserContactFragment
+            )
+        }
         animatorSet = AnimatorSet()
         viewModel.splashComplete.observe(this, Observer {
             if (it) viewModel.getAppUpdate()

@@ -59,6 +59,10 @@ class HouseholdHomeFragment :
 
     private fun intRecyclersView() {
         mNotificationAdapter.onItemClickListener = onItemClickListener
+        mNotificationAdapter.onChildViewClickListener =
+            { view: View, position: Int, data: HomeNotification? ->
+
+            }
         viewModel.notificationAdapter.set(mNotificationAdapter)
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
         mViewDataBinding.lyInclude.recyclerView.apply {
@@ -66,7 +70,7 @@ class HouseholdHomeFragment :
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(mAdapter)
-             pagination = viewModel.getPaginationListener()
+            pagination = viewModel.getPaginationListener()
             setHasFixedSize(false)
         }
     }

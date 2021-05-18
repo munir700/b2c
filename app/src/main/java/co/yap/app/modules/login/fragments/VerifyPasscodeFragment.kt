@@ -380,8 +380,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
                     } else {
                         SessionManager.sendFcmTokenToServer(requireContext()) {}
-                        launchActivity<YapDashboardActivity> { }
-                        requireActivity().finish()
+                        launchActivity<YapDashboardActivity>(clearPrevious = true) { }
                     }
                 }
             }

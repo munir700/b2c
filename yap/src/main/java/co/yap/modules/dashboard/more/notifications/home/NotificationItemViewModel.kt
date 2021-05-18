@@ -29,13 +29,6 @@ class NotificationItemViewModel :
 
     fun onDeleteClick(view: View) {
         onChildViewClickListener?.invoke(view, position, getItem())
-//        DebouncingOnClickListener(
-//            intervalMillis = 0){
-//
-//        }
-//        view.setOnClick {
-//
-//        }
     }
 
 }

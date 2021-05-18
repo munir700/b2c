@@ -108,6 +108,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/clTermsAndConditions"
+                android:visibility="gone"
                 style="@style/Yap.App.Layout.LinearLayout.Vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView

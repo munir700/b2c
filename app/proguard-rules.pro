@@ -144,7 +144,15 @@
 
 -keep class android.support.** { *; }
 -keep interface android.support.** { *; }
+-keep class com.google.android.material.internal.CollapsingTextHelper {
+    public <methods>;
+}
+-keepnames class com.google.android.material.internal.CollapsingTextHelper
+-keepclassmembers class com.google.android.material.internal.CollapsingTextHelper {
+                                                                             private <fields>;
+                                                                          }
 
+-keepnames class com.google.android.material.textfield.TextInputLayout
 -keep class * extends android.webkit.WebChromeClient { *; }
 -dontwarn im.delight.android.webview.**
 
