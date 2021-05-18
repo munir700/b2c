@@ -70,7 +70,6 @@
                                 android:gravity="center"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                tools:textColor="@color/colorPrimaryDark"
                                 android:text="@{viewModel.state.selectedItemSpentValue}"
                                 android:textSize="@dimen/_10sdp"
                                 tools:text="AED 20" />
@@ -88,15 +87,26 @@
                                 android:textSize="@dimen/_10sdp"
                                 tools:text="Retail Stores" />
                         </LinearLayout>
-
                     </RelativeLayout>
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAnalytics"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        app:adapter="@{viewModel.analyticsAdapter}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pieViewConstraintLayout"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/layout_item_analytics" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -129,11 +139,11 @@
                         android:enabled="@{viewModel.state.previousMonth}"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:padding="@dimen/_10sdp"
-                        android:tint="@{viewModel.state.previousMonth ? @color/colorPrimary : @color/greyDark}"
+                        android:tint="@{viewModel.state.previousMonth ? @color/colorPurple : @color/greyDark}"
                         app:layout_constraintBottom_toBottomOf="@id/tvTransactionMonth"
                         app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
                         app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
-                        app:layout_constraintHorizontal_bias="0.58"
+                        app:layout_constraintHorizontal_bias="0.7"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
                         app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
@@ -141,14 +151,15 @@
 
                     <TextView
                         android:id="@+id/tvTransactionMonth"
-                        style="@style/AMicroGrey"
+                        style="@style/ALarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_large"
                         android:text="@{viewModel.state.displayMonth}"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintHorizontal_bias="0.48"
                         app:layout_constraintStart_toStartOf="parent"
+                        tools:textColor="@color/colorPrimaryDark"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="April 2021" />
 
@@ -159,10 +170,10 @@
                         android:enabled="@{viewModel.state.nextMonth}"
                         android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                         android:padding="@dimen/_10sdp"
-                        android:tint="@{viewModel.state.nextMonth ? @color/colorPrimary : @color/greyDark}"
+                        android:tint="@{viewModel.state.nextMonth ? @color/colorPurple : @color/greyDark}"
                         app:layout_constraintBottom_toBottomOf="@id/tvTransactionMonth"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.42"
+                        app:layout_constraintHorizontal_bias="0.24"
                         app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
                         app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
                         app:srcCompat="@drawable/ic_chevron_right" />

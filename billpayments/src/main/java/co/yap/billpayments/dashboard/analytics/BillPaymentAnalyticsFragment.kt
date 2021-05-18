@@ -2,25 +2,26 @@ package co.yap.billpayments.dashboard.analytics
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentBillPaymentsAnalyticsBinding
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
 import co.yap.widgets.pieview.Entry
 import co.yap.widgets.pieview.Highlight
 import co.yap.widgets.pieview.OnChartValueSelectedListener
-import co.yap.widgets.pieview.PieEntry
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.extentions.initPieChart
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.ViewModel>(),
         IBillPaymentAnalytics.View, OnChartValueSelectedListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_bill_payments_analytics
-
+    private val billPaymentAnalyticsViewModel: BillPaymentAnalyticsViewModel by viewModels()
     override val viewModel: BillPaymentAnalyticsViewModel
-        get() = ViewModelProviders.of(this).get(BillPaymentAnalyticsViewModel::class.java)
+        get() = billPaymentAnalyticsViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,25 +29,38 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
         setObservers()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getBinding().chart1.initPieChart(getEntries(), isEmptyList = true, listener = this)
-        showPieView(0)
+    override fun setObservers() {
+        viewModel.analyticsAdapter.allowFullItemClickListener = true
+        viewModel.analyticsAdapter.onItemClickListener = itemClickListener
+        viewModel.clickEvent.observe(this, clickListener)
+        viewModel.analyticsData.observe(this, Observer {
+            setupPieChart(it)
+            if (!it.isNullOrEmpty())
+                viewModel.setSelectedItemState(it.first())
+        })
     }
 
-    override fun setObservers() {
-        viewModel.clickEvent.observe(this, clickListener)
+    private fun setupPieChart(list: List<BPAnalyticsModel>) {
+        val entries = viewModel.getEntries(list)
+        getBinding().chart1.initPieChart(
+            entries,
+            isEmptyList = list.isNullOrEmpty(),
+            listener = this
+        )
+    }
+
+    private val itemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            showPieView(pos)
+            if (data is BPAnalyticsModel)
+                viewModel.setSelectedItemState(data)
+        }
     }
 
     private val clickListener = Observer<Int> {
         when (it) {
-        }
-    }
 
-    private fun getEntries(): ArrayList<PieEntry> {
-        val entries = ArrayList<PieEntry>()
-        entries.add(PieEntry(100f))
-        return entries
+        }
     }
 
 
@@ -83,6 +97,14 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
+        h?.let { highlight ->
+            if (!viewModel.analyticsAdapter.getDataList().isNullOrEmpty())
+                viewModel.setSelectedItemState(
+                    viewModel.analyticsAdapter.getDataForPosition(
+                        highlight.x.toInt()
+                    )
+                )
+        }
     }
 
 }

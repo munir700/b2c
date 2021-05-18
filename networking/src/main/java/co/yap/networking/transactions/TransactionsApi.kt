@@ -4,6 +4,7 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -104,4 +105,5 @@ interface TransactionsApi {
 
     //Pay bill from bill payment
     suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>
+    suspend fun getBPAnalytics(date: String): RetroApiResponse<BPAnalyticsResponseDTO>
 }
