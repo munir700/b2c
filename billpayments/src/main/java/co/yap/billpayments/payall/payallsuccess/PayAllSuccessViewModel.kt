@@ -2,6 +2,7 @@ package co.yap.billpayments.payall.payallsuccess
 
 import android.app.Application
 import co.yap.billpayments.payall.base.PayAllBaseViewModel
+import co.yap.billpayments.payall.enum.BillPaymentStatus
 import co.yap.billpayments.payall.payallsuccess.adapter.PayAllSuccessAdapter
 import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
 import co.yap.translation.Strings
@@ -82,7 +83,7 @@ class PayAllSuccessViewModel(application: Application) :
     }
 
     override fun getSuccessfullyPaidBills(): Int {
-        return paidBillList.count { it.PaymentStatus.equals("Paid") }
+        return paidBillList.count { it.PaymentStatus.equals(BillPaymentStatus.PAID.title) }
     }
 
     private fun PayAllBills() {
@@ -97,7 +98,7 @@ class PayAllSuccessViewModel(application: Application) :
                 state.viewState.value = false
                 if (state.billsPaid.get() != 0)
                     state.paidAmount.set(
-                        paidBillList.filter { it.PaymentStatus.equals("Paid") }
+                        paidBillList.filter { it.PaymentStatus.equals(BillPaymentStatus.PAID.title) }
                             .sumBy { it.amount?.toInt() as Int }.toString()
                             .toFormattedCurrency(showCurrency = true, withComma = true)
                     )

@@ -9,8 +9,7 @@
             name="viewModel"
             type="co.yap.billpayments.payall.payallsuccess.adapter.PayAllSuccessItemViewModel" />
 
-        <import type="co.yap.yapcore.enums.BillStatus" />
-
+        <import type="co.yap.billpayments.payall.enum.BillPaymentStatus"/>
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
@@ -99,7 +98,7 @@
             android:layout_height="wrap_content"
             android:text="@{viewModel.paidBill.paymentStatus}"
             android:textColor="@color/colorSecondaryMagenta"
-            android:visibility="@{viewModel.paidBill.paymentStatus.equals(`Declined`) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.DECLINED.title) ? View.VISIBLE : View.GONE}"
             tools:text="Declined" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
