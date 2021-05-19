@@ -39,12 +39,11 @@
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:layout_marginTop="@dimen/margin_normal_large"
-            app:fullName="@{viewModel.parentViewModel.billModel.billerInfo.billerName}"
-            app:imageUrl="@{viewModel.parentViewModel.billModel.billerInfo.logo}"
+            app:fullName="@{viewModel.declinedBill.billerName}"
+            app:imageUrl="@{viewModel.declinedBill.logo}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDelineMessage"
-            app:position="@{viewModel.parentViewModel.state.selectedBillPosition}" />
+            app:layout_constraintTop_toBottomOf="@id/tvDelineMessage" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBillerName"
@@ -52,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:text="@{viewModel.parentViewModel.billModel.billerInfo.billerName}"
+            android:text="@{viewModel.declinedBill.billerName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivLogo"

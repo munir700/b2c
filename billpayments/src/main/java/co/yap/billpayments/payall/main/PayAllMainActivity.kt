@@ -34,6 +34,7 @@ class PayAllMainActivity : BaseBindingActivity<IPayAllMain.ViewModel>(), IPayAll
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

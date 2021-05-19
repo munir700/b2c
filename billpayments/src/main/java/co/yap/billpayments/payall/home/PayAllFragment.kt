@@ -8,6 +8,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPayAllBinding
 import co.yap.billpayments.payall.base.PayAllBaseFragment
+import co.yap.yapcore.enums.BillPaymentStatus
 import co.yap.yapcore.helpers.OverlapDecoration
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
@@ -27,7 +28,7 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewBinding().rvLogos.addItemDecoration(OverlapDecoration(-30))
+        getViewBinding().rvLogos.addItemDecoration(OverlapDecoration(-35))
     }
 
     override fun setObservers() {
@@ -39,9 +40,20 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
         viewModel.clickEvent.observe(this, clickListener)
     }
 
-    private val clickListener = Observer<Int> {
+    private val clickListener = Observer<Int> { it ->
         when (it) {
             R.id.btnPayAll -> {
+                viewModel.payAllBills() {
+                    if (viewModel.parentViewModel?.paidBills?.count {
+                            it.PaymentStatus.equals(
+                                BillPaymentStatus.DECLINED.title
+                            )
+                        } == 1) {
+                        navigate(R.id.action_payAllFragment_to_singleDeclineFragment)
+                    } else {
+                        navigate(R.id.action_payAllFragment_to_payAllSuccessFragment)
+                    }
+                }
             }
         }
     }

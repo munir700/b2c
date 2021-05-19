@@ -9,10 +9,12 @@
             name="viewModel"
             type="co.yap.billpayments.payall.payallsuccess.adapter.PayAllSuccessItemViewModel" />
 
-        <import type="co.yap.billpayments.payall.enum.BillPaymentStatus"/>
+
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.yapcore.enums.BillPaymentStatus" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,7 +90,7 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{SessionManager.INSTANCE.defaultCurrency+` `+viewModel.paidBill.amount}"
+            android:text="@{SessionManager.INSTANCE.defaultCurrency+` `+ viewModel.paidBill.amount}"
             tools:text="AED 200" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -98,7 +100,7 @@
             android:layout_height="wrap_content"
             android:text="@{viewModel.paidBill.paymentStatus}"
             android:textColor="@color/colorSecondaryMagenta"
-            android:visibility="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.DECLINED.title) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.PAID.title)? View.GONE : View.VISIBLE }"
             tools:text="Declined" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -3,6 +3,7 @@ package co.yap.billpayments.payall.home
 import androidx.databinding.ObservableField
 import co.yap.billpayments.databinding.FragmentPayAllBinding
 import co.yap.billpayments.payall.home.adapter.OverlappingLogoAdapter
+import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,6 +20,8 @@ interface IPayAll {
         var adapter: OverlappingLogoAdapter
         fun handleOnPressView(id: Int)
         fun populateData()
+        fun payAllBills(success: () -> Unit)
+        fun readFromFile(): List<PaidBill>
     }
 
     interface View : IBase.View<ViewModel> {

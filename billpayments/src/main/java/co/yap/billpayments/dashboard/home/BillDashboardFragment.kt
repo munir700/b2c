@@ -298,5 +298,9 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                 Gson().toJson(viewModel.dueBillsAdapter.getDataList())
             )
         }
+        requireActivity().overridePendingTransition(
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
     }
 }

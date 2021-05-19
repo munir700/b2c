@@ -15,7 +15,14 @@
         android:id="@+id/payAllFragment"
         android:name="co.yap.billpayments.payall.home.PayAllFragment"
         android:label="PayAllFragment"
-        tools:layout="@layout/fragment_pay_all" />
+        tools:layout="@layout/fragment_pay_all">
+        <action
+            android:id="@+id/action_payAllFragment_to_singleDeclineFragment"
+            app:destination="@id/singleDeclineFragment" />
+        <action
+            android:id="@+id/action_payAllFragment_to_payAllSuccessFragment"
+            app:destination="@id/payAllSuccessFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/payAllSuccessFragment"

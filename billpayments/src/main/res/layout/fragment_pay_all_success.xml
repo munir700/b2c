@@ -65,7 +65,7 @@
             android:layout_height="@dimen/_76sdp"
             android:layout_marginHorizontal="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_large"
-            android:visibility="@{viewModel.state.billsPaid == viewModel.paidBillList.size()? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.state.billsPaid == viewModel.parentViewModel.paidBills.size()? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDueAmount"

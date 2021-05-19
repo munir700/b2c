@@ -9,10 +9,10 @@ import androidx.lifecycle.Observer
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentSingleDeclineBinding
-import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
+import co.yap.billpayments.payall.base.PayAllBaseFragment
 import co.yap.yapcore.helpers.extentions.strikeThroughText
 
-class SingleDeclineFragment : PayBillMainBaseFragment<ISingleDecline.ViewModel>(),
+class SingleDeclineFragment : PayAllBaseFragment<ISingleDecline.ViewModel>(),
     ISingleDecline.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_single_decline
