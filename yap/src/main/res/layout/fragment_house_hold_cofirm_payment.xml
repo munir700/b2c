@@ -130,7 +130,7 @@
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:fontFamily="@font/roboto_medium_italic"
                 android:gravity="center"
-                android:text="@{String.format(`Your saving %1$s%`, viewModel.state.selectedPlan.discount.toString())}"
+                android:text="@{String.format(`Your saving %1$s`, viewModel.state.selectedPlan.discount.toString()+`%`)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCardPlan"
                 tools:text="Your saving 25%!" />

@@ -32,7 +32,8 @@ class HHAddUserContactFragment :
                 }
             }
             R.id.tvBack -> {
-                navigateForwardWithAnimation(HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToSubscriptionSelectionFragment())
+                finishActivity()
+               // navigateForwardWithAnimation(HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToSubscriptionSelectionFragment())
             }
         }
     }
