@@ -41,13 +41,6 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
-            putExtra(NAVIGATION_Graph_ID, co.yap.R.navigation.add_house_hold_user_navigation)
-            putExtra(
-                NAVIGATION_Graph_START_DESTINATION_ID,
-                co.yap.R.id.HHAddUserContactFragment
-            )
-        }
         animatorSet = AnimatorSet()
         viewModel.splashComplete.observe(this, Observer {
             if (it) viewModel.getAppUpdate()
