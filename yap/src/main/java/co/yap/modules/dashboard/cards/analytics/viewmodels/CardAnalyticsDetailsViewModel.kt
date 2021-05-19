@@ -29,6 +29,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     val repository: TransactionsRepository = TransactionsRepository
     var list: MutableList<Transaction> = arrayListOf()
     var viewState: MutableLiveData<Int> = MutableLiveData(Constants.EVENT_LOADING)
+   override var yapCategoryId: Int? = null
 
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
 
@@ -49,6 +50,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
         launch {
             when (val response = repository.getTransactionsOfMerchant(
+                yapCategoryId,
                 merchantType,
                 SessionManager.getCardSerialNumber(),
                 parentViewModel?.state?.currentSelectedDate,

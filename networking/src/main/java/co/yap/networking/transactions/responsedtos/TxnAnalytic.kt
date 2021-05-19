@@ -6,6 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TxnAnalytic(
+    @SerializedName("yapCategoryId")
+    val yapCategoryId: Int? = null,
     @SerializedName("logoUrl")
     val logoUrl: String? = null,
     @SerializedName("title")

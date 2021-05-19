@@ -84,6 +84,7 @@ interface TransactionsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransactionsOfMerchant(
+        yapCategoryId : Int?,
         merchantType: String,
         cardSerialNo: String?,
         date: String?, merchantName: ArrayList<String>?

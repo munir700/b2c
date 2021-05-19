@@ -40,6 +40,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 viewModel.state.countWithDate.set(getConcatinatedString(txnAnalytics.txnCount ?: 0))
                 viewModel.state.monthlyTotalPercentage.set("${txnAnalytics.totalSpendingInPercentage}%")
                 viewModel.state.categories = txnAnalytics.categories
+                viewModel.yapCategoryId = txnAnalytics.yapCategoryId
                 if (txnAnalytics.title.equals("Other")) viewModel.state.percentCardVisibility =
                     false
                 viewModel.adapter.analyticsItemTitle =

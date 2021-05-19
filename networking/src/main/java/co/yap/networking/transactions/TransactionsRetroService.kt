@@ -211,6 +211,7 @@ interface TransactionsRetroService {
     suspend fun getTransactionsOfMerchant(
         @Path("merchant-type") merchantType: String,
         @Query("cardSerialNo") cardSerialNo: String?,
+        @Query("yapCategoryId") yapCategoryId: Int?,
         @Query("date") date: String?,
         @Body merchantName: ArrayList<String>?
     ): Response<AnalyticsDetailResponseDTO>

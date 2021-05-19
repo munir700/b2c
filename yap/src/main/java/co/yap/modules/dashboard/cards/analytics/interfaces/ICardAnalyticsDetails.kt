@@ -15,6 +15,7 @@ interface ICardAnalyticsDetails {
         fun handleOnClickEvent(id: Int)
         val adapter: TransactionsListingAdapter
         var transactionResponse: TransactionAnalyticsDetailsResponse
+        var yapCategoryId: Int?
         fun fetchMerchantTransactions(merchantType: String, currentDate: String)
     }
 
