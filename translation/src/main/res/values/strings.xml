@@ -1475,11 +1475,9 @@
     <string name="screen_pay_bill_payment_every_day_text">Day</string>
     <string name="screen_pay_bill_payment_every_week_text">Week</string>
     <string name="screen_pay_bill_payment_every_month_text">Month</string>
-
     <string name="screen_pay_bill_payment_reminder_every_days_text">3 days</string>
     <string name="screen_pay_bill_payment_reminder_every_week_text">1 week</string>
     <string name="screen_pay_bill_payment_reminder_every_weeks_text">3 weeks</string>
-
 
     <!--Pay Bill Success-->
     <string name="screen_pay_bill_success_toolbar_title">Transfer successful!</string>
@@ -1492,6 +1490,19 @@
     <string name="screen_single_decline_toolbar_text_dont_worry">Don’t worry you were not charged anything \nTotal amount attempted to pay.</string>
     <string name="screen_single_decline_toolbar_text_total_amount_attempted_to_pay">Total amount attempted to pay</string>
     <string name="screen_single_decline_button_text_back_to_bill_payments">Back to Bill Payments</string>
+
+    <!-- Pay All Screen-->
+    <string name="screen_pay_all_success_toolbar_title">Transfer successful!</string>
+    <string name="screen_pay_all_success_toolbar_title_transfer_status">Transfer status</string>
+    <string name="screen_pay_all_success_toolbar_title_transfer_unsuccessful">Transfer unsuccessful</string>
+    <string name="screen_pay_all_success_title_all_paid">Your bills are all paid!</string>
+    <string name="screen_pay_all_success_title_partial_paid">Some of your bills did not go through.</string>
+    <string name="screen_pay_all_success_title_all_decline">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
+    <string name="screen_pay_all_success_text_paid_status">Total paid</string>
+    <string name="screen_pay_all_success_text_decline_status">Total amount attempted to pay</string>
+    <string name="screen_pay_all_success_button_text">Back to Bill Payments</string>
+
+
 
     <!-- Pay All Screen-->
     <string name="screen_pay_all_toolbar_title">Pay all bills</string>

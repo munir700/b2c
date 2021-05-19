@@ -17,4 +17,9 @@
         android:label="PayAllFragment"
         tools:layout="@layout/fragment_pay_all" />
 
+    <fragment
+        android:id="@+id/payAllSuccessFragment"
+        android:name="co.yap.billpayments.payall.payallsuccess.PayAllSuccessFragment"
+        android:label="PayAllSuccessFragment"
+        tools:layout="@layout/fragment_pay_all_success" />
 </navigation>
