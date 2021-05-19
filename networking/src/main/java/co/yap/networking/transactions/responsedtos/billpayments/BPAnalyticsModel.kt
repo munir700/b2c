@@ -10,6 +10,8 @@ data class BPAnalyticsModel(
         val categoryId: String? = null,
         @SerializedName("categoryName")
         val categoryName: String? = null,
+        @SerializedName("categoryType")
+        var categoryType: String? = null,
         @SerializedName("totalSpending")
         val totalSpending: String? = null,
         @SerializedName("icon")

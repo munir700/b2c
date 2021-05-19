@@ -11,7 +11,9 @@ import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsRespo
 import co.yap.widgets.pieview.PieEntry
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.BillCategory
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
@@ -168,7 +170,19 @@ class BillPaymentAnalyticsViewModel(application: Application) :
                     entries.add(it)
                 }
         }
+
         return entries
+    }
+    override fun getPieChartColors(it: List<BPAnalyticsModel>): List<Int> {
+        return it.map {
+            when (it.categoryType) {
+                BillCategory.CREDIT_CARD.name -> context.getColors(BillCategory.CREDIT_CARD.color)
+                BillCategory.TELECOM.name -> context.getColors(BillCategory.TELECOM.color)
+                BillCategory.UTILITIES.name -> context.getColors(BillCategory.UTILITIES.color)
+                BillCategory.TRANSPORT.name -> context.getColors(BillCategory.TRANSPORT.color)
+                else -> -1
+            }
+        }
     }
 
     override fun setSelectedItemState(

@@ -23,7 +23,6 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
     override val viewModel: BillPaymentAnalyticsViewModel
         get() = billPaymentAnalyticsViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
@@ -42,10 +41,12 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
 
     private fun setupPieChart(list: List<BPAnalyticsModel>) {
         val entries = viewModel.getEntries(list)
+        val colors = viewModel.getPieChartColors(list)
         getBinding().chart1.initPieChart(
-            entries,
-            isEmptyList = list.isNullOrEmpty(),
-            listener = this
+                entries = entries,
+                graphColors = colors,
+                isEmptyList = list.isNullOrEmpty(),
+                listener = this
         )
     }
 

@@ -3,13 +3,15 @@ package co.yap.yapcore.helpers.extentions
 import android.annotation.SuppressLint
 import android.graphics.Color
 import co.yap.widgets.pieview.*
+import co.yap.yapcore.R
 
 
 @SuppressLint("NewApi")
 fun PieChart.initPieChart(
-    entries: ArrayList<PieEntry>,
-    isEmptyList: Boolean,
-    listener: OnChartValueSelectedListener
+        entries: ArrayList<PieEntry>,
+        graphColors: List<Int> = resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toList(),
+        isEmptyList: Boolean,
+        listener: OnChartValueSelectedListener
 ) {
     this.setUsePercentValues(false)
     this.description.isEnabled = false
@@ -38,7 +40,7 @@ fun PieChart.initPieChart(
         this.isHighlightPerTapEnabled = true
     }
 
-    colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
+    colors.addAll(graphColors)
     val dataSet = PieDataSet(entries, "")
     dataSet.setDrawIcons(false)
     dataSet.sliceSpace = 0f
