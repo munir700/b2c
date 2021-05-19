@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/pay_all_navigation"
-    app:startDestination="@id/singleDeclineFragment">
+    app:startDestination="@id/payAllSuccessFragment">
 
 
     <fragment
@@ -11,4 +11,9 @@
         android:name="co.yap.billpayments.payall.singledecline.SingleDeclineFragment"
         android:label="SingleDeclineFragment"
         tools:layout="@layout/fragment_single_decline" />
+    <fragment
+        android:id="@+id/payAllSuccessFragment"
+        android:name="co.yap.billpayments.payall.payallsuccess.PayAllSuccessFragment"
+        android:label="PayAllSuccessFragment"
+        tools:layout="@layout/fragment_pay_all_success" />
 </navigation>

@@ -4,14 +4,10 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.extentions.ExtraType
-import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -38,11 +34,6 @@ class PayAllMainActivity : BaseBindingActivity<IPayAllMain.ViewModel>(), IPayAll
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.allBills =
-            intent.getValue(
-                ExtraKeys.ALL_BILLS.name,
-                ExtraType.PARCEABLE.name
-            ) as MutableList<ViewBillModel>
     }
 
     override fun onToolBarClick(id: Int) {
