@@ -9,7 +9,8 @@
             name="viewModel"
             type="co.yap.billpayments.payall.payallsuccess.adapter.PayAllSuccessItemViewModel" />
 
-        <import type="co.yap.billpayments.payall.enum.BillPaymentStatus"/>
+        <import type="co.yap.yapcore.enums.BillPaymentStatus" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
