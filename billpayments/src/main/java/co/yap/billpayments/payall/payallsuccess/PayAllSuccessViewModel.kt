@@ -2,7 +2,7 @@ package co.yap.billpayments.payall.payallsuccess
 
 import android.app.Application
 import co.yap.billpayments.payall.base.PayAllBaseViewModel
-import co.yap.billpayments.payall.enum.BillPaymentStatus
+import co.yap.yapcore.enums.BillPaymentStatus
 import co.yap.billpayments.payall.payallsuccess.adapter.PayAllSuccessAdapter
 import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
 import co.yap.translation.Strings

@@ -2,7 +2,7 @@ package co.yap.billpayments.payall.payallsuccess.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.databinding.LayoutItemPayAllSuccessBinding
-import co.yap.billpayments.payall.enum.BillPaymentStatus
+import co.yap.yapcore.enums.BillPaymentStatus
 import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
 import co.yap.yapcore.helpers.extentions.strikeThroughText
 import co.yap.yapcore.interfaces.OnItemClickListener
