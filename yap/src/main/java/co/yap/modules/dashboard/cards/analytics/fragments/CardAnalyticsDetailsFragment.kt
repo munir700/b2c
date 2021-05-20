@@ -39,12 +39,18 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 viewModel.state.ImageUrl.set(txnAnalytics.logoUrl)
                 viewModel.state.countWithDate.set(getConcatinatedString(txnAnalytics.txnCount ?: 0))
                 viewModel.state.monthlyTotalPercentage.set("${txnAnalytics.totalSpendingInPercentage}%")
-                viewModel.state.categories = txnAnalytics.categories
-                if (txnAnalytics.title.equals("Other")) viewModel.state.percentCardVisibility =
+                viewModel.state.categories.set(txnAnalytics.categories as ArrayList<Any>)
+                val array = arrayListOf<Any>(txnAnalytics.yapCategoryId ?: 0)
+                viewModel.yapCategoryId?.set(array)
+                if (txnAnalytics.title.equals("General")) viewModel.state.percentCardVisibility =
                     false
                 viewModel.adapter.analyticsItemTitle =
                     if (txnAnalytics.title.getMerchantCategoryIcon() == -1) null else txnAnalytics.title
                 viewModel.adapter.analyticsItemImgUrl = txnAnalytics.logoUrl
+                viewModel.fetchMerchantTransactions(
+                    Constants.MERCHANT_TYPE,
+                    viewModel.parentViewModel?.state?.currentSelectedDate ?: ""
+                )
             }
             bundle.getInt(Constants.TRANSACTION_POSITION).let { position ->
                 viewModel.state.position = position

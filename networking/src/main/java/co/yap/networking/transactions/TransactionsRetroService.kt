@@ -212,7 +212,7 @@ interface TransactionsRetroService {
         @Path("merchant-type") merchantType: String,
         @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?,
-        @Body merchantName: ArrayList<String>?
+        @Body merchantName: ArrayList<Any>?
     ): Response<AnalyticsDetailResponseDTO>
 
     @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM)

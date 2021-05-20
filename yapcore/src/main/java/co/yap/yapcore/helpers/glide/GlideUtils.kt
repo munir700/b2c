@@ -129,6 +129,7 @@ fun setCircleCropImage(
             .error(fallback)
             .placeholder(fallback)
             .into(imageView)
+
     }
 }
 

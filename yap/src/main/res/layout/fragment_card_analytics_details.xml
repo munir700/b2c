@@ -30,7 +30,7 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal_large"
-            app:fullName="@{viewModel.state.title==null?` `:viewModel.state.title}"
+            app:fullName="@{viewModel.state.title==null?`General`:viewModel.state.title}"
             app:imageUrl="@{viewModel.state.ImageUrl == null ? ` ` : viewModel.state.ImageUrl}"
             app:isBackground="@{true}"
             app:showFirstInitials="@{true}"

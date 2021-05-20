@@ -15,6 +15,7 @@ interface ICardAnalyticsDetails {
         fun handleOnClickEvent(id: Int)
         val adapter: TransactionsListingAdapter
         var transactionResponse: TransactionAnalyticsDetailsResponse
+        var yapCategoryId: ObservableField<ArrayList<Any>>
         fun fetchMerchantTransactions(merchantType: String, currentDate: String)
     }
 
@@ -28,6 +29,6 @@ interface ICardAnalyticsDetails {
         var ImageUrl: ObservableField<String>
         var position: Int
         var percentCardVisibility: Boolean
-        var categories: ArrayList<String>?
+        var categories: ObservableField<ArrayList<Any>>
     }
 }
