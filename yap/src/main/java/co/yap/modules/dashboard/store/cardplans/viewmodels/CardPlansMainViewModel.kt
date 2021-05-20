@@ -43,7 +43,7 @@ class CardPlansMainViewModel(application: Application) :
             CardPlans(id = Constants.METAL_CARD_PLAN,
                 title = "Metal Card",
                 type = "Metal",
-                description = "Subscribe to metal starting at AED 50/month and choose a metal card that comes packed with benefits.",
+                description = "Subscribe to metal starting at AED 60/month and choose a metal card that comes packed with benefits.",
                 resource = R.drawable.image_spare_card,
                 cardIcon = R.drawable.ic_metal_card_small
             )
