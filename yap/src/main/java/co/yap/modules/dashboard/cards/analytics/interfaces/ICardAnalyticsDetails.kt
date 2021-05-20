@@ -17,6 +17,7 @@ interface ICardAnalyticsDetails {
         var transactionResponse: TransactionAnalyticsDetailsResponse
         var yapCategoryId: ObservableField<ArrayList<Any>>
         fun fetchMerchantTransactions(merchantType: String, currentDate: String)
+        fun getConcatinatedString(count: Int): String
     }
 
     interface State : IBase.State {

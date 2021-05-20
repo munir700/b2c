@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
@@ -18,6 +19,7 @@ interface ICardAnalytics {
         fun fetchCardMerchantAnalytics(currentMonth: String)
         fun handlePressOnView(id: Int)
         fun isDataAvailableForSelectedMonth(tab : Int): Boolean
+        var type : ObservableField<String>
     }
 
     interface State : IBase.State {

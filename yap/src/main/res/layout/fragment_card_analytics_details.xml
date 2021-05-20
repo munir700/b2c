@@ -16,6 +16,9 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
+        <variable
+            name="constant"
+            type="co.yap.yapcore.constants.Constants"/>
 
     </data>
 
@@ -30,11 +33,7 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal_large"
-            app:fullName="@{viewModel.state.title==null?`General`:viewModel.state.title}"
-            app:imageUrl="@{viewModel.state.ImageUrl == null ? ` ` : viewModel.state.ImageUrl}"
-            app:isBackground="@{true}"
-            app:showFirstInitials="@{true}"
-            app:position="@{viewModel.state.position}"
+            android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)?@dimen/margin_zero_dp:@dimen/margin_normal}"
             tools:src="@drawable/ic_access_alarm" />
 
         <androidx.appcompat.widget.AppCompatTextView

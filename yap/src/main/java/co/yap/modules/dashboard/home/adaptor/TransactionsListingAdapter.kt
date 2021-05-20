@@ -16,6 +16,7 @@ import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
@@ -77,7 +78,14 @@ class TransactionsListingAdapter(
                 )
             itemAnalyticsTransactionListBinding.dividerBottom.visibility =
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) View.VISIBLE else View.GONE
-            itemAnalyticsTransactionListBinding.tvCurrency.alpha = if (type == TransactionAdapterType.TOTAL_PURCHASE) 0.5f else 1f
+            itemAnalyticsTransactionListBinding.tvCurrency.alpha =
+                if (type == TransactionAdapterType.TOTAL_PURCHASE) 0.5f else 1f
+            itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
+                analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: "",
+                analyticsItemImgUrl ?: transaction.merchantLogo ?: "",
+                position, type = Constants.MERCHANT_TYPE
+
+            )
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
