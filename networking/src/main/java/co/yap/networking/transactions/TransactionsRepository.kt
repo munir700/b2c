@@ -86,7 +86,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     // Bill payment
     const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
     const val URL_GET_BILL_PAYMENTS_ANALYTICS =
-            "/transactions/api/"
+        "/transactions/api/billpayment/fetch-bill-history-chart/{date}"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -332,7 +332,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 api.payBill(payBillRequest)
             })
 
-    override suspend fun getBPAnalytics(date: String): RetroApiResponse<BPAnalyticsResponseDTO> =
+    override suspend fun getBPAnalytics(date: String?): RetroApiResponse<BPAnalyticsResponseDTO> =
             executeSafely(call = {
                 api.getBPAnalytics(date)
             })

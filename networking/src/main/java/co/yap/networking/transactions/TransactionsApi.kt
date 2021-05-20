@@ -105,5 +105,5 @@ interface TransactionsApi {
 
     //Pay bill from bill payment
     suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>
-    suspend fun getBPAnalytics(date: String): RetroApiResponse<BPAnalyticsResponseDTO>
+    suspend fun getBPAnalytics(date: String?): RetroApiResponse<BPAnalyticsResponseDTO>
 }

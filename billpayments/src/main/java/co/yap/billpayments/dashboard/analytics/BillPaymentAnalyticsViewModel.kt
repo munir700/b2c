@@ -3,13 +3,13 @@ package co.yap.billpayments.dashboard.analytics
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
+import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.dashboard.analytics.adapter.BPAnalyticsAdapter
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.widgets.pieview.PieEntry
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
 import co.yap.yapcore.helpers.DateUtils
@@ -23,7 +23,7 @@ import kotlinx.coroutines.delay
 import java.util.*
 
 class BillPaymentAnalyticsViewModel(application: Application) :
-    BaseViewModel<IBillPaymentAnalytics.State>(application),
+    BillDashboardBaseViewModel<IBillPaymentAnalytics.State>(application),
     IBillPaymentAnalytics.ViewModel, IRepositoryHolder<TransactionsRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: BillPaymentAnalyticsState = BillPaymentAnalyticsState()
@@ -42,10 +42,10 @@ class BillPaymentAnalyticsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        initCurrentDate()
+        setToolBarTitle("Analytics")
     }
 
-    private fun initCurrentDate() {
+    override fun initCurrentDate() {
         val startDate = SessionManager.user?.creationDate ?: ""
         val endDate = DateUtils.dateToString(
             Date(),
@@ -55,7 +55,6 @@ class BillPaymentAnalyticsViewModel(application: Application) :
             startDate,
             endDate
         )
-        fetchAnalytics(currentDate)
         setSelectedDate(currentDate)
         state.previousMonth.set(isPreviousIconEnabled(listOfMonths, currentDate))
     }
@@ -84,6 +83,15 @@ class BillPaymentAnalyticsViewModel(application: Application) :
 
     private fun fetchAnalytics(currentDate: Date?) {
         setSelectedDate(currentDate)
+        val dateRequiredByApi =
+            state.displayMonth.get()?.split(" ")?.joinToString(separator = ",") {
+                it
+            }
+        fetchBillCategoryAnalytics(currentMonth = dateRequiredByApi ?: "")
+
+    }
+
+    override fun fetchBillCategoryAnalytics(currentMonth: String) {
         launch {
             state.viewState.value = true
             delay(200)
@@ -93,13 +101,12 @@ class BillPaymentAnalyticsViewModel(application: Application) :
         }
 //        launch(Dispatcher.Background) {
 //            state.viewState.postValue(true)
-//            val response = repository.getBPAnalytics(date = DateUtils.reformatToLocalString(
-//                    currentDate,
-//                    DateUtils.SIMPLE_DATE_FORMAT
-//            ))
+//            val response = repository.getBPAnalytics(dateRequiredByApi)
 //            launch(Dispatcher.Main) {
 //                when (response) {
 //                    is RetroApiResponse.Success -> {
+//                        analyticsData.value = response.data.data
+//                        analyticsAdapter.setList(analyticsData.value ?: arrayListOf())
 //                        state.viewState.value = false
 //                    }
 //                    is RetroApiResponse.Error -> {
@@ -155,9 +162,6 @@ class BillPaymentAnalyticsViewModel(application: Application) :
             } ?: ""
         state.displayMonth.set(displayDate)
         state.selectedMonth = displayDate
-//        parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-//        parentViewModel?.state?.currentSelectedDate =
-//            DateUtils.dateToString(currentDate, DateUtils.SIMPLE_DATE_FORMAT, false)
     }
 
     override fun getEntries(it: List<BPAnalyticsModel>?): ArrayList<PieEntry> {
@@ -173,7 +177,8 @@ class BillPaymentAnalyticsViewModel(application: Application) :
 
         return entries
     }
-    override fun getPieChartColors(it: List<BPAnalyticsModel>): List<Int> {
+    override fun getPieChartColors(it: List<BPAnalyticsModel>?): List<Int> {
+        if(it.isNullOrEmpty()) return emptyList()
         return it.map {
             when (it.categoryType) {
                 BillCategory.CREDIT_CARD.name -> context.getColors(BillCategory.CREDIT_CARD.color)

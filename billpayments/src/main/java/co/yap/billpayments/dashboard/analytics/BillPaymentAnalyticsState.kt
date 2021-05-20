@@ -10,7 +10,7 @@ class BillPaymentAnalyticsState : BaseState(), IBillPaymentAnalytics.State {
 
     override var previousMonth: ObservableBoolean = ObservableBoolean()
     override var nextMonth: ObservableBoolean = ObservableBoolean()
-    override var displayMonth: ObservableField<String> = ObservableField("Love shoow")
+    override var displayMonth: ObservableField<String> = ObservableField()
 
 
     @get:Bindable

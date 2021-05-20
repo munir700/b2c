@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bill_payments_main_navigation"
-    app:startDestination="@id/billsDashboardFragment">
+    app:startDestination="@id/billPaymentAnalyticsFragment">
 
     <fragment
         android:id="@+id/billsDashboardFragment"
@@ -40,5 +40,14 @@
         android:id="@+id/billPaymentAnalyticsFragment"
         tools:layout="@layout/fragment_bill_payments_analytics"
         android:name="co.yap.billpayments.dashboard.analytics.BillPaymentAnalyticsFragment"
-        android:label="BillPaymentAnalyticsFragment" />
+        android:label="BillPaymentAnalyticsFragment" >
+        <action
+            android:id="@+id/action_billPaymentAnalyticsFragment_to_BPAnalyticsDetailFragment"
+            app:destination="@id/BPAnalyticsDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/BPAnalyticsDetailFragment"
+        android:name="co.yap.billpayments.dashboard.analytics.detail.BPAnalyticsDetailFragment"
+        tools:layout="@layout/fragment_bp_analytics_details"
+        android:label="BPAnalyticsDetailFragment" />
 </navigation>

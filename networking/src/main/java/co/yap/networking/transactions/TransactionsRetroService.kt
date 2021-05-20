@@ -244,7 +244,7 @@ interface TransactionsRetroService {
     //Get analytics for bill payments name
     @GET(TransactionsRepository.URL_GET_BILL_PAYMENTS_ANALYTICS)
     suspend fun getBPAnalytics(
-            @Query("date") date: String?
+        @Path("date") date: String?
     ): Response<BPAnalyticsResponseDTO>
 
 }

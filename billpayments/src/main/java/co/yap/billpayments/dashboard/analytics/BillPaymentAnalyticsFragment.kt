@@ -2,21 +2,25 @@ package co.yap.billpayments.dashboard.analytics
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.billpayments.databinding.FragmentBillPaymentsAnalyticsBinding
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
 import co.yap.widgets.pieview.Entry
 import co.yap.widgets.pieview.Highlight
 import co.yap.widgets.pieview.OnChartValueSelectedListener
-import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
 import co.yap.yapcore.helpers.extentions.initPieChart
 import co.yap.yapcore.interfaces.OnItemClickListener
+import java.util.*
 
-class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.ViewModel>(),
-        IBillPaymentAnalytics.View, OnChartValueSelectedListener {
+class BillPaymentAnalyticsFragment : BillDashboardBaseFragment<IBillPaymentAnalytics.ViewModel>(),
+    IBillPaymentAnalytics.View, OnChartValueSelectedListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_bill_payments_analytics
     private val billPaymentAnalyticsViewModel: BillPaymentAnalyticsViewModel by viewModels()
@@ -25,7 +29,19 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.initCurrentDate()
+        val currDate = DateUtils.dateToString(
+            Calendar.getInstance().time, FORMAT_MON_YEAR, DateUtils.TIME_ZONE_Default
+        )
+        viewModel.fetchBillCategoryAnalytics(
+            currDate.split(" ").joinToString(separator = ",") { it }
+        )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setObservers()
+
     }
 
     override fun setObservers() {
@@ -35,26 +51,32 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
         viewModel.analyticsData.observe(this, Observer {
             setupPieChart(it)
             if (!it.isNullOrEmpty())
-                viewModel.setSelectedItemState(it.first(),  0)
+                viewModel.setSelectedItemState(it.first(), 0)
+
         })
     }
 
-    private fun setupPieChart(list: List<BPAnalyticsModel>) {
+    private fun setupPieChart(list: List<BPAnalyticsModel>?) {
         val entries = viewModel.getEntries(list)
         val colors = viewModel.getPieChartColors(list)
         getBinding().chart1.initPieChart(
-                entries = entries,
-                graphColors = colors,
-                isEmptyList = list.isNullOrEmpty(),
-                listener = this
+            entries = entries,
+            graphColors = colors,
+            isEmptyList = list.isNullOrEmpty(),
+            listener = this
         )
     }
 
     private val itemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            showPieView(pos)
             if (data is BPAnalyticsModel) {
-                viewModel.setSelectedItemState(model = data, currentPosition = pos)
+                navigate(
+                    R.id.action_billPaymentAnalyticsFragment_to_BPAnalyticsDetailFragment,
+                    bundleOf(
+                        "analyticsModel" to data,
+                        "monthYear" to viewModel.state.displayMonth.get()
+                    )
+                )
             }
         }
     }
@@ -62,24 +84,6 @@ class BillPaymentAnalyticsFragment : BaseBindingFragment<IBillPaymentAnalytics.V
     private val clickListener = Observer<Int> {
         when (it) {
 
-        }
-    }
-
-
-    private fun showPieView(indexValue: Int) {
-        when (indexValue) {
-            0 -> {
-                getBinding().chart1.highlightValue(0f, 0, true)
-            }
-            1 -> {
-                getBinding().chart1.highlightValue(1f, 0, true)
-            }
-            2 -> {
-                getBinding().chart1.highlightValue(2f, 0, true)
-            }
-            3 -> {
-                getBinding().chart1.highlightValue(3f, 0, true)
-            }
         }
     }
 

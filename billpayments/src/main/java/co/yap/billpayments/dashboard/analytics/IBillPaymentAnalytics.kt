@@ -28,7 +28,9 @@ interface IBillPaymentAnalytics {
             model: BPAnalyticsModel,
             currentPosition: Int
         )
-        fun getPieChartColors(it: List<BPAnalyticsModel>): List<Int>
+        fun getPieChartColors(it: List<BPAnalyticsModel>?): List<Int>
+        fun initCurrentDate()
+        fun fetchBillCategoryAnalytics(currentMonth: String)
     }
 
     interface State : IBase.State {
