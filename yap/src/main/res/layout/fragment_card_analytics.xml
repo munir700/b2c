@@ -70,7 +70,7 @@
                                 android:layout_width="@dimen/_35sdp"
                                 android:layout_height="@dimen/_35sdp"
                                 android:contentDescription="@string/empty_string"
-                                android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)?@dimen/margin_zero_dp:@dimen/margin_small}" />
+                                android:padding="@{viewModel.type == `merchant-category-id`?@dimen/margin_small:@dimen/margin_zero_dp}" />
 
                             <TextView
                                 android:id="@+id/tvPieViewTitle"

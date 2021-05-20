@@ -75,7 +75,7 @@ fun CoreCircularImageView?.setCircularDrawable(
                 url,
                 title,
                 position,
-                showBackground,
+                false,
                 showInitials
             )
         }

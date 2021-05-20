@@ -138,6 +138,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.highlightValue(0f, -1)
 
         chart.invalidate()
+        setPieChartIcon()
     }
 
 
@@ -163,7 +164,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.parentViewModel?.selectedItemPosition?.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
-                    Constants.MERCHANT_TYPE = "merchant-category-id"
+                    viewModel.type.set("merchant-category-id")
                     viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
                         updatePieChartInnerData(list[it])
                         setState(list[it])
@@ -172,7 +173,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
-                    Constants.MERCHANT_TYPE = "merchant-name"
+                    viewModel.type.set("merchant-name")
                     viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value?.let { list ->
                         updatePieChartInnerData(list[it])
                         setState(list[it])
@@ -294,7 +295,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-
         val selectedItem = getBindingView().tabLayout.selectedTabPosition
         h?.let { highlight ->
             setSelectedTabData(selectedItem, highlight.x.toInt())
@@ -305,7 +305,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setSelectedTabData(TabPosition: Int, contentPos: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
-                Constants.MERCHANT_TYPE = "merchant-category-id"
+                viewModel.type.set("merchant-category-id")
                 trackEventWithScreenName(FirebaseEvent.CLICK_CATEGORY_VIEW)
                 if (!viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
@@ -317,7 +317,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
             MERCHANT_ANALYTICS -> {
-                Constants.MERCHANT_TYPE = "merchant-name"
+                viewModel.type.set("merchant-name")
                 trackEventWithScreenName(FirebaseEvent.CLICK_MERCHANT_VIEW)
                 if (!viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
@@ -330,12 +330,13 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             }
         }
         viewModel.state.selectedItemPosition = contentPos
+        setPieChartIcon()
     }
 
     private fun setupPieChart(TabPosition: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
-                Constants.MERCHANT_TYPE = "merchant-category-id"
+                viewModel.type.set("merchant-category-id")
                 setPieView(viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value)
                 viewModel.state.totalSpent = viewModel.state.totalCategorySpent
                 getBindingView().tvMonthlyAverage.text = requireContext().resources.getText(
@@ -346,10 +347,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                             .toFormattedCurrency(true)
                     )
                 )
-                setPieChartIcon()
             }
             MERCHANT_ANALYTICS -> {
-                Constants.MERCHANT_TYPE = "merchant-name"
+                viewModel.type.set("merchant-name")
                 setPieView(viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value)
                 viewModel.state.totalSpent = viewModel.state.totalMerchantSpent
                 getBindingView().tvMonthlyAverage.text = requireContext().resources.getText(
@@ -360,7 +360,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                             .toFormattedCurrency(true)
                     )
                 )
-                setPieChartIcon()
             }
         }
     }
@@ -381,7 +380,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             title = viewModel.state.selectedTxnAnalyticsItem?.title ?: "",
             url = viewModel.state.selectedTxnAnalyticsItem?.logoUrl ?: "",
             position = viewModel.state.selectedItemPosition,
-            type = Constants.MERCHANT_TYPE
+            type = viewModel.type.get()?:"merchant-name"
         )
     }
 }
