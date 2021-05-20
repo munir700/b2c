@@ -83,8 +83,8 @@ android {
         }
 
         qa {
-            versionCode 110
-            versionName "1.1.0"
+            versionCode 111
+            versionName "1.1.1"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP QA"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
