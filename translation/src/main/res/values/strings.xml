@@ -338,7 +338,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_cards_display_text_tour_add_card_heading">Add card</string>
     <string name="screen_cards_display_text_tour_add_card_description">Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!</string>
     <string name="screen_cards_display_text_tour_add_card_btn_text">OK</string>
-
+    <string name="screen_cards_display_text_card_balance">Card balance</string>
 
     <!-- Spare Card Landing Screen -->
 

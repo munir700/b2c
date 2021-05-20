@@ -83,10 +83,36 @@
             android:gravity="center"
             android:maxLines="2"
             android:text="@{viewModel.cardName}"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
             app:layout_constraintTop_toBottomOf="@+id/imgCard"
             tools:text="Rose Gold Premium card" />
+
+        <TextView
+            android:id="@+id/tvCardBalanceTitle"
+            style="@style/MicroGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:ellipsize="end"
+            android:gravity="center"
+            app:text="@{Strings.screen_cards_display_text_card_balance}"
+            app:layout_constraintEnd_toEndOf="@+id/imgCard"
+            app:layout_constraintStart_toStartOf="@+id/imgCard"
+            app:layout_constraintTop_toBottomOf="@+id/imgCard" />
+
+        <TextView
+            android:id="@+id/tvCardBalance"
+            style="@style/LabelTextStylInActive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="AED 1,000.00"
+            app:layout_constraintEnd_toEndOf="@+id/imgCard"
+            app:layout_constraintStart_toStartOf="@+id/imgCard"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardBalanceTitle" />
 
         <LinearLayout
             android:id="@+id/layoutStatusSection"
@@ -96,9 +122,9 @@
             android:gravity="center"
             android:orientation="vertical"
             app:cardStatus="@{viewModel.paymentCard}"
-            app:layout_constraintEnd_toEndOf="@+id/tvCardName"
-            app:layout_constraintStart_toStartOf="@+id/tvCardName"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardBalance"
+            app:layout_constraintStart_toStartOf="@+id/tvCardBalance"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardBalance"
             tools:visibility="visible">
 
             <TextView
@@ -134,9 +160,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_18sdp"
-            app:layout_constraintEnd_toEndOf="@+id/tvCardName"
-            app:layout_constraintStart_toStartOf="@+id/tvCardName"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardBalance"
+            app:layout_constraintStart_toStartOf="@+id/tvCardBalance"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardBalance"
             app:viewModel="@{viewModel}" />
 
         <LinearLayout
