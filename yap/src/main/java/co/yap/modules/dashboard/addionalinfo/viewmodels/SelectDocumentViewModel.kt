@@ -39,21 +39,31 @@ class SelectDocumentViewModel(application: Application) :
         setEnabled(uploadAdditionalDocumentAdapter.getDataList()) {
             setSubTitle(it)
         }
+        if (parentViewModel?.stepCount?.value == 2) {
+            parentViewModel?.state?.buttonTitle?.set(getString(Strings.screen_add_beneficiary_button_next))
+        } else {
+            parentViewModel?.state?.buttonTitle?.set(getString(Strings.common_button_submit))
+        }
     }
 
 
-    override fun uploadDocument(file: File, documentType: String, success: () -> Unit) {
+    override fun uploadDocument(
+        file: File,
+        documentType: String,
+        contentType: String?,
+        success: (Boolean) -> Unit
+    ) {
 
         launch {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                 Compressor.compress(context, file) {
-                    upload(file, documentType) {
-                        success()
+                    upload(file, documentType, contentType = contentType) { isUploadSuccessfully ->
+                        success(isUploadSuccessfully)
                     }
                 }
             } else {
-                upload(file, documentType) {
-                    success()
+                upload(file, documentType, contentType = contentType) { isUploadSuccessfully ->
+                    success(isUploadSuccessfully)
                 }
             }
         }
@@ -65,30 +75,34 @@ class SelectDocumentViewModel(application: Application) :
         isUploaded.invoke(list.isEmpty())
     }
 
-    private fun upload(file: File, documentType: String, success: () -> Unit) {
+    private fun upload(
+        file: File,
+        documentType: String,
+        contentType: String? = null,
+        success: (Boolean) -> Unit
+    ) {
         launch {
             if (file.sizeInMb() < 25) {
                 state.loading = true
                 when (val response = repository.uploadAdditionalDocuments(
                     UploadAdditionalInfo(
                         files = file,
-                        documentType = documentType
+                        documentType = documentType, contentType = contentType
                     )
                 )) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-                        file.deleteRecursively()
-                        success()
+                        success(true)
                     }
                     is RetroApiResponse.Error -> {
                         showToast(response.error.message)
                         state.loading = false
-                        file.deleteRecursively()
+                        success(false)
                     }
                 }
             } else {
-                showToast("File size not supported")
-                file.deleteRecursively()
+                showToast("Your file size is too big. Please upload a file less than 25MB to proceed")
+                success(false)
             }
         }
 
@@ -112,13 +126,15 @@ class SelectDocumentViewModel(application: Application) :
             BottomSheetItem(
                 icon = R.drawable.ic_camera,
                 title = getString(Strings.screen_update_profile_photo_display_text_open_camera),
+                subTitle = getString(Strings.screen_upload_documents_display_sheet_text_scan_single_document),
                 tag = PhotoSelectionType.CAMERA.name
             )
         )
         list.add(
             BottomSheetItem(
-                icon = R.drawable.ic_choose_photo,
-                title = getString(Strings.screen_update_profile_photo_display_text_choose_photo),
+                icon = R.drawable.ic_file_manager,
+                title = getString(Strings.screen_upload_documents_display_sheet_text_upload_from_files),
+                subTitle = getString(Strings.screen_upload_documents_display_sheet_text_upload_from_files_descriptions),
                 tag = PhotoSelectionType.GALLERY.name
             )
         )

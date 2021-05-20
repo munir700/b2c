@@ -120,7 +120,6 @@ class SMHomeCountryViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-//            coroutineScope {
             val deferredUpdateCountryResponse = launchAsync {
                 repository.updateHomeCountry(
                     homeCountry = homeCountry?.isoCountryCode2Digit ?: ""
@@ -143,7 +142,6 @@ class SMHomeCountryViewModel(application: Application) :
                     state.viewState.postValue(false)
                 }
             }
-//            }
         }
     }
 
