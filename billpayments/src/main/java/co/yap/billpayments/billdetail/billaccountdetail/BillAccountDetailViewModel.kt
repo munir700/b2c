@@ -4,20 +4,25 @@ import android.app.Application
 import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryAdapter
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryModel
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.billpayment.BillHistory
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
-import co.yap.yapcore.managers.SessionManager
 
 class BillAccountDetailViewModel(application: Application) :
     BillDetailBaseViewModel<IBillAccountDetail.State>(application),
-    IBillAccountDetail.ViewModel {
+    IBillAccountDetail.ViewModel, IRepositoryHolder<TransactionsRepository> {
+
+    override val repository: TransactionsRepository = TransactionsRepository
     override val state: IBillAccountDetail.State = BillAccountDetailState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var billAccountHistoryModel: BillAccountHistoryModel? = null
+    override var billHistory: BillHistory? = null
     override var adapter: BillHistoryAdapter = BillHistoryAdapter(mutableListOf())
     override var singleClickEvent: SingleClickEvent = SingleClickEvent()
 
@@ -65,10 +70,21 @@ class BillAccountDetailViewModel(application: Application) :
     override fun getBillAccountHistory() {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
+            val response =
+                repository.fetchCustomerBillHistory(parentViewModel?.selectedBill?.customerUUID.toString())
             launch {
-                billAccountHistoryModel = getData()
-                adapter.setList(getBillHistory())
-                state.viewState.value = false
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        billHistory = response.data.billHistory
+                        adapter.setList(getBillHistory())
+
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        showToast(response.error.message)
+                    }
+                }
             }
         }
     }
@@ -78,30 +94,30 @@ class BillAccountDetailViewModel(application: Application) :
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_last_payment),
                 value = DateUtils.reformatStringDate(
-                    billAccountHistoryModel?.lastPaymentMonth.toString(),
+                    billHistory?.lastPayment?.month.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
                     DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.lastPaymentAmount
+                ) + ":" + billHistory?.currency + " " + billHistory?.lastPayment?.billAmount
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_total_payment),
-                value = SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.totalPayment.toString()
+                value = billHistory?.currency + " " + billHistory?.totalPaidAmount.toString()
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_highest_month),
                 value = DateUtils.reformatStringDate(
-                    billAccountHistoryModel?.highestMonth.toString(),
+                    billHistory?.highestPayment?.month.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
                     DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.highestAmount
+                ) + ":" + billHistory?.currency + " " + billHistory?.highestPayment?.billAmount.toString()
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_lowest_month),
                 value = DateUtils.reformatStringDate(
-                    billAccountHistoryModel?.lowestMonth.toString(),
+                    billHistory?.lowestPayment?.month.toString(),
                     DateUtils.SERVER_DATE_FULL_FORMAT,
                     DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + SessionManager.getDefaultCurrency() + " " + billAccountHistoryModel?.lowestAmount
+                ) + ":" + billHistory?.currency + " " + billHistory?.lowestPayment?.billAmount.toString()
             )
         )
     }
