@@ -84,10 +84,10 @@ interface TransactionsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTransactionsOfMerchant(
-        yapCategoryId : Int?,
         merchantType: String,
         cardSerialNo: String?,
-        date: String?, merchantName: ArrayList<String>?
+        date: String?, merchantName: ArrayList<Any>?
+
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
 
     suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
@@ -106,7 +106,11 @@ interface TransactionsApi {
     suspend fun getTotalPurchases(
         totalPurchaseRequest: TotalPurchaseRequest
     ): RetroApiResponse<TotalPurchasesResponse>
+
     suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse>
-    suspend fun updateTransactionCategory(categoryId : String, transactionId : String): RetroApiResponse<ApiResponse>
+    suspend fun updateTransactionCategory(
+        categoryId: String,
+        transactionId: String
+    ): RetroApiResponse<ApiResponse>
 
 }

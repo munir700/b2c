@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.*
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
+import retrofit2.http.Body
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -279,20 +280,17 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         })
 
     override suspend fun getTransactionsOfMerchant(
-        yapCategoryId: Int?,
         merchantType: String,
         cardSerialNo: String?,
         date: String?,
-        merchantName: ArrayList<String>?
+        merchantName: ArrayList<Any>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO> =
         executeSafely(call = {
             api.getTransactionsOfMerchant(
                 merchantType,
                 cardSerialNo,
-                yapCategoryId,
                 date,
-                merchantName
-            )
+                merchantName)
         })
 
     override suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum> =
