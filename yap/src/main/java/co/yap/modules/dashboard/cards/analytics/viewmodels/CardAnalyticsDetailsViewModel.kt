@@ -11,6 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.TransactionAnalyticsDetailsResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.TransactionAdapterType
@@ -85,5 +86,13 @@ class CardAnalyticsDetailsViewModel(application: Application) :
         }
         }
         }
+    }
+    override fun getConcatinatedString(count: Int): String {
+        var concatenatedString = ""
+        var date = parentViewModel?.state?.currentSelectedMonth ?: ""
+        if (date.contains(",")) date = date.replace(",", "")
+        concatenatedString =
+            "$date ・ $count ${getString(Strings.screen_yap_analytics_detail_transaction_count)}"
+        return concatenatedString
     }
 }

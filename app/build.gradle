@@ -70,8 +70,8 @@ android {
         }
 
         yapinternal {
-            versionCode 122
-            versionName "0.12.2"
+            versionCode 124
+            versionName "0.12.4"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP" +
                     " Mock"

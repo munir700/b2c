@@ -5,11 +5,14 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.ScrollView
 import androidx.annotation.LayoutRes
+import co.yap.widgets.CoreCircularImageView
+import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.ImageBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import kotlinx.android.synthetic.main.fragment_tax_info.view.*
 
 fun CollapsingToolbarLayout.enableScroll(@AppBarLayout.LayoutParams.ScrollFlags flags: Int = (AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED)) {
     val params = this.layoutParams as AppBarLayout.LayoutParams
@@ -22,11 +25,12 @@ fun CollapsingToolbarLayout.disableScroll() {
     params.scrollFlags = 0
     this.layoutParams = params
 }
+
 fun ScrollView.scrollToBottomWithoutFocusChange() { // Kotlin extension to scrollView
     val lastChild = getChildAt(childCount - 1)
     val bottom = lastChild.bottom + paddingBottom
     val delta = bottom - (scrollY + height)
-    post{
+    post {
         smoothScrollBy(0, delta)
     }
 }
@@ -44,5 +48,36 @@ fun ChipGroup.generateChipViews(@LayoutRes itemView: Int, list: List<String>) {
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
         chip.text = categoryName
         this.addView(chip)
+    }
+}
+
+fun CoreCircularImageView?.setCircularDrawable(
+    title: String,
+    url: String,
+    position: Int,
+    showBackground: Boolean = true,
+    showInitials: Boolean = true,
+    type : String = "merchant-category-id"
+) {
+    this?.let { image ->
+        if (type == "merchant-category-id") {
+            ImageBinding.loadCategoryAvatar(
+                image,
+                url,
+                title,
+                position,
+                showBackground,
+                showInitials
+            )
+        } else {
+            ImageBinding.loadAnalyticsAvatar(
+                image,
+                url,
+                title,
+                position,
+                showBackground,
+                showInitials
+            )
+        }
     }
 }

@@ -1,6 +1,10 @@
 package co.yap.yapcore.helpers
 
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
@@ -29,7 +33,11 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
+import com.liveperson.infra.utils.Utils.getResources
+
 
 object ImageBinding {
     @JvmStatic
@@ -138,7 +146,7 @@ object ImageBinding {
             builder.buildRect(
                 Utils.shortName(fullName ?: ""),
                 ColorUtils.setAlphaComponent(colorCode ?: -1, 25)
-            ),System.currentTimeMillis().toString()
+            ), System.currentTimeMillis().toString()
         )
     }
 
@@ -525,6 +533,7 @@ object ImageBinding {
             }
         }
     }
+
     @JvmStatic
     @BindingAdapter(
         value = ["imageUrl", "fullName", "position", "isBackground", "showFirstInitials", "imageDrawable"],
@@ -572,5 +581,85 @@ object ImageBinding {
                 position
             )
         }
+    }
+
+/*
+   New Binding Adapter for Analytics Categories it displays icons from api response along with circular background
+*/
+    @JvmStatic
+    @BindingAdapter(
+        value = ["imageLogo", "categoryTitle", "position", "isBackground", "showFirstInitials"],
+        requireAll = false
+    )
+    fun loadCategoryAvatar(
+        imageView: ImageView,
+        imageLogo: String?,
+        categoryTitle: String?,
+        position: Int,
+        isBackground: Boolean = true,
+        showFirstInitials: Boolean = false
+    ) {
+        if (categoryTitle.isNullOrEmpty()) return
+        val fName = categoryTitle ?: ""
+
+        if (!imageLogo.isNullOrEmpty()) {
+            Glide.with(imageView)
+                .asBitmap()
+                .load(imageLogo)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+
+                        val bitmapResult: Bitmap = getTintBitmap(imageView, resource, position)
+                        val resImg = BitmapDrawable(
+                            getResources(),
+                            if (isBackground) bitmapResult else resource
+                        )
+                        setCategoryDrawable(imageView, resImg, position)
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+                })
+        } else {
+            setDrawable(
+                imageView,
+                imageLogo,
+                if (showFirstInitials) fName.split(" ")[0] else fName,
+                position
+            )
+        }
+    }
+
+    private fun setCategoryDrawable(imageView: ImageView, resImg: BitmapDrawable, position: Int) {
+        imageView.setImageDrawable(resImg)
+        val oval = ShapeDrawable(OvalShape())
+        oval.intrinsicHeight = 40
+        oval.intrinsicWidth = 40
+        oval.paint.color = Utils.getBackgroundColorForAnalytics(
+            imageView.context,
+            position = position
+        )
+        imageView.background = oval
+    }
+
+    private fun getTintBitmap(imageView: ImageView, resource: Bitmap, position: Int): Bitmap {
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
+        val paint = Paint()
+        paint.colorFilter = PorterDuffColorFilter(
+            getAnalyticsColor(
+                colors,
+                position
+            ), PorterDuff.Mode.SRC_IN
+        )
+        val bitmapResult = Bitmap.createBitmap(
+            resource.getWidth(),
+            resource.getHeight(),
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmapResult)
+        canvas.drawBitmap(resource, 0f, 0f, paint)
+        return bitmapResult
     }
 }

@@ -23,6 +23,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -66,6 +67,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setupBindings() {
         getBindingView().rlDetails.setOnClickListener { }
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
+        setPieChartIcon()
     }
 
     /*
@@ -150,14 +152,18 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
             setupPieChart(selectedTabPos)
             setSelectedTabData(selectedTabPos, 0)
-            viewModel.parentViewModel?.state?.isNoDataFound?.set(viewModel.isDataAvailableForSelectedMonth(
-                1))
+            viewModel.parentViewModel?.state?.isNoDataFound?.set(
+                viewModel.isDataAvailableForSelectedMonth(
+                    1
+                )
+            )
 
         })
 
         viewModel.parentViewModel?.selectedItemPosition?.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
+                    Constants.MERCHANT_TYPE = "merchant-category-id"
                     viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
                         updatePieChartInnerData(list[it])
                         setState(list[it])
@@ -166,6 +172,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
+                    Constants.MERCHANT_TYPE = "merchant-name"
                     viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value?.let { list ->
                         updatePieChartInnerData(list[it])
                         setState(list[it])
@@ -173,8 +180,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     viewModel.state.selectedItemPosition = it
                     showPieView(it)
                 }
+
             }
-        })
+        }
+        )
         viewModel.parentViewModel
     }
 
@@ -218,6 +227,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             }
         }
     }
+
     private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabReselected(tab: TabLayout.Tab?) {}
 
@@ -227,12 +237,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             tab?.let { tabs ->
                 setSelectedTabData(tabs.position, 0)
                 setupPieChart(tabs.position)
-                viewModel.parentViewModel?.state?.isNoDataFound?.set(viewModel.isDataAvailableForSelectedMonth(
-                    tab.position))
+                viewModel.parentViewModel?.state?.isNoDataFound?.set(
+                    viewModel.isDataAvailableForSelectedMonth(
+                        tab.position
+                    )
+                )
             }
         }
     }
-
     private fun setupAdaptor() {
         val adaptor = CardAnalyticsLandingAdaptor(this)
         getBindingView().viewPager.adapter = adaptor
@@ -293,6 +305,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setSelectedTabData(TabPosition: Int, contentPos: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
+                Constants.MERCHANT_TYPE = "merchant-category-id"
                 trackEventWithScreenName(FirebaseEvent.CLICK_CATEGORY_VIEW)
                 if (!viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
@@ -304,6 +317,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
             MERCHANT_ANALYTICS -> {
+                Constants.MERCHANT_TYPE = "merchant-name"
                 trackEventWithScreenName(FirebaseEvent.CLICK_MERCHANT_VIEW)
                 if (!viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
@@ -321,6 +335,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setupPieChart(TabPosition: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
+                Constants.MERCHANT_TYPE = "merchant-category-id"
                 setPieView(viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value)
                 viewModel.state.totalSpent = viewModel.state.totalCategorySpent
                 getBindingView().tvMonthlyAverage.text = requireContext().resources.getText(
@@ -331,8 +346,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                             .toFormattedCurrency(true)
                     )
                 )
+                setPieChartIcon()
             }
             MERCHANT_ANALYTICS -> {
+                Constants.MERCHANT_TYPE = "merchant-name"
                 setPieView(viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value)
                 viewModel.state.totalSpent = viewModel.state.totalMerchantSpent
                 getBindingView().tvMonthlyAverage.text = requireContext().resources.getText(
@@ -343,6 +360,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                             .toFormattedCurrency(true)
                     )
                 )
+                setPieChartIcon()
             }
         }
     }
@@ -356,5 +374,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.removeObservers(this)
         viewModel.clickEvent.removeObservers(this)
         viewModel.parentViewModel?.selectedItemPosition?.removeObservers(this)
+    }
+
+    private fun setPieChartIcon() {
+        getBindingView().ivPieView.setCircularDrawable(
+            title = viewModel.state.selectedTxnAnalyticsItem?.title ?: "",
+            url = viewModel.state.selectedTxnAnalyticsItem?.logoUrl ?: "",
+            position = viewModel.state.selectedItemPosition,
+            type = Constants.MERCHANT_TYPE
+        )
     }
 }
