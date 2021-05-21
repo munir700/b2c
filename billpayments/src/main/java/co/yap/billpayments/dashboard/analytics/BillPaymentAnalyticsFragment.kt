@@ -16,6 +16,7 @@ import co.yap.widgets.pieview.OnChartValueSelectedListener
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
 import co.yap.yapcore.helpers.extentions.initPieChart
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import java.util.*
 
@@ -41,18 +42,25 @@ class BillPaymentAnalyticsFragment : BillDashboardBaseFragment<IBillPaymentAnaly
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
-
     }
 
     override fun setObservers() {
         viewModel.analyticsAdapter.allowFullItemClickListener = true
         viewModel.analyticsAdapter.onItemClickListener = itemClickListener
         viewModel.clickEvent.observe(this, clickListener)
-        viewModel.analyticsData.observe(this, Observer {
+        viewModel.analyticsData.observe(this.viewLifecycleOwner, Observer {
             setupPieChart(it)
-            if (!it.isNullOrEmpty())
-                viewModel.setSelectedItemState(it.first(), 0)
-
+            if (!it.isNullOrEmpty()) {
+                viewModel.state.selectedItemSpentValue =
+                    viewModel.getTotalSpentAmountOnBills(it).toString().toFormattedCurrency(
+                        showCurrency = true,
+                        withComma = true
+                    )
+                viewModel.state.selectedItemName = "Total Bills"
+            } else {
+                viewModel.state.selectedItemSpentValue = ""
+                viewModel.state.selectedItemName = ""
+            }
         })
     }
 
@@ -62,6 +70,7 @@ class BillPaymentAnalyticsFragment : BillDashboardBaseFragment<IBillPaymentAnaly
         getBinding().chart1.initPieChart(
             entries = entries,
             graphColors = colors,
+            shouldHighlightFirstIndex = false,
             isEmptyList = list.isNullOrEmpty(),
             listener = this
         )

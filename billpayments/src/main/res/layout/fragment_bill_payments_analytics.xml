@@ -157,7 +157,6 @@
                         android:layout_marginTop="@dimen/margin_large"
                         android:text="@{viewModel.state.displayMonth}"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.48"
                         app:layout_constraintStart_toStartOf="parent"
                         tools:textColor="@color/colorPrimaryDark"
                         app:layout_constraintTop_toTopOf="parent"

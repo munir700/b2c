@@ -8,10 +8,11 @@ import co.yap.yapcore.R
 
 @SuppressLint("NewApi")
 fun PieChart.initPieChart(
-        entries: ArrayList<PieEntry>,
-        graphColors: List<Int> = resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toList(),
-        isEmptyList: Boolean,
-        listener: OnChartValueSelectedListener
+    entries: ArrayList<PieEntry>,
+    graphColors: List<Int> = resources.getIntArray(R.array.analyticsColors).toList(),
+    isEmptyList: Boolean,
+    shouldHighlightFirstIndex: Boolean = true,
+    listener: OnChartValueSelectedListener
 ) {
     this.setUsePercentValues(false)
     this.description.isEnabled = false
@@ -52,7 +53,7 @@ fun PieChart.initPieChart(
     data.setValueTextSize(11f)
     data.setValueTextColor(Color.WHITE)
     this.data = data
-    if (!isEmptyList)
+    if (shouldHighlightFirstIndex)
         this.highlightValue(0f, 0)
     else
         this.highlightValue(0f, -1)

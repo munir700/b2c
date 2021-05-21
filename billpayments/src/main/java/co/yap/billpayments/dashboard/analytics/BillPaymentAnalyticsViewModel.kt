@@ -6,20 +6,22 @@ import co.yap.billpayments.R
 import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.dashboard.analytics.adapter.BPAnalyticsAdapter
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.widgets.pieview.PieEntry
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.delay
 import java.util.*
 
 class BillPaymentAnalyticsViewModel(application: Application) :
@@ -92,30 +94,31 @@ class BillPaymentAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchBillCategoryAnalytics(currentMonth: String) {
-        launch {
-            state.viewState.value = true
-            delay(200)
-            analyticsData.value = mockAnalytics().data
-            analyticsAdapter.setList(analyticsData.value!!)
-            state.viewState.value = false
-        }
-//        launch(Dispatcher.Background) {
-//            state.viewState.postValue(true)
-//            val response = repository.getBPAnalytics(dateRequiredByApi)
-//            launch(Dispatcher.Main) {
-//                when (response) {
-//                    is RetroApiResponse.Success -> {
-//                        analyticsData.value = response.data.data
-//                        analyticsAdapter.setList(analyticsData.value ?: arrayListOf())
-//                        state.viewState.value = false
-//                    }
-//                    is RetroApiResponse.Error -> {
-//                        state.viewState.value = false
-//                        showToast(response.error.message)
-//                    }
-//                }
-//            }
+//        launch {
+//            state.viewState.value = true
+//            delay(200)
+//            analyticsData.value = mockAnalytics().data
+//            analyticsAdapter.setList(analyticsData.value!!)
+//            state.viewState.value = false
 //        }
+
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.getBPAnalytics(currentMonth)
+            launch(Dispatcher.Main) {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        analyticsData.value = response.data.data
+                        analyticsAdapter.setList(analyticsData.value ?: arrayListOf())
+                        state.viewState.value = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        showToast(response.error.message)
+                    }
+                }
+            }
+        }
     }
 
     private fun mockAnalytics(): BPAnalyticsResponseDTO {
@@ -208,4 +211,8 @@ class BillPaymentAnalyticsViewModel(application: Application) :
             )
         state.selectedItemName = model.categoryName
     }
+
+    override fun getTotalSpentAmountOnBills(it: List<BPAnalyticsModel>?): Double =
+        it?.sumByDouble { it.totalSpending?.parseToDouble() ?: 0.0 }?:0.0
+
 }
