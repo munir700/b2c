@@ -2382,6 +2382,14 @@ object Strings {
     const val screen_single_decline_button_text_back_to_bill_payments: String =
         "screen_single_decline_button_text_back_to_bill_payments"
 
+    //Pay All
+    const val screen_pay_all_toolbar_title: String =
+        "screen_pay_all_toolbar_title"
+    const val screen_pay_all_text_total_payment_for: String =
+        "screen_pay_all_text_total_payment_for"
+    const val screen_pay_all_text_button: String =
+        "screen_pay_all_text_button"
+
     // Pay All Success
     const val screen_pay_all_success_toolbar_title: String =
         "screen_pay_all_success_toolbar_title"

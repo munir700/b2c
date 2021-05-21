@@ -1503,4 +1503,9 @@
     <string name="screen_pay_all_success_button_text">Back to Bill Payments</string>
 
 
+
+    <!-- Pay All Screen-->
+    <string name="screen_pay_all_toolbar_title">Pay all bills</string>
+    <string name="screen_pay_all_text_total_payment_for">Total Payment for</string>
+    <string name="screen_pay_all_text_button">Pay Bills</string>
 </resources>
