@@ -602,7 +602,7 @@ object ImageBinding {
         if (categoryTitle.isNullOrEmpty()) return
         val fName = categoryTitle ?: ""
 
-        if (!imageLogo.isNullOrEmpty()) {
+        if (!imageLogo.isNullOrEmpty() && !imageLogo.equals(" ")) {
             Glide.with(imageView)
                 .asBitmap()
                 .load(imageLogo)
@@ -624,12 +624,24 @@ object ImageBinding {
                     }
                 })
         } else {
-            setDrawable(
-                imageView,
-                imageLogo,
-                if (showFirstInitials) fName.split(" ")[0] else fName,
-                position
+            val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
+            val builder = TextDrawable.builder()
+            builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
+                .height(imageView.context.dimen(R.dimen._40sdp))
+                .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
+                .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
+                .textColor(
+                    getAnalyticsColor(
+                        colors,
+                        position
+                    )
+                )
+            val fallBack = builder.buildRect(
+                Utils.shortName(fName ?: ""),
+                Color.TRANSPARENT
             )
+            imageView.setImageDrawable(fallBack)
+
         }
     }
 

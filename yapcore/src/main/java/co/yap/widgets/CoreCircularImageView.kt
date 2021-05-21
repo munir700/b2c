@@ -76,6 +76,12 @@ class CoreCircularImageView : ImageView {
             invalidate()
         }
 
+    /*  var backgroundColor: Int? = true
+          set(value) {
+              field = value
+              invalidate()
+          }*/
+
     private var circleBackgroundColor: Int
         get() = mCircleBackgroundColor
         set(@ColorInt circleBackgroundColor) {
@@ -87,6 +93,7 @@ class CoreCircularImageView : ImageView {
             mCircleBackgroundPaint.color = circleBackgroundColor
             invalidate()
         }
+
 
     var borderWidth: Int
         get() = mBorderWidth
@@ -341,7 +348,7 @@ class CoreCircularImageView : ImageView {
 
         mCircleBackgroundPaint.style = Paint.Style.FILL
         mCircleBackgroundPaint.isAntiAlias = true
-        mCircleBackgroundPaint.color = mCircleBackgroundColor
+        mCircleBackgroundPaint.color =  mCircleBackgroundColor
 
         mBitmapHeight = mBitmap!!.height
         mBitmapWidth = mBitmap!!.width
@@ -360,7 +367,7 @@ class CoreCircularImageView : ImageView {
         mDrawableRadius = if (cropImage == true) {
             Math.min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f)
         } else {
-            Math.min(mDrawableRect.height()/1.8f, mDrawableRect.width()/1.8f)
+            Math.min(mDrawableRect.height() / 1.3f, mDrawableRect.width() / 1.8f)
         }
 
         applyColorFilter()

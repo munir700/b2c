@@ -23,7 +23,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -31,7 +30,6 @@ import co.yap.yapcore.leanplum.AnalyticsEvents
 import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_card_analytics.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -69,7 +67,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.type.set(Constants.MERCHANT_TYPE)
         getBindingView().rlDetails.setOnClickListener { }
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
-        setPieChartIcon()
+        viewModel.setPieChartIcon(getBindingView().ivPieView)
     }
 
     /*
@@ -140,7 +138,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.highlightValue(0f, -1)
 
         chart.invalidate()
-        setPieChartIcon()
+        viewModel.setPieChartIcon(getBindingView().ivPieView)
     }
 
 
@@ -168,23 +166,26 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 CATEGORY_ANALYTICS -> {
                     Constants.MERCHANT_TYPE = "merchant-category-id"
                     viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
+                        viewModel.state.selectedTxnAnalyticsItem.set(list[it])
                         updatePieChartInnerData(list[it])
                         setState(list[it])
                     }
-                    viewModel.state.selectedItemPosition = it
+                    viewModel.state.selectedItemPosition.set(it)
                     showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
-                    Constants.MERCHANT_TYPE ="merchant-name"
+                    Constants.MERCHANT_TYPE = "merchant-name"
                     viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value?.let { list ->
+                        viewModel.state.selectedTxnAnalyticsItem.set(list[it])
                         updatePieChartInnerData(list[it])
                         setState(list[it])
                     }
-                    viewModel.state.selectedItemPosition = it
+                    viewModel.state.selectedItemPosition.set(it)
                     showPieView(it)
                 }
 
             }
+
         }
         )
         viewModel.type.set(Constants.MERCHANT_TYPE)
@@ -218,6 +219,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.ivPrevious -> {
+                viewModel.setPieChartIcon(getBindingView().ivPieView)
             }
             Constants.CATEGORY_AVERAGE_AMOUNT_VALUE -> {
                 getBindingView().tvMonthlyAverage.text = requireContext().resources.getText(
@@ -240,6 +242,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let { tabs ->
                 setSelectedTabData(tabs.position, 0)
+                viewModel.state.selectedTab.set(tabs.position)
                 setupPieChart(tabs.position)
                 viewModel.parentViewModel?.state?.isNoDataFound?.set(
                     viewModel.isDataAvailableForSelectedMonth(
@@ -249,6 +252,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             }
         }
     }
+
     private fun setupAdaptor() {
         val adaptor = CardAnalyticsLandingAdaptor(this)
         getBindingView().viewPager.adapter = adaptor
@@ -320,7 +324,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
             MERCHANT_ANALYTICS -> {
-                Constants.MERCHANT_TYPE ="merchant-name"
+                Constants.MERCHANT_TYPE = "merchant-name"
                 trackEventWithScreenName(FirebaseEvent.CLICK_MERCHANT_VIEW)
                 if (!viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
@@ -332,9 +336,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
         }
-        viewModel.state.selectedItemPosition = contentPos
+        viewModel.state.selectedItemPosition.set(contentPos)
         viewModel.type.set(Constants.MERCHANT_TYPE)
-        setPieChartIcon()
+        viewModel.setPieChartIcon(getBindingView().ivPieView)
     }
 
     private fun setupPieChart(TabPosition: Int) {
@@ -351,6 +355,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                             .toFormattedCurrency(true)
                     )
                 )
+                viewModel.setPieChartIcon(getBindingView().ivPieView)
             }
             MERCHANT_ANALYTICS -> {
                 viewModel.type.set("merchant-name")
@@ -364,12 +369,13 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                             .toFormattedCurrency(true)
                     )
                 )
+                viewModel.setPieChartIcon(getBindingView().ivPieView)
             }
         }
     }
 
     private fun setState(txnAnalytic: TxnAnalytic?) {
-        viewModel.state.selectedTxnAnalyticsItem = txnAnalytic
+        viewModel.state.selectedTxnAnalyticsItem.set(txnAnalytic)
     }
 
     override fun onDestroy() {
@@ -379,13 +385,4 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.parentViewModel?.selectedItemPosition?.removeObservers(this)
     }
 
-    private fun setPieChartIcon() {
-        getBindingView().ivPieView.setCircularDrawable(
-            title = viewModel.state.selectedTxnAnalyticsItem?.title ?: "",
-            url = viewModel.state.selectedTxnAnalyticsItem?.logoUrl ?: "",
-            position = viewModel.state.selectedItemPosition,
-            type = viewModel.type.get()?:"merchant-name",
-            showBackground = false
-        )
-    }
 }

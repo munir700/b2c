@@ -2,6 +2,8 @@ package co.yap.modules.dashboard.cards.analytics.states
 
 import android.app.Application
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import co.yap.BR
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
@@ -97,12 +99,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             notifyPropertyChanged(BR.selectedItemName)
         }
 
-    @get:Bindable
-    override var selectedItemPosition: Int = -1
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.selectedItemPosition)
-        }
+    override var selectedItemPosition: ObservableInt = ObservableInt(-1)
 
     @get:Bindable
     override var totalSpent: String? = ""
@@ -125,12 +122,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             notifyPropertyChanged(BR.totalMerchantSpent)
         }
 
-    @get:Bindable
-    override var selectedTxnAnalyticsItem: TxnAnalytic? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.selectedTxnAnalyticsItem)
-        }
+    override var selectedTxnAnalyticsItem: ObservableField<TxnAnalytic> = ObservableField()
 
 
     @get:Bindable
@@ -139,6 +131,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             field = value
             notifyPropertyChanged(BR.displayMonth)
         }
+    override var selectedTab: ObservableField<Int> = ObservableField(0)
 
 
     fun setUpString(currencyType: String?, amount: String?) {
