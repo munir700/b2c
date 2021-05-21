@@ -12,8 +12,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class BillAccountDetailViewModel(application: Application) :
     BillDetailBaseViewModel<IBillAccountDetail.State>(application),
@@ -55,30 +55,19 @@ class BillAccountDetailViewModel(application: Application) :
         }
     }
 
-    fun getData(): BillAccountHistoryModel {
-        return BillAccountHistoryModel(
-            highestMonth = "2021-05-12T06:53:35",
-            lastPaymentMonth = "2021-06-12T06:53:35",
-            lowestMonth = "2021-02-12T06:53:35",
-            totalPayment = "2,300.00",
-            highestAmount = "1200.00",
-            lowestAmount = "100.00",
-            lastPaymentAmount = "400.00"
-        )
-    }
-
     override fun getBillAccountHistory() {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val response =
-                repository.fetchCustomerBillHistory(parentViewModel?.selectedBill?.customerUUID.toString())
+                repository.fetchCustomerBillHistory(parentViewModel?.selectedBill?.uuid.toString())
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
-                        billHistory = response.data.billHistory
-                        adapter.setList(getBillHistory())
-
+                        if (response.data.billHistory != null) {
+                            billHistory = response.data.billHistory
+                            adapter.setList(getBillHistory())
+                        }
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
@@ -93,31 +82,27 @@ class BillAccountDetailViewModel(application: Application) :
         return mutableListOf(
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_last_payment),
-                value = DateUtils.reformatStringDate(
-                    billHistory?.lastPayment?.month.toString(),
-                    DateUtils.SERVER_DATE_FULL_FORMAT,
-                    DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + billHistory?.currency + " " + billHistory?.lastPayment?.billAmount
+                value = billHistory?.lastPayment?.month.toString()
+                        + ": " + billHistory?.currency + " " + billHistory?.lastPayment?.billAmount.toFormattedCurrency(
+                    withComma = true
+                )
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_total_payment),
                 value = billHistory?.currency + " " + billHistory?.totalPaidAmount.toString()
+                    .toFormattedCurrency(withComma = true)
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_highest_month),
-                value = DateUtils.reformatStringDate(
-                    billHistory?.highestPayment?.month.toString(),
-                    DateUtils.SERVER_DATE_FULL_FORMAT,
-                    DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + billHistory?.currency + " " + billHistory?.highestPayment?.billAmount.toString()
+                value = billHistory?.highestPayment?.month.toString()
+                        + ": " + billHistory?.currency + " " + billHistory?.highestPayment?.billAmount.toString()
+                    .toFormattedCurrency(withComma = true)
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_lowest_month),
-                value = DateUtils.reformatStringDate(
-                    billHistory?.lowestPayment?.month.toString(),
-                    DateUtils.SERVER_DATE_FULL_FORMAT,
-                    DateUtils.FORMAT_MONTH_YEAR
-                ) + ":" + billHistory?.currency + " " + billHistory?.lowestPayment?.billAmount.toString()
+                value = billHistory?.lowestPayment?.month.toString()
+                        + ": " + billHistory?.currency + " " + billHistory?.lowestPayment?.billAmount.toString()
+                    .toFormattedCurrency(withComma = true)
             )
         )
     }
