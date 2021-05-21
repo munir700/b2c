@@ -615,9 +615,10 @@ object ImageBinding {
                         val bitmapResult: Bitmap = getTintBitmap(imageView, resource, position)
                         val resImg = BitmapDrawable(
                             getResources(),
-                            if (isBackground) bitmapResult else resource
+                            bitmapResult
                         )
-                        setCategoryDrawable(imageView, resImg, position)
+                        imageView.setImageDrawable(resImg)
+                        if (isBackground) setCategoryDrawable(imageView, position)
                     }
                     override fun onLoadCleared(placeholder: Drawable?) {
                     }
@@ -632,8 +633,7 @@ object ImageBinding {
         }
     }
 
-    private fun setCategoryDrawable(imageView: ImageView, resImg: BitmapDrawable, position: Int) {
-        imageView.setImageDrawable(resImg)
+    private fun setCategoryDrawable(imageView: ImageView, position: Int) {
         val oval = ShapeDrawable(OvalShape())
         oval.intrinsicHeight = 50
         oval.intrinsicWidth = 50

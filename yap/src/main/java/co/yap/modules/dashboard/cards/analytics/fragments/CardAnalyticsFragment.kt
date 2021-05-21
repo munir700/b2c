@@ -384,7 +384,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             title = viewModel.state.selectedTxnAnalyticsItem?.title ?: "",
             url = viewModel.state.selectedTxnAnalyticsItem?.logoUrl ?: "",
             position = viewModel.state.selectedItemPosition,
-            type = viewModel.type.get()?:"merchant-name"
+            type = viewModel.type.get()?:"merchant-name",
+            showBackground = false
         )
     }
 }
