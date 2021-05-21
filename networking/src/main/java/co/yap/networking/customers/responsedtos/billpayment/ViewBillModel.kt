@@ -33,6 +33,8 @@ data class ViewBillModel(
     var skuId: String? = null,
     @SerializedName("customerUUID")
     var customerUUID: String? = null,
+    @SerializedName("uuid")
+    var uuid: String? = null,
     @SerializedName("inputsData")
     var inputsData: List<BillerInputData>? = null,
     @SerializedName("billerCatalog")

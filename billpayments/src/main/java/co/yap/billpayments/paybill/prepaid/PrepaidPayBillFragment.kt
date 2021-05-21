@@ -11,12 +11,14 @@ import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
@@ -40,13 +42,31 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
         initTabLayout()
         setEditTextWatcher()
+        setValidation()
+    }
+
+    private fun setValidation() {
+        if (viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.size == 1 &&
+            viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.first()?.amount == "0.0"
+        ) {
+            viewModel.setMinMaxLimitForPrepaid(viewModel.parentViewModel?.billModel?.value as ViewBillModel)
+            getViewBinding().etAmount.isClickable = true
+            getViewBinding().etAmount.isEnabled = true
+            getViewBinding().rvSkus.visibility = View.GONE
+        } else {
+            getViewBinding().etAmount.isClickable = false
+            getViewBinding().etAmount.isEnabled = false
+        }
     }
 
     private fun setEditTextWatcher() {
         getViewBinding().etAmount.afterTextChanged {
             if (it.isNotBlank()) {
                 viewModel.state.amount = it
-                viewModel.state.valid.set(true)
+                if (getViewBinding().etAmount.isEnabled)
+                    viewModel.checkOnTextChangeValidation(viewModel.state.amount.parseToDouble())
+                else
+                    viewModel.state.valid.set(true)
             } else {
                 viewModel.state.valid.set(false)
                 cancelAllSnackBar()

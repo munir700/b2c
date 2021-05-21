@@ -120,16 +120,6 @@
                 tools:itemCount="5"
                 tools:listitem="@layout/layout_item_bill_history" />
 
-            <View
-                android:id="@+id/historyBottomSeparator"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_2sdp"
-                android:layout_marginTop="@dimen/margin_small"
-                android:background="@color/divider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvBillHistory" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

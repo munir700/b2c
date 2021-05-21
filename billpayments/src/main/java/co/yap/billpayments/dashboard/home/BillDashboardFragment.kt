@@ -106,10 +106,9 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.lMyBills -> navigate(R.id.action_payBillsFragment_to_myBillsFragment)
-            R.id.lAnalytics -> {
-            }
-            R.id.lAddBill -> navigate(R.id.action_payBillsFragment_to_addBillFragment)
+            R.id.lMyBills -> navigate(R.id.action_billsDashboardFragment_to_myBillsFragment)
+            R.id.lAnalytics -> navigate(R.id.action_billsDashboardFragment_to_billPaymentAnalyticsFragment)
+            R.id.lAddBill -> navigate(R.id.action_billsDashboardFragment_to_addBillFragment)
             R.id.btnPayNow -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     isFromSwipePayBill = true
