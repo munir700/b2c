@@ -11,6 +11,7 @@ import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
@@ -45,17 +46,16 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     }
 
     private fun setValidation() {
-        viewModel.parentViewModel?.billModel?.value?.let {
-            if (it.billerInfo?.skuInfos?.first()?.isPrepaid == false) {
-                viewModel.setMinMaxLimitForPostPaid(it)
-                getViewBinding().etAmount.setText(it.totalAmountDue ?: "0.00")
-                if (it.billerInfo?.skuInfos?.first()?.isExcessPayment == false && it.billerInfo?.skuInfos?.first()?.isPartialPayment == false) {
-                    getViewBinding().etAmount.isClickable = false
-                    getViewBinding().etAmount.isEnabled = false
-                    getViewBinding().etAmount.isFocusable = false
-                    getViewBinding().etAmount.isFocusableInTouchMode = false
-                }
-            }
+        if (viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.size == 1 &&
+            viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.first()?.amount == "0.0"
+        ) {
+            viewModel.setMinMaxLimitForPrepaid(viewModel.parentViewModel?.billModel?.value as ViewBillModel)
+            getViewBinding().etAmount.isClickable = true
+            getViewBinding().etAmount.isEnabled = true
+            getViewBinding().rvSkus.visibility = View.GONE
+        } else {
+            getViewBinding().etAmount.isClickable = false
+            getViewBinding().etAmount.isEnabled = false
         }
     }
 
@@ -63,7 +63,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         getViewBinding().etAmount.afterTextChanged {
             if (it.isNotBlank()) {
                 viewModel.state.amount = it
-                if (viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.first()?.isPrepaid == false)
+                if (getViewBinding().etAmount.isEnabled)
                     viewModel.checkOnTextChangeValidation(viewModel.state.amount.parseToDouble())
                 else
                     viewModel.state.valid.set(true)

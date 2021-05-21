@@ -1,0 +1,30 @@
+[
+  {
+    "categoryName": "Utilities",
+    "billerName": "Etisalat eLife Landline",
+    "PaymentStatus": "Declined",
+    "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/biller_logos/784000000000001.png",
+    "amount": 1100
+  },
+  {
+    "categoryName": "Utilities",
+    "billerName": "Lahore Electricity",
+    "PaymentStatus": "Declined",
+    "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/biller_logos/784000000000002.png",
+    "amount": 600
+  },
+  {
+    "categoryName": "Utilities",
+    "billerName": "Etisalat Internet Dialup",
+    "PaymentStatus": "Declined",
+    "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/biller_logos/784000000000003.png",
+    "amount": 400
+  },
+  {
+    "categoryName": "Utilities",
+    "billerName": "Lahore Electricity",
+    "PaymentStatus": "Declined",
+    "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/biller_logos/784000000000009.png",
+    "amount": 500
+  }
+]

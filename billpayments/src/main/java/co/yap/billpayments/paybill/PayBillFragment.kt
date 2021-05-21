@@ -10,14 +10,17 @@ import androidx.navigation.fragment.findNavController
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPayBillBinding
+import co.yap.billpayments.payall.main.PayAllMainActivity
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
@@ -32,7 +35,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.get(0)?.isPrepaid == true)
+        if (viewModel.parentViewModel?.isPrepaid() == true)
             skipPayBillFragment()
         else
             setObservers()
@@ -77,7 +80,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         getViewBinding().etAmount.afterTextChanged {
             if (it.isNotBlank()) {
                 viewModel.state.amount = it
-                if (viewModel.parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.first()?.isPrepaid == false)
+                if (viewModel.parentViewModel?.isPrepaid() == false)
                     viewModel.checkOnTextChangeValidation(viewModel.state.amount.parseToDouble())
                 else
                     viewModel.state.valid.set(true)
