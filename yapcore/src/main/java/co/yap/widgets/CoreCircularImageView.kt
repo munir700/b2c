@@ -360,7 +360,7 @@ class CoreCircularImageView : ImageView {
         mDrawableRadius = if (cropImage == true) {
             Math.min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f)
         } else {
-            Math.min(mDrawableRect.height(), mDrawableRect.width())
+            Math.min(mDrawableRect.height()/1.8f, mDrawableRect.width()/1.8f)
         }
 
         applyColorFilter()
