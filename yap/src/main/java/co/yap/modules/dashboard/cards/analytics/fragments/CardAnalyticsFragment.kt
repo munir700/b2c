@@ -31,6 +31,7 @@ import co.yap.yapcore.leanplum.AnalyticsEvents
 import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_card_analytics.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -65,6 +66,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     private fun setupBindings() {
+        viewModel.type.set(Constants.MERCHANT_TYPE)
         getBindingView().rlDetails.setOnClickListener { }
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         setPieChartIcon()
@@ -164,7 +166,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.parentViewModel?.selectedItemPosition?.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
-                    viewModel.type.set("merchant-category-id")
+                    Constants.MERCHANT_TYPE = "merchant-category-id"
                     viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
                         updatePieChartInnerData(list[it])
                         setState(list[it])
@@ -173,7 +175,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
-                    viewModel.type.set("merchant-name")
+                    Constants.MERCHANT_TYPE ="merchant-name"
                     viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value?.let { list ->
                         updatePieChartInnerData(list[it])
                         setState(list[it])
@@ -185,6 +187,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             }
         }
         )
+        viewModel.type.set(Constants.MERCHANT_TYPE)
         viewModel.parentViewModel
     }
 
@@ -305,7 +308,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setSelectedTabData(TabPosition: Int, contentPos: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
-                viewModel.type.set("merchant-category-id")
+                Constants.MERCHANT_TYPE = "merchant-category-id"
                 trackEventWithScreenName(FirebaseEvent.CLICK_CATEGORY_VIEW)
                 if (!viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
@@ -317,7 +320,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
             MERCHANT_ANALYTICS -> {
-                viewModel.type.set("merchant-name")
+                Constants.MERCHANT_TYPE ="merchant-name"
                 trackEventWithScreenName(FirebaseEvent.CLICK_MERCHANT_VIEW)
                 if (!viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
@@ -330,6 +333,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             }
         }
         viewModel.state.selectedItemPosition = contentPos
+        viewModel.type.set(Constants.MERCHANT_TYPE)
         setPieChartIcon()
     }
 

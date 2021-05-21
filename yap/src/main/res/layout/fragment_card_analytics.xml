@@ -70,7 +70,8 @@
                                 android:layout_width="@dimen/_35sdp"
                                 android:layout_height="@dimen/_35sdp"
                                 android:contentDescription="@string/empty_string"
-                                android:padding="@{viewModel.type == `merchant-category-id`?@dimen/margin_small:@dimen/margin_zero_dp}" />
+                                android:padding="@{viewModel.type == `merchant-cat6egory-id`?@dimen/margin_small:@dimen/margin_zero_dp}"
+                                app:cropImage="@{viewModel.state.selectedItemPosition == 1}" />
 
                             <TextView
                                 android:id="@+id/tvPieViewTitle"

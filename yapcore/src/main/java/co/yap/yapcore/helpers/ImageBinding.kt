@@ -635,8 +635,8 @@ object ImageBinding {
     private fun setCategoryDrawable(imageView: ImageView, resImg: BitmapDrawable, position: Int) {
         imageView.setImageDrawable(resImg)
         val oval = ShapeDrawable(OvalShape())
-        oval.intrinsicHeight = 40
-        oval.intrinsicWidth = 40
+        oval.intrinsicHeight = 50
+        oval.intrinsicWidth = 50
         oval.paint.color = Utils.getBackgroundColorForAnalytics(
             imageView.context,
             position = position

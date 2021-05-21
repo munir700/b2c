@@ -33,6 +33,7 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal_large"
+            app:cropImage="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)}"
             android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)?@dimen/margin_zero_dp:@dimen/margin_normal}"
             tools:src="@drawable/ic_access_alarm" />
 

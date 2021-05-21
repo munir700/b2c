@@ -16,6 +16,10 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.extentions.setCircularDrawable
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import kotlinx.android.synthetic.main.fragment_card_analytics_details.*
 
 class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDetails.ViewModel>() {
@@ -61,11 +65,13 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                     Constants.MERCHANT_TYPE,
                     viewModel.parentViewModel?.state?.currentSelectedDate ?: ""
                 )
+
             }
             bundle.getInt(Constants.TRANSACTION_POSITION).let { position ->
                 viewModel.state.position = position
             }
         }
+
     }
 
     private fun setObservers() {
@@ -90,6 +96,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
             viewModel.state.position,
             type = Constants.MERCHANT_TYPE
         )
+
         multiStateView.viewState = MultiStateView.ViewState.CONTENT
     }
 
