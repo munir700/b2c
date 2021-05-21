@@ -16,7 +16,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -101,18 +100,10 @@ class PrepaidPayBillViewModel(application: Application) :
         return list
     }
 
-    override fun setMinMaxLimitForPostPaid(viewBillModel: ViewBillModel) {
+    override fun setMinMaxLimitForPrepaid(viewBillModel: ViewBillModel) {
         val billerSku = viewBillModel.billerInfo?.skuInfos?.first()
-        if (billerSku?.isExcessPayment == true && billerSku.isPartialPayment) {
-            state.minLimit.set(billerSku.minAmount ?: 0.0)
-            state.maxLimit.set(billerSku.maxAmount ?: 0.0)
-        } else if (billerSku?.isExcessPayment == true) {
-            state.maxLimit.set(billerSku.maxAmount ?: 0.0)
-            state.minLimit.set(viewBillModel.totalAmountDue.parseToDouble())
-        } else if (billerSku?.isPartialPayment == true) {
-            state.minLimit.set(billerSku.minAmount ?: 0.0)
-            state.maxLimit.set(viewBillModel.totalAmountDue.parseToDouble())
-        }
+        state.minLimit.set(billerSku?.minAmount ?: 0.0)
+        state.maxLimit.set(billerSku?.maxAmount ?: 0.0)
     }
 
     override fun updateAutoPaySelection(

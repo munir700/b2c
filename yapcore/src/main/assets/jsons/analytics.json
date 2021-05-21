@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "categorydId": 1,
+      "categoryName": "Telecom",
+      "totalSpending": 5000,
+      "categoryType": "TELECOM",
+      "icon": "icon_biller_type_telecom",
+      "txnCount": 5,
+      "totalSpendingInPercentage": 25
+    },
+    {
+      "categorydId": 2,
+      "categoryName": "Credit Card",
+      "totalSpending": 5000,
+      "categoryType": "CREDIT_CARD",
+      "icon": "icon_biller_type_utility_creditcard",
+      "txnCount": 5,
+      "totalSpendingInPercentage": 25
+    },
+    {
+      "categorydId": 3,
+      "categoryName": "Transport",
+      "totalSpending": 5000,
+      "categoryType": "TRANSPORT",
+      "icon": "icon_biller_type_transport",
+      "txnCount": 5,
+      "totalSpendingInPercentage": 25
+    },
+    {
+      "categorydId": 4,
+      "categoryName": "Utilities",
+      "totalSpending": 5000,
+      "categoryType": "UTILITIES",
+      "icon": "icon_biller_type_utility",
+      "txnCount": 5,
+      "totalSpendingInPercentage": 25
+    }
+  ]
+}

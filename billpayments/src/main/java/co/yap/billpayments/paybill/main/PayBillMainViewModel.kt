@@ -12,5 +12,7 @@ class PayBillMainViewModel(application: Application) :
     override val state: IPayBillMain.State = PayBillMainState()
     override var errorEvent: MutableLiveData<String> = MutableLiveData()
     override val billModel: MutableLiveData<ViewBillModel> = MutableLiveData()
-
+    override fun isPrepaid(): Boolean? {
+        return billModel.value?.billerInfo?.skuInfos?.first()?.isPrepaid
+    }
 }

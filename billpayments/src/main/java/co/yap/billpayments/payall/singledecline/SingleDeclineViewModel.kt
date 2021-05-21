@@ -1,23 +1,27 @@
 package co.yap.billpayments.payall.singledecline
 
 import android.app.Application
-import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
+import androidx.databinding.ObservableField
+import co.yap.billpayments.payall.base.PayAllBaseViewModel
+import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.BillPaymentStatus
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class SingleDeclineViewModel(application: Application) :
-    PayBillMainBaseViewModel<ISingleDecline.State>(application),
+    PayAllBaseViewModel<ISingleDecline.State>(application),
     ISingleDecline.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ISingleDecline.State = SingleDeclineState()
-
+    override var declinedBill: ObservableField<PaidBill> = ObservableField()
     override fun onResume() {
         super.onResume()
         toggleRightIconVisibility(false)
         setToolBarTitle(getString(Strings.screen_single_decline_toolbar_text_decline))
+        declinedBill.set(parentViewModel?.paidBills?.first { it.PaymentStatus == BillPaymentStatus.DECLINED.title })
         state.paidAmount.set(
-            parentViewModel?.state?.paidAmount?.get()
+            declinedBill.get()?.amount
                 .toFormattedCurrency(showCurrency = true, withComma = true)
         )
     }

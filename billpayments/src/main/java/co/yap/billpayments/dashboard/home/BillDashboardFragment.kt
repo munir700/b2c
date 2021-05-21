@@ -12,6 +12,7 @@ import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.billpayments.billdetail.BillDetailActivity
 import co.yap.billpayments.databinding.FragmentBillDashboardBinding
+import co.yap.billpayments.payall.main.PayAllMainActivity
 import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
@@ -25,6 +26,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.gson.Gson
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -104,10 +106,9 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.lMyBills -> navigate(R.id.action_payBillsFragment_to_myBillsFragment)
-            R.id.lAnalytics -> {
-            }
-            R.id.lAddBill -> navigate(R.id.action_payBillsFragment_to_addBillFragment)
+            R.id.lMyBills -> navigate(R.id.action_billsDashboardFragment_to_myBillsFragment)
+            R.id.lAnalytics -> navigate(R.id.action_billsDashboardFragment_to_billPaymentAnalyticsFragment)
+            R.id.lAddBill -> navigate(R.id.action_billsDashboardFragment_to_addBillFragment)
             R.id.btnPayNow -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     isFromSwipePayBill = true
@@ -120,6 +121,9 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                     openBillDetailActivity(payload.position, payload.itemData as ViewBillModel)
                 }
                 viewModel.clickEvent.setPayload(null)
+            }
+            R.id.btnPayAll -> {
+                startPayAllActivity()
             }
         }
     }
@@ -284,5 +288,18 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                 startPayBillFlow(viewBillModel)
             } ?: viewModel.parentViewModel?.getViewBills()
         }
+    }
+
+    private fun startPayAllActivity() {
+        launchActivity<PayAllMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL_ALL) {
+            putExtra(
+                ExtraKeys.ALL_BILLS.name,
+                Gson().toJson(viewModel.dueBillsAdapter.getDataList())
+            )
+        }
+        requireActivity().overridePendingTransition(
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
     }
 }

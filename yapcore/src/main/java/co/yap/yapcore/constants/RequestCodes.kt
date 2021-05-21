@@ -31,4 +31,5 @@ object RequestCodes {
     const val REQUEST_ADD_BILL: Int = 10027
     const val REQUEST_BILL_DETAIL: Int = 10028
     const val REQUEST_PAY_BILL: Int = 10029
+    const val REQUEST_PAY_BILL_ALL: Int = 10030
 }

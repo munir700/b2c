@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.payall.home.adapter.OverlappingLogoItemViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_38sdp"
+            app:fullName="@{viewModel.billerInfoModel.billerName}"
+            app:imageUrl="@{viewModel.billerInfoModel.logo}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

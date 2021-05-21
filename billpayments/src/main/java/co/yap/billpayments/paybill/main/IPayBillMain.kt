@@ -19,6 +19,7 @@ interface IPayBillMain {
     interface ViewModel : IBase.ViewModel<State> {
         var errorEvent: MutableLiveData<String>
         val billModel: MutableLiveData<ViewBillModel>
+        fun isPrepaid(): Boolean?
     }
 
     interface View : IBase.View<ViewModel> {

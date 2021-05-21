@@ -40,7 +40,7 @@ interface IPrepaidPayBill {
         )
 
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
-        fun setMinMaxLimitForPostPaid(viewBillModel: ViewBillModel)
+        fun setMinMaxLimitForPrepaid(viewBillModel: ViewBillModel)
         fun payBill(payBillRequest: PayBillRequest, success: () -> Unit)
         fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest
     }
