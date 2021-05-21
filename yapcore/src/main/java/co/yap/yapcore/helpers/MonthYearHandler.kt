@@ -4,6 +4,7 @@ import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 class MonthYearHandler {
+
     private var currentDate: Date? = Date()
     private var listOfMonths: List<Date> = arrayListOf()
 
