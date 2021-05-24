@@ -4,14 +4,15 @@ import android.app.Application
 import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.dashboard.analytics.detail.adapter.BPAnalyticsDetailsAdapter
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.delay
 
 class BPAnalyticsDetailViewModel(application: Application) :
     BillDashboardBaseViewModel<IBPAnalyticsDetail.State>(application),
@@ -30,13 +31,25 @@ class BPAnalyticsDetailViewModel(application: Application) :
     }
 
     override fun fetchAnalyticsDetails(categoryId: String, date: String) {
-        launch {
-            state.viewState.value = true
-            delay(200)
-            adapter.setList(mockAnalytics().bills!!)
-            state.viewState.value = false
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.getBPCategoryHistory(month = date, categoryId = categoryId)
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        adapter.setList(response.data.bills ?: arrayListOf())
+                        state.billFluctuation.set(response.data.fluctuation)
+                        state.viewState.value = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        showToast(response.error.message)
+                    }
+                }
+            }
         }
     }
+
 
     private fun mockAnalytics(): BPAnalyticsDetailsResponse {
         val gson = GsonBuilder().create()

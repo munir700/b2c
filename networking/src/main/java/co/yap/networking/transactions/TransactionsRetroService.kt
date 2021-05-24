@@ -4,8 +4,9 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
-import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -248,7 +249,14 @@ interface TransactionsRetroService {
     //Get analytics for bill payments name
     @GET(TransactionsRepository.URL_GET_BILL_PAYMENTS_ANALYTICS)
     suspend fun getBPAnalytics(
-        @Path("date") date: String?
+            @Path("date") date: String?
     ): Response<BPAnalyticsResponseDTO>
+
+    //Get analytics for bill payments name
+    @GET(TransactionsRepository.URL_GET_BILL_CATEGORY_HISTORY)
+    suspend fun getBPCategoryHistory(
+            @Path("month") month: String?,
+            @Path("categoryId") categoryId: String?
+    ): Response<BPAnalyticsDetailsResponse>
 
 }

@@ -28,7 +28,6 @@ class BillAccountDetailViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getBillAccountHistory()
         setToolBarTitle(getString(Strings.screen_bill_account_detail_toolbar_title))
         toggleRightIconVisibility(true)
         state.dueAmount =
@@ -55,11 +54,11 @@ class BillAccountDetailViewModel(application: Application) :
         }
     }
 
-    override fun getBillAccountHistory() {
+    override fun getBillAccountHistory(uuid: String) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val response =
-                repository.fetchCustomerBillHistory(parentViewModel?.selectedBill?.uuid.toString())
+                repository.fetchCustomerBillHistory(uuid)
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
@@ -84,25 +83,26 @@ class BillAccountDetailViewModel(application: Application) :
                 key = getString(Strings.screen_bill_account_detail_text_last_payment),
                 value = billHistory?.lastPayment?.month.toString()
                         + ": " + billHistory?.currency + " " + billHistory?.lastPayment?.billAmount.toFormattedCurrency(
-                    withComma = true
+                    withComma = true,
+                    showCurrency = false
                 )
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_total_payment),
                 value = billHistory?.currency + " " + billHistory?.totalPaidAmount.toString()
-                    .toFormattedCurrency(withComma = true)
+                    .toFormattedCurrency(withComma = true, showCurrency = false)
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_highest_month),
                 value = billHistory?.highestPayment?.month.toString()
                         + ": " + billHistory?.currency + " " + billHistory?.highestPayment?.billAmount.toString()
-                    .toFormattedCurrency(withComma = true)
+                    .toFormattedCurrency(withComma = true, showCurrency = false)
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_lowest_month),
                 value = billHistory?.lowestPayment?.month.toString()
                         + ": " + billHistory?.currency + " " + billHistory?.lowestPayment?.billAmount.toString()
-                    .toFormattedCurrency(withComma = true)
+                    .toFormattedCurrency(withComma = true, showCurrency = false)
             )
         )
     }

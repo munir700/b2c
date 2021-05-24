@@ -8,6 +8,7 @@ import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
@@ -79,7 +80,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
     const val URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM =
-        "/transactions/api/lean-plum/transaction-states"
+            "/transactions/api/lean-plum/transaction-states"
     const val URL_TRANSACTIONS_RECEIPT = "/transactions/api/transaction-receipt/transaction-id"
     const val URL_TRANSACTIONS_RECEIPT_SAVE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
@@ -87,16 +88,18 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     // Bill payment
     const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
     const val URL_CUSTOMER_BILL_HISTORY =
-        "/transactions/api/billpayment/fetch-customer-bill-history/{customerBillUuid}"
+            "/transactions/api/billpayment/fetch-customer-bill-history/{customerBillUuid}"
     const val URL_GET_BILL_PAYMENTS_ANALYTICS =
-        "/transactions/api/billpayment/fetch-bill-history-chart/{date}"
+            "/transactions/api/billpayment/fetch-bill-history-chart/{date}"
+    const val URL_GET_BILL_CATEGORY_HISTORY =
+            "/transactions/api/billpayment/billpayment/fetch-category-bill-history/{month}/{categoryId}"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
 
     private val api: TransactionsRetroService =
-        RetroNetwork.createService(TransactionsRetroService::class.java)
+            RetroNetwork.createService(TransactionsRetroService::class.java)
 
     override suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse> =
             executeSafely(call = { api.addFunds(addFundsRequest) })
@@ -331,18 +334,23 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     })
 
     override suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse> =
-        executeSafely(call = {
-            api.payBill(payBillRequest)
-        })
+            executeSafely(call = {
+                api.payBill(payBillRequest)
+            })
 
     override suspend fun fetchCustomerBillHistory(customerBillUuid: String): RetroApiResponse<BillAccountHistoryResponse> =
-        executeSafely(call = {
-            api.fetchCustomerBillHistory(customerBillUuid)
-        })
+            executeSafely(call = {
+                api.fetchCustomerBillHistory(customerBillUuid)
+            })
 
     override suspend fun getBPAnalytics(date: String?): RetroApiResponse<BPAnalyticsResponseDTO> =
-        executeSafely(call = {
-            api.getBPAnalytics(date)
-        })
+            executeSafely(call = {
+                api.getBPAnalytics(date)
+            })
+
+    override suspend fun getBPCategoryHistory(month: String?, categoryId: String?): RetroApiResponse<BPAnalyticsDetailsResponse> =
+            executeSafely(call = {
+                api.getBPCategoryHistory(month, categoryId)
+            })
 }
 

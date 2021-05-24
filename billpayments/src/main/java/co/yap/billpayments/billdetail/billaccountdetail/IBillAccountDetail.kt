@@ -20,7 +20,7 @@ interface IBillAccountDetail {
         var billHistory: BillHistory?
         var singleClickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
-        fun getBillAccountHistory()
+        fun getBillAccountHistory(uuid: String)
         fun getBillHistory(): MutableList<BillHistoryModel>
         fun getBillStatusString(billStatus: BillStatus): String
     }

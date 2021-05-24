@@ -4,8 +4,8 @@ import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 
 data class BPAnalyticsDetailsResponse(
-        @SerializedName("fluctuation")
+        @SerializedName("billFluctuation")
         val fluctuation: String? = null,
-        @SerializedName("bills")
+        @SerializedName("billData")
         val bills: List<AnalyticsBill>? = null
 ) : ApiResponse()

@@ -43,12 +43,12 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
     private val clickListener = Observer<Int> { it ->
         when (it) {
             R.id.btnPayAll -> {
-                viewModel.payAllBills() {
+                viewModel.payAllBills {
                     if (viewModel.parentViewModel?.paidBills?.count {
-                            it.PaymentStatus.equals(
-                                BillPaymentStatus.DECLINED.title
-                            )
-                        } == 1) {
+                                it.PaymentStatus.equals(
+                                        BillPaymentStatus.DECLINED.title
+                                )
+                            } == 1) {
                         navigate(R.id.action_payAllFragment_to_singleDeclineFragment)
                     } else {
                         navigate(R.id.action_payAllFragment_to_payAllSuccessFragment)
