@@ -124,7 +124,7 @@ class VerifyPasscodeViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    if (!response.data.accessToken.isNullOrBlank()) {
+                    if (!response.data.accessToken.isNullOrEmpty()) {
                         authRepository.setJwtToken(response.data.accessToken)
                         validateDeviceResult.postValue(true)
                     } else {

@@ -59,7 +59,7 @@ class HouseHoldConfirmPaymentVM @Inject constructor(override var state: IHouseHo
                         }
                     }
                     state.onBoardRequest?.value?.tempPassCode =
-                        response.data.data?.passcode ?: "0000"
+                        response.data.data?.passcode
                     apiResponse?.invoke(true)
                 }
 

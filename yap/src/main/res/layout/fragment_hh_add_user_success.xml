@@ -13,6 +13,8 @@
         <import type="co.yap.translation.Translator" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
     </data>
 
     <ScrollView
@@ -67,11 +69,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Regular"
-                android:fontFamily="@font/roboto_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_medium_large"
+                android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_success_display_text_share_credentials,viewModel.state.onBoardRequest.firstName)}"
                 android:textSize="@dimen/_13sdp"
@@ -109,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:text="@string/screen_yap_house_hold_success_display_text_share_pass_code"
+                    android:visibility="@{StringExtensionsKt.isEmpty(viewModel.state.onBoardRequest.tempPassCode)?View.GONE:View.VISIBLE}"
                     app:text="@{Strings.screen_yap_house_hold_success_display_text_share_pass_code}"
                     tools:text="@string/screen_yap_house_hold_success_display_text_share_pass_code" />
 
@@ -117,6 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.state.onBoardRequest.tempPassCode}"
+                    android:visibility="@{StringExtensionsKt.isEmpty(viewModel.state.onBoardRequest.tempPassCode)?View.GONE:View.VISIBLE}"
                     tools:text="2250" />
 
                 <co.yap.widgets.CoreButton
@@ -129,13 +133,13 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_medium_large"
                     android:gravity="center"
-                    android:textStyle="bold"
-                    app:btn_size="mini_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:textStyle="bold"
                     app:btn_drawable="@drawable/ic_share_small"
                     app:btn_drawable_padding_right="1.68"
                     app:btn_drawable_padding_top="4"
                     app:btn_drawable_position="right"
+                    app:btn_size="mini_large"
                     app:btn_text_size="@dimen/_11sdp"
                     app:enableCoreButton="@{true}"
                     app:text="@{Strings.screen_yap_house_hold_success_button_text_share}"
@@ -147,14 +151,14 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_35sdp"
                 android:layout_marginBottom="@dimen/margin_normal_large"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                app:enableCoreButton="@{true}"
                 app:btn_size="large"
-                android:layout_gravity="center_horizontal"
+                app:enableCoreButton="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_goneMarginTop="@dimen/margin_extra_large"
                 app:text="@{Strings.screen_yap_house_hold_success_button_text_goto_house_hold}"

@@ -88,6 +88,8 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/screen_house_hold_onBoarding_existing_title_accept"
+                app:btn_size="large"
+                android:layout_gravity="center_horizontal"
                 app:btn_pressed_color="@color/colorPrimaryHouseHold"
                 app:btn_text_color="@color/white"
                 app:btn_unpressed_color="@color/colorPrimaryHouseHold"

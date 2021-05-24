@@ -9,7 +9,7 @@
         <item name="colorPrimaryAttr">@color/colorPrimary</item>
         <item name="colorPrimaryDarkAttr">@color/colorPrimaryDark</item>
         <item name="colorPrimaryAccentAttr">@color/colorAccent</item>
-        <item name="colorPrimaryAccentWarmAttr">@color/colorAccent</item>
+        <item name="colorPrimaryAccentWarmAttr">#CDBCFF</item>
         <item name="colorPrimaryWarmAttr">@color/colorPrimaryWarm</item>
         <item name="colorPrimaryLightAttr">@color/colorPrimaryLight</item>
         <item name="colorPrimaryAltAttr">@color/colorPrimaryAlt</item>

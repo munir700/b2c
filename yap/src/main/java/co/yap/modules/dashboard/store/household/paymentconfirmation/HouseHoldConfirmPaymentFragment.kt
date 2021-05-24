@@ -43,7 +43,7 @@ class HouseHoldConfirmPaymentFragment :
                 })
             })
             R.id.confirmButton -> {
-                viewModel.addHouseholdUser() {
+                viewModel.addHouseholdUser {
                     navigateForwardWithAnimation(
                         HouseHoldConfirmPaymentFragmentDirections.actionHouseHoldConfirmPaymentFragmentToHHAddUserSuccessFragment(),
                         arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.onBoardRequest?.value))

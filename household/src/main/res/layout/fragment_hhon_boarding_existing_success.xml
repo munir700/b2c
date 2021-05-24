@@ -72,6 +72,8 @@
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@string/screen_onboarding_congratulations_button_complete_verification"
             app:btn_enable="true"
+            android:layout_gravity="center_horizontal"
+            app:btn_size="large"
             app:btn_pressed_color="@color/colorPrimaryHouseHold"
             app:btn_text_color="@color/white"
             app:btn_unpressed_color="@color/colorPrimaryHouseHold"

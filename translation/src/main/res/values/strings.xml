@@ -1002,7 +1002,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_yap_house_hold_user_info_button_next">Next</string>
     <string name="screen_yap_house_hold_user_info_mobile_no_exit_error_msg">The mobile number %1s is linked to an existing user’s Household card. Check the number and try again.</string>
     <string name="screen_yap_house_hold_user_info_contact_display_text_heading">Tell us how to contact\n%1s</string>
-    <string name="screen_yap_house_hold_user_info_contact_back_to_house_hold_text">Back to Household</string>
+    <string name="screen_yap_house_hold_user_info_contact_back_to_house_hold_text">Back to Household Dashboard</string>
     <string name="screen_yap_house_hold_user_info_contact_display_text_mobile">Mobile number (optional)</string>
     <string name="screen_yap_house_hold_user_info_contact_display_text_confirm_mobile">Confirm mobile number</string>
     <string name="screen_yap_house_hold_user_info_contact_button_next">Add</string>

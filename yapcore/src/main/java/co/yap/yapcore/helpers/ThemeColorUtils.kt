@@ -59,17 +59,6 @@ object ThemeColorUtils {
         }.data
     }
 
-
-    fun colorPrimaryAccentWarmAttribute(context: Context): Int {
-        return TypedValue().also {
-            context.theme.resolveAttribute(
-                R.attr.colorPrimaryAccentWarmAttr,
-                it,
-                true
-            )
-        }.data
-    }
-
     fun colorPrimaryWarmAttribute(context: Context): Int {
         return TypedValue().also {
             context.theme.resolveAttribute(

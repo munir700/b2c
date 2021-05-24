@@ -68,7 +68,7 @@ class OnBoardingHouseHoldActivity :
             SessionManager.user?.let {
                 if (!it.notificationStatuses.isBlank()) {
                     destination = when (AccountStatus.valueOf(it.notificationStatuses)) {
-                        AccountStatus.INVITATION_PENDING -> R.id.HHOnBoardingExistingFragment
+                        AccountStatus.INVITE_PENDING, AccountStatus.INVITATION_PENDING-> R.id.HHOnBoardingExistingFragment
                         AccountStatus.INVITE_ACCEPTED -> R.id.HHOnBoardingExistingSuccessFragment
                         else -> R.id.HHOnBoardingMobileFragment
 

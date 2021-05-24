@@ -8,7 +8,9 @@ import co.yap.household.databinding.FragmentHhonBoardingExistingBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.helpers.extentions.toCamelCase
 
 class HHOnBoardingExistingFragment :
@@ -29,6 +31,7 @@ class HHOnBoardingExistingFragment :
             }
             R.id.tvDecline -> viewModel.subAccountInvitationStatus((AccountStatus.INVITE_DECLINED.name.toCamelCase())) {
                 it?.let {
+                    context.switchTheme(YAPThemes.CORE())
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 }
             }

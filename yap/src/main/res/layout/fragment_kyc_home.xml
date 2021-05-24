@@ -106,6 +106,7 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="?attr/colorSearchViewHintAttr"
                     app:layout_constraintStart_toStartOf="@+id/tvEid"
                     app:layout_constraintTop_toBottomOf="@+id/tvEid"
                     app:text="@{viewModel.state.eidScanStatus == DocScanStatus.DOCS_UPLOADED ? Strings.screen_b2c_eid_info_review_display_text_emirates_id_heading : Strings.screen_b2c_kyc_home_emirates_id_scan}"

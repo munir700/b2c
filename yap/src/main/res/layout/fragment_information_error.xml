@@ -5,37 +5,42 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.kyc.viewmodels.InformationErrorViewModel"/>
+            type="co.yap.modules.kyc.viewmodels.InformationErrorViewModel" />
 
-        <import type="co.yap.translation.Strings"/>
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.yapcore.enums.AccountType" />
+
+        <import type="co.yap.R" />
 
         <import type="android.view.View" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <TextView
             android:id="@+id/tvTitle"
+            style="@style/ATitle3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ATitle3"
-            android:layout_marginEnd="@dimen/margin_extra_large"
             android:layout_marginStart="@dimen/margin_extra_large"
             android:layout_marginTop="@dimen/margin_large"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="@dimen/margin_extra_large"
+            android:gravity="center"
+            android:text="@{viewModel.state.errorTitle}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:gravity="center"
-            tools:text="We're so sorry"
-            android:text="@{viewModel.state.errorTitle}" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="We're so sorry" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivUSACountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,41 +48,42 @@
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_xl"
             android:contentDescription="@string/empty_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:srcCompat="@drawable/ic_country"
+            app:srcCompat="@{AccountType.valueOf(SessionManager.INSTANCE.user.accountType)==AccountType.B2C_HOUSEHOLD?R.drawable.ic_country_hh:R.drawable.ic_country}"
             tools:src="@drawable/ic_country" />
 
 
         <TextView
             android:id="@+id/tvMeetingGuide"
+            style="@style/ASmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/ivUSACountry"
-            app:layout_constraintLeft_toLeftOf="parent"
-            style="@style/ASmallGrey"
-            app:layout_constraintRight_toRightOf="parent"
             android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:gravity="center"
-            tools:text="@string/screen_kyc_information_error_display_text_explanation_from_usa"
             android:text="@{viewModel.state.errorGuide}"
-            android:layout_marginTop="@dimen/margin_extra_large"
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivUSACountry"
+            tools:text="@string/screen_kyc_information_error_display_text_explanation_from_usa" />
 
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnGoToDashboard"
+            style="@style/RectangleBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/RectangleBtnStyle"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_extra_large"
+            android:onClick="@{(v)->viewModel.handlePressOnGoToDashboard()}"
+            android:text="@{viewModel.state.buttonTitle}"
             app:btn_size="small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@string/screen_kyc_information_error_button_go_to_dashboard"
-            android:text="@{viewModel.state.buttonTitle}"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:onClick="@{(v)->viewModel.handlePressOnGoToDashboard()}"
-            android:layout_marginBottom="@dimen/margin_extra_large"/>
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/screen_kyc_information_error_button_go_to_dashboard" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

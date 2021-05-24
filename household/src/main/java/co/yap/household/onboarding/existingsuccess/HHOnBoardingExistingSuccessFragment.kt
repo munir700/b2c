@@ -1,13 +1,13 @@
 package co.yap.household.onboarding.existingsuccess
 
-import android.os.Bundle
-import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHhonBoardingExistingSuccessBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.switchTheme
 
 
 class HHOnBoardingExistingSuccessFragment :
@@ -24,7 +24,10 @@ class HHOnBoardingExistingSuccessFragment :
                 arguments,
                 null
             )
-            R.id.tvSkip -> launchActivity<YapDashboardActivity>(clearPrevious = true) { }
+            R.id.tvSkip -> {
+                context.switchTheme(YAPThemes.CORE())
+                launchActivity<YapDashboardActivity>(clearPrevious = true) { }
+            }
         }
     }
 }

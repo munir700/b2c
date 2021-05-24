@@ -146,6 +146,7 @@
                 android:visibility="@{viewModel.state.isMobileVerified?View.GONE:View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@string/screen_yap_house_hold_user_info_contact_back_to_house_hold_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:text="@{Strings.screen_yap_house_hold_user_info_contact_back_to_house_hold_text}" />
         </androidx.appcompat.widget.LinearLayoutCompat>

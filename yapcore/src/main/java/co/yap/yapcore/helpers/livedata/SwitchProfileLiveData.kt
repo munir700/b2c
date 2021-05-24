@@ -16,7 +16,7 @@ class SwitchProfileLiveData(private val uuid: String?, private val owner: Lifecy
         launch {
             when (val response = uuid?.let { authRepository.switchProfile(it) }) {
                 is RetroApiResponse.Success -> {
-                    GetAccountInfoLiveData.get().observe(owner, Observer<AccountInfo?> {
+                    GetAccountInfoLiveData.get().observe(owner, Observer {
                         value = it
                     })
                 }

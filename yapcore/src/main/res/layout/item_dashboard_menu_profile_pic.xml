@@ -22,18 +22,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:clickable="true"
         android:paddingBottom="@dimen/margin_small">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivProfilePic"
-            android:layout_width="@dimen/_42sdp"
-            android:layout_height="@dimen/_42sdp"
-            android:clickable="true"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/app_name"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             app:colorType="@{`Beneficiary`}"
             app:fullName="@{profilePictureItemVM.item.currentCustomer.fullName}"
             app:imageUrl="@{profilePictureItemVM.item.currentCustomer.picture}"

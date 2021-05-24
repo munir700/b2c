@@ -9,19 +9,15 @@ import co.yap.yapcore.R
 
 class ProfilePictureItemVM : BaseListItemViewModel<AccountInfo>() {
     private lateinit var mItem: AccountInfo
-    private var navigation: NavController? = null
     var position: Int = -1
-
     override fun setItem(item: AccountInfo, position: Int) {
         this.mItem = item
         this.position = position
-        notifyChange()
     }
 
     override fun getItem() = mItem
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        this.navigation = navigation
     }
 
     override fun layoutRes() = R.layout.item_dashboard_menu_profile_pic

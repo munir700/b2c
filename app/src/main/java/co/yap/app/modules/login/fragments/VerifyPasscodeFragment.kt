@@ -26,6 +26,7 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -42,6 +43,7 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.GsonProvider
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
@@ -319,7 +321,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         it?.run {
             trackEventWithScreenName(if (viewModel.isFingerprintLogin) FirebaseEvent.SIGN_IN_TOUCH else FirebaseEvent.SIGN_IN_PIN)
             if (!this.isWaiting) {
-                if (this.fssRequestRefNo.isNullOrBlank() && !SessionManager.shouldGoToHousehold()) {
+                if ((this.fssRequestRefNo.isNullOrBlank() && !SessionManager.shouldGoToHousehold()) || (this.fssRequestRefNo.isNullOrBlank() && SessionManager.isExistingUser())) {
                     startFragment(
                         fragmentName = ReachedTopQueueFragment::class.java.name,
                         clearAllPrevious = true
@@ -370,12 +372,15 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 }
             } else {
                 if (accountInfo?.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
-                    startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name,clearAllPrevious = true)
+                    startFragment(
+                        fragmentName = OtpBlockedInfoFragment::class.java.name,
+                        clearAllPrevious = true
+                    )
                 } else {
                     if (SessionManager.shouldGoToHousehold()) {
                         SessionManager.user?.uuid?.let { it1 ->
                             SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
-                                    .observe(this@VerifyPasscodeFragment, switchProfileObserver)
+                                .observe(this@VerifyPasscodeFragment, switchProfileObserver)
                         }
 
                     } else {
@@ -392,14 +397,14 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         accountInfo.let {
             if (it.currentCustomer.mobileNoVerified == true) {
                 trackEventInFragments(
-                        SessionManager.user,
-                        phoneNumberVerified = true
+                    SessionManager.user,
+                    phoneNumberVerified = true
                 )  // This was not added before in Core
             }
             if (it.currentCustomer.emailVerified == true) {
                 trackEventInFragments(
-                        SessionManager.user,
-                        emailVerified = true
+                    SessionManager.user,
+                    emailVerified = true
                 )  // This was not added before in Core
             }
             if (it.active == true) {
@@ -428,27 +433,27 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
                         putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
                         putExtra(
-                                NAVIGATION_Graph_START_DESTINATION_ID,
-                                R.id.householdDashboardFragment
+                            NAVIGATION_Graph_START_DESTINATION_ID,
+                            R.id.householdDashboardFragment
                         )
                     }
                 }
             } else {
-//                requireContext().getJsonDataFromAsset("hh_user.json")?.let {
+//                requireContext().getJsonDataFromAsset("hh_user_existing.json")?.let {
 //                    val user = GsonProvider.fromJson(
 //                        it, AccountInfoResponse::class.java
 //                    )
 //                    SessionManager.usersList?.value = ArrayList(user.data)
 //                    SessionManager.user = SessionManager.getCurrentUser()
 //                }
+//                SessionManager.user?.notificationStatuses =
+//                    AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 context.switchTheme(HOUSEHOLD())
-                SessionManager.user?.notificationStatuses =
-                        AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
                     putExtra(
-                            NAVIGATION_Graph_START_DESTINATION_ID,
-                            R.id.HHOnBoardingWelcomeFragment
+                        NAVIGATION_Graph_START_DESTINATION_ID,
+                        R.id.HHOnBoardingWelcomeFragment
                     )
                 }
             }

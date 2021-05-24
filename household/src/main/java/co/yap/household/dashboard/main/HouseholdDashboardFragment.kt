@@ -30,7 +30,6 @@ import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
@@ -149,7 +148,7 @@ class HouseholdDashboardFragment :
                                 launchActivity<YapDashboardActivity>(clearPrevious = true)
                             })
                     }
-                }
+                } else launchActivity<MoreActivity>()
             }
         }
     }
