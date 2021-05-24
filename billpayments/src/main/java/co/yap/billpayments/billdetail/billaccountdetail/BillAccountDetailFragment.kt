@@ -3,8 +3,8 @@ package co.yap.billpayments.billdetail.billaccountdetail
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
@@ -19,12 +19,12 @@ class BillAccountDetailFragment :
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_bill_account_detail
-    override val viewModel: BillAccountDetailViewModel
-        get() = ViewModelProviders.of(this).get(BillAccountDetailViewModel::class.java)
+    override val viewModel: BillAccountDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        viewModel.getBillAccountHistory(viewModel.parentViewModel?.selectedBill?.uuid.toString())
     }
 
     override fun setObservers() {

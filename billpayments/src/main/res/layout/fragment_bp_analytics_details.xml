@@ -129,7 +129,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="50%"
+                            android:text="@{viewModel.state.billFluctuation}"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/text_size_h4"
                             tools:text="50%" />

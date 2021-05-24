@@ -38,7 +38,6 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
         }
     }
 
-
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
     }

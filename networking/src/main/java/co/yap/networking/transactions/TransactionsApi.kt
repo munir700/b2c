@@ -5,6 +5,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
@@ -108,4 +109,5 @@ interface TransactionsApi {
     suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>
     suspend fun fetchCustomerBillHistory(customerBillUuid: String): RetroApiResponse<BillAccountHistoryResponse>
     suspend fun getBPAnalytics(date: String?): RetroApiResponse<BPAnalyticsResponseDTO>
+    suspend fun getBPCategoryHistory(month: String?, categoryId: String?): RetroApiResponse<BPAnalyticsDetailsResponse>
 }

@@ -28,5 +28,6 @@ interface IBPAnalyticsDetail {
     interface State : IBase.State {
         val bpAnalyticsModel: ObservableField<BPAnalyticsModel?>
         val monthYearAndTxnCount: ObservableField<String>
+        val billFluctuation: ObservableField<String>
     }
 }

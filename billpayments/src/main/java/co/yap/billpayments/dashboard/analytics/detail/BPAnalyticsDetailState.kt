@@ -7,4 +7,5 @@ import co.yap.yapcore.BaseState
 class BPAnalyticsDetailState : BaseState(), IBPAnalyticsDetail.State {
     override val bpAnalyticsModel: ObservableField<BPAnalyticsModel?> = ObservableField()
     override val monthYearAndTxnCount: ObservableField<String> = ObservableField()
+    override val billFluctuation: ObservableField<String> = ObservableField()
 }
