@@ -1120,17 +1120,23 @@ Due to all the excitement of our official launch, we are gradually activating as
     <!--    Waiting list screen-->
     <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
     <string name="screen_waiting_list_display_text_guide"> We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready. Should you wish to find out more in the meantime, our website has more information for you.</string>
-    <string name="screen_waiting_list_display_button_text">Share with a friend</string>
+    <string name="screen_waiting_list_display_button_text">Bump me up the queue</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
     <string name="screen_waiting_list_display_text_you_re">You’re</string>
     <string name="screen_waiting_list_display_text_your_place_in_queue">Your place in the queue</string>
     <string name="screen_waiting_list_display_text_waiting_behind_you">waiting behind you</string>
-    <string name="screen_waiting_list_display_text_we_will_notify_you">We will notify you when you\'ve reached the top!</string>
-    <string name="screen_waiting_list_display_text_want_to_jump">Grow your YAP network!</string>
-    <string name="screen_waiting_list_display_text_lead_the_bank_description">Lead the banking revolution and share YAP with your friends. Click the button below to share now 🚀</string>
+    <string name="screen_waiting_list_display_text_we_will_notify_you">We will notify you when you\’ve reached the top. Log back in to see your updated place in the queue.</string>
+    <string name="screen_waiting_list_display_text_want_to_jump">Want to jump the queue?</string>
+    <string name="screen_waiting_list_display_text_lead_the_bank_description">Boost yourself up the queue by %1s for every friend you refer that signs up.🚀</string>
     <string name="screen_waiting_list_display_text_log_back">Log back in to see your rank in the queue.</string>
     <string name="screen_waiting_list_display_text_rank_hashtag">#%1s</string>
+    <string name="screen_waiting_list_display_text_notification_jump_rank">Congrats! You were bumped up by %1s spots! Keep on referring to get to the top faster!</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users">You referred 0 friends! 😏</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count">You referred %1s friends! 👏</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count">You have been bumped up by %1s spots.</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide">Once your referred friends sign up, you will see their names listed below and your place in the queue bumped up by %1s spots for each friend!</string>
+    <string name="screen_waiting_list_display_text_signed_up_users">Signed up friends: %1s</string>
 
     <!-- Blocked Screen-->
 
