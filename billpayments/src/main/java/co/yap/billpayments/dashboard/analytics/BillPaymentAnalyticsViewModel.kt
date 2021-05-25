@@ -9,7 +9,6 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
-import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.widgets.pieview.PieEntry
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
@@ -17,12 +16,9 @@ import co.yap.yapcore.enums.BillCategory
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.MonthYearHandler
 import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import java.util.*
 
 class BillPaymentAnalyticsViewModel(application: Application) :
