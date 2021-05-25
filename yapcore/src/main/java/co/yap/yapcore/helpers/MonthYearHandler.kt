@@ -1,51 +1,36 @@
 package co.yap.yapcore.helpers
 
-import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
-class MonthYearHandler {
+class MonthYearHandler(availableMonthList: List<Date>, currDate: Date = Date()) {
 
-    private var currentDate: Date? = Date()
+    var currentDate: Date? = null
     private var listOfMonths: List<Date> = arrayListOf()
 
     init {
-        val startDate = SessionManager.user?.creationDate ?: ""
-        val endDate = DateUtils.dateToString(
-            Date(),
-            DateUtils.SIMPLE_DATE_FORMAT, DateUtils.TIME_ZONE_Default
-        )
-        listOfMonths = DateUtils.geMonthsBetweenTwoDates(
-            startDate,
-            endDate
-        )
-//        setSelectedDate(currentDate)
-//        state.previousMonth.set(isPreviousIconEnabled(listOfMonths, currentDate))
+        this.listOfMonths = availableMonthList
+        this.currentDate = currDate
     }
 
-    private fun previousMonth(): Boolean {
-        currentDate = DateUtils.getPriviousMonthFromCurrentDate(
-            listOfMonths,
-            currentDate
+    fun previousMonth(currentDate: Date?): Date? {
+        val currDate = DateUtils.getPriviousMonthFromCurrentDate(
+                listOfMonths,
+                currentDate
         )
-//        fetchAnalytics(currentDate)
-        return isPreviousIconEnabled(listOfMonths, currentDate)
-//        state.previousMonth.set(isPreviousIconEnabled(listOfMonths, currentDate))
-//        state.nextMonth.set(true)
+        this.currentDate = currDate
+        return this.currentDate
     }
 
-    private fun nextMonth(): Boolean {
-        currentDate = DateUtils.getNextMonthFromCurrentDate(
-            listOfMonths,
-            currentDate
+    fun nextMonth(currentDate: Date?): Date? {
+        val currDate = DateUtils.getNextMonthFromCurrentDate(
+                listOfMonths,
+                currentDate
         )
-//        fetchAnalytics(currentDate)
-        return isNextIconEnabled(listOfMonths, currentDate)
-
-//        state.nextMonth.set(isNextIconEnabled(listOfMonths, currentDate))
-//        state.previousMonth.set(true)
+        this.currentDate = currDate
+        return this.currentDate
     }
 
-    private fun isPreviousIconEnabled(listOfMonths: List<Date>, currentDate: Date?): Boolean {
+    fun isPreviousIconEnabled(currentDate: Date?): Boolean {
         var index: Int = -1
         currentDate?.let {
             for (i in listOfMonths.indices) {
@@ -59,7 +44,7 @@ class MonthYearHandler {
         return index - 1 >= 0
     }
 
-    private fun isNextIconEnabled(listOfMonths: List<Date>, currentDate: Date?): Boolean {
+    fun isNextIconEnabled(currentDate: Date?): Boolean {
         var index: Int = -1
         currentDate?.let {
             for (i in listOfMonths.indices) {
