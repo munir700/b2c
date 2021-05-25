@@ -35,6 +35,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import com.uxcam.UXCam
 import timber.log.Timber
 import java.util.*
 
@@ -82,7 +83,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin1 = originalSign.sslPin1,
             sslPin2 = originalSign.sslPin2,
             sslPin3 = originalSign.sslPin3,
-            sslHost = originalSign.sslHost
+            sslHost = originalSign.sslHost,
+            uxCamKey = originalSign.uxCamKey
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -99,6 +101,11 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
         initFacebook()
+        initUxCam(configManager)
+    }
+
+    private fun initUxCam(configManager: BuildConfigManager?) {
+        UXCam.startWithKey(configManager?.uxCamKey)
     }
 
     private fun initNetworkLayer() {
