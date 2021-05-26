@@ -47,6 +47,7 @@
     <string name="common_display_text_search_hint">Search</string>
     <string name="common_display_text_no_results">No results</string>
     <string name="common_display_text_no_country_found">No country found</string>
+    <string name="common_yap_share_content">Hey! I\'ve started using the UAE\'s newest banking app – YAP. Transform how you manage your money and join me in the banking revolution.\n\nDownload YAP here:\n\n%1$s</string>
     <string name="common_display_text_percentage">%</string>
     <string name="common_display_text_available_balance_error_without_fee">Uh oh! You’ll need to have a minimum balance of %1s to proceed with this payment. </string>
 
@@ -219,7 +220,6 @@
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
-    <string name="screen_b2c_eid_info_review_button_title_scan_eid">Scan Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
@@ -227,6 +227,7 @@
     <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from %1s</string>
     <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from %1s</string>
     <string name="screen_b2c_eid_info_review_display_expired_eid_text">Looks like your ID has expired. Please re-scan a valid ID</string>
+    <string name="screen_b2c_eid_info_review_button_title_scan_eid">Scan Emirates ID</string>
 
     <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First name</string>
     <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name (if applicable)</string>
@@ -307,6 +308,12 @@
     <!--  store  -->
     <string name="screen_yap_store_display_text_title">YAP Store</string>
     <string name="screen_yap_store_display_text_heading">Browse YAP packages and add-ons</string>
+    <string name="screen_yap_store_card_plans_label_text">Card Plans</string>
+    <string name="screen_yap_store_card_plans_description_text">Upgrade your plan to Prime or Metal to supercharge your YAP experience.</string>
+    <string name="screen_yap_store_young_label_text">YAP Young</string>
+    <string name="screen_yap_store_young_description_text">Open a bank account for your children and help empower them financially.</string>
+    <string name="screen_yap_store_household_label_text">YAP Household</string>
+    <string name="screen_yap_store_household_description_text">Manage your household salaries digitally.</string>
 
     <!--    fragment home transaction-->
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
@@ -508,6 +515,9 @@
     <string name="screen_update_profile_photo_display_text_take_photo">Take photo</string>
     <string name="screen_update_profile_photo_display_text_re_take_photo">Re-take photo</string>
     <string name="screen_update_profile_photo_display_text_remove_photo">Remove photo</string>
+    <string name="screen_upload_documents_display_sheet_text_scan_single_document">Scan a single document</string>
+    <string name="screen_upload_documents_display_sheet_text_upload_from_files">Upload from files</string>
+    <string name="screen_upload_documents_display_sheet_text_upload_from_files_descriptions">Include all necessary documents in one file</string>
 
     <!-- personal detail screen -->
 
@@ -820,7 +830,7 @@
     <string name="screen_topup_transfer_display_text_screen_title">Add money using a card</string>
     <string name="screen_topup_transfer_display_text_amount_title">How much would you like to add?</string>
     <string name="screen_topup_transfer_display_text_available_balance">Your available balance is %1s %2s</string>
-    <string name="screen_topup_transfer_display_text_transaction_fee">Transaction fee: %1s</string>
+    <string name="screen_topup_transfer_display_text_transaction_fee">Fee: %1s</string>
     <string name="screen_topup_transfer_display_text_transaction_no_fee">No Fee</string>
     <string name="screen_topup_funds_display_button_text">Next</string>
 
@@ -1108,17 +1118,23 @@
     <!--    Waiting list screen-->
     <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
     <string name="screen_waiting_list_display_text_guide"> We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready. Should you wish to find out more in the meantime, our website has more information for you.</string>
-    <string name="screen_waiting_list_display_button_text">Share with a friend</string>
+    <string name="screen_waiting_list_display_button_text">Bump me up the queue</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
     <string name="screen_waiting_list_display_text_you_re">You’re</string>
     <string name="screen_waiting_list_display_text_your_place_in_queue">Your place in the queue</string>
     <string name="screen_waiting_list_display_text_waiting_behind_you">waiting behind you</string>
-    <string name="screen_waiting_list_display_text_we_will_notify_you">We will notify you when you\'ve reached the top!</string>
-    <string name="screen_waiting_list_display_text_want_to_jump">Grow your YAP network!</string>
-    <string name="screen_waiting_list_display_text_lead_the_bank_description">Lead the banking revolution and share YAP with your friends. Click the button below to share now 🚀</string>
+    <string name="screen_waiting_list_display_text_we_will_notify_you">We will notify you when you\’ve reached the top. Log back in to see your updated place in the queue.</string>
+    <string name="screen_waiting_list_display_text_want_to_jump">Want to jump the queue?</string>
+    <string name="screen_waiting_list_display_text_lead_the_bank_description">Boost yourself up the queue by %1s for every friend you refer that signs up.🚀</string>
     <string name="screen_waiting_list_display_text_log_back">Log back in to see your rank in the queue.</string>
     <string name="screen_waiting_list_display_text_rank_hashtag">#%1s</string>
+    <string name="screen_waiting_list_display_text_notification_jump_rank">Congrats! You were bumped up by %1s spots! Keep on referring to get to the top faster!</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users">You referred 0 friends! 😏</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count">You referred %1s friends! 👏</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count">You have been bumped up by %1s spots.</string>
+    <string name="screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide">Once your referred friends sign up, you will see their names listed below and your place in the queue bumped up by %1s spots for each friend!</string>
+    <string name="screen_waiting_list_display_text_signed_up_users">Signed up friends: %1s</string>
 
     <!-- Blocked Screen-->
 

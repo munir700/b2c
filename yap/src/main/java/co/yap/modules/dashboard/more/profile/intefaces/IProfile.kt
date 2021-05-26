@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.net.Uri
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.app.YAPApplication
 import co.yap.networking.authentication.AuthRepository
@@ -18,6 +19,7 @@ interface IProfile {
         var imageUri: Uri
         var buildVersionDetail: String?
         var isShowErrorIcon: ObservableField<Boolean>
+        var isNotificationsEnabled : ObservableBoolean
 
     }
 
@@ -32,6 +34,7 @@ interface IProfile {
         fun logout()
         fun requestRemoveProfilePicture(apiRes: (Boolean) -> Unit)
         fun getUploadProfileOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem>
+        fun getNotificationScreenValues(isGranted : Boolean)
     }
 
     interface View : IBase.View<ViewModel> {

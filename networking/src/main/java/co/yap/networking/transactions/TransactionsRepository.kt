@@ -81,6 +81,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_TRANSACTIONS_RECEIPT = "/transactions/api/transaction-receipt/transaction-id"
     const val URL_TRANSACTIONS_RECEIPT_SAVE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
+    const val URL_TRANSACTIONS_TOTAL_PURCHASES = "/transactions/api/total-purchases"
 
     // Bill payment
     const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
@@ -88,7 +89,6 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
-
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -164,7 +164,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 homeTransactionsRequest?.number,
                 homeTransactionsRequest?.size,
                 homeTransactionsRequest?.searchField,
-                homeTransactionsRequest?.cardDetailsRequired?:true
+                homeTransactionsRequest?.cardDetailsRequired ?: true
             )
         })
     }
@@ -324,6 +324,16 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<ApiResponse> = executeSafely(call = {
         api.deleteTransactionReceipt(receipt, transactionId)
     })
+
+    override suspend fun getTotalPurchases(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesResponse> =
+        executeSafely(call = {
+            api.getTotalPurchases(txnType = totalPurchaseRequest.txnType,
+                beneficiaryId = totalPurchaseRequest.beneficiaryId,
+                receiverCustomerId = totalPurchaseRequest.receiverCustomerId,
+                senderCustomerId = totalPurchaseRequest.senderCustomerId,
+                productCode = totalPurchaseRequest.productCode,
+                merchantName = totalPurchaseRequest.merchantName)
+        })
 
     override suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
