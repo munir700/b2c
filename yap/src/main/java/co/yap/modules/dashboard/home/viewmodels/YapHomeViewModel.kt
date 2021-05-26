@@ -27,6 +27,7 @@ import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import kotlinx.coroutines.launch
 
 class YapHomeViewModel(application: Application) :
         YapDashboardChildViewModel<IYapHome.State>(application),
@@ -340,7 +341,7 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun getFailedTransactionAndSubNotifications(apiResponse: ((Boolean) -> Unit?)?) {
-        launch {
+        viewModelScope.launch {
             val list: MutableList<HomeNotification> = mutableListOf()
             when (val response = getFailedTransactions()) {
                 is RetroApiResponse.Success -> {
@@ -355,7 +356,6 @@ class YapHomeViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     apiResponse?.invoke(false)
-
                 }
             }
         }
