@@ -125,10 +125,10 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         viewModel.errorEvent.observe(this, Observer {
             requireActivity().finish()
         })
-        viewModel.isFeeReceived.observe(requireActivity(), Observer {
+        viewModel.isFeeReceived.observe(viewLifecycleOwner, Observer {
             if (it) viewModel.updateFees("")
         })
-        viewModel.updatedFee.observe(requireActivity(), Observer {
+        viewModel.updatedFee.observe(viewLifecycleOwner, Observer {
             viewModel.state.virtualCardFee = it
             viewModel.parentViewModel?.virtualCardFee = it
         })

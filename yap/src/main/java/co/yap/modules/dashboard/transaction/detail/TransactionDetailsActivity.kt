@@ -126,13 +126,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         }
     }
 
-    private fun showFeedbackSuccessDialog() {
-        this.showReceiptSuccessDialog(
-            description = getString(Strings.screen_transaction_details_feedback_success_label),
-            addOtherVisibility = false
-        )
-    }
-
     private fun showAddReceiptOptions() {
         launchSheet(
             itemClickListener = onReceiptClickListener,

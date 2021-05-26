@@ -21,7 +21,7 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:contentDescription="@string/empty_string"
             app:fullName="@{categoryViewModel.state.updatedCategory.categoryName==null?`General`:categoryViewModel.state.updatedCategory.categoryName}"
-            app:imageDrawable="@{categoryViewModel.state.updatedCategory.categoryName ==`General` || categoryViewModel.state.updatedCategory.categoryName==null ? @drawable/ic_general :null}"
+            app:imageDrawable="@{categoryViewModel.state.updatedCategory.categoryName ==`General` || categoryViewModel.state.updatedCategory.categoryName==null ? @drawable/ic_category_general :null}"
             app:imageUrl="@{categoryViewModel.state.updatedCategory.categoryIcon ?? ` `}"
             app:isBackground="@{true}"
             app:layout_constraintStart_toStartOf="parent"

@@ -11,8 +11,6 @@ interface ITransactionFeedback {
     interface View : IBase.View<ViewModel> {
         fun setObserver()
         fun removeObserver()
-        fun getBinding(): FragmentTransactionFeedbackBinding
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
