@@ -17,9 +17,7 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_pay_all
-    private val payAllViewModel: PayAllViewModel by viewModels()
-    override val viewModel: PayAllViewModel
-        get() = payAllViewModel
+    override val viewModel: PayAllViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
