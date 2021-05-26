@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pay_bill_navigation"
+    app:startDestination="@id/payBillFragment">
+
+
+    <fragment
+        android:id="@+id/payBillFragment"
+        android:name="co.yap.billpayments.paybill.PayBillFragment"
+        android:label="PayBillFragment"
+        tools:layout="@layout/fragment_pay_bill">
+        <action
+            android:id="@+id/action_payBillFragment_to_payBillSuccessFragment"
+            app:destination="@id/payBillSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/payBillSuccessFragment"
+        android:name="co.yap.billpayments.paybill.paybillsuccess.PayBillSuccessFragment"
+        android:label="PayBillSuccessFragment"
+        tools:layout="@layout/fragment_pay_bill_success" />
+</navigation>

@@ -83,8 +83,8 @@ android {
         }
 
         qa {
-            versionCode 105
-            versionName "0.1.5"
+            versionCode 109
+            versionName "0.1.9"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP QA"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -126,7 +126,7 @@ dependencies {
     }
 
     project.commonDependencies.each {
-        add(it.configuration, it.dependency)
+        add(it.configuration, it.dependency, it.options)
     }
 
     project.appDependencies.each {

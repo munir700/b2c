@@ -6,6 +6,7 @@ import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoRes
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -298,4 +299,25 @@ interface CustomersRetroService {
 
     @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
     suspend fun stopRankingMsgRequest(): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_BILL_PROVIDERS)
+    suspend fun getBillProviders(): Response<BillProviderResponse>
+
+    @GET(CustomersRepository.URL_BILLER_CATALOGS)
+    suspend fun getBillerCatalogs(@Path("category-id") categoryId: String): Response<BillerCatalogResponse>
+
+    @GET(CustomersRepository.URL_BILLER_INPUTS_DETAILS)
+    suspend fun getBillerInputsDetails(@Path("biller-id") billerId: String): Response<BillerDetailResponse>
+
+    @POST(CustomersRepository.URL_ADD_BILLER)
+    suspend fun addBiller(@Body addBillerInformationRequest: AddBillerInformationRequest): Response<BillAddedResponse>
+
+    @GET(CustomersRepository.URL_GET_ADDED_BILLS)
+    suspend fun getAddedBills(): Response<BillResponse>
+
+    @DELETE(CustomersRepository.URL_DELETE_BILL)
+    suspend fun deleteBill(@Path("id") id: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_EDIT_BILL)
+    suspend fun editBill(@Body editBillInformationRequest: EditBillInformationRequest): Response<ApiResponse>
 }

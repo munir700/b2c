@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.dashboard.home.adapter.DueBillsItemViewModel" />
+
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.enums.BillStatus" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/swipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:id="@+id/btnPayNow"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_65sdp"
+                android:background="@color/colorPrimary">
+
+                <TextView
+                    style="@style/Micro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/ic_bank"
+                    android:drawablePadding="@dimen/_2sdp"
+                    android:drawableTint="@color/white"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    app:text="@{Strings.screen_bill_payment_due_bills_swipe_button_title}"
+                    tools:text="Pay Now" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/foregroundContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_marginStart="@dimen/margin_medium"
+                app:fullName="@{viewModel.dueBill.billerInfo.billerName}"
+                app:imageUrl="@{viewModel.dueBill.billerInfo.logo}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{viewModel.position}"
+                tools:src="@drawable/ic_round_badge_dark_blue" />
+
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/fwNameAndDesc"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:orientation="vertical"
+                app:constraint_referenced_ids="tvBillerName,tvDescription"
+                app:flow_horizontalAlign="start"
+                app:flow_horizontalBias="0"
+                app:flow_verticalAlign="top"
+                app:flow_verticalGap="@dimen/_1sdp"
+                app:flow_wrapMode="chain"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="@id/ivIcon"
+                app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
+                app:layout_constraintStart_toEndOf="@+id/ivIcon"
+                app:layout_constraintTop_toTopOf="@id/ivIcon" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBillerName"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{viewModel.dueBill.billerInfo.billerName+` - `+viewModel.dueBill.billNickName}"
+                app:layout_constrainedWidth="true"
+                tools:text="Etsiast" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDescription"
+                style="@style/MicroGrey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{viewModel.dueBill.formattedDueDate.equals(``) ? `Due`: `Due - `+viewModel.dueBill.formattedDueDate}"
+                app:layout_constrainedWidth="true"
+                tools:text="Etsilat" />
+
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/fwAmountAndStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:orientation="vertical"
+                app:constraint_referenced_ids="tvAmount,tvCurrency"
+                app:flow_horizontalAlign="end"
+                app:flow_verticalAlign="center"
+                app:layout_constraintBottom_toBottomOf="@id/fwNameAndDesc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/fwNameAndDesc" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAmount"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.dueBill.totalAmountDue,false,viewModel.dueBill.settlementCurrency,true)}"
+                android:textColor="@{viewModel.dueBill.status.equals(BillStatus.OVERDUE.name) ? @color/red : @color/colorPrimaryDark }"
+                tools:text="200.00" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCurrency"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.dueBill.settlementCurrency}"
+                tools:text="AED" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:background="@color/divider"
+                app:layout_constraintEnd_toEndOf="@id/tvAmount"
+                app:layout_constraintStart_toStartOf="@id/tvBillerName"
+                app:layout_constraintTop_toBottomOf="@id/fwNameAndDesc" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</layout>

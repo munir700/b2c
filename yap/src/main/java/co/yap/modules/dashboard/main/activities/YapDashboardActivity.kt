@@ -27,6 +27,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
+import co.yap.billpayments.dashboard.BillPaymentsHomeActivity
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
@@ -55,6 +56,8 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.flagsmith.ToggleFeature
+import co.yap.yapcore.flagsmith.getFeatureFlagClient
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
@@ -117,12 +120,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.drawable.ic_send_money,
                 R.layout.component_yap_menu_sub_button,
                 this, 1
-            )/*.addSubActionView(
+            ).addSubActionView(
                 getString(Strings.common_pay_bills),
                 R.drawable.ic_bill,
                 R.layout.component_yap_menu_sub_button,
                 this, 2
-            )*/.addSubActionView(
+            ).addSubActionView(
                 getString(Strings.common_add_money),
                 R.drawable.ic_add_sign_white,
                 R.layout.component_yap_menu_sub_button,
@@ -135,6 +138,16 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuOpened(menu: FloatingActionMenu) {
                     trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
                     overLayButtonVisibility(View.GONE)
+                    getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
+                        launch {
+                            if (hasFlag) {
+                                actionMenu?.subActionItems?.get(1)?.view?.visibility = View.VISIBLE
+                            } else {
+                                actionMenu?.subActionItems?.get(1)?.view?.visibility =
+                                    View.INVISIBLE
+                            }
+                        }
+                    }
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
@@ -147,6 +160,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
                             launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                         }
+
+                        2 -> {
+                            launchActivity<BillPaymentsHomeActivity>()
+                        }
+
                         3 -> {
                             launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                         }
@@ -154,10 +172,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
             })
             .build()
+
     }
 
     private fun setupPager() {
-//        SessionManager.card = MutableLiveData()
         adapter = YapDashboardAdaptor(supportFragmentManager)
         getViewBinding().viewPager.adapter = adapter
 

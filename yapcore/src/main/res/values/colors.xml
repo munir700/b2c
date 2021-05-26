@@ -63,6 +63,8 @@
     <color name="bg_round_light_secondary_blue">#29478DF4</color>
     <color name="bg_round_light_primary">#295E35B1</color>
 
+
+    <color name="bg_with_hint_of_blue">#0D5e35b1</color>
     <color name="semiBack">#30000000</color>
     <color name="semiBlack">#A6000000</color>
     <color name="dialog_title">#4b4b4b</color>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_bill_navigation"
+    app:startDestination="@id/billersFragment">
+
+    <fragment
+        android:id="@+id/billersFragment"
+        android:name="co.yap.billpayments.addbiller.billers.BillersFragment"
+        android:label="BillersFragment"
+        tools:layout="@layout/fragment_billers">
+        <action
+            android:id="@+id/action_billersFragment_to_billerSearchFragment"
+            app:destination="@id/billerSearchFragment" />
+        <action
+            android:id="@+id/action_billersFragment_to_billerDetailFragment"
+            app:destination="@id/billerDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/billerSearchFragment"
+        android:name="co.yap.billpayments.addbiller.billers.search.BillerSearchFragment"
+        android:label="BillerSearchFragment"
+        tools:layout="@layout/fragment_biller_search">
+        <action
+            android:id="@+id/action_billerSearchFragment_to_billerDetailFragment"
+            app:destination="@id/billerDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/billerDetailFragment"
+        android:name="co.yap.billpayments.addbiller.addbillerdetail.AddBillerDetailFragment"
+        android:label="BillerDetailFragment"
+        tools:layout="@layout/fragment_biller_detail" />
+</navigation>
+

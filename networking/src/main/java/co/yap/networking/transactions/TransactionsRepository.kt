@@ -83,6 +83,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_TOTAL_PURCHASES = "/transactions/api/total-purchases"
 
+    // Bill payment
+    const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
+
+
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
@@ -329,6 +333,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 senderCustomerId = totalPurchaseRequest.senderCustomerId,
                 productCode = totalPurchaseRequest.productCode,
                 merchantName = totalPurchaseRequest.merchantName)
+        })
+
+    override suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.payBill(payBillRequest)
         })
 
 }
