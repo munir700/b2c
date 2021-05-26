@@ -8,6 +8,7 @@ import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
@@ -92,7 +93,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_BILL_PAYMENTS_ANALYTICS =
             "/transactions/api/billpayment/fetch-bill-history-chart/{date}"
     const val URL_GET_BILL_CATEGORY_HISTORY =
-            "/transactions/api/billpayment/billpayment/fetch-category-bill-history/{month}/{categoryId}"
+            "/transactions/api/billpayment/fetch-category-bill-history/{month}/{categoryId}"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -348,7 +349,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 api.getBPAnalytics(date)
             })
 
-    override suspend fun getBPCategoryHistory(month: String?, categoryId: String?): RetroApiResponse<BPAnalyticsDetailsResponse> =
+    override suspend fun getBPCategoryHistory(month: String?, categoryId: String?): RetroApiResponse<BPAnalyticsDetailsDTO> =
             executeSafely(call = {
                 api.getBPCategoryHistory(month, categoryId)
             })

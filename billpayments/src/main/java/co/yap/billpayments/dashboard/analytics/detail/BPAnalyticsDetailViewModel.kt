@@ -37,8 +37,8 @@ class BPAnalyticsDetailViewModel(application: Application) :
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        adapter.setList(response.data.bills ?: arrayListOf())
-                        state.billFluctuation.set(response.data.fluctuation)
+                        adapter.setList(response.data.data?.bills ?: arrayListOf())
+                        state.billFluctuation.set(response.data.data?.fluctuation)
                         state.viewState.value = false
                     }
                     is RetroApiResponse.Error -> {
