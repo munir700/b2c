@@ -74,7 +74,7 @@ class HouseHoldMoreFragment :
 
     override fun onClick(id: Int) {
         when (id) {
-            R.id.imgSettings -> launchActivity<MoreActivity>()
+            R.id.imgSettings, R.id.imgProfile -> launchActivity<MoreActivity>()
             R.id.tvLogOut -> {
                 confirm(message = getString(R.string.screen_profile_settings_logout_display_text_alert_message),
                     title = getString(R.string.screen_profile_settings_logout_display_text_alert_title),

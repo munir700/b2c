@@ -47,13 +47,14 @@
                 android:contentDescription="@string/empty_string"
                 app:bgColor="@{R.color.colorPrimaryHouseHold}"
                 app:civ_border_color="#4DFFFFFF"
-                app:civ_border_width="3dp"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:fullName="@{SessionManager.INSTANCE.getUser().currentCustomer.fullName}"
                 app:imageUrl="@{SessionManager.INSTANCE.getUser().currentCustomer.picture}"
                 app:initialTextColor="@{R.color.white}"
                 app:initialTextSize="@{R.dimen.text_size_h3}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:civ_border_width="4dp"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
