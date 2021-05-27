@@ -20,9 +20,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -178,7 +177,9 @@ class EidInfoReviewViewModel(application: Application) :
                             result.identity = identity
                             parentViewModel?.identity = identity
                             populateState(parentViewModel?.identity)
-                            if (SharedPreferenceManager.getInstance(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+                            if (SharedPreferenceManager.getInstance(context).getThemeValue()
+                                    .equals(Constants.THEME_HOUSEHOLD)
+                            ) {
                                 trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_EID.type)
                             }
                         }

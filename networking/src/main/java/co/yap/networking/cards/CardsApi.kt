@@ -3,7 +3,6 @@ package co.yap.networking.cards
 import co.yap.networking.cards.requestdtos.*
 import co.yap.networking.cards.responsedtos.*
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
-import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
@@ -33,7 +32,7 @@ interface CardsApi {
         address: Address
     ): RetroApiResponse<ApiResponse>
 
-    suspend fun getUserAddressRequest(): RetroApiResponse<GetPhysicalAddress>
+    suspend fun getUserAddressRequest(uuid: String = ""): RetroApiResponse<GetPhysicalAddress>
     suspend fun getCardBalance(cardSerialNumber: String): RetroApiResponse<CardBalanceResponseDTO>
     suspend fun freezeUnfreezeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun getCardDetails(cardSerialNumber: String): RetroApiResponse<CardDetailResponseDTO>
@@ -54,10 +53,11 @@ interface CardsApi {
     suspend fun reorderDebitCard(address: Address): RetroApiResponse<ApiResponse>
     suspend fun reorderSupplementryCard(address: Address): RetroApiResponse<ApiResponse>
     suspend fun getCardsAtmCdm(): RetroApiResponse<AtmCdmResponse>
-    suspend fun getCardTokenForSamsungPay(cardSerialNumber:String): RetroApiResponse<SPayCardResponse>
+    suspend fun getCardTokenForSamsungPay(cardSerialNumber: String): RetroApiResponse<SPayCardResponse>
 
     suspend fun getHouseHoldCardsDesign(
         accountType: String
     ): RetroApiResponse<BaseListResponse<HouseHoldCardsDesign>>
+
     suspend fun getVirtualCardDesigns(): RetroApiResponse<VirtualCardDesignsResponse>
 }

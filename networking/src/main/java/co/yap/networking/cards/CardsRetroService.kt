@@ -2,9 +2,7 @@ package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
 import co.yap.networking.cards.responsedtos.*
-import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
-import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
 import retrofit2.Response
@@ -14,7 +12,10 @@ interface CardsRetroService {
 
     // Create Card Pin
     @POST(CardsRepository.URL_CREATE_PIN)
-    suspend fun createCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body createCardPinRequest: CreateCardPinRequest): Response<ApiResponse>
+    suspend fun createCardPin(
+        @Path("card-serial-number") cardSerialNumber: String,
+        @Body createCardPinRequest: CreateCardPinRequest
+    ): Response<ApiResponse>
 
     // Get Cards
     @GET(CardsRepository.URL_GET_CARDS)
@@ -50,7 +51,7 @@ interface CardsRetroService {
 
     // add spare physical card
     @GET(CardsRepository.URL_GET_PHYSICAL_CARD_ADDRESS)
-    suspend fun getPhysicalCardAddress(): Response<GetPhysicalAddress>
+    suspend fun getPhysicalCardAddress(@Path("uuid") uuid: String): Response<GetPhysicalAddress>
 
     // Get Card Balance
     @GET(CardsRepository.URL_GET_CARD_BALANCE)
@@ -70,7 +71,10 @@ interface CardsRetroService {
 
     // Update Card name
     @PUT(CardsRepository.URL_UPDATE_CARD_NAME)
-    suspend fun updateCardName(@Query("cardName") cardName: String, @Query("cardSerialNumber") cardSerialNumber: String): Response<CardDetailResponseDTO>
+    suspend fun updateCardName(
+        @Query("cardName") cardName: String,
+        @Query("cardSerialNumber") cardSerialNumber: String
+    ): Response<CardDetailResponseDTO>
 
     // report & block Card
     @POST(CardsRepository.URL_REPORT_LOST_OR_STOLEN_CARD)
@@ -85,7 +89,10 @@ interface CardsRetroService {
 
     // forgot card pin
     @POST(CardsRepository.URL_FORGOT_CARD_PIN)
-    suspend fun forgotCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body forgotCardPin: ForgotCardPin): Response<ApiResponse>
+    suspend fun forgotCardPin(
+        @Path("card-serial-number") cardSerialNumber: String,
+        @Body forgotCardPin: ForgotCardPin
+    ): Response<ApiResponse>
 
     // House hold cards design
     @GET(CardsRepository.URL_GET_HOUSE_HOLD_CARDS_DESIGN)

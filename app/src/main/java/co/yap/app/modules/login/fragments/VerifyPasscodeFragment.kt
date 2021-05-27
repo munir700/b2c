@@ -26,7 +26,6 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -37,13 +36,12 @@ import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
-import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.GsonProvider
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
@@ -321,7 +319,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         it?.run {
             trackEventWithScreenName(if (viewModel.isFingerprintLogin) FirebaseEvent.SIGN_IN_TOUCH else FirebaseEvent.SIGN_IN_PIN)
             if (!this.isWaiting) {
-                if ((this.fssRequestRefNo.isNullOrBlank() && !SessionManager.shouldGoToHousehold()) || (this.fssRequestRefNo.isNullOrBlank() && SessionManager.isExistingUser())) {
+                if (this.fssRequestRefNo.isNullOrBlank() && this.accountType == AccountType.B2C_ACCOUNT.name) {
                     startFragment(
                         fragmentName = ReachedTopQueueFragment::class.java.name,
                         clearAllPrevious = true

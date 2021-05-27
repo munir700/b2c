@@ -9,7 +9,6 @@ import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.requestdtos.SignUpFss
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
@@ -33,7 +32,7 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
             }
         }
         if (SessionManager.isExistingUser()) {
-            requestGetAddressForPhysicalCard {
+            requestGetAddressForPhysicalCard(SessionManager.user?.parentUUID) {
             }
         }
     }
@@ -92,10 +91,11 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
     }
 
     override fun requestGetAddressForPhysicalCard(
+        uuid: String?,
         apiResponse: ((Boolean) -> Unit?)?
     ) {
         launch {
-            when (val response = repository.getUserAddressRequest()) {
+            when (val response = uuid?.let { repository.getUserAddressRequest(it) }) {
                 is RetroApiResponse.Success -> {
                     state.address?.value = response.data.data
                     apiResponse?.invoke(true)
