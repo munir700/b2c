@@ -2,6 +2,7 @@ package co.yap.wallet.samsung
 
 import android.content.Context
 import androidx.core.os.bundleOf
+import co.yap.app.YAPApplication
 import co.yap.yapcore.helpers.SingletonHolder
 import com.samsung.android.sdk.samsungpay.v2.PartnerInfo
 import com.samsung.android.sdk.samsungpay.v2.SamsungPay
@@ -16,7 +17,7 @@ class PartnerInfoHolder private constructor(private val context: Context) {
         val serviceId = "9f2b7fca270c4f3c81d99e"
         //        String serviceId = context.getResources().getString(R.string.gradle_product_id);
         partnerInfo = PartnerInfo(
-            serviceId,
+            YAPApplication.configManager?.spayServiceId,
             bundleOf(
                 SamsungPay.PARTNER_SERVICE_TYPE to SpaySdk.ServiceType.APP2APP.toString(),
                 SamsungPay.EXTRA_ISSUER_NAME to "YAP PAYMENT SERVICES PROVIDER LLC"
