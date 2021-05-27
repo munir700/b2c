@@ -28,6 +28,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tvCardName"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:lines="2"
+            android:text="@{viewModel.cardName}"
+            app:layout_constraintEnd_toEndOf="@+id/imgCard"
+            app:layout_constraintStart_toStartOf="@+id/imgCard"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Rose Gold Premium cardRose Gold Premium c" />
+
         <ImageView
             android:id="@+id/imgCard"
             android:layout_width="wrap_content"
@@ -38,7 +54,7 @@
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:src="@drawable/card_spare" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -51,12 +67,9 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_h1"
             android:visibility="@{viewModel.paymentCard.cardType.equals(Constants.INSTANCE.CARD_TYPE_DEBIT) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/imgCard"
-            app:layout_constraintEnd_toEndOf="@+id/imgCard"
-            app:layout_constraintHorizontal_bias="0.378"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.267"
+            app:layout_constraintStart_toStartOf="@+id/imgCard"
+            app:layout_constraintTop_toTopOf="@+id/imgCard"
+            android:layout_marginTop="@dimen/_35sdp"
             tools:textColor="@color/colorPrimaryDark" />
 
         <ImageView
@@ -66,6 +79,7 @@
             android:layout_margin="@dimen/_5sdp"
             android:contentDescription="@string/empty_string"
             android:elevation="@dimen/_2sdp"
+            android:visibility="gone"
             app:cardStatus="@{viewModel.paymentCard}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.71"
@@ -74,33 +88,17 @@
             tools:src="@drawable/ic_status_expired" />
 
         <ImageView
-            android:id="@+id/ImgViewDetail"
+            android:id="@+id/imgViewDetail"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_48sdp"
-            android:layout_margin="@dimen/_5sdp"
+            android:layout_margin="@dimen/_15sdp"
             android:contentDescription="@string/empty_string"
             android:elevation="@dimen/_2sdp"
             android:src="@drawable/ic_icon_eye"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.71"
-            app:layout_constraintStart_toStartOf="@+id/imgCard"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvCardName"
-            style="@style/ASmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="2"
-            android:text="@{viewModel.cardName}"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
-            app:layout_constraintStart_toStartOf="@+id/imgCard"
-            app:layout_constraintTop_toBottomOf="@+id/imgCard"
-            tools:text="Rose Gold Premium card" />
+            app:layout_constraintTop_toTopOf="@+id/imgCard"
+            app:layout_constraintBottom_toTopOf="@+id/imgCard"
+            app:layout_constraintStart_toEndOf="@+id/imgCard"/>
 
         <TextView
             android:id="@+id/tvCardBalanceTitle"
@@ -110,10 +108,10 @@
             android:layout_marginTop="@dimen/_15sdp"
             android:ellipsize="end"
             android:gravity="center"
-            app:text="@{Strings.screen_cards_display_text_card_balance}"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
-            app:layout_constraintTop_toBottomOf="@+id/imgCard" />
+            app:layout_constraintTop_toBottomOf="@+id/imgCard"
+            app:text="@{Strings.screen_cards_display_text_card_balance}" />
 
         <TextView
             android:id="@+id/tvCardBalance"
