@@ -73,6 +73,19 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_status_expired" />
 
+        <ImageView
+            android:id="@+id/ImgViewDetail"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:contentDescription="@string/empty_string"
+            android:elevation="@dimen/_2sdp"
+            android:src="@drawable/ic_icon_eye"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.71"
+            app:layout_constraintStart_toStartOf="@+id/imgCard"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tvCardName"
             style="@style/ASmall"
