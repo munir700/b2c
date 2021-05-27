@@ -11,6 +11,7 @@ import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
 import com.adjust.sdk.LogLevel
 
+
 /*
 * Following sdk's included
 * -> Adjust SDK
@@ -20,14 +21,21 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
 
     configManager?.let { configurations ->
         val config = AdjustConfig(
-            this,
-            configurations.adjustToken,
-            if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_SANDBOX
+                this,
+                configurations.adjustToken,
+                if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_SANDBOX
         )
 
         when (configurations.flavor) {
             ProductFlavour.PROD.flavour -> {
+                Adjust.setEnabled(true)
                 config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894)
+
+                config.setDefaultTracker("6hpplis")
+                config.setEventBufferingEnabled(true)
+                config.setPreinstallTrackingEnabled(true)
+
+
             }
             ProductFlavour.PREPROD.flavour -> {
                 config.setAppSecret(1, 82588340, 60633897, 806753301, 962146915)
@@ -45,17 +53,21 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
             else -> throw IllegalStateException("Invalid build flavour found ${configurations.flavor}")
         }
 
+
         if (!configurations.isReleaseBuild()) config.setLogLevel(LogLevel.VERBOSE)
         config.setSendInBackground(true)
-        config.setOnAttributionChangedListener {}
         config.setOnEventTrackingSucceededListener {}
         config.setOnEventTrackingFailedListener { }
         config.setOnSessionTrackingSucceededListener { }
         config.setOnSessionTrackingFailedListener { }
-        config.setOnSessionTrackingFailedListener {}
         config.setOnDeeplinkResponseListener { true }
+        config.setOnAttributionChangedListener { attribution ->
+        }
+
         Adjust.onCreate(config)
+        Adjust.addSessionPartnerParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
         registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+        config.setOnAttributionChangedListener { }
     }
 }
 
@@ -88,6 +100,7 @@ private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
 }
 
 fun fireAdjustEvent(event: String) {
+    val attribution = Adjust.getAttribution()
     val adjustEvent = AdjustEvent(event)
     adjustEvent.setCallbackId(SessionManager.user?.currentCustomer?.customerId)
     adjustEvent.addCallbackParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
@@ -98,6 +111,7 @@ class AdjustEvents {
     companion object {
         fun trackAdjustPlatformEvent(eventName: String, value: String = "") {
             fireAdjustEvent(eventName)
+
         }
     }
 }
