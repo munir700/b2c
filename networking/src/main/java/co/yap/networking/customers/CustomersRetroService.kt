@@ -297,6 +297,9 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_SAVE_EMPLOYMENT_INFO)
     suspend fun submitEmploymentInfo(@Body employmentInfoRequest: EmploymentInfoRequest): Response<ApiResponse>
 
+    @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
+    suspend fun stopRankingMsgRequest(): Response<ApiResponse>
+
     @GET(CustomersRepository.URL_BILL_PROVIDERS)
     suspend fun getBillProviders(): Response<BillProviderResponse>
 

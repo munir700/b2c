@@ -81,20 +81,19 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
 
 #endif
 #ifdef QA
-        api_endpoint = "https://dev-b.yap.co";//dev-b
-//        api_endpoint = "https://qa-a.yap.co";//new qa
-    //    api_endpoint = "https://qa.yap.co/";//old
-        adjustAppToken = "am0wjeshw5xc";
-        sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
-        sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
-        sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
-        sslHost = "*.yap.co";
-//        flagSmithAPIKey = "jA6afrdULLjYpqHELs8kfJ"; // qa
-        flagSmithAPIKey = "hyzRfWb6DS87tRpswTUiJB"; // dev
+    api_endpoint = "https://dev-b.yap.co";//dev-b
+//    api_endpoint = "https://qa-a.yap.co";//new qa
+//    api_endpoint = "https://qa.yap.co/";//old
+    adjustAppToken = "am0wjeshw5xc";
+    sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
+    sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
+    sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
+    sslHost = "*.yap.co";
+    flagSmithAPIKey = "hyzRfWb6DS87tRpswTUiJB";
 
-        sha1Encoded = "";
-        md5Encoded = "";
-        sha256Encoded = "";
+    sha1Encoded = "";
+    md5Encoded = "";
+    sha256Encoded = "";
 
 
 #endif
@@ -127,7 +126,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
         leanPlumSecretKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
         leanPlumKey = "dev_RAFVBmDKypdOr3kbd326JUoqGLr8iSvt2Lei4BK48qk";
 
-    }else if (strcmp(productFlavour, "Preprod") == 0 && strcmp(buildType, "release") == 0) {
+    } else if (strcmp(productFlavour, "Preprod") == 0 && strcmp(buildType, "release") == 0) {
         leanPlumSecretKey = "app_jvEgXTi9zZUpoFck8XVxVY4zBgAEYZrPVTliIuaO0IQ";
         leanPlumKey = "prod_EjIC6dCuGaGr36p2qRvG3GkRIhuYf9vgBEGjQ3jBqLM";
 
@@ -135,7 +134,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
         leanPlumSecretKey = "app_jvEgXTi9zZUpoFck8XVxVY4zBgAEYZrPVTliIuaO0IQ";
         leanPlumKey = "dev_HnmEVN0GDZbhInJjmX767e7InveRC23LkSokuLLuA3s";
 
-    }else if (strcmp(productFlavour, "stg") == 0 && strcmp(buildType, "release") == 0) {
+    } else if (strcmp(productFlavour, "stg") == 0 && strcmp(buildType, "release") == 0) {
         leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
         leanPlumKey = "prod_KX4ktWrg5iHyP12VbRZ92U0SOVXyYrcWk5B68TfBAW0";
 

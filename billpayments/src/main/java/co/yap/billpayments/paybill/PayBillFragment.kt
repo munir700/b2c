@@ -3,24 +3,21 @@ package co.yap.billpayments.paybill
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPayBillBinding
-import co.yap.billpayments.payall.main.PayAllMainActivity
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
@@ -30,8 +27,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pay_bill
-    override val viewModel: PayBillViewModel
-        get() = ViewModelProviders.of(this).get(PayBillViewModel::class.java)
+    override val viewModel: PayBillViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

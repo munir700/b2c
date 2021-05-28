@@ -33,7 +33,6 @@
                 android:layout_height="@dimen/_62sdp"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:contentDescription="@string/empty_string"
-                android:src="@drawable/ic_store_b2b"
                 app:colorType="@{`Beneficiary`}"
                 app:fullName="@{viewModel.parentViewModel.billModel.billerInfo.billerName}"
                 app:imageUrl="@{viewModel.parentViewModel.billModel.billerInfo.logo}"

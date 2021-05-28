@@ -16,17 +16,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
-import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.bottomsheet.BottomSheet
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.bottomsheet_with_initials.CoreInitialsBottomSheet
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
@@ -478,11 +480,13 @@ fun Fragment.launchBottomSheetSegment(
         it?.let { it1 -> coreBottomSheet.show(it1, "") }
     }
 }
+
 fun FragmentActivity.launchSheet(
     itemClickListener: OnItemClickListener? = null,
     itemsList: ArrayList<BottomSheetItem>,
     heading: String? = null,
-    subHeading: String? = null
+    subHeading: String? = null,
+    showDivider: Boolean? = null
 ) {
     this.supportFragmentManager.let {
         val coreBottomSheet =
@@ -490,9 +494,28 @@ fun FragmentActivity.launchSheet(
                 itemClickListener,
                 bottomSheetItems = itemsList,
                 headingLabel = heading,
-                subHeadingLabel = subHeading
+                subHeadingLabel = subHeading,
+                showDivider = showDivider
             )
         coreBottomSheet.show(it, "")
+    }
+}
+
+fun FragmentActivity.launchInitialBottomSheet(
+    itemClickListener: OnItemClickListener? = null,
+    configuration: BottomSheetConfiguration,
+    viewType: Int? = Constants.VIEW_WITHOUT_FLAG,
+    listData: MutableList<CoreBottomSheetData>? = arrayListOf()
+) {
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
+            CoreInitialsBottomSheet(
+                itemClickListener,
+                bottomSheetItems = listData ?: arrayListOf(),
+                viewType = viewType ?: Constants.VIEW_WITHOUT_FLAG,
+                configuration = configuration
+            )
+        it.let { it1 -> coreBottomSheet.show(it1, "") }
     }
 }
 
