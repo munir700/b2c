@@ -5,6 +5,7 @@ import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
@@ -257,6 +258,6 @@ interface TransactionsRetroService {
     suspend fun getBPCategoryHistory(
             @Path("month") month: String?,
             @Path("categoryId") categoryId: String?
-    ): Response<BPAnalyticsDetailsResponse>
+    ): Response<BPAnalyticsDetailsDTO>
 
 }

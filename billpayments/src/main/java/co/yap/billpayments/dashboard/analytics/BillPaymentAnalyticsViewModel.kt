@@ -9,19 +9,16 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
-import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.widgets.pieview.PieEntry
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillCategory
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.MonthYearHandler
 import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import java.util.*
 
 class BillPaymentAnalyticsViewModel(application: Application) :
@@ -30,10 +27,9 @@ class BillPaymentAnalyticsViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: BillPaymentAnalyticsState = BillPaymentAnalyticsState()
     override val repository: TransactionsRepository = TransactionsRepository
-    private var currentDate: Date? = Date()
-    private var listOfMonths: List<Date> = arrayListOf()
     override val analyticsAdapter: BPAnalyticsAdapter = BPAnalyticsAdapter(arrayListOf())
     override val analyticsData: MutableLiveData<List<BPAnalyticsModel>> = MutableLiveData()
+    private var monthYearHandler: MonthYearHandler? = null
     override fun handlePressOnView(id: Int) {
         when (id) {
             R.id.ivPrevious -> gotoPreviousMonth()
@@ -42,66 +38,54 @@ class BillPaymentAnalyticsViewModel(application: Application) :
         }
     }
 
+    init {
+        val startDate = SessionManager.user?.creationDate ?: ""
+        val endDate = DateUtils.dateToString(
+                Date(),
+                DateUtils.SIMPLE_DATE_FORMAT, DateUtils.TIME_ZONE_Default
+        )
+        val listOfMonths = DateUtils.geMonthsBetweenTwoDates(
+                startDate,
+                endDate
+        )
+        monthYearHandler = MonthYearHandler(listOfMonths)
+    }
+
     override fun onCreate() {
         super.onCreate()
         setToolBarTitle("Analytics")
     }
 
     override fun initCurrentDate() {
-        val startDate = SessionManager.user?.creationDate ?: ""
-        val endDate = DateUtils.dateToString(
-            Date(),
-            DateUtils.SIMPLE_DATE_FORMAT, DateUtils.TIME_ZONE_Default
-        )
-        listOfMonths = DateUtils.geMonthsBetweenTwoDates(
-            startDate,
-            endDate
-        )
-        setSelectedDate(currentDate)
-        state.previousMonth.set(isPreviousIconEnabled(listOfMonths, currentDate))
+        setSelectedDate(monthYearHandler?.currentDate)
+        state.previousMonth.set(monthYearHandler?.isPreviousIconEnabled(monthYearHandler?.currentDate) == true)
     }
 
     private fun gotoPreviousMonth() {
-        currentDate = DateUtils.getPriviousMonthFromCurrentDate(
-            listOfMonths,
-            currentDate
-        )
-        fetchAnalytics(currentDate)
-        state.previousMonth.set(isPreviousIconEnabled(listOfMonths, currentDate))
+        val date: Date? = monthYearHandler?.previousMonth(monthYearHandler?.currentDate)
+        fetchAnalytics(forDate = date)
+        state.previousMonth.set(monthYearHandler?.isPreviousIconEnabled(date) == true)
         state.nextMonth.set(true)
     }
 
     private fun gotoNextMonth() {
-        currentDate = DateUtils.getNextMonthFromCurrentDate(
-            listOfMonths,
-            currentDate
-        )
-        fetchAnalytics(currentDate)
-
-        state.nextMonth.set(isNextIconEnabled(listOfMonths, currentDate))
+        val date = monthYearHandler?.nextMonth(monthYearHandler?.currentDate)
+        fetchAnalytics(forDate = date)
+        state.nextMonth.set(monthYearHandler?.isNextIconEnabled(date) == true)
         state.previousMonth.set(true)
     }
 
 
-    private fun fetchAnalytics(currentDate: Date?) {
-        setSelectedDate(currentDate)
+    private fun fetchAnalytics(forDate: Date?) {
+        setSelectedDate(forDate)
         val dateRequiredByApi =
-            state.displayMonth.get()?.split(" ")?.joinToString(separator = ",") {
-                it
-            }
+                state.displayMonth.get()?.split(" ")?.joinToString(separator = ",") {
+                    it
+                }
         fetchBillCategoryAnalytics(currentMonth = dateRequiredByApi ?: "")
-
     }
 
     override fun fetchBillCategoryAnalytics(currentMonth: String) {
-//        launch {
-//            state.viewState.value = true
-//            delay(200)
-//            analyticsData.value = mockAnalytics().data
-//            analyticsAdapter.setList(analyticsData.value!!)
-//            state.viewState.value = false
-//        }
-
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val response = repository.getBPAnalytics(currentMonth)
@@ -121,42 +105,6 @@ class BillPaymentAnalyticsViewModel(application: Application) :
         }
     }
 
-    private fun mockAnalytics(): BPAnalyticsResponseDTO {
-        val gson = GsonBuilder().create()
-        return gson.fromJson<BPAnalyticsResponseDTO>(
-            context.getJsonDataFromAsset(
-                "jsons/analytics.json"
-            ), object : TypeToken<BPAnalyticsResponseDTO>() {}.type
-        )
-    }
-
-    private fun isPreviousIconEnabled(listOfMonths: List<Date>, currentDate: Date?): Boolean {
-        var index: Int = -1
-        currentDate?.let {
-            for (i in listOfMonths.indices) {
-                if (DateUtils.isDateMatched(listOfMonths[i], currentDate)) {
-                    index = i
-                    break
-                }
-            }
-        }
-
-        return index - 1 >= 0
-    }
-
-    private fun isNextIconEnabled(listOfMonths: List<Date>, currentDate: Date?): Boolean {
-        var index: Int = -1
-        currentDate?.let {
-            for (i in listOfMonths.indices) {
-                if (DateUtils.isDateMatched(listOfMonths[i], currentDate)) {
-                    index = i
-                    break
-                }
-            }
-        }
-
-        return listOfMonths.size >= index + 2
-    }
 
     private fun setSelectedDate(currentDate: Date?) {
         val displayDate =

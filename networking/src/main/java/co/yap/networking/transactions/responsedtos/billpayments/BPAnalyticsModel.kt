@@ -18,6 +18,8 @@ data class BPAnalyticsModel(
         val icon: String? = null,
         @SerializedName("txnCount")
         val txnCount: Int? = null,
+        @SerializedName("avarageSpending")
+        val averageSpending: String? = null,
         @SerializedName("totalSpendingInPercentage")
         val totalSpendingInPercentage: Double? = null
 ) : Parcelable
