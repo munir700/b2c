@@ -2,9 +2,8 @@ package co.yap.modules.dashboard.transaction.feedback
 
 import android.app.Application
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.transaction.feedback.adaptor.TransactionFeedbackAdapter
-import co.yap.modules.dashboard.transaction.feedback.models.ItemFeedback
+import co.yap.networking.transactions.FeedbackTransactions.ItemFeedback
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -22,18 +21,16 @@ class TransactionFeedbackViewModel(application: Application) :
         super.onCreate()
         adapter.setList(getImprovementComponent())
     }
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
-    private fun getImprovementComponent(): MutableList<ItemFeedback> {
-        val list = mutableListOf<ItemFeedback>()
-        list.add(ItemFeedback(label = "Logo"))
-        list.add(ItemFeedback(label = "Location"))
-        list.add(ItemFeedback(label = "Name of merchant"))
-        list.add(ItemFeedback(label = "Category"))
-        return list
-    }
+    private fun getImprovementComponent(): MutableList<ItemFeedback> = mutableListOf<ItemFeedback>(
+        ItemFeedback(label = "Logo"), ItemFeedback(label = "Location"),
+        ItemFeedback(label = "Name of merchant"),
+        ItemFeedback(label = "Category")
+    )
 
     override fun selectFeedback(pos: Int) {
         adapter.getDataList()[pos].isCheck =

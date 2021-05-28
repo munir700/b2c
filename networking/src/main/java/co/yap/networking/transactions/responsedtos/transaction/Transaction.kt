@@ -183,7 +183,7 @@ data class Transaction(
 @Parcelize
 data class TapixCategory(
     @SerializedName("id")
-    val id: Int,
+    val id: Int? = null,
     @SerializedName("category")
     var categoryName: String? = "General",
     @SerializedName("categoryIcon")
@@ -194,7 +194,7 @@ data class TapixCategory(
     var isSelected: Boolean = false,
     @Transient
     var type: Boolean? = null
-) : Parcelable {
+) :ApiResponse(), Parcelable {
     val isGeneral: Boolean get() = categoryName.equals("General")
     val description: String get() = if (isGeneral) "Check back later to see the category updated " else "Tap to change category"
 }

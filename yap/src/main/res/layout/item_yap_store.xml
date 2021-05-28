@@ -57,8 +57,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:src="@{viewModel.storeData.image}"
-                tools:srcCompat="@drawable/ic_store_b2b" />
+                app:src="@{viewModel.storeData.image}" />
 
             <ImageView
                 android:id="@+id/imgStoreType"

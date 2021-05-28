@@ -163,29 +163,27 @@ class TransactionDetailsViewModel(application: Application) :
     private fun requestTransactionDetails(responses: (RetroApiResponse<TotalPurchasesResponse>?, RetroApiResponse<TransactionReceiptResponse>?) -> Unit) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            val totalPurchaseResponse = state.showTotalPurchases.get().let { showView ->
-                if (showView) {
-                    return@let launchAsync {
+                val totalPurchaseResponse = state.showTotalPurchases.get().let { showView ->
+                    if (showView) {
+                        return@let launchAsync {
+                            repository.getTotalPurchases(
+                                getTotalPurchaseRequest()
+                            )
+                        }
 
-                        repository.getTotalPurchases(
-                            getTotalPurchaseRequest()
-                        )
-                    }
+                    } else return@let null
+                }
 
-                } else return@let null
-            }
-
-            val receiptsResponse = transaction.get()?.let { it ->
-                if (state.receiptVisibility.get()) {
-                    return@let launchAsync {
-                        repository.getAllTransactionReceipts(
-                            transactionId = it.transactionId ?: ""
-                        )
-                    }
-                } else return@let null
-            }
-            responses(totalPurchaseResponse?.await(), receiptsResponse?.await())
-
+                val receiptsResponse = transaction.get()?.let { it ->
+                    if (state.receiptVisibility.get()) {
+                        return@let launchAsync {
+                            repository.getAllTransactionReceipts(
+                                transactionId = it.transactionId ?: ""
+                            )
+                        }
+                    } else return@let null
+                }
+                responses(totalPurchaseResponse?.await(), receiptsResponse?.await())
         }
     }
 
@@ -197,8 +195,7 @@ class TransactionDetailsViewModel(application: Application) :
                     adapter.getDataList().size
                 )
             list.size > 1 -> getString(Strings.screen_transaction_details_added_receipt_label).format(
-                adapter.getDataList().size
-            )
+                adapter.getDataList().size)
             else -> getString(Strings.screen_transaction_details_receipt_label)
         }
 

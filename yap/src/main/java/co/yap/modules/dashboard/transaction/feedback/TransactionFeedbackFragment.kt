@@ -33,7 +33,7 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
     private fun initArguments() {
         arguments?.let { bundle ->
             bundle.getParcelable<Transaction>(Constants.TRANSACTION_DETAIL)?.let {
-                it.setTransactionImage(getBinding().layoutMerchant.ivMerchantImage)
+                it.setTransactionImage(getDataBindingView<FragmentTransactionFeedbackBinding>().layoutMerchant.ivMerchantImage)
             }
             val title = bundle.getString(Constants.FEEDBACK_TITLE)
             val location = bundle.getString(Constants.FEEDBACK_LOCATION)
@@ -81,9 +81,6 @@ class TransactionFeedbackFragment : BaseBindingFragment<ITransactionFeedback.Vie
         removeObserver()
         super.onDestroyView()
     }
-
-    override fun getBinding() = (viewDataBinding as FragmentTransactionFeedbackBinding)
-
     private fun showFeedbackSuccessDialog() {
         requireActivity().showReceiptSuccessDialog(
             description = getString(Strings.screen_transaction_details_feedback_success_label),

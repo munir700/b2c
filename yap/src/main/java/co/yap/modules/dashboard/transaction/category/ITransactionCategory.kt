@@ -10,9 +10,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface ITransactionCategory {
-    interface View : IBase.View<ViewModel>{
-        fun getBinding(): FragmentTransactionCategoryBinding
-    }
+    interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
@@ -21,7 +19,7 @@ interface ITransactionCategory {
         fun selectCategory(data : TapixCategory, position : Int)
         var tapixCategories: MutableList<TapixCategory>
         var selectedCategory: ObservableField<TapixCategory>
-        fun updateCategory(context: Activity)
+        fun updateCategory()
         fun setPreSelectedCategory(name: String)
     }
 

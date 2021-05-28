@@ -41,10 +41,10 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
             this,
             Observer { txnAnalytics ->
                 if (txnAnalytics == null) {
+                    getAdaptor().getDataList().clear()
                     return@Observer
                 }
                 getAdaptor().setList(txnAnalytics)
-
             })
         viewModel.parentViewModel?.selectedItemPositionParent?.observe(
             this,

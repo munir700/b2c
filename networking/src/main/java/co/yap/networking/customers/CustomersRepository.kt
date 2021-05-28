@@ -126,6 +126,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_COMPLETE_VERIFICATION = "customers/api/v2/profile"
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
+    const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -400,7 +402,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         uploadAdditionalInfo.run {
             val reqFile: RequestBody =
                 RequestBody.create(
-                    MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
+                    MediaType.parse(
+                        uploadAdditionalInfo.contentType
+                            ?: "image/" + uploadAdditionalInfo.files?.extension
+                    ),
                     uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
                 )
             val body =
@@ -454,5 +459,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
             api.submitEmploymentInfo(employmentInfoRequest)
+        })
+
+    override suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.stopRankingMsgRequest()
         })
 }

@@ -839,6 +839,12 @@ object Strings {
         "screen_update_profile_photo_display_text_take_photo"
     const val screen_update_profile_photo_display_text_remove_photo: String =
         "screen_update_profile_photo_display_text_remove_photo"
+    const val screen_upload_documents_display_sheet_text_scan_single_document: String =
+        "screen_upload_documents_display_sheet_text_scan_single_document"
+    const val screen_upload_documents_display_sheet_text_upload_from_files: String =
+        "screen_upload_documents_display_sheet_text_upload_from_files"
+    const val screen_upload_documents_display_sheet_text_upload_from_files_descriptions: String =
+        "screen_upload_documents_display_sheet_text_upload_from_files_descriptions"
 
 
 //  personal detail screen
@@ -1856,6 +1862,18 @@ object Strings {
         "screen_waiting_list_display_text_log_back"
     const val screen_waiting_list_display_text_rank_hashtag: String =
         "screen_waiting_list_display_text_rank_hashtag"
+    const val screen_waiting_list_display_text_notification_jump_rank: String =
+        "screen_waiting_list_display_text_notification_jump_rank"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide"
+    const val screen_waiting_list_display_text_signed_up_users: String =
+        "screen_waiting_list_display_text_signed_up_users"
 
     //Change Card Pin screen
 

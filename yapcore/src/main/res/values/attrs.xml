@@ -98,14 +98,6 @@
 
     </declare-styleable>
 
-
-    <!-- Font Awesome attr-->
-    <declare-styleable name="FontTextView">
-        <attr name="brand_icon" format="boolean" />
-        <attr name="solid_icon" format="boolean" />
-    </declare-styleable>
-
-
     <declare-styleable name="CountryCodePicker">
         <!--{@deprecated Use defaultNameCode instead.}-->
         <attr name="ccp_defaultPhoneCode" format="integer" />
@@ -238,6 +230,7 @@
         <attr name="civ_border_color" format="color" />
         <attr name="civ_border_overlay" format="boolean" />
         <attr name="civ_circle_background_color" format="color" />
+        <attr name="transparent_border" format="boolean" />
     </declare-styleable>
 
 

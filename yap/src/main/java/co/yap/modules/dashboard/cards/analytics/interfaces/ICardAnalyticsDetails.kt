@@ -15,8 +15,9 @@ interface ICardAnalyticsDetails {
         fun handleOnClickEvent(id: Int)
         val adapter: TransactionsListingAdapter
         var transactionResponse: TransactionAnalyticsDetailsResponse
-        var yapCategoryId: Int?
+        var yapCategoryId: ObservableField<ArrayList<Any>>
         fun fetchMerchantTransactions(merchantType: String, currentDate: String)
+        fun getConcatinatedString(count: Int): String
     }
 
     interface State : IBase.State {
@@ -29,6 +30,6 @@ interface ICardAnalyticsDetails {
         var ImageUrl: ObservableField<String>
         var position: Int
         var percentCardVisibility: Boolean
-        var categories: ArrayList<String>?
+        var categories: ObservableField<ArrayList<Any>>
     }
 }

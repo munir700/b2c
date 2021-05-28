@@ -1,6 +1,10 @@
 package co.yap.yapcore.helpers
 
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
@@ -29,7 +33,11 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
+import com.liveperson.infra.utils.Utils.getResources
+
 
 object ImageBinding {
     @JvmStatic
@@ -138,7 +146,7 @@ object ImageBinding {
             builder.buildRect(
                 Utils.shortName(fullName ?: ""),
                 ColorUtils.setAlphaComponent(colorCode ?: -1, 25)
-            ),System.currentTimeMillis().toString()
+            ), System.currentTimeMillis().toString()
         )
     }
 
@@ -297,7 +305,9 @@ object ImageBinding {
         imageView: AppCompatImageView?,
         resource: Int,
         loopCount: Int = 1,
-        delayBetweenLoop: Long = 100L
+        delayBetweenLoop: Long = 100L,
+        isLoop: Boolean = false,
+        onAnimationComplete: (() -> Unit?)? = null
     ) {
         var countPlay = 0
         if (resource > 0) {
@@ -330,10 +340,12 @@ object ImageBinding {
                                 override fun onAnimationEnd(drawable: Drawable?) {
                                     super.onAnimationEnd(drawable)
                                     countPlay++
-                                    if (countPlay < loopCount) {
+                                    if (isLoop || countPlay < loopCount) {
                                         it.postDelayed({
                                             resource.startFromFirstFrame()
                                         }, delayBetweenLoop)
+                                    } else {
+                                        onAnimationComplete?.let { it1 -> it1() }
                                     }
                                 }
 
@@ -525,6 +537,7 @@ object ImageBinding {
             }
         }
     }
+
     @JvmStatic
     @BindingAdapter(
         value = ["imageUrl", "fullName", "position", "isBackground", "showFirstInitials", "imageDrawable"],
@@ -572,5 +585,97 @@ object ImageBinding {
                 position
             )
         }
+    }
+
+/*
+   New Binding Adapter for Analytics Categories it displays icons from api response along with circular background
+*/
+    @JvmStatic
+    @BindingAdapter(
+        value = ["imageLogo", "categoryTitle", "position", "isBackground", "showFirstInitials"],
+        requireAll = false
+    )
+    fun loadCategoryAvatar(
+        imageView: ImageView,
+        imageLogo: String?,
+        categoryTitle: String?,
+        position: Int,
+        isBackground: Boolean = true,
+        showFirstInitials: Boolean = false
+    ) {
+        if (categoryTitle.isNullOrEmpty()) return
+        val fName = categoryTitle ?: ""
+
+        if (!imageLogo.isNullOrEmpty() && !imageLogo.equals(" ")) {
+            Glide.with(imageView)
+                .asBitmap()
+                .load(imageLogo)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+
+                        val bitmapResult: Bitmap = getTintBitmap(imageView, resource, position)
+                        val resImg = BitmapDrawable(
+                            getResources(),
+                            bitmapResult
+                        )
+                        imageView.setImageDrawable(resImg)
+                        if (isBackground) setCategoryDrawable(imageView, position)
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+                })
+        } else {
+            val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
+            val builder = TextDrawable.builder()
+            builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
+                .height(imageView.context.dimen(R.dimen._40sdp))
+                .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
+                .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
+                .textColor(
+                    getAnalyticsColor(
+                        colors,
+                        position
+                    )
+                )
+            val fallBack = builder.buildRect(
+                Utils.shortName(fName ?: ""),
+                Color.TRANSPARENT
+            )
+            imageView.setImageDrawable(fallBack)
+
+        }
+    }
+
+    private fun setCategoryDrawable(imageView: ImageView, position: Int) {
+        val oval = ShapeDrawable(OvalShape())
+        oval.intrinsicHeight = 50
+        oval.intrinsicWidth = 50
+        oval.paint.color = Utils.getBackgroundColorForAnalytics(
+            imageView.context,
+            position = position
+        )
+        imageView.background = oval
+    }
+
+    private fun getTintBitmap(imageView: ImageView, resource: Bitmap, position: Int): Bitmap {
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
+        val paint = Paint()
+        paint.colorFilter = PorterDuffColorFilter(
+            getAnalyticsColor(
+                colors,
+                position
+            ), PorterDuff.Mode.SRC_IN
+        )
+        val bitmapResult = Bitmap.createBitmap(
+            resource.getWidth(),
+            resource.getHeight(),
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmapResult)
+        canvas.drawBitmap(resource, 0f, 0f, paint)
+        return bitmapResult
     }
 }
