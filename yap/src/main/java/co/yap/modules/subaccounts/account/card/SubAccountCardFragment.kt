@@ -157,7 +157,7 @@ class SubAccountCardFragment :
                             SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHSalaryProfileFragment(),
                             args
                         )
-                    else showRequestDeclinedPopup(subAccount)
+                    else if (subAccount.cardStatus?.contains("Declined by") == true) showRequestDeclinedPopup(subAccount)
                 }
             }
         } ?: launchActivity<NavHostPresenterActivity> {

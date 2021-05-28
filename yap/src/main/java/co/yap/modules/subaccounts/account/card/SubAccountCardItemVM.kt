@@ -26,7 +26,7 @@ class SubAccountCardItemVM : BaseListItemViewModel<SubAccount>() {
     override fun setItem(item: SubAccount, position: Int) {
         mItem = item
         this.position = position
-        item.pinCreated = true
+//        item.pinCreated = true
         item.accountType?.let {
             if (item.cardStatus == PartnerBankStatus.REJECTED.status) {
 //                status = "Ineligible for a card"
@@ -41,6 +41,8 @@ class SubAccountCardItemVM : BaseListItemViewModel<SubAccount>() {
                 status = item.cardStatus
                 statusColorResId = R.color.error
             }
+            else status = item.cardStatus
+
         }
     }
 
