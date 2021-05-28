@@ -38,4 +38,4 @@ workflows:
           filters:
             branches:
               only:
-                - Sprint/SPRINT-YAP-RAK-8-A-bill-payments
+                - Sprint/SPRINT-YAP-RAK-8-A-2-bill-payments
