@@ -20,7 +20,7 @@ class InviteFriendRepository : IRepositoryHolder<CustomersRepository>, IInviteAF
     override fun inviteAFriend(success: () -> Unit) {
         val request = SendInviteFriendRequest(
             inviterCustomerId = SessionManager.user?.currentCustomer?.customerId ?: "",
-            referralDate = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd HH:mm:ss")
+            referralDate = DateUtils.getCurrentDateWithFormat(DateUtils.SERVER_DATE_FULL_FORMAT)
         )
         GlobalScope.launch(Dispatchers.IO) {
             when (repository.sendInviteFriend(request)) {

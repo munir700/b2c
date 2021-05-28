@@ -13,4 +13,5 @@ class AdditionalInfoState : BaseState(), IAdditionalInfo.State {
     override var documentList: ArrayList<AdditionalDocument> = arrayListOf()
     override var questionList: ArrayList<AdditionalQuestion> = arrayListOf()
     override var screenType: ObservableField<String> = ObservableField("")
+    override var buttonTitle: ObservableField<String> = ObservableField("")
 }

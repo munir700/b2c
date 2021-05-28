@@ -44,7 +44,6 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
@@ -389,8 +388,15 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener {
             trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
-            QRCodeFragment {beneficary ->
-                startY2YTransfer(beneficary, true)
+            QRCodeFragment { beneficary ->
+                launchActivity<YapToYapDashboardActivity>(
+                    requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+                    type = FeatureSet.Y2Y_TRANSFER
+                ) {
+                    putExtra(Beneficiary::class.java.name, beneficary)
+                    putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, true)
+                    putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
+                }
             }.show(this.supportFragmentManager, "")
             closeDrawer()
         }

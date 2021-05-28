@@ -304,8 +304,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     when {
                         true == removed -> {
                             viewModel.removeCard(updatedCard)
-                            viewModel.adapter.notifyDataSetChanged()
-                            updateCardCount()
                         }
                         true == cardBlocked -> {
                             viewModel.adapter.removeAllItems()

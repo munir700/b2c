@@ -64,8 +64,7 @@
                     app:initialTextColor="@{R.color.colorDarkAqua}"
                     app:initialTextSize="@{R.dimen.text_size_h3}"
                     app:shapeAppearanceOverlay="@style/circleImageView"
-                    app:srcCompatGif="@{viewModel.state.notification.imgResId}"
-                    tools:src="@drawable/ic_store_b2b" />
+                    app:srcCompatGif="@{viewModel.state.notification.imgResId}" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvDate"

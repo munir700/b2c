@@ -95,7 +95,6 @@
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/empty_string"
                     android:layout_marginTop="@dimen/margin_extra_small"
-                    android:src="@drawable/ic_store_b2b"
                     app:colorType="@{viewModel.beneficiary.userType.equals(`Y2Y`)? `Beneficiary` : `Beneficiary`}"
                     app:fullName="@{viewModel.beneficiary.userType.equals(`Y2Y`)?viewModel.beneficiary.fullName:viewModel.beneficiary.subtitle}"
                     app:imageUrl="@{viewModel.beneficiary.imgUrl}"

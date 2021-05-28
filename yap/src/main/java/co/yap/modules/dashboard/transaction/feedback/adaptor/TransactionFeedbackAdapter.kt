@@ -4,7 +4,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemImprovementComponentsBinding
-import co.yap.modules.dashboard.transaction.feedback.models.ItemFeedback
+import co.yap.networking.transactions.FeedbackTransactions.ItemFeedback
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class TransactionFeedbackAdapter(val list: MutableList<ItemFeedback>) :

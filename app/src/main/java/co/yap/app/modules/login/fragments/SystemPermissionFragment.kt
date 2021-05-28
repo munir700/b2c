@@ -20,8 +20,6 @@ import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.leanplum.KYCEvents
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -125,7 +123,8 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
             if (NotificationManagerCompat.from(requireContext())
                     .areNotificationsEnabled()
             ) viewModel.getNotificationScreenValues(true) else viewModel.getNotificationScreenValues(
-                false)
+                false
+            )
             navigateToDashboard()
         }
     }

@@ -314,11 +314,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clReceiptParent"
-                app:ratingViewModel="@{viewModel}" />
-
+                app:ratingViewModel="@{viewModel}"
+              />
+<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
 
             <include
                 android:id="@+id/parentTotalPurchase"
@@ -403,12 +404,13 @@
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:paddingBottom="@dimen/margin_medium"
                 android:textColor="@color/colorPrimary"
-                android:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clDetail"
-                app:text="@{Strings.screen_transaction_details_display_feedback_label}" />
-
+                app:text="@{Strings.screen_transaction_details_display_feedback_label}"
+                />
+<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

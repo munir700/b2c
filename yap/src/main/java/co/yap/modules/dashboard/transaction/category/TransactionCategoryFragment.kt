@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentTransactionCategoryBinding
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
@@ -48,7 +47,7 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
     val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnConfirm -> {
-                viewModel.updateCategory(requireActivity())
+                viewModel.updateCategory()
             }
         }
     }
@@ -60,6 +59,4 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
             }
         }
     }
-
-    override fun getBinding() = (viewDataBinding as FragmentTransactionCategoryBinding)
 }

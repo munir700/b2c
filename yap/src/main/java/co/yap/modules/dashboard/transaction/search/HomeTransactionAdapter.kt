@@ -290,7 +290,7 @@ class HomeTransactionAdapter(
                     true,
                     false,
                     if (transaction.isCategoryGeneral() == true) itemSearchTransactionBinding.ivTransaction.context.getDrawable(
-                        R.drawable.ic_general
+                        R.drawable.ic_category_general
                     ) else null
                 )
             } ?: setInitialsAsImage(transaction, itemSearchTransactionBinding, position)

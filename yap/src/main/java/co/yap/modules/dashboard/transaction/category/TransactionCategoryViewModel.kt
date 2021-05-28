@@ -10,6 +10,7 @@ import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import com.ezaka.customer.app.utils.getActivityFromContext
 
 class TransactionCategoryViewModel(application: Application) :
     BaseViewModel<ITransactionCategory.State>(application), ITransactionCategory.ViewModel {
@@ -70,7 +71,7 @@ class TransactionCategoryViewModel(application: Application) :
         }
     }
 
-    override fun updateCategory(context: Activity) {
+    override fun updateCategory() {
         launch {
             state.loading = true
             when (val response = repository.updateTransactionCategory(
@@ -80,8 +81,8 @@ class TransactionCategoryViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     val intent = Intent()
                     intent.putExtra(Constants.UPDATED_CATEGORY, selectedCategory.get())
-                    context.setResult(Activity.RESULT_OK, intent)
-                    context.finish()
+                    getActivityFromContext(context = context)?.setResult(Activity.RESULT_OK, intent)
+                    getActivityFromContext(context)?.finish()
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

@@ -11,6 +11,7 @@
 
         <import type="co.yap.sendmoney.R" />
 
+
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
