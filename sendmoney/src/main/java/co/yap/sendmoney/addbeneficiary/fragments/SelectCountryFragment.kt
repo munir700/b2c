@@ -54,6 +54,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         viewModel.parentViewModel?.selectedCountry?.value = Country(
             isoCountryCode2Digit = "AE",
             name = "United Arab Emirates",
+            ibanMandatory = true,
             currency = Currency(code = "AED")
         )
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =

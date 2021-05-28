@@ -25,13 +25,11 @@ class YapMoreItemViewHolder(private val itemYapMoreBinding: ItemYapMoreBinding) 
             R.drawable.bg_round_purple_more
         )
         val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
+        wrappedDrawable.alpha = 90
         DrawableCompat.setTint(wrappedDrawable, moreOption.bgColor)
-
         itemYapMoreBinding.imgIcon.background = wrappedDrawable
-
         itemYapMoreBinding.viewModel =
             YapMoreItemViewModel(moreOption, position, onItemClickListener)
         itemYapMoreBinding.executePendingBindings()
-
     }
 }

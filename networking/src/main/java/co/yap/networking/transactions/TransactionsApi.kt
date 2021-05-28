@@ -106,6 +106,10 @@ interface TransactionsApi {
 
     suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
 
+    suspend fun getTotalPurchases(
+        totalPurchaseRequest: TotalPurchaseRequest
+    ): RetroApiResponse<TotalPurchasesResponse>
+
     //Pay bill from bill payment
     suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>
     suspend fun fetchCustomerBillHistory(customerBillUuid: String): RetroApiResponse<BillAccountHistoryResponse>

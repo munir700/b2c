@@ -74,18 +74,16 @@
                     android:backgroundTint="@color/error"
                     android:visibility="@{viewModel.state.isShowErrorIcon?View.VISIBLE:View.GONE}">
 
-
                     <ImageView
                         android:layout_width="@dimen/_14sdp"
                         android:layout_height="@dimen/_14sdp"
                         android:layout_gravity="center_vertical|center"
                         android:src="@drawable/ic_exclamation"
-                        android:tint="@color/colorPrimaryDark"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"
+                        app:tint="@color/colorPrimaryDark" />
                 </FrameLayout>
-
 
                 <TextView
                     android:id="@+id/tvPersonalDetailView"
@@ -201,6 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:onClick="@{(v) -> viewModel.handlePressOnViewClick(v.id)}"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -238,6 +237,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:checked="@{viewModel.state.isNotificationsEnabled}"
+                    android:clickable="false"
                     android:gravity="end"
                     android:paddingStart="0dp"
                     android:paddingEnd="-2dp"
@@ -350,9 +351,9 @@
                 android:id="@+id/llFeesAndPricingPlans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_normal">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -518,7 +519,7 @@
                 android:gravity="center"
                 android:text="@{viewModel.state.buildVersionDetail}"
 
-               />
+                />
 
         </LinearLayout>
     </ScrollView>

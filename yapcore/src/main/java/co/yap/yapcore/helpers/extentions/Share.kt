@@ -8,8 +8,10 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import androidx.annotation.Keep
+import androidx.fragment.app.FragmentActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_SHARE_PLAY_STORE
+import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 @Keep
         /**
@@ -242,4 +244,45 @@ fun Context.isApplicationInstalledAndEnable(packageName: String): Boolean {
     } catch (e: PackageManager.NameNotFoundException) {
         false
     }
+}
+
+inline fun FragmentActivity.openFilePicker(
+    title: String? = "",
+    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+
+    try {
+        Intent(ACTION_OPEN_DOCUMENT).apply {
+            val mimeTypes = arrayOf("image/*", "application/pdf")
+            putExtra(EXTRA_ALLOW_MULTIPLE, false)
+            addCategory(CATEGORY_OPENABLE)
+            addFlags(FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(FLAG_GRANT_WRITE_URI_PERMISSION)
+            putExtra(EXTRA_MIME_TYPES, mimeTypes)
+            type = "*/*"
+        }.also {
+            val possibleActivitiesList: List<ResolveInfo> =
+                packageManager.queryIntentActivities(it, PackageManager.MATCH_ALL)
+            if (possibleActivitiesList.size > 1) {
+                it.resolveActivity(packageManager)?.run {
+                    this@openFilePicker.startForResult(createChooser(it, title ?: "")) { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }.onFailed { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }
+                }
+            } else {
+                it.resolveActivity(packageManager)?.run {
+                    this@openFilePicker.startForResult(createChooser(it, title ?: "")) { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }.onFailed { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }
+                }
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
 }

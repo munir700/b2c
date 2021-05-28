@@ -34,7 +34,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/small"
             android:contentDescription="@string/empty_string"
-            android:src="@drawable/ic_store_b2b"
             app:colorType="@{`y2y`}"
             app:fullName="@{viewModel.contact.fullName}"
             app:imageUrl="@{viewModel.contact.imgUrl}"

@@ -38,6 +38,7 @@ class YapCardsViewModel(application: Application) :
     override val state: YapCardsState = YapCardsState()
     override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
     lateinit var adapter: YapCardsAdaptor
+    override var selectedCardPosition: Int = 0
 
     fun setupAdaptor(context: Context) {
         adapter = YapCardsAdaptor(context, mutableListOf())
@@ -307,6 +308,18 @@ class YapCardsViewModel(application: Application) :
                 else -> {
                 }
             }
+        }
+    }
+
+    override fun removeCard(card: Card?) {
+        val cardExist = cards.value?.find { cardRemoved ->
+            cardRemoved.cardSerialNumber == card?.cardSerialNumber
+        }
+        if (cardExist != null) {
+            selectedCardPosition = adapter.getDataList().indexOf(cardExist)
+            adapter.removeItemAt(selectedCardPosition)
+            adapter.notifyDataSetChanged()
+            updateCardCount(adapter.itemCount - if (state.enableAddCard.get()) 1 else 0)
         }
     }
 }
