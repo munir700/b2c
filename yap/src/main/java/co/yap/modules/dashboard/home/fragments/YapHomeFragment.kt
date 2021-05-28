@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -95,8 +96,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private lateinit var skeleton: Skeleton
     private var tourStep: TourSetup? = null
 
-    override val viewModel: YapHomeViewModel
-        get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
+    override val viewModel: YapHomeViewModel by viewModels()
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -146,7 +146,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             R.layout.item_transaction_list_shimmer,
             5
         )
-        viewModel.state.showTxnShimmer.observe(this, Observer { handleShimmerState(it) })
+        viewModel.state.showTxnShimmer.observe(viewLifecycleOwner,
+            Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
         //rvTransactionsBarChart.updatePadding(right = getScreenWidth()/2)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)

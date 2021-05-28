@@ -41,7 +41,7 @@
             android:textSize="@dimen/text_size_h2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="dasdsadsadsadadsadsa" />
+            tools:text="Last salary transfer" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTransactionDate"
@@ -50,7 +50,7 @@
             android:textColor="@{subLabelTextColor??@color/colorPrimaryDark}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvLable"
-            tools:text="dasdsadsadsadadsadsa" />
+            tools:text="Aug 31, 2019" />
 
         <co.yap.widgets.libcurrencyview.CurrencyTextView
             android:id="@+id/currencyTextView"

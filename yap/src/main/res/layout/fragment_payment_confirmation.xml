@@ -125,6 +125,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:minHeight="@dimen/_22sdp"
+                app:btn_size="mini_small"
                 android:paddingStart="@dimen/margin_normal_large"
                 android:paddingEnd="@dimen/margin_normal_large"
                 app:enableCoreButton="@{true}"
