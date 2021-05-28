@@ -21,7 +21,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_RETAIL_PAYMENT = "/cards/api/cards/retail-payment"
     const val URL_ADD_SPARE_VIRTUAL_CARD = "/cards/api/cards/supplementary/virtual"
     const val URL_ADD_SPARE_PHYSICAL_CARD = "/cards/api/cards/supplementary"
-    const val URL_GET_PHYSICAL_CARD_ADDRESS = "/cards/api/user-address"
+    const val URL_GET_PHYSICAL_CARD_ADDRESS = "/cards/api/user-address/{uuid}"
     const val URL_GET_VIRTUAL_CARD_DESIGNS = "/cards/api/get-prepaid-design-codes"
 
     const val URL_GET_CARD_BALANCE = "/cards/api/cards/balance"
@@ -94,8 +94,8 @@ object CardsRepository : BaseRepository(), CardsApi {
         })
 
 
-    override suspend fun getUserAddressRequest(): RetroApiResponse<GetPhysicalAddress> =
-        AuthRepository.executeSafely(call = { API.getPhysicalCardAddress() })
+    override suspend fun getUserAddressRequest(uuid: String): RetroApiResponse<GetPhysicalAddress> =
+        AuthRepository.executeSafely(call = { API.getPhysicalCardAddress(uuid) })
 
 
     override suspend fun getCardBalance(cardSerialNumber: String): RetroApiResponse<CardBalanceResponseDTO> =

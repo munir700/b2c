@@ -57,7 +57,7 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:visibility="@{payHHEmployeeSalaryVM.state.lastTransaction!=null? View.VISIBLE:View.GONE}"
+            android:visibility="visible"
             app:amount="@{payHHEmployeeSalaryVM.state.lastTransaction.amount}"
             app:date="@{DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.lastTransaction.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)}"
             app:lable="@{@string/screen_household_employee_salary_last_salary_transfer_text}" />
@@ -65,14 +65,15 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnPayNow"
             style="@style/RectangleBtnSmallStyle"
+            android:paddingStart="@dimen/margin_medium_small"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_22sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:minHeight="@dimen/_22sdp"
             android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnView(v.id)}"
-            android:paddingStart="@dimen/margin_normal_large"
-            android:paddingEnd="@dimen/margin_normal_large"
+            android:paddingEnd="@dimen/margin_medium_small"
+            app:btn_size="mini_small"
             app:enableCoreButton="@{true}"
             app:text="@{Strings.screen_household_employee_salary_pay_now_button_text}"
             tools:ignore="HardcodedText" />

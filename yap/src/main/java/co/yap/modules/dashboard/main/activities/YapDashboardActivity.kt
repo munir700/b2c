@@ -45,7 +45,6 @@ import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
@@ -57,6 +56,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
@@ -570,6 +570,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             SwitchProfileLiveData.get(it, this@YapDashboardActivity)
                                     .observe(this@YapDashboardActivity, Observer<AccountInfo?> {
                                         mNavigator?.startHouseHoldModule(this@YapDashboardActivity)
+                                        switchTheme(YAPThemes.HOUSEHOLD())
                                         finish()
                                     })
                         }

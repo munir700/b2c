@@ -17,12 +17,12 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -178,7 +178,9 @@ class EidInfoReviewViewModel(application: Application) :
                             result.identity = identity
                             parentViewModel?.identity = identity
                             populateState(parentViewModel?.identity)
-                            if (SharedPreferenceManager.getInstance(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+                            if (SharedPreferenceManager.getInstance(context).getThemeValue()
+                                    .equals(Constants.THEME_HOUSEHOLD)
+                            ) {
                                 trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_EID.type)
                             }
                         }
@@ -282,11 +284,12 @@ class EidInfoReviewViewModel(application: Application) :
                                 if (response.error.actualCode.equals(
                                         eventAlreadyUsedEid.toString(),
                                         true
-                                    )
+                                    ) && SessionManager.user?.accountType == AccountType.B2C_HOUSEHOLD.name
                                 ) {
-                                    //clickEvent.setValue(EVENT_ALREADY_USED_EID)
-                                }
-                                state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                                    clickEvent.setValue(eventAlreadyUsedEid)
+                                } else
+                                    state.toast =
+                                        "${response.error.message}^${AlertType.DIALOG.name}"
                             }
                         }
                     }
