@@ -3,6 +3,7 @@ package co.yap.billpayments.paybill
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -30,8 +31,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pay_bill
-    override val viewModel: PayBillViewModel
-        get() = ViewModelProviders.of(this).get(PayBillViewModel::class.java)
+    override val viewModel: PayBillViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
