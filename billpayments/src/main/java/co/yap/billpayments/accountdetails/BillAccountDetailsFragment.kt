@@ -55,8 +55,8 @@ class BillAccountDetailsFragment : AddBillBaseFragment<IBillAccountDetails.ViewM
         // enable scaling and dragging
         getViewBinding().billingHistoryChart.isDragEnabled = true
         getViewBinding().billingHistoryChart.setScaleEnabled(true)
-        // chart.setScaleXEnabled(true);
-        // chart.setScaleYEnabled(true);
+        chart.setScaleXEnabled(true);
+        chart.setScaleYEnabled(true);
 
         // force pinch zoom along both axis
         getViewBinding().billingHistoryChart.setPinchZoom(false)
