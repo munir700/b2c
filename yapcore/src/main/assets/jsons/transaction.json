@@ -788,7 +788,7 @@
     "expectation": {
       "title": "Spent at AL Jaz Branch ATM 0054",
       "time": "10:37 AM",
-      "transferType": "Transaction",
+      "transferType": "In store shopping",
       "remarks": null,
       "status": "",
       "currency": "AED",
@@ -861,9 +861,9 @@
     "expectation": {
       "title": "Spent at ENGLISH TEA HOUSE     ",
       "time": "10:56 AM",
-      "transferType": "Transaction",
+      "transferType": "In store shopping",
       "remarks": null,
-      "status": "Transaction in process",
+      "status": "",
       "currency": "AUD",
       "amount": 60.00,
       "icon": "",
@@ -1232,7 +1232,7 @@
     "expectation": {
       "title": "Spent at AMAZON PAY INDIA PRIVA",
       "time": "12:31 PM",
-      "transferType": "Transaction",
+      "transferType": "Online shopping",
       "remarks": null,
       "status": "",
       "currency": "AED",

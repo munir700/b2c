@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.transaction.receipt.adapter.TransactionReceiptAd
 import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.TotalPurchases
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
@@ -35,11 +36,11 @@ interface ITransactionDetails {
         fun getReceiptItems(receiptList: List<String>): List<ReceiptModel>
         fun receiptItemName(index: Int): String
         fun composeTransactionDetail(transaction: Transaction)
-        fun getTotalPurchaseRequest() : TotalPurchaseRequest
+        fun getTotalPurchaseRequest(): TotalPurchaseRequest
         fun requestAllApis()
         var itemsComposer: TransactionDetailComposer
         var transactionAdapter: TransactionDetailItemAdapter
-        var totalPurchase : ObservableField<TotalPurchases>
+        var totalPurchase: ObservableField<TotalPurchases>
     }
 
     interface State : IBase.State {
@@ -53,7 +54,9 @@ interface ITransactionDetails {
         var isTransactionInProcessOrRejected: ObservableBoolean
         var transactionData: ObservableField<TransactionDetail>
         var coverImage: ObservableInt
-        var showTotalPurchases : ObservableBoolean
-        var showErrorMessage : ObservableBoolean
+        var showTotalPurchases: ObservableBoolean
+        var showErrorMessage: ObservableBoolean
+        var updatedCategory: ObservableField<TapixCategory>
+        var categoryDescription: ObservableField<String>
     }
 }

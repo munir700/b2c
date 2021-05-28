@@ -26,54 +26,122 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_20sdp">
 
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivYapAnimation"
-                android:layout_width="@dimen/_200sdp"
-                android:layout_height="@dimen/_100sdp"
+            <FrameLayout
+                android:id="@+id/flVideoPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <co.yap.widgets.video.AndExoPlayerView
+                    android:id="@+id/andExoPlayerView"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_120sdp"
+                    android:visibility="invisible"
+                    app:andexo_aspect_ratio="aspect_match"
+                    app:andexo_play_when_ready="true"
+                    app:andexo_resize_mode="Zoom"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvQueueDetail"
                 style="@style/ATitle3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal_large"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivYapAnimation"
+                app:layout_constraintTop_toBottomOf="@+id/flVideoPlayer"
                 app:text="@{Strings.screen_waiting_list_display_text_your_place_in_queue}"
                 tools:text="@string/screen_waiting_list_display_text_your_place_in_queue" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvUserRank"
-                style="@style/Title2"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/rankViewFlow"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_rank_hashtag,viewModel.state.rank)}"
-                android:textColor="?attr/colorPrimaryLightAttr"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvQueueDetail"
-                tools:text="#2021" />
+                app:layout_constraintTop_toBottomOf="@+id/tvQueueDetail">
+
+                <co.yap.widgets.RollingCounterView
+                    android:id="@+id/dtvRankOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:textColor="@color/colorPrimaryDark" />
+
+                <co.yap.widgets.RollingCounterView
+                    android:id="@+id/dtvRankTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:textColor="@color/colorPrimaryDark" />
+
+                <co.yap.widgets.RollingCounterView
+                    android:id="@+id/dtvRankThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:textColor="@color/colorPrimaryDark" />
+
+                <co.yap.widgets.RollingCounterView
+                    android:id="@+id/dtvRankFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:textColor="@color/colorPrimaryDark" />
+
+                <co.yap.widgets.RollingCounterView
+                    android:id="@+id/dtvRankFive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:textColor="@color/colorPrimaryDark" />
+
+                <co.yap.widgets.RollingCounterView
+                    android:id="@+id/dtvRankSix"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:textColor="@color/colorPrimaryDark" />
+
+                <co.yap.widgets.RollingCounterView
+                    android:id="@+id/dtvRankSeven"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:textColor="@color/colorPrimaryDark" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvUsersAbove"
-                style="@style/smallMediumFont"
+                style="@style/Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal_large"
                 android:text="@{viewModel.state.waitingBehind}"
-                android:textColor="?attr/colorPrimaryLightAttr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvUserRank"
+                app:layout_constraintTop_toBottomOf="@+id/rankViewFlow"
                 tools:text="2312"
-                tools:textColor="?attr/colorPrimaryLightAttr" />
+                tools:textColor="@color/colorPrimaryDark" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvWaitingBehind"
@@ -90,11 +158,12 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNotifyYoutext"
-                style="@style/Regular"
+                style="@style/Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal_large"
                 android:gravity="center"
+                android:lineSpacingExtra="2sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvWaitingBehind"
@@ -108,34 +177,46 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:background="@drawable/purple_card"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/margin_normal"
-                android:paddingBottom="@dimen/margin_normal"
-                app:constraint_referenced_ids="tvWantToJumpText,tvLeadBankText"
-                app:flow_verticalGap="@dimen/margin_normal"
+                android:paddingStart="@dimen/margin_normal"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_medium"
+                app:constraint_referenced_ids="tvJump,tvLeadBankText,tvSignedUpUsers"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotifyYoutext" />
 
-
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvWantToJumpText"
-                style="@style/ARegularGrey"
+                android:id="@+id/tvJump"
+                style="@style/RegularGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
-                android:lineSpacingExtra="6sp"
-                app:text="@{Strings.screen_waiting_list_display_text_want_to_jump}"
+                android:lineSpacingExtra="3sp"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_want_to_jump)}"
                 tools:text="@string/screen_waiting_list_display_text_want_to_jump" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLeadBankText"
-                style="@style/ARegularGrey"
+                style="@style/RegularGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingExtra="3sp"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_lead_the_bank_description,viewModel.state.jump)}"
+                tools:text="@string/screen_waiting_list_display_text_lead_the_bank_description" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSignedUpUsers"
+                style="@style/RegularGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:lineSpacingExtra="6sp"
-                android:padding="@dimen/margin_small"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_lead_the_bank_description,viewModel.state.jump)}"
-                tools:text="@string/screen_waiting_list_display_text_lead_the_bank_description" />
+                android:lineSpacingExtra="3sp"
+                android:onClick="@{(v)-> viewModel.onPressView(v.id)}"
+                android:paddingTop="@dimen/margin_medium"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_waiting_list_display_text_signed_up_users,viewModel.state.signedUpUsers)}"
+                android:textColor="@color/colorPrimary"
+                tools:text="@string/screen_waiting_list_display_text_signed_up_users" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnShare"
@@ -143,16 +224,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_large"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:onClick="@{(v)-> viewModel.handlePressOnNext(v.id)}"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v)-> viewModel.onPressView(v.id)}"
                 app:btn_enable="true"
                 app:btn_size="large"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fwColoredBox"
+                app:layout_constraintVertical_bias="1"
                 app:text="@{Strings.screen_waiting_list_display_button_text}"
                 tools:text="@string/screen_waiting_list_display_button_text" />
-
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLogBackText"
@@ -161,6 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnShare"

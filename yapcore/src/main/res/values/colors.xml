@@ -53,7 +53,6 @@
     <color name="colorMidnightExpress">#1e1c37</color>
 
     <!--    Backgorunds Colors-->
-    <!--    Backgorunds Colors-->
 
     <color name="bg_round_light_red">#28f44774</color>
     <color name="bg_round_light_blue">#28478df4</color>
@@ -72,6 +71,7 @@
 
     <color name="colorLightGreyGradient">#eff2f9</color>
     <color name="colorDarkGreyGradient">#DAE0F0</color>
+    <color name="colorLightGreen">#ecfaf3</color>
 
     <!-- Objects -->
     <color name="kycCard">#247c4dff</color>
@@ -154,4 +154,5 @@
     <color name="stepview_circle_selected">@android:color/white</color>
     <color name="stepview_selected_number">#25448a</color>
     <color name="stepview_mark">@color/stepview_selected_number</color>
+    <color name="teal_green">#44d389</color>
 </resources>

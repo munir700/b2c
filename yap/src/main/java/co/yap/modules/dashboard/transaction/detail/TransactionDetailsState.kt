@@ -6,6 +6,7 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import co.yap.BR
 import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseState
 
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {
@@ -27,5 +28,6 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var coverImage: ObservableInt = ObservableInt()
     override var showTotalPurchases: ObservableBoolean = ObservableBoolean(false)
     override var showErrorMessage: ObservableBoolean = ObservableBoolean(false)
-
+    override var updatedCategory: ObservableField<TapixCategory> = ObservableField()
+    override var categoryDescription: ObservableField<String> = ObservableField()
 }

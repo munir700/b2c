@@ -6,7 +6,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CoreBottomSheetItemViewModel(
     private val bottomSheetItem: CoreBottomSheetData,
-    private val position: Int,
+    val position: Int,
     private val onItemClickListener: OnItemClickListener?
 ) {
     var itemBottomSheet : CoreBottomSheetData = bottomSheetItem

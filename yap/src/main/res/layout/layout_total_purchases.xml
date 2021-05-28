@@ -10,6 +10,8 @@
 
         <import type="co.yap.yapcore.managers.SessionManager" />
 
+        <import type="co.yap.translation.Strings" />
+
         <variable
             name="purchaseViewModel"
             type="co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel" />
@@ -56,11 +58,11 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total transactions"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toTopOf="@+id/tpBaseLine"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tpTopLine" />
+            app:layout_constraintTop_toBottomOf="@+id/tpTopLine"
+            app:text="@{Strings.screen_transaction_details_total_purchases}" />
 
         <View
             android:id="@+id/tpBaseLine"

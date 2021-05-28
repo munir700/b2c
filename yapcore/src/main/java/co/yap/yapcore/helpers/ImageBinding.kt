@@ -297,7 +297,9 @@ object ImageBinding {
         imageView: AppCompatImageView?,
         resource: Int,
         loopCount: Int = 1,
-        delayBetweenLoop: Long = 100L
+        delayBetweenLoop: Long = 100L,
+        isLoop: Boolean = false,
+        onAnimationComplete: (() -> Unit?)? = null
     ) {
         var countPlay = 0
         if (resource > 0) {
@@ -330,10 +332,12 @@ object ImageBinding {
                                 override fun onAnimationEnd(drawable: Drawable?) {
                                     super.onAnimationEnd(drawable)
                                     countPlay++
-                                    if (countPlay < loopCount) {
+                                    if (isLoop || countPlay < loopCount) {
                                         it.postDelayed({
                                             resource.startFromFirstFrame()
                                         }, delayBetweenLoop)
+                                    } else {
+                                        onAnimationComplete?.let { it1 -> it1() }
                                     }
                                 }
 
@@ -523,6 +527,54 @@ object ImageBinding {
 
                 }
             }
+        }
+    }
+    @JvmStatic
+    @BindingAdapter(
+        value = ["imageUrl", "fullName", "position", "isBackground", "showFirstInitials", "imageDrawable"],
+        requireAll = false
+    )
+    fun loadAnalyticsAvatar(
+        imageView: ImageView,
+        imageUrl: String?,
+        fullName: String?,
+        position: Int,
+        isBackground: Boolean = true,
+        showFirstInitials: Boolean = false, imageDrawable: Drawable?
+    ) {
+        if (fullName.isNullOrEmpty()) return
+        val fName = fullName ?: ""
+
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
+        val resId =
+            if (isBackground) getResId("ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon()
+
+        if (resId != -1) {
+            val resImg = ContextCompat.getDrawable(imageView.context, resId)
+            if (isBackground)
+                resImg?.setTint(
+                    getAnalyticsColor(
+                        colors,
+                        position
+                    )
+                )
+            else {
+                resImg?.setTint(
+                    getAnalyticsColor(
+                        colors,
+                        position
+                    )
+                )
+            }
+            setCircleCropImage(imageView, imageUrl ?: "", resImg!!)
+        } else {
+            if (imageDrawable != null) imageView.setImageDrawable(imageDrawable)
+            else setDrawable(
+                imageView,
+                imageUrl,
+                if (showFirstInitials) fName.split(" ")[0] else fName,
+                position
+            )
         }
     }
 }
