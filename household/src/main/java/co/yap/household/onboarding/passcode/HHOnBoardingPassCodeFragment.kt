@@ -44,7 +44,7 @@ class HHOnBoardingPassCodeFragment :
                 startFragment(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-                    ), showToolBar = true
+                    ), showToolBar = false
                 )
             }
         }

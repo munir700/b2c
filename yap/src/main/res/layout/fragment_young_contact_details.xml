@@ -13,102 +13,101 @@
     </data>
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_normal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvContactLabel"
+            style="@style/Yap.App.Widget.TextView.Medium"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_normal">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_extra_small"
+            android:paddingEnd="@dimen/margin_extra_small"
+            android:text="@string/screen_young_contact_details_title_text"
+            android:textColor="@color/colorPrimaryDark"
+            tools:text="@string/screen_young_contact_details_title_text" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvContactLabel"
-                style="@style/Yap.App.Widget.TextView.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingStart="@dimen/margin_extra_small"
-                android:paddingEnd="@dimen/margin_extra_small"
-                android:text="@string/screen_young_contact_details_title_text"
-                android:textColor="@color/colorPrimaryDark"
-                tools:text="@string/screen_young_contact_details_title_text" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvContactNote"
+            style="@style/Yap.App.Widget.TextView.Normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/_2sdp"
+            android:paddingStart="@dimen/margin_extra_small"
+            android:paddingEnd="@dimen/margin_extra_small"
+            android:text="@string/screen_young_contact_details_description_text"
+            android:textColor="@color/greyDark"
+            tools:text="@string/screen_young_contact_details_description_text" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvContactNote"
-                style="@style/Yap.App.Widget.TextView.Normal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal_large"
-                android:gravity="center"
-                android:lineSpacingExtra="@dimen/_2sdp"
-                android:paddingStart="@dimen/margin_extra_small"
-                android:paddingEnd="@dimen/margin_extra_small"
-                android:text="@string/screen_young_contact_details_description_text"
-                android:textColor="@color/greyDark"
-                tools:text="@string/screen_young_contact_details_description_text" />
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/ctEmailEdit"
+            style="@style/Yap.App.Widget.TextInputLayout"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
+            app:hintTextColorNormal="@color/greyDark"
+            app:hintTextColorSelected="@color/colorPressedBtnState">
 
-            <co.yap.widgets.CollapsedColoredHintTextInputLayout
-                android:id="@+id/ctEmailEdit"
-                style="@style/Yap.App.Widget.TextInputLayout"
-                android:layout_marginTop="@dimen/_50sdp"
-                android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
-                app:hintTextColorNormal="@color/greyDark"
-                app:hintTextColorSelected="@color/colorPressedBtnState">
+            <androidx.appcompat.widget.AppCompatEditText
+                style="@style/Yap.App.Widget.TextInputEditText.Email"
+                android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
+                android:imeOptions="actionNext"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_normal"
+                android:text="@={viewModel.state.email}"
+                app:validateType='@{"email"}' />
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/Yap.App.Widget.TextInputEditText.Email"
-                    android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
-                    android:imeOptions="actionNext"
-                    android:paddingTop="@dimen/margin_normal"
-                    android:paddingBottom="@dimen/margin_normal"
-                    android:text="@={viewModel.state.email}"
-                    app:validateType='@{"email"}' />
-            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/ctPhoneEdit"
+            style="@style/Yap.App.Widget.TextInputLayout"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:drawablePadding="@dimen/_10sdp"
+            android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile"
+            app:hintTextColorNormal="@color/greyDark"
+            app:hintTextColorSelected="@color/colorPressedBtnState">
 
-            <co.yap.widgets.CollapsedColoredHintTextInputLayout
-                android:id="@+id/ctPhoneEdit"
-                style="@style/Yap.App.Widget.TextInputLayout"
-                android:layout_marginTop="@dimen/margin_medium_large"
-                android:drawablePadding="@dimen/_10sdp"
-                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile"
-                app:hintTextColorNormal="@color/greyDark"
-                app:hintTextColorSelected="@color/colorPressedBtnState">
+            <co.yap.widgets.PrefixSuffixEditText
+                android:id="@+id/etPhoneNumber"
+                style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
+                android:hint="00 00000000"
+                android:imeOptions="actionDone"
+                android:inputType="phone"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_normal"
+                android:text="@={viewModel.state.phone}"
+                app:errorEnabled="@{false}"
+                app:isOptional="@{true}"
+                app:isoCountryCode="@{viewModel.state.countryCode}"
+                app:pse_compoundDrawableHeight="@dimen/_16sdp"
+                app:pse_compoundDrawableWidth="@dimen/_16sdp"
+                app:pse_setPrefix="971"
+                app:pse_setPrefixTextColor="@color/colorPrimaryDark"
+                app:pse_showHint="true" />
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
-                <co.yap.widgets.PrefixSuffixEditText
-                    android:id="@+id/etPhoneNumber"
-                    style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
-                    android:hint="00 00000000"
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:maxLength="9"
-                    android:paddingTop="@dimen/margin_normal"
-                    android:paddingBottom="@dimen/margin_normal"
-                    android:text="@={viewModel.state.phone}"
-                    app:errorEnabled="@{false}"
-                    app:isoCountryCode="@{viewModel.state.countryCode}"
-                    app:pse_compoundDrawableHeight="@dimen/_16sdp"
-                    app:pse_compoundDrawableWidth="@dimen/_16sdp"
-                    app:pse_setPrefix="971"
-                    app:isOptional="@{true}"
-                    app:pse_setPrefixTextColor="@color/colorPrimaryDark"
-                    app:pse_showHint="true" />
-            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <co.yap.widgets.CoreButton
-                android:id="@+id/btnNext"
-                style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_btn_side_paddings"
-                android:layout_marginEnd="@dimen/margin_btn_side_paddings"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
-                app:enableCoreButton="@{viewModel.validator.isValidate}"
-                app:text="@{Strings.common_button_next}" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnNext"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_btn_side_paddings"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_btn_side_paddings"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+            app:enableCoreButton="@{viewModel.validator.isValidate}"
+            app:text="@{Strings.common_button_next}" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

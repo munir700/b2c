@@ -243,7 +243,7 @@
             style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|center_horizontal"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_normal_large"
@@ -251,6 +251,7 @@
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
             app:btn_enable="true"
+            app:btn_size="large"
             app:text="@{Strings.screen_yap_young_onboarding_landing_button_text}"
             tools:text="@string/screen_yap_young_onboarding_landing_button_text" />
 
@@ -258,7 +259,6 @@
             android:id="@+id/toolbar"
             style="@style/Yap.App.Widget.ToolBar"
             android:background="@drawable/bg_grey_gradient"
-
             app:navigationIcon="@drawable/ic_close_white" />
     </FrameLayout>
 </layout>
