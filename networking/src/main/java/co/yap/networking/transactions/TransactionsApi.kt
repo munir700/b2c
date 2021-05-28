@@ -4,6 +4,10 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -89,11 +93,22 @@ interface TransactionsApi {
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
 
     suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
-    suspend fun addTransactionReceipt(transactionId: String, transactionReceipt: MultipartBody.Part): RetroApiResponse<ApiResponse>
+    suspend fun addTransactionReceipt(
+        transactionId: String,
+        transactionReceipt: MultipartBody.Part
+    ): RetroApiResponse<ApiResponse>
+
     suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse>
     suspend fun deleteTransactionReceipt(
         transactionId: String,
         receipt: String
     ): RetroApiResponse<ApiResponse>
+
     suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
+
+    //Pay bill from bill payment
+    suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>
+    suspend fun fetchCustomerBillHistory(customerBillUuid: String): RetroApiResponse<BillAccountHistoryResponse>
+    suspend fun getBPAnalytics(date: String?): RetroApiResponse<BPAnalyticsResponseDTO>
+    suspend fun getBPCategoryHistory(month: String?, categoryId: String?): RetroApiResponse<BPAnalyticsDetailsDTO>
 }

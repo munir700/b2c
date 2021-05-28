@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pay_all_navigation"
+    app:startDestination="@id/payAllFragment">
+
+
+    <fragment
+        android:id="@+id/singleDeclineFragment"
+        android:name="co.yap.billpayments.payall.singledecline.SingleDeclineFragment"
+        android:label="SingleDeclineFragment"
+        tools:layout="@layout/fragment_single_decline" />
+    <fragment
+        android:id="@+id/payAllFragment"
+        android:name="co.yap.billpayments.payall.home.PayAllFragment"
+        android:label="PayAllFragment"
+        tools:layout="@layout/fragment_pay_all">
+        <action
+            android:id="@+id/action_payAllFragment_to_singleDeclineFragment"
+            app:destination="@id/singleDeclineFragment" />
+        <action
+            android:id="@+id/action_payAllFragment_to_payAllSuccessFragment"
+            app:destination="@id/payAllSuccessFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/payAllSuccessFragment"
+        android:name="co.yap.billpayments.payall.payallsuccess.PayAllSuccessFragment"
+        android:label="PayAllSuccessFragment"
+        tools:layout="@layout/fragment_pay_all_success" />
+</navigation>

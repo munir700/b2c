@@ -38,5 +38,6 @@ data class Card(
     var shipmentDate: String? = null,
     var activationDate: String? = null,
     var frontImage: String? = null,
-    var pinStatus: String? = null
+    var pinStatus: String? = null,
+    @Transient var isAddedSamsungPay: Boolean? = false
 ) : Parcelable

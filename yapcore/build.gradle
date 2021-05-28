@@ -1,3 +1,12 @@
+android {
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src/main/res', 'src/main/res/layouts/emloymentinfo'
+            }
+        }
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -8,7 +17,7 @@ dependencies {
 
     // shared dependencies to all modules
     project.commonDependencies.each {
-        add(it.configuration, it.dependency)
+        add(it.configuration, it.dependency, it.options)
     }
 
     // module specific dependencies

@@ -48,6 +48,7 @@
     <string name="common_display_text_no_results">No results</string>
     <string name="common_display_text_no_country_found">No country found</string>
     <string name="common_display_text_percentage">%</string>
+    <string name="common_display_text_available_balance_error_without_fee">Uh oh! You’ll need to have a minimum balance of %1s to proceed with this payment. </string>
 
 
     <!-- Home Screen -->
@@ -167,6 +168,8 @@
     <string name="screen_meeting_confirmation_display_text_guide">Make sure you have your original Emirates ID on you at the time of delivery as we’ll need to scan it</string>
     <string name="screen_meeting_confirmation_display_text_emirates_id">Emirates ID</string>
     <string name="screen_meeting_confirmation_button_go_to_dashboard">Go to dashboard</string>
+    <string name="screen_kyc_on_the_way_display_text_guide">You will receive a message from our designated delivery company to confirm the date and time of delivery. Please make sure you have your Emirates ID on you at the time of delivery.</string>
+    <string name="screen_kyc_on_the_way_display_text_yap_member">Congrats, you\'re a YAP founder member!</string>
 
     <!-- Country not allowed screen -->
     <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the %1$s</string>
@@ -539,7 +542,7 @@
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
     <string name="screen_change_email_placeholder_confirm_email_address">enter in one more time</string>
-    <string name="screen_change_email_display_text_description">A verification email will now be sent to this address​</string>
+    <string name="screen_change_email_display_text_description">A verification email will be sent to this email address</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
     <string name="screen_change_email_display_text_confirm_email_title">Enter in one more time</string>
     <string name="screen_change_email_display_text_email_match_error">Email doesn\'t match what you first entered</string>
@@ -1085,10 +1088,13 @@
     <string name="screen_place_of_birth_display_text_description">Just a few more details about you, as per \nyour passport.</string>
     <string name="screen_place_of_birth_display_text_select_country">Select country</string>
     <string name="screen_place_of_birth_display_text_city_of_birth">City of birth</string>
+    <string name="screen_place_of_birth_display_text_are_you_a_dual_national">Are you a dual national?</string>
+    <string name="screen_place_of_birth_display_text_nationality_as_per_eid">Nationality as per EID</string>
+    <string name="screen_place_of_birth_display_text_add_second_country">Add second country</string>
 
     <!--  Tax info screen -->
     <string name="screen_tax_info_display_text_heading">Tax Information</string>
-    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax committments</string>
+    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax commitments</string>
     <string name="screen_tax_info_display_text_select_country">Select country of tax residence</string>
     <string name="screen_tax_info_display_text_have_tin_number">Do you have a Tax Identification Number (TIN)?</string>
     <string name="screen_tax_info_display_text_reason_no_tin_number">Select the reason for not having a TIN</string>
@@ -1353,15 +1359,41 @@
     <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
 
     <!--Reached on the top of queue screen-->
-
     <string name="screen_reached_top_queue_display_text">%1s, you reached the top of the Queue!</string>
     <string name="screen_reached_top_queue_display_text_subtitle">You are now ready to fully activate and begin using your YAP account.</string>
     <string name="screen_reached_top_queue_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed.</string>
 
     <!-- image previewer dialogue -->
-
     <string name="screen_image_previewer_display_text_delete_message">This photo will be deleted from your saved receipts.</string>
     <string name="screen_image_previewer_button_text_delete">Delete Photo</string>
+
+    <!--KYC Employment information selection screen-->
+    <string name="screen_employment_information_selection_display_text_title">Employment Information</string>
+    <string name="screen_employment_information_selection_display_text_employment_status">What is your employment status?</string>
+    <string name="screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose">We only ask you this questions for administrative purpose. It does not impact your ability to sign up to a YAP account. </string>
+    <string name="screen_employment_information_selection_display_button_text_next">Next</string>
+    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask you about your monthly salary?</string>
+    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum salary requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account.</string>
+    <string name="screen_employment_information_dialog_button_text_close">Close</string>
+    <string name="screen_employment_information_cash_dialog_display_text_heading">For those people who still use cash, how much cash will you add to YAP per month?</string>
+    <string name="screen_employment_information_cash_dialog_display_text_subheading">We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account.</string>
+
+    <!--    Employee information screen-->
+    <string name="screen_employee_information_display_bottom_sheet_text_heading">Add all the countries your company does business with:</string>
+
+    <!-- KYC Employment Information Questionnaire screen -->
+    <string name="screen_employment_questionnaire_display_text_heading">Employment Information</string>
+    <string name="screen_employment_questionnaire_display_text_desc">Final questions and your set to go!</string>
+    <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
+    <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
+    <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
+    ERROR_INVALID_CARDINPUT
+    <!--    Samsung Pay start-->
+    <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
+    <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
+    <string name="screen_cards_display_text_error_framework_internal">The error occurred in payment framework while processing the request. Please contact support for more information.</string>
+    <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
+    <!--    Samsung Pay end-->
 
 
     <!--    Bill Payment-->
@@ -1399,9 +1431,81 @@
     <string name="screen_bill_detail_success_dialog_button_text">Yes, pay now</string>
     <string name="screen_bill_detail_success_dialog_button_description">Pay your %1s bill now?</string>
     <string name="screen_bill_detail_success_dialog_button_text_do_it_later">No, I\'ll do it later</string>
+    <string name="screen_bill_detail_field_label">Enter nickname</string>
 
 
-    <!-- Biller Detail Screen-->
+    <!-- Add Biller Detail Screen-->
     <string name="screen_biller_detail_title_text_credit_card">Enter your credit card details</string>
     <string name="screen_biller_detail_title_text_enter_you_account_details">Enter your account details</string>
+
+    <!-- Bill Account Detail Screen -->
+    <string name="screen_bill_account_detail_toolbar_title">Account details</string>
+    <string name="screen_bill_account_detail_text_bill_status_paid">This bill is paid</string>
+    <string name="screen_bill_account_detail_text_bill_status_over_due">This bill is over due</string>
+    <string name="screen_bill_account_detail_text_bill_status_due">This bill is due</string>
+    <string name="screen_bill_account_detail_text_last_payment">Last payment</string>
+    <string name="screen_bill_account_detail_text_total_payment">Total payment</string>
+    <string name="screen_bill_account_detail_text_highest_month">Highest month</string>
+    <string name="screen_bill_account_detail_text_lowest_month">Lowest month</string>
+    <string name="screen_bill_account_detail_button_text">Pay Now</string>
+
+    <!-- Edit Bill Screen-->
+    <string name="screen_edit_bill_title_text">Edit your account details</string>
+    <string name="screen_edit_bill_button_text">Edit</string>
+    <string name="screen_edit_bill_bottom_button_text">Delete this bill</string>
+    <string name="screen_edit_bill_dialog_title">Are you sure you want to delete this bill?</string>
+    <string name="screen_edit_bill_dialog_description">You will loose all the data stored of past bill payments.</string>
+    <string name="screen_edit_bill_switch_text_this_an_auto_payment">This an auto-payment.</string>
+    <string name="screen_edit_bill_switch_text_bill_reminder">Set up a bill reminder</string>
+    <string name="screen_edit_bill_field_label">Enter nickname</string>
+
+
+    <!--Pay Bill-->
+    <string name="screen_pay_bill_text_title">Pay bill</string>
+    <string name="screen_pay_bill_input_text_note_hint">Type a note here (Optional)</string>
+    <string name="screen_pay_bill_pay_button_text">Pay bill</string>
+    <string name="screen_pay_bill_auto_payment_day_text">Day</string>
+    <string name="screen_pay_bill_auto_payment_day_week">Week</string>
+    <string name="screen_pay_bill_auto_payment_day_month">Month</string>
+    <string name="screen_pay_bill_select_week_day_text">Select day in week</string>
+    <string name="screen_pay_bill_select_month_day_text">Select day in month</string>
+    <string name="screen_pay_bill_selection_text">Make this an auto-payment</string>
+    <string name="screen_pay_bill_selection_remind_text">Remind me in advance by</string>
+    <string name="screen_pay_bill_payment_type_text">Pay every</string>
+    <string name="screen_pay_bill_payment_every_day_text">Day</string>
+    <string name="screen_pay_bill_payment_every_week_text">Week</string>
+    <string name="screen_pay_bill_payment_every_month_text">Month</string>
+    <string name="screen_pay_bill_payment_reminder_every_days_text">3 days</string>
+    <string name="screen_pay_bill_payment_reminder_every_week_text">1 week</string>
+    <string name="screen_pay_bill_payment_reminder_every_weeks_text">3 weeks</string>
+
+    <!--Pay Bill Success-->
+    <string name="screen_pay_bill_success_toolbar_title">Transfer successful!</string>
+    <string name="screen_pay_bill_success_you_have_paid">You have paid</string>
+    <string name="screen_pay_bill_success_button_text">Back to dashboard</string>
+
+    <!--Single Decline Screen-->
+    <string name="screen_single_decline_top_message">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
+    <string name="screen_single_decline_toolbar_text_decline">Transfer declined</string>
+    <string name="screen_single_decline_toolbar_text_dont_worry">Don’t worry you were not charged anything \nTotal amount attempted to pay.</string>
+    <string name="screen_single_decline_toolbar_text_total_amount_attempted_to_pay">Total amount attempted to pay</string>
+    <string name="screen_single_decline_button_text_back_to_bill_payments">Back to Bill Payments</string>
+
+    <!-- Pay All Screen-->
+    <string name="screen_pay_all_success_toolbar_title">Transfer successful!</string>
+    <string name="screen_pay_all_success_toolbar_title_transfer_status">Transfer status</string>
+    <string name="screen_pay_all_success_toolbar_title_transfer_unsuccessful">Transfer unsuccessful</string>
+    <string name="screen_pay_all_success_title_all_paid">Your bills are all paid!</string>
+    <string name="screen_pay_all_success_title_partial_paid">Some of your bills did not go through.</string>
+    <string name="screen_pay_all_success_title_all_decline">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
+    <string name="screen_pay_all_success_text_paid_status">Total paid</string>
+    <string name="screen_pay_all_success_text_decline_status">Total amount attempted to pay</string>
+    <string name="screen_pay_all_success_button_text">Back to Bill Payments</string>
+
+
+
+    <!-- Pay All Screen-->
+    <string name="screen_pay_all_toolbar_title">Pay all bills</string>
+    <string name="screen_pay_all_text_total_payment_for">Total Payment for</string>
+    <string name="screen_pay_all_text_button">Pay Bills</string>
 </resources>

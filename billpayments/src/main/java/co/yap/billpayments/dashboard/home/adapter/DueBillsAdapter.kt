@@ -3,11 +3,13 @@ package co.yap.billpayments.dashboard.home.adapter
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
+import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.billpayments.databinding.LayoutItemBillDueBinding
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class DueBillsAdapter(private val list: MutableList<DueBill>) :
-    BaseBindingRecyclerAdapter<DueBill, RecyclerView.ViewHolder>(list) {
+class DueBillsAdapter(private val list: MutableList<ViewBillModel>) :
+    BaseBindingRecyclerAdapter<ViewBillModel, RecyclerView.ViewHolder>(list) {
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return DueBillsItemViewHolder(
             binding as LayoutItemBillDueBinding

@@ -3,22 +3,19 @@ package co.yap.yapcore.helpers
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
-import android.content.*
-import android.content.Intent.ACTION_VIEW
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.res.Resources
 import android.icu.util.TimeZone
-import android.net.Uri
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
-import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
-import android.util.DisplayMetrics
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
@@ -31,7 +28,6 @@ import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.requestdtos.Contact
-import co.yap.repositories.InviteFriendRepository
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.loading.CircularProgressBar
@@ -39,7 +35,6 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
-import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -50,7 +45,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 
-@SuppressLint("StaticFieldLeak")
+//@SuppressLint("StaticFieldLeak")
 object Utils {
     @JvmStatic
     fun getDimensionsByPercentage(context: Context, width: Int, height: Int): IntArray {
@@ -59,13 +54,6 @@ object Utils {
         dimensions[1] = getDimensionInPercent(context, false, height)
         return dimensions
     }
-
-    fun getColor(context: Context, @ColorRes color: Int) =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            context.resources.getColor(color, null)
-        } else {
-            context.getColor(color)
-        }
 
     fun requestKeyboard(view: View, request: Boolean, forced: Boolean) {
         view.requestFocus()
@@ -164,26 +152,6 @@ object Utils {
         } catch (ex: Exception) {
             ""
         }
-    }
-
-    fun convertDpToPx(context: Context, dp: Float): Float {
-        return dp * context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
-    }
-
-    fun convertPxToDp(context: Context, px: Float): Float {
-        return px / context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
-    }
-
-    fun getNavigationBarHeight(activity: Activity): Int {
-        val metrics = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(metrics)
-        val usableHeight = metrics.heightPixels
-        activity.windowManager.defaultDisplay.getRealMetrics(metrics)
-        val realHeight = metrics.heightPixels
-        return if (realHeight > usableHeight)
-            realHeight - usableHeight
-        else
-            0
     }
 
     fun getCardDimensions(context: Context, width: Int, height: Int): IntArray {
@@ -414,47 +382,6 @@ object Utils {
         }
     }
 
-    fun openTwitter(context: Context) {
-        var intent: Intent?
-        try {
-            context.packageManager.getPackageInfo("com.twitter.android", 0)
-            intent = Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            // no Twitter app, revert to browser
-            context.startActivity(Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
-            )
-        }
-    }
-
-    fun openInstagram(context: Context) {
-        val uri = Uri.parse(Constants.URL_INSTAGRAM)
-        val likeIng = Intent(ACTION_VIEW, uri)
-        likeIng.setPackage("com.instagram.android")
-
-        try {
-            context.startActivity(likeIng)
-        } catch (e: ActivityNotFoundException) {
-            context.startActivity(
-                Intent(ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM))
-            )
-        }
-    }
-
-    fun getOpenFacebookIntent(context: Context): Intent? {
-        return try {
-            context.packageManager.getPackageInfo("com.facebook.katana", 0)
-            Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
-        } catch (e: Exception) {
-            try {
-                Intent(ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK))
-            } catch (e: Exception) {
-                null
-            }
-        }
-    }
-
     fun getFormattedPhone(mobileNo: String): String {
         return try {
             val pnu = PhoneNumberUtil.getInstance()
@@ -527,60 +454,10 @@ object Utils {
 
     }
 
-    fun getSpannableStringForLargerBalance(
-        context: Context,
-        staticString: String,
-        currencyType: String,
-        amount: String
-    ): SpannableStringBuilder? {
-        return try {
-            var textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
-            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-            val fcsLarge = AbsoluteSizeSpan(textSize)
-            val separated = staticString.split(currencyType)
-            val str = SpannableStringBuilder(staticString)
-
-            str.setSpan(
-                fcs,
-                separated[0].length,
-                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
-                    ?: 0) + 1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            str.setSpan(
-                fcsLarge,
-                separated[0].length,
-                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
-                    ?: 0) + 1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            str
-        } catch (e: Exception) {
-            return null
-        }
-
-
-    }
-
     @SuppressLint("DefaultLocale")
     fun getCountryCodeFromTelephony(context: Context): String {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return tm.networkCountryIso.toUpperCase()
-    }
-
-    fun getPhoneNumberCountryCodeForAPI(
-        defaultCountryCode: String,
-        mobileNo: String
-    ): String {
-        return try {
-            val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, defaultCountryCode)
-            //didt find any other way to get number zero
-            return """00${pn.countryCode}"""
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ""
-        }
     }
 
     fun getCountryCodeFormString(
@@ -622,15 +499,6 @@ object Utils {
         }
     }
 
-    fun shareText(context: Context, body: String) {
-        InviteFriendRepository().inviteAFriend()
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
-        context.startActivity(Intent.createChooser(sharingIntent, "Share"))
-    }
-
-
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
@@ -646,7 +514,10 @@ object Utils {
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
     fun getBackgroundColorForAnalytics(context: Context, position: Int) =
-        ContextCompat.getColor(context, backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size])
+        ContextCompat.getColor(
+            context,
+            backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size]
+        )
 
     fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(
@@ -758,10 +629,6 @@ object Utils {
             .show()
     }
 
-    fun showComingSoon(context: Context) {
-        context.shortToast("Coming Soon")
-    }
-
     fun formateIbanString(iban: String?): String? {
         iban?.let {
             val sb = StringBuilder()
@@ -780,37 +647,37 @@ object Utils {
         existingVersion: String,
         newVersion: String
     ): Boolean {
-        var existingVersion = existingVersion
-        var newVersion = newVersion
-        if (existingVersion.isEmpty() || newVersion.isEmpty()) {
+        var existing = existingVersion
+        var new = newVersion
+        if (existing.isEmpty() || new.isEmpty()) {
             return false
         }
-        existingVersion = existingVersion.replace("\\.".toRegex(), "")
-        newVersion = newVersion.replace("\\.".toRegex(), "")
-        val existingVersionLength = existingVersion.length
-        val newVersionLength = newVersion.length
+        existing = existing.replace("\\.".toRegex(), "")
+        new = new.replace("\\.".toRegex(), "")
+        val existingVersionLength = existing.length
+        val newVersionLength = new.length
         val versionBuilder = java.lang.StringBuilder()
         if (newVersionLength > existingVersionLength) {
-            versionBuilder.append(existingVersion)
+            versionBuilder.append(existing)
             for (i in existingVersionLength until newVersionLength) {
                 versionBuilder.append("0")
             }
-            existingVersion = versionBuilder.toString()
+            existing = versionBuilder.toString()
         } else if (existingVersionLength > newVersionLength) {
-            versionBuilder.append(newVersion)
+            versionBuilder.append(new)
             for (i in newVersionLength until existingVersionLength) {
                 versionBuilder.append("0")
             }
-            newVersion = versionBuilder.toString()
+            new = versionBuilder.toString()
         }
-        return newVersion.toInt() > existingVersion.toInt()
+        return new.toInt() > existing.toInt()
     }
 
     fun getOtpBlockedMessage(context: Context): String {
         return "${
-            context.getString(R.string.screen_blocked_otp_display_text_message).format(
-                SessionManager.helpPhoneNumber
-            )
+        context.getString(R.string.screen_blocked_otp_display_text_message).format(
+            SessionManager.helpPhoneNumber
+        )
         }^${AlertType.DIALOG.name}"
     }
 
@@ -819,7 +686,7 @@ object Utils {
         addOIndex: Boolean = true
     ): ArrayList<Country>? {
         val sortedList = list?.sortedWith(compareBy { it.name })
-        var countries: ArrayList<Country> = ArrayList()
+        val countries: ArrayList<Country> = ArrayList()
         return sortedList?.let { it ->
             countries.clear()
             if (addOIndex) {
@@ -938,20 +805,13 @@ object Utils {
         )
     }
 
-    fun spToFloat(context: Context, dp: Float): Float {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP, dp,
-            context.resources.displayMetrics
-        )
-    }
-
     fun getStringWithEmojiSupport(str: String): String {
-        val emo_regex =
+        val emoRegex =
             "(?:[ @\"^[a-zA-Z]+\$]|[\\uD83C\\uDF00-\\uD83D\\uDDFF]|[\\uD83E\\uDD00-\\uD83E\\uDDFF]|[\\uD83D\\uDE00-\\uD83D\\uDE4F]|[\\uD83D\\uDE80-\\uD83D\\uDEFF]|[\\u2600-\\u26FF]\\uFE0F?|[\\u2700-\\u27BF]\\uFE0F?|\\u24C2\\uFE0F?|[\\uD83C\\uDDE6-\\uD83C\\uDDFF]{1,2}|[\\uD83C\\uDD70\\uD83C\\uDD71\\uD83C\\uDD7E\\uD83C\\uDD7F\\uD83C\\uDD8E\\uD83C\\uDD91-\\uD83C\\uDD9A]\\uFE0F?|[\\u0023\\u002A\\u0030-\\u0039]\\uFE0F?\\u20E3|[\\u2194-\\u2199\\u21A9-\\u21AA]\\uFE0F?|[\\u2B05-\\u2B07\\u2B1B\\u2B1C\\u2B50\\u2B55]\\uFE0F?|[\\u2934\\u2935]\\uFE0F?|[\\u3030\\u303D]\\uFE0F?|[\\u3297\\u3299]\\uFE0F?|[\\uD83C\\uDE01\\uD83C\\uDE02\\uD83C\\uDE1A\\uD83C\\uDE2F\\uD83C\\uDE32-\\uD83C\\uDE3A\\uD83C\\uDE50\\uD83C\\uDE51]\\uFE0F?|[\\u203C\\u2049]\\uFE0F?|[\\u25AA\\u25AB\\u25B6\\u25C0\\u25FB-\\u25FE]\\uFE0F?|[\\u00A9\\u00AE]\\uFE0F?|[\\u2122\\u2139]\\uFE0F?|\\uD83C\\uDC04\\uFE0F?|\\uD83C\\uDCCF\\uFE0F?|[\\u231A\\u231B\\u2328\\u23CF\\u23E9-\\u23F3\\u23F8-\\u23FA]\\uFE0F?)"
 
         val cardFullName = str.trim { it <= ' ' }
         if (cardFullName.isNotEmpty()) {
-            val firstNameMatcher = Pattern.compile(emo_regex).matcher(cardFullName)
+            val firstNameMatcher = Pattern.compile(emoRegex).matcher(cardFullName)
             var firstData = ""
 
             while (firstNameMatcher.find()) {

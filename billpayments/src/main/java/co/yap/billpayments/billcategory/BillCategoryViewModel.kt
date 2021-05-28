@@ -1,10 +1,9 @@
 package co.yap.billpayments.billcategory
 
 import android.app.Application
-import androidx.databinding.ObservableField
-import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.base.BillDashboardBaseViewModel
+import co.yap.billpayments.billcategory.adapter.BillCategoryAdapter
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -13,12 +12,12 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 
 class BillCategoryViewModel(application: Application) :
-    PayBillBaseViewModel<IBillCategory.State>(application), IBillCategory.ViewModel,
+    BillDashboardBaseViewModel<IBillCategory.State>(application), IBillCategory.ViewModel,
     IRepositoryHolder<CustomersRepository> {
     override val repository: CustomersRepository = CustomersRepository
     override val state: IBillCategory.State = BillCategoryState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var billcategories: ObservableField<MutableList<BillProviderModel>> = ObservableField()
+    override var adapter: BillCategoryAdapter = BillCategoryAdapter(mutableListOf())
 
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
@@ -29,7 +28,7 @@ class BillCategoryViewModel(application: Application) :
         if (parentViewModel?.billcategories.isNullOrEmpty()) {
             getBillProviders()
         } else {
-            billcategories.set(parentViewModel?.billcategories)
+            parentViewModel?.billcategories?.let { adapter.setList(it) }
             state.dataPopulated.set(true)
         }
     }
@@ -37,6 +36,7 @@ class BillCategoryViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_add_bill_toolbar_title))
+        toggleRightIconVisibility(false)
     }
 
     override fun getBillProviders() {
@@ -47,9 +47,9 @@ class BillCategoryViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
-                        billcategories.set(response.data.billProviders as ArrayList)
                         parentViewModel?.billcategories =
-                            billcategories.get() as MutableList<BillProviderModel>
+                            response.data.billProviders as ArrayList
+                        parentViewModel?.billcategories?.let { adapter.setList(it) }
                         state.dataPopulated.set(true)
                     }
                     is RetroApiResponse.Error -> {

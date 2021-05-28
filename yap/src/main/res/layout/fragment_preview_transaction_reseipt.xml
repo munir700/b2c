@@ -35,6 +35,7 @@
             android:layout_margin="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:src="@drawable/ic_close_white"
+            android:contentDescription="@string/empty_string"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

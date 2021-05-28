@@ -1,0 +1,23 @@
+{
+  "fluctuation": "+20%",
+  "bills": [
+    {
+      "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/biller_logos/784000000000010.png",
+      "billerName": "Du Prepaid",
+      "billDate": "2021-02-01T06:07:11",
+      "billAmount": "100.00"
+    },
+    {
+      "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/biller_logos/784000000000010.png",
+      "billerName": "Du Prepaid",
+      "billDate": "2021-02-01T06:07:11",
+      "billAmount": "100.00"
+    },
+    {
+      "logo": "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/biller_logos/784000000000010.png",
+      "billerName": "Du Prepaid",
+      "billDate": "2021-02-01T06:07:11",
+      "billAmount": "100.00"
+    }
+  ]
+}

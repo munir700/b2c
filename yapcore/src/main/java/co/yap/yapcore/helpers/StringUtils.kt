@@ -186,5 +186,22 @@ object StringUtils {
         }
         return isValid
     }
+
+    fun checkSpecialCharacters(name: String): Boolean {
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression =
+            "^[a-zA-Z0-9 ]+\$"
+        inputStr = name
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches() && !name.isNullOrEmpty()) {
+            if (name.length >= 1) {
+                isValid = true
+            }
+        }
+        return isValid
+    }
 }
 

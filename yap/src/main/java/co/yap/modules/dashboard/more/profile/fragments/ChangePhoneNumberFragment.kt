@@ -34,7 +34,7 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
         viewModel.changePhoneNumberSuccessEvent.observe(this, Observer {
             SessionManager.user?.currentCustomer?.mobileNo = viewModel.state.mobile.replace(" ", "")
             SessionManager.user?.currentCustomer?.countryCode = viewModel.state.countryCode
-            SharedPreferenceManager(requireContext()).saveUserNameWithEncryption(viewModel.state.mobile.replace(
+            SharedPreferenceManager.getInstance(requireContext()).saveUserNameWithEncryption(viewModel.state.mobile.replace(
                 " ",
                 ""))
             val action =

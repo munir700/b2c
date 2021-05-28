@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.home.viewholder
 
+import android.content.Context
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -12,7 +13,10 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
 
-class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) :
+class YapCardItemViewHolder(
+    private val context: Context,
+    private val itemYapCardBinding: ItemYapCardBinding
+) :
     RecyclerView.ViewHolder(itemYapCardBinding.root) {
 
     fun onBind(
@@ -25,10 +29,8 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
         params.width = dimensions[0]
         params.height = dimensions[1]
         itemYapCardBinding.imgCard.layoutParams = params
-        val cardName: String
 
         if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType) {
-            cardName = Constants.TEXT_PRIMARY_CARD
             if (SessionManager.isFounder.value == true) {
                 itemYapCardBinding.imgCard.setImageResource(R.drawable.founder_front)
             } else {
@@ -36,29 +38,10 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
             }
         } else {
             itemYapCardBinding.imgCard.loadCardImage(paymentCard?.frontImage)
-            if (null != paymentCard?.nameUpdated) {
-                if (paymentCard.nameUpdated!!) {
-                    cardName = paymentCard.cardName ?: ""
-                } else {
-                    if (paymentCard.physical) {
-                        cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-                    } else {
-                        cardName = paymentCard.cardName ?: ""
-                    }
-                }
-            } else {
-                if (paymentCard?.physical!!) {
-                    cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-                } else {
-                    cardName = paymentCard.cardName ?: ""
-                }
-
-            }
-
         }
-        itemYapCardBinding.tvCardName.text = cardName
+        itemYapCardBinding.includeWalletButton.btnSamsungPay.setBackgroundResource(if (paymentCard?.isAddedSamsungPay == true) R.drawable.bg_gray_rounded_corner_black else R.drawable.bg_rounded_corner_black)
         itemYapCardBinding.viewModel =
-            YapCardItemViewModel(paymentCard, position, onItemClickListener)
+            YapCardItemViewModel(context, paymentCard, position, onItemClickListener)
         itemYapCardBinding.executePendingBindings()
     }
 }

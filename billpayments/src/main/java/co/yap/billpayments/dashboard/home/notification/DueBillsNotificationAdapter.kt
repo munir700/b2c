@@ -6,17 +6,18 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.ItemDueBillNotificationBinding
-import co.yap.billpayments.dashboard.home.adapter.DueBill
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
 
 class DueBillsNotificationAdapter(
     private val context: Context,
-    private val listItems: MutableList<DueBill>
+    private val listItems: MutableList<ViewBillModel>
 ) :
-    BaseBindingRecyclerAdapter<DueBill, DueBillsNotificationAdapter.ViewHolder>(listItems) {
+    BaseBindingRecyclerAdapter<ViewBillModel, DueBillsNotificationAdapter.ViewHolder>(listItems) {
     private var dimensions: IntArray = Utils.getCardDimensions(context, 80, 15)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
@@ -31,22 +32,22 @@ class DueBillsNotificationAdapter(
 
     inner class ViewHolder(val binding: ItemDueBillNotificationBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(dueBill: DueBill) {
+        fun onBind(dueBill: ViewBillModel) {
             val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams
             params.width = dimensions[0]
             binding.cvNotification.layoutParams = params
             binding.ivCross.visibility = View.VISIBLE
-            binding.tvTitle.text = dueBill.billerName
+            binding.tvTitle.text = dueBill.billerInfo?.billerName
             ImageBinding.loadAvatar(
                 binding.ivNotification,
-                fullName = dueBill.billerName,
-                imageUrl = dueBill.logoUrl,
+                fullName = dueBill.billerInfo?.billerName,
+                imageUrl = dueBill.billerInfo?.logo,
                 position = adapterPosition
             )
-            binding.tvDescription.text = "You have a ${dueBill.amount.toFormattedCurrency(
+            binding.tvDescription.text = "You have a ${dueBill.totalAmountDue.toFormattedCurrency(
                 showCurrency = true,
-                currency = dueBill.currency
-            )} on your ${dueBill.billerName} bill."
+                currency = SessionManager.getDefaultCurrency()
+            )} on your ${dueBill.billerInfo?.billerName} bill."
 
             binding.cvNotification.setOnClickListener {
                 onItemClickListener?.onItemClick(binding.cvNotification, dueBill, adapterPosition)

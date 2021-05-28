@@ -11,13 +11,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import co.yap.widgets.CoreButton
-import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.chatSetup
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
-import co.yap.yapcore.managers.ChatManager
 import co.yap.yapcore.managers.SessionManager
 
 /**
@@ -31,7 +31,7 @@ import co.yap.yapcore.managers.SessionManager
  * @param[callback] callback of click ok button
  */
 @JvmOverloads
-fun Context.confirm(
+fun Activity.confirm(
     message: String,
     title: String = "",
     positiveButton: String? = null,
@@ -251,7 +251,7 @@ fun Activity.showAlertDialogAndExitApp(
                 makeCall(SessionManager.helpPhoneNumber)
             }),
             Pair("live chat", View.OnClickListener {
-                ChatManager.config(ok.context as BaseActivity<*>)
+                this@showAlertDialogAndExitApp.chatSetup()
             })
         )
     }
@@ -296,13 +296,38 @@ fun Activity.showReceiptSuccessDialog(
     dialogLayout.show()
 }
 
+fun Context.infoDialog(
+    title: String = "",
+    message: String,
+    buttonText: String? = null,
+    callback: () -> Unit = {}
+) {
+
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.dialog_information)
+    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
+    messageView.text = message
+    dialogTitle.text = title
+    val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
+    btnClose.text = buttonText
+    btnClose.setOnClickListener {
+        callback.invoke()
+        dialogLayout.dismiss()
+    }
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
+}
+
 fun Context.successDialog(
     title: String = "",
     message: String,
     buttonText: String? = null,
     bottomText: String? = null,
     topIcon: Int? = -1,
-    callback: () -> Unit = {}
+    callback: (isDismiss: Boolean) -> Unit = {}
 ) {
 
     val dialogLayout = Dialog(this)
@@ -328,11 +353,11 @@ fun Context.successDialog(
     else
         tvBottomButton.text = bottomText
     btnPay.setOnClickListener {
-        callback.invoke()
+        callback.invoke(false)
         dialogLayout.dismiss()
     }
     tvBottomButton.setOnClickListener {
-        callback.invoke()
+        callback.invoke(true)
         dialogLayout.dismiss()
     }
     dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)

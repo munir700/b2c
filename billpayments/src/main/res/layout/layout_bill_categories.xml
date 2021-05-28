@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.dashboard.home.PayBillsViewModel" />
+            type="co.yap.billpayments.dashboard.home.BillDashboardViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/bg_with_hint_of_blue"
         android:paddingHorizontal="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_extra_small">
+        android:paddingVertical="@dimen/margin_extra_small">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvScreenTitle"
@@ -32,63 +32,16 @@
             app:text="@{Strings.screen_add_bill_description_text}"
             tools:text="@string/screen_add_bill_description_text" />
 
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/fwFirstRow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:orientation="horizontal"
-            app:constraint_referenced_ids="includeCreditCard,includeTelecom,includeUtilities"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvScreenTitle" />
-
-        <include
-            android:id="@+id/includeCreditCard"
-            layout="@layout/item_bill_category"
-            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
-            app:categoryName="@{viewModel.billcategories.get(0).categoryName}"
-            app:iconName="@{viewModel.billcategories.get(0).icon}" />
-
-        <include
-            android:id="@+id/includeTelecom"
-            layout="@layout/item_bill_category"
-            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
-            app:categoryName="@{viewModel.billcategories.get(1).categoryName}"
-            app:iconName="@{viewModel.billcategories.get(1).icon}" />
-
-
-        <include
-            android:id="@+id/includeUtilities"
-            layout="@layout/item_bill_category"
-            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
-            app:categoryName="@{viewModel.billcategories.get(2).categoryName}"
-            app:iconName="@{viewModel.billcategories.get(2).icon}" />
-
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/fwSecondRow"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBillCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:constraint_referenced_ids="includeRTA,includeDubaiPolice"
-            app:flow_horizontalGap="@dimen/_5sdp"
+            app:adapter="@{viewModel.adapter}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fwFirstRow" />
-
-        <include
-            android:id="@+id/includeRTA"
-            layout="@layout/item_bill_category"
-            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
-            app:categoryName="@{viewModel.billcategories.get(3).categoryName}"
-            app:iconName="@{viewModel.billcategories.get(3).icon}" />
-
-        <include
-            android:id="@+id/includeDubaiPolice"
-            layout="@layout/item_bill_category"
-            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
-            app:categoryName="@{viewModel.billcategories.get(4).categoryName}"
-            app:iconName="@{viewModel.billcategories.get(4).icon}" />
-
+            app:layout_constraintTop_toBottomOf="@id/tvScreenTitle"
+            app:spanCount="2"
+            tools:listitem="@layout/item_bill_category" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

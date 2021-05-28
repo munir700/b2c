@@ -2,12 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bill_payments_main_navigation"
+    android:id="@+id/add_bill_navigation"
     app:startDestination="@id/billersFragment">
 
     <fragment
         android:id="@+id/billersFragment"
-        android:name="co.yap.billpayments.addBill.billers.BillersFragment"
+        android:name="co.yap.billpayments.addbiller.billers.BillersFragment"
         android:label="BillersFragment"
         tools:layout="@layout/fragment_billers">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/billerSearchFragment"
-        android:name="co.yap.billpayments.addBill.billers.search.BillerSearchFragment"
+        android:name="co.yap.billpayments.addbiller.billers.search.BillerSearchFragment"
         android:label="BillerSearchFragment"
         tools:layout="@layout/fragment_biller_search">
         <action
@@ -30,7 +30,8 @@
 
     <fragment
         android:id="@+id/billerDetailFragment"
-        tools:layout="@layout/fragment_biller_detail"
-        android:name="co.yap.billpayments.addBill.billerdetail.BillerDetailFragment"
-        android:label="BillerDetailFragment" />
+        android:name="co.yap.billpayments.addbiller.addbillerdetail.AddBillerDetailFragment"
+        android:label="BillerDetailFragment"
+        tools:layout="@layout/fragment_biller_detail" />
 </navigation>
+

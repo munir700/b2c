@@ -3,19 +3,24 @@ package co.yap.billpayments.billcategory
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
-import co.yap.billpayments.addBill.main.AddBillActivity
-import co.yap.billpayments.base.PayBillBaseFragment
+import co.yap.billpayments.addbiller.main.AddBillActivity
+import co.yap.billpayments.base.BillDashboardBaseFragment
+import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
+import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
+class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(),
     IBillCategory.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -30,16 +35,12 @@ class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
     }
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.adapter.setItemListener(categoryItemListener)
     }
 
-    val clickObserver = Observer<Int> {
-        when (it) {
-            R.id.includeCreditCard -> onCategorySelection(viewModel.billcategories.get()?.get(0))
-            R.id.includeTelecom -> onCategorySelection(viewModel.billcategories.get()?.get(1))
-            R.id.includeUtilities -> onCategorySelection(viewModel.billcategories.get()?.get(2))
-            R.id.includeRTA -> onCategorySelection(viewModel.billcategories.get()?.get(3))
-            R.id.includeDubaiPolice -> onCategorySelection(viewModel.billcategories.get()?.get(4))
+    private val categoryItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            onCategorySelection(data as BillProviderModel)
         }
     }
 
@@ -49,6 +50,13 @@ class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
                 ExtraKeys.BILL_PROVIDER.name,
                 billCategory
             )
+        }
+    }
+
+    private fun startPayBillFlow(viewBillModel: ViewBillModel, pos: Int = 0) {
+        launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
+            putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
+            putExtra(ExtraKeys.SELECTED_POSITION.name, pos)
         }
     }
 
@@ -66,9 +74,41 @@ class BillCategoryFragment : PayBillBaseFragment<IBillCategory.ViewModel>(),
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_ADD_BILL -> {
-
+                    handleAddBillResult(data)
+                }
+                RequestCodes.REQUEST_PAY_BILL -> {
+                    navigateBack(R.id.billsDashboardFragment)
+                    viewModel.parentViewModel?.getViewBills()
                 }
             }
+        } else {
+            when (requestCode) {
+                RequestCodes.REQUEST_PAY_BILL -> {
+                    navigateBack()
+                    viewModel.parentViewModel?.getViewBills()
+                }
+            }
+        }
+    }
+
+    private fun handleAddBillResult(data: Intent?) {
+        val isSkipPayFlow = data?.getValue(
+            ExtraKeys.IS_SKIP_PAY_BILL.name,
+            ExtraType.BOOLEAN.name
+        ) as Boolean
+
+        val viewBillModel = data.getValue(
+            ExtraKeys.SELECTED_BILL.name,
+            ExtraType.PARCEABLE.name
+        ) as? ViewBillModel
+
+        if (isSkipPayFlow) {
+            navigateBack()
+            viewModel.parentViewModel?.getViewBills()
+        } else {
+            viewBillModel?.let {
+                startPayBillFlow(viewBillModel)
+            } ?: viewModel.parentViewModel?.getViewBills()
         }
     }
 }

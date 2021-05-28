@@ -24,8 +24,6 @@ import android.view.ViewParent;
 
 import androidx.annotation.RequiresApi;
 
-import com.liveperson.infra.utils.Utils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

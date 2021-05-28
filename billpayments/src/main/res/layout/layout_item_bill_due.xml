@@ -10,7 +10,10 @@
             type="co.yap.billpayments.dashboard.home.adapter.DueBillsItemViewModel" />
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
-        <import type="co.yap.translation.Strings"/>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.enums.BillStatus" />
     </data>
 
     <RelativeLayout
@@ -49,20 +52,19 @@
             </RelativeLayout>
         </LinearLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/foregroundContainer"
             android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivIcon"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
                 android:layout_marginStart="@dimen/margin_medium"
-                app:fullName="@{viewModel.dueBill.billerName}"
-                app:imageUrl="@{viewModel.dueBill.logoUrl}"
+                app:fullName="@{viewModel.dueBill.billerInfo.billerName}"
+                app:imageUrl="@{viewModel.dueBill.billerInfo.logo}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -96,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{viewModel.dueBill.billerName+` - `+viewModel.dueBill.billNickName}"
+                android:text="@{viewModel.dueBill.billerInfo.billerName+` - `+viewModel.dueBill.billNickName}"
                 app:layout_constrainedWidth="true"
                 tools:text="Etsiast" />
 
@@ -107,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@{`Due - `+viewModel.dueBill.billDueDate}"
+                android:text="@{viewModel.dueBill.formattedDueDate.equals(``) ? `Due`: `Due - `+viewModel.dueBill.formattedDueDate}"
                 app:layout_constrainedWidth="true"
                 tools:text="Etsilat" />
 
@@ -130,8 +132,8 @@
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.dueBill.amount,false,viewModel.dueBill.currency,true)}"
-                android:textColor="@{viewModel.calculateIsOverDue() ? @color/red : @color/colorPrimaryDark }"
+                android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.dueBill.totalAmountDue,false,viewModel.dueBill.settlementCurrency,true)}"
+                android:textColor="@{viewModel.dueBill.status.equals(BillStatus.OVERDUE.name) ? @color/red : @color/colorPrimaryDark }"
                 tools:text="200.00" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -139,7 +141,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.dueBill.currency}"
+                android:text="@{viewModel.dueBill.settlementCurrency}"
                 tools:text="AED" />
 
             <View

@@ -2,23 +2,18 @@ package co.yap.billpayments.dashboard.mybills
 
 import android.app.Application
 import android.view.View
-import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
-import co.yap.billpayments.base.PayBillBaseViewModel
+import co.yap.billpayments.base.BillDashboardBaseViewModel
 import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
-import co.yap.networking.customers.responsedtos.billpayment.BillModel
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
-import kotlinx.coroutines.delay
 
 class MyBillsViewModel(application: Application) :
-    PayBillBaseViewModel<IMyBills.State>(application),
+    BillDashboardBaseViewModel<IMyBills.State>(application),
     IMyBills.ViewModel {
     override val state: IMyBills.State =
         MyBillsState()
@@ -26,102 +21,13 @@ class MyBillsViewModel(application: Application) :
         MyBillsAdapter(
             mutableListOf()
         )
-    override var myBills: MutableLiveData<MutableList<BillModel>> = MutableLiveData()
-    override var selectedBills: MutableList<BillModel> = mutableListOf()
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var lastSelectionSorting: Int = -1
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
-        toggleRightFirstIconVisibility(true)
-        toolgleRightSecondIconVisibility(true)
-        context.getDrawable(R.drawable.ic_add_sign)?.let { setRightSecondIconDrawable(it) }
-    }
-
-    private fun getMyBillList(): MutableList<BillModel> {
-        return mutableListOf(
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "Sarpinos",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2021-06-12T06:53:35",
-                amount = "600",
-                billStatus = BillStatus.PAID.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "KFC",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2021-06-12T06:53:35",
-                amount = "600",
-                billStatus = BillStatus.PAID.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "Texas Steak house",
-                description = "Burj ul Dubai",
-                creationDate = "2021-01-12T06:53:35",
-                currency = "AED",
-                amount = "100",
-                billStatus = BillStatus.OVERDUE.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "PF changs",
-                description = "Burj Telecom Residences",
-                currency = "AED",
-                creationDate = "2021-02-12T06:53:35",
-                amount = "200",
-                billStatus = BillStatus.OVERDUE.title
-            ),
-            BillModel(
-                logoUrl = "",
-                name = "Salt and Paper",
-                description = "Burj ul khalifa",
-                currency = "AED",
-                creationDate = "2021-03-12T06:53:35",
-                amount = "300",
-                billStatus = BillStatus.BILL_DUE.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "Mcdonalds",
-                description = "Burj Telecom Residences",
-                currency = "AED",
-                creationDate = "2020-04-12T06:53:35",
-                amount = "400",
-                billStatus = BillStatus.OVERDUE.title
-            ),
-            BillModel(
-                logoUrl = "",
-                name = "Daily Deli",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2022-05-12T06:53:35",
-                amount = "500",
-                billStatus = BillStatus.BILL_DUE.title
-            ),
-            BillModel(
-                logoUrl = "https://s3-eu-west-1.amazonaws.com/dev-b-yap-documents-public/profile_image/customer_data/3000000207/documents/1588940062805_profile_photo.jpg",
-                name = "Broadway",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2021-06-12T06:53:35",
-                amount = "600",
-                billStatus = BillStatus.PAID.title
-            ),
-            BillModel(
-                logoUrl = "",
-                name = "Nandos",
-                description = "Burj Telecom Residences",
-                currency = "USD",
-                creationDate = "2021-07-20T06:53:35",
-                amount = "700",
-                billStatus = BillStatus.OVERDUE.title
-            )
-        )
+        toggleSortIconVisibility(true)
+        toggleRightIconVisibility(true)
+        context.getDrawable(R.drawable.ic_add_sign)?.let { setRightIconDrawable(it) }
     }
 
     override fun getFiltersList(): MutableList<CoreBottomSheetData> {
@@ -151,45 +57,31 @@ class MyBillsViewModel(application: Application) :
         return sortingOptionList
     }
 
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun getMyBillsAPI() {
-        launch {
-            state.loading = true
-            delay(1000L)
-            val list = getMyBillList()
-            list.forEach {
-                it.creationDate = DateUtils.reformatStringDate(
-                    it.creationDate.toString(),
-                    DateUtils.SERVER_DATE_FULL_FORMAT,
-                    DateUtils.FORMATE_DATE_MONTH_YEAR
-                )
-            }
-            myBills.postValue(list)
-
-            state.loading = false
-        }
-    }
-
     override fun setScreenTitle() {
-        if (myBills.value?.size == 1) {
+        if (parentViewModel?.billsResponse?.value?.size == 1) {
             state.screenTitle.set(
                 Translator.getString(
                     context,
                     Strings.screen_my_bills_text_title_you_have_one_bill_registered
                 )
             )
-        } else if (2 <= myBills.value?.size ?: 0) {
+        } else if (2 <= parentViewModel?.billsResponse?.value?.size ?: 0) {
             state.screenTitle.set(
                 Translator.getString(
                     context,
                     Strings.screen_my_bills_text_title_you_have_n_bills_registered,
-                    myBills.value?.size.toString()
+                    parentViewModel?.billsResponse?.value?.size.toString()
                 )
             )
+        } else {
+            state.screenTitle.set("")
         }
+    }
+
+    override fun setBillList() {
+        setScreenTitle()
+        parentViewModel?.billsResponse?.value?.toMutableList()?.let { adapter.setList(it) }
+
     }
 
     override val onBottomSheetItemClickListener = object : OnItemClickListener {
@@ -198,48 +90,36 @@ class MyBillsViewModel(application: Application) :
             lastSelectionSorting = pos
             when (pos) {
                 sortByDueDate -> {
-                    myBills.value?.sortWith(
+                    adapter.getDataList().sortWith(
                         compareBy {
-                            BillStatus.values()
-                                .firstOrNull() { it1 -> it1.title.equals(it.billStatus) }?.ordinal
+                            it.status?.let { it1 -> BillStatus.valueOf(it1) }
                         }
                     )
                 }
                 sortByRecentlyAdded -> {
-                    myBills.value?.sortWith(compareBy {
-                        it.creationDate?.let { it1 ->
+                    adapter.getDataList().sortWith(compareByDescending {
+                        it.createdAt?.let { it1 ->
                             DateUtils.stringToDate(
-                                it1, DateUtils.FORMATE_DATE_MONTH_YEAR
+                                it1, DateUtils.SERVER_DATE_FULL_FORMAT
                             )
                         }
                     })
                 }
                 sortByAToZAscending -> {
-                    myBills.value?.sortBy { billModel -> billModel.name }
+                    adapter.getDataList().sortBy { billModel -> billModel.billerInfo?.billerName }
                 }
                 sortByZToADescending -> {
-                    myBills.value?.sortByDescending { billModel -> billModel.name }
+                    adapter.getDataList()
+                        .sortByDescending { billModel -> billModel.billerInfo?.billerName }
                 }
             }
-            myBills.value?.toMutableList()?.let { adapter.setList(it) }
+            adapter.notifyDataSetChanged()
             state.loading = false
         }
     }
 
-    override fun setButtonText() {
-        state.buttonText.set(
-            Translator.getString(
-                context,
-                Strings.screen_my_bills_btn_text_pay,
-                SessionManager.getDefaultCurrency(),
-                state.totalBillAmount.toString()
-            )
-        )
-    }
-
     override fun onStop() {
         super.onStop()
-        toggleRightFirstIconVisibility(false)
-        toolgleRightSecondIconVisibility(false)
+        toggleSortIconVisibility(false)
     }
 }

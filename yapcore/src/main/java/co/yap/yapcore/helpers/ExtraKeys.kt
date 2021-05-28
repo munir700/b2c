@@ -1,6 +1,6 @@
 package co.yap.yapcore.helpers
 
-enum class ExtraKeys{
+enum class ExtraKeys {
     TRANSACTION_OBJECT_STRING,
     TRANSACTION_OBJECT_CHILD_POSITION,
     TRANSACTION_OBJECT_GROUP_POSITION,
@@ -15,5 +15,11 @@ enum class ExtraKeys{
     IS_Y2Y_DATA,
     Y2Y_SELECTED_TAB_POS,
     IS_WAITING,
-    BILL_PROVIDER
+    BILL_PROVIDER,
+    SELECTED_POSITION,
+    SELECTED_BILL,
+    IS_SKIP_PAY_BILL,
+    IS_DELETED,
+    IS_UPDATED,
+    ALL_BILLS
 }

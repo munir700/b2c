@@ -20,9 +20,25 @@
         </activity>
 
         <activity
-            android:name=".addBill.main.AddBillActivity"
+            android:name=".addbiller.main.AddBillActivity"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/add_bill_navigation" />
+        </activity>
+        <activity
+            android:name=".billdetail.BillDetailActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/bill_detail_navigation" />
+        </activity>
+
+        <activity
+            android:name=".paybill.main.PayBillMainActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/pay_bill_navigation" />
+        </activity>
+        <activity
+            android:name=".payall.main.PayAllMainActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/pay_all_navigation" />
         </activity>
 
     </application>

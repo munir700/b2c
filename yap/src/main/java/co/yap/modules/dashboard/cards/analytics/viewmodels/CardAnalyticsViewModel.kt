@@ -15,7 +15,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
+import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
@@ -194,7 +194,7 @@ class CardAnalyticsViewModel(application: Application) :
     private fun setSelectedDate(currentDate: Date?) {
         state.displayMonth =
             currentDate?.let { DateUtils.getStartAndEndOfMonthAndDay(it) } ?: ""
-        state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MONTH_YEAR, false)
+        state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MON_YEAR, false)
         parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
         parentViewModel?.state?.currentSelectedDate =
             DateUtils.dateToString(currentDate, SIMPLE_DATE_FORMAT, false)

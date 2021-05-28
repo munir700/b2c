@@ -76,6 +76,7 @@
         <attr name="view_id" format="integer" />
         <attr name="view_plain_background" format="boolean" />
         <attr name="showKeyboard" format="boolean" />
+        <attr name="useStartMultiplySpaceFilter" format="boolean" />
         <attr name="view_input_text_imei_actions" format="enum">
             <enum name="IME_ACTION_DONE" value="1" />
             <enum name="IME_ACTION_NEXT" value="2" />
@@ -739,6 +740,11 @@
 
     <declare-styleable name="TouchImageView">
         <attr name="zoom_enabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="AlphaNumericEditText">
+        <attr name="showDrawableWhenTextIsEmpty" format="boolean" />
+        <attr name="popupContentText" format="string" />
     </declare-styleable>
 
 </resources>

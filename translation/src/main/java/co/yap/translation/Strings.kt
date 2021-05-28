@@ -66,6 +66,8 @@ object Strings {
         "common_display_text_no_country_found"
     const val common_display_text_percentage: String =
         "common_display_text_percentage"
+    const val common_display_text_available_balance_error_without_fee: String =
+        "common_display_text_available_balance_error_without_fee"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -263,6 +265,10 @@ object Strings {
         "screen_meeting_confirmation_display_text_emirates_id"
     const val screen_meeting_confirmation_button_go_to_dashboard: String =
         "screen_meeting_confirmation_button_go_to_dashboard"
+    const val screen_kyc_on_the_way_display_text_guide: String =
+        "screen_kyc_on_the_way_display_text_guide"
+    const val screen_kyc_on_the_way_display_text_yap_member: String =
+        "screen_kyc_on_the_way_display_text_yap_member"
 
     //country not allowed screen
     const val screen_kyc_information_error_display_text_title_from_usa: String =
@@ -990,7 +996,6 @@ object Strings {
         "screen_transaction_filter_display_text_balance"
     const val screen_transaction_filter_display_text_categories: String =
         "screen_transaction_filter_display_text_categories"
-
 
     //    Y2Y funds Transfer screen
     const val screen_y2y_funds_transfer_display_text_title: String =
@@ -1768,6 +1773,13 @@ object Strings {
         "screen_place_of_birth_display_text_select_country"
     const val screen_place_of_birth_display_text_city_of_birth: String =
         "screen_place_of_birth_display_text_city_of_birth"
+    const val screen_place_of_birth_display_text_are_you_a_dual_national: String =
+        "screen_place_of_birth_display_text_are_you_a_dual_national"
+    const val screen_place_of_birth_display_text_nationality_as_per_eid: String =
+        "screen_place_of_birth_display_text_nationality_as_per_eid"
+    const val screen_place_of_birth_display_text_add_second_country: String =
+        "screen_place_of_birth_display_text_add_second_country"
+
 
     // Tax info screen
     const val screen_tax_info_display_text_heading: String =
@@ -2178,9 +2190,49 @@ object Strings {
     const val screen_reached_top_queue_display_text_meeting_note =
         "screen_reached_top_queue_display_text_meeting_note"
 
+    // Employment information selection screen
+    const val screen_employment_information_selection_display_text_title =
+        "screen_employment_information_selection_display_text_title"
+    const val screen_employment_information_selection_display_text_employment_status =
+        "screen_employment_information_selection_display_text_employment_status"
+    const val screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose =
+        "screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose"
+    const val screen_employment_information_selection_display_button_text_next =
+        "screen_employment_information_selection_display_button_text_next"
+    const val screen_employment_information_dialog_display_text_heading =
+        "screen_employment_information_dialog_display_text_heading"
+    const val screen_employment_information_dialog_display_text_subheading =
+        "screen_employment_information_dialog_display_text_subheading"
+    const val screen_employment_information_dialog_button_text_close =
+        "screen_employment_information_dialog_button_text_close"
+    const val screen_employment_information_cash_dialog_display_text_heading =
+        "screen_employment_information_cash_dialog_display_text_heading"
+    const val screen_employment_information_cash_dialog_display_text_subheading =
+        "screen_employment_information_cash_dialog_display_text_subheading"
+
+    // Biller Detail Screen
+    const val screen_biller_detail_title_text_credit_card: String =
+        "screen_biller_detail_title_text_credit_card"
+    const val screen_biller_detail_title_text_enter_you_account_details: String =
+        "screen_biller_detail_title_text_enter_you_account_details"
+
+    //Employee information screen
+    const val screen_employee_information_display_bottom_sheet_text_heading =
+        "screen_employee_information_display_bottom_sheet_text_heading"
+
+    // KYC Employment Information Questionnaire screen
+    const val screen_employment_questionnaire_display_text_heading =
+        "screen_employment_questionnaire_display_text_heading"
+    const val screen_employment_questionnaire_display_text_desc =
+        "screen_employment_questionnaire_display_text_desc"
+    const val screen_employment_questionnaire_display_text_user_information =
+        "screen_employment_questionnaire_display_text_user_information"
+    const val screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you =
+        "screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you"
+    const val screen_employment_questionnaire_display_text__bottom_sheet_title_segments =
+        "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
 
     // Bill Payment
-
     const val screen_bill_payment_text_title: String =
         "screen_bill_payment_text_title"
     const val screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment: String =
@@ -2197,11 +2249,10 @@ object Strings {
         "screen_bill_payment_bill_due_button_pay_all"
     const val screen_bill_payment_bill_total_due_label: String =
         "screen_bill_payment_bill_total_due_label"
- const val screen_bill_payment_due_bills_swipe_button_title: String =
+    const val screen_bill_payment_due_bills_swipe_button_title: String =
         "screen_bill_payment_due_bills_swipe_button_title"
 
     //Biller Screen
-
     const val screen_bill_payment_text_title_add_a_credit_card: String =
         "screen_bill_payment_text_title_add_a_credit_card"
     const val screen_bill_payment_text_title_add_a_provider: String =
@@ -2231,14 +2282,7 @@ object Strings {
     const val screen_add_bill_description_text: String =
         "screen_add_bill_description_text"
 
-
-    // Biller Detail Screen
-    const val screen_biller_detail_title_text_credit_card: String =
-        "screen_biller_detail_title_text_credit_card"
-    const val screen_biller_detail_title_text_enter_you_account_details: String =
-        "screen_biller_detail_title_text_enter_you_account_details"
-
-    //Bill Detail
+    //Add Bill Detail
     const val screen_bill_detail_success_dialog_title: String =
         "screen_bill_detail_success_dialog_title"
     const val screen_bill_detail_success_dialog_button_text: String =
@@ -2247,5 +2291,122 @@ object Strings {
         "screen_bill_detail_success_dialog_button_description"
     const val screen_bill_detail_success_dialog_button_text_do_it_later: String =
         "screen_bill_detail_success_dialog_button_text_do_it_later"
+    const val screen_bill_detail_field_label: String =
+        "screen_bill_detail_field_label"
 
+    // Bill Account Detail
+    const val screen_bill_account_detail_toolbar_title: String =
+        "screen_bill_account_detail_toolbar_title"
+    const val screen_bill_account_detail_text_bill_status_paid: String =
+        "screen_bill_account_detail_text_bill_status_paid"
+    const val screen_bill_account_detail_text_bill_status_over_due: String =
+        "screen_bill_account_detail_text_bill_status_over_due"
+    const val screen_bill_account_detail_text_bill_status_due: String =
+        "screen_bill_account_detail_text_bill_status_due"
+    const val screen_bill_account_detail_text_last_payment: String =
+        "screen_bill_account_detail_text_last_payment"
+    const val screen_bill_account_detail_text_total_payment: String =
+        "screen_bill_account_detail_text_total_payment"
+    const val screen_bill_account_detail_text_highest_month: String =
+        "screen_bill_account_detail_text_highest_month"
+    const val screen_bill_account_detail_text_lowest_month: String =
+        "screen_bill_account_detail_text_lowest_month"
+    const val screen_bill_account_detail_button_text: String =
+        "screen_bill_account_detail_button_text"
+
+    // Edit Bill
+    const val screen_edit_bill_title_text: String =
+        "screen_edit_bill_title_text"
+    const val screen_edit_bill_button_text: String =
+        "screen_edit_bill_button_text"
+    const val screen_edit_bill_bottom_button_text: String =
+        "screen_edit_bill_bottom_button_text"
+    const val screen_edit_bill_dialog_title: String =
+        "screen_edit_bill_dialog_title"
+    const val screen_edit_bill_dialog_description: String =
+        "screen_edit_bill_dialog_description"
+    const val screen_edit_bill_switch_text_this_an_auto_payment: String =
+        "screen_edit_bill_switch_text_this_an_auto_payment"
+    const val screen_edit_bill_switch_text_bill_reminder: String =
+        "screen_edit_bill_switch_text_bill_reminder"
+    const val screen_edit_bill_field_label: String =
+        "screen_edit_bill_field_label"
+
+    //PayBill
+    const val screen_pay_bill_text_title: String =
+        "screen_pay_bill_text_title"
+    const val screen_pay_bill_input_text_note_hint: String =
+        "screen_pay_bill_input_text_note_hint"
+    const val screen_pay_bill_pay_button_text: String =
+        "screen_pay_bill_pay_button_text"
+    const val screen_pay_bill_auto_payment_day_text: String =
+        "screen_pay_bill_auto_payment_day_text"
+    const val screen_pay_bill_auto_payment_day_week: String =
+        "screen_pay_bill_auto_payment_day_week"
+    const val screen_pay_bill_auto_payment_day_month: String =
+        "screen_pay_bill_auto_payment_day_month"
+    const val screen_pay_bill_select_week_day_text: String =
+        "screen_pay_bill_select_week_day_text"
+    const val screen_pay_bill_select_month_day_text: String =
+        "screen_pay_bill_select_month_day_text"
+    const val screen_pay_bill_select_selection_text: String =
+        "screen_pay_bill_selection_text"
+    const val screen_pay_bill_select_selection_remind_text: String =
+        "screen_pay_bill_selection_remind_text"
+    const val screen_pay_bill_payment_type_text: String =
+        "screen_pay_bill_payment_type_text"
+    const val screen_pay_bill_payment_every_day_text: String =
+        "screen_pay_bill_payment_every_day_text"
+    const val screen_pay_bill_payment_every_week_text: String =
+        "screen_pay_bill_payment_every_week_text"
+    const val screen_pay_bill_payment_every_month_text: String =
+        "screen_pay_bill_payment_every_month_text"
+
+    //PayBill Success
+    const val screen_pay_bill_success_toolbar_title: String =
+        "screen_pay_bill_success_toolbar_title"
+    const val screen_pay_bill_success_you_have_paid: String =
+        "screen_pay_bill_success_you_have_paid"
+    const val screen_pay_bill_success_button_text: String =
+        "screen_pay_bill_success_button_text"
+
+    //Single Decline
+    const val screen_single_decline_top_message: String =
+        "screen_single_decline_top_message"
+    const val screen_single_decline_toolbar_text_decline: String =
+        "screen_single_decline_toolbar_text_decline"
+    const val screen_single_decline_toolbar_text_dont_worry: String =
+        "screen_single_decline_toolbar_text_dont_worry"
+    const val screen_single_decline_toolbar_text_total_amount_attempted_to_pay: String =
+        "screen_single_decline_toolbar_text_total_amount_attempted_to_pay"
+    const val screen_single_decline_button_text_back_to_bill_payments: String =
+        "screen_single_decline_button_text_back_to_bill_payments"
+
+    //Pay All
+    const val screen_pay_all_toolbar_title: String =
+        "screen_pay_all_toolbar_title"
+    const val screen_pay_all_text_total_payment_for: String =
+        "screen_pay_all_text_total_payment_for"
+    const val screen_pay_all_text_button: String =
+        "screen_pay_all_text_button"
+
+    // Pay All Success
+    const val screen_pay_all_success_toolbar_title: String =
+        "screen_pay_all_success_toolbar_title"
+    const val screen_pay_all_success_title_all_paid: String =
+        "screen_pay_all_success_title_all_paid"
+    const val screen_pay_all_success_text_paid_status: String =
+        "screen_pay_all_success_text_paid_status"
+    const val screen_pay_all_success_toolbar_title_transfer_status: String =
+        "screen_pay_all_success_toolbar_title_transfer_status"
+    const val screen_pay_all_success_button_text: String =
+        "screen_pay_all_success_button_text"
+    const val screen_pay_all_success_toolbar_title_transfer_unsuccessful: String =
+        "screen_pay_all_success_toolbar_title_transfer_unsuccessful"
+    const val screen_pay_all_success_title_partial_paid: String =
+        "screen_pay_all_success_title_partial_paid"
+    const val screen_pay_all_success_title_all_decline: String =
+        "screen_pay_all_success_title_all_decline"
+    const val screen_pay_all_success_text_decline_status: String =
+        "screen_pay_all_success_text_decline_status"
 }

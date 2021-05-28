@@ -94,8 +94,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                 )) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    val sharedPreferenceManager = SharedPreferenceManager(context)
-                    sharedPreferenceManager.savePassCodeWithEncryption(state.passCode)
+                    SharedPreferenceManager.getInstance(context).savePassCodeWithEncryption(state.passCode)
                     success()
                 }
                 is RetroApiResponse.Error -> {
@@ -145,14 +144,13 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
     }
 
     override fun isUserLoggedIn(): Boolean {
-        val sharedPreferenceManager = SharedPreferenceManager(context)
-        return sharedPreferenceManager.getValueBoolien(
+        return SharedPreferenceManager.getInstance(context).getValueBoolien(
             Constants.KEY_IS_USER_LOGGED_IN,
             false
         )
     }
 
     private fun getUserName(): String? {
-        return SharedPreferenceManager(context).getDecryptedUserName()
+        return SharedPreferenceManager.getInstance(context).getDecryptedUserName()
     }
 }

@@ -5,11 +5,10 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillProviderResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogResponse
-import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
@@ -117,10 +116,15 @@ interface CustomersApi {
     suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
     suspend fun getWaitingRanking(): RetroApiResponse<WaitingRankingResponse>
     suspend fun completeVerification(completeVerificationRequest: CompleteVerificationRequest): RetroApiResponse<SignUpResponse>
+    suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse>
+    suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
 
     //Bill payments feature apis
     suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse>
     suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse>
     suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse>
-    suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<ApiResponse>
+    suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<BillAddedResponse>
+    suspend fun getAddedBills(): RetroApiResponse<BillResponse>
+    suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
+    suspend fun editBill(editBillInformationRequest: EditBillInformationRequest): RetroApiResponse<ApiResponse>
 }
