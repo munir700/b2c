@@ -17,6 +17,8 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
+import co.yap.networking.transactions.responsedtos.transaction.*
+import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -240,6 +242,22 @@ interface TransactionsRetroService {
         @Query("receipt-image") receipt: String,
         @Query("transaction-id") transactionId: String
     ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
+    suspend fun getTotalPurchases(
+        @Query("txnType")
+         txnType: String,
+        @Query("beneficiaryId")
+         beneficiaryId: String? = null,
+        @Query("receiverCustomerId")
+         receiverCustomerId: String? = null,
+        @Query("senderCustomerId")
+         senderCustomerId: String? = null,
+        @Query("productCode")
+         productCode: String,
+        @Query("merchantName")
+        merchantName: String? = null
+    ): Response<TotalPurchasesResponse>
 
     @POST(TransactionsRepository.URL_PAY_BILL)
     suspend fun payBill(@Body payBillRequest: PayBillRequest): Response<ApiResponse>

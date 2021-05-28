@@ -32,6 +32,11 @@ android {
 
 dependencies {
   implementation 'com.google.zxing:core:3.4.0'
+  if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
+    project.kaptBindingDependencies.each {
+      add(it.configuration, it.dependency)
+    }
+  }
 }
 
 //install {
