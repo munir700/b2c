@@ -93,6 +93,7 @@ interface TransactionsApi {
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
 
     suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
+
     suspend fun addTransactionReceipt(
         transactionId: String,
         transactionReceipt: MultipartBody.Part

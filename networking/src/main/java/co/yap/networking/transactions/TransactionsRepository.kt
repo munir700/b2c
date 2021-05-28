@@ -100,10 +100,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
     private val api: TransactionsRetroService =
-            RetroNetwork.createService(TransactionsRetroService::class.java)
+        RetroNetwork.createService(TransactionsRetroService::class.java)
 
     override suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse> =
-            executeSafely(call = { api.addFunds(addFundsRequest) })
+        executeSafely(call = { api.addFunds(addFundsRequest) })
 
     override suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse> =
         executeSafely(call = { api.removeFunds(removeFundsResponse) })
