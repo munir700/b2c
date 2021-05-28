@@ -214,13 +214,13 @@ object UIBinder {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
+                        imageView.visibility = VISIBLE
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
-                            imageView.visibility = VISIBLE
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
-                            imageView.visibility = GONE
+                            imageView.setImageResource(R.drawable.ic_icon_eye)
                     } else
-                        imageView.visibility = GONE
+                        imageView.setImageResource(R.drawable.ic_icon_eye)
                 }
                 CardStatus.BLOCKED -> {
                     imageView.visibility = VISIBLE
@@ -238,8 +238,8 @@ object UIBinder {
                     imageView.visibility = VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_expired)
                 }
-
             }
+
     }
 
     // Card status message text
@@ -1100,4 +1100,27 @@ object UIBinder {
         }
 
     }
+
+    // Card Balance visibility
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(constraintLayout: ConstraintLayout, card: Card) {
+        if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
+            when (CardStatus.valueOf(card.status)) {
+                CardStatus.ACTIVE -> {
+                    if (card.cardType == CardType.DEBIT.type) {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
+                            constraintLayout.visibility = GONE
+                        else
+                            constraintLayout.visibility = VISIBLE
+                    } else
+                        constraintLayout.visibility = VISIBLE
+                }
+                CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
+                    constraintLayout.visibility = GONE
+                }
+            }
+        }
+    }
+
 }
