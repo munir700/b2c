@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.home.viewmodels.CardsListViewModel" />
+            type="co.yap.modules.dashboard.cards.cardlist.CardsListViewModel" />
         <import type="android.view.View" />
 
         <import type="co.yap.R" />
@@ -47,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_search_transaction_child" />
+                tools:listitem="@layout/item_card" />
         </co.yap.widgets.MultiStateView>
 
 

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.home.viewmodels
+package co.yap.modules.dashboard.cards.cardlist
 
 import android.os.Bundle
 import android.view.View

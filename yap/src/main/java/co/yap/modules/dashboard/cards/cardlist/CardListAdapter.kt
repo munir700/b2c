@@ -1,11 +1,7 @@
-package co.yap.modules.dashboard.cards.home.adaptor
+package co.yap.modules.dashboard.cards.cardlist
 
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import co.yap.modules.dashboard.cards.home.viewholder.CardGroupViewHolder
-import co.yap.modules.dashboard.cards.home.viewholder.CardListViewHolder
-import co.yap.modules.dashboard.cards.home.viewmodels.CardChildItemViewModel
-import co.yap.modules.dashboard.cards.home.viewmodels.CardHeaderItemViewModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.utils.BaseExpandableRVAdapter

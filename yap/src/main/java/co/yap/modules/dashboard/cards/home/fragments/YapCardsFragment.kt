@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
+import co.yap.modules.dashboard.cards.cardlist.CardsListFragment
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
@@ -297,7 +298,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openCardsList() {
-        startFragment(CardsListFragment::class.java.name,bundle =  bundleOf(
+        startFragment(
+            CardsListFragment::class.java.name,bundle =  bundleOf(
             "cardslist" to viewModel.cards.value
         ))
     }

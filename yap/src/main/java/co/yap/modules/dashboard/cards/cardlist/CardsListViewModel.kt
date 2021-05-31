@@ -1,8 +1,8 @@
-package co.yap.modules.dashboard.cards.home.viewmodels
+package co.yap.modules.dashboard.cards.cardlist
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.home.interfaces.ICardsList
-import co.yap.modules.dashboard.cards.home.states.CardsListState
+import co.yap.modules.dashboard.cards.cardlist.ICardsList
+import co.yap.modules.dashboard.cards.cardlist.CardsListState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.yapcore.SingleClickEvent
 

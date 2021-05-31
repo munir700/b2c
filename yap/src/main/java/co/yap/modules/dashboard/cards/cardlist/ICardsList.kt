@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.home.interfaces
+package co.yap.modules.dashboard.cards.cardlist
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

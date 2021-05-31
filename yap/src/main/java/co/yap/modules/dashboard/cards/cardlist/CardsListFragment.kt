@@ -1,10 +1,8 @@
-package co.yap.modules.dashboard.cards.home.fragments
+package co.yap.modules.dashboard.cards.cardlist
 
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.home.interfaces.ICardsList
-import co.yap.modules.dashboard.cards.home.viewmodels.CardsListViewModel
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 
 class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICardsList.View {
