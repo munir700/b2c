@@ -137,24 +137,24 @@ class BillAccountDetailFragment :
         yAxis.enableGridDashedLine(10f, 0f, 0f)
         yAxis.setDrawGridLines(true)
         // axis range
-        yAxis.setAxisMaximum(800f)
-        yAxis.setAxisMinimum(0f)
+        yAxis.axisMaximum = 800f
+        yAxis.axisMinimum = 0f
 
         val llXAxis = LimitLine(9f, "Index 10")
-        llXAxis.setLineWidth(4f)
+        llXAxis.lineWidth = 4f
         llXAxis.enableDashedLine(10f, 10f, 0f)
-        llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM)
-        llXAxis.setTextSize(10f)
+        llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+        llXAxis.textSize = 10f
         val ll1 = LimitLine(150f, "Upper Limit")
-        ll1.setLineWidth(4f)
+        ll1.lineWidth = 4f
         ll1.enableDashedLine(10f, 10f, 0f)
-        ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP)
-        ll1.setTextSize(10f)
+        ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+        ll1.textSize = 10f
         val ll2 = LimitLine(-30f, "Lower Limit")
-        ll2.setLineWidth(4f)
+        ll2.lineWidth = 4f
         ll2.enableDashedLine(10f, 10f, 0f)
-        ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM)
-        ll2.setTextSize(10f)
+        ll2.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+        ll2.textSize = 10f
 
         // draw limit lines behind data instead of on top
 //            yAxis.setDrawLimitLinesBehindData(true);
@@ -177,8 +177,6 @@ class BillAccountDetailFragment :
 
         // get the legend (only possible after setting data)
         val l: Legend = getViewBinding().billingHistoryChart.legend
-
-        // draw legend entries as lines
 
         // draw legend entries as lines
         l.form = Legend.LegendForm.LINE
