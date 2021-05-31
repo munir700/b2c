@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.networking.cards.CardsApi
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
@@ -14,7 +15,6 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardType
@@ -23,6 +23,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.UTC
 import co.yap.yapcore.helpers.NotificationHelper
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
@@ -68,9 +69,9 @@ class HouseHoldHomeVM @Inject constructor(
                                         FORMAT_DATE_MON_YEAR, UTC
                                     )
                                 }
-                        state.transactionMap?.value =  state.transactionMap?.value?.let{
+                        state.transactionMap?.value = state.transactionMap?.value?.let {
                             tempMap.mergeReduce(other = it)
-                        }?:tempMap
+                        } ?: tempMap
 
                         transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
 
@@ -93,6 +94,30 @@ class HouseHoldHomeVM @Inject constructor(
         }
     }
 
+    override fun orderHouseHoldPhysicalCardRequest(
+        address: Address,
+        apiResponse: ((Boolean) -> Unit?)?
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                cardsRepository.orderCard(
+                    address
+                )) {
+                is RetroApiResponse.Success -> {
+                    trackEventWithAttributes(SessionManager.user, card_color = address.designCode)
+                    apiResponse?.invoke(true)
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    apiResponse?.invoke(false)
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+        }
+    }
+
     override fun getPrimaryCard() {
         launch {
             state.accountActivateLiveData?.value = State.loading(null)
@@ -102,7 +127,7 @@ class HouseHoldHomeVM @Inject constructor(
                         state.accountActivateLiveData?.value = State.success(null)
                         if (it.isNotEmpty()) {
                             state.card?.value =
-                                response.data.data?.firstOrNull { it.cardType == CardType.DEBIT.type }
+                                response.data.data?.firstOrNull { it.cardType == CardType.PREPAID.type }
                             notificationAdapter.notifyChange()
                             notificationAdapter.get()?.setData(
                                 NotificationHelper.getNotifications(
