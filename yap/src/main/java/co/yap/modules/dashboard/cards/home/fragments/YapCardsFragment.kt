@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -38,6 +39,7 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchTourGuide
 import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
@@ -288,7 +290,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                val tour = TourSetup(requireActivity(), setViewsArray())
 //                tour.startTour()
             }
+            R.id.ivLeftIcon ->{
+                openCardsList()
+            }
         }
+    }
+
+    private fun openCardsList() {
+        startFragment(CardsListFragment::class.java.name,bundle =  bundleOf(
+            "cardslist" to viewModel.cards.value
+        ))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

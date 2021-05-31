@@ -2,6 +2,7 @@ package co.yap.networking.cards.responsedtos
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import co.yap.networking.models.ApiResponse
 import kotlinx.android.parcel.Parcelize
 
 @Keep
@@ -40,4 +41,4 @@ data class Card(
     var frontImage: String? = null,
     var pinStatus: String? = null,
     @Transient var isAddedSamsungPay: Boolean? = false
-) : Parcelable
+) : ApiResponse(),Parcelable
