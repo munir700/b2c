@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
+import co.yap.household.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -133,7 +134,7 @@ class HouseholdHomeFragment :
                     val result =
                         data.getBooleanExtra(Constants.result, false)
                     if (result) {
-                        startActivityForResult(
+                        /*startActivityForResult(
                             LocationSelectionActivity.newIntent(
                                 context = requireContext(),
                                 address = SessionManager.userAddress ?: Address(),
@@ -141,7 +142,43 @@ class HouseholdHomeFragment :
                                 subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
                                 onBoarding = true
                             ), RequestCodes.REQUEST_FOR_LOCATION
-                        )
+                        )*/
+
+                        launchActivityForResult<LocationSelectionActivity>(init = {
+                            putExtra(LocationSelectionActivity.HEADING,
+                                getString(Strings.screen_meeting_location_display_text_add_new_address_title))
+                            putExtra(
+                                LocationSelectionActivity.SUB_HEADING,
+                                getString(Strings.screen_meeting_location_display_text_subtitle)
+                            )
+                            putExtra(LocationSelectionActivity.IS_ON_BOARDING, false)
+
+                        }, completionHandler = { resultCode, data ->
+                            if (resultCode == Activity.RESULT_OK) {
+                                val success =
+                                    data?.getValue(Constants.ADDRESS_SUCCESS,
+                                        ExtraType.BOOLEAN.name) as? Boolean
+                                data?.getParcelableExtra<Address>(Constants.ADDRESS)?.apply {
+                                    state.address?.value = this
+                                }
+
+                                state.address?.value?.let { selectedAddress ->
+                                    success?.let { success ->
+                                        if (success) {
+                                            GetAccountInfoLiveData.get()
+                                                .observe(viewLifecycleOwner, Observer { })
+
+                                            viewModel.orderHouseHoldPhysicalCardRequest(
+                                                selectedAddress) {
+                                                if (it) {
+                                                    startFragment(KycSuccessFragment::javaClass.name)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        })
                     } else {
                         val kycAction =
                             data.getValue(
@@ -152,14 +189,14 @@ class HouseholdHomeFragment :
                     }
                 }
             }
-            RequestCodes.REQUEST_FOR_LOCATION -> {
-                data?.let {
-                    val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-                    if (result) {
-                        GetAccountInfoLiveData.get().observe(viewLifecycleOwner, Observer { })
-                    }
-                }
-            }
+            /* RequestCodes.REQUEST_FOR_LOCATION -> {
+                 data?.let {
+                     val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                     if (result) {
+                         GetAccountInfoLiveData.get().observe(viewLifecycleOwner, Observer { })
+                     }
+                 }
+             }*/
 
             RequestCodes.REQUEST_MEETING_CONFIRMED -> {
                 SessionManager.getAccountInfo()
