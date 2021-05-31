@@ -15,6 +15,9 @@
 
         <import type="co.yap.R" />
 
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
     </data>
 
@@ -32,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{R.drawable.ic_close_dark}"
-            app:leftIconVisibility="@{true}"
+            app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIconVisibility="@{false}"
             app:titleTranslator='@{Strings.screen_add_funds_display_text_add_funds}' />
@@ -78,6 +81,7 @@
                     android:id="@+id/clBottom"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@+id/cardInfoLayout">
 
                     <TextView
@@ -222,15 +226,27 @@
                     tools:visibility="gone">
 
                     <TextView
+                        android:id="@+id/tvCardName"
+                        style="@style/ASmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:text="@{viewModel.state.card.cardName}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Shopping" />
+
+                    <TextView
                         android:id="@+id/tvCardNameSuccess"
                         style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:layout_marginTop="@dimen/margin_extra_small"
                         android:text="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Virtual card` : `Virtual card`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCardName"
                         tools:text="Primary card" />
 
                     <TextView
@@ -253,11 +269,24 @@
                         android:layout_marginTop="@dimen/margin_large"
                         android:gravity="center"
                         android:lineSpacingExtra="@dimen/_1sdp"
-                        android:text="@{viewModel.state.topUpSuccessMsg}"
+                        app:text="@{Strings.screen_success_funds_transaction_display_text_top_up_with_balance}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvCardNumberSuccess"
-                        tools:text="@string/screen_success_funds_transaction_display_text_top_up" />
+                        tools:text="@string/screen_success_funds_transaction_display_text_top_up_with_balance" />
+
+                    <TextView
+                        android:id="@+id/tvTopUpAmount"
+                        style="@style/LargeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:lineSpacingExtra="@dimen/_1sdp"
+                        android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.amount,true,SessionManager.INSTANCE.defaultCurrency,true)}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTopUp"
+                        tools:text="AED 100.00" />
 
                     <TextView
                         android:id="@+id/tvPrimaryCardBalance"
@@ -270,7 +299,7 @@
                         android:text="@{viewModel.state.debitCardUpdatedBalance}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTopUp"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTopUpAmount"
                         tools:text="@string/screen_success_funds_transaction_display_text_primary_balance" />
 
                     <ImageView

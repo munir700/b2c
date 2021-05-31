@@ -685,8 +685,12 @@ object Strings {
     // Success funds transaction Screen
     const val screen_success_funds_transaction_display_text_top_up: String =
         "screen_success_funds_transaction_display_text_top_up"
+    const val screen_success_funds_transaction_display_text_top_up_with_balance: String =
+        "screen_success_funds_transaction_display_text_top_up_with_balance"
     const val screen_success_funds_transaction_display_text_primary_balance: String =
         "screen_success_funds_transaction_display_text_primary_balance"
+    const val screen_success_funds_transaction_display_text_primary_balance_amount: String =
+        "screen_success_funds_transaction_display_text_primary_balance_amount"
     const val screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance: String =
         "screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance"
     const val screen_success_funds_transaction_display_text_button: String =
@@ -695,6 +699,8 @@ object Strings {
         "screen_add_funds_display_text_error_card_balance_limit_reached"
     const val screen_add_funds_display_text_error_card_balance_limit: String =
         "screen_add_funds_display_text_error_card_balance_limit"
+    const val screen_success_funds_transaction_display_primary_balance_and_name: String =
+        "screen_success_funds_transaction_display_primary_balance_and_name"
 
     // Remove funds Screen
     const val screen_remove_funds_display_text_remove_funds: String =
@@ -1106,8 +1112,8 @@ object Strings {
     const val screen_transaction_feedback_improvement_label: String =
         "screen_transaction_feedback_improvement_label"
     const val screen_transaction_feedback_additional_detail_label: String =
-            "screen_transaction_feedback_additional_detail_label"
-        const val screen_transaction_details_rating_label: String =
+        "screen_transaction_feedback_additional_detail_label"
+    const val screen_transaction_details_rating_label: String =
         "screen_transaction_details_rating_label"
     const val screen_transaction_details_rating_tap_to_rate: String =
         "screen_transaction_details_rating_tap_to_rate"

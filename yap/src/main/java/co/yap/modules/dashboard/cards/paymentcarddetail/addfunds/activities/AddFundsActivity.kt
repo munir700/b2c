@@ -311,18 +311,20 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setUpSuccessData() {
-        viewModel.state.topUpSuccessMsg.set(
+        //commented by breera: should i remove this and all usage of "topUpSuccessMsg" or not as now we have new textview for amount
+        /*viewModel.state.topUpSuccessMsg.set(
             resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_top_up), this.color(
+                getString(Strings.screen_success_funds_transaction_display_text_top_up_with_balance),
+                this.color(
                     R.color.colorPrimaryDark,
                     viewModel.state.amount.toFormattedCurrency()
                 )
             )
         )
-
+*/
         viewModel.state.debitCardUpdatedBalance.set(
             resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_primary_balance),
+                getString(Strings.screen_success_funds_transaction_display_text_primary_balance_amount),
                 this.color(
                     R.color.colorPrimaryDark,
                     SessionManager.cardBalance.value?.availableBalance.toString()
@@ -331,16 +333,30 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             )
         )
 
+        /*  viewModel.state.spareCardUpdatedBalance.set(
+              resources.getText(
+                  getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance),
+                  this.color(
+                      R.color.colorPrimaryDark,
+                      (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
+                          .toFormattedCurrency()
+                  )
+              )
+          )*/
+
         viewModel.state.spareCardUpdatedBalance.set(
-            resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance),
-                this.color(
-                    R.color.colorPrimaryDark,
-                    (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
-                        .toFormattedCurrency()
-                )
+            Translator.getString(
+                context,
+                R.string.screen_fragment_home_transaction_time_category,
+                viewModel.state.card.get()?.cardName.toString()
+                ,
+                (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
+                    .toFormattedCurrency()
             )
         )
+
+        viewModel.state.leftIconVisibility.set(false)
+
     }
 
     private fun performSuccessOperations() {
@@ -348,10 +364,11 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             getBinding().etAmount.visibility = View.GONE
             getBinding().btnAction.text =
                 getString(Strings.screen_success_funds_transaction_display_text_button)
-            YoYo.with(Techniques.FadeOut)
+            //commented by breera: need to show the toolbar now according to new requirement
+            /*YoYo.with(Techniques.FadeOut)
                 .duration(300)
                 .repeat(0)
-                .playOn(getBinding().toolbar.getChildAt(0))
+                .playOn(getBinding().toolbar.getChildAt(0))*/
             getBinding().clBottom.children.forEach { it.alpha = 0f }
             getBinding().btnAction.alpha = 0f
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }

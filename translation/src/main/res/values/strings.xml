@@ -404,6 +404,11 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_success_funds_transaction_display_text_button">Back to card</string>
     <string name="screen_add_funds_display_text_error_card_balance_limit_reached">Your virtual card can only hold up to %1$s.</string>
     <string name="screen_add_funds_display_text_error_card_balance_limit">Your virtual card can only hold up to %1$s. Please enter an amount up to %2$s to proceed.</string>
+    <string name="screen_success_funds_transaction_display_text_top_up_with_balance">You have topped up with</string>
+    <string name="screen_success_funds_transaction_display_text_primary_balance_amount">Now, your primary card balance is %1s</string>
+    <string name="screen_success_funds_transaction_display_primary_balance_and_name">Your %1$s card balance is %2$d new.</string>
+
+
 
     <!--    Remove funds Screen-->
 
