@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.cardlist
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.utils.BaseExpandableRVAdapter
 
@@ -11,6 +12,9 @@ class CardListAdapter(
     val expandableItemManager: RecyclerViewExpandableItemManager
 ) :
     BaseExpandableRVAdapter<Card, CardChildItemViewModel, CardListViewHolder, Card, CardHeaderItemViewModel, CardGroupViewHolder>() {
+
+    var onItemClick: ((view: View, groupPosition: Int, childPosition: Int, data: Card?) -> Unit)? =
+        null
     override fun onBindGroupViewHolder(
         holder: CardGroupViewHolder,
         groupPosition: Int,
