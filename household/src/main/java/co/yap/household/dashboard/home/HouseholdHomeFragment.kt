@@ -111,7 +111,7 @@ class HouseholdHomeFragment :
                     }
                     NotificationAction.SET_PIN -> {
                         launchActivity<NavHostPresenterActivity>(
-                            options = bundleOf(Card::class.java.name to state.card?.value)
+                            options = bundleOf(Card::class.java.name to viewModel.state.card?.value)
                         ) {
                             putExtra(NAVIGATION_Graph_ID, R.navigation.hh_set_card_pin_navigation)
                             putExtra(
