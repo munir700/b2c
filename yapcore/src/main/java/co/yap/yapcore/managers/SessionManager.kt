@@ -204,9 +204,9 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     fun isOnBoarded(): Boolean {
         // TODO Verify login with IOS team
         if (user?.notificationStatuses != AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name &&
-                user?.notificationStatuses != AccountStatus.INVITE_PENDING.name &&
-                user?.notificationStatuses != AccountStatus.EMAIL_PENDING.name &&
-                user?.notificationStatuses != AccountStatus.PASS_CODE_PENDING.name
+            user?.notificationStatuses != AccountStatus.INVITE_PENDING.name &&
+            user?.notificationStatuses != AccountStatus.EMAIL_PENDING.name &&
+            user?.notificationStatuses != AccountStatus.PASS_CODE_PENDING.name && user?.fssRequestRefNo.isNullOrEmpty()
         ) {
             return true
         }
