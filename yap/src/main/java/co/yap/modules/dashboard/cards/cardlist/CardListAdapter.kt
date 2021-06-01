@@ -67,13 +67,11 @@ class CardListAdapter(
 
     override fun getGroupViewModel(viewType: Int) = CardHeaderItemViewModel()
 
-    override fun getGroupVariableId(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getGroupVariableId() = 0
 
     override fun getChildViewModel(viewType: Int) = CardChildItemViewModel()
 
-    override fun getChildVariableId() =0
+    override fun getChildVariableId() = 0
 
     override fun getGroupCount() = cardsData.size
 
