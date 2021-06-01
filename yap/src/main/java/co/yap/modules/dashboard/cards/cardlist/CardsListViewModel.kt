@@ -17,7 +17,7 @@ class CardsListViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val cardAdapter: ObservableField<CardListAdapter> = ObservableField()
     override var cards: MutableList<Card> = mutableListOf()
-    override var cardMap: MutableMap<String?, List<Card>>? = mutableMapOf()
+    override var cardMap: MutableMap<String?, List<Card>> = mutableMapOf()
     override val state: ICardsList.State = CardsListState()
 
     override fun onCreate() {

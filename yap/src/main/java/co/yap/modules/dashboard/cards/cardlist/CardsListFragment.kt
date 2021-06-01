@@ -24,7 +24,7 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
     }
     private val mAdapter: CardListAdapter by lazy {
         CardListAdapter(
-            viewModel.cardMap,
+            viewModel.cardMap?: mutableMapOf(),
             mRecyclerViewExpandableItemManager)
     }
 
@@ -50,12 +50,7 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
                     .distinct().groupBy { card ->
                         card.cardType
                     }.toMutableMap()
-            viewModel.cardMap?.let {map ->
-                mergeReduce(map)
-            } ?: run {
-                viewModel.cardMap = map
-                viewModel.cardAdapter.get()?.setData(viewModel.cardMap)
-            }
+                mergeReduce(viewModel.cardMap)
         }
     }
 

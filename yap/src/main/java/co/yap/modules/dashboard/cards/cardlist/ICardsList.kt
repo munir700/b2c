@@ -16,7 +16,7 @@ interface ICardsList {
         val clickEvent: SingleClickEvent
         val cardAdapter: ObservableField<CardListAdapter>
         var cards : MutableList<Card>
-        var cardMap : MutableMap<String?, List<Card>>?
+        var cardMap : MutableMap<String?, List<Card>>
     }
 
     interface State : IBase.State
