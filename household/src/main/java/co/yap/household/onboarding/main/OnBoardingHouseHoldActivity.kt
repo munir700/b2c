@@ -33,18 +33,23 @@ class OnBoardingHouseHoldActivity :
         get() {
             SessionManager.user?.let {
                 if (!it.notificationStatuses.isBlank()) {
-                    when (AccountStatus.valueOf(it.notificationStatuses)) {
-                        AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                    val notificationStatus = AccountStatus.valueOf(it.notificationStatuses)
+                    when  {
+                        notificationStatus == AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
                             extrasBundle.putInt(INDEX, 20)
                             return R.id.HHOnBoardingWelcomeFragment
                         }
-                        AccountStatus.EMAIL_PENDING -> {
+                        notificationStatus == AccountStatus.EMAIL_PENDING -> {
                             extrasBundle.putInt(INDEX, 80)
                             return R.id.HHOnBoardingEmailFragment
                         }
-                        AccountStatus.PASS_CODE_PENDING -> {
+                        notificationStatus == AccountStatus.PASS_CODE_PENDING -> {
                             extrasBundle.putInt(INDEX, 50)
                             return R.id.HHOnBoardingPassCodeFragment
+                        }
+                        notificationStatus == AccountStatus.ON_BOARDED && SessionManager.user?.fssRequestRefNo == null->{
+                            extrasBundle.putInt(INDEX, 100)
+                            return R.id.HHOnBoardingSuccessFragment
                         }
                         else -> {
                             launchActivity<NavHostPresenterActivity> {

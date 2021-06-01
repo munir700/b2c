@@ -138,7 +138,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
 
     private val switchProfileObserver = Observer<AccountInfo?> {
         it.run {
-            if (SessionManager.isOnBoarded()) {
+            if (SessionManager.isOnBoarded() && SessionManager.user?.fssRequestRefNo!=null) {
                 if (SessionManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {

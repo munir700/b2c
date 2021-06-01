@@ -219,7 +219,7 @@ class PhoneVerificationSignInFragment :
 
     private val switchProfileObserver = Observer<AccountInfo?> {
         it.run {
-            if (SessionManager.isOnBoarded()) {
+            if (SessionManager.isOnBoarded() && SessionManager.user?.fssRequestRefNo != null) {
                 gotoYapDashboard()
             } else {
                 context.switchTheme(YAPThemes.HOUSEHOLD())
