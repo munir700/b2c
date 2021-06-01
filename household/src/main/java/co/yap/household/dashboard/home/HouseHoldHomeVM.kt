@@ -121,13 +121,19 @@ class HouseHoldHomeVM @Inject constructor(
     override fun getPrimaryCard() {
         launch {
             state.accountActivateLiveData?.value = State.loading(null)
-            when (val response = cardsRepository.getDebitCards("")) {
+
+            when (val response = cardsRepository.getDebitCards(CardType.PREPAID.type)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
                         state.accountActivateLiveData?.value = State.success(null)
                         if (it.isNotEmpty()) {
-                            state.card?.value =
-                                response.data.data?.firstOrNull { it.cardType == CardType.PREPAID.type }
+
+                            SessionManager.getPrepaidFromList(response.data.data)
+                                ?.let { prepaidCard ->
+                                    SessionManager.updateCard(prepaidCard)
+                                    state.card?.value = prepaidCard
+                                }
+
                             notificationAdapter.notifyChange()
                             notificationAdapter.get()?.setData(
                                 NotificationHelper.getNotifications(

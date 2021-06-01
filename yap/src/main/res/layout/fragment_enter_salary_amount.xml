@@ -89,7 +89,7 @@
                 android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, CurrencyExtensionsKt.toFormattedCurrency((SessionManager.INSTANCE.cardBalance.availableBalance??`0.00`),true,SessionManager.INSTANCE.getDefaultCurrency(),true)))}"
                 tools:text="Your available balance is " />
 
-            <co.yap.widgets.EasyMoneyEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/tvLastUsedAmount"
                 style="@style/Yap.App.Widget.TextInputEditText.EasyMoney.Suggestion"
                 android:layout_width="wrap_content"

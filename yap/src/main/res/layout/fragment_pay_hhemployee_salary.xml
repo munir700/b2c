@@ -57,7 +57,7 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:visibility="visible"
+            android:visibility="@{payHHEmployeeSalaryVM.state.lastTransaction!=null? View.VISIBLE:View.GONE}"
             app:amount="@{payHHEmployeeSalaryVM.state.lastTransaction.amount}"
             app:date="@{DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.lastTransaction.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)}"
             app:lable="@{@string/screen_household_employee_salary_last_salary_transfer_text}" />
@@ -73,7 +73,7 @@
             android:minHeight="@dimen/_22sdp"
             android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnView(v.id)}"
             android:paddingEnd="@dimen/margin_medium_small"
-            app:btn_size="mini_small"
+            app:btn_size="mini"
             app:enableCoreButton="@{true}"
             app:text="@{Strings.screen_household_employee_salary_pay_now_button_text}"
             tools:ignore="HardcodedText" />

@@ -134,7 +134,7 @@ class HouseholdHomeFragment :
                     val result =
                         data.getBooleanExtra(Constants.result, false)
                     if (result) {
-                        /*startActivityForResult(
+                        /*   startActivityForResult(
                             LocationSelectionActivity.newIntent(
                                 context = requireContext(),
                                 address = SessionManager.userAddress ?: Address(),
@@ -150,6 +150,9 @@ class HouseholdHomeFragment :
                             putExtra(
                                 LocationSelectionActivity.SUB_HEADING,
                                 getString(Strings.screen_meeting_location_display_text_subtitle)
+                            )
+                            putExtra(
+                                Constants.ADDRESS, SessionManager.userAddress ?: Address()
                             )
                             putExtra(LocationSelectionActivity.IS_ON_BOARDING, false)
 
@@ -171,7 +174,7 @@ class HouseholdHomeFragment :
                                             viewModel.orderHouseHoldPhysicalCardRequest(
                                                 selectedAddress) {
                                                 if (it) {
-                                                    startFragment(KycSuccessFragment::javaClass.name)
+                                                    startFragment(KycSuccessFragment::class.java.name)
                                                 }
                                             }
                                         }

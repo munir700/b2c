@@ -31,6 +31,7 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
     override fun handlePressOnView(id: Int) {
         handleOnClick(id)
     }
+
     override fun handleOnClick(id: Int) {
         val validateAgg = Utils.validateAggressively(context, state.pinCode.value.toString())
         if (validateAgg.isEmpty()) {
@@ -48,20 +49,19 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
         launch {
             state.loading = true
 
-//            TODO Please fetch latest serial number for household user
-
-            var serialNumb: String
+            var cardSerialNumber: String
             SessionManager.getPrimaryCard().let {
-                serialNumb = SessionManager.getPrimaryCard()?.cardSerialNumber.toString()
+                cardSerialNumber = it?.cardSerialNumber.toString()
             }
+
             when (val response = repository.createCardPin(
                 CreateCardPinRequest(state.pinCode.value.toString()),
-                serialNumb
+                cardSerialNumber
             )) {
                 is RetroApiResponse.Success -> {
-                    if(SessionManager.isExistingUser()){
+                    if (SessionManager.isExistingUser()) {
                         trackEvent(HHUserOnboardingEvents.HH_USER_EXISTING_ACCOUNT_ACTIVE.type)
-                    }else{
+                    } else {
                         trackEvent(HHUserOnboardingEvents.HH_USER_ACCOUNT_ACTIVE.type)
                     }
                     clickEvent?.setValue(eventSuccess)
