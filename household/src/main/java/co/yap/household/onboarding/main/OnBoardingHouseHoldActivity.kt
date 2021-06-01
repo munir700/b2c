@@ -46,15 +46,16 @@ class OnBoardingHouseHoldActivity :
                             return R.id.HHOnBoardingPassCodeFragment
                         }
                         else -> {
-                            if (SessionManager.user?.fssRequestRefNo == null) {
+                            if (it.fssRequestRefNo.isNullOrEmpty()) {
                                 extrasBundle.putInt(INDEX, 100)
                                 return R.id.HHOnBoardingSuccessFragment
-                            }
-                            launchActivity<NavHostPresenterActivity> {
-                                putExtra(
-                                    NAVIGATION_Graph_ID,
-                                    R.navigation.hh_main_nav_graph
-                                )
+                            } else {
+                                launchActivity<NavHostPresenterActivity> {
+                                    putExtra(
+                                        NAVIGATION_Graph_ID,
+                                        R.navigation.hh_main_nav_graph
+                                    )
+                                }
                             }
                             finish()
                             return@let
@@ -73,8 +74,7 @@ class OnBoardingHouseHoldActivity :
                     destination = when (AccountStatus.valueOf(it.notificationStatuses)) {
                         AccountStatus.INVITE_PENDING, AccountStatus.INVITATION_PENDING -> R.id.HHOnBoardingExistingFragment
                         AccountStatus.INVITE_ACCEPTED -> R.id.HHOnBoardingExistingSuccessFragment
-                        else -> R.id.HHOnBoardingMobileFragment
-
+                        else -> if (it.fssRequestRefNo.isNullOrBlank()) R.id.HHOnBoardingCardSelectionFragment else R.id.HHOnBoardingMobileFragment
                     }
                 }
             }
