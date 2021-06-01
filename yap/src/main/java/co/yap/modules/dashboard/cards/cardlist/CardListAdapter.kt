@@ -97,4 +97,14 @@ class CardListAdapter(
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
         TODO("Not yet implemented")
     }
+
+    fun setData(cardsMap: MutableMap<String?, List<Card>>?) {
+        cardsMap?.let {
+            this.cardsData = cardsMap
+            notifyDataSetChanged()
+        } ?: run {
+            cardsData = mutableMapOf()
+            notifyDataSetChanged()
+        }
+    }
 }
