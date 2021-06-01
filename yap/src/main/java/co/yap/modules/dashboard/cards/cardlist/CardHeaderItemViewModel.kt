@@ -18,7 +18,7 @@ class CardHeaderItemViewModel : BaseListItemViewModel<CardListData>() {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
-    override fun layoutRes()= R.layout.item_search_transaction_group
+    override fun layoutRes()= R.layout.item_card_header
 
 
     override fun onItemClick(view: View, data: Any, pos: Int) {

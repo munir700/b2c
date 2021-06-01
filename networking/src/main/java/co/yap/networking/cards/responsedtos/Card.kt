@@ -40,5 +40,6 @@ data class Card(
     var activationDate: String? = null,
     var frontImage: String? = null,
     var pinStatus: String? = null,
-    @Transient var isAddedSamsungPay: Boolean? = false
+    @Transient var isAddedSamsungPay: Boolean? = false,
+    @Transient var cardId : Int?
 ) : ApiResponse(),Parcelable

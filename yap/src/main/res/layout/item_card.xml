@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="cardChildItemViewModel"
             type="co.yap.modules.dashboard.cards.cardlist.CardChildItemViewModel" />
 
         <import type="android.view.View" />

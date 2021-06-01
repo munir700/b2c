@@ -3,27 +3,21 @@ package co.yap.modules.dashboard.cards.cardlist
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
+import co.yap.R
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseListItemViewModel
 
 class CardChildItemViewModel : BaseListItemViewModel<Card>() {
+    private lateinit var mItem: Card
     override fun setItem(item: Card, position: Int) {
-        TODO("Not yet implemented")
+        this.mItem = item
     }
 
-    override fun getItem(): Card {
-        TODO("Not yet implemented")
-    }
+    override fun getItem() = mItem
 
-    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        TODO("Not yet implemented")
-    }
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
 
-    override fun layoutRes(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun layoutRes() = R.layout.item_card
 
-    override fun onItemClick(view: View, data: Any, pos: Int) {
-        TODO("Not yet implemented")
-    }
+    override fun onItemClick(view: View, data: Any, pos: Int) {}
 }

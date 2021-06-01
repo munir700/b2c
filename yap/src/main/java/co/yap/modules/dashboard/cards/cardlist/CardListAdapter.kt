@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.cardlist
 
 import android.view.View
+import co.yap.BR
 import androidx.databinding.ViewDataBinding
 import co.yap.networking.cards.CardListData
 import co.yap.networking.cards.responsedtos.Card
@@ -67,11 +68,11 @@ class CardListAdapter(
 
     override fun getGroupViewModel(viewType: Int) = CardHeaderItemViewModel()
 
-    override fun getGroupVariableId() = 0
+    override fun getGroupVariableId() = BR.cardsGroupItemViewModel
 
     override fun getChildViewModel(viewType: Int) = CardChildItemViewModel()
 
-    override fun getChildVariableId() = 0
+    override fun getChildVariableId() = BR.cardChildItemViewModel
 
     override fun getGroupCount() = cardsData.size
 
@@ -82,7 +83,7 @@ class CardListAdapter(
     override fun getGroupId(groupPosition: Int)=groupPosition.plus(1L)
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
-        val childId = cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.cardSerialNumber?.toInt()?.toLong()
+        val childId = cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.cardId?.toLong()
             ?: childPosition.plus(groupPosition).toLong()
         return childId
     }
@@ -90,7 +91,7 @@ class CardListAdapter(
     override fun getGroupItemViewType(groupPosition: Int) = groupPosition
 
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
-        return cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.cardSerialNumber?.toInt()
+        return cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.cardId
                 ?: childPosition.plus(groupPosition)
     }
 
