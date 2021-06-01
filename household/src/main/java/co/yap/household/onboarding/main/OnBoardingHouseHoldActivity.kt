@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.core.animation.addListener
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import co.yap.household.BR
@@ -33,25 +32,24 @@ class OnBoardingHouseHoldActivity :
         get() {
             SessionManager.user?.let {
                 if (!it.notificationStatuses.isBlank()) {
-                    val notificationStatus = AccountStatus.valueOf(it.notificationStatuses)
-                    when  {
-                        notificationStatus == AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                    when (AccountStatus.valueOf(it.notificationStatuses)) {
+                        AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
                             extrasBundle.putInt(INDEX, 20)
                             return R.id.HHOnBoardingWelcomeFragment
                         }
-                        notificationStatus == AccountStatus.EMAIL_PENDING -> {
+                        AccountStatus.EMAIL_PENDING -> {
                             extrasBundle.putInt(INDEX, 80)
                             return R.id.HHOnBoardingEmailFragment
                         }
-                        notificationStatus == AccountStatus.PASS_CODE_PENDING -> {
+                        AccountStatus.PASS_CODE_PENDING -> {
                             extrasBundle.putInt(INDEX, 50)
                             return R.id.HHOnBoardingPassCodeFragment
                         }
-                        notificationStatus == AccountStatus.ON_BOARDED && SessionManager.user?.fssRequestRefNo == null->{
-                            extrasBundle.putInt(INDEX, 100)
-                            return R.id.HHOnBoardingSuccessFragment
-                        }
                         else -> {
+                            if (SessionManager.user?.fssRequestRefNo == null) {
+                                extrasBundle.putInt(INDEX, 100)
+                                return R.id.HHOnBoardingSuccessFragment
+                            }
                             launchActivity<NavHostPresenterActivity> {
                                 putExtra(
                                     NAVIGATION_Graph_ID,
@@ -73,7 +71,7 @@ class OnBoardingHouseHoldActivity :
             SessionManager.user?.let {
                 if (!it.notificationStatuses.isBlank()) {
                     destination = when (AccountStatus.valueOf(it.notificationStatuses)) {
-                        AccountStatus.INVITE_PENDING, AccountStatus.INVITATION_PENDING-> R.id.HHOnBoardingExistingFragment
+                        AccountStatus.INVITE_PENDING, AccountStatus.INVITATION_PENDING -> R.id.HHOnBoardingExistingFragment
                         AccountStatus.INVITE_ACCEPTED -> R.id.HHOnBoardingExistingSuccessFragment
                         else -> R.id.HHOnBoardingMobileFragment
 
