@@ -316,7 +316,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/ivSuccessCheckMark"
                         tools:text="@string/screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance" />
 
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <co.yap.widgets.CoreButton
