@@ -6,27 +6,19 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentCardsListBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.SpacesItemDecoration
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
-import co.yap.yapcore.helpers.DateUtils
-import kotlinx.android.synthetic.main.fragment_transaction_search.*
+import co.yap.yapcore.helpers.extentions.dimen
 
 class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICardsList.View {
 
-    private val mWrappedAdapter: RecyclerView.Adapter<*> by lazy {
-        mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
-    }
-    private val mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager by lazy {
-        RecyclerViewExpandableItemManager(null)
-    }
-    private val mAdapter: CardListAdapter by lazy {
-        CardListAdapter(
-            viewModel.cardMap?: mutableMapOf(),
-            mRecyclerViewExpandableItemManager)
-    }
+    private lateinit var mAdapter: CardListAdapter
+    private lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
+    private lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -42,45 +34,15 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
 
     private fun initArguments() {
         arguments?.let { bundle ->
-            viewModel.cards = bundle.getParcelableArrayList<Card>("cardslist") ?: mutableListOf()
-            viewModel.cardMap =
-                viewModel.cards.sortedByDescending { card ->
+            bundle.getParcelableArrayList<Card>("cardslist")?.apply {
+                viewModel.state.cardMap = sortedBy { card ->
                     card.cardType
-                }
-                    .distinct().groupBy { card ->
-                        card.cardType
-                    }.toMutableMap()
-                mergeReduce(viewModel.cardMap)
+                }.distinct().groupBy { card ->
+                    card.cardType
+                }.toMutableMap()
+            }
         }
     }
-
-    private fun mergeReduce(newMap: MutableMap<String?, List<Card>>) {
-        viewModel.cardMap.let { map ->
-            val tempMap = mutableMapOf<String?, List<Card>>()
-            var keyToRemove: String? = null
-            tempMap.putAll(newMap)
-            newMap.keys.forEach { key ->
-                if (map.containsKey(key)) {
-                    keyToRemove = key
-                    return@forEach
-                }
-            }
-            keyToRemove?.let {
-                val newCards = newMap.getValue(it)
-                val oldCards = map.getValue(it).toMutableList()
-                oldCards.addAll(newCards)
-                viewModel.cardMap[it] = oldCards
-                tempMap.remove(it)
-            }
-            val groupCount = viewModel.cardAdapter.get()?.groupCount ?: 0
-            viewModel.cardMap.putAll(tempMap)
-            viewModel.cardAdapter.get()?.expandableItemManager?.notifyGroupItemRangeInserted(
-                groupCount - 1,
-                tempMap.size
-            )
-        }
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,18 +50,21 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
     }
 
     private fun intRecyclersView() {
+        mRecyclerViewExpandableItemManager = RecyclerViewExpandableItemManager(null)
+        mAdapter = CardListAdapter(mutableMapOf(), mRecyclerViewExpandableItemManager)
+        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        recyclerView.apply {
+        getDataBindingView<FragmentCardsListBinding>().recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
-            viewModel.cardAdapter.set(mAdapter)
+            viewModel.cardAdapter?.set(mAdapter)
+            mAdapter.setData(viewModel.state.cardMap)
             setHasFixedSize(true)
         }
         mAdapter.onItemClick =
             { view: View, groupPosition: Int, childPosition: Int, data: Card? ->
                 data?.let {
-
                 }
             }
     }

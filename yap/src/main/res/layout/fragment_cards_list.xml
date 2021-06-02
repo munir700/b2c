@@ -8,48 +8,49 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.cards.cardlist.CardsListViewModel" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.R" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{R.drawable.ic_card_swipe}"
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_add_sign}"
             app:rightIconVisibility="@{true}"
             app:titleString='@{"Your cards"}' />
+
         <co.yap.widgets.MultiStateView
             android:id="@+id/multiStateView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:layout_weight="1"
             app:msv_animateViewChanges="false"
             app:msv_emptyView="@layout/error_view_no_transaction_found"
             app:msv_errorView="@layout/error_view_no_transaction_found"
-            app:msv_loadingView="@layout/layout_loading_view">
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:msv_viewState="content">
 
-            <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
+                android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_card" />
         </co.yap.widgets.MultiStateView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -5,7 +5,7 @@ import androidx.databinding.ViewDataBinding
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.widgets.advrecyclerview.utils.AbstractExpandableItemViewHolder
 
-class CardListViewHolder(
+class CardChildViewHolder(
     view: View,
     viewModel: CardChildItemViewModel,
     mDataBinding: ViewDataBinding
@@ -13,5 +13,4 @@ class CardListViewHolder(
     view,
     viewModel,
     mDataBinding
-) {
-}
+)

@@ -14,10 +14,10 @@ interface ICardsList {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        val cardAdapter: ObservableField<CardListAdapter>
-        var cards : MutableList<Card>
-        var cardMap : MutableMap<String?, List<Card>>
+        val cardAdapter: ObservableField<CardListAdapter>?
     }
 
-    interface State : IBase.State
+    interface State : IBase.State{
+        var cardMap : MutableMap<String?, List<Card>>
+    }
 }
