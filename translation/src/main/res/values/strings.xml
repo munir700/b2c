@@ -978,6 +978,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged after you have registered your Household staff.  Please ensure you have enough funds in your account for your payment(s).</string>
     <!--    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged only when your Household staff completes their registration and orders their card </string>-->
     <string name="screen_yap_house_hold_subscription_selection_button_get_started">Get started</string>
+    <string name="screen_yap_house_hold_subscription_cancellation_notification_message_text">This subscription will be cancelled on %1s. Please notify the card holder to remove all funds within 30 days after expiry. To reactivate, click on the button below.</string>
 
     <!-- pager -->
     <string name="screen_yap_house_hold_success_display_text_pager_color">Choose from different card colors</string>

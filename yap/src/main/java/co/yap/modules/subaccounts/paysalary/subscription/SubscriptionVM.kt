@@ -2,6 +2,7 @@ package co.yap.modules.subaccounts.paysalary.subscription
 
 import android.content.Context
 import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.responsedtos.SubAccount
@@ -15,9 +16,9 @@ import co.yap.yapcore.leanplum.trackEvent
 import javax.inject.Inject
 
 class SubscriptionVM @Inject constructor(override val state: ISubscription.State) :
-    DaggerBaseViewModel<ISubscription.State>()
-    , ISubscription.ViewModel {
+    DaggerBaseViewModel<ISubscription.State>(), ISubscription.ViewModel {
     override var customersRepository: CustomersHHRepository = CustomersHHRepository
+    override var subscriptionCancelled: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName) }
@@ -98,6 +99,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
                         state.subAccount.value?.accountUuid
                     )) {
                     is RetroApiResponse.Success -> {
+                        subscriptionCancelled.value = true
                         trackEvent(HHUserActivityEvents.HH_SUBS_CANCEL.type)
                         getSubscriptionData()
                     }
