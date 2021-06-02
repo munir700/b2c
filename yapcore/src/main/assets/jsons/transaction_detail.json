@@ -1003,7 +1003,7 @@
     },
     "detailExpectation": {
       "title": "Received from RAK",
-      "detailTransferType": "Inward Bank Transfer",
+      "detailTransferType": "Inward bank transfer",
       "transferCategory": "Incoming Funds",
       "currency": "AED",
       "amount": 100.00,
@@ -1921,7 +1921,7 @@
       "transferCategory": "",
       "location": "AMAZON PAY INDIA PRIVA,BANGALORE    ,null,IN",
       "currency": "AED",
-      "amount": 205.298,
+      "amount": 15.24,
       "spentAmount": 205.00,
       "icon": "",
       "statusIcon": "",

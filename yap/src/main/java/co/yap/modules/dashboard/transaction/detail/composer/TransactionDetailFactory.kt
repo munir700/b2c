@@ -127,7 +127,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
     private fun fee(forTransaction: Transaction): String {
         return when {
-            transaction.isNonAEDTransaction() || transaction.productCode==TransactionProductCode.REFUND_MASTER_CARD.pCode -> {
+            transaction.isNonAEDTransaction() || transaction.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode -> {
                 forTransaction.markupFees.toString()
                     .toFormattedCurrency(true, SessionManager.getDefaultCurrency(), true)
             }
@@ -148,7 +148,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
                     (it.settlementAmount ?: 0.00).plus(totalFee)
                 }
-                it.isNonAEDTransaction() || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode -> {
+                it.isNonAEDTransaction() || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode || it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> {
                     (it.cardHolderBillingTotalAmount ?: 0.00)
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
