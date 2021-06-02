@@ -74,7 +74,7 @@ fun Activity.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance( R.style.AppFontLight)
+    snackTextView.setTextAppearance(R.style.AppFontLight)
     setMaxLines(snackTextView)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
@@ -183,7 +183,7 @@ fun Context?.showSnackBar(
                 marginTop,
                 marginBottom
             )
-            snackbar?.view?.setOnClickListener { clickListener }
+            snackbar?.view?.setOnClickListener { clickListener?.onClick(it) }
             return snackbar
         } else {
             toastNow(msg.toString())
@@ -221,7 +221,7 @@ fun Fragment.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance( R.style.AppFontLight)
+    snackTextView.setTextAppearance(R.style.AppFontLight)
     setMaxLines(snackTextView)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
@@ -243,7 +243,7 @@ fun Fragment.showSnackBar(
     val snackRootView = snakbar.view
     val snackTextView = snackRootView
         .findViewById<TextView>(R.id.snackbar_text)
-    snackTextView.setTextAppearance( R.style.AppFontLight)
+    snackTextView.setTextAppearance(R.style.AppFontLight)
     setMaxLines(snackTextView)
     snakbar.setAction(actionText, clickListener)
     snakbar.show(gravity)
@@ -252,7 +252,7 @@ fun Fragment.showSnackBar(
 fun Fragment?.showSnackBar(
     msg: String, @ColorRes viewBgColor: Int, @ColorRes colorOfMessage: Int,
     actionText: CharSequence = "",
-    actionTextColor: Int=this?.resources?.getColor(R.color.white,null)?:0,
+    actionTextColor: Int = this?.resources?.getColor(R.color.white, null) ?: 0,
     gravity: Int = Gravity.BOTTOM,
     duration: Int = Snackbar.LENGTH_LONG,
     marginTop: Int = this?.requireContext()?.dimen(R.dimen.toolbar_height) ?: 0,
@@ -581,6 +581,7 @@ private object SnackBarQueue {
     fun removeSnackBar(snackBar: Snackbar) = snackBarQueue.remove(snackBar)
 
 }
+
 internal class NoSwipeBehavior : BaseTransientBottomBar.Behavior() {
     override fun canSwipeDismissView(child: View): Boolean {
         return false

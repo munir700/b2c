@@ -5,9 +5,13 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEnterSalaryAmountBinding
+import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.leanplum.HHUserActivityEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -48,6 +52,14 @@ class EnterSalaryAmountFragment :
                     EnterSalaryAmountFragmentDirections.actionEnterSalaryAmountFragmentToRecurringPaymentFragment(),
                     arguments
                 )
+            }
+            viewModel.TOP_UP_ACCOUNT -> {
+                launchActivity<TopUpBeneficiariesActivity>(requestCode = RequestCodes.REQUEST_SHOW_BENEFICIARY) {
+                    putExtra(
+                        Constants.SUCCESS_BUTTON_LABEL,
+                        getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
+                    )
+                }
             }
         }
     }
