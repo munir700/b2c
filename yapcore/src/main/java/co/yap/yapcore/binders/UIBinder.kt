@@ -218,9 +218,9 @@ object UIBinder {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
-                            imageView.setImageResource(R.drawable.ic_icon_eye)
+                            imageView.setImageResource(R.drawable.iconsinformative)
                     } else
-                        imageView.setImageResource(R.drawable.ic_icon_eye)
+                        imageView.setImageResource(R.drawable.iconsinformative)
                 }
                 CardStatus.BLOCKED -> {
                     imageView.visibility = VISIBLE
