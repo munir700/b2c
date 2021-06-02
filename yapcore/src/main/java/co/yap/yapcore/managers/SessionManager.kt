@@ -170,8 +170,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getCurrentUser(): AccountInfo? {
         return (if (isExistingUser()) {
-            user = getHouseholdUser()
-            if (isOnBoarded()) {
+//            user = getHouseholdUser()
+            if (isOnBoarded(getHouseholdUser())) {
                 getYapUser()
             } else
                 getHouseholdUser()
@@ -201,7 +201,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     /*
          isOnBoarded:  This method is used for Household user to check if it's on boarded or not
       */
-    fun isOnBoarded(): Boolean {
+    fun isOnBoarded(user : AccountInfo?): Boolean {
         // TODO Verify login with IOS team
         if (user?.notificationStatuses != AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name &&
             user?.notificationStatuses != AccountStatus.INVITE_PENDING.name &&
