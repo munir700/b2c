@@ -32,5 +32,6 @@ interface IYapCards {
     interface State : IBase.State {
         var noOfCard: String
         var enableAddCard: ObservableBoolean
+        var showIndicator : ObservableBoolean
     }
 }
