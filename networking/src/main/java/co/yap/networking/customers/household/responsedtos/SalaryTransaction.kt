@@ -9,6 +9,6 @@ data class SalaryTransaction(
     @SerializedName("amount") var amount: String? = null,
     @SerializedName("category") var category: String? = null,
     @SerializedName("currency") var currency: String? = null,
-    @SerializedName("transferDate") var transferDate: String? = null,
+    @SerializedName("creationDate") var transferDate: String? = null,
     @SerializedName("scheduledPaymentUuid") var scheduledPaymentUuid: String? = null
 ):ApiResponse(),Parcelable
