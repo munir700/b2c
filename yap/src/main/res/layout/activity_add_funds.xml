@@ -15,6 +15,9 @@
 
         <import type="co.yap.R" />
 
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
     </data>
 
@@ -32,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{R.drawable.ic_close_dark}"
-            app:leftIconVisibility="@{true}"
+            app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIconVisibility="@{false}"
             app:titleTranslator='@{Strings.screen_add_funds_display_text_add_funds}' />
@@ -78,7 +81,9 @@
                     android:id="@+id/clBottom"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintTop_toBottomOf="@+id/cardInfoLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/cardInfoLayout"
+                    tools:visibility="gone">
+
 
                     <TextView
                         android:id="@+id/tvEnterAmountHeading"
@@ -219,18 +224,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:layout_constraintTop_toBottomOf="@+id/cardInfoLayout"
-                    tools:visibility="gone">
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tvCardName"
+                        style="@style/ASmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:gravity="center"
+                        android:text="@{viewModel.state.card.cardName}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Shopping" />
 
                     <TextView
                         android:id="@+id/tvCardNameSuccess"
                         style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:layout_marginTop="@dimen/margin_extra_small"
                         android:text="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Virtual card` : `Virtual card`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCardName"
                         tools:text="Primary card" />
 
                     <TextView
@@ -247,37 +267,50 @@
 
                     <TextView
                         android:id="@+id/tvTopUp"
-                        style="@style/ASmallGrey"
+                        style="@style/MicroGrey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/_40sdp"
                         android:gravity="center"
                         android:lineSpacingExtra="@dimen/_1sdp"
-                        android:text="@{viewModel.state.topUpSuccessMsg}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvCardNumberSuccess"
-                        tools:text="@string/screen_success_funds_transaction_display_text_top_up" />
+                        app:text="@{Strings.screen_success_funds_transaction_display_text_top_up_with_balance}"
+                        tools:text="@string/screen_success_funds_transaction_display_text_top_up_with_balance" />
+
+                    <TextView
+                        android:id="@+id/tvTopUpAmount"
+                        style="@style/LargeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="@dimen/_1sdp"
+                        android:text="@{viewModel.state.topUpSuccessAmount}"
+                        android:textSize="@dimen/_20sdp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTopUp"
+                        tools:text="AED 100.00" />
 
                     <TextView
                         android:id="@+id/tvPrimaryCardBalance"
-                        style="@style/ASmallGrey"
+                        style="@style/MicroGrey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_extra_large"
                         android:gravity="center"
                         android:lineSpacingExtra="@dimen/_1sdp"
                         android:text="@{viewModel.state.debitCardUpdatedBalance}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTopUp"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTopUpAmount"
                         tools:text="@string/screen_success_funds_transaction_display_text_primary_balance" />
 
                     <ImageView
                         android:id="@+id/ivSuccessCheckMark"
                         android:layout_width="@dimen/_60sdp"
                         android:layout_height="@dimen/_60sdp"
-                        android:layout_marginTop="@dimen/margin_extra_large"
+                        android:layout_marginTop="@dimen/margin_btn_side_paddings"
                         android:contentDescription="@string/empty_string"
                         android:src="@drawable/ic_checkmark"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -286,10 +319,12 @@
 
                     <TextView
                         android:id="@+id/tvNewSpareCardBalance"
-                        style="@style/ASmallGrey"
-                        android:layout_width="wrap_content"
+                        style="@style/MicroGrey"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_extra_large"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_btn_side_paddings"
+                        android:layout_marginEnd="@dimen/margin_small"
                         android:gravity="center"
                         android:lineSpacingExtra="@dimen/_1sdp"
                         android:paddingBottom="@dimen/margin_small"
@@ -316,7 +351,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clBottom"
+                    app:layout_constraintTop_toBottomOf="@+id/clBottomNew"
                     app:layout_constraintVertical_bias="0.967"
                     tools:text="Add" />
             </androidx.constraintlayout.widget.ConstraintLayout>

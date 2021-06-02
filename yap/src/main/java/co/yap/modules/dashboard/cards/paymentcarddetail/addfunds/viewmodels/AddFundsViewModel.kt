@@ -37,6 +37,7 @@ class AddFundsViewModel(application: Application) : SMFeeViewModel<IAddFunds.Sta
         getFundTransferLimits()
         getTransferFees(TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode)
         getTransactionThresholds()
+        state.leftIconVisibility.set(true)
     }
 
     override fun handleOnPressView(id: Int) {
