@@ -86,6 +86,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private var cardRemoved: Boolean = false
     private var limitsUpdated: Boolean = false
     private var nameUpdated: Boolean = false
+    private var addedRemovedFunds: Boolean = false
     private lateinit var mNavigator: ActivityNavigator
 
     companion object {
@@ -196,6 +197,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.llAddFunds -> {
+                addedRemovedFunds = true
                 trackEventWithScreenName(FirebaseEvent.CLICK_ADD_FUNDS)
                 trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                 viewModel.card.value?.let { card ->
@@ -223,6 +225,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llRemoveFunds -> {
+                addedRemovedFunds = true
                 trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_FUNDS)
                 if (viewModel.card.value?.blocked == false) {
                     viewModel.card.value?.let { card ->
@@ -761,7 +764,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupActionsIntent() {
-        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated || nameUpdated) {
+        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated || nameUpdated || addedRemovedFunds ) {
             val updateCard = viewModel.card.value!!
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
