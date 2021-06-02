@@ -39,7 +39,8 @@ class EnterSalaryAmountVM @Inject constructor(
             state.lastTransaction?.value?.let { salaryTransaction ->
                 state.lastTransaction?.value?.amount = salaryTransaction.amount.toFormattedCurrency(
                     showCurrency = false,
-                    withComma = true)
+                    withComma = true
+                )
                 state.haveLastTransaction.value = salaryTransaction.amount?.toDouble() != 0.00
             }
         }
@@ -71,7 +72,10 @@ class EnterSalaryAmountVM @Inject constructor(
                     underline(
                         "Top Up here!"
                     )
-                }", clickListener = View.OnClickListener { })
+                }",
+                clickListener = View.OnClickListener {
+                    clickEvent?.postValue(TOP_UP_ACCOUNT)
+                })
         } else {
             cancelAllSnackBar()
         }
