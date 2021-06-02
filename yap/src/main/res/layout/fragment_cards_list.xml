@@ -49,7 +49,5 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_card" />
         </co.yap.widgets.MultiStateView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

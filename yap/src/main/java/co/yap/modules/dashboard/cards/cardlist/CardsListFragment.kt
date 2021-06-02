@@ -8,11 +8,11 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.helpers.DateUtils
 import kotlinx.android.synthetic.main.fragment_transaction_search.*
+import kotlinx.android.synthetic.main.layout_core_toolbar.*
 
 class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICardsList.View {
 
@@ -24,8 +24,9 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
     }
     private val mAdapter: CardListAdapter by lazy {
         CardListAdapter(
-            viewModel.cardMap?: mutableMapOf(),
-            mRecyclerViewExpandableItemManager)
+            viewModel.cardMap ?: mutableMapOf(),
+            mRecyclerViewExpandableItemManager
+        )
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -45,12 +46,15 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
             viewModel.cards = bundle.getParcelableArrayList<Card>("cardslist") ?: mutableListOf()
             viewModel.cardMap =
                 viewModel.cards.sortedByDescending { card ->
-                    card.cardType
-                }
-                    .distinct().groupBy { card ->
+                    DateUtils.stringToDate(
+                        card.activationDate ?: "",
+                        DateUtils.SERVER_DATE_FORMAT,
+                        DateUtils.UTC
+                    )?.time
+                }.distinct().groupBy { card ->
                         card.cardType
                     }.toMutableMap()
-                mergeReduce(viewModel.cardMap)
+            mergeReduce(viewModel.cardMap)
         }
     }
 
@@ -102,6 +106,16 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
 
                 }
             }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        super.onToolBarClick(id)
+        when(id){
+            R.id.ivLeftIcon ->{activity?.onBackPressed()}
+            R.id.ivRightIcon -> {
+
+            }
+        }
     }
 
 }
