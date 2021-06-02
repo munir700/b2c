@@ -100,7 +100,7 @@
                 android:gravity="center"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@{viewModel.state.lastTransaction.amount??`0.00`}"
-                android:visibility="@{viewModel.state.haveLastTransaction ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{viewModel.state.haveLastTransaction ? View.VISIBLE : View.GONE,default=gone}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLastUsedAmountGuide"
@@ -109,7 +109,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:text="Use last transfer payment amount"
                 android:textSize="@dimen/text_size_h1"
-                android:visibility="@{viewModel.state.haveLastTransaction ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.state.haveLastTransaction ? View.VISIBLE : View.GONE,default=gone}"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
