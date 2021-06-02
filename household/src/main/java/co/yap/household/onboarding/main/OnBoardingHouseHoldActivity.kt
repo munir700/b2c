@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.core.animation.addListener
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import co.yap.household.BR
@@ -47,11 +46,16 @@ class OnBoardingHouseHoldActivity :
                             return R.id.HHOnBoardingPassCodeFragment
                         }
                         else -> {
-                            launchActivity<NavHostPresenterActivity> {
-                                putExtra(
-                                    NAVIGATION_Graph_ID,
-                                    R.navigation.hh_main_nav_graph
-                                )
+                            if (it.fssRequestRefNo.isNullOrEmpty()) {
+                                extrasBundle.putInt(INDEX, 100)
+                                return R.id.HHOnBoardingSuccessFragment
+                            } else {
+                                launchActivity<NavHostPresenterActivity> {
+                                    putExtra(
+                                        NAVIGATION_Graph_ID,
+                                        R.navigation.hh_main_nav_graph
+                                    )
+                                }
                             }
                             finish()
                             return@let
@@ -68,10 +72,9 @@ class OnBoardingHouseHoldActivity :
             SessionManager.user?.let {
                 if (!it.notificationStatuses.isBlank()) {
                     destination = when (AccountStatus.valueOf(it.notificationStatuses)) {
-                        AccountStatus.INVITE_PENDING, AccountStatus.INVITATION_PENDING-> R.id.HHOnBoardingExistingFragment
+                        AccountStatus.INVITE_PENDING, AccountStatus.INVITATION_PENDING -> R.id.HHOnBoardingExistingFragment
                         AccountStatus.INVITE_ACCEPTED -> R.id.HHOnBoardingExistingSuccessFragment
-                        else -> R.id.HHOnBoardingMobileFragment
-
+                        else -> if (it.fssRequestRefNo.isNullOrBlank()) R.id.HHOnBoardingCardSelectionFragment else R.id.HHOnBoardingMobileFragment
                     }
                 }
             }

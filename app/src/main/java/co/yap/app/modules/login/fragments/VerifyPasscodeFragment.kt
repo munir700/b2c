@@ -422,7 +422,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val switchProfileObserver = Observer<AccountInfo?> {
         it.run {
-            if (SessionManager.isOnBoarded()) {
+            if (SessionManager.isOnBoarded(SessionManager.user)) {
                 if (SessionManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {
