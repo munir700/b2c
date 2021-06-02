@@ -57,7 +57,7 @@
             android:layout_height="@dimen/_26sdp"
             android:tint="@color/colorPrimary"
             android:scaleType="fitXY"
-            android:alpha="0.7"
+            android:alpha="0.3"
             android:clickable="false"
             app:layout_constraintBottom_toBottomOf="@+id/tpTitle"
             app:layout_constraintEnd_toEndOf="parent"
