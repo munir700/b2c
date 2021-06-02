@@ -1,7 +1,6 @@
 package co.yap.modules.subaccounts.confirmation
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentPaymentConfirmationBinding
@@ -25,7 +24,7 @@ class PaymentConfirmationFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnGoToDashboard -> navigateForwardWithAnimation(
-                PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToSubAccountDashBoardFragment()
+                PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToHHSalaryProfileFragment()
             )
             R.id.includeImageView -> navigateForwardWithAnimation(
                 PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToHHProfileFragment(),
