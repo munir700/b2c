@@ -61,11 +61,13 @@
 
         <ImageView
             android:id="@+id/imgStatus"
-            android:layout_width="@dimen/_48sdp"
-            android:layout_height="@dimen/_48sdp"
+            android:layout_width="@dimen/margin_xl"
+            android:layout_height="@dimen/margin_xl"
             android:contentDescription="@string/empty_string"
             android:elevation="@dimen/_1sdp"
             app:cardStatus="@{viewModel.paymentCard}"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_extra_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.71"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
