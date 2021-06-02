@@ -215,15 +215,29 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDebitCard(success: (card: Card?) -> Unit = {}) {
         GlobalScope.launch(Dispatchers.Main) {
-            when (val response = repository.getDebitCards("DEBIT")) {
+            val cardType = when (user?.accountType) {
+                AccountType.B2C_ACCOUNT.name -> CardType.DEBIT.type
+                AccountType.B2C_HOUSEHOLD.name -> CardType.PREPAID.type
+                else -> ""
+            }
+
+            when (val response = repository.getDebitCards(cardType)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNullOrEmpty()) {
                         success.invoke(null)
                     } else {
-                        getDebitFromList(response.data.data)?.let { debitCard ->
-                            card.postValue(debitCard)
-                            success.invoke(debitCard)
-                        } ?: success.invoke(null)
+                        if (cardType == CardType.DEBIT.type) {
+                            getDebitFromList(response.data.data)?.let { debitCard ->
+                                updateCard(debitCard)
+                                success.invoke(debitCard)
+                            } ?: success.invoke(null)
+                        } else if (cardType == CardType.PREPAID.type) {
+                            getPrepaidFromList(response.data.data)?.let { debitCard ->
+                                updateCard(debitCard)
+                                success.invoke(debitCard)
+                            } ?: success.invoke(null)
+                        }
+
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -239,10 +253,17 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
+    fun getPrepaidFromList(it: ArrayList<Card>?): Card? {
+        return it?.firstOrNull {
+            it.cardType == CardType.PREPAID.type
+        }
+    }
+
     fun getCardSerialNumber(): String {
         card.value?.let {
-            if (it.cardType == CardType.DEBIT.type) {
-                return it.cardSerialNumber
+            return when (it.cardType) {
+                CardType.DEBIT.type, CardType.PREPAID.type -> it.cardSerialNumber
+                else -> ""
             }
         }
         return ""
@@ -250,8 +271,9 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getPrimaryCard(): Card? {
         card.value?.let {
-            if (it.cardType == CardType.DEBIT.type) {
-                return it
+            return when (it.cardType) {
+                CardType.DEBIT.type, CardType.PREPAID.type -> return it
+                else -> null
             }
         }
         return null
@@ -294,10 +316,10 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             it?.let { token ->
                 GlobalScope.launch {
                     when (val response = NotificationsRepository.sendFcmTokenToServer(
-                            FCMTokenRequest(
-                                    token = it,
-                                    deviceId = deviceId
-                            )
+                        FCMTokenRequest(
+                            token = it,
+                            deviceId = deviceId
+                        )
                     )) {
                         is RetroApiResponse.Success -> {
                             success.invoke()
@@ -320,6 +342,11 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
         return false
     }
+
+    fun updateCard(userCard: Card?) {
+        card.postValue(userCard)
+    }
+
 }
 
 fun Context?.isUserLogin() = this?.let {

@@ -2,6 +2,7 @@ package co.yap.modules.subaccounts.paysalary.employee
 
 import android.os.Bundle
 import androidx.navigation.NavController
+import co.yap.modules.subaccounts.paysalary.enums.TransactionCategory
 import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.responsedtos.SubAccount
@@ -68,9 +69,9 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
 
     override fun getSchedulePayment(uuid: String?) {
         launch {
-//            publishState(State.loading(null))
             when (val response =
-                customersHHRepository.getSchedulePayment(uuid, "Salary")) {
+                customersHHRepository.getSchedulePayment(uuid,
+                    TransactionCategory.Salary.category)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         state.recurringTransaction?.value =
@@ -79,8 +80,6 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
                             it.find { s -> s.isRecurring == false && s.recurringInterval?.isEmpty() ?: false }
                     }
                 }
-                is RetroApiResponse.Error -> {
-                }
             }
         }
     }
@@ -88,13 +87,12 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
     override fun getLastTransaction(uuid: String?) {
         launch {
             when (val response =
-                transactionsHHRepository.getLastTransaction(uuid, "Salary")) {
+                transactionsHHRepository.getLastTransaction(uuid,
+                    TransactionCategory.TRANSACTION.category)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         state.lastTransaction?.value = it
                     }
-                }
-                is RetroApiResponse.Error -> {
                 }
             }
         }

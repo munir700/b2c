@@ -29,6 +29,10 @@ interface CardsRetroService {
     @GET(CardsRepository.URL_GET_DEBIT_CARD_BALANCE)
     suspend fun getAccountBalanceRequest(): Response<CardBalanceResponseDTO>
 
+    // get prepaid card balance
+    @GET(CardsRepository.URL_GET_PREPAID_CARD_BALANCE)
+    suspend fun getPrepaidAccountBalanceRequest(): Response<CardBalanceResponseDTO>
+
     @PUT(CardsRepository.URL_ALLOW_ATM)
     suspend fun configAllowAtm(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
 

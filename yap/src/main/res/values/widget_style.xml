@@ -110,7 +110,7 @@
         <item name="show_currency">false</item>
     </style>
 
-    <style name="Yap.App.Widget.TextInputEditText.EasyMoney.Suggestion" parent="Yap.App.Widget.TextInputEditText.EasyMoney">
+    <style name="Yap.App.Widget.TextInputEditText.EasyMoney.Suggestion" parent="Yap.App.Widget.TextView.Currency">
         <item name="android:layout_height">@dimen/_18sdp</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:background">@drawable/tab_background_selected</item>

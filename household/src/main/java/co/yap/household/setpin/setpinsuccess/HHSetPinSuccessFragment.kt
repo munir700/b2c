@@ -1,13 +1,15 @@
 package co.yap.household.setpin.setpinsuccess
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHhSetPinSuccessBinding
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.helpers.extentions.launchActivity
 
 class HHSetPinSuccessFragment :
     BaseNavViewModelFragment<FragmentHhSetPinSuccessBinding, IHHSetPinSuccess.State, HHSetPinSuccessVM>() {
@@ -24,7 +26,9 @@ class HHSetPinSuccessFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnGoToDashboard -> {
-//                launchActivity<HouseHoldLandingActivity>(clearPrevious = true)
+                launchActivity<NavHostPresenterActivity>() {
+                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+                }
             }
         }
     }

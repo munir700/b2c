@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.SingleSingletonHolder
 import co.yap.yapcore.managers.SessionManager
 
@@ -13,15 +14,18 @@ class GetAccountBalanceLiveData : LiveDataCallAdapter<CardBalance?>() {
     override fun onActive() {
         super.onActive()
         launch {
-            when (val response = repository.getAccountBalanceRequest()) {
+            val response = if (SessionManager.user?.accountType == AccountType.B2C_ACCOUNT.name)
+                repository.getAccountBalanceRequest()
+            else repository.getPrepaidAccountBalanceRequest()
+
+            when (response) {
                 is RetroApiResponse.Success -> {
                     value = response.data.data
                     cardBalance.value = value
                     SessionManager.cardBalance = cardBalance
                 }
-                is RetroApiResponse.Error->
-                {
-                  //  value = CardBalance(availableBalance = "342333.00")
+                is RetroApiResponse.Error -> {
+                    //  value = CardBalance(availableBalance = "342333.00")
                     cardBalance.value = value
                     SessionManager.cardBalance = cardBalance
                 }

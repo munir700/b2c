@@ -14,6 +14,7 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
@@ -35,6 +36,12 @@ class EnterSalaryAmountVM @Inject constructor(
         extras?.let {
             state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName)
             state.lastTransaction?.value = it.getParcelable(SalaryTransaction::class.simpleName)
+            state.lastTransaction?.value?.let { salaryTransaction ->
+                state.lastTransaction?.value?.amount = salaryTransaction.amount.toFormattedCurrency(
+                    showCurrency = false,
+                    withComma = true)
+                state.haveLastTransaction.value = salaryTransaction.amount?.toDouble() != 0.00
+            }
         }
     }
 
@@ -60,9 +67,11 @@ class EnterSalaryAmountVM @Inject constructor(
     ) {
         if (amount.parseToDouble() > GetAccountBalanceLiveData.cardBalance.value?.availableBalance.parseToDouble()) {
             context.showTextUpdatedAbleSnackBar(
-                msg = "Looks like it’s time to Top Up! Please top up your account to continue with this transaction. ${underline(
-                    "Top Up here!"
-                )}", clickListener = View.OnClickListener { })
+                msg = "Looks like it’s time to Top Up! Please top up your account to continue with this transaction. ${
+                    underline(
+                        "Top Up here!"
+                    )
+                }", clickListener = View.OnClickListener { })
         } else {
             cancelAllSnackBar()
         }

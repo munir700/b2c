@@ -16,7 +16,10 @@
         <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <ScrollView
@@ -89,15 +92,15 @@
                 android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, CurrencyExtensionsKt.toFormattedCurrency((SessionManager.INSTANCE.cardBalance.availableBalance??`0.00`),true,SessionManager.INSTANCE.getDefaultCurrency(),true)))}"
                 tools:text="Your available balance is " />
 
-            <co.yap.widgets.EasyMoneyEditText
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLastUsedAmount"
                 style="@style/Yap.App.Widget.TextInputEditText.EasyMoney.Suggestion"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:enabled="false"
                 android:gravity="center"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
-                android:text="@{viewModel.state.lastTransaction.amount??`0.00`}" />
+                android:text="@{viewModel.state.lastTransaction.amount??`0.00`}"
+                android:visibility="@{viewModel.state.haveLastTransaction ? View.VISIBLE : View.GONE,default=gone}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvLastUsedAmountGuide"
@@ -106,6 +109,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:text="Use last transfer payment amount"
                 android:textSize="@dimen/text_size_h1"
+                android:visibility="@{viewModel.state.haveLastTransaction ? View.VISIBLE : View.GONE,default=gone}"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatCheckBox

@@ -20,6 +20,7 @@ interface CardsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getAccountBalanceRequest(): RetroApiResponse<CardBalanceResponseDTO>
+    suspend fun getPrepaidAccountBalanceRequest(): RetroApiResponse<CardBalanceResponseDTO>
     suspend fun configAllowAtm(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun configAbroadPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun configRetailPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>

@@ -38,6 +38,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_REORDER_SUPPLEMENTARY_CARD = "/cards/api/cards/supplementary/reorder"
     const val URL_ATM_CDM = "cards/api/atm-cdm/"
     const val URL_GET_SAMSUNG_PAY_TOKEN = "/cards/api/samsung-pay/token"
+    const val URL_GET_PREPAID_CARD_BALANCE = "/cards/api/cards/prepaid/balance"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -63,6 +64,9 @@ object CardsRepository : BaseRepository(), CardsApi {
 
     override suspend fun getAccountBalanceRequest(): RetroApiResponse<CardBalanceResponseDTO> =
         AuthRepository.executeSafely(call = { API.getAccountBalanceRequest() })
+
+    override suspend fun getPrepaidAccountBalanceRequest(): RetroApiResponse<CardBalanceResponseDTO> =
+        AuthRepository.executeSafely(call = { API.getPrepaidAccountBalanceRequest() })
 
 
     override suspend fun configAllowAtm(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =

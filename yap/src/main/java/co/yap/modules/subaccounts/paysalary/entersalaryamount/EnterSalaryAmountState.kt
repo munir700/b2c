@@ -11,4 +11,5 @@ class EnterSalaryAmountState : BaseState(), IEnterSalaryAmount.State {
     override var isRecurring: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isValid: MutableLiveData<Boolean> = MutableLiveData(false)
     override var lastTransaction: MutableLiveData<SalaryTransaction>? = MutableLiveData()
+    override var haveLastTransaction: MutableLiveData<Boolean> = MutableLiveData(false)
 }
