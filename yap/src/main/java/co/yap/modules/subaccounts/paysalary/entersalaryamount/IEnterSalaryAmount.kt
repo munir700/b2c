@@ -1,12 +1,10 @@
 package co.yap.modules.subaccounts.paysalary.entersalaryamount
 
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.transactions.requestdtos.PaySalaryNowRequest
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
 
 interface IEnterSalaryAmount {
     interface View : IBase.View<ViewModel>
@@ -24,5 +22,6 @@ interface IEnterSalaryAmount {
         var isRecurring: MutableLiveData<Boolean>
         var isValid: MutableLiveData<Boolean>
         var lastTransaction: MutableLiveData<SalaryTransaction>?
+        var haveLastTransaction: MutableLiveData<Boolean>
     }
 }
