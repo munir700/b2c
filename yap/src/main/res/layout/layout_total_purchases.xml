@@ -55,13 +55,15 @@
             android:id="@+id/ivTotalPurchase"
             android:layout_width="@dimen/_26sdp"
             android:layout_height="@dimen/_26sdp"
-            android:onClick="@{(v)->purchaseViewModel.handlePressOnView(v.id)}"
             android:tint="@color/colorPrimary"
             android:scaleType="fitXY"
+            android:alpha="0.7"
+            android:clickable="false"
             app:layout_constraintBottom_toBottomOf="@+id/tpTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tpTitle"
             app:srcCompat="@drawable/ic_chevron_right" />
+<!--        android:onClick="@{(v)->purchaseViewModel.handlePressOnView(v.id)}"-->
 
         <View
             android:id="@+id/space"
