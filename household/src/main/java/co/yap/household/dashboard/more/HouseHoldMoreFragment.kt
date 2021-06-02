@@ -2,9 +2,9 @@ package co.yap.household.dashboard.more
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import co.yap.household.BR
 import co.yap.household.R
@@ -23,11 +23,9 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.livedata.LogOutLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_house_hold_more.*
@@ -76,19 +74,32 @@ class HouseHoldMoreFragment :
         when (id) {
             R.id.imgSettings, R.id.imgProfile -> launchActivity<MoreActivity>()
             R.id.tvLogOut -> {
-                confirm(message = getString(R.string.screen_profile_settings_logout_display_text_alert_message),
-                    title = getString(R.string.screen_profile_settings_logout_display_text_alert_title),
-                    callback = {
-                        LogOutLiveData.getInstance(requireContext())
-                            .observe(this@HouseHoldMoreFragment, Observer {
-                                if (it) {
-                                    SessionManager.doLogout(requireContext())
-                                }
-                            })
-                    },
-                    negativeCallback = {})
+                logoutAlert()
             }
         }
+    }
+
+    private fun logoutAlert() {
+        AlertDialog.Builder(requireActivity())
+            .setTitle(getString(co.yap.R.string.screen_profile_settings_logout_display_text_alert_title))
+            .setMessage(getString(co.yap.R.string.screen_profile_settings_logout_display_text_alert_message))
+            .setPositiveButton(
+                getString(co.yap.R.string.screen_profile_settings_logout_display_text_alert_logout)
+            ) { _, _ ->
+                viewModel.logout {
+                    doLogout()
+                }
+            }
+            .setNegativeButton(
+                getString(co.yap.R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                null
+            )
+            .show()
+    }
+
+    private fun doLogout() {
+        SessionManager.doLogout(requireContext())
+        activity?.finish()
     }
 
     class Adapter(mValue: MutableList<MoreOption>, navigation: NavController?) :
