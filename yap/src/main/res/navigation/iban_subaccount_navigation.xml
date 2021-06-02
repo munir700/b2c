@@ -63,6 +63,11 @@
             app:destination="@id/subAccountDashBoardFragment"
             app:popUpTo="@+id/subAccountDashBoardFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_paymentConfirmationFragment_to_HHSalaryProfileFragment"
+            app:destination="@id/HHSalaryProfileFragment"
+            app:popUpTo="@+id/HHSalaryProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/payHHEmployeeSalaryFragment"
