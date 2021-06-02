@@ -73,6 +73,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
                 android:minWidth="@dimen/_140sdp"
+                android:maxLength="8"
                 android:onTextChanged="@{viewModel.onAmountChange}"
                 android:text="@={viewModel.state.amount}"
                 app:errorEnabled="@{true}"
