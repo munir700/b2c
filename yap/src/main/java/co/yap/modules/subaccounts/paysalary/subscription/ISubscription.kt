@@ -16,11 +16,11 @@ interface ISubscription {
         fun getSubscriptionData()
         fun setUpSubscription()
         fun reActivateSubscription()
+        var subscriptionCancelled: MutableLiveData<Boolean>
     }
 
     interface State : IBase.State {
         var subscriptionResponseModel: MutableLiveData<HouseHoldGetSubscription>
         var subAccount: MutableLiveData<SubAccount>
-
     }
 }
