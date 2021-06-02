@@ -313,15 +313,14 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private fun setUpSuccessData() {
         //commented by breera: should i remove this and all usage of "topUpSuccessMsg" or not as now we have new textview for amount
         /*viewModel.state.topUpSuccessMsg.set(
-            resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_top_up_with_balance),
-                this.color(
-                    R.color.colorPrimaryDark,
-                    viewModel.state.amount.toFormattedCurrency()
+                resources.getText(
+                        getString(Strings.screen_success_funds_transaction_display_text_top_up_with_balance),
+                        this.color(
+                                R.color.colorPrimaryDark,
+                                viewModel.state.amount.toFormattedCurrency()
+                        )
                 )
-            )
-        )
-*/
+        )*/
         viewModel.state.debitCardUpdatedBalance.set(
             resources.getText(
                 getString(Strings.screen_success_funds_transaction_display_text_primary_balance_amount),
@@ -332,28 +331,19 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 )
             )
         )
-
-        /*  viewModel.state.spareCardUpdatedBalance.set(
-              resources.getText(
-                  getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance),
-                  this.color(
-                      R.color.colorPrimaryDark,
-                      (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
-                          .toFormattedCurrency()
-                  )
-              )
-          )*/
-
         viewModel.state.spareCardUpdatedBalance.set(
-            Translator.getString(
-                context,
-                R.string.screen_fragment_home_transaction_time_category,
-                viewModel.state.card.get()?.cardName.toString()
-                ,
-                (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
-                    .toFormattedCurrency()
+            resources.getText(
+                getString(Strings.screen_success_funds_transaction_display_primary_balance_and_name),
+                viewModel.state.card.get()?.cardName.toString(),
+                this.color(
+                    R.color.colorPrimaryDark,
+                    (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
+                        .toFormattedCurrency()
+                )
             )
         )
+
+        viewModel.state.topUpSuccessAmount.set(viewModel.state.amount.toFormattedCurrency())
 
         viewModel.state.leftIconVisibility.set(false)
 
@@ -381,12 +371,14 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private fun runAnimations() {
         AnimationUtils.runSequentially(
             AnimationUtils.runTogether(
-                AnimationUtils.jumpInAnimation(tvCardNameSuccess),
-                AnimationUtils.jumpInAnimation(tvCardNumberSuccess).apply { startDelay = 100 },
-                AnimationUtils.jumpInAnimation(tvTopUp).apply { startDelay = 200 },
-                AnimationUtils.jumpInAnimation(tvPrimaryCardBalance).apply { startDelay = 300 },
-                AnimationUtils.jumpInAnimation(tvNewSpareCardBalance).apply { startDelay = 400 },
-                AnimationUtils.jumpInAnimation(btnAction).apply { startDelay = 600 }
+                AnimationUtils.jumpInAnimation(getBinding().tvCardName),
+                AnimationUtils.jumpInAnimation(tvCardNameSuccess).apply { startDelay = 100 },
+                AnimationUtils.jumpInAnimation(tvCardNumberSuccess).apply { startDelay = 200 },
+                AnimationUtils.jumpInAnimation(tvTopUp).apply { startDelay = 300 },
+                AnimationUtils.jumpInAnimation(tvTopUpAmount).apply { startDelay = 400 },
+                AnimationUtils.jumpInAnimation(tvPrimaryCardBalance).apply { startDelay = 500 },
+                AnimationUtils.jumpInAnimation(tvNewSpareCardBalance).apply { startDelay = 600 },
+                AnimationUtils.jumpInAnimation(btnAction).apply { startDelay = 800 }
 
             )
         ).apply {
@@ -446,8 +438,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         viewModel.clickEvent.removeObserver(clickObserver)
     }
 
-    private fun getBinding(): ActivityAddFundsBinding {
-        return (viewDataBinding as ActivityAddFundsBinding)
-    }
+    private fun getBinding(): ActivityAddFundsBinding = viewDataBinding as ActivityAddFundsBinding
 
 }
