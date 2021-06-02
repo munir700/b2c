@@ -26,8 +26,7 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.helpers.spannables.color
-import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.helpers.spannables.*
 import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -206,19 +205,19 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setUpSuccessData() {
-        viewModel.state.topUpSuccessMsg.set(
-            resources.getText(
-                getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success),
-                this.color(
-                    R.color.colorPrimaryDark,
-                    viewModel.state.amount.toFormattedCurrency()
+        viewModel.state.topUpSuccessMsg . set (
+                resources.getText(
+                    getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success),
+                     color(
+                        R.color.colorPrimaryDark,
+                        size(1.5f,viewModel.state.amount.toFormattedCurrency())
+                    )
                 )
-            )
-        )
+                )
 
         viewModel.state.debitCardUpdatedBalance.set(
             resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_primary_balance),
+                getString(Strings.screen_success_funds_transaction_display_text_primary_balance_amount),
                 this.color(
                     R.color.colorPrimaryDark,
                     SessionManager.cardBalance.value?.availableBalance.toString()
@@ -229,7 +228,8 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
 
         viewModel.state.spareCardUpdatedBalance.set(
             resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance),
+                getString(Strings.screen_success_funds_transaction_display_primary_balance_and_name),
+                viewModel.state.card.get()?.cardName.toString(),
                 this.color(
                     R.color.colorPrimaryDark,
                     (viewModel.state.card.get()?.availableBalance.parseToDouble() - viewModel.state.amount.parseToDouble()).toString()
@@ -244,10 +244,11 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             getBinding().etAmount.visibility = View.GONE
             getBinding().btnAction.text =
                 getString(Strings.screen_success_funds_transaction_display_text_button)
-            YoYo.with(Techniques.FadeOut)
+            //commented by breera: need to show the toolbar now according to new requirement
+            /*YoYo.with(Techniques.FadeOut)
                 .duration(300)
                 .repeat(0)
-                .playOn(getBinding().toolbar.getChildAt(0))
+                .playOn(getBinding().toolbar.getChildAt(0))*/
             getBinding().clBottom.children.forEach { it.alpha = 0f }
             getBinding().btnAction.alpha = 0f
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }
@@ -259,15 +260,17 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     private fun runAnimations() {
         AnimationUtils.runSequentially(
             AnimationUtils.runTogether(
-                AnimationUtils.jumpInAnimation(getBinding().tvCardNameSuccess),
-                AnimationUtils.jumpInAnimation(getBinding().tvCardNumberSuccess)
+                AnimationUtils.jumpInAnimation(getBinding().tvCardName),
+                AnimationUtils.jumpInAnimation(getBinding().tvCardNameSuccess)
                     .apply { startDelay = 100 },
-                AnimationUtils.jumpInAnimation(getBinding().tvTopUp).apply { startDelay = 200 },
+                AnimationUtils.jumpInAnimation(getBinding().tvCardNumberSuccess)
+                    .apply { startDelay = 200 },
+                AnimationUtils.jumpInAnimation(getBinding().tvTopUp).apply { startDelay = 300 },
                 AnimationUtils.jumpInAnimation(getBinding().tvPrimaryCardBalance)
-                    .apply { startDelay = 300 },
-                AnimationUtils.jumpInAnimation(getBinding().tvNewSpareCardBalance)
                     .apply { startDelay = 400 },
-                AnimationUtils.jumpInAnimation(getBinding().btnAction).apply { startDelay = 600 }
+                AnimationUtils.jumpInAnimation(getBinding().tvNewSpareCardBalance)
+                    .apply { startDelay = 500 },
+                AnimationUtils.jumpInAnimation(getBinding().btnAction).apply { startDelay = 700 }
 
             )
         ).apply {
