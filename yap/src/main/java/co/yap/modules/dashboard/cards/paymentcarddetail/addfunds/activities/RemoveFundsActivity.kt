@@ -26,9 +26,7 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.helpers.spannables.color
-import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.helpers.spannables.size
+import co.yap.yapcore.helpers.spannables.*
 import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -207,18 +205,15 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setUpSuccessData() {
-        viewModel.state.topUpSuccessMsg.set(
-            resources.getText(
-                getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success),
-                this.color(
-                    R.color.colorPrimaryDark,
-                    viewModel.state.amount.toFormattedCurrency()
-                ), size(
-                    100f,
-                    viewModel.state.amount.toFormattedCurrency()
+        viewModel.state.topUpSuccessMsg . set (
+                resources.getText(
+                    getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success),
+                     color(
+                        R.color.colorPrimaryDark,
+                        size(1.5f,viewModel.state.amount.toFormattedCurrency())
+                    )
                 )
-            )
-        )
+                )
 
         viewModel.state.debitCardUpdatedBalance.set(
             resources.getText(

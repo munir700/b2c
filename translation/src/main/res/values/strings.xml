@@ -419,7 +419,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_remove_funds_display_text_available_balance_error">You can only move an amount less than or equal to your current balance of %1$s %2$s</string>
 
     <!--    Success remove funds Screen-->
-    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved \n%1$s %2s \nto your main debit card </string>
+    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved \n%1$s \nto your main debit card </string>
 
     <!--    Set Limits Screen-->
     <string name="screen_set_limits_display_text_title">Set limits</string>

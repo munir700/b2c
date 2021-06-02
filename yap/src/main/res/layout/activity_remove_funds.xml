@@ -229,6 +229,7 @@
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
                         android:gravity="center"
+                        android:layout_marginTop="@dimen/margin_small"
                         android:text="@{viewModel.state.card.cardName}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -240,11 +241,11 @@
                         style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:layout_marginTop="@dimen/margin_extra_small"
                         android:text="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Virtual card` : `Virtual card`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCardName"
                         tools:text="Primary card" />
 
                     <TextView
@@ -264,7 +265,7 @@
                         style="@style/MicroGrey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/_40sdp"
                         android:gravity="center"
                         android:lineSpacingExtra="@dimen/_1sdp"
                         android:text="@{viewModel.state.topUpSuccessMsg}"
@@ -291,7 +292,7 @@
                         android:id="@+id/ivSuccessCheckMark"
                         android:layout_width="@dimen/_60sdp"
                         android:layout_height="@dimen/_60sdp"
-                        android:layout_marginTop="@dimen/margin_extra_large"
+                        android:layout_marginTop="@dimen/_40sdp"
                         android:contentDescription="@string/empty_string"
                         android:src="@drawable/ic_checkmark"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -304,7 +305,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginTop="@dimen/_80sdp"
+                        android:layout_marginTop="@dimen/_40sdp"
                         android:layout_marginEnd="@dimen/margin_small"
                         android:gravity="center"
                         android:lineSpacingExtra="@dimen/_1sdp"
@@ -332,7 +333,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clBottom"
+                    app:layout_constraintTop_toBottomOf="@+id/clBottomNew"
                     app:layout_constraintVertical_bias="0.967"
                     tools:text="Add" />
             </androidx.constraintlayout.widget.ConstraintLayout>
