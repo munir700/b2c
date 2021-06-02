@@ -51,7 +51,7 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
     }
 
     private fun setObservers() {
-        viewModel.state.stateLiveData?.observe(this, Observer {
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer {
             handleShimmerState(it)
         })
         svTransactions.setOnQueryTextListener(
