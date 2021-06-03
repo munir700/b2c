@@ -355,7 +355,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             viewModel.state.cardTypeText = Constants.TEXT_PRIMARY_CARD
             rlPrimaryCardActions.visibility = View.VISIBLE
-            rlCardBalance.visibility = View.GONE
+            rlCardBalance.visibility = View.VISIBLE
+            viewModel.state.cardBalance.set(viewModel.card.value?.availableBalance.toFormattedCurrency())
         } else {
             if (viewModel.card.value?.physical!!) {
                 viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_PHYSICAL
@@ -537,8 +538,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                     viewModel.card.value?.availableBalance =
                         data?.getStringExtra("newBalance").toString()
-                    viewModel.state.cardBalance = data?.getStringExtra("newBalance").toString()
+                    val cardBalanceString = data?.getStringExtra("newBalance").toString()
                         .toFormattedCurrency(true, SessionManager.getDefaultCurrency())
+                    viewModel.state.cardBalance.set(cardBalanceString)
                     if (viewModel.card.value?.availableBalance.parseToDouble() > 0) {
                         llRemoveFunds.isEnabled = true
                         llRemoveFunds.alpha = 1f
@@ -766,7 +768,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun setupActionsIntent() {
         if (cardFreezeUnfreeze || cardRemoved || limitsUpdated || nameUpdated || addedRemovedFunds ) {
             val updateCard = viewModel.card.value!!
-            updateCard.cardBalance = viewModel.state.cardBalance
+            updateCard.cardBalance = viewModel.state.cardBalance.get()?:""
             updateCard.cardName = viewModel.state.cardName
 
             if (cardFreezeUnfreeze) {
