@@ -91,6 +91,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_FAILED_TRANSACTIONS = "/transactions/api/household/get-failed-transactions"
     const val URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS =
             "/transactions/api/account-statements/{householdAccountUUID}"
+    const val URL_HOUSEHOLD_ACCOUNT_TRANSACTIONS = "/transactions/api/household-account-transactions/{page_no}/{page_size}"
 
 
     private val api: TransactionsRetroService =
@@ -350,5 +351,20 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 senderCustomerId = totalPurchaseRequest.senderCustomerId,
                 productCode = totalPurchaseRequest.productCode,
                 merchantName = totalPurchaseRequest.merchantName)
+        })
+
+    override suspend fun getHouseHoldAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse> =
+        executeSafely(call = {
+            api.getHouseHoldAccountTransactions(
+                homeTransactionsRequest?.number,
+                homeTransactionsRequest?.size,
+                homeTransactionsRequest?.amountStartRange,
+                homeTransactionsRequest?.amountEndRange,
+                homeTransactionsRequest?.txnType,
+                homeTransactionsRequest?.title,
+                homeTransactionsRequest?.categories,
+                homeTransactionsRequest?.statues,
+                homeTransactionsRequest?.cardDetailsRequired?: true
+            )
         })
 }

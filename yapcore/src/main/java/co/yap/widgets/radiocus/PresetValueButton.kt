@@ -7,10 +7,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import co.yap.widgets.drawables.DrawableEnriched
 import co.yap.yapcore.R
 import java.util.*
 
@@ -203,6 +201,10 @@ class PresetValueButton : CardView, RadioCheckable {
             }
             return true
         }
+    }
+
+    fun setLabel2(value: String) {
+        tvLable2?.text = value
     }
 
     companion object {

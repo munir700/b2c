@@ -60,7 +60,10 @@ class HouseholdHomeFragment :
         setupToolbar(toolbar = mViewDataBinding.toolbar, toolbarMenu = R.menu.menu_home)
         setHasOptionsMenu(true)
         GetAccountBalanceLiveData.get()
-            .observe(this, Observer { state.availableBalance?.value = it?.availableBalance })
+            .observe(this, Observer {
+                state.availableBalance?.value = it?.availableBalance
+                mViewDataBinding.lyInclude.firstIndicator.setLabel2(it?.availableBalance.toFormattedCurrency() ?: "")
+            })
         intRecyclersView()
     }
 
@@ -145,8 +148,10 @@ class HouseholdHomeFragment :
                         )*/
 
                         launchActivityForResult<LocationSelectionActivity>(init = {
-                            putExtra(LocationSelectionActivity.HEADING,
-                                getString(Strings.screen_meeting_location_display_text_add_new_address_title))
+                            putExtra(
+                                LocationSelectionActivity.HEADING,
+                                getString(Strings.screen_meeting_location_display_text_add_new_address_title)
+                            )
                             putExtra(
                                 LocationSelectionActivity.SUB_HEADING,
                                 getString(Strings.screen_meeting_location_display_text_subtitle)
@@ -159,8 +164,10 @@ class HouseholdHomeFragment :
                         }, completionHandler = { resultCode, data ->
                             if (resultCode == Activity.RESULT_OK) {
                                 val success =
-                                    data?.getValue(Constants.ADDRESS_SUCCESS,
-                                        ExtraType.BOOLEAN.name) as? Boolean
+                                    data?.getValue(
+                                        Constants.ADDRESS_SUCCESS,
+                                        ExtraType.BOOLEAN.name
+                                    ) as? Boolean
                                 data?.getParcelableExtra<Address>(Constants.ADDRESS)?.apply {
                                     state.address?.value = this
                                 }
@@ -172,7 +179,8 @@ class HouseholdHomeFragment :
                                                 .observe(viewLifecycleOwner, Observer { })
 
                                             viewModel.orderHouseHoldPhysicalCardRequest(
-                                                selectedAddress) {
+                                                selectedAddress
+                                            ) {
                                                 if (it) {
                                                     startFragment(KycSuccessFragment::class.java.name)
                                                 }
