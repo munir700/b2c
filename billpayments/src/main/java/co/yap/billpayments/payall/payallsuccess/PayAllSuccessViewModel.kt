@@ -2,7 +2,7 @@ package co.yap.billpayments.payall.payallsuccess
 
 import android.app.Application
 import co.yap.billpayments.payall.base.PayAllBaseViewModel
-import co.yap.billpayments.payall.payallsuccess.adapter.PayAllSuccessAdapter
+import co.yap.billpayments.payall.payallsuccess.adapter.PayAllBillsAdapter
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillPaymentStatus
@@ -13,7 +13,7 @@ class PayAllSuccessViewModel(application: Application) :
     IPayAllSuccess.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IPayAllSuccess.State = PayAllSuccessState()
-    override var adapter: PayAllSuccessAdapter = PayAllSuccessAdapter(mutableListOf())
+    override var adapter: PayAllBillsAdapter = PayAllBillsAdapter(mutableListOf())
 
     override fun onCreate() {
         super.onCreate()
@@ -68,7 +68,7 @@ class PayAllSuccessViewModel(application: Application) :
     }
 
     override fun getSuccessfullyPaidBills(): Int? {
-        return parentViewModel?.paidBills?.count { it.PaymentStatus.equals(BillPaymentStatus.PAID.title) }
+        return parentViewModel?.paidBills?.count { it.paymentStatus.equals(BillPaymentStatus.PAID.title) }
     }
 
     private fun populateData() {
@@ -81,7 +81,7 @@ class PayAllSuccessViewModel(application: Application) :
         state.viewState.value = false
         if (state.billsPaid.get() != 0)
             state.paidAmount.set(
-                parentViewModel?.paidBills?.filter { it.PaymentStatus.equals(BillPaymentStatus.PAID.title) }
+                parentViewModel?.paidBills?.filter { it.paymentStatus.equals(BillPaymentStatus.PAID.title) }
                     ?.sumBy { it.amount?.toInt() as Int }.toString()
                     .toFormattedCurrency(showCurrency = true, withComma = true)
             )
