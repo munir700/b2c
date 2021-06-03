@@ -59,13 +59,14 @@ class YapCardsViewModel(application: Application) :
                                 cardsList?.add(0, primaryCard.also {
                                     it.cardId =id
                                 })
-                            }/*
+                            }
                             if (state.enableAddCard.get())
-                                cardsList?.add(getAddCard())*/
+                                cardsList?.add(getAddCard())
                             cards.value = cardsList
                             cards.value?.map {
                                 it.cardId = id+1
                             }
+                            state.showIndicator.set(true)
                             if (context.isSamsungPayFeatureEnabled())
                                 checkCardAddedOnSamSungWallet(cards.value)
                         }
@@ -96,6 +97,7 @@ class YapCardsViewModel(application: Application) :
                             }
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
+                            state.showIndicator.set(true)
 
                             card(cardsList?.get(cardPosition))
                         }
