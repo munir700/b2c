@@ -244,6 +244,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             getBinding().etAmount.visibility = View.GONE
             getBinding().btnAction.text =
                 getString(Strings.screen_success_funds_transaction_display_text_button)
+            getBinding().clBottomNew.visibility = View.VISIBLE
             //commented by breera: need to show the toolbar now according to new requirement
             /*YoYo.with(Techniques.FadeOut)
                 .duration(300)
