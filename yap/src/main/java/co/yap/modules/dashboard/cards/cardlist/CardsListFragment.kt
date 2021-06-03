@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.cards.cardlist
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -71,27 +70,30 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
         }
         mAdapter.onItemClick =
             { view: View, pos: Int, childPosition: Int, data: Card? ->
-                data?.let {card ->
+                data?.let { card ->
                     if (card.cardName == Constants.addCard) {
                         openAddCard()
                     } else
                         when (card.status) {
                             CardStatus.ACTIVE.name -> {
                                 if (card.cardType == CardType.DEBIT.type) {
-                                    if (card.pinCreated) openDetailScreen(pos,card) else openStatusScreen(
+                                    if (card.pinCreated) openDetailScreen(
+                                        pos,
+                                        card
+                                    ) else openStatusScreen(
                                         view,
                                         data
                                     )
                                 } else
-                                    openDetailScreen(pos,card)
+                                    openDetailScreen(pos, card)
                             }
                             CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(
-                                pos
-                            ,card)
+                                pos, card
+                            )
                             CardStatus.INACTIVE.name -> {
                                 card.deliveryStatus?.let {
                                     openStatusScreen(view, data)
-                                } ?: openDetailScreen(pos,card)
+                                } ?: openDetailScreen(pos, card)
                             }
                         }
                 }
@@ -104,6 +106,7 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
             RequestCodes.REQUEST_CARD_ADDED
         )
     }
+
     private fun openDetailScreen(pos: Int = 0, card: Card) {
         card?.let {
             gotoPaymentCardDetailScreen(it)
@@ -119,18 +122,20 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
             ), EVENT_PAYMENT_CARD_DETAIL
         )
     }
-    private fun openStatusScreen(view: View, card : Card) {
+
+    private fun openStatusScreen(view: View, card: Card) {
         activity?.onBackPressed()
         context?.let { context ->
             startActivityForResult(
                 FragmentPresenterActivity.getIntent(
                     context = context,
                     type = Constants.MODE_STATUS_SCREEN,
-                    payLoad =card
+                    payLoad = card
                 ), Constants.EVENT_CREATE_CARD_PIN
             )
         }
     }
+
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
         when (id) {
