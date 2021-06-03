@@ -39,7 +39,6 @@ class YapCardsViewModel(application: Application) :
     override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
     lateinit var adapter: YapCardsAdaptor
     override var selectedCardPosition: Int = 0
-    var id : Int =0
 
     fun setupAdaptor(context: Context) {
         adapter = YapCardsAdaptor(context, mutableListOf())

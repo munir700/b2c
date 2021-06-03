@@ -10,6 +10,7 @@ import co.yap.databinding.FragmentCardsListBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
@@ -70,7 +71,7 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
         mAdapter.onItemClick =
             { view: View, pos: Int, childPosition: Int, data: Card? ->
                 data?.let { card ->
-                    if (card.cardName == Constants.addCard) {
+                   /* if (card.cardName == Constants.addCard) {
                         openAddCard()
                     } else
                         when (card.status) {
@@ -94,7 +95,7 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
                                     openStatusScreen(view, data)
                                 } ?: openDetailScreen(pos, card)
                             }
-                        }
+                        }*/
                 }
             }
     }

@@ -329,6 +329,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         true == addRemoveFunds -> {
+                            viewModel.state.showIndicator.set(false)
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
                         }
