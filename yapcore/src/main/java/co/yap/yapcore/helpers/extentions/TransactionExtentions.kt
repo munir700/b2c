@@ -303,8 +303,8 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 fun Transaction?.getAmount(): Double {
     this?.let {
         return when {
-            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() -> {
-                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode) it.cardHolderBillingTotalAmount
+            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() || it.productCode ==TransactionProductCode.REFUND_MASTER_CARD.pCode -> {
+                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode|| it.productCode ==TransactionProductCode.REFUND_MASTER_CARD.pCode) it.cardHolderBillingTotalAmount
                     ?: 0.0 else it.amount ?: 0.0
             }
             it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
