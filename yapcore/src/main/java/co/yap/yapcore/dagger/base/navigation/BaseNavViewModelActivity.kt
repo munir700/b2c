@@ -187,7 +187,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            throw RuntimeException("No Navigation graph Found! Please set the navigationGraphId or pass it via intent ")
+            throw RuntimeException(e.message)
         }
     }
 

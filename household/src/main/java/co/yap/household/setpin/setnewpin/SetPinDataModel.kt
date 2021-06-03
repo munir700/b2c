@@ -1,8 +1,10 @@
 package co.yap.household.setpin.setnewpin
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 
+@Keep
 @Parcelize
 data class SetPinDataModel(
     var screenType: String?="",
