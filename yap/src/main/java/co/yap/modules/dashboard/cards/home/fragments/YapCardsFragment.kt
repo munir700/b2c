@@ -246,10 +246,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                        }
 
 //                    Connected TO BE fetch card paylod from BE
-                    SamsungPayWalletManager.getInstance(requireContext())
-                        .getWalletInfo { i, bundle, state ->
-                            addCardToSamSungPay(card)
-                        }
+                        SamsungPayWalletManager.getInstance(requireContext())
+                            .getWalletInfo { i, bundle, state ->
+                                addCardToSamSungPay(card)
+                            }
                     }
                 }
             }
@@ -291,7 +291,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                val tour = TourSetup(requireActivity(), setViewsArray())
 //                tour.startTour()
             }
-            R.id.ivLeftIcon ->{
+            R.id.ivLeftIcon -> {
                 openCardsList()
             }
         }
@@ -299,9 +299,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun openCardsList() {
         startFragment(
-            CardsListFragment::class.java.name,bundle =  bundleOf(
-            "cardslist" to viewModel.cards.value
-        ))
+            CardsListFragment::class.java.name, bundle = bundleOf(
+                "cardslist" to viewModel.cards.value
+            )
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

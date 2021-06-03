@@ -15,10 +15,9 @@ class CardsListViewModel(application: Application) :
     YapDashboardChildViewModel<ICardsList.State>(application),
     ICardsList.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val cardAdapter: ObservableField<CardListAdapter> = ObservableField()
-    override var cards: MutableList<Card> = mutableListOf()
-    override var cardMap: MutableMap<String?, List<Card>> = mutableMapOf()
+    override val cardAdapter: ObservableField<CardListAdapter>? = ObservableField()
     override val state: ICardsList.State = CardsListState()
+
 
     override fun onCreate() {
         super.onCreate()
