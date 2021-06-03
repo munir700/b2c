@@ -16,6 +16,7 @@ interface IBillDetail {
     interface ViewModel : IBase.ViewModel<State> {
         var selectedBill: ViewBillModel?
         var selectedBillPosition: Int?
+        fun isPrepaid(): Boolean?
     }
 
     interface View : IBase.View<ViewModel>
