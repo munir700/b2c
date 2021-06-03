@@ -125,9 +125,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:minHeight="@dimen/_22sdp"
-                app:btn_size="mini_small"
+                android:onClick="@{(v)-> paymentConfirmationVM.handlePressOnView(v.id)}"
                 android:paddingStart="@dimen/margin_normal_large"
                 android:paddingEnd="@dimen/margin_normal_large"
+                app:btn_size="mini_small"
                 app:enableCoreButton="@{true}"
                 app:text="@{Strings.screen_household_normal_payment_set_up_recurring_text}"
                 tools:text="Setup Now" />

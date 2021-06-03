@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_begin="206dp" />
 
         <co.yap.widgets.EasyMoneyEditText
             android:id="@+id/transferAmount"
