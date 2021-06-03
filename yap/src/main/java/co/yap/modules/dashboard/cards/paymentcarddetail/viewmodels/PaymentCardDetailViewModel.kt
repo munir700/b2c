@@ -22,6 +22,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import java.text.SimpleDateFormat
@@ -98,7 +99,7 @@ class PaymentCardDetailViewModel(application: Application) :
                                 "Type",
                                 SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
-                                convertDate(contentsList[0].creationDate),
+                                contentsList[0].getFormattedDate(),
                                 contentsList[0].totalAmount.toString(),
                                 contentsList[0].balanceAfter,
                                 0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
@@ -121,7 +122,7 @@ class PaymentCardDetailViewModel(application: Application) :
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
-                                if (item.date == convertDate(contentsList[0].creationDate)) {
+                                if (item.date.equals(contentsList[0].getFormattedDate())) {
                                     numberstoReplace = sortedCombinedTransactionList.indexOf(item)
                                     iterator.remove()
                                     replaceNow = true
@@ -162,7 +163,7 @@ class PaymentCardDetailViewModel(application: Application) :
             o2.creationDate?.compareTo(o1?.creationDate!!)!!
         })
         val groupByDate = contentList.groupBy { item ->
-            convertDate(item.creationDate)
+            item.getFormattedDate()
         }
 
         val transactionModelData: ArrayList<HomeTransactionListData> =
@@ -172,7 +173,7 @@ class PaymentCardDetailViewModel(application: Application) :
 
             val contentsList = transactionsDay.value as ArrayList<Transaction>
             contentsList.sortByDescending {
-                it.creationDate
+                it.getFormattedDate()
             }
 
             val closingBalanceOfTheDay = contentsList[0].balanceAfter ?: 0.0
