@@ -23,6 +23,7 @@ class CardListAdapter(
     init {
         setHasStableIds(true)
     }
+
     override fun getInitialGroupExpandedState(groupPosition: Int) = false
     override fun onBindGroupViewHolder(
         holder: CardGroupViewHolder,
@@ -86,7 +87,9 @@ class CardListAdapter(
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
         val childId =
-            cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.maskedCardNo?.takeLast(4)?.parseToLong()
+            cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.maskedCardNo?.takeLast(
+                4
+            )?.parseToLong()
                 ?: childPosition.plus(groupPosition).toLong()
         return childId
     }
@@ -94,7 +97,9 @@ class CardListAdapter(
     override fun getGroupItemViewType(groupPosition: Int) = groupPosition
 
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
-        return cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.maskedCardNo?.takeLast(4)?.parseToInt()
+        return cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.maskedCardNo?.takeLast(
+            4
+        )?.parseToInt()
             ?: childPosition.plus(groupPosition)
     }
 

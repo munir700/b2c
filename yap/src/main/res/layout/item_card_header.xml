@@ -11,6 +11,10 @@
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -24,24 +28,25 @@
         android:paddingBottom="@dimen/margin_extra_small">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardHeader"
             style="@style/ASmallGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_weight="1"
-            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:text="@{Strings.screen_spare_card_landing_display_text_physical_card}" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardBalnc"
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="1000 AED"
-            android:textColor="@color/colorPrimaryDark"
+            android:text="@{CurrencyExtensionsKt.toFormattedCurrency(cardsGroupItemViewModel.item.cards[0].availableBalance,true,SessionManager.INSTANCE.defaultCurrency,true)}"
+            android:textColor="@color/colorMidnightExpress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
