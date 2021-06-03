@@ -56,17 +56,12 @@ class YapCardsViewModel(application: Application) :
                             val primaryCard = SessionManager.getDebitFromList(cardsList)
                             cardsList?.remove(primaryCard)
                             primaryCard?.let {
-                                cardsList?.add(0, primaryCard.also {
-                                    it.cardId =id
-                                })
-                            }
+                                cardsList?.add(0, primaryCard)
+                            }/*
                             if (state.enableAddCard.get())
-                                cardsList?.add(getAddCard())
+                                cardsList?.add(getAddCard())*/
                             cards.value = cardsList
-                            cards.value?.map {
-                                it.cardId = id+1
-                            }
-                            state.showIndicator.set(true)
+                            parentViewModel?.cardList?.value = cardsList
                             if (context.isSamsungPayFeatureEnabled())
                                 checkCardAddedOnSamSungWallet(cards.value)
                         }
@@ -154,8 +149,7 @@ class YapCardsViewModel(application: Application) :
             customerId = "10",
             accountNumber = "100",
             productCode = "CD",
-            pinCreated = true,
-            cardId = 1
+            pinCreated = true
         )
     }
 

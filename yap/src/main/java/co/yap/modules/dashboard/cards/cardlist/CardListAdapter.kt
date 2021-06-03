@@ -1,19 +1,21 @@
 package co.yap.modules.dashboard.cards.cardlist
 
 import android.view.View
-import co.yap.BR
 import androidx.databinding.ViewDataBinding
+import co.yap.BR
 import co.yap.networking.cards.CardListData
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.utils.BaseExpandableRVAdapter
 import co.yap.yapcore.helpers.extentions.onClick
+import co.yap.yapcore.helpers.extentions.parseToInt
+import co.yap.yapcore.helpers.extentions.parseToLong
 
 class CardListAdapter(
     private var cardsData: MutableMap<String?, List<Card>>,
     val expandableItemManager: RecyclerViewExpandableItemManager
 ) :
-    BaseExpandableRVAdapter<Card, CardChildItemViewModel, CardListViewHolder, CardListData, CardHeaderItemViewModel, CardGroupViewHolder>() {
+    BaseExpandableRVAdapter<Card, CardChildItemViewModel, CardChildViewHolder, CardListData, CardHeaderItemViewModel, CardGroupViewHolder>() {
 
     var onItemClick: ((view: View, groupPosition: Int, childPosition: Int, data: Card?) -> Unit)? =
         null
@@ -22,6 +24,7 @@ class CardListAdapter(
         setHasStableIds(true)
     }
 
+    override fun getInitialGroupExpandedState(groupPosition: Int) = false
     override fun onBindGroupViewHolder(
         holder: CardGroupViewHolder,
         groupPosition: Int,
@@ -33,7 +36,7 @@ class CardListAdapter(
     }
 
     override fun onBindChildViewHolder(
-        holder: CardListViewHolder,
+        holder: CardChildViewHolder,
         groupPosition: Int,
         childPosition: Int,
         viewType: Int
@@ -53,7 +56,7 @@ class CardListAdapter(
         viewModel: CardChildItemViewModel,
         mDataBinding: ViewDataBinding,
         viewType: Int
-    ) = CardListViewHolder(view, viewModel, mDataBinding)
+    ) = CardChildViewHolder(view, viewModel, mDataBinding)
 
     override fun getGroupViewHolder(
         view: View,
@@ -80,19 +83,24 @@ class CardListAdapter(
         cardsData[cardsData.keys.toList()[groupPosition]]?.size ?: 0
 
 
-    override fun getGroupId(groupPosition: Int)=groupPosition.plus(1L)
+    override fun getGroupId(groupPosition: Int) = groupPosition.plus(1L)
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
-        val childId = cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.cardId?.toLong()
-            ?: childPosition.plus(groupPosition).toLong()
+        val childId =
+            cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.maskedCardNo?.takeLast(
+                4
+            )?.parseToLong()
+                ?: childPosition.plus(groupPosition).toLong()
         return childId
     }
 
     override fun getGroupItemViewType(groupPosition: Int) = groupPosition
 
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
-        return cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.cardId
-                ?: childPosition.plus(groupPosition)
+        return cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.maskedCardNo?.takeLast(
+            4
+        )?.parseToInt()
+            ?: childPosition.plus(groupPosition)
     }
 
     fun setData(cardsMap: MutableMap<String?, List<Card>>?) {

@@ -6,27 +6,24 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentCardsListBinding
+import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
-import co.yap.yapcore.helpers.DateUtils
-import kotlinx.android.synthetic.main.fragment_transaction_search.*
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.CardType
 
 class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICardsList.View {
 
-    private val mWrappedAdapter: RecyclerView.Adapter<*> by lazy {
-        mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
-    }
-    private val mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager by lazy {
-        RecyclerViewExpandableItemManager(null)
-    }
-    private val mAdapter: CardListAdapter by lazy {
-        CardListAdapter(
-            viewModel.cardMap ?: mutableMapOf(),
-            mRecyclerViewExpandableItemManager
-        )
-    }
+    private lateinit var mAdapter: CardListAdapter
+    private lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
+    private lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
+    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -42,48 +39,15 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
 
     private fun initArguments() {
         arguments?.let { bundle ->
-            viewModel.cards = bundle.getParcelableArrayList<Card>("cardslist") ?: mutableListOf()
-            viewModel.cardMap =
-                viewModel.cards.sortedByDescending { card ->
-                    DateUtils.stringToDate(
-                        card.activationDate ?: "",
-                        DateUtils.SERVER_DATE_FORMAT,
-                        DateUtils.UTC
-                    )?.time
+            bundle.getParcelableArrayList<Card>("cardslist")?.apply {
+                viewModel.state.cardMap = sortedBy { card ->
+                    card.cardType
                 }.distinct().groupBy { card ->
-                        card.cardType
-                    }.toMutableMap()
-            mergeReduce(viewModel.cardMap)
+                    card.cardType
+                }.toMutableMap()
+            }
         }
     }
-
-    private fun mergeReduce(newMap: MutableMap<String?, List<Card>>) {
-        viewModel.cardMap.let { map ->
-            val tempMap = mutableMapOf<String?, List<Card>>()
-            var keyToRemove: String? = null
-            tempMap.putAll(newMap)
-            newMap.keys.forEach { key ->
-                if (map.containsKey(key)) {
-                    keyToRemove = key
-                    return@forEach
-                }
-            }
-            keyToRemove?.let {
-                val newCards = newMap.getValue(it)
-                val oldCards = map.getValue(it).toMutableList()
-                oldCards.addAll(newCards)
-                viewModel.cardMap[it] = oldCards
-                tempMap.remove(it)
-            }
-            val groupCount = viewModel.cardAdapter.get()?.groupCount ?: 0
-            viewModel.cardMap.putAll(tempMap)
-            viewModel.cardAdapter.get()?.expandableItemManager?.notifyGroupItemRangeInserted(
-                groupCount - 1,
-                tempMap.size
-            )
-        }
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,26 +55,92 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
     }
 
     private fun intRecyclersView() {
+        mRecyclerViewExpandableItemManager = RecyclerViewExpandableItemManager(null)
+        mAdapter = CardListAdapter(mutableMapOf(), mRecyclerViewExpandableItemManager)
+        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        recyclerView.apply {
+        getDataBindingView<FragmentCardsListBinding>().recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
-            viewModel.cardAdapter.set(mAdapter)
+            viewModel.cardAdapter?.set(mAdapter)
+            mAdapter.setData(viewModel.state.cardMap)
             setHasFixedSize(true)
         }
         mAdapter.onItemClick =
-            { view: View, groupPosition: Int, childPosition: Int, data: Card? ->
-                data?.let {
-
+            { view: View, pos: Int, childPosition: Int, data: Card? ->
+                data?.let { card ->
+                    if (card.cardName == Constants.addCard) {
+                        openAddCard()
+                    } else
+                        when (card.status) {
+                            CardStatus.ACTIVE.name -> {
+                                if (card.cardType == CardType.DEBIT.type) {
+                                    if (card.pinCreated) openDetailScreen(
+                                        pos,
+                                        card
+                                    ) else openStatusScreen(
+                                        view,
+                                        data
+                                    )
+                                } else
+                                    openDetailScreen(pos, card)
+                            }
+                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(
+                                pos, card
+                            )
+                            CardStatus.INACTIVE.name -> {
+                                card.deliveryStatus?.let {
+                                    openStatusScreen(view, data)
+                                } ?: openDetailScreen(pos, card)
+                            }
+                        }
                 }
             }
     }
 
+    private fun openAddCard() {
+        startActivityForResult(
+            AddPaymentCardActivity.newIntent(requireContext()),
+            RequestCodes.REQUEST_CARD_ADDED
+        )
+    }
+
+    private fun openDetailScreen(pos: Int = 0, card: Card) {
+        card?.let {
+            gotoPaymentCardDetailScreen(it)
+        }
+    }
+
+    private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
+        activity?.onBackPressed()
+        startActivityForResult(
+            PaymentCardDetailActivity.newIntent(
+                requireContext(),
+                paymentCard
+            ), EVENT_PAYMENT_CARD_DETAIL
+        )
+    }
+
+    private fun openStatusScreen(view: View, card: Card) {
+        activity?.onBackPressed()
+        context?.let { context ->
+            startActivityForResult(
+                FragmentPresenterActivity.getIntent(
+                    context = context,
+                    type = Constants.MODE_STATUS_SCREEN,
+                    payLoad = card
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
+        }
+    }
+
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
-        when(id){
-            R.id.ivLeftIcon ->{activity?.onBackPressed()}
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.onBackPressed()
+            }
             R.id.ivRightIcon -> {
 
             }

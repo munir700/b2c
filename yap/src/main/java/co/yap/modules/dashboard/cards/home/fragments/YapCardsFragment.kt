@@ -292,7 +292,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                tour.startTour()
             }
             R.id.ivLeftIcon -> {
-                //openCardsList()
+                openCardsList()
             }
         }
     }

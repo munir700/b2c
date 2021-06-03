@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -40,6 +41,7 @@ interface IYapDashboard {
         var isShowHomeTour: MutableLiveData<Boolean>
         var isKycCompelted: MutableLiveData<Boolean>
         fun populateState()
+        var cardList: MutableLiveData<ArrayList<Card>>
     }
 
     interface View : IBase.View<ViewModel> {

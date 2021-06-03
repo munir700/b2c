@@ -6,6 +6,7 @@ import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
@@ -37,6 +38,7 @@ class YapDashBoardViewModel(application: Application) :
     override var isUnverifiedScreenNotVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isShowHomeTour: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isKycCompelted: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var cardList: MutableLiveData<ArrayList<Card>> = MutableLiveData()
 
 
     override fun handlePressOnNavigationItem(id: Int) {
