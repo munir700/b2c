@@ -240,11 +240,11 @@ class PaymentCardDetailViewModel(application: Application) :
                         }
                         updatedBalance(cardBalance?.availableBalance ?: "0.0")
                         card.value?.availableBalance = cardBalance?.availableBalance.toString()
-                        state.cardBalance = cardBalance?.availableBalance?.toFormattedCurrency(
+                        state.cardBalance.set(cardBalance?.availableBalance?.toFormattedCurrency(
                             showCurrency = true,
                             currency = cardBalance.currencyCode
                                 ?: SessionManager.getDefaultCurrency()
-                        ) ?: ""
+                        ) ?: "")
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
