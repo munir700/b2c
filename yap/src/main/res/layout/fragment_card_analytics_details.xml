@@ -17,6 +17,9 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
+        <variable
+            name="constant"
+            type="co.yap.yapcore.constants.Constants"/>
 
     </data>
 
@@ -31,11 +34,8 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal_large"
-            app:fullName="@{viewModel.state.title==null?` `:viewModel.state.title}"
-            app:imageUrl="@{viewModel.state.ImageUrl == null ? ` ` : viewModel.state.ImageUrl}"
-            app:isBackground="@{true}"
-            app:showFirstInitials="@{true}"
-            app:position="@{viewModel.state.position}"
+            app:cropImage="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)}"
+            android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)?@dimen/margin_zero_dp:@dimen/margin_normal_large}"
             tools:src="@drawable/ic_access_alarm" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -133,6 +133,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
+                                android:singleLine="true"
+                                android:ellipsize="middle"
                                 android:text="@{viewModel.state.currToLast+`%`}"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="@dimen/text_size_h4"

@@ -1104,8 +1104,11 @@ object Strings {
     const val screen_transaction_feedback_improvement_label: String =
         "screen_transaction_feedback_improvement_label"
     const val screen_transaction_feedback_additional_detail_label: String =
-        "screen_transaction_feedback_additional_detail_label"
-
+            "screen_transaction_feedback_additional_detail_label"
+        const val screen_transaction_details_rating_label: String =
+        "screen_transaction_details_rating_label"
+    const val screen_transaction_details_rating_tap_to_rate: String =
+        "screen_transaction_details_rating_tap_to_rate"
 
     //     Send Money no contacts Screen
     const val screen_send_money_no_contacts_display_text_title: String =

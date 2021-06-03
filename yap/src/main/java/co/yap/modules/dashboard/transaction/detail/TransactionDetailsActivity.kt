@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import co.yap.modules.dashboard.transaction.feedback.TransactionFeedbackFragment
 import co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.previewer.PreviewTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.receipt.viewer.ImageViewerActivity
+import co.yap.modules.dashboard.transaction.totalpurchases.TotalPurchaseFragment
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
@@ -59,13 +61,16 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 viewModel.transaction.set(it)
                 viewModel.composeTransactionDetail(it)
                 getBindings().ivMap.setImageResource(viewModel.state.coverImage.get())
-                viewModel.transaction.get().setTransactionImage(getBindings().ivPicture)
+                viewModel.setMerchantImage(getBindings().ivPicture)
             }
         }
         viewModel.responseReciept.observe(this, Observer {
             viewModel.setAdapterList(it)
         })
         viewModel.adapter.setItemListener(onReceiptClickListener)
+        getBindings().layoutRating.rbMarchant.setOnRatingBarChangeListener { ratingBar, fl, b ->
+            //  showRatingDialogue()
+        }
     }
 
 
@@ -102,8 +107,17 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 ) { resultCode, _ ->
                     if (resultCode == Activity.RESULT_OK) {
                     }
-                    //    showFeedbackSuccessDialog()
+                    makeToast(this, "feedback submitted successfully", Toast.LENGTH_SHORT)
                 }
+            }
+            R.id.ivTotalPurchase -> {
+                startFragment<TotalPurchaseFragment>(
+                    TotalPurchaseFragment::class.java.name, bundle = bundleOf(
+                        Constants.TRANSACTION_COUNT to viewModel.totalPurchase.get()?.txnCount,
+                        Constants.TRANSACTION_DETAIL to viewModel.transaction.get(),
+                        Constants.TOTAL_TRANSACTION to viewModel.totalPurchase.get()?.totalSpendAmount
+                    )
+                )
             }
         }
     }
@@ -291,4 +305,12 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         removeObservers()
         super.onDestroy()
     }
+
+    private fun showRatingDialogue() {
+        this.showReceiptSuccessDialog(
+            description = "Are you sure you want to submit this rating?",
+            addOtherVisibility = false
+        )
+    }
+
 }

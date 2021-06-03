@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.*
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
+import retrofit2.http.Body
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -282,15 +283,14 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         merchantType: String,
         cardSerialNo: String?,
         date: String?,
-        merchantName: ArrayList<String>?
+        merchantName: ArrayList<Any>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO> =
         executeSafely(call = {
             api.getTransactionsOfMerchant(
                 merchantType,
                 cardSerialNo,
                 date,
-                merchantName
-            )
+                merchantName)
         })
 
     override suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum> =
@@ -323,12 +323,14 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getTotalPurchases(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesResponse> =
         executeSafely(call = {
-            api.getTotalPurchases(txnType = totalPurchaseRequest.txnType,
+            api.getTotalPurchases(
+                txnType = totalPurchaseRequest.txnType,
                 beneficiaryId = totalPurchaseRequest.beneficiaryId,
                 receiverCustomerId = totalPurchaseRequest.receiverCustomerId,
                 senderCustomerId = totalPurchaseRequest.senderCustomerId,
                 productCode = totalPurchaseRequest.productCode,
-                merchantName = totalPurchaseRequest.merchantName)
+                merchantName = totalPurchaseRequest.merchantName
+            )
         })
 
     override suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse> =

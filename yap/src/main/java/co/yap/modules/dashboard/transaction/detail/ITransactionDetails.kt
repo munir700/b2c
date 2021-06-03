@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.TotalPurchases
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -41,6 +42,7 @@ interface ITransactionDetails {
         var itemsComposer: TransactionDetailComposer
         var transactionAdapter: TransactionDetailItemAdapter
         var totalPurchase: ObservableField<TotalPurchases>
+        fun setMerchantImage(view : CoreCircularImageView)
     }
 
     interface State : IBase.State {

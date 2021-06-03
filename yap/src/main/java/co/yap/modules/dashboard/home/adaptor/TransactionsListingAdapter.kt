@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -15,6 +16,7 @@ import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
@@ -31,7 +33,7 @@ class TransactionsListingAdapter(
     var analyticsItemTitle: String? = null
     var analyticsItemImgUrl: String? = null
     override fun getLayoutIdForViewType(viewType: Int): Int {
-        return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) R.layout.item_analytics_transaction_list else R.layout.item_transaction_list
+        return if (adapterType == TransactionAdapterType.TRANSACTION) R.layout.item_transaction_list else R.layout.item_analytics_transaction_list
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -43,18 +45,18 @@ class TransactionsListingAdapter(
                 list[position],
                 analyticsItemPosition,
                 analyticsItemTitle,
-                analyticsItemImgUrl
+                analyticsItemImgUrl, adapterType
             )
     }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) {
-            TransactionAnalyticsViewHolder(
-                binding as ItemAnalyticsTransactionListBinding
-            )
-        } else
+        return if (adapterType == TransactionAdapterType.TRANSACTION) {
             TransactionListingViewHolder(
                 binding as ItemTransactionListBinding
+            )
+        } else
+            TransactionAnalyticsViewHolder(
+                binding as ItemAnalyticsTransactionListBinding
             )
     }
 
@@ -64,7 +66,8 @@ class TransactionsListingAdapter(
             transaction: Transaction,
             position: Int,
             analyticsItemTitle: String?,
-            analyticsItemImgUrl: String?
+            analyticsItemImgUrl: String?,
+            type: TransactionAdapterType
         ) {
             itemAnalyticsTransactionListBinding.viewModel =
                 ItemAnalyticsTransactionVM(
@@ -73,6 +76,16 @@ class TransactionsListingAdapter(
                     analyticsItemTitle,
                     analyticsItemImgUrl
                 )
+            itemAnalyticsTransactionListBinding.dividerBottom.visibility =
+                if (type == TransactionAdapterType.TOTAL_PURCHASE) View.VISIBLE else View.GONE
+            itemAnalyticsTransactionListBinding.tvCurrency.alpha =
+                if (type == TransactionAdapterType.TOTAL_PURCHASE) 0.5f else 1f
+            itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
+                analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: "",
+                analyticsItemImgUrl ?: transaction.merchantLogo ?: "",
+                position, type = Constants.MERCHANT_TYPE
+
+            )
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
@@ -144,11 +157,13 @@ class TransactionsListingAdapter(
                     setY2YUserImage(transaction, itemTransactionListBinding, position)
                 } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
                     setVirtualCardIcon(transaction, itemTransactionListBinding)
+                } else if (TransactionProductCode.ECOM.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
+                    setCategoryIcon(transaction, itemTransactionListBinding, position)
                 } else {
                     if (txnIconResId != -1) {
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                     } else {
-                        setInitialsAsTxnImage(transaction, itemTransactionListBinding, position)
+                        setInitialsAsImage(transaction, itemTransactionListBinding, position)
                     }
                     if (transaction.isTransactionRejected()) itemTransactionListBinding.ivTransaction.background =
                         null
@@ -168,6 +183,29 @@ class TransactionsListingAdapter(
             )
         }
 
+        @SuppressLint("UseCompatLoadingForDrawables")
+        private fun setCategoryIcon(
+            transaction: Transaction,
+            itemTransactionListBinding: ItemTransactionListBinding,
+            position: Int?
+        ) {
+            transaction.merchantLogo?.let { logo ->
+                itemTransactionListBinding.ivTransaction.loadImage(logo)
+            } ?: transaction.tapixCategory?.categoryIcon?.let { icon ->
+                ImageBinding.loadAnalyticsAvatar(
+                    itemTransactionListBinding.ivTransaction,
+                    transaction.tapixCategory?.categoryIcon,
+                    transaction.merchantName,
+                    position ?: 0,
+                    true,
+                    false,
+                    if (transaction.isCategoryGeneral() == true) itemTransactionListBinding.ivTransaction.context.getDrawable(
+                        R.drawable.ic_category_general
+                    ) else null
+                )
+            } ?: setInitialsAsImage(transaction, itemTransactionListBinding, position)
+        }
+
         private fun setY2YUserImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding, position: Int?
@@ -185,7 +223,7 @@ class TransactionsListingAdapter(
             )
         }
 
-        private fun setInitialsAsTxnImage(
+        private fun setInitialsAsImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding, position: Int?
         ) {

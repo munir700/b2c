@@ -36,13 +36,16 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/empty_string"
-                app:fullName="@{viewModel.analyticsItem.title==null?` `:viewModel.analyticsItem.title}"
-                app:imageUrl="@{viewModel.analyticsItem.logoUrl == null ? ` ` : viewModel.analyticsItem.logoUrl}"
+                app:categoryTitle="@{viewModel.analyticsItem.title.empty || viewModel.analyticsItem.title == null?`General`:viewModel.analyticsItem.title}"
+                app:imageLogo="@{viewModel.analyticsItem.logoUrl == null ? ` ` : viewModel.analyticsItem.logoUrl}"
                 app:isBackground="@{true}"
+                android:padding="@{viewModel.analyticsItem.title.empty || viewModel.analyticsItem.title == null?@dimen/margin_zero_dp :@dimen/_10sdp}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:position="@{viewModel.position}"
-                app:showFirstInitials="@{true}" />
+                app:showFirstInitials="@{true}"
+                app:cropImage="@{viewModel.analyticsItem.logoUrl == null || viewModel.analyticsItem.logoUrl == ` ` || viewModel.analyticsItem.logoUrl.empty? true :false}"
+                />
 
             <LinearLayout
                 android:id="@+id/content"
@@ -67,7 +70,7 @@
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
                     android:lines="1"
-                    android:text="@{viewModel.analyticsItem.title}"
+                    android:text="@{viewModel.analyticsItem.title.empty || viewModel.analyticsItem.title == null ? `General`:viewModel.analyticsItem.title}"
                     android:textSize="@dimen/text_size_h2"
                     tools:text="Shopping" />
 
