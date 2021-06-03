@@ -531,6 +531,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
                 if (resultCode == Activity.RESULT_OK) {
+                    addedRemovedFunds = true
                     // Send Broadcast for updating transactions list in `Home Fragment`
                     val intent =
                         Intent(co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION)
@@ -781,6 +782,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             val returnIntent = Intent()
             returnIntent.putExtra("card", updateCard)
             returnIntent.putExtra("cardRemoved", cardRemoved)
+            returnIntent.putExtra("addRemoveFunds",addedRemovedFunds)
             setResult(Activity.RESULT_OK, returnIntent)
         }
     }
