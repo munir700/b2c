@@ -227,10 +227,12 @@
                         style="@style/ASmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginStart="@dimen/margin_xl"
+                        android:layout_marginEnd="@dimen/margin_xl"
                         android:layout_marginTop="@dimen/margin_small"
-                        android:layout_marginEnd="@dimen/margin_small"
                         android:gravity="center"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:text="@{viewModel.state.card.cardName}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -242,7 +244,7 @@
                         style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:layout_marginTop="@dimen/margin_small"
                         android:text="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Virtual card` : `Virtual card`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -289,6 +291,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvTopUp"
                         tools:text="@string/screen_success_funds_transaction_display_text_primary_balance_amount" />
 
+
                     <ImageView
                         android:id="@+id/ivSuccessCheckMark"
                         android:layout_width="@dimen/_60sdp"
@@ -305,9 +308,9 @@
                         style="@style/MicroGrey"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginTop="@dimen/_40sdp"
-                        android:layout_marginEnd="@dimen/margin_small"
+                        android:layout_marginStart="@dimen/margin_xl"
+                        android:layout_marginEnd="@dimen/margin_xl"
                         android:gravity="center"
                         android:lineSpacingExtra="@dimen/_1sdp"
                         android:paddingBottom="@dimen/margin_small"
