@@ -118,5 +118,5 @@ interface TransactionsApi {
     suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse>
     suspend fun getFailedTransactions(): RetroApiResponse<BaseListResponse<HomeNotification>>
     suspend fun getHouseHoldAccountStatements(householdAccountUUID: String?): RetroApiResponse<CardStatementsResponse>
-
+    suspend fun getHouseHoldAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
 }

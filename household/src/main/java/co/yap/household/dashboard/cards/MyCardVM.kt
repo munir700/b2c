@@ -148,7 +148,7 @@ class MyCardVM @Inject constructor(
         launch {
             publishState(State.loading(null))
             when (val response =
-                repository.getAccountTransactions(state.transactionRequest)) {
+                repository.getHouseHoldAccountTransactions(state.transactionRequest)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.transaction.isNotEmpty()) {
                         publishState(State.success(null))
