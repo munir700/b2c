@@ -3,7 +3,6 @@ package co.yap.billpayments.billdetail.billaccountdetail
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -14,12 +13,14 @@ import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
 import co.yap.billpayments.databinding.FragmentBillAccountDetailBinding
 import co.yap.billpayments.paybill.main.PayBillMainActivity
+import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
 import co.yap.widgets.pieview.*
-import co.yap.widgets.pieview.components.ToolTipView
+import co.yap.widgets.pieview.components.ToolTipView2
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchActivity
 import java.util.*
+
 
 class BillAccountDetailFragment :
     BillDetailBaseFragment<IBillAccountDetail.ViewModel>(),
@@ -33,16 +34,19 @@ class BillAccountDetailFragment :
         super.onCreate(savedInstanceState)
         setObservers()
         viewModel.getBillAccountHistory(viewModel.parentViewModel?.selectedBill?.uuid.toString())
+        viewModel.getBillAccountLineChartHistory(viewModel.parentViewModel?.selectedBill?.uuid.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initChart()
     }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, onViewClickObserver)
         viewModel.parentViewModel?.toolBarClickEvent?.observe(this, toolbarClickObserver)
+        viewModel.lineChartHistoryResponse.observe(this, Observer {
+            if (!it.isNullOrEmpty()) initChart(it)
+        })
     }
 
     private val onViewClickObserver = Observer<Int> {
@@ -90,10 +94,12 @@ class BillAccountDetailFragment :
         removeObservers()
     }
 
-    private fun initChart() {
+    private fun initChart(it: MutableList<BillLineChartHistory>) {
 
         // background color
         getViewBinding().billingHistoryChart.setBackgroundColor(Color.WHITE)
+        getViewBinding().billingHistoryChart.setOnChartValueSelectedListener(this)
+
 
         // disable description text
         getViewBinding().billingHistoryChart.description.isEnabled = false
@@ -106,27 +112,18 @@ class BillAccountDetailFragment :
         getViewBinding().billingHistoryChart.setDrawGridBackground(false)
 
         // create marker to display box when values are selected
-        val mv = ToolTipView(context, R.layout.item_bill_account_details_tooltip_view)
+        val mv = ToolTipView2(requireContext(), R.layout.item_bill_account_details_tooltip_view,it)
 
         // Set the marker to the chart
         mv.chartView = getViewBinding().billingHistoryChart
         getViewBinding().billingHistoryChart.marker = mv
 
         // enable scaling and dragging
-        getViewBinding().billingHistoryChart.isDragEnabled = true
-        getViewBinding().billingHistoryChart.setScaleEnabled(true)
+        getViewBinding().billingHistoryChart.isDragEnabled = false
+        getViewBinding().billingHistoryChart.setScaleEnabled(false)
 
         // force pinch zoom along both axis
         getViewBinding().billingHistoryChart.setPinchZoom(false)
-
-        var xAxis: XAxis
-        {   // // X-Axis Style // //
-            xAxis = getViewBinding().billingHistoryChart.xAxis
-
-            // vertical grid lines
-            xAxis.enableGridDashedLine(10f, 10f, 0f)
-            xAxis.setDrawGridLines(false)
-        }
 
         val yAxis: YAxis = getViewBinding().billingHistoryChart.axisLeft
 
@@ -136,61 +133,42 @@ class BillAccountDetailFragment :
         // horizontal grid lines
         yAxis.enableGridDashedLine(10f, 0f, 0f)
         yAxis.setDrawGridLines(true)
+        yAxis.setDrawLimitLinesBehindData(true)
+        yAxis.axisLineColor = Color.parseColor("#dae0f0")
         // axis range
-        yAxis.axisMaximum = 800f
+        yAxis.axisMaximum = it.maxWith(Comparator.comparingDouble { it.amount!! })?.amount?.toFloat()
+                ?: 0f
         yAxis.axisMinimum = 0f
-
-        val llXAxis = LimitLine(9f, "Index 10")
-        llXAxis.lineWidth = 4f
-        llXAxis.enableDashedLine(10f, 10f, 0f)
-        llXAxis.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
-        llXAxis.textSize = 10f
-        val ll1 = LimitLine(150f, "Upper Limit")
-        ll1.lineWidth = 4f
-        ll1.enableDashedLine(10f, 10f, 0f)
-        ll1.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
-        ll1.textSize = 10f
-        val ll2 = LimitLine(-30f, "Lower Limit")
-        ll2.lineWidth = 4f
-        ll2.enableDashedLine(10f, 10f, 0f)
-        ll2.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
-        ll2.textSize = 10f
-
-        // draw limit lines behind data instead of on top
-//            yAxis.setDrawLimitLinesBehindData(true);
-//            xAxis.setDrawLimitLinesBehindData(true);
-
-        // add limit lines
-//            yAxis.addLimitLine(ll1);
-//            yAxis.addLimitLine(ll2);
-        //xAxis.addLimitLine(llXAxis);
+        yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+        yAxis.textColor = Color.parseColor("#9391B1")
+        yAxis.setLabelCount(it.size, true)
 
         // add data
-        setData(getViewBinding().billingHistoryChart, 10, 800f)
+        setData(getViewBinding().billingHistoryChart, it)
 
         // draw points over time
-
-        // draw points over time
-        getViewBinding().billingHistoryChart.animateX(1500)
-
-        // get the legend (only possible after setting data)
+        getViewBinding().billingHistoryChart.animateX(500)
 
         // get the legend (only possible after setting data)
         val l: Legend = getViewBinding().billingHistoryChart.legend
+        l.isWordWrapEnabled = true
 
         // draw legend entries as lines
         l.form = Legend.LegendForm.LINE
     }
 
-    private fun setData(chart: LineChart, count: Int, range: Float) {
+    private fun setData(chart: LineChart, it: MutableList<BillLineChartHistory>) {
         val values = ArrayList<Entry>()
-        for (i in 0 until count) {
-            val `val` = (Math.random() * range).toFloat() - 30
-            values.add(Entry(i.toFloat(), `val`, null))
+        for (i in 0 until it.size) {
+            values.add(Entry(i.toFloat(), it[i].amount?.toFloat() ?: 0.toFloat(), null))
         }
+        chart.setDrawGridBackground(false)
+        chart.xAxis.setDrawGridLines(false)
+        chart.xAxis.setDrawAxisLine(false)
+        chart.axisRight.setDrawGridLines(false)
         val set1: LineDataSet
         if (chart.data != null &&
-            chart.data.dataSetCount > 0
+                chart.data.dataSetCount > 0
         ) {
             set1 = chart.data.getDataSetByIndex(0) as LineDataSet
             set1.values = values
@@ -199,40 +177,36 @@ class BillAccountDetailFragment :
             chart.notifyDataSetChanged()
         } else {
             // create a dataset and give it a type
-            set1 = LineDataSet(values, "DataSet 1")
+            set1 = LineDataSet(values, "") //Dont assign value to label. This will add Label ate the bottom of chart.
             set1.setDrawIcons(false)
-
-            // draw dashed line
-//            set1.enableDashedLine(10f, 0f, 0f);
+            val valueFormatter = object : ValueFormatter() {
+                override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+                    return it[(value % it.size).toInt()].month.toString()
+                }
+            }
+            set1.setDrawHighlightIndicators(false)
+            val xAxis: XAxis = chart.xAxis
+            xAxis.granularity = 1f // minimum axis-step (interval) is 1
+            xAxis.valueFormatter = valueFormatter
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.textColor = Color.parseColor("#9391B1")
+            xAxis.textSize = 20f
+            xAxis.setAvoidFirstLastClipping(true)
 
             // black lines and points
-            set1.color = Color.parseColor("#5E35B1")
-            set1.setCircleColor(Color.parseColor("#5E35B1"))
+            set1.color = Color.parseColor("#7c4dff")
+            set1.setCircleColor(Color.parseColor("#7c4dff"))
             set1.circleHoleColor = Color.parseColor("#FFFFFF")
 
-            // line thickness and point size
-            set1.lineWidth = 2f
+            set1.lineWidth = 4f
             set1.circleRadius = 5f
             set1.circleHoleRadius = 3f
-
-            // draw points as solid circles
             set1.setDrawCircleHole(true)
-
-            // customize legend entry
-            set1.formLineWidth = 1f
-            set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
-            set1.formSize = 15f
-
-            // text size of values
-            set1.valueTextSize = 9f
-
-            // draw selection line as dashed
-            set1.enableDashedHighlightLine(10f, 5f, 0f)
 
             // set the filled area
             set1.setDrawFilled(true)
-            set1.fillFormatter =
-                IFillFormatter { dataSet, dataProvider -> chart.getAxisLeft().getAxisMinimum() }
+            // set draw values on circle
+            set1.setDrawValues(false)
 
             // set color of filled area
             if (Utils.getSDKInt() >= 18) {
@@ -253,6 +227,7 @@ class BillAccountDetailFragment :
 
             // set data
             chart.data = data
+            chart.invalidate()
         }
     }
 
@@ -260,7 +235,15 @@ class BillAccountDetailFragment :
         return viewDataBinding as FragmentBillAccountDetailBinding
     }
 
-    override fun onValueSelected(e: Entry?, h: Highlight?) {}
+    override fun onValueSelected(e: Entry?, h: Highlight?) {
+         e?.x?.let {
 
-    override fun onNothingSelected() {}
+             getViewBinding().billingHistoryChart.xAxis?.textColor = Color.parseColor("#7c4dff")
+//             getViewBinding().billingHistoryChart.xAxis?.valueFormatter?.getAxisLabel()
+         }
+    }
+
+    override fun onNothingSelected() {
+
+    }
 }

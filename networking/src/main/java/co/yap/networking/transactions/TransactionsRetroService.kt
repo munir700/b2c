@@ -1,12 +1,13 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
-import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
@@ -17,8 +18,6 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
-import co.yap.networking.transactions.responsedtos.transaction.*
-import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -277,5 +276,9 @@ interface TransactionsRetroService {
             @Path("month") month: String?,
             @Path("categoryId") categoryId: String?
     ): Response<BPAnalyticsDetailsDTO>
+
+    //Get analytics for bill payments line chart
+    @GET(TransactionsRepository.URL_CUSTOMER_BILL_HISTORY_LINE_CHART)
+    suspend fun getBPLineChartHistory(@Path("customerBillUuid") customerBillUuid: String): Response<BaseListResponse<BillLineChartHistory>>
 
 }
