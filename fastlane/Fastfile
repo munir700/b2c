@@ -55,7 +55,7 @@ platform :android do
 end
 
 def get_scheme (branch)
-    if branch == "qa_release" || branch == "Sprint/SPRINT-YAP-RAK-8-A-bill-payments"
+    if branch == "qa_release" || branch == "bugfix/YM-14234-android-prepaid-card-debit-credit"
       return "Qa"
     elsif branch == "stage_merge_release"
       return "Stg"

@@ -39,4 +39,4 @@ workflows:
           filters:
             branches:
               only:
-                - Sprint/SPRINT-YAP-RAK-8-A-bill-payments
+                - bugfix/YM-14234-android-prepaid-card-debit-credit
