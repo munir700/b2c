@@ -12,6 +12,7 @@ class YapCardsState : BaseState(), IYapCards.State {
 
     override var enableAddCard: ObservableBoolean =
         ObservableBoolean(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
+    override var showIndicator: ObservableBoolean = ObservableBoolean(false)
 
     @get:Bindable
     override var noOfCard: String = ""
