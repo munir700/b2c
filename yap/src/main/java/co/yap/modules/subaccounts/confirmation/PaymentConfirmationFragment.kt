@@ -26,6 +26,10 @@ class PaymentConfirmationFragment :
             R.id.btnGoToDashboard -> navigateForwardWithAnimation(
                 PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToHHSalaryProfileFragment()
             )
+            R.id.btnSetUpNow -> navigateForwardWithAnimation(
+                PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToRecurringPaymentFragment(),
+                arguments
+            )
             R.id.includeImageView -> navigateForwardWithAnimation(
                 PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToHHProfileFragment(),
                 arguments

@@ -68,6 +68,9 @@
             app:destination="@id/HHSalaryProfileFragment"
             app:popUpTo="@+id/HHSalaryProfileFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_paymentConfirmationFragment_to_recurringPaymentFragment"
+            app:destination="@id/recurringPaymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/payHHEmployeeSalaryFragment"
