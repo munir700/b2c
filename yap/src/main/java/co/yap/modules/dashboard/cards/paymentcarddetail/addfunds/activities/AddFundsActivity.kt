@@ -354,6 +354,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             getBinding().etAmount.visibility = View.GONE
             getBinding().btnAction.text =
                 getString(Strings.screen_success_funds_transaction_display_text_button)
+            getBinding().clBottomNew.visibility = View.VISIBLE
             //commented by breera: need to show the toolbar now according to new requirement
             /*YoYo.with(Techniques.FadeOut)
                 .duration(300)
@@ -362,7 +363,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             getBinding().clBottom.children.forEach { it.alpha = 0f }
             getBinding().btnAction.alpha = 0f
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }
-            Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 1500)
+            Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 2000)
             runCardAnimation()
         }
     }
