@@ -10,7 +10,7 @@
             type="co.yap.billpayments.billdetail.editbill.EditBillViewModel" />
 
         <import type="co.yap.translation.Strings" />
-
+        <import type="android.view.View" />
         <import type="co.yap.translation.Translator" />
     </data>
 
@@ -126,6 +126,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:orientation="horizontal"
                 app:constraint_referenced_ids="tvAutoPayment,swAutoPayment"
+                android:visibility="@{viewModel.parentViewModel.isPrepaid() == true ? View.GONE : View.VISIBLE}"
                 app:flow_horizontalStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvRecyler" />
@@ -153,6 +154,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fAutoPayment"
                 app:viewModel="@{viewModel}" />
@@ -163,6 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:orientation="horizontal"
+                android:visibility="@{viewModel.parentViewModel.isPrepaid() == true ? View.VISIBLE : View.GONE}"
                 app:constraint_referenced_ids="tvBillReminder,swBillReminder"
                 app:flow_horizontalStyle="spread_inside"
                 app:layout_constraintTop_toBottomOf="@+id/iAutoPayment" />

@@ -10,4 +10,7 @@ class BillDetailViewModel(application: Application) :
     override var selectedBill: ViewBillModel? = null
     override var selectedBillPosition: Int? = 0
     override val state: IBillDetail.State = BillDetailState()
+    override fun isPrepaid(): Boolean? {
+        return selectedBill?.billerInfo?.skuInfos?.first()?.isPrepaid
+    }
 }
