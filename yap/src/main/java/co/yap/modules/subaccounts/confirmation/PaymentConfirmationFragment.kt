@@ -24,7 +24,8 @@ class PaymentConfirmationFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnGoToDashboard -> navigateForwardWithAnimation(
-                PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToHHSalaryProfileFragment()
+                PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToHHSalaryProfileFragment(),
+                arguments
             )
             R.id.btnSetUpNow -> navigateForwardWithAnimation(
                 PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToRecurringPaymentFragment(),
