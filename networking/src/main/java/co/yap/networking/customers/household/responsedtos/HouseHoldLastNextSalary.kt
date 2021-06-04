@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 data class HouseHoldLastNextSalary(
     @SerializedName("category")
     var category: String? = null,
-    @SerializedName("transferDate")
+    @SerializedName("creationDate")
     var transferDate: String? = null,
     @SerializedName("currency")
     var currency: String? = null,

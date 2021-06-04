@@ -119,7 +119,8 @@
                     android:layout_marginTop="200dp"
                     android:background="@color/greySoft"
                     android:orientation="vertical"
-                    android:padding="@dimen/margin_medium">
+                    android:padding="@dimen/margin_medium"
+                    android:visibility="@{hhSalaryProfileVM.state.lastSalaryTransfer!=null || hhSalaryProfileVM.state.nextSalaryTransfer!=null || hhSalaryProfileVM.state.expense!=null?View.VISIBLE:View.GONE}">
 
                     <include
                         android:id="@+id/tv_last_salary"
