@@ -25,6 +25,10 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
     override val salarySetupAdapter: ObservableField<SalarySetupAdapter>? = ObservableField()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+    }
+
+    override fun onResume() {
+        super.onResume()
         getLastNextTransaction(state.subAccount.value?.accountUuid)
         getAllHHProfileTransactions(state.subAccount.value?.accountUuid)
     }
