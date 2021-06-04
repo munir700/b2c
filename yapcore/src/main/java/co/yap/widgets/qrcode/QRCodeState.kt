@@ -24,12 +24,7 @@ class QRCodeState : BaseState(), IQRCode.State {
             notifyPropertyChanged(BR.imageUri)
         }
 
-    @get:Bindable
-    override var profilePictureUrl: String? = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.profilePictureUrl)
-        }
+    override var profilePictureUrl: ObservableField<String> = ObservableField()
 
     @get:Bindable
     override var qrBitmap: Drawable? = null
