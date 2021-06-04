@@ -77,7 +77,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 viewModel.adapter.setList(it)
-                updateCardCount()
             }
         })
         SessionManager.card.observe(viewLifecycleOwner, Observer {
@@ -329,7 +328,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         true == addRemoveFunds -> {
-                            viewModel.state.showIndicator.set(false)
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
                         }
@@ -414,6 +412,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
+        viewModel.state.showIndicator.set(false)
         startActivityForResult(
             PaymentCardDetailActivity.newIntent(
                 requireContext(),

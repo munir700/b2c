@@ -60,6 +60,7 @@ class YapCardsViewModel(application: Application) :
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())*/
                             cards.value = cardsList
+                            state.showIndicator.set(true)
                             parentViewModel?.cardList?.value = cardsList
                             if (context.isSamsungPayFeatureEnabled())
                                 checkCardAddedOnSamSungWallet(cards.value)
