@@ -18,7 +18,6 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -110,13 +109,7 @@ class QRCodeFragment(
     }
 
     private fun updateUI() {
-        ImageBinding.loadAvatar(
-            ivProfilePic,
-            viewModel.state.profilePictureUrl,
-            viewModel.state.fullName,
-            android.R.color.transparent,
-            R.dimen.text_size_h2
-        )
+        viewModel.populateState()
         SessionManager.user?.let { accountInfo ->
             viewModel.state.qrBitmap =
                 context?.generateQrCode(accountInfo.encryptedAccountUUID?.generateQRCode() ?: "")
