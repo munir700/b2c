@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.transaction.category
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -10,6 +12,7 @@ import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.ezaka.customer.app.utils.getActivityFromContext
 
 class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.ViewModel>(),
     ITransactionCategory.View {
@@ -47,7 +50,12 @@ class TransactionCategoryFragment : BaseBindingFragment<ITransactionCategory.Vie
     val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnConfirm -> {
-                viewModel.updateCategory()
+                viewModel.updateCategory{
+                    val intent = Intent()
+                    intent.putExtra(Constants.UPDATED_CATEGORY, viewModel.selectedCategory.get())
+                    requireActivity().setResult(Activity.RESULT_OK, intent)
+                    requireActivity().finish()
+                }
             }
         }
     }
