@@ -70,7 +70,7 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
             adapter = mWrappedAdapter
             viewModel.cardAdapter?.set(mAdapter)
             mAdapter.setData(viewModel.state.cardMap)
-            //setHasFixedSize(true)
+            setHasFixedSize(true)
         }
         mAdapter.onItemClick =
             { view: View, pos: Int, childPosition: Int, data: Card? ->
@@ -141,17 +141,7 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                RequestCodes.REQUEST_PAYMENT_CARD_DETAIL -> {
-                    val returnIntent = Intent()
-                    requireActivity().setResult(Activity.RESULT_OK, returnIntent)
-                    requireActivity().onBackPressed()
-                }
-                Constants.EVENT_CREATE_CARD_PIN -> {
-                    val returnIntent = Intent()
-                    requireActivity().setResult(Activity.RESULT_OK, returnIntent)
-                    requireActivity().onBackPressed()
-                }
-                RequestCodes.REQUEST_CARD_ADDED -> {
+                RequestCodes.REQUEST_PAYMENT_CARD_DETAIL, Constants.EVENT_CREATE_CARD_PIN, RequestCodes.REQUEST_CARD_ADDED -> {
                     val returnIntent = Intent()
                     requireActivity().setResult(Activity.RESULT_OK, returnIntent)
                     requireActivity().onBackPressed()
