@@ -11,7 +11,9 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface ICardsList {
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel>{
+        val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
+    }
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         val cardAdapter: ObservableField<CardListAdapter>?
