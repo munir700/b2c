@@ -72,7 +72,9 @@
             app:layout_constraintHorizontal_bias="0.71"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
-            tools:src="@drawable/ic_status_expired" />
+            tools:src="@drawable/ic_status_expired"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
+            />
 
         <TextView
             android:id="@+id/tvCardName"

@@ -536,6 +536,14 @@ object Strings {
         "screen_cards_display_text_tour_add_card_btn_text"
     const val screen_cards_display_text_card_balance: String =
         "screen_cards_display_text_card_balance"
+    const val screen_cards_display_text_bottom_sheet_card_number: String =
+        "screen_cards_display_text_bottom_sheet_card_number"
+    const val screen_cards_display_text_bottom_sheet_expiry_date: String =
+        "screen_cards_display_text_bottom_sheet_expiry_date"
+    const val screen_cards_display_text_bottom_sheet_cvv: String =
+        "screen_cards_display_text_bottom_sheet_cvv"
+    const val screen_cards_display_text_bottom_sheet_heading: String =
+        "screen_cards_display_text_bottom_sheet_heading"
 
     //Change Card Name Screen
     const val screen_card_name_title_change_card_name: String =

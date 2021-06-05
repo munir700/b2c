@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.widgets.bottomsheet.CoreBottomSheetItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_extra_large">
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:background="@color/colorDarkGreyGradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardNumber"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:text="@{Strings.screen_cards_display_text_bottom_sheet_card_number}"
+            tools:text="@string/screen_cards_display_text_bottom_sheet_card_number" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardNumberValue"
+            style="@style/DarkGreyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:text="@{viewModel.itemBottomSheet.subTitle}"
+            app:layout_constraintStart_toStartOf="@id/tvCardNumber"
+            app:layout_constraintTop_toBottomOf="@id/tvCardNumber"
+            tools:text="5381 2301 0000 7021" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCopyCard"
+            style="@style/purpleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:background="@drawable/bg_card_plan_purple"
+            android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
+            android:paddingBottom="@dimen/_2sdp"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvCardNumberValue"
+            app:text="@{Strings.common_display_text_copy}"
+            tools:text="Copy" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardValidity"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintStart_toStartOf="@id/tvCardNumber"
+            app:layout_constraintTop_toBottomOf="@id/tvCardNumberValue"
+            app:text="@{Strings.screen_cards_display_text_bottom_sheet_expiry_date}"
+            tools:text="@string/screen_cards_display_text_bottom_sheet_expiry_date" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardValidityValue"
+            style="@style/DarkGreyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:text="@{viewModel.itemBottomSheet.content}"
+            app:layout_constraintStart_toStartOf="@id/tvCardNumber"
+            app:layout_constraintTop_toBottomOf="@id/tvCardValidity"
+            tools:text="06/2020" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCvv"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintEnd_toEndOf="@id/tvCopyCard"
+            app:layout_constraintTop_toBottomOf="@+id/tvCopyCard"
+            app:text="@{Strings.screen_cards_display_text_bottom_sheet_cvv}"
+            tools:text="@string/screen_cards_display_text_bottom_sheet_cvv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCvvValue"
+            style="@style/DarkGreyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:text="@{viewModel.itemBottomSheet.subContent}"
+            app:layout_constraintEnd_toEndOf="@id/tvCopyCard"
+            app:layout_constraintTop_toBottomOf="@id/tvCvv"
+            tools:text="123" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

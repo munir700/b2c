@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.home.interfaces
 
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardDetail
@@ -9,10 +10,7 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IYapCards {
 
-    interface View : IBase.View<ViewModel>{
-        val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
-    }
-
+    interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         val cards: MutableLiveData<ArrayList<Card>>
@@ -25,10 +23,11 @@ interface IYapCards {
             cardSerialNumber: String,
             success: (String?, co.yap.widgets.State) -> Unit
         )
-
         fun getCardDetails(cardSerialNumber: String, success: (CardDetail?) -> Unit)
         fun openFavoriteCard(cardId: String?, success: (co.yap.widgets.State) -> Unit)
         fun removeCard(card: Card?)
+        fun getCardDetail(cardSerialNumber: String, successCallback: () -> Unit)
+        var cardDetail: ObservableField<CardDetail>
     }
 
     interface State : IBase.State {
