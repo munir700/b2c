@@ -37,10 +37,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CARD_ADDED
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.*
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.launchTourGuide
-import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
@@ -49,7 +46,6 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
 
     //    private val EVENT_CARD_ADDED: Int get() = 12
     //lateinit var adapter: YapCardsAdaptor
@@ -77,7 +73,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 viewModel.adapter.setList(it)
-                updateCardCount()
             }
         })
         SessionManager.card.observe(viewLifecycleOwner, Observer {
@@ -298,17 +293,24 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openCardsList() {
-        startFragment(
-            CardsListFragment::class.java.name, bundle = bundleOf(
-                "cardslist" to viewModel.cards.value
-            )
-        )
+        viewModel.cards.observe(viewLifecycleOwner, Observer {cards ->
+            startFragmentForResult<CardsListFragment>(
+                CardsListFragment::class.java.name, bundle = bundleOf(
+                    "cardslist" to cards
+                )
+            ){resultCode, data ->
+                if (resultCode == Activity.RESULT_OK){
+                    viewModel.adapter.removeAllItems()
+                    viewModel.getCards()
+                }
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            EVENT_PAYMENT_CARD_DETAIL -> {
+            RequestCodes.REQUEST_PAYMENT_CARD_DETAIL -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard = data?.getParcelableExtra<Card>("card")
                     val removed = data?.getBooleanExtra("cardRemoved", false)
@@ -329,7 +331,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         true == addRemoveFunds -> {
-                            viewModel.state.showIndicator.set(false)
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
                         }
@@ -414,11 +415,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
+        viewModel.state.showIndicator.set(false)
         startActivityForResult(
             PaymentCardDetailActivity.newIntent(
                 requireContext(),
                 paymentCard
-            ), EVENT_PAYMENT_CARD_DETAIL
+            ), RequestCodes.REQUEST_PAYMENT_CARD_DETAIL
         )
     }
 

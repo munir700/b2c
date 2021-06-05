@@ -33,7 +33,6 @@
             app:rightIconVisibility="@{viewModel.state.enableAddCard}"
             app:titleString='@{"Your cards"}' />
 
-
         <TextView
             android:id="@+id/tvCardQty"
             style="@style/Large"
