@@ -25,9 +25,12 @@ import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActiv
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.wallet.samsung.SamsungPayWalletManager
 import co.yap.wallet.samsung.isSamsungPayFeatureEnabled
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -247,8 +250,36 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             }
                     }
                 }
+                R.id.imgStatus -> {
+                    openBottomSheetCardQuickView(pos)
+                }
             }
         }
+    }
+
+    private fun openBottomSheetCardQuickView(pos: Int) {
+        launchBottomSheetSegment(
+            viewModel.cardItemClickListener,
+            configuration = BottomSheetConfiguration(
+                heading = Translator.getString(
+                    requireContext(),
+                    Strings.screen_cards_display_text_bottom_sheet_heading,
+                    viewModel.adapter.getDataForPosition(pos).cardName.toString()
+                )
+            ),
+            viewType = Constants.VIEW_CARD_DETAIL_ITEM,
+            listData = getCardsData(pos)
+        )
+
+    }
+
+    private fun getCardsData(pos: Int): MutableList<CoreBottomSheetData> {
+        val list: MutableList<CoreBottomSheetData> = mutableListOf()
+        list.add(0, CoreBottomSheetData(subTitle =viewModel.adapter.getDataForPosition(pos).maskedCardNo,
+            content = viewModel.adapter.getDataForPosition(pos).expiryDate,
+            subContent = viewModel.adapter.getDataForPosition(pos).maskedCardNo
+        ))
+        return list
     }
 
     private fun addCardToSamSungPay(card: Card) {

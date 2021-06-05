@@ -339,6 +339,10 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_cards_display_text_tour_add_card_description">Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!</string>
     <string name="screen_cards_display_text_tour_add_card_btn_text">OK</string>
     <string name="screen_cards_display_text_card_balance">Card balance</string>
+    <string name="screen_cards_display_text_bottom_sheet_card_number">Card number</string>
+    <string name="screen_cards_display_text_bottom_sheet_expiry_date">Expiry date</string>
+    <string name="screen_cards_display_text_bottom_sheet_cvv">CVV</string>
+    <string name="screen_cards_display_text_bottom_sheet_heading">%1s details</string>
 
     <!-- Spare Card Landing Screen -->
 
