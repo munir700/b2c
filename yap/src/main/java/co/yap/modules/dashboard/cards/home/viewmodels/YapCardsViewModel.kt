@@ -2,8 +2,7 @@ package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.app.Application
 import android.content.Context
-import android.view.View
-import android.widget.Toast
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
@@ -27,9 +26,6 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.samsung.android.sdk.samsungpay.v2.card.CardManager
@@ -48,6 +44,7 @@ class YapCardsViewModel(application: Application) :
 
     fun setupAdaptor(context: Context) {
         adapter = YapCardsAdaptor(context, mutableListOf())
+
     }
 
     override fun getCards() {
@@ -307,6 +304,7 @@ class YapCardsViewModel(application: Application) :
             }
     }
 
+
     override fun openFavoriteCard(cardId: String?, success: (State) -> Unit) {
         state.loading = true
         SamsungPayWalletManager.getInstance(context).openFavoriteCard(cardId) {
@@ -319,7 +317,6 @@ class YapCardsViewModel(application: Application) :
         }
     }
 
-
     override fun removeCard(card: Card?) {
         val cardExist = cards.value?.find { cardRemoved ->
             cardRemoved.cardSerialNumber == card?.cardSerialNumber
@@ -331,15 +328,66 @@ class YapCardsViewModel(application: Application) :
             updateCardCount(adapter.itemCount - if (state.enableAddCard.get()) 1 else 0)
         }
     }
-    val cardItemClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            var subTitle :String? = ""
-            when(data){
-                is CoreBottomSheetData->
-                    subTitle = data.subTitle
+
+
+    fun getCardsData(pos: Int): MutableList<CoreBottomSheetData> {
+        val list: MutableList<CoreBottomSheetData> = mutableListOf()
+        list.add(
+            0, CoreBottomSheetData(
+                subTitle = adapter.getDataForPosition(pos).maskedCardNo,
+                content = adapter.getDataForPosition(pos).expiryDate,
+                subContent = adapter.getDataForPosition(pos).maskedCardNo
+            )
+        )
+        return list
+    }
+    val list: MutableList<CoreBottomSheetData> = mutableListOf()
+
+    override var cardDetail: ObservableField<CardDetail> = ObservableField()
+
+    override fun getCardDetail(cardSerialNumber: String, successCallback: () -> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.getCardDetails(cardSerialNumber)) {
+                is RetroApiResponse.Success -> {
+                    cardDetail.set(response.data.data)
+                    loadBottomSheetData(cardDetail.get())
+                    successCallback()
+                    //clickEvent.setValue(EVENT_CARD_DETAILS)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
             }
-            Utils.copyToClipboard(view.context,  subTitle ?: "")
-            view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
+            state.loading = false
+        }
+    }
+
+    private fun loadBottomSheetData(cardDetails: CardDetail?) {
+        list.clear()
+        var cardNumber: String? = ""
+        cardDetails?.let { card ->
+            card.cardNumber?.let {
+                if (cardDetails.cardNumber?.trim()?.contains(" ")!!) {
+                    cardNumber = cardDetails.cardNumber
+                } else {
+                    if (cardDetails.cardNumber?.length == 16) {
+                        val formattedCardNumber: StringBuilder =
+                            StringBuilder(cardDetails.cardNumber ?: "")
+                        formattedCardNumber.insert(4, " ")
+                        formattedCardNumber.insert(9, " ")
+                        formattedCardNumber.insert(14, " ")
+                        cardNumber = formattedCardNumber.toString()
+                    }
+                }
+            }
+            list.add(
+                CoreBottomSheetData(
+                    subTitle = cardNumber,
+                    content = cardDetails.expiryDate,
+                    subContent = cardDetails.cvv
+                )
+            )
         }
     }
 }

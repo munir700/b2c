@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -39,6 +40,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CARD_ADDED
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -49,9 +52,6 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-
-    //    private val EVENT_CARD_ADDED: Int get() = 12
-    //lateinit var adapter: YapCardsAdaptor
     private var tourStep: TourSetup? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -65,6 +65,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         super.onCreate(savedInstanceState)
         viewModel.setupAdaptor(requireContext())
         viewModel.clickEvent.observe(this, observer)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -251,35 +252,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
                 R.id.imgStatus -> {
-                    openBottomSheetCardQuickView(pos)
+                    if (card.status == CardStatus.ACTIVE.name) openCardDetailBottomSheet(card)
                 }
             }
         }
-    }
-
-    private fun openBottomSheetCardQuickView(pos: Int) {
-        launchBottomSheetSegment(
-            viewModel.cardItemClickListener,
-            configuration = BottomSheetConfiguration(
-                heading = Translator.getString(
-                    requireContext(),
-                    Strings.screen_cards_display_text_bottom_sheet_heading,
-                    viewModel.adapter.getDataForPosition(pos).cardName.toString()
-                )
-            ),
-            viewType = Constants.VIEW_CARD_DETAIL_ITEM,
-            listData = getCardsData(pos)
-        )
-
-    }
-
-    private fun getCardsData(pos: Int): MutableList<CoreBottomSheetData> {
-        val list: MutableList<CoreBottomSheetData> = mutableListOf()
-        list.add(0, CoreBottomSheetData(subTitle =viewModel.adapter.getDataForPosition(pos).maskedCardNo,
-            content = viewModel.adapter.getDataForPosition(pos).expiryDate,
-            subContent = viewModel.adapter.getDataForPosition(pos).maskedCardNo
-        ))
-        return list
     }
 
     private fun addCardToSamSungPay(card: Card) {
@@ -324,13 +300,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openCardsList() {
-        viewModel.cards.observe(viewLifecycleOwner, Observer {cards ->
+        viewModel.cards.observe(viewLifecycleOwner, Observer { cards ->
             startFragmentForResult<CardsListFragment>(
                 CardsListFragment::class.java.name, bundle = bundleOf(
                     "cardslist" to cards
                 )
-            ){resultCode, data ->
-                if (resultCode == Activity.RESULT_OK){
+            ) { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
                     viewModel.adapter.removeAllItems()
                     viewModel.getCards()
                 }
@@ -549,4 +525,38 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         super.onDestroyView()
         viewModel.parentViewModel?.isYapCardsFragmentVisible?.removeObservers(this)
     }
+
+    private fun openCardDetailBottomSheet(card: Card) {
+        trackEventWithScreenName(if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == card.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
+
+        viewModel.getCardDetail(card.cardSerialNumber) {
+            launchBottomSheetSegment(
+                cardBottomSheetItemClickListener,
+                configuration = BottomSheetConfiguration(
+                    heading = Translator.getString(
+                        requireContext(),
+                        Strings.screen_cards_display_text_bottom_sheet_heading,
+                        card.cardName.toString()
+                    )
+                ),
+                viewType = Constants.VIEW_CARD_DETAIL_ITEM,
+                listData = viewModel.list
+            )
+        }
+    }
+
+    private val cardBottomSheetItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is CoreBottomSheetData) {
+                when (view.id) {
+                    R.id.tvCopyCard -> {
+                        Utils.copyToClipboard(view.context, data.subTitle ?: "")
+                        view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
+                    }
+                }
+            }
+
+        }
+    }
+
 }
