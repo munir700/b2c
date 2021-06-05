@@ -41,7 +41,6 @@ interface IYapDashboard {
         var isShowHomeTour: MutableLiveData<Boolean>
         var isKycCompelted: MutableLiveData<Boolean>
         fun populateState()
-        var cardList: MutableLiveData<ArrayList<Card>>
     }
 
     interface View : IBase.View<ViewModel> {

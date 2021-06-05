@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.cardlist
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -21,10 +23,15 @@ import co.yap.yapcore.enums.CardType
 
 class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICardsList.View {
 
-    private lateinit var mAdapter: CardListAdapter
-    private lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
-    private lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
-    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
+    private val mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager by lazy {
+        RecyclerViewExpandableItemManager(null)
+    }
+    private val mWrappedAdapter: RecyclerView.Adapter<*> by lazy {
+        mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
+    }
+    private val mAdapter: CardListAdapter by lazy {
+        CardListAdapter(mutableMapOf(), mRecyclerViewExpandableItemManager)
+    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -33,14 +40,19 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
     override val viewModel: CardsListViewModel
         get() = ViewModelProviders.of(this).get(CardsListViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initArguments()
+        intRecyclersView()
     }
 
     private fun initArguments() {
+        viewModel.state.cardMap.clear()
         arguments?.let { bundle ->
-            bundle.getParcelableArrayList<Card>("cardslist")?.apply {
+            val list = bundle.getParcelableArrayList<Card>("cardslist")
+            list?.removeAt(list.size - 1)
+            list?.apply {
                 viewModel.state.cardMap = sortedBy { card ->
                     card.cardType
                 }.distinct().groupBy { card ->
@@ -50,15 +62,7 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        intRecyclersView()
-    }
-
     private fun intRecyclersView() {
-        mRecyclerViewExpandableItemManager = RecyclerViewExpandableItemManager(null)
-        mAdapter = CardListAdapter(mutableMapOf(), mRecyclerViewExpandableItemManager)
-        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
         getDataBindingView<FragmentCardsListBinding>().recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
@@ -66,65 +70,43 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
             adapter = mWrappedAdapter
             viewModel.cardAdapter?.set(mAdapter)
             mAdapter.setData(viewModel.state.cardMap)
-            setHasFixedSize(true)
+            //setHasFixedSize(true)
         }
         mAdapter.onItemClick =
             { view: View, pos: Int, childPosition: Int, data: Card? ->
                 data?.let { card ->
-                   /* if (card.cardName == Constants.addCard) {
-                        openAddCard()
-                    } else
-                        when (card.status) {
-                            CardStatus.ACTIVE.name -> {
-                                if (card.cardType == CardType.DEBIT.type) {
-                                    if (card.pinCreated) openDetailScreen(
-                                        pos,
-                                        card
-                                    ) else openStatusScreen(
-                                        view,
-                                        data
-                                    )
-                                } else
-                                    openDetailScreen(pos, card)
-                            }
-                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(
-                                pos, card
-                            )
-                            CardStatus.INACTIVE.name -> {
-                                card.deliveryStatus?.let {
-                                    openStatusScreen(view, data)
-                                } ?: openDetailScreen(pos, card)
-                            }
-                        }*/
+                    when (card.status) {
+                        CardStatus.ACTIVE.name -> {
+                            if (card.cardType == CardType.DEBIT.type) {
+                                if (card.pinCreated) gotoPaymentCardDetailScreen(card)
+                                else openStatusScreen(card)
+                            } else
+                                gotoPaymentCardDetailScreen(card)
+                        }
+                        CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> gotoPaymentCardDetailScreen(
+                            card
+                        )
+                        CardStatus.INACTIVE.name -> {
+                            card.deliveryStatus?.let {
+                                openStatusScreen(card)
+                            } ?: gotoPaymentCardDetailScreen(card)
+                        }
+                    }
+
                 }
             }
     }
 
-    private fun openAddCard() {
-        startActivityForResult(
-            AddPaymentCardActivity.newIntent(requireContext()),
-            RequestCodes.REQUEST_CARD_ADDED
-        )
-    }
-
-    private fun openDetailScreen(pos: Int = 0, card: Card) {
-        card?.let {
-            gotoPaymentCardDetailScreen(it)
-        }
-    }
-
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
-        activity?.onBackPressed()
         startActivityForResult(
             PaymentCardDetailActivity.newIntent(
                 requireContext(),
                 paymentCard
-            ), EVENT_PAYMENT_CARD_DETAIL
+            ), RequestCodes.REQUEST_PAYMENT_CARD_DETAIL
         )
     }
 
-    private fun openStatusScreen(view: View, card: Card) {
-        activity?.onBackPressed()
+    private fun openStatusScreen(card: Card) {
         context?.let { context ->
             startActivityForResult(
                 FragmentPresenterActivity.getIntent(
@@ -136,6 +118,13 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
         }
     }
 
+    private fun openAddCard() {
+        startActivityForResult(
+            AddPaymentCardActivity.newIntent(requireContext()),
+            RequestCodes.REQUEST_CARD_ADDED
+        )
+    }
+
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
         when (id) {
@@ -143,8 +132,32 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
                 activity?.onBackPressed()
             }
             R.id.ivRightIcon -> {
-
+                openAddCard()
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_PAYMENT_CARD_DETAIL -> {
+                    val returnIntent = Intent()
+                    requireActivity().setResult(Activity.RESULT_OK, returnIntent)
+                    requireActivity().onBackPressed()
+                }
+                Constants.EVENT_CREATE_CARD_PIN -> {
+                    val returnIntent = Intent()
+                    requireActivity().setResult(Activity.RESULT_OK, returnIntent)
+                    requireActivity().onBackPressed()
+                }
+                RequestCodes.REQUEST_CARD_ADDED -> {
+                    val returnIntent = Intent()
+                    requireActivity().setResult(Activity.RESULT_OK, returnIntent)
+                    requireActivity().onBackPressed()
+                }
+            }
+
         }
     }
 

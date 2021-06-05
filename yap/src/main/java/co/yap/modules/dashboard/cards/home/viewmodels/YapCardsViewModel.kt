@@ -56,12 +56,11 @@ class YapCardsViewModel(application: Application) :
                             cardsList?.remove(primaryCard)
                             primaryCard?.let {
                                 cardsList?.add(0, primaryCard)
-                            }/*
+                            }
                             if (state.enableAddCard.get())
-                                cardsList?.add(getAddCard())*/
+                                cardsList?.add(getAddCard())
                             cards.value = cardsList
                             state.showIndicator.set(true)
-                            parentViewModel?.cardList?.value = cardsList
                             if (context.isSamsungPayFeatureEnabled())
                                 checkCardAddedOnSamSungWallet(cards.value)
                         }
