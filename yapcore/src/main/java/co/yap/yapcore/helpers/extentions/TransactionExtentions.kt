@@ -457,7 +457,7 @@ private fun setInitialsAsTxnImage(transaction: Transaction, imageView: CoreCircu
     ImageBinding.loadAvatar(
         imageView,
         "",
-        transaction.title,
+        transaction.merchantName?:transaction.title,
         android.R.color.transparent,
         R.dimen.text_size_h2
     )

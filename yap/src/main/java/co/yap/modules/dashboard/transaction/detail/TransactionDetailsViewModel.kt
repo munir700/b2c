@@ -74,7 +74,9 @@ class TransactionDetailsViewModel(application: Application) :
             if (txns.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && txns.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
                 txns.merchantLogo?.let { logo ->
                     view.loadImage(logo)
-                } ?: transaction.get().setTransactionImage(view)
+                } ?: txns.setTransactionImage(view)
+            } else {
+               txns.setTransactionImage(view)
             }
         }
     }
