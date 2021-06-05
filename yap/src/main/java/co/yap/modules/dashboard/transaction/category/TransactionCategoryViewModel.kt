@@ -71,7 +71,7 @@ class TransactionCategoryViewModel(application: Application) :
         }
     }
 
-    override fun updateCategory(successCallback:() -> Unit) {
+    override fun updateCategory(successCallBack: () -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.updateTransactionCategory(
@@ -79,7 +79,7 @@ class TransactionCategoryViewModel(application: Application) :
                 transactionId = state.transactionId.get() ?: ""
             )) {
                 is RetroApiResponse.Success -> {
-                    successCallback()
+                  successCallBack()
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

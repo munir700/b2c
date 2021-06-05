@@ -19,7 +19,7 @@ interface ITransactionCategory {
         fun selectCategory(data : TapixCategory, position : Int)
         var tapixCategories: MutableList<TapixCategory>
         var selectedCategory: ObservableField<TapixCategory>
-        fun updateCategory(successCallback:() -> Unit)
+        fun updateCategory(successCallBack: () -> Unit)
         fun setPreSelectedCategory(name: String)
     }
 
