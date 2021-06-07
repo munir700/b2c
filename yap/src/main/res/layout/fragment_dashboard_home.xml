@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
+
+    </data>
+
+    <co.yap.widgets.OnlyVerticalSwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:enabled="@{viewModel.state.isUserAccountActivated}"
+        android:orientation="vertical"
+        app:srcCompat="?attr/colorPrimaryAttr">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/toolbarLayout"
+                layout="@layout/toolbaar_home_fragment"
+                app:homeViewModel="@{viewModel}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/layoutBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
+
+                <TextView
+                    android:id="@+id/tvAvailableBalance"
+                    style="@style/Title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:text="@={viewModel.state.availableBalance}"
+                    android:textAlignment="center"
+                    tools:text="50,174.78" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_extra_small"
+                    android:text="Today’s balance"/>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/lyInclude"
+                layout="@layout/content_fragment_yap_home_new"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/margin_normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutBalance"
+                app:viewModel="@{viewModel}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </co.yap.widgets.OnlyVerticalSwipeRefreshLayout>
+</layout>

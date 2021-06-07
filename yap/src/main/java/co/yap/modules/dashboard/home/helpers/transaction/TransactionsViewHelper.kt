@@ -41,12 +41,13 @@ class TransactionsViewHelper(
 
 
     init {
-        setOnGraphBarClickListeners()
+        //setOnGraphBarClickListeners()
         initCustomTooltip()
         //setTooltipOnZero()
         setRvTransactionScroll()
     }
 
+/*
     private fun setOnGraphBarClickListeners() {
 
         transactionsView.rvTransactionsBarChart.addOnItemTouchListener(
@@ -88,7 +89,7 @@ class TransactionsViewHelper(
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         setRvTransactionScroll()
                         if (position == 0) {
-                            transactionsView.appbar.setExpanded(true)
+//                            transactionsView.toolbarLayout.id.appbar.setExpanded(true)
 
                         }
 
@@ -97,6 +98,7 @@ class TransactionsViewHelper(
             )
         )
     }
+*/
 
     private fun initCustomTooltip() {
         tooltip = transactionsView.findViewById(R.id.tooltip)
