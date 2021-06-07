@@ -106,13 +106,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     private fun setupPager() {
         //getCardAdaptor() = YapCardsAdaptor(requireContext(), mutableListOf())
         viewPager2.adapter = viewModel.adapter
-        worm_dots_indicator.setViewPager2(viewPager2)
+//        worm_dots_indicator.setViewPager2(viewPager2)
         with(viewPager2) {
             clipToPadding = false
             clipChildren = false
             offscreenPageLimit = 3
         }
-
         val pageMarginPx = Utils.getDimensionInPercent(requireContext(), true, 14)
         val offsetPx = Utils.getDimensionInPercent(requireContext(), true, 14)
         viewPager2.setPageTransformer { page, position ->
@@ -142,6 +141,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 viewModel.clickEvent.setValue(view.id)
             }
         })
+        viewPager2.registerOnPageChangeCallback(pageChangedCallBack)
     }
 
     val observer = Observer<Int> {
@@ -554,5 +554,22 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         }
     }
+    private val pageChangedCallBack = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+        }
 
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+        }
+
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            viewModel.state.cardIndicator.set("${position.plus(1)} of ${viewModel.state.totalCardsCount.get()}")
+        }
+    }
 }

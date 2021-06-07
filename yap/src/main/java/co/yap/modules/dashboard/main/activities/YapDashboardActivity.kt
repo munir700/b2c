@@ -178,7 +178,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 positionOffsetPixels: Int
             ) {
             }
-
             override fun onPageSelected(position: Int) {
                 enableDrawerSwipe(position == 0)
                 when (position) {
