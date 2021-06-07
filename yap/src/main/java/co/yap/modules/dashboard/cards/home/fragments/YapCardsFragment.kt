@@ -569,7 +569,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             positionOffsetPixels: Int
         ) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-            viewModel.state.cardIndicator.set("${position.plus(1)} of ${viewModel.state.totalCardsCount.get()}")
+            if (position.plus(1) < viewModel.cards.value?.size ?: 0) viewModel.state.cardIndicator.set(
+                "${position.plus(1)} of ${viewModel.state.totalCardsCount.get()}"
+            )
         }
     }
 
