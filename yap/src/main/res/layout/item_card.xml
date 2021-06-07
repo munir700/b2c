@@ -111,6 +111,15 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:text="•• 3211" />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/colorPrimaryDark"
+            android:visibility="@{cardChildItemViewModel.item.showDivider?View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="@id/flImageLayout"
+            app:layout_constraintTop_toBottomOf="@+id/flImageLayout"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -55,6 +55,8 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
             list?.apply {
                 viewModel.state.cardMap = sortedBy { card ->
                     card.cardType
+                }.also {
+
                 }.distinct().groupBy { card ->
                     card.cardType
                 }.toMutableMap()
