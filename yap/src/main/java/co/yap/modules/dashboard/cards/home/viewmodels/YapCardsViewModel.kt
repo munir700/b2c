@@ -58,9 +58,7 @@ class YapCardsViewModel(application: Application) :
                             val primaryCard = SessionManager.getDebitFromList(cardsList)
                             cardsList?.remove(primaryCard)
                             primaryCard?.let {
-                                cardsList?.add(0, primaryCard.also {
-                                    it.showDivider = false
-                                })
+                                cardsList?.add(0, primaryCard)
                             }
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
