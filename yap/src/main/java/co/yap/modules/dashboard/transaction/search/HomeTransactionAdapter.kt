@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.search
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
@@ -10,6 +11,7 @@ import androidx.databinding.ViewDataBinding
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ItemSearchTransactionChildBinding
+import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.advrecyclerview.decoration.IStickyHeaderViewHolder
@@ -217,11 +219,13 @@ class HomeTransactionAdapter(
                     setY2YUserImage(transaction, binding, position)
                 } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
                     setVirtualCardIcon(transaction, binding)
+                } else if (TransactionProductCode.ECOM.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
+                    setCategoryIcon(transaction, binding, position)
                 } else {
                     if (txnIconResId != -1) {
                         binding.ivTransaction.setImageResource(txnIconResId)
                     } else {
-                        setInitialsAsTxnImage(transaction, binding, position)
+                        setInitialsAsImage(transaction, binding, position)
                     }
                     if (transaction.isTransactionRejected()) binding.ivTransaction.background =
                         null
@@ -229,6 +233,7 @@ class HomeTransactionAdapter(
             }
 
         }
+
 
         private fun setVirtualCardIcon(
             transaction: Transaction,
@@ -255,7 +260,7 @@ class HomeTransactionAdapter(
                 ?: itemSearchTransactionBinding.ivTransaction.setImageResource(R.drawable.ic_virtual_card_yap_it)
         }
 
-        private fun setInitialsAsTxnImage(
+        private fun setInitialsAsImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemSearchTransactionChildBinding, position: Int?
         ) {
@@ -268,7 +273,28 @@ class HomeTransactionAdapter(
                 colorType = "Beneficiary"
             )
         }
-
+        @SuppressLint("UseCompatLoadingForDrawables")
+        private fun setCategoryIcon(
+            transaction: Transaction,
+            itemSearchTransactionBinding: ItemSearchTransactionChildBinding,
+            position: Int?
+        ) {
+            transaction.merchantLogo?.let { logo ->
+                itemSearchTransactionBinding.ivTransaction.loadImage(logo)
+            } ?: transaction.tapixCategory?.categoryIcon?.let { icon ->
+                ImageBinding.loadAnalyticsAvatar(
+                    itemSearchTransactionBinding.ivTransaction,
+                    transaction.tapixCategory?.categoryIcon,
+                    transaction.merchantName,
+                    position ?: 0,
+                    true,
+                    false,
+                    if (transaction.isCategoryGeneral() == true) itemSearchTransactionBinding.ivTransaction.context.getDrawable(
+                        R.drawable.ic_category_general
+                    ) else null
+                )
+            } ?: setInitialsAsImage(transaction, itemSearchTransactionBinding, position)
+        }
         private fun setY2YUserImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemSearchTransactionChildBinding, position: Int?
@@ -309,4 +335,6 @@ class HomeTransactionAdapter(
         }
 
     }
+
+
 }

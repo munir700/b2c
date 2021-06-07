@@ -1095,7 +1095,20 @@ object Strings {
         "screen_transaction_details_added_receipt_label"
     const val screen_transaction_details_single_added_receipt_label: String =
         "screen_transaction_details_single_added_receipt_label"
-
+    const val screen_transaction_details_category_label: String =
+        "screen_transaction_details_category_label"
+    const val screen_transaction_details_total_purchases: String =
+        "screen_transaction_details_total_purchases"
+    const val screen_transaction_details_display_feedback_label: String =
+        "screen_transaction_details_display_feedback_label"
+    const val screen_transaction_feedback_improvement_label: String =
+        "screen_transaction_feedback_improvement_label"
+    const val screen_transaction_feedback_additional_detail_label: String =
+            "screen_transaction_feedback_additional_detail_label"
+        const val screen_transaction_details_rating_label: String =
+        "screen_transaction_details_rating_label"
+    const val screen_transaction_details_rating_tap_to_rate: String =
+        "screen_transaction_details_rating_tap_to_rate"
 
     //     Send Money no contacts Screen
     const val screen_send_money_no_contacts_display_text_title: String =
@@ -2214,6 +2227,8 @@ object Strings {
         "screen_transaction_add_another_receipt"
     const val screen_transaction_details_receipt_success_label: String =
         "screen_transaction_details_receipt_success_label"
+    const val screen_transaction_details_feedback_success_label: String =
+        "screen_transaction_details_feedback_success_label"
 
     // Reached on the top of queue screen
     const val screen_reached_top_queue_display_text =

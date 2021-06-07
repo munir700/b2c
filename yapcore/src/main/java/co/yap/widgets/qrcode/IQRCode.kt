@@ -11,7 +11,7 @@ interface IQRCode {
     interface State : IBase.State {
         var fullName: String?
         var userNameImage: ObservableField<String>?
-        var profilePictureUrl: String?
+        var profilePictureUrl: ObservableField<String>
         var imageUri: Uri?
         var qrBitmap: Drawable?
     }
@@ -19,6 +19,7 @@ interface IQRCode {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
+        fun populateState()
     }
 
     interface View : IBase.View<ViewModel> {

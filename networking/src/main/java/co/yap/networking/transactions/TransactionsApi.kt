@@ -9,6 +9,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionCategoryResponse
 import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
@@ -85,7 +86,8 @@ interface TransactionsApi {
     suspend fun getTransactionsOfMerchant(
         merchantType: String,
         cardSerialNo: String?,
-        date: String?, merchantName: ArrayList<String>?
+        date: String?, merchantName: ArrayList<Any>?
+
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
 
     suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
@@ -104,4 +106,11 @@ interface TransactionsApi {
     suspend fun getTotalPurchases(
         totalPurchaseRequest: TotalPurchaseRequest
     ): RetroApiResponse<TotalPurchasesResponse>
+
+    suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse>
+    suspend fun updateTransactionCategory(
+        categoryId: String,
+        transactionId: String
+    ): RetroApiResponse<ApiResponse>
+
 }
