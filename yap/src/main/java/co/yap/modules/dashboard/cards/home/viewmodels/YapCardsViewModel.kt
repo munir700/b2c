@@ -329,18 +329,6 @@ class YapCardsViewModel(application: Application) :
         }
     }
 
-
-    fun getCardsData(pos: Int): MutableList<CoreBottomSheetData> {
-        val list: MutableList<CoreBottomSheetData> = mutableListOf()
-        list.add(
-            0, CoreBottomSheetData(
-                subTitle = adapter.getDataForPosition(pos).maskedCardNo,
-                content = adapter.getDataForPosition(pos).expiryDate,
-                subContent = adapter.getDataForPosition(pos).maskedCardNo
-            )
-        )
-        return list
-    }
     val list: MutableList<CoreBottomSheetData> = mutableListOf()
 
     override var cardDetail: ObservableField<CardDetail> = ObservableField()
