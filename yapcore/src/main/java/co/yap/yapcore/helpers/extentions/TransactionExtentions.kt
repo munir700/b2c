@@ -316,8 +316,8 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 fun Transaction?.getAmount(): Double {
     this?.let {
         return when {
-            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() || it.productCode ==TransactionProductCode.REFUND_MASTER_CARD.pCode -> {
-                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode|| it.productCode ==TransactionProductCode.REFUND_MASTER_CARD.pCode) it.cardHolderBillingTotalAmount
+            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode -> {
+                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode) it.cardHolderBillingTotalAmount
                     ?: 0.0 else it.amount ?: 0.0
             }
             it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
@@ -413,7 +413,7 @@ fun Transaction.getTransactionStatusMessage(context: Context): String {
     }
 }
 
-fun Transaction?.setTransactionImage(imageView : CoreCircularImageView) {
+fun Transaction?.setTransactionImage(imageView: CoreCircularImageView) {
     this?.let { transaction ->
         when (TransactionProductCode.Y2Y_TRANSFER.pCode) {
             transaction.productCode ?: "" -> {
@@ -430,9 +430,13 @@ fun Transaction?.setTransactionImage(imageView : CoreCircularImageView) {
             }
             else -> {
                 val txnIconResId = transaction.getIcon()
-                if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+                if (transaction.productCode == TransactionProductCode.ECOM.pCode) {
+                    setInitialsAsTxnImage(transaction, imageView)
+                }
+                else if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
                     setVirtualCardIcon(transaction, imageView)
-                } else if (txnIconResId != -1) {
+                }
+                else if (txnIconResId != -1) {
                     imageView.setImageResource(txnIconResId)
                     when (txnIconResId) {
                         R.drawable.ic_rounded_plus -> {
@@ -443,17 +447,17 @@ fun Transaction?.setTransactionImage(imageView : CoreCircularImageView) {
                         }
                     }
                 } else
-                    setInitialsAsTxnImage(transaction,imageView)
+                    setInitialsAsTxnImage(transaction, imageView)
             }
         }
     }
 }
 
-private fun setInitialsAsTxnImage(transaction: Transaction,imageView : CoreCircularImageView) {
+private fun setInitialsAsTxnImage(transaction: Transaction, imageView: CoreCircularImageView) {
     ImageBinding.loadAvatar(
         imageView,
         "",
-        transaction.title,
+        transaction.merchantName?:transaction.title,
         android.R.color.transparent,
         R.dimen.text_size_h2
     )
@@ -486,5 +490,5 @@ private fun setVirtualCardIcon(
 
 fun Transaction?.isCategoryGeneral(): Boolean? = this?.let { transaction ->
     (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
-    && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
+            && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
 }
