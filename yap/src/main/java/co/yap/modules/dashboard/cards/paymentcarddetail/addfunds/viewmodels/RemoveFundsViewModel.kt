@@ -35,6 +35,7 @@ class RemoveFundsViewModel(application: Application) :
         getFundTransferDenominations()
         getFundTransferLimits()
         getTransferFees(TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode)
+        state.leftIconVisibility.set(true)
     }
 
     override fun handleOnPressView(id: Int) {

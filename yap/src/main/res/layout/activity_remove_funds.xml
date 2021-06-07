@@ -30,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{R.drawable.ic_close_dark}"
-            app:leftIconVisibility="@{true}"
+            app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIconVisibility="@{false}"
             app:titleTranslator='@{Strings.screen_remove_funds_display_text_remove_funds}' />

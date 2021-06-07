@@ -237,6 +237,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
                 )
             )
         )
+        viewModel.state.leftIconVisibility.set(false)
     }
 
     private fun performSuccessOperations() {
