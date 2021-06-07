@@ -23,9 +23,9 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:paddingStart="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_extra_small"
+        android:paddingTop="@dimen/margin_small"
         android:paddingEnd="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_extra_small">
+        android:paddingBottom="@dimen/margin_normal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardHeader"

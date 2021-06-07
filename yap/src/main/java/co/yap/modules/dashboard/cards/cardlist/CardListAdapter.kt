@@ -44,10 +44,7 @@ class CardListAdapter(
         val cards =
             cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)
         cards?.let {card->
-            if (childPosition == cardsData[cardsData.keys.toList()[groupPosition]]?.size?.minus(1) ?: 0)
-            {
-                card.showDivider = false
-            }
+            card.showDivider = childPosition != cardsData[cardsData.keys.toList()[groupPosition]]?.size?.minus(1) ?: 0
             holder.setItem(card, childPosition)
         }
         holder.onClick { view, position, type ->

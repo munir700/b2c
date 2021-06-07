@@ -22,9 +22,10 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingStart="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_small"
         android:paddingEnd="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_normal">
+        android:layout_marginBottom="@dimen/margin_extra_small"
+        >
 
         <FrameLayout
             android:id="@+id/flImageLayout"
@@ -114,7 +115,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/divider"
             android:visibility="@{cardChildItemViewModel.item.showDivider?View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_small"
