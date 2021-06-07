@@ -532,7 +532,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     heading = Translator.getString(
                         requireContext(),
                         Strings.screen_cards_display_text_bottom_sheet_heading,
-                        card.cardName.toString()
+                        getCardName(card)
                     )
                 ),
                 viewType = Constants.VIEW_CARD_DETAIL_ITEM,
@@ -572,4 +572,32 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             viewModel.state.cardIndicator.set("${position.plus(1)} of ${viewModel.state.totalCardsCount.get()}")
         }
     }
+
+    private fun getCardName(paymentCard: Card): String {
+        var cardName = ""
+        if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == paymentCard.cardType)
+            cardName = co.yap.modules.others.helper.Constants.TEXT_PRIMARY_CARD
+        else
+            if (null != paymentCard.nameUpdated) {
+                if (paymentCard.nameUpdated!!) {
+                    cardName = paymentCard.cardName ?: ""
+                } else {
+                    if (paymentCard.physical) {
+                        cardName = co.yap.modules.others.helper.Constants.TEXT_SPARE_CARD_PHYSICAL
+                    } else {
+                        cardName = paymentCard.cardName ?: ""
+                    }
+                }
+            } else {
+                if (paymentCard.physical) {
+                    cardName = co.yap.modules.others.helper.Constants.TEXT_SPARE_CARD_PHYSICAL
+                } else {
+                    cardName = paymentCard.cardName ?: ""
+                }
+
+            }
+        return cardName
+
+    }
+
 }
