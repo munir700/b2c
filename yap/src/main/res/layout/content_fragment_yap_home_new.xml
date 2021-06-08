@@ -221,7 +221,71 @@
                     tools:listitem="@layout/item_dashboard_notification_status" />
 
             </co.yap.widgets.MultiStateView>
-
         </LinearLayout>
+        <co.yap.widgets.tooltipview.TooltipView
+            android:id="@+id/tooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/tooltip_elevation"
+            android:visibility="gone"
+            app:arrowAlignment="custom"
+            app:arrowHeight="@dimen/_16sdp"
+            app:arrowLocation="bottom"
+            app:arrowWidth="@dimen/_16sdp"
+            app:cardCornerRadius="@dimen/tooltip_radius"
+            app:cardElevation="@dimen/tooltip_elevation"
+            app:contentPaddingBottom="@dimen/_8sdp"
+            app:contentPaddingLeft="@dimen/_6sdp"
+            app:contentPaddingRight="@dimen/_6sdp"
+            app:contentPaddingTop="@dimen/_2sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCross"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/empty_string"
+                    android:src="@drawable/ic_ico_close" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:lineSpacingExtra="3sp"
+                    android:minWidth="@dimen/_80sdp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_h1"
+                    tools:text="Tooltip" />
+
+
+            </LinearLayout>
+
+        </co.yap.widgets.tooltipview.TooltipView>
+
+        <co.yap.widgets.tooltipview.TriangleView
+            android:id="@+id/arrowView"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:elevation="@dimen/tooltip_elevation"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+        </co.yap.widgets.tooltipview.TriangleView>
     </RelativeLayout>
 </layout>

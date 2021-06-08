@@ -73,10 +73,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         setupPager()
         toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-//        viewModel.getCards()
+        viewModel.getCards()
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 viewModel.adapter.setList(it)
+                updateCardCount()
             }
         })
         SessionManager.card.observe(viewLifecycleOwner, Observer {
@@ -106,7 +107,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     private fun setupPager() {
         //getCardAdaptor() = YapCardsAdaptor(requireContext(), mutableListOf())
         viewPager2.adapter = viewModel.adapter
-//        worm_dots_indicator.setViewPager2(viewPager2)
         with(viewPager2) {
             clipToPadding = false
             clipChildren = false
@@ -602,4 +602,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     }
 
+    private fun updateCardCount() {
+        viewModel.updateCardCount(viewModel.adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
+    }
 }
