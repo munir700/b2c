@@ -296,10 +296,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openCardsList() {
-        viewModel.cards.observe(viewLifecycleOwner, Observer { cards ->
             startFragmentForResult<CardsListFragment>(
                 CardsListFragment::class.java.name, bundle = bundleOf(
-                    "cardslist" to cards
+                    "cardslist" to viewModel.cards.value
                 )
             ) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
@@ -307,7 +306,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     viewModel.getCards()
                 }
             }
-        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
