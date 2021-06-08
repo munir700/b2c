@@ -416,7 +416,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
-        viewModel.state.showIndicator.set(false)
         startActivityForResult(
             PaymentCardDetailActivity.newIntent(
                 requireContext(),
@@ -426,7 +425,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openAddCard() {
-        viewModel.state.showIndicator.set(false)
         startActivityForResult(
             AddPaymentCardActivity.newIntent(requireContext()),
             REQUEST_CARD_ADDED

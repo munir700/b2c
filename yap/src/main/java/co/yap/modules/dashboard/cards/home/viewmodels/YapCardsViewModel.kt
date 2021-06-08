@@ -48,6 +48,7 @@ class YapCardsViewModel(application: Application) :
     }
 
     override fun getCards() {
+        state.showIndicator.set(false)
         launch {
             state.loading = true
             when (val response = repository.getDebitCards("")) {
