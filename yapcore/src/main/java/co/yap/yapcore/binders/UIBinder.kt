@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -30,6 +31,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
@@ -1083,5 +1085,19 @@ object UIBinder {
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = dataAdapter
+    }
+
+    @BindingAdapter("tintAppCompatImageView")
+    @JvmStatic
+    fun setTintAppCompatImageView(imageView: AppCompatImageView, imageTint: Int?) {
+        imageTint?.let {
+            if (imageTint != 0) imageView.setColorFilter(imageTint, PorterDuff.Mode.SRC_IN) else {
+                imageView.layoutParams = ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+                )
+            }
+        }
+
     }
 }

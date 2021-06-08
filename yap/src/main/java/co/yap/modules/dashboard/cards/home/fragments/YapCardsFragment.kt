@@ -59,8 +59,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override val viewModel: YapCardsViewModel
         get() = ViewModelProviders.of(this).get(YapCardsViewModel::class.java)
 
-    // private fun getCardAdaptor(): YapCardsAdaptor = viewModel.adapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupAdaptor(requireContext())

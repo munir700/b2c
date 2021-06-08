@@ -5,6 +5,7 @@ import co.yap.base.BaseTestCase
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsViewModel
 import co.yap.modules.dashboard.transaction.detail.composer.TransactionDetailComposer
 import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.TransactionProductCode
@@ -23,6 +24,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TransactionDetailsViewModelTest : BaseTestCase() {
     lateinit var sut: TransactionDetailsViewModel
@@ -42,7 +44,13 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         val foreignAmount: Double,
         val spentAmount: Double,
         val items: ArrayList<ItemTransactionDetail>,
-        val showTotalPurchase : Boolean
+        val showTotalPurchase: Boolean,
+        val showTransactionCategory: Boolean,
+        val isCategoryGeneral: Boolean,
+        val tapixCategoryDesc: String?,
+        val CategoryIcon: String?,
+        val tapixCategory: ArrayList<TapixCategory>,
+        val showFeedback : Boolean
     )
 
     @BeforeEach
@@ -155,10 +163,24 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 getExpectedStatusIcon(transaction),
                 txnDetail?.statusIcon
             )
+            Assert.assertEquals(
+                expectation.showTransactionCategory,
+                txnDetail?.showCategory
+            )
             Assert.assertEquals(expectation.showTotalPurchase, txnDetail?.showTotalPurchase)
+            Assert.assertEquals(expectation.isCategoryGeneral, isCategoryGeneral(transaction))
+            Assert.assertEquals(expectation.tapixCategoryDesc, txnDetail?.categoryDescription)
+            Assert.assertEquals(expectation.tapixCategory[0], txnDetail?.tapixCategory)
+            Assert.assertEquals(
+                expectation.showFeedback,
+                txnDetail?.showFeedBack
+            )
         }
     }
 
+    private fun isCategoryGeneral(transaction: Transaction): Boolean =
+        (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
     private fun expectedTransferCategoryIcon(transaction: Transaction?): Int {
         transaction?.let {
             if (transaction.getProductType() == TransactionProductType.IS_TRANSACTION_FEE) {
@@ -174,7 +196,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                     R.drawable.ic_cash
                 }
-                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
+                TransactionProductCode.POS_PURCHASE.pCode,TransactionProductCode.ECOM.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
 
                 else -> 0
             })
@@ -202,6 +224,19 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
         return gson.fromJson<List<TransactionTest>>(readJsonFile(
         ), itemType)
     }
+
+
+    private fun getCategoryDescription(transaction: Transaction): String {
+        return when {
+           isCategoryGeneral(transaction) -> {
+               "Check back later to see the category updated "
+            }
+            else -> {
+                "Tap to change category"
+            }
+        }
+    }
+
 
     @Throws(IOException::class)
     private fun readJsonFile(): String? {

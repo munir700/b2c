@@ -123,7 +123,8 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
             if (NotificationManagerCompat.from(requireContext())
                     .areNotificationsEnabled()
             ) viewModel.getNotificationScreenValues(true) else viewModel.getNotificationScreenValues(
-                false)
+                false
+            )
             navigateToDashboard()
         }
     }
