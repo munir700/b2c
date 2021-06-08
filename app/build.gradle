@@ -43,8 +43,8 @@ android {
         }
 
         Preprod {
-            versionCode 43
-            versionName "1.4.3"
+            versionCode 53
+            versionName "1.5.3"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -70,10 +70,11 @@ android {
         }
 
         yapinternal {
-            versionCode 104
-            versionName "0.10.4"
+            versionCode 126
+            versionName "0.12.6"
             applicationIdSuffix ".internal"
-            resValue "string", "app_name", "YAP Mock"
+            resValue "string", "app_name", "YAP" +
+                    " Mock"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"

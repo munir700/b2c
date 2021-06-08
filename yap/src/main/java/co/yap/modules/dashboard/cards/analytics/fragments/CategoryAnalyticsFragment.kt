@@ -41,10 +41,10 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
             this,
             Observer { txnAnalytics ->
                 if (txnAnalytics == null) {
+                    getAdaptor().getDataList().clear()
                     return@Observer
                 }
                 getAdaptor().setList(txnAnalytics)
-
             })
         viewModel.parentViewModel?.selectedItemPositionParent?.observe(
             this,
@@ -73,7 +73,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     }
 
     private fun navigateDetails(pos: Int) {
-        Constants.MERCHANT_TYPE = "merchant-category-name"
+        Constants.MERCHANT_TYPE = "merchant-category-id"
         val selectedItem = getAdaptor().getDataForPosition(pos)
         var category: ArrayList<String> = arrayListOf()
         category.clear()
@@ -86,6 +86,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
             R.id.cardAnalyticsDetailsFragment,
             bundleOf(
                 Constants.TRANSACTION_DETAIL to TxnAnalytic(
+                    yapCategoryId = selectedItem.yapCategoryId,
                     title = selectedItem.title,
                     txnCount = selectedItem.txnCount,
                     totalSpending = selectedItem.totalSpending,

@@ -4,13 +4,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemAnalyticsBinding
+import co.yap.databinding.ItemAnalyticsCategortyBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.CategoryAnalyticsAdaptor
 import co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class CategoryAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnalyticsBinding) :
+class CategoryAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnalyticsCategortyBinding) :
     RecyclerView.ViewHolder(itemAnalyticsBinding.root) {
     fun onBind(
         adapter: CategoryAnalyticsAdaptor?,

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail.composer
 
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
@@ -127,7 +128,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
     private fun fee(forTransaction: Transaction): String {
         return when {
-            transaction.isNonAEDTransaction() -> {
+            transaction.isNonAEDTransaction() || transaction.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode -> {
                 forTransaction.markupFees.toString()
                     .toFormattedCurrency(true, SessionManager.getDefaultCurrency(), true)
             }
@@ -148,7 +149,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
                     (it.settlementAmount ?: 0.00).plus(totalFee)
                 }
-                it.isNonAEDTransaction() -> {
+                it.isNonAEDTransaction() || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode || it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> {
                     (it.cardHolderBillingTotalAmount ?: 0.00)
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
@@ -323,17 +324,50 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 (transaction.productCode == TransactionProductCode.ECOM.pCode)
     }
 
-    fun isTransactionNotCompleted(): Boolean {
-        return transaction.isTransactionInProgress() || transaction.isTransactionRejected()
-    }
+    fun isTransactionNotCompleted(): Boolean =
+        transaction.isTransactionInProgress() || transaction.isTransactionRejected()
 
-    fun isShowReceiptSection(): Boolean {
-        return (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
+
+    fun isShowReceiptSection(): Boolean =
+        (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
                 (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
                 (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+
+
+    fun isAtmTransaction(): Boolean =
+        (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
+
+    fun showTransactionCategory(): Boolean =
+        (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode)
+
+    fun isCategoryGeneral(): Boolean =
+        (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
+
+    fun getCategoryDescription(): String {
+        return when {
+            transaction.tapixCategory == null || isCategoryGeneral() -> {
+                "Check back later to see the category updated "
+            }
+            else -> {
+                "Tap to change category"
+            }
+        }
     }
 
-    fun isAtmTransaction(): Boolean {
-        return (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
-    }
+
+    fun showFeedbackOption(): Boolean =
+        (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) ||
+                (transaction.productCode == TransactionProductCode.ECOM.pCode) ||
+                (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
+                (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
+
+
+    fun getTapixCategory(): TapixCategory? = if (isCategoryGeneral()) TapixCategory(
+        id = 0,
+        categoryName = "General",
+        categoryIcon = "",
+        analyticIcon = ""
+    ) else transaction.tapixCategory
+
 }

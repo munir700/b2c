@@ -172,7 +172,29 @@ data class Transaction(
     val cardName1: String? = null,
     @SerializedName("cardName2")
     val cardName2: String? = null,
+    @SerializedName("cardAccepter")
+    val cardAccepter: String? = null,
+    @SerializedName("yapCategoryDTO")
+    val tapixCategory: TapixCategory? = null,
     @SerializedName("cardHolderBillingTotalAmount")
     val cardHolderBillingTotalAmount: Double? = null
+) : ApiResponse(), Parcelable
 
-):ApiResponse() ,Parcelable
+@Parcelize
+data class TapixCategory(
+    @SerializedName("id")
+    val id: Int? = null,
+    @SerializedName("category")
+    var categoryName: String? = "General",
+    @SerializedName("categoryIcon")
+    val categoryIcon: String? = null,
+    @SerializedName("analyticIcon")
+    val analyticIcon: String? = null,
+    @Transient
+    var isSelected: Boolean = false,
+    @Transient
+    var type: Boolean? = null
+) :ApiResponse(), Parcelable {
+    val isGeneral: Boolean get() = categoryName.equals("General")
+    val description: String get() = if (isGeneral) "Check back later to see the category updated " else "Tap to change category"
+}
