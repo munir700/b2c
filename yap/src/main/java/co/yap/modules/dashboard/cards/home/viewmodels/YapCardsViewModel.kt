@@ -26,6 +26,7 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.samsung.android.sdk.samsungpay.v2.card.CardManager
@@ -58,6 +59,13 @@ class YapCardsViewModel(application: Application) :
                             val cardsList = response.data.data
                             val primaryCard = SessionManager.getDebitFromList(cardsList)
                             cardsList?.remove(primaryCard)
+                            cardsList?.sortByDescending { card ->
+                                DateUtils.stringToDate(
+                                    card.createdDate ?: "",
+                                    DateUtils.SERVER_DATE_FORMAT,
+                                    DateUtils.UTC
+                                )?.time }
+
                             primaryCard?.let {
                                 cardsList?.add(0, primaryCard)
                             }
