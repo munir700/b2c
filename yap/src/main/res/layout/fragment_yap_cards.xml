@@ -64,7 +64,7 @@
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_xl"
             android:text="@{viewModel.state.cardIndicator}"
-            android:visibility="@{viewModel.state.showIndicator?View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.showIndicator?View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
