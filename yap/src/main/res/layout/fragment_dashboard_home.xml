@@ -30,41 +30,58 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
+
+                <TextView
+                    android:id="@+id/tvCurrencyName"
+                    style="@style/Title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="AED "
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvAvailableBalance"
                     style="@style/Title1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"
                     android:gravity="center"
-                    android:text="@={viewModel.state.availableBalance}"
+                    android:text="@{viewModel.state.availableBalance}"
                     android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintStart_toEndOf="@+id/tvCurrencyName"
+                    app:layout_constraintTop_toTopOf="@+id/tvCurrencyName"
                     tools:text="50,174.78" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/SmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_extra_small"
-                    android:text="Today’s balance"/>
-            </LinearLayout>
+                    android:text="Today’s balance"
+                    app:layout_constraintStart_toStartOf="@+id/tvCurrencyName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCurrencyName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
                 android:id="@+id/lyInclude"
                 layout="@layout/content_fragment_yap_home_new"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="visible"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutBalance"
                 app:viewModel="@{viewModel}" />
