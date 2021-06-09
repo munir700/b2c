@@ -88,20 +88,14 @@ class CardListAdapter(
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
         val childId =
-            cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.maskedCardNo?.takeLast(
-                4
-            )?.parseToLong()
-                ?: childPosition.plus(groupPosition).toLong()
+             childPosition.plus(groupPosition).toLong()
         return childId
     }
 
     override fun getGroupItemViewType(groupPosition: Int) = groupPosition
 
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
-        return cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)?.maskedCardNo?.takeLast(
-            4
-        )?.parseToInt()
-            ?: childPosition.plus(groupPosition)
+        return childPosition.plus(groupPosition)
     }
 
     fun setData(cardsMap: MutableMap<String?, List<Card>>?) {
