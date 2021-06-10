@@ -343,6 +343,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_cards_display_text_bottom_sheet_expiry_date">Expiry date</string>
     <string name="screen_cards_display_text_bottom_sheet_cvv">CVV</string>
     <string name="screen_cards_display_text_bottom_sheet_heading">%1s details</string>
+    <string name="screen_cards_display_text_copy">Copy</string>
 
     <!-- Spare Card Landing Screen -->
 

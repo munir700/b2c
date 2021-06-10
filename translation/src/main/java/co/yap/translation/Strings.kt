@@ -544,6 +544,8 @@ object Strings {
         "screen_cards_display_text_bottom_sheet_cvv"
     const val screen_cards_display_text_bottom_sheet_heading: String =
         "screen_cards_display_text_bottom_sheet_heading"
+    const val screen_cards_display_text_copy: String =
+        "screen_cards_display_text_copy"
 
     //Change Card Name Screen
     const val screen_card_name_title_change_card_name: String =
