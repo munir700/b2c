@@ -365,13 +365,13 @@ class YapCardsViewModel(application: Application) :
         list.clear()
         var cardNumber: String? = ""
         cardDetails?.let { card ->
-            card.cardNumber?.let {
-                if (cardDetails.cardNumber?.trim()?.contains(" ")!!) {
-                    cardNumber = cardDetails.cardNumber
+            state.cardSerialNumber.let {
+                if (state.cardSerialNumber.get()?.trim()?.contains(" ")!!) {
+                    cardNumber = state.cardSerialNumber.get()
                 } else {
-                    if (cardDetails.cardNumber?.length == 16) {
+                    if (state.cardSerialNumber.get()?.length == 13) {
                         val formattedCardNumber: StringBuilder =
-                            StringBuilder(cardDetails.cardNumber ?: "")
+                            StringBuilder(state.cardSerialNumber.get() ?: "")
                         formattedCardNumber.insert(4, " ")
                         formattedCardNumber.insert(9, " ")
                         formattedCardNumber.insert(14, " ")

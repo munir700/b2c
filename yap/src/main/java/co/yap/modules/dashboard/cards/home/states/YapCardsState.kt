@@ -24,4 +24,5 @@ class YapCardsState : BaseState(), IYapCards.State {
 
     override var totalCardsCount: ObservableField<Int> = ObservableField(0)
     override var cardIndicator: ObservableField<String> = ObservableField("0 of 0")
+    override var cardSerialNumber: ObservableField<String> = ObservableField("")
 }
