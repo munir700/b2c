@@ -8,8 +8,6 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.utils.BaseExpandableRVAdapter
 import co.yap.yapcore.helpers.extentions.onClick
-import co.yap.yapcore.helpers.extentions.parseToInt
-import co.yap.yapcore.helpers.extentions.parseToLong
 
 class CardListAdapter(
     private var cardsData: MutableMap<String?, List<Card>>,
@@ -45,6 +43,7 @@ class CardListAdapter(
             cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)
         cards?.let {card->
             card.showDivider = childPosition != cardsData[cardsData.keys.toList()[groupPosition]]?.size?.minus(1) ?: 0
+            card.cardSerialNumber = "\u2022\u2022 ${card.cardSerialNumber.takeLast(4)}"
             holder.setItem(card, childPosition)
         }
         holder.onClick { view, position, type ->
