@@ -62,7 +62,7 @@
             android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvCardNumberValue"
-            app:text="@{Strings.common_display_text_copy}"
+            app:text="@{Strings.screen_cards_display_text_copy}"
             tools:text="Copy" />
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -528,7 +528,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     heading = Translator.getString(
                         requireContext(),
                         Strings.screen_cards_display_text_bottom_sheet_heading,
-                        getCardName(card)
+                        card.cardName.toString()
                     )
                 ),
                 viewType = Constants.VIEW_CARD_DETAIL_ITEM,
@@ -573,9 +573,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun getCardName(paymentCard: Card): String {
         var cardName = ""
-        if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == paymentCard.cardType)
-            cardName = co.yap.modules.others.helper.Constants.TEXT_PRIMARY_CARD
-        else
+
             if (null != paymentCard.nameUpdated) {
                 if (paymentCard.nameUpdated!!) {
                     cardName = paymentCard.cardName ?: ""
