@@ -311,16 +311,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setUpSuccessData() {
-        //commented by breera: should i remove this and all usage of "topUpSuccessMsg" or not as now we have new textview for amount
-        /*viewModel.state.topUpSuccessMsg.set(
-                resources.getText(
-                        getString(Strings.screen_success_funds_transaction_display_text_top_up_with_balance),
-                        this.color(
-                                R.color.colorPrimaryDark,
-                                viewModel.state.amount.toFormattedCurrency()
-                        )
-                )
-        )*/
         viewModel.state.debitCardUpdatedBalance.set(
             resources.getText(
                 getString(Strings.screen_success_funds_transaction_display_text_primary_balance_amount),

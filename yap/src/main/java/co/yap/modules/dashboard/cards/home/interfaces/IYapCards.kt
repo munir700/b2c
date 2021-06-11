@@ -37,5 +37,6 @@ interface IYapCards {
         var totalCardsCount : ObservableField<Int>
         var cardIndicator : ObservableField<String>
         var cardSerialNumber : ObservableField<String>
+        var enableLeftIcon : ObservableBoolean
     }
 }

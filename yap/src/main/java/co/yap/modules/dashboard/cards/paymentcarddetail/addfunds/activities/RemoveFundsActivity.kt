@@ -26,7 +26,9 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.helpers.spannables.*
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.helpers.spannables.size
 import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -205,15 +207,15 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setUpSuccessData() {
-        viewModel.state.topUpSuccessMsg . set (
-                resources.getText(
-                    getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success),
-                     color(
-                        R.color.colorPrimaryDark,
-                        size(1.5f,viewModel.state.amount.toFormattedCurrency())
-                    )
+        viewModel.state.topUpSuccessMsg.set(
+            resources.getText(
+                getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success),
+                color(
+                    R.color.colorPrimaryDark,
+                    size(1.5f, viewModel.state.amount.toFormattedCurrency())
                 )
-                )
+            )
+        )
 
         viewModel.state.debitCardUpdatedBalance.set(
             resources.getText(
@@ -246,11 +248,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             getBinding().btnAction.text =
                 getString(Strings.screen_success_funds_transaction_display_text_button)
             getBinding().clBottomNew.visibility = View.VISIBLE
-            //commented by breera: need to show the toolbar now according to new requirement
-            /*YoYo.with(Techniques.FadeOut)
-                .duration(300)
-                .repeat(0)
-                .playOn(getBinding().toolbar.getChildAt(0))*/
             getBinding().clBottom.children.forEach { it.alpha = 0f }
             getBinding().btnAction.alpha = 0f
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }

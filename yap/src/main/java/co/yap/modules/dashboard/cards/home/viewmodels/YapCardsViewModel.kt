@@ -59,7 +59,13 @@ class YapCardsViewModel(application: Application) :
                             val cardsList = response.data.data
                             val primaryCard = SessionManager.getDebitFromList(cardsList)
                             cardsList?.remove(primaryCard)
-                            sortCardsByDecending(cardsList)
+                            cardsList?.sortByDescending { card ->
+                                DateUtils.stringToDate(
+                                    card.createdDate ?: "",
+                                    DateUtils.SERVER_DATE_FORMAT,
+                                    DateUtils.UTC
+                                )?.time
+                            }
                             primaryCard?.let {
                                 cardsList?.add(0, primaryCard)
                             }
@@ -68,6 +74,7 @@ class YapCardsViewModel(application: Application) :
                             cards.value = cardsList
                             state.showIndicator.set(true)
                             state.totalCardsCount.set(cardsList?.size?.minus(1))
+                            state.enableLeftIcon.set(true)
                             if (context.isSamsungPayFeatureEnabled())
                                 checkCardAddedOnSamSungWallet(cards.value)
                         }
@@ -379,16 +386,6 @@ class YapCardsViewModel(application: Application) :
                     subContent = cardDetails.cvv
                 )
             )
-        }
-    }
-
-    private fun sortCardsByDecending(cardsList: ArrayList<Card>) {
-        cardsList?.sortByDescending { card ->
-            DateUtils.stringToDate(
-                card.createdDate ?: "",
-                DateUtils.SERVER_DATE_FORMAT,
-                DateUtils.UTC
-            )?.time
         }
     }
 }
