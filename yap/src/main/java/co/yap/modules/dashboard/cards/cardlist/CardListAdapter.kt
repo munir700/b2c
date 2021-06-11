@@ -43,7 +43,7 @@ class CardListAdapter(
             cardsData[cardsData.keys.toList()[groupPosition]]?.get(childPosition)
         cards?.let {card->
             card.showDivider = childPosition != cardsData[cardsData.keys.toList()[groupPosition]]?.size?.minus(1) ?: 0
-            card.cardSerialNumber = "\u2022\u2022 ${card.cardSerialNumber.takeLast(4)}"
+            card.maskedCardSerialNumber = "\u2022\u2022 ${card.cardSerialNumber.takeLast(4)}"
             holder.setItem(card, childPosition)
         }
         holder.onClick { view, position, type ->

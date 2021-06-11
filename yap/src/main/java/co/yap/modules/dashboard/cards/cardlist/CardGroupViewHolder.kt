@@ -25,10 +25,10 @@ class CardGroupViewHolder(
         super.setItem(item, position)
         if (Constants.CARD_TYPE_DEBIT == item.cardType) {
             binding.tvCardBalnc.visibility = View.VISIBLE
-            binding.tvCardHeader.text = "Physical card"
+            binding.tvCardHeader.text = "Physical cards"
         } else {
             binding.tvCardBalnc.visibility = View.GONE
-            binding.tvCardHeader.text = "Virtual card"
+            binding.tvCardHeader.text = "Virtual cards"
         }
     }
 }
