@@ -51,14 +51,17 @@ class CardsListFragment : YapDashboardChildFragment<ICardsList.ViewModel>(), ICa
         viewModel.state.cardMap.clear()
         arguments?.let { bundle ->
             val list = bundle.getParcelableArrayList<Card>("cardslist")
-            list?.removeAt(list.size - 1)
-            list?.apply {
-                viewModel.state.cardMap = sortedBy { card ->
-                    card.cardType
-                }.distinct().groupBy { card ->
-                    card.cardType
-                }.toMutableMap()
+            list?.let {
+                list.removeAt(list.size - 1)
+                list.apply {
+                    viewModel.state.cardMap = sortedBy { card ->
+                        card.cardType
+                    }.distinct().groupBy { card ->
+                        card.cardType
+                    }.toMutableMap()
+                }
             }
+
         }
     }
 
