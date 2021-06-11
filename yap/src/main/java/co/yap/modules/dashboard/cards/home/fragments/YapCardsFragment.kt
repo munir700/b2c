@@ -296,16 +296,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openCardsList() {
-            startFragmentForResult<CardsListFragment>(
-                CardsListFragment::class.java.name, bundle = bundleOf(
-                    "cardslist" to viewModel.cards.value
-                )
-            ) { resultCode, data ->
-                if (resultCode == Activity.RESULT_OK) {
-                    viewModel.adapter.removeAllItems()
-                    viewModel.getCards()
-                }
+        startFragmentForResult<CardsListFragment>(
+            CardsListFragment::class.java.name, bundle = bundleOf(
+                "cardslist" to viewModel.cards.value
+            )
+        ) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.adapter.removeAllItems()
+                viewModel.getCards()
             }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -569,31 +569,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 "${position.plus(1)} of ${viewModel.state.totalCardsCount.get()}"
             )
         }
-    }
-
-    private fun getCardName(paymentCard: Card): String {
-        var cardName = ""
-
-            if (null != paymentCard.nameUpdated) {
-                if (paymentCard.nameUpdated!!) {
-                    cardName = paymentCard.cardName ?: ""
-                } else {
-                    if (paymentCard.physical) {
-                        cardName = co.yap.modules.others.helper.Constants.TEXT_SPARE_CARD_PHYSICAL
-                    } else {
-                        cardName = paymentCard.cardName ?: ""
-                    }
-                }
-            } else {
-                if (paymentCard.physical) {
-                    cardName = co.yap.modules.others.helper.Constants.TEXT_SPARE_CARD_PHYSICAL
-                } else {
-                    cardName = paymentCard.cardName ?: ""
-                }
-
-            }
-        return cardName
-
     }
 
     private fun updateCardCount() {
