@@ -29,8 +29,8 @@ android {
 
     productFlavors {
         live {
-            versionCode 55
-            versionName "1.2.5"
+            versionCode 56
+            versionName "1.2.6"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
