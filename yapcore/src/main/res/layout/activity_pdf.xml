@@ -82,7 +82,7 @@
             android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
             android:textColor="@color/colorWhite"
             android:visibility="@{viewModel.state.cardStatement.sendEmail?View.VISIBLE:View.GONE}"
-            app:btn_size="medium"
+            app:btn_size="small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
