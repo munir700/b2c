@@ -520,7 +520,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun openCardDetailBottomSheet(card: Card) {
         trackEventWithScreenName(if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == card.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
-        viewModel.state.cardSerialNumber.set(card.cardSerialNumber)
         viewModel.getCardDetail(card.cardSerialNumber) {
             launchBottomSheetSegment(
                 cardBottomSheetItemClickListener,
