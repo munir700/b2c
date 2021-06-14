@@ -24,5 +24,6 @@ interface ICardStatments {
         var statementList: List<CardStatement>?
         var nextMonth: Boolean?
         var previousMonth: Boolean?
+        var statementType:ObservableField<String>
     }
 }

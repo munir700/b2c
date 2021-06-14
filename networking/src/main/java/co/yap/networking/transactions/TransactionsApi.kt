@@ -113,4 +113,8 @@ interface TransactionsApi {
         transactionId: String
     ): RetroApiResponse<ApiResponse>
 
+    suspend fun requestSendEmail(
+        sendEmailRequestModel: SendEmailRequest
+    ): RetroApiResponse<ApiResponse>
+
 }
