@@ -83,6 +83,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_TRANSACTIONS_VIEW_CATEGORIES = "/transactions/api/category"
     const val URL_TRANSACTIONS_UPDATE_CATEGORY =
         "/transactions/api/category/update-transaction-category"
+    const val URL_SEND_EMAIL =
+        "/transactions/api/email-me"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -290,7 +292,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 merchantType,
                 cardSerialNo,
                 date,
-                merchantName)
+                merchantName
+            )
         })
 
     override suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum> =
@@ -344,6 +347,13 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<ApiResponse> = executeSafely(call = {
         api.updateTransactionCategory(categoryId, transactionId)
     })
+
+    override suspend fun requestSendEmail(
+        sendEmailRequestModel: SendEmailRequest
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.requestSendEmail(sendEmailRequestModel)
+        })
 
 }
 

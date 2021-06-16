@@ -784,6 +784,10 @@ object Strings {
         "screen_card_statement_display_text_view"
     const val screen_card_statement_display_text_title: String =
         "screen_card_statement_display_text_title"
+    const val screen_card_statement_display_button_text_email: String =
+        "screen_card_statement_display_button_text_email"
+    const val screen_card_statement_display_email_sent_success: String =
+        "screen_card_statement_display_email_sent_success"
 
 
     //Profile Settings screen
