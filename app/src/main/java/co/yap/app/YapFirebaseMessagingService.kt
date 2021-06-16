@@ -57,16 +57,18 @@ class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
             applicationContext, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT,
             bundleOf()
         )
-        val builder: NotificationCompat.Builder =
-            NotificationCompat.Builder(applicationContext, getNotificationChannelId())
-                .setAutoCancel(true).setSmallIcon(R.drawable.ic_yap).setContentTitle(
-                    remoteMessage.notification?.title
-                        ?: ""
-                ).setContentText(remoteMessage.notification?.body ?: "")
-        builder.setContentIntent(pendingIntent)
-        notificationManager.notify(
-            notificationId, builder.build()
-        )
+        remoteMessage.notification?.title?.let {notificationTitle->
+            val builder: NotificationCompat.Builder =
+                NotificationCompat.Builder(applicationContext, getNotificationChannelId())
+                    .setAutoCancel(true).setSmallIcon(R.drawable.ic_yap).setContentTitle(
+                        notificationTitle
+                    ).setContentText(remoteMessage.notification?.body ?: "")
+            builder.setContentIntent(pendingIntent)
+            notificationManager.notify(
+                notificationId, builder.build()
+            )
+        }
+
     }
 
     private fun createNotificationChannel(notificationManager: NotificationManager) {
