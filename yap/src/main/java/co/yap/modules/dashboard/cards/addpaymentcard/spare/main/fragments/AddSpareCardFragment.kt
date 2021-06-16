@@ -88,7 +88,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     }
 
     private fun onAddVirtualCard() {
-        viewModel.toggleToolBarInVisibility(true)
+        viewModel.toggleToolBarVisibility(View.INVISIBLE)
         updateTransactionOnHome()
         SessionManager.updateCardBalance() {}
         cardAdded = true

@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels
 
 import android.app.Application
+import android.view.View
 import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.IAddPaymentCard
 import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.IBase
@@ -13,26 +14,7 @@ abstract class AddPaymentChildViewModel<S : IBase.State>(application: Applicatio
         parentViewModel?.state?.tootlBarTitle = title
     }
 
-    fun toggleToolBarVisibility(visibility: Boolean) {
-        val VISIBLE: Int = 0x00000000
-        val GONE: Int = 0x00000008
-        if (visibility) {
-            parentViewModel?.state?.tootlBarVisibility = VISIBLE
-
-        } else {
-            parentViewModel?.state?.tootlBarVisibility = GONE
-
-        }
-    }
-    fun toggleToolBarInVisibility(visibility: Boolean) {
-        val VISIBLE: Int = 0x00000000
-        val INVISIBLE: Int = 0x00000004
-        if (visibility) {
-            parentViewModel?.state?.tootlBarVisibility = INVISIBLE
-
-        } else {
-            parentViewModel?.state?.tootlBarVisibility = VISIBLE
-
-        }
+    fun toggleToolBarVisibility(visibility : Int = View.VISIBLE) {
+            parentViewModel?.state?.tootlBarVisibility = visibility
     }
 }
