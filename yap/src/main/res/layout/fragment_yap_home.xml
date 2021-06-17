@@ -33,19 +33,6 @@
                 android:background="@android:color/transparent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <co.yap.widgets.skeletonlayout.SkeletonLayout
-                android:id="@+id/skeletonLayout"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="66dp"
-                android:elevation="10dp"
-                android:gravity="center"
-                app:behavior_animation="@anim/scale_yap_dashboard_home_title"
-                app:behavior_dependTarget="-60dp"
-                app:behavior_dependType="y"
-                app:behavior_dependsOn="@+id/appbar"
-                app:layout_behavior="@string/animation_view_behavior">
 
                 <TextView
                     android:id="@+id/tvAvailableBalance"
@@ -57,7 +44,6 @@
                     android:textAlignment="center"
                     android:textSize="@dimen/text_size_h7"
                     tools:text="50,174.78" />
-            </co.yap.widgets.skeletonlayout.SkeletonLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

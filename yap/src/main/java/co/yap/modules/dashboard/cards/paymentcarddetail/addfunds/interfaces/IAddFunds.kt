@@ -38,5 +38,7 @@ interface IAddFunds {
         var maxLimit: Double
         var minLimit: Double
         var valid: ObservableBoolean
+        var leftIconVisibility: ObservableBoolean
+        var topUpSuccessAmount : ObservableField<String>
     }
 }

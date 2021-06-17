@@ -5,8 +5,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
+import co.yap.modules.dashboard.cards.cardlist.CardsListFragment
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
@@ -23,9 +26,12 @@ import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActiv
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.wallet.samsung.SamsungPayWalletManager
 import co.yap.wallet.samsung.isSamsungPayFeatureEnabled
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -34,10 +40,10 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CARD_ADDED
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.launchTourGuide
-import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
@@ -46,10 +52,6 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
-
-    //    private val EVENT_CARD_ADDED: Int get() = 12
-    //lateinit var adapter: YapCardsAdaptor
     private var tourStep: TourSetup? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -63,6 +65,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         super.onCreate(savedInstanceState)
         viewModel.setupAdaptor(requireContext())
         viewModel.clickEvent.observe(this, observer)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +73,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         setupPager()
         toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-//        viewModel.getCards()
+        //viewModel.getCards()
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 viewModel.adapter.setList(it)
@@ -101,20 +104,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             })
     }
 
-    private fun updateCardCount() {
-        viewModel.updateCardCount(viewModel.adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
-    }
-
     private fun setupPager() {
         //getCardAdaptor() = YapCardsAdaptor(requireContext(), mutableListOf())
         viewPager2.adapter = viewModel.adapter
-
         with(viewPager2) {
             clipToPadding = false
             clipChildren = false
             offscreenPageLimit = 3
         }
-
         val pageMarginPx = Utils.getDimensionInPercent(requireContext(), true, 14)
         val offsetPx = Utils.getDimensionInPercent(requireContext(), true, 14)
         viewPager2.setPageTransformer { page, position ->
@@ -144,6 +141,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 viewModel.clickEvent.setValue(view.id)
             }
         })
+        viewPager2.registerOnPageChangeCallback(pageChangedCallBack)
     }
 
     val observer = Observer<Int> {
@@ -243,11 +241,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                        }
 
 //                    Connected TO BE fetch card paylod from BE
-                    SamsungPayWalletManager.getInstance(requireContext())
-                        .getWalletInfo { i, bundle, state ->
-                            addCardToSamSungPay(card)
-                        }
+                        SamsungPayWalletManager.getInstance(requireContext())
+                            .getWalletInfo { i, bundle, state ->
+                                addCardToSamSungPay(card)
+                            }
                     }
+                }
+                R.id.imgStatus -> {
+                    if (card.status == CardStatus.ACTIVE.name) openCardDetailBottomSheet(card)
                 }
             }
         }
@@ -288,18 +289,35 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                val tour = TourSetup(requireActivity(), setViewsArray())
 //                tour.startTour()
             }
+            R.id.ivLeftIcon -> {
+                openCardsList()
+            }
+        }
+    }
+
+    private fun openCardsList() {
+        startFragmentForResult<CardsListFragment>(
+            CardsListFragment::class.java.name, bundle = bundleOf(
+                "cardslist" to viewModel.cards.value
+            )
+        ) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.adapter.removeAllItems()
+                viewModel.getCards()
+            }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            EVENT_PAYMENT_CARD_DETAIL -> {
+            RequestCodes.REQUEST_PAYMENT_CARD_DETAIL -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard = data?.getParcelableExtra<Card>("card")
                     val removed = data?.getBooleanExtra("cardRemoved", false)
                     val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
                     val cardReorder = data?.getBooleanExtra("cardReorder", false)
+                    val addRemoveFunds = data?.getBooleanExtra("addRemoveFunds", false)
 
                     when {
                         true == removed -> {
@@ -310,6 +328,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         true == cardReorder -> {
+                            viewModel.adapter.removeAllItems()
+                            viewModel.getCards()
+                        }
+                        true == addRemoveFunds -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
                         }
@@ -398,7 +420,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             PaymentCardDetailActivity.newIntent(
                 requireContext(),
                 paymentCard
-            ), EVENT_PAYMENT_CARD_DETAIL
+            ), RequestCodes.REQUEST_PAYMENT_CARD_DETAIL
         )
     }
 
@@ -494,5 +516,61 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.parentViewModel?.isYapCardsFragmentVisible?.removeObservers(this)
+    }
+
+    private fun openCardDetailBottomSheet(card: Card) {
+        trackEventWithScreenName(if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == card.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
+        viewModel.getCardDetail(card.cardSerialNumber) {
+            launchBottomSheetSegment(
+                cardBottomSheetItemClickListener,
+                configuration = BottomSheetConfiguration(
+                    heading = Translator.getString(
+                        requireContext(),
+                        Strings.screen_cards_display_text_bottom_sheet_heading,
+                        card.cardName.toString()
+                    )
+                ),
+                viewType = Constants.VIEW_CARD_DETAIL_ITEM,
+                listData = viewModel.list
+            )
+        }
+    }
+
+    private val cardBottomSheetItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is CoreBottomSheetData) {
+                when (view.id) {
+                    R.id.tvCopyCard -> {
+                        Utils.copyToClipboard(view.context, data.subTitle ?: "")
+                        view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
+                    }
+                }
+            }
+
+        }
+    }
+    private val pageChangedCallBack = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+        }
+
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            if (position.plus(1) < viewModel.cards.value?.size ?: 0) viewModel.state.cardIndicator.set(
+                "${position.plus(1)} of ${viewModel.state.totalCardsCount.get()}"
+            )
+        }
+    }
+
+    private fun updateCardCount() {
+        viewModel.updateCardCount(viewModel.adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
 }
