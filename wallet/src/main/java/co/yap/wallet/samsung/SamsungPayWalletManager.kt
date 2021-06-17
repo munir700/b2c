@@ -111,7 +111,7 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
             )
             mCardManager?.addCard(addCardInfo, object : AddCardListener {
                 override fun onSuccess(status: Int, p1: Card?) {
-                    success.invoke(State.success("Card successfully added in Samsung Wallet."))
+                    success.invoke(State.success("Card successfully added to Samsung Pay."))
                 }
 
                 override fun onFail(errorCode: Int, errorData: Bundle?) {

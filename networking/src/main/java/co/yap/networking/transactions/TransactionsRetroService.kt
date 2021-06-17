@@ -241,27 +241,33 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
     suspend fun getTotalPurchases(
         @Query("txnType")
-         txnType: String,
+        txnType: String,
         @Query("beneficiaryId")
-         beneficiaryId: String? = null,
+        beneficiaryId: String? = null,
         @Query("receiverCustomerId")
-         receiverCustomerId: String? = null,
+        receiverCustomerId: String? = null,
         @Query("senderCustomerId")
-         senderCustomerId: String? = null,
+        senderCustomerId: String? = null,
         @Query("productCode")
-         productCode: String,
+        productCode: String,
         @Query("merchantName")
         merchantName: String? = null
     ): Response<TotalPurchasesResponse>
 
-    @GET(TransactionsRepository.URL_TRANSACTIONS_VIEW_CATEGORIES )
+    @GET(TransactionsRepository.URL_TRANSACTIONS_VIEW_CATEGORIES)
     suspend fun getAllTransactionCategories(): Response<TransactionCategoryResponse>
 
-    @PUT(TransactionsRepository.URL_TRANSACTIONS_UPDATE_CATEGORY )
+    @PUT(TransactionsRepository.URL_TRANSACTIONS_UPDATE_CATEGORY)
     suspend fun updateTransactionCategory(
         @Query("category-id")
         categoryId: String,
         @Query("transaction-id")
         transactionId: String? = null
     ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_SEND_EMAIL)
+    suspend fun requestSendEmail(
+        @Body sendEmailRequestModel: SendEmailRequest
+    ): Response<ApiResponse>
+
 }
