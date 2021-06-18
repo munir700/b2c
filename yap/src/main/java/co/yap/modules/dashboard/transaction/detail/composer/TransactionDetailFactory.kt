@@ -267,7 +267,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                     TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                     TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
                     TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName
-                        ?: "General"
+                        ?: ""
                     TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
                     TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                         if (transaction.category.equals(
