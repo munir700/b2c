@@ -11,5 +11,9 @@ data class CardStatement(
     @SerializedName("month")
     val month: String? = "",
     @SerializedName("year")
-    val year: String? = ""
+    val year: String? = "",
+    @Transient
+    var sendEmail: Boolean? = false,
+    @Transient
+    var statementType: String? = ""
 ) : Parcelable

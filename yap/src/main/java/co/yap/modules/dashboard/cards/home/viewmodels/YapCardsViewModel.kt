@@ -371,7 +371,7 @@ class YapCardsViewModel(application: Application) :
                 } else {
                     if (card.cardNumber?.length == 16) {
                         val formattedCardNumber: StringBuilder =
-                            StringBuilder(card.cardNumber ?: "")
+                            StringBuilder(card.cardNumber?: "")
                         formattedCardNumber.insert(4, " ")
                         formattedCardNumber.insert(9, " ")
                         formattedCardNumber.insert(14, " ")

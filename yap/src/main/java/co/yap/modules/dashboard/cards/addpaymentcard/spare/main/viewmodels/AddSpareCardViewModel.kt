@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels
 
 import android.app.Application
+import android.view.View
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
@@ -49,7 +50,7 @@ class AddSpareCardViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_spare_card_landing_display_tool_bar_title))
-        toggleToolBarVisibility(true)
+        toggleToolBarVisibility(View.VISIBLE)
     }
 
     override fun requestAddSpareVirtualCard() {

@@ -63,7 +63,8 @@ class SecurityHelper(
                         sslPin1 = "",
                         sslPin2 = "",
                         sslPin3 = "",
-                        sslHost = ""
+                        sslHost = "",
+                        spayServiceId = ""
                     )
                     signaturesList.add(signatures)
                 }
