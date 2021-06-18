@@ -43,5 +43,5 @@ data class Card(
     var createdDate: String? = null,
     @Transient var isAddedSamsungPay: Boolean? = false,
     @Transient var showDivider: Boolean? = true,
-    @Transient var maskedCardSerialNumber: String?=""
+    @Transient var maskedCardNumber: String?=""
 ) : ApiResponse(), Parcelable
