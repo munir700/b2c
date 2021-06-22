@@ -223,7 +223,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
-        SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+        SessionManager.onAccountInfoSuccess.observe(viewLifecycleOwner, Observer { isSuccess ->
             if (isSuccess) {
                 checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
@@ -326,17 +326,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             startFlowForSetPin(card)
         }
 
-        SessionManager.card.observe(this, Observer { primaryCard ->
+        SessionManager.card.observe(viewLifecycleOwner, Observer { primaryCard ->
             primaryCard?.let {
                 checkUserStatus()
             }
         })
 
-        SessionManager.cardBalance.observe(this, Observer { value ->
+        SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
             setAvailableBalance(value.availableBalance.toString())
         })
 
-        viewModel.transactionsLiveData.observe(this, Observer { it ->
+        viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
                 if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().appbar.setExpanded(true)
 
@@ -438,7 +438,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             })
 
-        viewModel.isLoadMore.observe(this, Observer
+        viewModel.isLoadMore.observe(viewLifecycleOwner, Observer
         {
             if (it) {
                 homeTransactionsRequest.number =
@@ -453,7 +453,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         })
         viewModel.parentViewModel?.isYapHomeFragmentVisible?.observe(
-            this,
+            viewLifecycleOwner,
             Observer { isHomeFragmentVisible ->
                 if (isHomeFragmentVisible) {
                     viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
@@ -466,20 +466,20 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             })
         viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.observe(
-            this,
+            viewLifecycleOwner,
             Observer { isUnverifiedScreenVisible ->
                 if (isUnverifiedScreenVisible) {
                     viewModel.parentViewModel?.isShowHomeTour?.value = isUnverifiedScreenVisible
                 }
             })
 
-        viewModel.parentViewModel?.isShowHomeTour?.observe(this, Observer {
+        viewModel.parentViewModel?.isShowHomeTour?.observe(viewLifecycleOwner, Observer {
             if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true && viewModel.state.showTxnShimmer.value?.status != Status.LOADING) {
                 showHomeTourGuide()
             }
         })
 
-        viewModel.parentViewModel?.isKycCompelted?.observe(this, Observer {
+        viewModel.parentViewModel?.isKycCompelted?.observe(viewLifecycleOwner, Observer {
             if(it)
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
