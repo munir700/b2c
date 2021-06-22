@@ -366,7 +366,7 @@ class YapCardsViewModel(application: Application) :
         var cardNumber: String? = ""
         cardDetails?.let { card ->
             card.cardNumber.let {
-                if (card.cardNumber?.trim()?.contains(" ")!!) {
+                if (card.cardNumber?.trim()?.contains(" ") == true) {
                     cardNumber = card.cardNumber
                 } else {
                     if (card.cardNumber?.length == 16) {
