@@ -28,7 +28,7 @@ import co.yap.yapcore.managers.SessionManager
 
 class DashboardNotificationStatusHelper(
     val fragment: Fragment,
-    val binding: FragmentYapHomeBinding,
+    val binding: FragmentDashboardHomeBinding,
     val viewModel: IYapHome.ViewModel
 ) {
     var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
