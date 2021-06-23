@@ -26,6 +26,7 @@ object DateUtils {
     const val FORMAT_TIME_12H = "hh:mm a"
     const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
     const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
+    const val FORMATE_MONTH_COMPLETE = "MMMM" // january
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -288,6 +289,17 @@ object DateUtils {
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
         val endDay = dateToString(calendar.time, format, false)
         return "${startDay.replace("0", "")} - $endDay"
+    }
+
+    fun getMonth(
+        currentDate: Date,
+        format: String = FORMATE_MONTH_COMPLETE
+    ): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.MONTH))
+        return dateToString(calendar.time, format, false)
+
     }
 
     fun geMonthsBetweenTwoDates(startDate: String, endDate: String): List<Date> {
