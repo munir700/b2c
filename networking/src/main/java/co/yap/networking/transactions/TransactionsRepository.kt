@@ -186,8 +186,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 cardTransactionRequest.title,
                 cardTransactionRequest.categories,
                 cardTransactionRequest.statues,
-                cardTransactionRequest.cardDetailsRequired
-
+                cardTransactionRequest.cardDetailsRequired,
+                cardTransactionRequest.debitSearch
             )
         })
 
@@ -213,16 +213,14 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.cardTopUpTransactionRequest(orderId, topUpTransactionRequest) })
 
     override suspend fun getAnalyticsByMerchantName(
-        cardSerialNo: String?,
         date: String?
     ): RetroApiResponse<AnalyticsResponseDTO> =
-        executeSafely(call = { api.getAnalyticsByMerchantName(cardSerialNo, date) })
+        executeSafely(call = { api.getAnalyticsByMerchantName(date) })
 
     override suspend fun getAnalyticsByCategoryName(
-        cardSerialNo: String?,
         date: String?
     ): RetroApiResponse<AnalyticsResponseDTO> =
-        executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
+        executeSafely(call = { api.getAnalyticsByCategoryName(date) })
 
     override suspend fun cashPayoutTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.cashPayoutTransferRequest(sendMoneyTransferRequest) })
