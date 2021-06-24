@@ -51,12 +51,10 @@ interface TransactionsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getAnalyticsByMerchantName(
-        cardSerialNo: String? = "",
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 
     suspend fun getAnalyticsByCategoryName(
-        cardSerialNo: String? = "",
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 

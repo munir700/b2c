@@ -85,8 +85,7 @@ class CardAnalyticsViewModel(application: Application) :
         parentViewModel?.categoryAnalyticsItemLiveData?.value?.clear()
         launch {
             state.loading = true
-            when (val response = repository.getAnalyticsByCategoryName(
-                SessionManager.getCardSerialNumber(), currentMonth
+            when (val response = repository.getAnalyticsByCategoryName(currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { analyticsDTO ->
@@ -122,9 +121,7 @@ class CardAnalyticsViewModel(application: Application) :
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
         parentViewModel?.merchantAnalyticsItemLiveData?.value?.clear()
         launch {
-            when (val response = repository.getAnalyticsByMerchantName(
-                SessionManager.getCardSerialNumber(), currentMonth
-            )) {
+            when (val response = repository.getAnalyticsByMerchantName(currentMonth)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { merchantResponse ->
                         state.monthlyMerchantAvgAmount =

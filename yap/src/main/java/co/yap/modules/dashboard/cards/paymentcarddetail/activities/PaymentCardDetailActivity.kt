@@ -121,6 +121,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
             viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
+            viewModel.cardTransactionRequest.debitSearch = it.cardType == "DEBIT"
             viewModel.requestAccountTransactions()
         })
 
