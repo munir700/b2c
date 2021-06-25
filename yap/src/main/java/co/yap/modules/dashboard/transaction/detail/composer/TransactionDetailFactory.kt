@@ -39,9 +39,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
             TransactionDetailItem.EXCHANGE_RATE -> {
                 if (transaction.isNonAEDTransaction()) "${transaction.currency} 1.00 = AED ${
-                    getExchangeRateForInternationalPOS(
-                        transaction
-                    )
+                getExchangeRateForInternationalPOS(
+                    transaction
+                )
                 }" else "${transaction.currency} 1.00 = AED ${transaction.fxRate}"
             }
             TransactionDetailItem.SENDER, TransactionDetailItem.RECEIVER -> {
@@ -89,7 +89,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.RECEIVER -> {
                 transaction.getProductType() == TransactionProductType.IS_SEND_MONEY && transaction.txnType == TxnType.DEBIT.type
             }
-            TransactionDetailItem.SENT_RECEIVED, TransactionDetailItem.FEES, TransactionDetailItem.VAT -> {
+            TransactionDetailItem.SENT_RECEIVED -> {
                 true
             }
             TransactionDetailItem.TOTAL -> {
@@ -101,8 +101,17 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.REMARKS -> {
                 !transaction.remarks.isNullOrEmpty()
             }
+            TransactionDetailItem.FEES -> {
+                isShowItemFeeVat(transaction.markupFees)
+            }
+            TransactionDetailItem.VAT -> {
+                isShowItemFeeVat(transaction.vatAmount)
+            }
         }
     }
+
+    private fun isShowItemFeeVat(value: Double?): Boolean =
+        !(transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode && value == 0.0)
 
     private fun isInternationalPOS(transaction: Transaction): Boolean {
         return (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode) && transaction.currency != SessionManager.getDefaultCurrency()
