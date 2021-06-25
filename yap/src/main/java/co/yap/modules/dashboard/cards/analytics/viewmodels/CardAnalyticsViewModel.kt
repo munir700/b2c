@@ -201,7 +201,7 @@ class CardAnalyticsViewModel(application: Application) :
 
     private fun setSelectedDate(currentDate: Date?) {
         state.displayMonth =
-            currentDate?.let { DateUtils.getStartAndEndOfMonthAndDay(it) } ?: ""
+            currentDate?.let { DateUtils.getMonth(it) } ?: ""
         state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MONTH_YEAR, false)
         parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
         parentViewModel?.state?.currentSelectedDate =

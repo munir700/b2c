@@ -8,6 +8,7 @@
         <import type="co.yap.yapcore.R" />
 
         <import type="android.view.View" />
+        <import type="co.yap.translation.Strings"/>
 
         <variable
             name="constant"
@@ -203,12 +204,15 @@
 
                         <TextView
                             style="@style/Micro"
-                            android:layout_width="@dimen/_45sdp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/tab_background_selected"
                             android:gravity="center"
-                            android:padding="@dimen/_1sdp"
-                            android:text="@{viewModel.state.currencyType}"
+                            android:paddingTop="@dimen/_1sdp"
+                            android:paddingBottom="@dimen/_1sdp"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:text="@{viewModel.state.displayMonth}"
                             android:textColor="?attr/colorPrimaryAttr"
                             tools:text="AED" />
                     </LinearLayout>
@@ -242,12 +246,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="28dp"
-                            android:text="@{viewModel.state.displayMonth}"
+                            app:text="@{Strings.screen_card_analytics_total_spent}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.498"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            tools:text="Jun 1 - Jun 30" />
+                            tools:text="Total spent" />
 
                         <TextView
                             android:id="@+id/tvTotalSpent"
