@@ -119,10 +119,10 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
                 "Money moved"
             }
             TransactionProductCode.POS_PURCHASE.pCode == txn.productCode -> {
-                "In store shopping"
+                txn.merchantCategoryName?:"In store shopping"
             }
             TransactionProductCode.ECOM.pCode == txn.productCode -> {
-                "Online shopping"
+                txn.merchantCategoryName?:"Online shopping"
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
