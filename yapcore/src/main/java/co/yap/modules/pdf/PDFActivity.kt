@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
@@ -19,10 +20,23 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
     companion object {
         private const val URL = "URL"
         private const val CROSS_VISIBILITY = "CROSS_VISIBILITY"
-        fun newIntent(context: Context, url: String, bool : Boolean): Intent {
+        private const val CARD_STATEMENT = "CARD_STATEMENT"
+        fun newIntent(context: Context, url: String, bool: Boolean): Intent {
             val intent = Intent(context, PDFActivity::class.java)
             intent.putExtra(URL, url)
             intent.putExtra(CROSS_VISIBILITY, bool)
+            return intent
+        }
+
+        fun newIntent(
+            context: Context,
+            bool: Boolean,
+            cardStatement: CardStatement? = null
+        ): Intent {
+            val intent = Intent(context, PDFActivity::class.java)
+            intent.putExtra(URL, cardStatement?.statementURL)
+            intent.putExtra(CROSS_VISIBILITY, bool)
+            intent.putExtra(CARD_STATEMENT, cardStatement)
             return intent
         }
     }
@@ -42,6 +56,15 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
 
     private fun setupData() {
         val visibility = intent?.getValue(CROSS_VISIBILITY, ExtraType.BOOLEAN.name) as? Boolean
+        viewModel.state.cardStatement?.set(
+            intent?.getValue(
+                CARD_STATEMENT,
+                ExtraType.PARCEABLE.name
+            ) as? CardStatement
+        )
+        if (viewModel.state.cardStatement?.get()?.sendEmail == true) viewModel.state.toolBarTitle?.set(
+            "${viewModel.state.cardStatement?.get()?.month} ${viewModel.state.cardStatement?.get()?.year} statement"
+        )
         viewModel.state.hideCross = visibility
         val url = intent?.getValue(URL, ExtraType.STRING.name) as? String
         url?.let {
@@ -59,6 +82,10 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
             R.id.ivCancelPdf -> {
                 onBackPressed()
             }
+            R.id.btnSendEmail -> {
+                viewModel.requestSendEmail(viewModel.state.cardStatement?.get())
+            }
+
         }
     }
 
@@ -81,8 +108,8 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
 
     override fun onToolBarClick(id: Int) {
         when (id) {
-          R.id.ivLeftIcon -> {
-              finish()
+            R.id.ivLeftIcon -> {
+                finish()
             }
         }
     }

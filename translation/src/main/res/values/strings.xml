@@ -478,6 +478,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <!--   Card Statement screen-->
     <string name="screen_card_statement_display_text_view">View</string>
     <string name="screen_card_statement_display_text_title">Card statements</string>
+    <string name="screen_card_statement_display_button_text_email">Email it to me</string>
+    <string name="screen_card_statement_display_email_sent_success">Success! \nA statement copy has been sent to your email.</string>
 
     <!--   Yap More-->
     <string name="screen_more_display_text_bank_details">Account details</string>
