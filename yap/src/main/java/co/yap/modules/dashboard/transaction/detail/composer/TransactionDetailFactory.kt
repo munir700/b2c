@@ -223,6 +223,12 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun getLocation(): String? {
         return when (transaction.productCode) {
             TransactionProductCode.FUND_LOAD.pCode -> transaction.otherBankName ?: ""
+            TransactionProductCode.ECOM.pCode -> {
+                if (isCategoryGeneral()) "Online shopping" else transaction.cardAcceptorLocation
+            }
+            TransactionProductCode.POS_PURCHASE.pCode -> {
+                if (isCategoryGeneral()) "In store shopping" else transaction.cardAcceptorLocation
+            }
             else -> transaction.cardAcceptorLocation ?: ""
         }
     }

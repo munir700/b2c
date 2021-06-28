@@ -42,7 +42,7 @@ fun Transaction?.getTitle(): String {
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
-            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "${transaction.merchantName}"
             TransactionProductCode.ATM_WITHDRAWL.pCode -> {
                 if (transaction.category.equals(
                         "DECLINE_FEE",
@@ -118,11 +118,8 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
             }
-            TransactionProductCode.POS_PURCHASE.pCode == txn.productCode -> {
-                txn.merchantCategoryName?:"In store shopping"
-            }
-            TransactionProductCode.ECOM.pCode == txn.productCode -> {
-                txn.merchantCategoryName?:"Online shopping"
+            TransactionProductCode.POS_PURCHASE.pCode == txn.productCode || TransactionProductCode.ECOM.pCode == txn.productCode -> {
+                setDescriptiveCategory(txn, transactionType)
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
@@ -432,11 +429,9 @@ fun Transaction?.setTransactionImage(imageView: CoreCircularImageView) {
                 val txnIconResId = transaction.getIcon()
                 if (transaction.productCode == TransactionProductCode.ECOM.pCode) {
                     setInitialsAsTxnImage(transaction, imageView)
-                }
-                else if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+                } else if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
                     setVirtualCardIcon(transaction, imageView)
-                }
-                else if (txnIconResId != -1) {
+                } else if (txnIconResId != -1) {
                     imageView.setImageResource(txnIconResId)
                     when (txnIconResId) {
                         R.drawable.ic_rounded_plus -> {
@@ -457,7 +452,7 @@ private fun setInitialsAsTxnImage(transaction: Transaction, imageView: CoreCircu
     ImageBinding.loadAvatar(
         imageView,
         "",
-        transaction.merchantName?:transaction.title,
+        transaction.merchantName ?: transaction.title,
         android.R.color.transparent,
         R.dimen.text_size_h2
     )
@@ -492,3 +487,24 @@ fun Transaction?.isCategoryGeneral(): Boolean? = this?.let { transaction ->
     (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
             && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
 }
+
+fun setDescriptiveCategory(txn: Transaction, transactionType: TransactionAdapterType?): String {
+    return when {
+        (txn.productCode == TransactionProductCode.POS_PURCHASE.pCode || txn.productCode == TransactionProductCode.ECOM.pCode) && transactionType == TransactionAdapterType.ANALYTICS_DETAILS -> {
+            txn.merchantCategoryName
+                ?: if (txn.productCode == TransactionProductCode.POS_PURCHASE.pCode) "In store shopping" else "Online shopping"
+        }
+        txn.productCode == TransactionProductCode.POS_PURCHASE.pCode && transactionType == TransactionAdapterType.TRANSACTION -> {
+            txn.tapixCategory?.let { category ->
+                if (category.isGeneral) "In store shopping" else category.categoryName
+            } ?: "In store shopping"
+        }
+        else -> {
+            txn.tapixCategory?.let { category ->
+                if (category.isGeneral) "Online shopping" else category.categoryName
+            } ?: "Online shopping"
+        }
+    }
+
+}
+
