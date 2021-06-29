@@ -691,7 +691,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_transaction_details_rating_label">How was your experience with %1s?</string>
     <string name="screen_transaction_details_rating_tap_to_rate">Tap to rate</string>
 
-     <!--  Send Money no contacts Screen-->
+    <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
     <string name="screen_send_money_no_contacts_display_text_sub_heading">Who would you like to send money to?</string>
     <string name="screen_send_money_no_contacts_display_text_detail">​You can send money to people around the world through your YAP account. Click below to start adding a beneficiary. You can also do this using the + button anytime.</string>
@@ -1165,6 +1165,8 @@ Due to all the excitement of our official launch, we are gradually activating as
 
     <!--  Yap home fragment screen-->
     <string name="screen_fragment_yap_home_add_money">Add money</string>
+    <string name="screen_fragment_yap_home_balance_on_date">Balance on %1s</string>
+    <string name="screen_fragment_yap_home_available_balance">Available balance</string>
 
     <!-- Change Card Pin screen-->
     <string name="screen_change_card_pin_text_heading">Change PIN</string>

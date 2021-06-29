@@ -19,10 +19,7 @@ import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
-import co.yap.databinding.FragmentLiteDashboardBinding
-import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
-import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
@@ -83,7 +80,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.view_graph.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -152,7 +148,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             R.layout.item_transaction_list_shimmer,
             5
         )
-        viewModel.state.showTxnShimmer.observe(viewLifecycleOwner, Observer { handleShimmerState(it) })
+        viewModel.state.showTxnShimmer.observe(
+            viewLifecycleOwner,
+            Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
         //rvTransactionsBarChart.updatePadding(right = getScreenWidth()/2)
 //        rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
@@ -340,7 +338,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
-                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().toolbarLayout.appbar.setExpanded(true)
+                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().toolbarLayout.appbar.setExpanded(
+                    true
+                )
 
                 getRecycleViewAdaptor()?.itemCount?.let { itemCount ->
                     if (itemCount > 0) {
@@ -417,7 +417,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                         getRecycleViewAdaptor()?.setList(it)
                         //  getGraphRecycleViewAdapter()?.setList(it)
-                        transactionViewHelper?.setTooltipOnZero()
+                        getBindings().clMain.let {
+                            transactionViewHelper =
+                                TransactionsViewHelper(requireContext(), it, viewModel)
+                        }
+                        transactionViewHelper?.setBalanceOnZero()
                     }
                 }
             }
@@ -484,7 +488,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         viewModel.parentViewModel?.isKycCompelted?.observe(viewLifecycleOwner, Observer {
-            if(it)
+            if (it)
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
     }
