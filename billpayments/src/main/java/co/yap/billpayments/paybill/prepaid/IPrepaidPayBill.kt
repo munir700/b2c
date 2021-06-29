@@ -6,6 +6,7 @@ import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.billpayments.paybill.prepaid.skuadapter.SkuAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.transactions.requestdtos.PayBillRequest
 import co.yap.yapcore.IBase
@@ -32,6 +33,7 @@ interface IPrepaidPayBill {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         var adapter: SkuAdapter
+        var selectedSku: SkuCatalogs?
         fun handlePressView(id: Int)
         fun updateAutoPaySelection(
             isWeek: Boolean,

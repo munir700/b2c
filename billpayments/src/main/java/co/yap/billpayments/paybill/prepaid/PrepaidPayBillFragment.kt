@@ -121,6 +121,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     private val skuListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             getViewBinding().etAmount.setText((data as SkuCatalogs).amount.toFormattedCurrency())
+            viewModel.selectedSku = data
         }
     }
 

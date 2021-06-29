@@ -48,7 +48,7 @@ class PayBillViewModel(application: Application) :
     private fun getBillReferences(): String {
         return parentViewModel?.billModel?.value?.inputsData?.joinToString(
             separator = " | "
-        ) { billerInputData -> billerInputData.value.toString() }?:""
+        ) { billerInputData -> billerInputData.value.toString() } ?: ""
     }
 
     private fun getAvailableBalance(): CharSequence {
@@ -176,7 +176,14 @@ class PayBillViewModel(application: Application) :
             billerId = billModel?.billerID ?: "",
             skuId = billModel?.skuId ?: "",
             billAmount = state.amount,
-            billInputData = billModel?.inputsData
+            customerBillUuid = billModel?.uuid ?: "",
+            paymentInfo = billModel?.paymentInfo,
+            billerCategory = billModel?.billerInfo?.categoryId ?: "",
+            biller_name = billModel?.billerInfo?.billerName ?: "",
+            billData = billModel?.inputsData
+
         )
+
+
     }
 }
