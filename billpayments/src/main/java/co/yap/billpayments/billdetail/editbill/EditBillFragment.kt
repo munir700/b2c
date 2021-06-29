@@ -27,6 +27,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_edit_bill
+    var alertDialog: android.app.AlertDialog? = null
 
     override val viewModel: IEditBill.ViewModel
         get() = ViewModelProviders.of(this).get(EditBillViewModel::class.java)
@@ -110,7 +111,6 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         }
     }
 
-
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
     }
@@ -142,7 +142,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     }
 
     override fun showPopUp() {
-        requireActivity().showAlertDialogAndExitApp(
+        alertDialog = requireActivity().showAlertDialogAndExitApp(
             dialogTitle = getString(Strings.screen_edit_bill_dialog_title),
             message = getString(Strings.screen_edit_bill_dialog_description),
             leftButtonText = getString(Strings.common_button_yes),
@@ -184,8 +184,8 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+        alertDialog?.dismiss()
     }
-
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {
