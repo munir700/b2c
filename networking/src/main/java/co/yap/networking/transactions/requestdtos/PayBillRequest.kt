@@ -5,12 +5,20 @@ import com.google.gson.annotations.SerializedName
 
 
 data class PayBillRequest(
-    @SerializedName("billerid")
+    @SerializedName("billerID")
     val billerId: String,
-    @SerializedName("skuid")
+    @SerializedName("skuID")
     val skuId: String,
-    @SerializedName("billamount")
+    @SerializedName("billAmount")
     val billAmount: String,
-    @SerializedName("billdata")
-    val billInputData: List<BillerInputData>?
+    @SerializedName("customerBillUuid")
+    val customerBillUuid: String,
+    @SerializedName("paymentInfo")
+    val paymentInfo: String? = null,
+    @SerializedName("billerCategory")
+    val billerCategory: String,
+    @SerializedName("biller_name")
+    val biller_name: String,
+    @SerializedName("billData")
+    val billData: List<BillerInputData>?
 )

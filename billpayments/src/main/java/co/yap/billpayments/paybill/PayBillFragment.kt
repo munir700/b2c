@@ -87,7 +87,6 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         }
     }
 
-
     private fun initTabLayout() {
         getViewBinding().iAutoPayment.tabLayout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {

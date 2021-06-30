@@ -6,6 +6,7 @@ import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.billpayments.paybill.prepaid.skuadapter.SkuAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -29,7 +30,7 @@ class PrepaidPayBillViewModel(application: Application) :
     override val state: IPrepaidPayBill.State = PrepaidPayBillState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var adapter: SkuAdapter = SkuAdapter(mutableListOf())
-
+    override var selectedSku: SkuCatalogs? = null
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -169,9 +170,13 @@ class PrepaidPayBillViewModel(application: Application) :
     override fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest {
         return PayBillRequest(
             billerId = billModel?.billerID ?: "",
-            skuId = billModel?.skuId ?: "",
+            skuId = selectedSku?.skuId ?: "",
             billAmount = state.amount,
-            billInputData = billModel?.inputsData
+            billData = billModel?.inputsData,
+            customerBillUuid = billModel?.uuid ?: "",
+            billerCategory = billModel?.billerInfo?.categoryId ?: "",
+            biller_name = billModel?.billerInfo?.billerName ?: "",
+            paymentInfo = null
         )
     }
 }
