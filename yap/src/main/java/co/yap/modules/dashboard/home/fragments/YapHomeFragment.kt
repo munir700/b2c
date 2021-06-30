@@ -333,7 +333,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
-            setAvailableBalance(value.availableBalance.toString())
+            //setAvailableBalance(value.availableBalance.toString())
         })
 
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->
@@ -421,7 +421,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             transactionViewHelper =
                                 TransactionsViewHelper(requireContext(), it, viewModel)
                         }
-                        transactionViewHelper?.setBalanceOnZero()
                     }
                 }
             }

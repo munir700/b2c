@@ -115,17 +115,6 @@ class TransactionsViewHelper(
         }
     }*/
 
-    fun setBalanceOnZero() {
-        transactionsView.layoutBalance.tvAvailableBalance.text =
-            viewModel.transactionsLiveData.value!![0].closingBalance.toString()
-                .toFormattedCurrency(
-                    showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency()
-                )
-        transactionsView.layoutBalance.tvBalanceTitle.text =
-            Translator.getString(context, R.string.screen_fragment_yap_home_available_balance)
-    }
-
     fun setTooltipVisibility(visibility: Int = View.VISIBLE) {
         //transactionsView.tvTransactionDate?.visibility = visibility
         tooltip?.visibility = visibility
