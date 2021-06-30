@@ -20,6 +20,7 @@ interface IBillPayments {
         var sortIconVisibility: ObservableBoolean
         var rightIconVisibility: ObservableBoolean
         var totalDueAmount: ObservableField<String>
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {

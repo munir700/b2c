@@ -165,6 +165,7 @@
                 android:id="@+id/swAutoPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="@{viewModel.state.isAutoPaymentOn()}"
                 android:theme="@style/CustomSwitch" />
 
             <include
@@ -232,5 +233,7 @@
                 app:text="@{Strings.screen_pay_bill_pay_button_text}"
                 tools:text="@string/screen_pay_bill_pay_button_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </ScrollView>
 </layout>

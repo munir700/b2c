@@ -36,7 +36,6 @@ interface IPayBill {
             isMonth: Boolean,
             paymentScheduleType: PaymentScheduleType
         )
-
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
         fun setMinMaxLimitForPostPaid(viewBillModel: ViewBillModel)
         fun payBill(payBillRequest: PayBillRequest, success: () -> Unit)

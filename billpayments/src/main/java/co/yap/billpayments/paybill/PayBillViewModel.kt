@@ -42,7 +42,7 @@ class PayBillViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_pay_bill_text_title))
         toggleRightIconVisibility(true)
         state.billReferences.set(getBillReferences())
-
+        state.isAutoPaymentOn.set(parentViewModel?.billModel?.value?.autoPayment ?: false)
     }
 
     private fun getBillReferences(): String {
@@ -181,9 +181,6 @@ class PayBillViewModel(application: Application) :
             billerCategory = billModel?.billerInfo?.categoryId ?: "",
             biller_name = billModel?.billerInfo?.billerName ?: "",
             billData = billModel?.inputsData
-
         )
-
-
     }
 }
