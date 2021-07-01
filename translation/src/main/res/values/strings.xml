@@ -1166,7 +1166,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <!--  Yap home fragment screen-->
     <string name="screen_fragment_yap_home_add_money">Add money</string>
     <string name="screen_fragment_yap_home_balance_on_date">Balance on %1s</string>
-    <string name="screen_fragment_yap_home_available_balance">Available balance</string>
+    <string name="screen_fragment_yap_home_todays_balance">Today’s balance</string>
 
     <!-- Change Card Pin screen-->
     <string name="screen_change_card_pin_text_heading">Change PIN</string>

@@ -13,8 +13,6 @@ import co.yap.widgets.tooltipview.TooltipView
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
 
@@ -258,7 +256,7 @@ class TransactionsViewHelper(
                         )
                     ) Translator.getString(
                         context,
-                        R.string.screen_fragment_yap_home_available_balance
+                        R.string.screen_fragment_yap_home_todays_balance
                     ) else Translator.getString(
                         context,
                         R.string.screen_fragment_yap_home_balance_on_date,

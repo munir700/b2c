@@ -581,8 +581,8 @@ object Strings {
         "screen_fragment_yap_home_add_money"
     const val screen_fragment_yap_home_balance_on_date: String =
         "screen_fragment_yap_home_balance_on_date"
-    const val screen_fragment_yap_home_available_balance:String =
-        "screen_fragment_yap_home_available_balance"
+    const val screen_fragment_yap_home_todays_balance:String =
+        "screen_fragment_yap_home_todays_balance"
 
     // spare cards Landing Screen
     const val screen_spare_card_landing_display_text_title: String =
