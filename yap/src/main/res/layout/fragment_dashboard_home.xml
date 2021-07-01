@@ -20,6 +20,7 @@
         app:srcCompat="?attr/colorPrimaryAttr">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -57,7 +58,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@{viewModel.state.availableBalance == null ? `0.00`:viewModel.state.availableBalance}"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
                     app:layout_constraintStart_toEndOf="@+id/tvCurrencyName"
@@ -65,6 +65,7 @@
                     tools:text="50,174.78" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBalanceTitle"
                     style="@style/SmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
