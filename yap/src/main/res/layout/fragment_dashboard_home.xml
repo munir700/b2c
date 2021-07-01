@@ -9,6 +9,7 @@
             name="viewModel"
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <co.yap.widgets.OnlyVerticalSwipeRefreshLayout
@@ -70,9 +71,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_extra_small"
-                    android:text="Today’s balance"
                     app:layout_constraintStart_toStartOf="@+id/tvCurrencyName"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCurrencyName" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvCurrencyName"
+                    app:text="@{Strings.screen_fragment_yap_home_todays_balance}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
