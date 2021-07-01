@@ -11,6 +11,7 @@ import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.requestdtos.PayBillRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -25,7 +26,6 @@ import co.yap.yapcore.managers.SessionManager
 class PrepaidPayBillViewModel(application: Application) :
     PayBillMainBaseViewModel<IPrepaidPayBill.State>(application),
     IPrepaidPayBill.ViewModel, IRepositoryHolder<TransactionsRepository> {
-
     override val repository: TransactionsRepository = TransactionsRepository
     override val state: IPrepaidPayBill.State = PrepaidPayBillState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -46,7 +46,7 @@ class PrepaidPayBillViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_pay_bill_text_title))
         toggleRightIconVisibility(true)
         state.billReferences.set(getBillReferences())
-
+        state.isBillReminderOn.set(parentViewModel?.billModel?.value?.reminderNotification ?: false)
     }
 
     private fun getBillReferences(): String {
@@ -87,6 +87,20 @@ class PrepaidPayBillViewModel(application: Application) :
         }
     }
 
+    override fun editBiller(editBillerRequest: EditBillerRequest, success: () -> Unit) {
+        launch(Dispatcher.Background) {
+            val response = repository.editBiller(editBillerRequest)
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                    }
+                    is RetroApiResponse.Error -> {
+                    }
+                }
+            }
+        }
+    }
+
     override fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData> {
         val list: MutableList<CoreBottomSheetData> = arrayListOf()
         listData.forEach { weekDay ->
@@ -115,6 +129,19 @@ class PrepaidPayBillViewModel(application: Application) :
         state.autoPaymentScheduleTypeWeek.set(isWeek)
         state.autoPaymentScheduleTypeMonth.set(isMonth)
         state.autoPaymentScheduleType.set(paymentScheduleType.name)
+    }
+
+    override fun updateReminderSelection(
+        isThreedays: Boolean,
+        isOneWeek: Boolean,
+        isThreeWeek: Boolean,
+        totalDays: Int
+    ) {
+        state.billReminderThreeDays.set(isThreedays)
+        state.billReminderOneWeek.set(isOneWeek)
+        state.billReminderThreeWeeks.set(isThreeWeek)
+        state.totalDays.set(totalDays)
+
     }
 
     fun checkOnTextChangeValidation(enterAmount: Double) {
@@ -170,6 +197,7 @@ class PrepaidPayBillViewModel(application: Application) :
     override fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest {
         return PayBillRequest(
             billerId = billModel?.billerID ?: "",
+            notes = state.noteValue.get() ?: "",
             skuId = selectedSku?.skuId ?: "",
             billAmount = state.amount,
             billData = billModel?.inputsData,
@@ -177,6 +205,19 @@ class PrepaidPayBillViewModel(application: Application) :
             billerCategory = billModel?.billerInfo?.categoryId ?: "",
             biller_name = billModel?.billerInfo?.billerName ?: "",
             paymentInfo = null
+        )
+    }
+
+    override fun getEditBillerRequest(billModel: ViewBillModel?): EditBillerRequest {
+        return EditBillerRequest(
+            id = Integer.parseInt(billModel?.id ?: "0"),
+            billerID = billModel?.billerID ?: "",
+            skuId = billModel?.skuId ?: "",
+            billNickName = billModel?.billerInfo?.billerName ?: "",
+            autoPayment = false,
+            reminderNotification = state.isBillReminderOn.get(),
+            reminderFrequency = state.totalDays.get() ?: 3,
+            inputsData = billModel?.inputsData
         )
     }
 }

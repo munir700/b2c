@@ -57,7 +57,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/screen_pay_bill_payment_reminder_every_days_text"
                 tools:text="3 days"
-
                 />
 
             <com.google.android.material.tabs.TabItem
@@ -65,7 +64,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/screen_pay_bill_payment_reminder_every_week_text"
                 tools:text="1 week"
-
                 />
 
             <com.google.android.material.tabs.TabItem
@@ -73,7 +71,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/screen_pay_bill_payment_reminder_every_weeks_text"
                 tools:text="2 weeks"
-
                 />
 
         </com.google.android.material.tabs.TabLayout>

@@ -171,6 +171,7 @@
             <TextView
                 android:id="@+id/tvAutoPayment"
                 style="@style/ASmall"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
@@ -179,6 +180,7 @@
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/swAutoPayment"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/CustomSwitch" />
@@ -217,7 +219,9 @@
                 android:id="@+id/swBillReminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:theme="@style/CustomSwitch" />
+                android:theme="@style/CustomSwitch"
+                android:checked="@{viewModel.state.isBillReminderOn()}"
+                />
 
             <include
                 android:id="@+id/iBillReminder"

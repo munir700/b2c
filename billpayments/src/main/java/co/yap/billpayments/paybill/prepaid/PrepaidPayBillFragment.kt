@@ -41,6 +41,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
         initTabLayout()
+        initReminderTabLayout()
         setEditTextWatcher()
         setValidation()
     }
@@ -73,7 +74,6 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
             }
         }
     }
-
 
     private fun initTabLayout() {
         getViewBinding().iAutoPayment.tabLayout.addOnTabSelectedListener(object :
@@ -113,6 +113,47 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         })
     }
 
+    private fun initReminderTabLayout() {
+        getViewBinding().iBillReminder.tabLayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    threeDays -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = true,
+                            isOneWeek = false,
+                            isThreeWeek = false,
+                            totalDays = 3
+                        )
+                    }
+                    oneWeek -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = false,
+                            isOneWeek = true,
+                            isThreeWeek = false,
+                            totalDays = 7
+                        )
+                    }
+                    threeWeeks -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = false,
+                            isOneWeek = false,
+                            isThreeWeek = true,
+                            totalDays = 21
+                        )
+                    }
+                }
+            }
+
+        })
+    }
+
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.adapter.setItemListener(skuListener)
@@ -142,6 +183,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                 )
             }
             R.id.btnPay -> {
+                editBiller()
                 payBillNow()
             }
         }
@@ -156,6 +198,16 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         ) {
             viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
             navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
+        }
+    }
+
+    private fun editBiller() {
+        viewModel.editBiller(
+            viewModel.getEditBillerRequest(
+                viewModel.parentViewModel?.billModel?.value
+            )
+        ) {
+
         }
     }
 
@@ -207,5 +259,21 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val index = updateTabsReminderSelection(
+            viewModel.parentViewModel?.billModel?.value?.reminderFrequency ?: 3
+        )
+        getViewBinding().iBillReminder.tabLayout.getTabAt(index)?.select()
+    }
+
+    fun updateTabsReminderSelection(totalDays: Int): Int {
+        return when (totalDays) {
+            21 -> threeWeeks
+            7 -> oneWeek
+            else -> threeDays
+        }
     }
 }

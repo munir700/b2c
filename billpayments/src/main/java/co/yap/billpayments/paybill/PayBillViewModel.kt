@@ -9,6 +9,7 @@ import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.requestdtos.PayBillRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -77,6 +78,20 @@ class PayBillViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
                         showToast(response.error.message)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun editBiller(editBillerRequest: EditBillerRequest, success: () -> Unit) {
+        launch(Dispatcher.Background) {
+            val response = repository.editBiller(editBillerRequest)
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                    }
+                    is RetroApiResponse.Error -> {
                     }
                 }
             }
@@ -174,6 +189,7 @@ class PayBillViewModel(application: Application) :
     override fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest {
         return PayBillRequest(
             billerId = billModel?.billerID ?: "",
+            notes = state.noteValue.get() ?: "",
             skuId = billModel?.skuId ?: "",
             billAmount = state.amount,
             customerBillUuid = billModel?.uuid ?: "",
@@ -181,6 +197,19 @@ class PayBillViewModel(application: Application) :
             billerCategory = billModel?.billerInfo?.categoryId ?: "",
             biller_name = billModel?.billerInfo?.billerName ?: "",
             billData = billModel?.inputsData
+        )
+    }
+
+    override fun getEditBillerRequest(billModel: ViewBillModel?): EditBillerRequest {
+        return EditBillerRequest(
+            id = Integer.parseInt(billModel?.id ?: "0"),
+            billerID = billModel?.billerID ?: "",
+            skuId = billModel?.skuId ?: "",
+            billNickName = billModel?.billerInfo?.billerName ?: "",
+            autoPayment = state.isAutoPaymentOn.get(),
+            reminderNotification = billModel?.reminderNotification ?: false,
+            reminderFrequency = null,
+            inputsData = billModel?.inputsData
         )
     }
 }

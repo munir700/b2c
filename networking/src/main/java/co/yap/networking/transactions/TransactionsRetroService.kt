@@ -246,15 +246,15 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
     suspend fun getTotalPurchases(
         @Query("txnType")
-         txnType: String,
+        txnType: String,
         @Query("beneficiaryId")
-         beneficiaryId: String? = null,
+        beneficiaryId: String? = null,
         @Query("receiverCustomerId")
-         receiverCustomerId: String? = null,
+        receiverCustomerId: String? = null,
         @Query("senderCustomerId")
-         senderCustomerId: String? = null,
+        senderCustomerId: String? = null,
         @Query("productCode")
-         productCode: String,
+        productCode: String,
         @Query("merchantName")
         merchantName: String? = null
     ): Response<TotalPurchasesResponse>
@@ -262,20 +262,23 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_PAY_BILL)
     suspend fun payBill(@Body payBillRequest: PayBillRequest): Response<ApiResponse>
 
+    @PUT(TransactionsRepository.URL_EDIT_BILLER)
+    suspend fun editBiller(@Body editBillerRequest: EditBillerRequest): Response<ApiResponse>
+
     @GET(TransactionsRepository.URL_CUSTOMER_BILL_HISTORY)
     suspend fun fetchCustomerBillHistory(@Path("customerBillUuid") customerBillUuid: String): Response<BillAccountHistoryResponse>
 
     //Get analytics for bill payments name
     @GET(TransactionsRepository.URL_GET_BILL_PAYMENTS_ANALYTICS)
     suspend fun getBPAnalytics(
-            @Path("date") date: String?
+        @Path("date") date: String?
     ): Response<BPAnalyticsResponseDTO>
 
     //Get analytics for bill payments name
     @GET(TransactionsRepository.URL_GET_BILL_CATEGORY_HISTORY)
     suspend fun getBPCategoryHistory(
-            @Path("month") month: String?,
-            @Path("categoryId") categoryId: String?
+        @Path("month") month: String?,
+        @Path("categoryId") categoryId: String?
     ): Response<BPAnalyticsDetailsDTO>
 
 }

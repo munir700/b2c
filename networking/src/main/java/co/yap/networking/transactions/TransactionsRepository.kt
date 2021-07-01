@@ -89,6 +89,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     // Bill payment
     const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
+    const val URL_EDIT_BILLER = "/customers/api/billpayment/edit-biller"
     const val URL_CUSTOMER_BILL_HISTORY =
             "/transactions/api/billpayment/fetch-customer-bill-history/{customerBillUuid}"
     const val URL_GET_BILL_PAYMENTS_ANALYTICS =
@@ -348,6 +349,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             executeSafely(call = {
                 api.payBill(payBillRequest)
             })
+    override suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.editBiller(editBillerRequest)
+        })
 
     override suspend fun fetchCustomerBillHistory(customerBillUuid: String): RetroApiResponse<BillAccountHistoryResponse> =
             executeSafely(call = {

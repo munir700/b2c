@@ -37,6 +37,8 @@ data class ViewBillModel(
     var uuid: String? = null,
     @SerializedName("paymentInfo")
     var paymentInfo: String? = null,
+    @SerializedName("reminderFrequency")
+    var reminderFrequency : Int? = null,
     @SerializedName("autoPayment")
     var autoPayment: Boolean? = false,
     @SerializedName("reminderNotification")
@@ -48,6 +50,3 @@ data class ViewBillModel(
     @Transient
     var formattedDueDate: String? = null
 ) : Parcelable
-
-//"autoPayment": null,
-//"reminderNotification": null,
