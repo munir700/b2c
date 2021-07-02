@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -23,6 +22,7 @@ import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageActivity
@@ -37,6 +37,7 @@ import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 import pl.aprilapps.easyphotopicker.MediaFile
 
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
@@ -207,8 +208,23 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     private fun setContentDataColor(transaction: Transaction?) {
         //strike-thru textview
         transaction?.let {
-            getBindings().tvTotalAmountValue.paintFlags =
-                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+            if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) {
+                getBindings().tvTotalAmountValue.text =
+                    Translator.getString(context, R.string.screen_transaction_details_declined)
+                getBindings().tvTotalAmountValue.setTextColor(
+                    context.resources.getColor(
+                        co.yap.yapcore.R.color.red
+                    )
+                )
+                getBindings().tvCurrency.visibility = View.INVISIBLE
+            } else {
+                getBindings().tvTotalAmountValue.text =
+                    if (viewModel.transaction.get()?.txnType.equals(TxnType.DEBIT.type))
+                        "- ${viewModel.state.transactionData.get()?.totalAmount.toString()
+                            .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
+                    else "+ ${viewModel.state.transactionData.get()?.totalAmount.toString()
+                        .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
+            }
         }
     }
 
@@ -232,9 +248,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
                     viewModel.state.transactionNoteDate = "Note added  ${
-                        DateUtils.getCurrentDateWithFormat(
-                            DateUtils.FORMAT_LONG_OUTPUT
-                        )
+                    DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
                     }"
                 }
 
