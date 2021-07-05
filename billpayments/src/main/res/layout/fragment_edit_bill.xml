@@ -93,6 +93,7 @@
                     android:id="@+id/etNickName"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                     android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_edit_bill_field_label)}"
                     android:importantForAutofill="no"
                     android:inputType="text"
