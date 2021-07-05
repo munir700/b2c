@@ -108,6 +108,9 @@ class PayBillViewModel(application: Application) :
         } else if (billerSku?.isPartialPayment == true) {
             state.minLimit.set(billerSku.minAmount ?: 0.0)
             state.maxLimit.set(viewBillModel.totalAmountDue.parseToDouble())
+        }else{
+            state.minLimit.set(billerSku?.minAmount ?: 0.0)
+            state.maxLimit.set(billerSku?.maxAmount ?: 0.0)
         }
     }
 
@@ -158,7 +161,7 @@ class PayBillViewModel(application: Application) :
         val availableBalance =
             SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            (availableBalance > enterAmount)
+            (availableBalance >= enterAmount)
         } else
             false
     }
