@@ -121,6 +121,5 @@ class MyBillsViewModel(application: Application) :
 
     override fun onStop() {
         super.onStop()
-        toggleSortIconVisibility(false)
     }
 }
