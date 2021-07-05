@@ -4,10 +4,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.LayoutItemPayAllSuccessBinding
-import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class PayAllSuccessAdapter(private val list: MutableList<PaidBill>) :
+class PayAllBillsAdapter(private val list: MutableList<PaidBill>) :
     BaseBindingRecyclerAdapter<PaidBill, RecyclerView.ViewHolder>(list) {
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {

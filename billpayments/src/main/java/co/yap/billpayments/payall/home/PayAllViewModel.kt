@@ -3,9 +3,8 @@ package co.yap.billpayments.payall.home
 import android.app.Application
 import co.yap.billpayments.R
 import co.yap.billpayments.payall.base.PayAllBaseViewModel
-import co.yap.billpayments.payall.home.adapter.OverlappingLogoAdapter
-import co.yap.networking.customers.responsedtos.billpayment.BillerInfoModel
-import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
+import co.yap.billpayments.payall.payallsuccess.adapter.PaidBill
+import co.yap.billpayments.payall.payallsuccess.adapter.PayAllBillsAdapter
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
@@ -22,7 +21,8 @@ class PayAllViewModel(application: Application) :
     IPayAll.ViewModel {
     override val state: IPayAll.State = PayAllState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var adapter: OverlappingLogoAdapter = OverlappingLogoAdapter(mutableListOf())
+    override var adapter: PayAllBillsAdapter = PayAllBillsAdapter(mutableListOf())
+
 
     override fun onResume() {
         super.onResume()
@@ -31,16 +31,17 @@ class PayAllViewModel(application: Application) :
     }
 
     override fun populateData() {
-        adapter.setList(parentViewModel?.allBills?.value?.map { viewBillModel -> viewBillModel.billerInfo } as List<BillerInfoModel>)
-        state.billerNames.set(getBillerNames())
-        state.availableBalanceString.set(getAvailableBalance())
-    }
+        val allBillsToBePaid = parentViewModel?.allBills?.value?.map {
+            PaidBill(
+                categoryName = it.billerInfo?.billerType,
+                logo = it.billerInfo?.logo,
+                billerName = it.billerInfo?.billerName,
+                amount = it.billAmountDue
+            )
+        }
 
-    private fun getBillerNames(): String {
-        var cancatenatedString = parentViewModel?.allBills?.value?.joinToString(
-            separator = ", "
-        ) { it.billerInfo?.billerName.toString() } ?: ""
-        return cancatenatedString
+        adapter.setList(allBillsToBePaid ?: arrayListOf())
+        state.availableBalanceString.set(getAvailableBalance())
     }
 
     override fun handleOnPressView(id: Int) {

@@ -1,7 +1,6 @@
 package co.yap.billpayments.dashboard.home.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.billpayments.dashboard.mybills.adapter.BillModel
 import co.yap.billpayments.databinding.LayoutItemBillDueBinding
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.interfaces.OnItemClickListener
