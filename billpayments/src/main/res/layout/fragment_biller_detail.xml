@@ -94,6 +94,7 @@
                     android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_bill_detail_field_label)}"
                     android:importantForAutofill="no"
                     android:inputType="text"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                     android:maxLength="@integer/bill_payments_bill_nickname_length"
                     android:singleLine="true"
                     android:text="@={viewModel.state.nickNameValue}"

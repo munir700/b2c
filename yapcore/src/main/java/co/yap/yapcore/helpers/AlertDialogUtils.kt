@@ -212,7 +212,7 @@ fun Activity.showAlertDialogAndExitApp(
     closeActivity: Boolean = true,
     isOtpBlocked: Boolean = false,
     isTwoButton: Boolean = false
-) {
+): android.app.AlertDialog {
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
     val inflater: LayoutInflater = layoutInflater
@@ -262,7 +262,7 @@ fun Activity.showAlertDialogAndExitApp(
 
     alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     alertDialog.show()
-
+    return alertDialog
 }
 
 
