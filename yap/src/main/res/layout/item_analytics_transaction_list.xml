@@ -44,9 +44,9 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/_12sdp"
-                android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)?@dimen/margin_zero_dp:@dimen/margin_small}"
+                android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-category-id`)?@dimen/margin_small:@dimen/margin_zero_dp}"
                 tools:src="@drawable/ic_access_alarm"
-                app:cropImage="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)}"
+                app:cropImage="@{constant.INSTANCE.MERCHANT_TYPE != `merchant-category-id`}"
                 />
         </FrameLayout>
 
@@ -59,7 +59,6 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/margin_normal"
             android:singleLine="true"
-            android:text="@{viewModel.item.title}"
             android:textColor="@color/colorMidnightExpress"
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
@@ -84,7 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:alpha="0.5"
-            android:text="@{TransactionExtentionsKt.getTransactionTime(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)+` \u2022 `+TransactionExtentionsKt.getTransferType(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)}"
             app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"

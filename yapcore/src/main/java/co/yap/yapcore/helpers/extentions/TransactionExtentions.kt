@@ -255,6 +255,9 @@ fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = Transac
         TransactionAdapterType.TRANSACTION -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
+        TransactionAdapterType.TOTAL_PURCHASE->{
+            getFormattedTime(DateUtils.FORMAT_TIME_24H)
+        }
         else -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }

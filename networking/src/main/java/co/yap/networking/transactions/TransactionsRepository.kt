@@ -13,7 +13,6 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.*
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
-import retrofit2.http.Body
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -85,6 +84,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/category/update-transaction-category"
     const val URL_SEND_EMAIL =
         "/transactions/api/email-me"
+    const val URL_TOTAL_TRANSACTION_PURCHASES_LIST = "/transactions/api/total-transaction-purchases"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -335,6 +335,15 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 merchantName = totalPurchaseRequest.merchantName
             )
         })
+    override suspend fun getTotalPurchasesList(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesTransactionResponse> =
+        executeSafely(call = {api.getTotalPurchasesList(
+            txnType = totalPurchaseRequest.txnType,
+            beneficiaryId = totalPurchaseRequest.beneficiaryId,
+            receiverCustomerId = totalPurchaseRequest.receiverCustomerId,
+            senderCustomerId = totalPurchaseRequest.senderCustomerId,
+            productCode = totalPurchaseRequest.productCode,
+            merchantName = totalPurchaseRequest.merchantName
+        )})
 
     override suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse> =
         executeSafely(call = {
