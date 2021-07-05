@@ -11,6 +11,8 @@
 
         <import type="co.yap.yapcore.enums.BillStatus" />
 
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
@@ -91,8 +93,8 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{SessionManager.INSTANCE.defaultCurrency+` `+viewModel.billModel.totalAmountDue}"
-            tools:text="AED 200" />
+            android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.billModel.totalAmountDue,true,viewModel.billModel.settlementCurrency, true)}"
+            tools:text="AED 200.00" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBillStatus"

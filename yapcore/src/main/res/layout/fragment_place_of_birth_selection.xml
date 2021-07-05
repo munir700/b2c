@@ -188,7 +188,6 @@
                     android:gravity="bottom"
                     android:overScrollMode="never"
                     android:overlapAnchor="false"
-
                     android:paddingStart="0dp"
                     android:spinnerMode="dropdown"
                     app:adaptor="@{viewModel.dualNationalityQuestionOptions}"
