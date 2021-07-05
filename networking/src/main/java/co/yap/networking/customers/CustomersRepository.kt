@@ -155,7 +155,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse> =
         executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })
 
-
     override suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse> =
         executeSafely(call = { api.getAccountInfo() })
 
@@ -235,13 +234,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validatePhoneNumber(countryCode, mobileNumber) })
 
-
     override suspend fun changeMobileNumber(
         countryCode: String,
         mobileNumber: String
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeMobileNumber(countryCode, mobileNumber) })
-
 
     override suspend fun validateEmail(email: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validateEmail(email) })

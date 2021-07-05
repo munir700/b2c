@@ -24,11 +24,6 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
         setObservers()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getViewBinding().rvLogos.addItemDecoration(OverlapDecoration(-35))
-    }
-
     override fun setObservers() {
         viewModel.parentViewModel?.allBills?.observe(this, Observer {
             getViewBinding().etAmount.setText(viewModel.parentViewModel?.allBills?.value?.sumByDouble { it.totalAmountDue?.toDouble() as Double }
@@ -43,7 +38,7 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
             R.id.btnPayAll -> {
                 viewModel.payAllBills {
                     if (viewModel.parentViewModel?.paidBills?.count {
-                                it.PaymentStatus.equals(
+                                it.paymentStatus.equals(
                                         BillPaymentStatus.DECLINED.title
                                 )
                             } == 1) {
