@@ -10,6 +10,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.billpayments.paybill.enum.ReminderType
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
@@ -22,6 +23,7 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
+import java.lang.IllegalStateException
 
 class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel>(),
     IPrepaidPayBill.View, CompoundButton.OnCheckedChangeListener {
@@ -129,7 +131,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                             isThreedays = true,
                             isOneWeek = false,
                             isThreeWeek = false,
-                            totalDays = 3
+                            totalDays = ReminderType.ThreeDays().rdays
                         )
                     }
                     oneWeek -> {
@@ -137,7 +139,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                             isThreedays = false,
                             isOneWeek = true,
                             isThreeWeek = false,
-                            totalDays = 7
+                            totalDays = ReminderType.OneWeek().rdays
                         )
                     }
                     threeWeeks -> {
@@ -145,7 +147,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                             isThreedays = false,
                             isOneWeek = false,
                             isThreeWeek = true,
-                            totalDays = 21
+                            totalDays = ReminderType.ThreeWeeks().rdays
                         )
                     }
                 }
@@ -271,9 +273,10 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     fun updateTabsReminderSelection(totalDays: Int): Int {
         return when (totalDays) {
-            21 -> threeWeeks
-            7 -> oneWeek
-            else -> threeDays
+            ReminderType.ThreeWeeks().rdays -> threeWeeks
+            ReminderType.OneWeek().rdays -> oneWeek
+            ReminderType.ThreeDays().rdays -> threeDays
+            else -> throw IllegalStateException("Invalid days selection $totalDays")
         }
     }
 }
