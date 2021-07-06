@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentCardAnalyticsBinding
@@ -41,8 +41,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_analytics
 
-    override val viewModel: CardAnalyticsViewModel
-        get() = ViewModelProviders.of(this).get(CardAnalyticsViewModel::class.java)
+    override val viewModel: CardAnalyticsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -259,10 +258,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     private fun setupTabs() {
-        TabLayoutMediator(getBindingView().tabLayout, getBindingView().viewPager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                tab.text = getTabTitle(position)
-            }).attach()
+        TabLayoutMediator(
+            getBindingView().tabLayout, getBindingView().viewPager
+        ) { tab, position ->
+            tab.text = getTabTitle(position)
+        }.attach()
 
         getBindingView().viewPager.isUserInputEnabled = false
         getBindingView().viewPager.offscreenPageLimit = 1
@@ -293,6 +293,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         }
     }
 
+    private fun reSetPieChartInnerData(item: TxnAnalytic?) {
+        item?.let { _ ->
+            viewModel.state.selectedItemName = ""
+            viewModel.state.selectedItemPercentage = ""
+            viewModel.state.selectedItemSpentValue = ""
+        }
+    }
+
     private fun getBindingView(): FragmentCardAnalyticsBinding {
         return (viewDataBinding as FragmentCardAnalyticsBinding)
     }
@@ -315,24 +323,34 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 Constants.MERCHANT_TYPE = "merchant-category-id"
                 trackEventWithScreenName(FirebaseEvent.CLICK_CATEGORY_VIEW)
                 if (!viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value.isNullOrEmpty()) {
+                    getBindingView().ivPieView.visibility = View.VISIBLE
                     val txnItem =
                         viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.get(
                             contentPos
                         )
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
+                } else {
+                    getBindingView().ivPieView.visibility = View.GONE
+                    reSetPieChartInnerData(TxnAnalytic())
+                    setState(TxnAnalytic())
                 }
             }
             MERCHANT_ANALYTICS -> {
                 Constants.MERCHANT_TYPE = "merchant-name"
                 trackEventWithScreenName(FirebaseEvent.CLICK_MERCHANT_VIEW)
                 if (!viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value.isNullOrEmpty()) {
+                    getBindingView().ivPieView.visibility = View.VISIBLE
                     val txnItem =
                         viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value?.get(
                             contentPos
                         )
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
+                } else {
+                    getBindingView().ivPieView.visibility = View.GONE
+                    reSetPieChartInnerData(TxnAnalytic())
+                    setState(TxnAnalytic())
                 }
             }
         }
