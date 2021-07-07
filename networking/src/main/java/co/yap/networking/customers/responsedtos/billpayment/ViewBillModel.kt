@@ -37,6 +37,12 @@ data class ViewBillModel(
     var uuid: String? = null,
     @SerializedName("paymentInfo")
     var paymentInfo: String? = null,
+    @SerializedName("reminderFrequency")
+    var reminderFrequency: Int? = null,
+    @SerializedName("autoPayment")
+    var autoPayment: Boolean? = false,
+    @SerializedName("reminderNotification")
+    var reminderNotification: Boolean? = false,
     @SerializedName("inputsData")
     var inputsData: List<BillerInputData>? = null,
     @SerializedName("billerCatalog")
@@ -44,4 +50,3 @@ data class ViewBillModel(
     @Transient
     var formattedDueDate: String? = null
 ) : Parcelable
-

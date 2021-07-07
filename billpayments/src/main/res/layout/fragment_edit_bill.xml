@@ -126,8 +126,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:orientation="horizontal"
-                app:constraint_referenced_ids="tvAutoPayment,swAutoPayment"
                 android:visibility="@{viewModel.parentViewModel.isPrepaid() == true ? View.GONE : View.VISIBLE}"
+                app:constraint_referenced_ids="tvAutoPayment,swAutoPayment"
                 app:flow_horizontalStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvRecyler" />
@@ -145,6 +145,7 @@
                 android:id="@+id/swAutoPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="@{viewModel.state.isAutoPaymentOn()}"
                 android:theme="@style/CustomSwitch" />
 
             <include
@@ -153,9 +154,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fAutoPayment"
                 app:viewModel="@{viewModel}" />
@@ -183,6 +184,7 @@
                 android:id="@+id/swBillReminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="@{viewModel.state.isBillReminderOn()}"
                 android:theme="@style/CustomSwitch" />
 
             <include

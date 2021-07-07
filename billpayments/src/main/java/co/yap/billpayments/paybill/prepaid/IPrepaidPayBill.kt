@@ -8,6 +8,7 @@ import co.yap.billpayments.paybill.prepaid.skuadapter.SkuAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.requestdtos.PayBillRequest
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -20,9 +21,13 @@ interface IPrepaidPayBill {
         var isBillReminderOn: ObservableBoolean
         var selectedWeekDay: ObservableField<String>
         var selectedMonthDay: ObservableField<String>
+        var totalDays: ObservableField<Int>
         var autoPaymentScheduleType: ObservableField<String>
         var autoPaymentScheduleTypeWeek: ObservableBoolean
         var autoPaymentScheduleTypeMonth: ObservableBoolean
+        var billReminderThreeDays: ObservableBoolean
+        var billReminderOneWeek: ObservableBoolean
+        var billReminderThreeWeeks: ObservableBoolean
         val valid: ObservableBoolean
         var amount: String
         val minLimit: ObservableField<Double>
@@ -41,10 +46,23 @@ interface IPrepaidPayBill {
             paymentScheduleType: PaymentScheduleType
         )
 
+        fun updateReminderSelection(
+            isThreedays: Boolean,
+            isOneWeek: Boolean,
+            isThreeWeek: Boolean,
+            totalDays: Int
+        )
+
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
         fun setMinMaxLimitForPrepaid(viewBillModel: ViewBillModel)
-        fun payBill(payBillRequest: PayBillRequest, success: () -> Unit)
+        fun payBillAndEditBiller(
+            payBillRequest: PayBillRequest,
+            editBillerRequest: EditBillerRequest,
+            success: () -> Unit
+        )
+
         fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest
+        fun getEditBillerRequest(billModel: ViewBillModel?): EditBillerRequest
     }
 
     interface View : IBase.View<ViewModel> {
@@ -54,6 +72,9 @@ interface IPrepaidPayBill {
         val day: Int get() = 0
         val week: Int get() = 1
         val month: Int get() = 2
+        val threeDays: Int get() = 0
+        val oneWeek: Int get() = 1
+        val threeWeeks: Int get() = 2
         val weekDaysList: List<String>
             get() = listOf(
                 "Monday",

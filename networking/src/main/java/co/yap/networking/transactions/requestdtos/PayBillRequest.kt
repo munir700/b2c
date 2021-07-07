@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName
 data class PayBillRequest(
     @SerializedName("billerID")
     val billerId: String,
+    @SerializedName("notes")
+    val notes: String,
     @SerializedName("skuID")
     val skuId: String,
     @SerializedName("billAmount")

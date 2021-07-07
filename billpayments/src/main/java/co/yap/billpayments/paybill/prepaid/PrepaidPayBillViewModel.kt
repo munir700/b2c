@@ -6,11 +6,14 @@ import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.billpayments.paybill.prepaid.skuadapter.SkuAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.requestdtos.PayBillRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -24,9 +27,9 @@ import co.yap.yapcore.managers.SessionManager
 
 class PrepaidPayBillViewModel(application: Application) :
     PayBillMainBaseViewModel<IPrepaidPayBill.State>(application),
-    IPrepaidPayBill.ViewModel, IRepositoryHolder<TransactionsRepository> {
-
-    override val repository: TransactionsRepository = TransactionsRepository
+    IPrepaidPayBill.ViewModel, IRepositoryHolder<CustomersRepository> {
+    override val repository: CustomersRepository = CustomersRepository
+    private val transactionRepository: TransactionsRepository = TransactionsRepository
     override val state: IPrepaidPayBill.State = PrepaidPayBillState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var adapter: SkuAdapter = SkuAdapter(mutableListOf())
@@ -46,7 +49,7 @@ class PrepaidPayBillViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_pay_bill_text_title))
         toggleRightIconVisibility(true)
         state.billReferences.set(getBillReferences())
-
+        state.isBillReminderOn.set(parentViewModel?.billModel?.value?.reminderNotification ?: false)
     }
 
     private fun getBillReferences(): String {
@@ -68,19 +71,50 @@ class PrepaidPayBillViewModel(application: Application) :
         )
     }
 
-    override fun payBill(payBillRequest: PayBillRequest, success: () -> Unit) {
+    private fun fetchParallelAPIResponses(
+        payBillRequest: PayBillRequest,
+        editBillerRequest: EditBillerRequest,
+        responses: (RetroApiResponse<ApiResponse>, RetroApiResponse<ApiResponse>) -> Unit
+    ) {
         launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
-            val response = repository.payBill(payBillRequest)
-            launch {
-                when (response) {
+            val deferredEditBillerResponse = launchAsync {
+                repository.editBiller(editBillerRequest)
+            }
+            val deferredPayBillResponse = launchAsync {
+                transactionRepository.payBill(payBillRequest)
+            }
+            responses(
+                deferredEditBillerResponse.await(),
+                deferredPayBillResponse.await()
+            )
+        }
+    }
+
+    override fun payBillAndEditBiller(
+        payBillRequest: PayBillRequest,
+        editBillerRequest: EditBillerRequest,
+        success: () -> Unit
+    ) {
+        state.viewState.postValue(true)
+        fetchParallelAPIResponses(
+            payBillRequest,
+            editBillerRequest
+        ) { editBillerResponse, payBillResponse ->
+            launch(Dispatcher.Main) {
+                when (editBillerResponse) {
+                    is RetroApiResponse.Success -> {
+                    }
+                    is RetroApiResponse.Error -> {
+                    }
+                }
+                when (payBillResponse) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
                         success.invoke()
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
-                        showToast(response.error.message)
+                        showToast(payBillResponse.error.message)
                     }
                 }
             }
@@ -115,6 +149,19 @@ class PrepaidPayBillViewModel(application: Application) :
         state.autoPaymentScheduleTypeWeek.set(isWeek)
         state.autoPaymentScheduleTypeMonth.set(isMonth)
         state.autoPaymentScheduleType.set(paymentScheduleType.name)
+    }
+
+    override fun updateReminderSelection(
+        isThreedays: Boolean,
+        isOneWeek: Boolean,
+        isThreeWeek: Boolean,
+        totalDays: Int
+    ) {
+        state.billReminderThreeDays.set(isThreedays)
+        state.billReminderOneWeek.set(isOneWeek)
+        state.billReminderThreeWeeks.set(isThreeWeek)
+        state.totalDays.set(totalDays)
+
     }
 
     fun checkOnTextChangeValidation(enterAmount: Double) {
@@ -170,6 +217,7 @@ class PrepaidPayBillViewModel(application: Application) :
     override fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest {
         return PayBillRequest(
             billerId = billModel?.billerID ?: "",
+            notes = state.noteValue.get() ?: "",
             skuId = selectedSku?.skuId ?: "",
             billAmount = state.amount,
             billData = billModel?.inputsData,
@@ -177,6 +225,19 @@ class PrepaidPayBillViewModel(application: Application) :
             billerCategory = billModel?.billerInfo?.categoryId ?: "",
             biller_name = billModel?.billerInfo?.billerName ?: "",
             paymentInfo = null
+        )
+    }
+
+    override fun getEditBillerRequest(billModel: ViewBillModel?): EditBillerRequest {
+        return EditBillerRequest(
+            id = Integer.parseInt(billModel?.id ?: "0"),
+            billerID = billModel?.billerID ?: "",
+            skuId = billModel?.skuId ?: "",
+            billNickName = billModel?.billerInfo?.billerName ?: "",
+            autoPayment = false,
+            reminderNotification = state.isBillReminderOn.get(),
+            reminderFrequency = state.totalDays.get() ?: 3,
+            inputsData = billModel?.inputsData
         )
     }
 }

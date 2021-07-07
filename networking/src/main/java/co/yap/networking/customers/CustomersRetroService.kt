@@ -15,6 +15,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -30,7 +31,6 @@ interface CustomersRetroService {
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)
     suspend fun sendVerificationEmail(@Body sendVerificationEmailRequest: SendVerificationEmailRequest): Response<OtpValidationResponse>
-
 
     // Get user account(s) Info
     @GET(CustomersRepository.URL_ACCOUNT_INFO)
@@ -318,6 +318,6 @@ interface CustomersRetroService {
     @DELETE(CustomersRepository.URL_DELETE_BILL)
     suspend fun deleteBill(@Path("id") id: String): Response<ApiResponse>
 
-    @PUT(CustomersRepository.URL_EDIT_BILL)
-    suspend fun editBill(@Body editBillInformationRequest: EditBillInformationRequest): Response<ApiResponse>
+    @PUT(CustomersRepository.URL_EDIT_BILLER)
+    suspend fun editBiller(@Body editBillerRequest: EditBillerRequest): Response<ApiResponse>
 }

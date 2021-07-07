@@ -6,7 +6,6 @@ import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
-import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
@@ -17,8 +16,6 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
-import co.yap.networking.transactions.responsedtos.transaction.*
-import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -246,15 +243,15 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
     suspend fun getTotalPurchases(
         @Query("txnType")
-         txnType: String,
+        txnType: String,
         @Query("beneficiaryId")
-         beneficiaryId: String? = null,
+        beneficiaryId: String? = null,
         @Query("receiverCustomerId")
-         receiverCustomerId: String? = null,
+        receiverCustomerId: String? = null,
         @Query("senderCustomerId")
-         senderCustomerId: String? = null,
+        senderCustomerId: String? = null,
         @Query("productCode")
-         productCode: String,
+        productCode: String,
         @Query("merchantName")
         merchantName: String? = null
     ): Response<TotalPurchasesResponse>
@@ -268,14 +265,13 @@ interface TransactionsRetroService {
     //Get analytics for bill payments name
     @GET(TransactionsRepository.URL_GET_BILL_PAYMENTS_ANALYTICS)
     suspend fun getBPAnalytics(
-            @Path("date") date: String?
+        @Path("date") date: String?
     ): Response<BPAnalyticsResponseDTO>
 
     //Get analytics for bill payments name
     @GET(TransactionsRepository.URL_GET_BILL_CATEGORY_HISTORY)
     suspend fun getBPCategoryHistory(
-            @Path("month") month: String?,
-            @Path("categoryId") categoryId: String?
+        @Path("month") month: String?,
+        @Path("categoryId") categoryId: String?
     ): Response<BPAnalyticsDetailsDTO>
-
 }

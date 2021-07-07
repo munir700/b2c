@@ -17,6 +17,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -136,7 +137,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADD_BILLER = "customers/api/billpayment/add-biller"
     const val URL_GET_ADDED_BILLS = "customers/api/billpayment/all-added-billers"
     const val URL_DELETE_BILL = "customers/api/billpayment/delete-biller/{id}"
-    const val URL_EDIT_BILL = "customers/api/billpayment/edit-biller"
+    const val URL_EDIT_BILLER = "/customers/api/billpayment/edit-biller"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -493,6 +494,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.deleteBill(id) })
 
-    override suspend fun editBill(editBillInformationRequest: EditBillInformationRequest): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.editBill(editBillInformationRequest) })
+    override suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.editBiller(editBillerRequest)
+        })
 }
