@@ -12,6 +12,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
 import co.yap.billpayments.databinding.FragmentEditBillBinding
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.billpayments.paybill.enum.ReminderType
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
@@ -21,6 +22,7 @@ import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
+import java.lang.IllegalStateException
 
 class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     IEditBill.View, CompoundButton.OnCheckedChangeListener {
@@ -29,7 +31,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override fun getLayoutId(): Int = R.layout.fragment_edit_bill
     var alertDialog: android.app.AlertDialog? = null
 
-    override val viewModel: IEditBill.ViewModel
+    override val viewModel: EditBillViewModel
         get() = ViewModelProviders.of(this).get(EditBillViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
             viewModel.validation()
         }
         initTabLayout()
+        initReminderTabLayout()
     }
 
     private fun initTabLayout() {
@@ -77,6 +80,47 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
                             isWeek = false,
                             isMonth = true,
                             paymentScheduleType = PaymentScheduleType.MONTH
+                        )
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun initReminderTabLayout() {
+        getViewBinding().iBillReminder.tabLayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    threeDays -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = true,
+                            isOneWeek = false,
+                            isThreeWeek = false,
+                            totalDays = ReminderType.ThreeDays().rdays
+                        )
+                    }
+                    oneWeek -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = false,
+                            isOneWeek = true,
+                            isThreeWeek = false,
+                            totalDays = ReminderType.OneWeek().rdays
+                        )
+                    }
+                    threeWeeks -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = false,
+                            isOneWeek = false,
+                            isThreeWeek = true,
+                            totalDays = ReminderType.ThreeWeeks().rdays
                         )
                     }
                 }
@@ -167,7 +211,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
 
     private fun editBillClick() {
         val request =
-            viewModel.getBillerInformationRequest()
+            viewModel.getEditBillerRequest()
         viewModel.editBill(request) {
             setIntentResult(isUpdated = true)
         }
@@ -191,10 +235,30 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         when (buttonView?.id) {
             R.id.swAutoPayment -> {
                 viewModel.state.isAutoPaymentOn.set(isChecked)
+                viewModel.validation()
             }
             R.id.swBillReminder -> {
                 viewModel.state.isBillReminderOn.set(isChecked)
+                viewModel.validation()
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val index = updateTabsReminderSelection(
+            viewModel.parentViewModel?.selectedBill?.reminderFrequency ?: 3
+        )
+        getViewBinding().iBillReminder.tabLayout.getTabAt(index)?.select()
+    }
+
+    fun updateTabsReminderSelection(totalDays: Int): Int {
+        return when (totalDays) {
+            ReminderType.ThreeWeeks().rdays -> threeWeeks
+            ReminderType.OneWeek().rdays -> oneWeek
+            ReminderType.ThreeDays().rdays -> threeDays
+            else -> throw IllegalStateException("Invalid days selection $totalDays")
+        }
+    }
+
 }

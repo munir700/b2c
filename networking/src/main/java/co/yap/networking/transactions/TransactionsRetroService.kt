@@ -6,7 +6,6 @@ import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
-import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
@@ -17,8 +16,6 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
-import co.yap.networking.transactions.responsedtos.transaction.*
-import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -262,9 +259,6 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_PAY_BILL)
     suspend fun payBill(@Body payBillRequest: PayBillRequest): Response<ApiResponse>
 
-    @PUT(TransactionsRepository.URL_EDIT_BILLER)
-    suspend fun editBiller(@Body editBillerRequest: EditBillerRequest): Response<ApiResponse>
-
     @GET(TransactionsRepository.URL_CUSTOMER_BILL_HISTORY)
     suspend fun fetchCustomerBillHistory(@Path("customerBillUuid") customerBillUuid: String): Response<BillAccountHistoryResponse>
 
@@ -280,5 +274,4 @@ interface TransactionsRetroService {
         @Path("month") month: String?,
         @Path("categoryId") categoryId: String?
     ): Response<BPAnalyticsDetailsDTO>
-
 }

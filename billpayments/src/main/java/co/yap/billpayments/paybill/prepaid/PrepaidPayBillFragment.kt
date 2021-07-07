@@ -185,31 +185,18 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                 )
             }
             R.id.btnPay -> {
-                editBiller()
-                payBillNow()
+                viewModel.payBillAndEditBiller(
+                    payBillRequest = viewModel.getPayBillRequest(
+                        viewModel.parentViewModel?.billModel?.value,
+                        viewModel.state.amount
+                    ), editBillerRequest = viewModel.getEditBillerRequest(
+                        viewModel.parentViewModel?.billModel?.value
+                    )
+                ) {
+                    viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
+                    navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
+                }
             }
-        }
-    }
-
-    private fun payBillNow() {
-        viewModel.payBill(
-            viewModel.getPayBillRequest(
-                viewModel.parentViewModel?.billModel?.value,
-                viewModel.state.amount
-            )
-        ) {
-            viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
-            navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
-        }
-    }
-
-    private fun editBiller() {
-        viewModel.editBiller(
-            viewModel.getEditBillerRequest(
-                viewModel.parentViewModel?.billModel?.value
-            )
-        ) {
-
         }
     }
 

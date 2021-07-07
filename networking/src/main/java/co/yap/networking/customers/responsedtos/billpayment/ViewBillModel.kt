@@ -38,7 +38,7 @@ data class ViewBillModel(
     @SerializedName("paymentInfo")
     var paymentInfo: String? = null,
     @SerializedName("reminderFrequency")
-    var reminderFrequency : Int? = null,
+    var reminderFrequency: Int? = null,
     @SerializedName("autoPayment")
     var autoPayment: Boolean? = false,
     @SerializedName("reminderNotification")

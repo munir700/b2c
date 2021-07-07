@@ -5,8 +5,10 @@ import co.yap.billpayments.R
 import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
@@ -24,11 +26,13 @@ import co.yap.yapcore.managers.SessionManager
 
 class PayBillViewModel(application: Application) :
     PayBillMainBaseViewModel<IPayBill.State>(application),
-    IPayBill.ViewModel, IRepositoryHolder<TransactionsRepository> {
+    IPayBill.ViewModel, IRepositoryHolder<CustomersRepository> {
 
-    override val repository: TransactionsRepository = TransactionsRepository
+    override val repository: CustomersRepository = CustomersRepository
+    private val transactionRepository: TransactionsRepository = TransactionsRepository
     override val state: IPayBill.State = PayBillState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -65,33 +69,50 @@ class PayBillViewModel(application: Application) :
         )
     }
 
-    override fun payBill(payBillRequest: PayBillRequest, success: () -> Unit) {
+    private fun fetchParallelAPIResponses(
+        payBillRequest: PayBillRequest,
+        editBillerRequest: EditBillerRequest,
+        responses: (RetroApiResponse<ApiResponse>, RetroApiResponse<ApiResponse>) -> Unit
+    ) {
         launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
-            val response = repository.payBill(payBillRequest)
-            launch {
-                when (response) {
+            val deferredEditBillerResponse = launchAsync {
+                repository.editBiller(editBillerRequest)
+            }
+            val deferredPayBillResponse = launchAsync {
+                transactionRepository.payBill(payBillRequest)
+            }
+            responses(
+                deferredEditBillerResponse.await(),
+                deferredPayBillResponse.await()
+            )
+        }
+    }
+
+    override fun payBillAndEditBiller(
+        payBillRequest: PayBillRequest,
+        editBillerRequest: EditBillerRequest,
+        success: () -> Unit
+    ) {
+        state.viewState.postValue(true)
+        fetchParallelAPIResponses(
+            payBillRequest,
+            editBillerRequest
+        ) { editBillerResponse, payBillResponse ->
+            launch(Dispatcher.Main) {
+                when (editBillerResponse) {
+                    is RetroApiResponse.Success -> {
+                    }
+                    is RetroApiResponse.Error -> {
+                    }
+                }
+                when (payBillResponse) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
                         success.invoke()
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
-                        showToast(response.error.message)
-                    }
-                }
-            }
-        }
-    }
-
-    override fun editBiller(editBillerRequest: EditBillerRequest, success: () -> Unit) {
-        launch(Dispatcher.Background) {
-            val response = repository.editBiller(editBillerRequest)
-            launch {
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                    }
-                    is RetroApiResponse.Error -> {
+                        showToast(payBillResponse.error.message)
                     }
                 }
             }
@@ -123,7 +144,7 @@ class PayBillViewModel(application: Application) :
         } else if (billerSku?.isPartialPayment == true) {
             state.minLimit.set(billerSku.minAmount ?: 0.0)
             state.maxLimit.set(viewBillModel.totalAmountDue.parseToDouble())
-        }else{
+        } else {
             state.minLimit.set(billerSku?.minAmount ?: 0.0)
             state.maxLimit.set(billerSku?.maxAmount ?: 0.0)
         }

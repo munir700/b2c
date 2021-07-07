@@ -215,8 +215,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
                 ?.getAnswer()
         state.valid.set(isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble())
-
-//        state.valid.set(isValid)
     }
 
     private fun fetchParallelAPIResponses(
@@ -224,7 +222,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-//            coroutineScope {
             val deferredCountriesResponse = launchAsync {
                 repository.getAllCountries()
             }
@@ -235,7 +232,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 deferredCountriesResponse.await(),
                 deferredIndustrySegmentsResponse.await()
             )
-//            }
         }
     }
 

@@ -14,6 +14,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -127,5 +128,5 @@ interface CustomersApi {
     suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<BillAddedResponse>
     suspend fun getAddedBills(): RetroApiResponse<BillResponse>
     suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
-    suspend fun editBill(editBillInformationRequest: EditBillInformationRequest): RetroApiResponse<ApiResponse>
+    suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse>
 }
