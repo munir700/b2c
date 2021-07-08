@@ -12,6 +12,7 @@ import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.managers.SessionManager
@@ -230,10 +231,18 @@ fun Transaction?.getFormattedDate(): String? {
             val timeFormatString = "MMMM dd"
             val dateTimeFormatString = "EEEE, MMMM d"
             return when {
-                now.get(Calendar.DATE) === smsTime.get(Calendar.DATE) -> {
+               DateUtils.isToday(
+                    creationDate.toString(),
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
                     "Today, " + DateFormat.format(timeFormatString, smsTime)
                 }
-                now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) === 1 -> {
+                DateUtils.isYesterday(
+                    creationDate.toString(),
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
                     "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
                 }
                 now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR) -> {
