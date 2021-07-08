@@ -321,10 +321,10 @@ fun Transaction?.getAmount(): Double {
     this?.let {
         return when {
             it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode -> {
-                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode) it.cardHolderBillingTotalAmount
+                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode) it.cardHolderBillingAmount
                     ?: 0.0 else it.amount ?: 0.0
             }
-            it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
+            it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode || it.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || it.productCode == TransactionProductCode.MOTO.pCode -> it.cardHolderBillingAmount
                 ?: 0.0
             else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
                 ?: 0.00
