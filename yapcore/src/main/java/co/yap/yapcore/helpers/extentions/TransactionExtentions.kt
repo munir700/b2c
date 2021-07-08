@@ -12,6 +12,7 @@ import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.managers.SessionManager
@@ -224,20 +225,23 @@ fun Transaction?.getFormattedDate(): String? {
         date?.let { convertedDate ->
             val smsTime: Calendar = Calendar.getInstance()
             smsTime.timeInMillis = convertedDate.time
-            //smsTime.timeZone = TimeZone.getDefault()
-
             val now: Calendar = Calendar.getInstance()
             val timeFormatString = "MMMM dd"
             val dateTimeFormatString = "EEEE, MMMM d"
             return when {
-                now.get(Calendar.DATE) === smsTime.get(Calendar.DATE) -> {
+                DateUtils.isToday(
+                    creationDate.toString(),
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
                     "Today, " + DateFormat.format(timeFormatString, smsTime)
                 }
-                now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) === 1 -> {
+                DateUtils.isYesterday(
+                    creationDate.toString(),
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
                     "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
-                }
-                now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR) -> {
-                    DateFormat.format(dateTimeFormatString, smsTime).toString()
                 }
                 else -> {
                     DateFormat.format(timeFormatString, smsTime).toString()
@@ -255,7 +259,7 @@ fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = Transac
         TransactionAdapterType.TRANSACTION -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
-        TransactionAdapterType.TOTAL_PURCHASE->{
+        TransactionAdapterType.TOTAL_PURCHASE -> {
             getFormattedTime(DateUtils.FORMAT_TIME_24H)
         }
         else -> {

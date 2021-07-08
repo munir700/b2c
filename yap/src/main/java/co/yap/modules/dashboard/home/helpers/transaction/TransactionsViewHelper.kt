@@ -249,12 +249,7 @@ class TransactionsViewHelper(
                     transactionsView.layoutBalance.tvAvailableBalance.text =
                         viewModel.transactionsLiveData.value!![position].closingBalance.toString()
                             .getAvailableBalanceWithFormat()
-                    transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
-                            viewModel.transactionsLiveData.value!![position].originalDate.toString(),
-                            "yyyy-MM-dd",
-                            TIME_ZONE_Default
-                        )
-                    ) Translator.getString(
+                    transactionsView.layoutBalance.tvBalanceTitle.text = if (position==0) Translator.getString(
                         context,
                         R.string.screen_fragment_yap_home_todays_balance
                     ) else Translator.getString(
