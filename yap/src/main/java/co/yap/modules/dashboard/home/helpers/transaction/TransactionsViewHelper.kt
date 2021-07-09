@@ -228,16 +228,17 @@ class TransactionsViewHelper(
             object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    if (!recyclerView.canScrollVertically(-1) && newState == SCROLL_STATE_IDLE) {
-                        transactionsView.layoutBalance.tvBalanceTitle.text = Translator.getString(
-                            context,
-                            R.string.screen_fragment_yap_home_todays_balance
-                        )
-                    }
                     when (newState) {
                         SCROLL_STATE_IDLE -> {
                             //reached top
-                            if (!recyclerView.canScrollVertically(-1)) checkScroll = false
+                            if (!recyclerView.canScrollVertically(-1)) {
+                                checkScroll = false
+                                transactionsView.layoutBalance.tvBalanceTitle.text =
+                                    Translator.getString(
+                                        context,
+                                        R.string.screen_fragment_yap_home_todays_balance
+                                    )
+                            }
                         }
                         SCROLL_STATE_DRAGGING -> {
                             checkScroll = true
