@@ -243,6 +243,9 @@ fun Transaction?.getFormattedDate(): String? {
                 ) -> {
                     "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
                 }
+                now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR) -> {
+                    DateFormat.format(dateTimeFormatString, smsTime).toString()
+                }
                 else -> {
                     DateFormat.format(timeFormatString, smsTime).toString()
                 }
