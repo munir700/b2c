@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.home.helpers.transaction
 
 import android.content.Context
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,13 +28,18 @@ class TransactionsViewHelper(
     var barSelectedPosition: Int = 0
     private var toolbarCollapsed = false
     private var rvTransactionScrollListener: OnScrollListener? = null
-
+    val firstVisibleInListview: Int
 
     init {
         //setOnGraphBarClickListeners()
         initCustomTooltip()
         //setTooltipOnZero()
         setRvTransactionScroll()
+
+        val layoutManager =
+            transactionsView.lyInclude.multiStateView.rvTransaction.layoutManager as LinearLayoutManager
+
+        firstVisibleInListview = layoutManager.findFirstVisibleItemPosition()
     }
 
 /*
@@ -229,15 +235,22 @@ class TransactionsViewHelper(
             object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(-1) && newState == SCROLL_STATE_IDLE) {
+                        transactionsView.layoutBalance.tvBalanceTitle.text = Translator.getString(
+                            context,
+                            R.string.screen_fragment_yap_home_todays_balance
+                        )
+                    }
                     when (newState) {
                         SCROLL_STATE_IDLE -> {
-                            checkScroll = false
+                            //reached top
+                            if(!recyclerView.canScrollVertically(-1) )checkScroll = false
                         }
                         SCROLL_STATE_DRAGGING -> {
-
+                            checkScroll = true
                         }
                         SCROLL_STATE_SETTLING -> {
-
+                            checkScroll = true
                         }
                     }
                 }
@@ -247,6 +260,34 @@ class TransactionsViewHelper(
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
                     transactionsView.layoutBalance.tvAvailableBalance.text =
+                        viewModel.transactionsLiveData.value!![position].closingBalance.toString()
+                            .getAvailableBalanceWithFormat()
+
+                    if (!checkScroll) {
+                        transactionsView.layoutBalance.tvBalanceTitle.text = Translator.getString(
+                            context,
+                            R.string.screen_fragment_yap_home_todays_balance
+                        )
+                    } else {
+                        transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
+                                viewModel.transactionsLiveData.value!![position].originalDate.toString(),
+                                "yyyy-MM-dd",
+                                TIME_ZONE_Default
+                            )
+                        ) Translator.getString(
+                            context,
+                            R.string.screen_fragment_yap_home_todays_balance
+                        ) else Translator.getString(
+                            context,
+                            R.string.screen_fragment_yap_home_balance_on_date,
+                            DateUtils.reformatStringDate(
+                                viewModel.transactionsLiveData.value!![position].originalDate ?: "",
+                                "yyyy-MM-dd",
+                                DateUtils.FORMAT_MONTH_DAY
+                            )
+                        )
+                    }
+                    /*transactionsView.layoutBalance.tvAvailableBalance.text =
                         viewModel.transactionsLiveData.value!![position].closingBalance.toString()
                             .getAvailableBalanceWithFormat()
                     transactionsView.layoutBalance.tvBalanceTitle.text = if (position==0) Translator.getString(
@@ -261,7 +302,7 @@ class TransactionsViewHelper(
                             DateUtils.FORMAT_MONTH_DAY
                         )
                     )
-
+*/
                     /*if (!checkScroll) {
                         val graphLayoutManager =
                             transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
