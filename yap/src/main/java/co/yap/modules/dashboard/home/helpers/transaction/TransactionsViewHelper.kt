@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.home.helpers.transaction
 
 import android.content.Context
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -244,7 +243,7 @@ class TransactionsViewHelper(
                     when (newState) {
                         SCROLL_STATE_IDLE -> {
                             //reached top
-                            if(!recyclerView.canScrollVertically(-1) )checkScroll = false
+                            if (!recyclerView.canScrollVertically(-1)) checkScroll = false
                         }
                         SCROLL_STATE_DRAGGING -> {
                             checkScroll = true
