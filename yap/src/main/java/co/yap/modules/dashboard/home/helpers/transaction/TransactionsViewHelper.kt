@@ -27,18 +27,12 @@ class TransactionsViewHelper(
     var barSelectedPosition: Int = 0
     private var toolbarCollapsed = false
     private var rvTransactionScrollListener: OnScrollListener? = null
-    val firstVisibleInListview: Int
 
     init {
         //setOnGraphBarClickListeners()
         initCustomTooltip()
         //setTooltipOnZero()
         setRvTransactionScroll()
-
-        val layoutManager =
-            transactionsView.lyInclude.multiStateView.rvTransaction.layoutManager as LinearLayoutManager
-
-        firstVisibleInListview = layoutManager.findFirstVisibleItemPosition()
     }
 
 /*
