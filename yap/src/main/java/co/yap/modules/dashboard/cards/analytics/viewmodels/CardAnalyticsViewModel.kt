@@ -10,7 +10,6 @@ import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.SingleClickEvent
@@ -24,7 +23,6 @@ import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
@@ -86,7 +84,7 @@ class CardAnalyticsViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.getAnalyticsByCategoryName(
-                SessionManager.getCardSerialNumber(), currentMonth
+                currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { analyticsDTO ->
@@ -122,9 +120,7 @@ class CardAnalyticsViewModel(application: Application) :
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
         parentViewModel?.merchantAnalyticsItemLiveData?.value?.clear()
         launch {
-            when (val response = repository.getAnalyticsByMerchantName(
-                SessionManager.getCardSerialNumber(), currentMonth
-            )) {
+            when (val response = repository.getAnalyticsByMerchantName(currentMonth)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { merchantResponse ->
                         state.monthlyMerchantAvgAmount =
@@ -208,10 +204,10 @@ class CardAnalyticsViewModel(application: Application) :
             DateUtils.dateToString(currentDate, SIMPLE_DATE_FORMAT, false)
     }
 
-   override fun setPieChartIcon(image : CoreCircularImageView) {
+    override fun setPieChartIcon(image: CoreCircularImageView) {
         image.setCircularDrawable(
-            title =state.selectedTxnAnalyticsItem.get()?.title ?: "",
-            url =state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
+            title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
+            url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
             position = state.selectedItemPosition.get(),
             type = type.get() ?: "merchant-name",
             showBackground = (state.selectedTxnAnalyticsItem.get()?.logoUrl.isNullOrEmpty() || state.selectedTxnAnalyticsItem.get()?.logoUrl == " ")
