@@ -23,7 +23,6 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
-import java.lang.IllegalStateException
 
 class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel>(),
     IPrepaidPayBill.View, CompoundButton.OnCheckedChangeListener {
@@ -253,7 +252,8 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     override fun onResume() {
         super.onResume()
         val index = updateTabsReminderSelection(
-            viewModel.parentViewModel?.billModel?.value?.reminderFrequency ?: 3
+            viewModel.parentViewModel?.billModel?.value?.reminderFrequency
+                ?: ReminderType.ThreeDays().rdays
         )
         getViewBinding().iBillReminder.tabLayout.getTabAt(index)?.select()
     }
@@ -263,7 +263,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
             ReminderType.ThreeWeeks().rdays -> threeWeeks
             ReminderType.OneWeek().rdays -> oneWeek
             ReminderType.ThreeDays().rdays -> threeDays
-            else -> throw IllegalStateException("Invalid days selection $totalDays")
+            else -> threeDays
         }
     }
 }

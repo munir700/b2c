@@ -19,9 +19,9 @@ class SingleDeclineViewModel(application: Application) :
         super.onResume()
         toggleRightIconVisibility(false)
         setToolBarTitle(getString(Strings.screen_single_decline_toolbar_text_decline))
-        declinedBill.set(parentViewModel?.paidBills?.first { it.paymentStatus == BillPaymentStatus.DECLINED.title })
+        declinedBill.set(parentViewModel?.paidBills?.first { it.paymentStatus == BillPaymentStatus.FAILEDTITLE.title })
         state.paidAmount.set(
-            declinedBill.get()?.amount
+            declinedBill.get()?.billAmount.toString()
                 .toFormattedCurrency(showCurrency = true, withComma = true)
         )
     }

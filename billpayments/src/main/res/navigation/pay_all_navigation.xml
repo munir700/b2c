@@ -5,7 +5,6 @@
     android:id="@+id/pay_all_navigation"
     app:startDestination="@id/payAllFragment">
 
-
     <fragment
         android:id="@+id/singleDeclineFragment"
         android:name="co.yap.billpayments.payall.singledecline.SingleDeclineFragment"
@@ -20,13 +19,13 @@
             android:id="@+id/action_payAllFragment_to_singleDeclineFragment"
             app:destination="@id/singleDeclineFragment" />
         <action
-            android:id="@+id/action_payAllFragment_to_payAllSuccessFragment"
-            app:destination="@id/payAllSuccessFragment" />
+            android:id="@+id/action_payAllFragment_to_payAllStatusFragment"
+            app:destination="@id/payAllStatusFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/payAllSuccessFragment"
-        android:name="co.yap.billpayments.payall.payallsuccess.PayAllSuccessFragment"
-        android:label="PayAllSuccessFragment"
-        tools:layout="@layout/fragment_pay_all_success" />
+        android:id="@+id/payAllStatusFragment"
+        android:name="co.yap.billpayments.payall.payallsuccess.PayAllStatusFragment"
+        android:label="PayAllStatusFragment"
+        tools:layout="@layout/fragment_pay_all_status" />
 </navigation>

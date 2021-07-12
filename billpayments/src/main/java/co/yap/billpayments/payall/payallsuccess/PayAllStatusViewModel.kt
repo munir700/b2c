@@ -6,13 +6,14 @@ import co.yap.billpayments.payall.payallsuccess.adapter.PayAllBillsAdapter
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillPaymentStatus
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
-class PayAllSuccessViewModel(application: Application) :
-    PayAllBaseViewModel<IPayAllSuccess.State>(application),
-    IPayAllSuccess.ViewModel {
+class PayAllStatusViewModel(application: Application) :
+    PayAllBaseViewModel<IPayAllStatus.State>(application),
+    IPayAllStatus.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: IPayAllSuccess.State = PayAllSuccessState()
+    override val state: IPayAllStatus.State = PayAllStatusState()
     override var adapter: PayAllBillsAdapter = PayAllBillsAdapter(mutableListOf())
 
     override fun onCreate() {
@@ -68,26 +69,25 @@ class PayAllSuccessViewModel(application: Application) :
     }
 
     override fun getSuccessfullyPaidBills(): Int? {
-        return parentViewModel?.paidBills?.count { it.paymentStatus.equals(BillPaymentStatus.PAID.title) }
+        return parentViewModel?.paidBills?.count { it.paymentStatus.equals(BillPaymentStatus.PAIDTITLE.title) }
     }
 
     private fun populateData() {
-
-
         getSuccessfullyPaidBills()?.let { state.billsPaid.set(it) }
         setToolBarTitle(getToolbarTitle())
         setScreenTitle()
         parentViewModel?.paidBills?.let { adapter.setList(it) }
         state.viewState.value = false
-        if (state.billsPaid.get() != 0)
+        if (state.billsPaid.get() != 0) {
             state.paidAmount.set(
-                parentViewModel?.paidBills?.filter { it.paymentStatus.equals(BillPaymentStatus.PAID.title) }
-                    ?.sumBy { it.amount?.toInt() as Int }.toString()
+                parentViewModel?.paidBills?.filter { it.paymentStatus.equals(BillPaymentStatus.PAIDTITLE.title) }
+                    ?.sumByDouble { it.billAmount?.parseToDouble() as Double }.toString()
                     .toFormattedCurrency(showCurrency = true, withComma = true)
             )
-        else
+        } else
             state.paidAmount.set(
-                parentViewModel?.paidBills?.sumBy { it.amount?.toInt() as Int }.toString()
+                parentViewModel?.paidBills?.sumByDouble { it.billAmount?.parseToDouble() as Double }
+                    .toString()
                     .toFormattedCurrency(showCurrency = true, withComma = true)
             )
     }
