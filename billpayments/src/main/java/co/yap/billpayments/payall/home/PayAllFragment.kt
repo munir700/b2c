@@ -7,6 +7,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPayAllBinding
 import co.yap.billpayments.payall.base.PayAllBaseFragment
+import co.yap.billpayments.payall.payallsuccess.bottomsheetloder.PayBillLoderBottomSheet
 import co.yap.yapcore.enums.BillPaymentStatus
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -64,6 +65,7 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
                         navigate(R.id.action_payAllFragment_to_payAllStatusFragment)
                     }
                 }
+                //openBottomSheet()
             }
         }
     }
@@ -91,5 +93,13 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
 
     private fun hideErrorSnackBar() {
         cancelAllSnackBar()
+    }
+
+    private fun openBottomSheet() {
+        fragmentManager.let {
+            val payBillLoderBottomSheet =
+                PayBillLoderBottomSheet()
+            it?.let { it1 -> payBillLoderBottomSheet.show(it1, "") }
+        }
     }
 }
