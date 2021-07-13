@@ -76,9 +76,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun isShowItem(tag: TransactionDetailItem): Boolean {
         return when (tag) {
             TransactionDetailItem.CARD_NUMBER -> {
-                transaction.status == TransactionStatus.CANCELLED.name || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode) || isInternationalPOS(
-                    transaction
-                )
+                transaction.maskedCardNo?.let {
+                    true
+                } ?: false
             }
             TransactionDetailItem.TRANSFER_AMOUNT, TransactionDetailItem.EXCHANGE_RATE -> {
                 isInternationalPOS(transaction) || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
