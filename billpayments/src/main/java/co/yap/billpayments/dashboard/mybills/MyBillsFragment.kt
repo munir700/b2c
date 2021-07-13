@@ -119,6 +119,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
     override fun removeObservers() {
         viewModel.parentViewModel?.billsResponse?.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
+        viewModel?.toggleSortIconVisibility(false)
     }
 
     override fun onDestroy() {
