@@ -10,10 +10,10 @@ import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.BillerInputData
-import co.yap.networking.customers.requestdtos.EditBillInformationRequest
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
@@ -41,6 +41,11 @@ class EditBillViewModel(application: Application) :
         setToolBarTitle(parentViewModel?.selectedBill?.billerInfo?.billerName.toString())
         toggleRightIconVisibility(false)
         state.screenTitle.set(getString(Strings.screen_edit_bill_title_text))
+        state.isAutoPaymentOn.set(parentViewModel?.selectedBill?.autoPayment ?: false)
+//        parentViewModel?.selectedBill?.autoPayment = state.isAutoPaymentOn.get()
+        state.isBillReminderOn.set(parentViewModel?.selectedBill?.reminderNotification ?: false)
+//        parentViewModel?.selectedBill?.reminderNotification = state.isBillReminderOn.get()
+        state.totalDays.set(parentViewModel?.selectedBill?.reminderFrequency ?: 3)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -58,9 +63,15 @@ class EditBillViewModel(application: Application) :
     }
 
     override fun validation() {
-        if (lengthValidation() && state.nickNameValue.get()?.length ?: 0 > 1)
+        if (state.isAutoPaymentOn.get() != parentViewModel?.selectedBill?.autoPayment ?: false) {
+            state.valid.set(true)
+        } else if (state.isBillReminderOn.get() != parentViewModel?.selectedBill?.reminderNotification ?: false ||
+            state.totalDays.get() != parentViewModel?.selectedBill?.reminderFrequency ?: 3
+        ) {
+            state.valid.set(true)
+        } else if (lengthValidation() && state.nickNameValue.get()?.length ?: 0 > 1) {
             state.valid.set(textChangedValidation())
-        else
+        } else
             state.valid.set(false)
     }
 
@@ -115,6 +126,19 @@ class EditBillViewModel(application: Application) :
         state.autoPaymentScheduleType.set(paymentScheduleType.name)
     }
 
+    override fun updateReminderSelection(
+        isThreedays: Boolean,
+        isOneWeek: Boolean,
+        isThreeWeek: Boolean,
+        totalDays: Int
+    ) {
+        state.billReminderThreeDays.set(isThreedays)
+        state.billReminderOneWeek.set(isOneWeek)
+        state.billReminderThreeWeeks.set(isThreeWeek)
+        state.totalDays.set(totalDays)
+        validation()
+    }
+
     override fun setEditBillDetails() {
         val list =
             addBillerDetailItemComposer.compose(parentViewModel?.selectedBill?.billerInfo?.skuInfos?.first()?.ioCatalogs as ArrayList<IoCatalogModel>)
@@ -146,12 +170,12 @@ class EditBillViewModel(application: Application) :
     }
 
     override fun editBill(
-        editBillInformationRequest: EditBillInformationRequest,
+        editBillerRequest: EditBillerRequest,
         success: () -> Unit
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-            val response = repository.editBill(editBillInformationRequest)
+            val response = repository.editBiller(editBillerRequest)
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
@@ -167,7 +191,7 @@ class EditBillViewModel(application: Application) :
         }
     }
 
-    override fun getBillerInformationRequest(): EditBillInformationRequest {
+    override fun getEditBillerRequest(): EditBillerRequest {
         val inputsData = ArrayList<BillerInputData>()
         adapter.getDataList().forEach { inputData ->
             inputsData.add(
@@ -177,11 +201,14 @@ class EditBillViewModel(application: Application) :
                 )
             )
         }
-        return EditBillInformationRequest(
-            id = parentViewModel?.selectedBill?.id ?: "",
+        return EditBillerRequest(
+            id = Integer.parseInt(parentViewModel?.selectedBill?.id ?: "0"),
             billerID = parentViewModel?.selectedBill?.billerID ?: "",
             skuId = parentViewModel?.selectedBill?.skuId ?: "",
             billNickName = state.nickNameValue.get() ?: "",
+            autoPayment = state.isAutoPaymentOn.get(),
+            reminderNotification = state.isBillReminderOn.get(),
+            reminderFrequency = state.totalDays.get() ?: 3,
             inputsData = inputsData
         )
     }

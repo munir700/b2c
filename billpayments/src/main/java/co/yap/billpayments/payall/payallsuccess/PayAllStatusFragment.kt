@@ -9,12 +9,12 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.payall.base.PayAllBaseFragment
 
-class PayAllSuccessFragment : PayAllBaseFragment<IPayAllSuccess.ViewModel>(),
-    IPayAllSuccess.View {
+class PayAllStatusFragment : PayAllBaseFragment<IPayAllStatus.ViewModel>(),
+    IPayAllStatus.View {
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_pay_all_success
-    override val viewModel: IPayAllSuccess.ViewModel
-        get() = ViewModelProviders.of(this).get(PayAllSuccessViewModel::class.java)
+    override fun getLayoutId(): Int = R.layout.fragment_pay_all_status
+    override val viewModel: IPayAllStatus.ViewModel
+        get() = ViewModelProviders.of(this).get(PayAllStatusViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

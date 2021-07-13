@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.billpayments.payall.payallsuccess.adapter.PayAllSuccessItemViewModel" />
+            type="co.yap.billpayments.payall.payallsuccess.adapter.PayAllStatusItemViewModel" />
 
 
         <import type="android.view.View" />
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{viewModel.paidBill.categpryName}"
+            android:text="@{viewModel.paidBill.billerType}"
             tools:text="Telecom" />
 
         <androidx.constraintlayout.helper.widget.Flow
@@ -90,7 +90,8 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{SessionManager.INSTANCE.defaultCurrency+` `+ viewModel.paidBill.amount}"
+            android:textColor="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.PAIDTITLE.title)? @color/colorPrimaryDark : @color/greyDark }"
+            android:text="@{SessionManager.INSTANCE.defaultCurrency+` `+ viewModel.paidBill.billAmount}"
             tools:text="AED 200" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -99,8 +100,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.paidBill.paymentStatus}"
-            android:textColor="@color/colorSecondaryMagenta"
-            android:visibility="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.PAID.title)? View.GONE : View.VISIBLE }"
+            android:textColor="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.FAILEDTITLE.title)? @color/colorSecondaryMagenta : @color/warning}"
+            android:visibility="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.PAIDTITLE.title)? View.GONE : View.VISIBLE }"
             tools:text="Declined" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

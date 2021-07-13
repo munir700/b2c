@@ -175,13 +175,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/screen_pay_bill_selection_text"
+                android:visibility="gone"
                 tools:text="@string/screen_pay_bill_selection_text" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/swAutoPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:theme="@style/CustomSwitch" />
+                android:theme="@style/CustomSwitch"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/iAutoPayment"
@@ -217,6 +219,7 @@
                 android:id="@+id/swBillReminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="@{viewModel.state.isBillReminderOn()}"
                 android:theme="@style/CustomSwitch" />
 
             <include
@@ -228,7 +231,6 @@
                 android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/fBillReminder"
                 app:viewModel="@{viewModel}" />
-
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnPay"

@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.base.BillDashboardBaseFragment
@@ -26,8 +26,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_my_bills
-    override val viewModel: MyBillsViewModel
-        get() = ViewModelProviders.of(this).get(MyBillsViewModel::class.java)
+    override val viewModel: MyBillsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +119,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
     override fun removeObservers() {
         viewModel.parentViewModel?.billsResponse?.removeObservers(this)
         viewModel.parentViewModel?.toolBarClickEvent?.removeObservers(this)
+        viewModel?.toggleSortIconVisibility(false)
     }
 
     override fun onDestroy() {

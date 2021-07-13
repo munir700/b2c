@@ -25,7 +25,6 @@ class MyBillsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
-        toggleSortIconVisibility(true)
         toggleRightIconVisibility(true)
         context.getDrawable(R.drawable.ic_add_sign)?.let { setRightIconDrawable(it) }
     }
@@ -80,8 +79,10 @@ class MyBillsViewModel(application: Application) :
 
     override fun setBillList() {
         setScreenTitle()
-        parentViewModel?.billsResponse?.value?.toMutableList()?.let { adapter.setList(it) }
-
+        parentViewModel?.billsResponse?.value?.toMutableList()?.let {
+            if (it.size > 1) toggleSortIconVisibility(true) else toggleSortIconVisibility(false)
+            adapter.setList(it)
+        }
     }
 
     override val onBottomSheetItemClickListener = object : OnItemClickListener {
@@ -120,6 +121,5 @@ class MyBillsViewModel(application: Application) :
 
     override fun onStop() {
         super.onStop()
-        toggleSortIconVisibility(false)
     }
 }

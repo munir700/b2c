@@ -6,6 +6,7 @@ import co.yap.billpayments.databinding.FragmentPayBillBinding
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.requestdtos.PayBillRequest
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -36,11 +37,12 @@ interface IPayBill {
             isMonth: Boolean,
             paymentScheduleType: PaymentScheduleType
         )
-
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
         fun setMinMaxLimitForPostPaid(viewBillModel: ViewBillModel)
-        fun payBill(payBillRequest: PayBillRequest, success: () -> Unit)
+        fun payBillAndEditBiller(payBillRequest: PayBillRequest, editBillerRequest: EditBillerRequest, success: () -> Unit)
         fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest
+        fun getEditBillerRequest(billModel: ViewBillModel?): EditBillerRequest
+
     }
 
     interface View : IBase.View<ViewModel> {

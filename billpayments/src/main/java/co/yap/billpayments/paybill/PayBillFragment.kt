@@ -87,7 +87,6 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         }
     }
 
-
     private fun initTabLayout() {
         getViewBinding().iAutoPayment.tabLayout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
@@ -147,20 +146,18 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
                 )
             }
             R.id.btnPay -> {
-                payBillNow()
+                viewModel.payBillAndEditBiller(
+                    payBillRequest = viewModel.getPayBillRequest(
+                        viewModel.parentViewModel?.billModel?.value,
+                        viewModel.state.amount
+                    ), editBillerRequest = viewModel.getEditBillerRequest(
+                        viewModel.parentViewModel?.billModel?.value
+                    )
+                ) {
+                    viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
+                    navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)
+                }
             }
-        }
-    }
-
-    private fun payBillNow() {
-        viewModel.payBill(
-            viewModel.getPayBillRequest(
-                viewModel.parentViewModel?.billModel?.value,
-                viewModel.state.amount
-            )
-        ) {
-            viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
-            navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)
         }
     }
 

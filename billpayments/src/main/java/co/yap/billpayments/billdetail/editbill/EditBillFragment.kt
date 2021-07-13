@@ -12,6 +12,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
 import co.yap.billpayments.databinding.FragmentEditBillBinding
 import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.billpayments.paybill.enum.ReminderType
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
@@ -27,8 +28,9 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_edit_bill
+    var alertDialog: android.app.AlertDialog? = null
 
-    override val viewModel: IEditBill.ViewModel
+    override val viewModel: EditBillViewModel
         get() = ViewModelProviders.of(this).get(EditBillViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +46,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
             viewModel.validation()
         }
         initTabLayout()
+        initReminderTabLayout()
     }
 
     private fun initTabLayout() {
@@ -84,6 +87,47 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         })
     }
 
+    private fun initReminderTabLayout() {
+        getViewBinding().iBillReminder.tabLayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    threeDays -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = true,
+                            isOneWeek = false,
+                            isThreeWeek = false,
+                            totalDays = ReminderType.ThreeDays().rdays
+                        )
+                    }
+                    oneWeek -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = false,
+                            isOneWeek = true,
+                            isThreeWeek = false,
+                            totalDays = ReminderType.OneWeek().rdays
+                        )
+                    }
+                    threeWeeks -> {
+                        viewModel.updateReminderSelection(
+                            isThreedays = false,
+                            isOneWeek = false,
+                            isThreeWeek = true,
+                            totalDays = ReminderType.ThreeWeeks().rdays
+                        )
+                    }
+                }
+            }
+
+        })
+    }
+
     private fun openMonthDaysSheet(title: String, list: List<String>, isDaySelection: Boolean) {
         this.childFragmentManager.let { fManager ->
             val coreBottomSheet = CoreBottomSheet(
@@ -109,7 +153,6 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
             coreBottomSheet.show(fManager, "")
         }
     }
-
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
@@ -142,7 +185,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     }
 
     override fun showPopUp() {
-        requireActivity().showAlertDialogAndExitApp(
+        alertDialog = requireActivity().showAlertDialogAndExitApp(
             dialogTitle = getString(Strings.screen_edit_bill_dialog_title),
             message = getString(Strings.screen_edit_bill_dialog_description),
             leftButtonText = getString(Strings.common_button_yes),
@@ -167,7 +210,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
 
     private fun editBillClick() {
         val request =
-            viewModel.getBillerInformationRequest()
+            viewModel.getEditBillerRequest()
         viewModel.editBill(request) {
             setIntentResult(isUpdated = true)
         }
@@ -184,17 +227,36 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+        alertDialog?.dismiss()
     }
-
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView?.id) {
             R.id.swAutoPayment -> {
                 viewModel.state.isAutoPaymentOn.set(isChecked)
+                viewModel.validation()
             }
             R.id.swBillReminder -> {
                 viewModel.state.isBillReminderOn.set(isChecked)
+                viewModel.validation()
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val index = updateTabsReminderSelection(
+            viewModel.parentViewModel?.selectedBill?.reminderFrequency ?: ReminderType.ThreeDays().rdays
+        )
+        getViewBinding().iBillReminder.tabLayout.getTabAt(index)?.select()
+    }
+
+    fun updateTabsReminderSelection(totalDays: Int): Int {
+        return when (totalDays) {
+            ReminderType.ThreeWeeks().rdays -> threeWeeks
+            ReminderType.OneWeek().rdays -> oneWeek
+            ReminderType.ThreeDays().rdays -> threeDays
+            else -> threeDays
         }
     }
 }

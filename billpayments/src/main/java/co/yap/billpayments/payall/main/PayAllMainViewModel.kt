@@ -3,7 +3,7 @@ package co.yap.billpayments.payall.main
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
-import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
+import co.yap.billpayments.payall.payallsuccess.adapter.PaidBill
 import co.yap.yapcore.BaseViewModel
 
 class PayAllMainViewModel(application: Application) :

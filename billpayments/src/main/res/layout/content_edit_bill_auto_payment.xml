@@ -19,8 +19,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:visibility="@{viewModel.state.isAutoPaymentOn ? View.VISIBLE:View.GONE}">
+        android:animateLayoutChanges="true">
+<!--        android:visibility="@{viewModel.state.isAutoPaymentOn ? View.GONE:View.GONE}"-->
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPayType"

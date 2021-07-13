@@ -3,24 +3,21 @@ package co.yap.networking.transactions.requestdtos
 import co.yap.networking.customers.models.BillerInputData
 import com.google.gson.annotations.SerializedName
 
-
-data class PayBillRequest(
+data class PayAllRequest(
     @SerializedName("billerID")
-    val billerId: String,
-    @SerializedName("notes")
-    val notes: String,
+    val billerID: String,
     @SerializedName("skuID")
-    val skuId: String,
+    val skuID: String,
     @SerializedName("billAmount")
-    val billAmount: String,
+    val billAmount: Double? = 0.0,
     @SerializedName("customerBillUuid")
     val customerBillUuid: String,
     @SerializedName("paymentInfo")
     val paymentInfo: String? = null,
     @SerializedName("billerCategory")
-    val billerCategory: String,
-    @SerializedName("biller_name")
-    val biller_name: String,
+    val billerCategory: Int,
+    @SerializedName("billerName")
+    val billerName: String,
     @SerializedName("billData")
     val billData: List<BillerInputData>?
 )

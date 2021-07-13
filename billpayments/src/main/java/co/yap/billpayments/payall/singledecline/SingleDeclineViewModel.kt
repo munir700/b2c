@@ -3,7 +3,7 @@ package co.yap.billpayments.payall.singledecline
 import android.app.Application
 import androidx.databinding.ObservableField
 import co.yap.billpayments.payall.base.PayAllBaseViewModel
-import co.yap.networking.transactions.responsedtos.billpayment.PaidBill
+import co.yap.billpayments.payall.payallsuccess.adapter.PaidBill
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.BillPaymentStatus
@@ -19,9 +19,9 @@ class SingleDeclineViewModel(application: Application) :
         super.onResume()
         toggleRightIconVisibility(false)
         setToolBarTitle(getString(Strings.screen_single_decline_toolbar_text_decline))
-        declinedBill.set(parentViewModel?.paidBills?.first { it.PaymentStatus == BillPaymentStatus.DECLINED.title })
+        declinedBill.set(parentViewModel?.paidBills?.first { it.paymentStatus == BillPaymentStatus.FAILEDTITLE.title })
         state.paidAmount.set(
-            declinedBill.get()?.amount
+            declinedBill.get()?.billAmount.toString()
                 .toFormattedCurrency(showCurrency = true, withComma = true)
         )
     }
