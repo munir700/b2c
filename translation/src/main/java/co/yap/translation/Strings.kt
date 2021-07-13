@@ -2395,6 +2395,8 @@ object Strings {
         "screen_pay_bill_payment_every_week_text"
     const val screen_pay_bill_payment_every_month_text: String =
         "screen_pay_bill_payment_every_month_text"
+    const val screen_pay_all_bill_in_progress_title_text: String =
+        "screen_pay_all_bill_in_progress_title_text"
 
     //PayBill Success
     const val screen_pay_bill_success_toolbar_title: String =

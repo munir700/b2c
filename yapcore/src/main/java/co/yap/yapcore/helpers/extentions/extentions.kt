@@ -26,6 +26,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -34,7 +35,6 @@ import co.yap.modules.qrcode.BarcodeFormat
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
 import java.io.IOException
@@ -117,7 +117,6 @@ fun RecyclerView.fixSwipeToRefresh(refreshLayout: SwipeRefreshLayout): RecyclerV
         this.addOnScrollListener(it)
     }
 }
-
 
 class RecyclerViewSwipeToRefresh(private val refreshLayout: SwipeRefreshLayout) :
     RecyclerView.OnScrollListener() {
@@ -241,7 +240,6 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     return drawable
 }
 
-
 fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
     if (first.size != second.size) {
         return false
@@ -260,7 +258,7 @@ fun Context?.getJsonDataFromAsset(fileName: String): String? {
     }
     return jsonString
 }
-
+@BindingAdapter("strikeThroughText")
 fun AppCompatTextView.strikeThroughText(isStrikeThrough: Boolean) {
     this.paintFlags =
         if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0

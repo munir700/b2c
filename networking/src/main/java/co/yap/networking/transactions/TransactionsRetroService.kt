@@ -7,6 +7,7 @@ import co.yap.networking.transactions.responsedtos.achievement.AchievementsRespo
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
+import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsResponse
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -274,4 +275,7 @@ interface TransactionsRetroService {
         @Path("month") month: String?,
         @Path("categoryId") categoryId: String?
     ): Response<BPAnalyticsDetailsDTO>
+
+    @POST(TransactionsRepository.URL_PAY_ALL_BILL)
+    suspend fun payAllBills(@Body payBillRequest: ArrayList<PayAllRequest>): Response<PayAllBillsResponse>
 }

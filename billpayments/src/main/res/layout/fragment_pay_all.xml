@@ -21,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvScreenTitle"
             style="@style/ALarge"
@@ -116,7 +115,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
             app:btn_size="small"
-            app:enableCoreButton="@{true}"
+            app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

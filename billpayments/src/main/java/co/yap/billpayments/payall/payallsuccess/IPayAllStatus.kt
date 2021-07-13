@@ -6,7 +6,7 @@ import co.yap.billpayments.payall.payallsuccess.adapter.PayAllBillsAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IPayAllSuccess {
+interface IPayAllStatus {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
         fun removeObservers()

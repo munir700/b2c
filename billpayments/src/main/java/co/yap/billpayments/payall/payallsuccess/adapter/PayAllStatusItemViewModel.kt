@@ -3,7 +3,7 @@ package co.yap.billpayments.payall.payallsuccess.adapter
 import android.view.View
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class PayAllSuccessItemViewModel(
+class PayAllStatusItemViewModel(
     val paidBill: PaidBill?,
     val position: Int,
     private val onItemClickListener: OnItemClickListener?

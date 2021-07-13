@@ -1494,11 +1494,12 @@
     <string name="screen_pay_bill_payment_reminder_every_days_text">3 days</string>
     <string name="screen_pay_bill_payment_reminder_every_week_text">1 week</string>
     <string name="screen_pay_bill_payment_reminder_every_weeks_text">3 weeks</string>
+    <string name="screen_pay_all_bill_in_progress_title_text">Paying your bills...</string>
 
     <!--Pay Bill Success-->
     <string name="screen_pay_bill_success_toolbar_title">Transfer successful!</string>
     <string name="screen_pay_bill_success_you_have_paid">You have paid</string>
-    <string name="screen_pay_bill_success_button_text">Back to dashboard</string>
+    <string name="screen_pay_bill_success_button_text">Back to Bill Payments</string>
 
     <!--Single Decline Screen-->
     <string name="screen_single_decline_top_message">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
@@ -1517,7 +1518,6 @@
     <string name="screen_pay_all_success_text_paid_status">Total paid</string>
     <string name="screen_pay_all_success_text_decline_status">Total amount attempted to pay</string>
     <string name="screen_pay_all_success_button_text">Back to Bill Payments</string>
-
 
 
     <!-- Pay All Screen-->

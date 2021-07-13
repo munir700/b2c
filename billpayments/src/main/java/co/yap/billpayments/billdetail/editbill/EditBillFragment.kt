@@ -22,7 +22,6 @@ import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
-import java.lang.IllegalStateException
 
 class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     IEditBill.View, CompoundButton.OnCheckedChangeListener {
@@ -247,7 +246,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override fun onResume() {
         super.onResume()
         val index = updateTabsReminderSelection(
-            viewModel.parentViewModel?.selectedBill?.reminderFrequency ?: 3
+            viewModel.parentViewModel?.selectedBill?.reminderFrequency ?: ReminderType.ThreeDays().rdays
         )
         getViewBinding().iBillReminder.tabLayout.getTabAt(index)?.select()
     }
@@ -257,8 +256,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
             ReminderType.ThreeWeeks().rdays -> threeWeeks
             ReminderType.OneWeek().rdays -> oneWeek
             ReminderType.ThreeDays().rdays -> threeDays
-            else -> throw IllegalStateException("Invalid days selection $totalDays")
+            else -> threeDays
         }
     }
-
 }
