@@ -87,16 +87,6 @@ class TransactionsListingAdapter(
                 position, type = Constants.MERCHANT_TYPE
 
             )
-            if (type == TransactionAdapterType.ANALYTICS_DETAILS)
-                itemAnalyticsTransactionListBinding.tvTransactionAmount.text = String.format(
-                    "%s %s",
-                    transaction.getTransactionAmountPrefix(),
-                    transaction.totalAmount.toString().toFormattedCurrency(
-                        showCurrency = false,
-                        currency = transaction.currency ?: SessionManager.getDefaultCurrency()
-                    )
-                )
-
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
