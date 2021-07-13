@@ -42,7 +42,10 @@ class EditBillViewModel(application: Application) :
         toggleRightIconVisibility(false)
         state.screenTitle.set(getString(Strings.screen_edit_bill_title_text))
         state.isAutoPaymentOn.set(parentViewModel?.selectedBill?.autoPayment ?: false)
+//        parentViewModel?.selectedBill?.autoPayment = state.isAutoPaymentOn.get()
         state.isBillReminderOn.set(parentViewModel?.selectedBill?.reminderNotification ?: false)
+//        parentViewModel?.selectedBill?.reminderNotification = state.isBillReminderOn.get()
+        state.totalDays.set(parentViewModel?.selectedBill?.reminderFrequency ?: 3)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -60,9 +63,11 @@ class EditBillViewModel(application: Application) :
     }
 
     override fun validation() {
-        if (state.isAutoPaymentOn.get() != parentViewModel?.selectedBill?.autoPayment) {
+        if (state.isAutoPaymentOn.get() != parentViewModel?.selectedBill?.autoPayment ?: false) {
             state.valid.set(true)
-        } else if (state.isBillReminderOn.get() != parentViewModel?.selectedBill?.reminderNotification || state.totalDays.get() != parentViewModel?.selectedBill?.reminderFrequency) {
+        } else if (state.isBillReminderOn.get() != parentViewModel?.selectedBill?.reminderNotification ?: false ||
+            state.totalDays.get() != parentViewModel?.selectedBill?.reminderFrequency ?: 3
+        ) {
             state.valid.set(true)
         } else if (lengthValidation() && state.nickNameValue.get()?.length ?: 0 > 1) {
             state.valid.set(textChangedValidation())
