@@ -23,6 +23,7 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
 
 class TransactionsListingAdapter(
     private val list: MutableList<Transaction>,
@@ -86,6 +87,16 @@ class TransactionsListingAdapter(
                 position, type = Constants.MERCHANT_TYPE
 
             )
+            if (type == TransactionAdapterType.ANALYTICS_DETAILS)
+                itemAnalyticsTransactionListBinding.tvTransactionAmount.text = String.format(
+                    "%s %s",
+                    transaction.getTransactionAmountPrefix(),
+                    transaction.totalAmount.toString().toFormattedCurrency(
+                        showCurrency = false,
+                        currency = transaction.currency ?: SessionManager.getDefaultCurrency()
+                    )
+                )
+
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
