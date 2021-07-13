@@ -11,7 +11,6 @@ import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
-import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -19,9 +18,11 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.material.imageview.ShapeableImageView
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
@@ -204,13 +205,22 @@ class CardAnalyticsViewModel(application: Application) :
             DateUtils.dateToString(currentDate, SIMPLE_DATE_FORMAT, false)
     }
 
-    override fun setPieChartIcon(image: CoreCircularImageView) {
-        image.setCircularDrawable(
-            title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
-            url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
-            position = state.selectedItemPosition.get(),
-            type = type.get() ?: "merchant-name",
-            showBackground = (state.selectedTxnAnalyticsItem.get()?.logoUrl.isNullOrEmpty() || state.selectedTxnAnalyticsItem.get()?.logoUrl == " ")
+    override fun setPieChartIcon(image: ShapeableImageView) {
+        /* CoreCircularImageView.setCircularDrawable(
+             title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
+             url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
+             position = state.selectedItemPosition.get(),
+             type = type.get() ?: "merchant-name",
+             showBackground = (state.selectedTxnAnalyticsItem.get()?.logoUrl.isNullOrEmpty() || state.selectedTxnAnalyticsItem.get()?.logoUrl == " ")
+         )*/
+        val colors = image.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
+        val code = ImageBinding.getAnalyticsColor(colors, state.selectedItemPosition.get())
+        ImageBinding.loadPieAvatar(
+            imageView = image,
+            imageUrl = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
+            fullName = state.selectedTxnAnalyticsItem.get()?.title ?: "",
+            colorCode = code,
+            showBackground = false
         )
     }
 }

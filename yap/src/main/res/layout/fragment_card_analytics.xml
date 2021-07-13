@@ -65,13 +65,23 @@
                             android:orientation="vertical"
                             android:soundEffectsEnabled="false">
 
-                            <co.yap.widgets.CoreCircularImageView
+                          <!--  <co.yap.widgets.CoreCircularImageView
                                 android:id="@+id/ivPieView"
                                 android:layout_width="@dimen/_35sdp"
                                 android:layout_height="@dimen/_35sdp"
                                 android:contentDescription="@string/empty_string"
-                                app:cropImage="@{viewModel.state.selectedTab == 1}"
-                                />
+                                android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-category-id`)?@dimen/margin_small:@dimen/margin_zero_dp}"
+                                tools:src="@drawable/ic_access_alarm"
+                                app:cropImage="@{constant.INSTANCE.MERCHANT_TYPE != `merchant-category-id`}"
+                                />-->
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/ivPieView"
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:contentDescription="@string/app_name"
+                                app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"
+                                tools:src="@drawable/ic_access_alarm" />
 
                             <TextView
                                 android:id="@+id/tvPieViewTitle"

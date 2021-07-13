@@ -36,6 +36,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.imageview.ShapeableImageView
 import com.liveperson.infra.utils.Utils.getResources
 
 
@@ -406,7 +407,7 @@ object ImageBinding {
         )
     }
 
-    private fun getAnalyticsColor(colors: IntArray, position: Int): Int {
+     fun getAnalyticsColor(colors: IntArray, position: Int): Int {
         return colors[position % colors.size]
     }
 
@@ -678,4 +679,29 @@ object ImageBinding {
         canvas.drawBitmap(resource, 0f, 0f, paint)
         return bitmapResult
     }
+    @JvmStatic
+    @BindingAdapter(value = ["imageUrl", "fullName", "colorCode","showBackground"], requireAll = false)
+    fun loadPieAvatar(
+        imageView: ShapeableImageView,
+        imageUrl: String?,
+        fullName: String?, colorCode: Int?,showBackground : Boolean?
+    ) {
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
+            .height(imageView.context.dimen(R.dimen._35sdp))
+            .fontSize(imageView.context.dimen(R.dimen.text_size_h8))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(colorCode ?: -1)
+        setCircleCropImage(
+            imageView,
+            imageUrl ?: "",
+            builder.buildRect(
+                Utils.shortName(fullName ?: ""),
+                ColorUtils.setAlphaComponent(colorCode ?: -1, 25)
+            ), System.currentTimeMillis().toString()
+        )
+    }
+
 }
