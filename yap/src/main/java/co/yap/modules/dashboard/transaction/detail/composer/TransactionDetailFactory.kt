@@ -39,9 +39,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
             TransactionDetailItem.EXCHANGE_RATE -> {
                 if (transaction.isNonAEDTransaction()) "${transaction.currency} 1.00 = AED ${
-                    getExchangeRateForInternationalPOS(
-                        transaction
-                    )
+                getExchangeRateForInternationalPOS(
+                    transaction
+                )
                 }" else "${transaction.currency} 1.00 = AED ${transaction.fxRate}"
             }
             TransactionDetailItem.SENDER, TransactionDetailItem.RECEIVER -> {
@@ -336,6 +336,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
     fun isAtmTransaction(): Boolean =
         (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
+
+    fun isYTYTransaction(): Boolean =
+        transaction.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode
 
     fun showTransactionCategory(): Boolean =
         (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode)

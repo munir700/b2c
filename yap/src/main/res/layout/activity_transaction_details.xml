@@ -149,7 +149,7 @@
                     android:maxLines="1"
                     android:text="@{viewModel.transaction != null?viewModel.state.transactionData.transferType : null}"
                     android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)==true || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
-                    android:visibility="@{viewModel.transaction != null? viewModel.state.transactionData.isAtmTransaction?View.VISIBLE : View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewModel.transaction != null? ((viewModel.state.transactionData.isAtmTransaction|| viewModel.state.transactionData.isYTYTransfer) ?View.VISIBLE : View.GONE) : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
@@ -317,9 +317,8 @@
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clReceiptParent"
-                app:ratingViewModel="@{viewModel}"
-              />
-<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
+                app:ratingViewModel="@{viewModel}" />
+            <!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
 
             <include
                 android:id="@+id/parentTotalPurchase"
@@ -408,9 +407,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clDetail"
-                app:text="@{Strings.screen_transaction_details_display_feedback_label}"
-                />
-<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
+                app:text="@{Strings.screen_transaction_details_display_feedback_label}" />
+            <!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
