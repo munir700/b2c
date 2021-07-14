@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.currencyPicker.interfaces.ICurrencyPicker
@@ -18,6 +18,7 @@ import co.yap.widgets.Status
 import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
@@ -31,8 +32,7 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_currency_picker
 
-    override val viewModel: CurrencyPickerViewModel
-        get() = ViewModelProviders.of(this).get(CurrencyPickerViewModel::class.java)
+    override val viewModel: CurrencyPickerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +81,7 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     private val currencySelectedItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             setResultData(data as MultiCurrencyWallet)
+            Utils.hideKeyboard(requireView())
         }
     }
 
@@ -92,6 +93,7 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     }
 
     override fun onCancel() {
+        Utils.hideKeyboard(requireView())
         activity?.finish()
     }
 
