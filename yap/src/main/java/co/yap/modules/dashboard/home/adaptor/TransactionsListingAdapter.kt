@@ -23,6 +23,7 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
 
 class TransactionsListingAdapter(
     private val list: MutableList<Transaction>,
