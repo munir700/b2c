@@ -30,7 +30,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         return when (forTag) {
             TransactionDetailItem.CARD_NUMBER -> {
                 transaction.maskedCardNo?.split(" ")?.lastOrNull().let { maskCardNo ->
-                    "*${maskCardNo}"
+                    "*${maskCardNo?.takeLast(4)}"
                 }
             }
             TransactionDetailItem.TRANSFER_AMOUNT -> {
