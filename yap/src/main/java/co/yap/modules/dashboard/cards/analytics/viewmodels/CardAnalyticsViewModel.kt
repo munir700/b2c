@@ -19,9 +19,11 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.material.imageview.ShapeableImageView
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :

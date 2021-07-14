@@ -70,8 +70,7 @@
                                 android:layout_width="@dimen/_35sdp"
                                 android:layout_height="@dimen/_35sdp"
                                 android:contentDescription="@string/empty_string"
-                                app:cropImage="@{viewModel.state.selectedTab == 1}"
-                                />
+                                app:cropImage="@{viewModel.state.selectedTab == 1}" />
 
                             <TextView
                                 android:id="@+id/tvPieViewTitle"

@@ -587,9 +587,9 @@ object ImageBinding {
         }
     }
 
-/*
-   New Binding Adapter for Analytics Categories it displays icons from api response along with circular background
-*/
+    /*
+       New Binding Adapter for Analytics Categories it displays icons from api response along with circular background
+    */
     @JvmStatic
     @BindingAdapter(
         value = ["imageLogo", "categoryTitle", "position", "isBackground", "showFirstInitials"],
