@@ -83,7 +83,6 @@
                                 android:text="@{viewModel.state.selectedItemName}"
                                 android:textColor="@color/colorSecondaryMagenta"
                                 android:textSize="@dimen/_10sdp"
-                                app:tvColor="@{viewModel.state.selectedItemPosition}"
                                 tools:text="Retail Stores" />
 
                             <TextView

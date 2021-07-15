@@ -66,7 +66,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.type.set(Constants.MERCHANT_TYPE)
         getBindingView().rlDetails.setOnClickListener { }
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
-        //viewModel.setPieChartIcon(getBindingView().ivPieView)
+        setTextColour()
     }
 
     /*
@@ -163,7 +163,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         })
 
         viewModel.parentViewModel?.selectedItemPosition?.observe(this, Observer {
-            showPieView(it)
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
                     Constants.MERCHANT_TYPE = "merchant-category-id"
@@ -281,6 +280,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 currency = viewModel.state.currencyType
             )
         }
+        setTextColour()
     }
 
     private fun reSetPieChartInnerData(item: TxnAnalytic?) {
@@ -365,7 +365,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.parentViewModel?.selectedItemPosition?.removeObservers(this)
     }
 
-    fun setTextColour() {
+    private fun setTextColour() {
         if (viewModel.state.selectedItemPosition.get() == -1) return
         try {
             context?.let {
