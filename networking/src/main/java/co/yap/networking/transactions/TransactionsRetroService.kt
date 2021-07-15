@@ -278,6 +278,10 @@ interface TransactionsRetroService {
         @Path("categoryId") categoryId: String?
     ): Response<BPAnalyticsDetailsDTO>
 
+    //Get analytics for bill payments line chart
+    @GET(TransactionsRepository.URL_CUSTOMER_BILL_HISTORY_LINE_CHART)
+    suspend fun getBPLineChartHistory(@Path("customerBillUuid") customerBillUuid: String): Response<BaseListResponse<BillLineChartHistory>>
+
     @POST(TransactionsRepository.URL_PAY_ALL_BILL)
     suspend fun payAllBills(@Body payBillRequest: ArrayList<PayAllRequest>): Response<PayAllBillsResponse>
 }
