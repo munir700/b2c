@@ -100,9 +100,9 @@
                 android:id="@+id/historySeparator"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_2sdp"
-                android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium"
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -112,9 +112,9 @@
                 android:id="@+id/rvBillHistory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
                 app:adapter="@{viewModel.adapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -127,10 +127,10 @@
                 android:id="@+id/billingHistoryChart"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_200sdp"
-                app:layout_constraintTop_toBottomOf="@+id/rvBillHistory"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvBillHistory" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

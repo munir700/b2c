@@ -110,6 +110,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="@{viewModel.dueBill.formattedDueDate.equals(``) ? `Due`: `Due - `+viewModel.dueBill.formattedDueDate}"
+                android:textColor="@color/red"
                 app:layout_constrainedWidth="true"
                 tools:text="Etsilat" />
 

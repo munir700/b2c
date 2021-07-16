@@ -27,7 +27,8 @@ class BillAccountDetailViewModel(application: Application) :
     override var billHistory: BillHistory? = null
     override var adapter: BillHistoryAdapter = BillHistoryAdapter(mutableListOf())
     override var singleClickEvent: SingleClickEvent = SingleClickEvent()
-    override val lineChartHistoryResponse: MutableLiveData<MutableList<BillLineChartHistory>> = MutableLiveData()
+    override val lineChartHistoryResponse: MutableLiveData<MutableList<BillLineChartHistory>> =
+        MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
@@ -82,31 +83,31 @@ class BillAccountDetailViewModel(application: Application) :
 
     override fun getBillHistory(): MutableList<BillHistoryModel> {
         return mutableListOf(
-                BillHistoryModel(
-                        key = getString(Strings.screen_bill_account_detail_text_last_payment),
-                        value = billHistory?.lastPayment?.month.toString()
-                                + ": " + billHistory?.currency + " " + billHistory?.lastPayment?.billAmount.toFormattedCurrency(
-                                withComma = true,
-                                showCurrency = false
-                        )
-                ),
-                BillHistoryModel(
-                        key = getString(Strings.screen_bill_account_detail_text_total_payment),
-                        value = billHistory?.currency + " " + billHistory?.totalPaidAmount.toString()
-                                .toFormattedCurrency(withComma = true, showCurrency = false)
-                ),
-                BillHistoryModel(
-                        key = getString(Strings.screen_bill_account_detail_text_highest_month),
-                        value = billHistory?.highestPayment?.month.toString()
-                                + ": " + billHistory?.currency + " " + billHistory?.highestPayment?.billAmount.toString()
-                                .toFormattedCurrency(withComma = true, showCurrency = false)
-                ),
-                BillHistoryModel(
-                        key = getString(Strings.screen_bill_account_detail_text_lowest_month),
-                        value = billHistory?.lowestPayment?.month.toString()
-                                + ": " + billHistory?.currency + " " + billHistory?.lowestPayment?.billAmount.toString()
-                                .toFormattedCurrency(withComma = true, showCurrency = false)
+            BillHistoryModel(
+                key = getString(Strings.screen_bill_account_detail_text_last_payment),
+                value = billHistory?.lastPayment?.month.toString()
+                        + ": " + billHistory?.currency + " " + billHistory?.lastPayment?.billAmount.toFormattedCurrency(
+                    withComma = true,
+                    showCurrency = false
                 )
+            ),
+            BillHistoryModel(
+                key = getString(Strings.screen_bill_account_detail_text_total_payment),
+                value = billHistory?.currency + " " + billHistory?.totalPaidAmount.toString()
+                    .toFormattedCurrency(withComma = true, showCurrency = false)
+            ),
+            BillHistoryModel(
+                key = getString(Strings.screen_bill_account_detail_text_highest_month),
+                value = billHistory?.highestPayment?.month.toString()
+                        + ": " + billHistory?.currency + " " + billHistory?.highestPayment?.billAmount.toString()
+                    .toFormattedCurrency(withComma = true, showCurrency = false)
+            ),
+            BillHistoryModel(
+                key = getString(Strings.screen_bill_account_detail_text_lowest_month),
+                value = billHistory?.lowestPayment?.month.toString()
+                        + ": " + billHistory?.currency + " " + billHistory?.lowestPayment?.billAmount.toString()
+                    .toFormattedCurrency(withComma = true, showCurrency = false)
+            )
         )
     }
 
@@ -114,7 +115,7 @@ class BillAccountDetailViewModel(application: Application) :
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val response =
-                    repository.getBPLineChartHistory(uuid)
+                repository.getBPLineChartHistory(uuid)
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
