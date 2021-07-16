@@ -48,7 +48,7 @@ fun Transaction?.getTitle(): String {
                         "DECLINE_FEE",
                         true
                     )
-                ) "ATM decline fee" else "Withdraw money"
+                ) "ATM decline fee" else "ATM Withdrawal"
             }
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
             TransactionProductCode.REFUND_MASTER_CARD.pCode -> "Refund from ${transaction.merchantName}"

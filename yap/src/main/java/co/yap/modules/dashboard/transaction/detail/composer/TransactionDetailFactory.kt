@@ -213,8 +213,8 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_brown_background
                 TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
                 TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
-                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_image_light_blue_background
-                TransactionProductCode.ECOM.pCode -> R.drawable.image_map
+                TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode,  TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode,  TransactionProductCode.FUND_WITHDRAWL.pCode -> R.drawable.ic_image_light_blue_background
+                TransactionProductCode.ECOM.pCode,TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode,TransactionProductCode.ATM_WITHDRAWL.pCode,TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.image_map
                 else -> R.drawable.ic_image_light_blue_background
             })
         } ?: return -1
