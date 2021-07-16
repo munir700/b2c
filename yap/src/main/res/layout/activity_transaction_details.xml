@@ -213,16 +213,16 @@
                     tools:text="AED" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <View
-                android:id="@+id/vLine"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
+            <include
+                android:id="@+id/layoutCategory"
+                layout="@layout/layout_transaction_categary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
-                android:background="@color/divider"
-                app:layout_constraintEnd_toEndOf="@id/clAmount"
-                app:layout_constraintStart_toStartOf="@+id/clAmount"
-                app:layout_constraintTop_toBottomOf="@id/clAmount" />
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:visibility="@{viewModel.state.transactionData.showCategory?View.VISIBLE :View.GONE}"
+                app:categoryViewModel="@{viewModel}"
+                app:layout_constraintTop_toBottomOf="@+id/clAmount" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNoteParent"
@@ -230,7 +230,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vLine"
+                app:layout_constraintTop_toBottomOf="@+id/layoutCategory"
                 tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -308,6 +308,20 @@
                 app:receiptViewModel="@{viewModel}" />
 
             <include
+                android:id="@+id/layoutRating"
+                layout="@layout/layout_marchant_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clReceiptParent"
+                app:ratingViewModel="@{viewModel}"
+              />
+<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
+
+            <include
                 android:id="@+id/parentTotalPurchase"
                 layout="@layout/layout_total_purchases"
                 android:layout_width="match_parent"
@@ -316,7 +330,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_normal_large"
                 android:visibility="@{viewModel.state.showTotalPurchases?View.VISIBLE : View.GONE}"
-                app:layout_constraintTop_toBottomOf="@+id/clReceiptParent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutRating"
                 app:purchaseViewModel="@{viewModel}" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -335,6 +349,7 @@
                 tools:text="Payment detail" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@{viewModel.state.showTotalPurchases?@dimen/margin_zero_dp : @dimen/margin_medium}"
@@ -379,6 +394,23 @@
                     tools:itemCount="4"
                     tools:listitem="@layout/item_transaction_detail" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvImproveLogo"
+                style="@style/ALarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                android:paddingBottom="@dimen/margin_medium"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clDetail"
+                app:text="@{Strings.screen_transaction_details_display_feedback_label}"
+                />
+<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

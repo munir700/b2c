@@ -63,6 +63,7 @@ object Constants {
     //CardAnalytics constants
     const val CATEGORY_AVERAGE_AMOUNT_VALUE: Int = 7
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
+    const val QR_CODE_SCREEN: Int = 9
 
     const val URL_YAP_WEBSITE = "https://www.yap.com/"
     const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
@@ -202,5 +203,11 @@ object Constants {
     const val PRIME_CARD_PLAN = "PRIME_CARD_PLAN"
     const val METAL_CARD_PLAN = "METAL_CARD_PLAN"
 
-
+    // Transaction Details
+    const val UPDATED_CATEGORY = "UPDATED_CATEGORY"
+    const val PRE_SELECTED_CATEGORY = "PRE_SELECTED_CATEGORY"
+    const val FEEDBACK_LOCATION = "FEEDBACK_LOCATION"
+    const val FEEDBACK_TITLE = "FEEDBACK_TITLE"
+    const val TRANSACTION_COUNT = "TRANSACTION_COUNT"
+    const val TOTAL_TRANSACTION = "TOTAL_TRANSACTION"
 }

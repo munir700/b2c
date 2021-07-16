@@ -44,11 +44,13 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivi
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -402,6 +404,20 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             )
             closeDrawer()
         }
+        getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
+            QRCodeFragment { beneficary ->
+                launchActivity<YapToYapDashboardActivity>(
+                    requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+                    type = FeatureSet.Y2Y_TRANSFER
+                ) {
+                    putExtra(Beneficiary::class.java.name, beneficary)
+                    putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, true)
+                    putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
+                }
+            }.show(this.supportFragmentManager, "")
+            closeDrawer()
+        }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             SessionManager.getPrimaryCard()?.let {
                 trackEventWithScreenName(FirebaseEvent.CLICK_STATEMENTS)
@@ -564,5 +580,20 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun doLogout() {
         SessionManager.doLogout(this)
         finishAffinity()
+    }
+
+    private fun startY2YTransfer(
+        beneficiary: Beneficiary?,
+        fromQR: Boolean = false,
+        position: Int = 0
+    ) {
+        launchActivity<YapToYapDashboardActivity>(
+            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+            type = FeatureSet.Y2Y_TRANSFER
+        ) {
+            putExtra(Beneficiary::class.java.name, beneficiary)
+            putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
+            putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
+        }
     }
 }

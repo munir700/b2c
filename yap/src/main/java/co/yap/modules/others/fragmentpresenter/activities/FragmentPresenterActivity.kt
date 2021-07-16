@@ -15,6 +15,7 @@ import co.yap.modules.onboarding.fragments.MeetingConfirmationFragment
 import co.yap.modules.others.fragmentpresenter.interfaces.IFragmentPresenter
 import co.yap.modules.others.fragmentpresenter.viewmodels.FragmentPresenterViewModel
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IFragmentHolder
@@ -69,7 +70,8 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
             fragment = MeetingConfirmationFragment()
             ft.replace(R.id.container, fragment)
             ft.commit()
-        } else {
+        }
+        else {
             if (Constants.MODE_HELP_SUPPORT == modeCode) {
                 val ft = supportFragmentManager.beginTransaction()
                 fragment = HelpSupportFragment()

@@ -237,8 +237,6 @@
                 app:layout_constraintVertical_bias="0.0"
                 app:text="@{Strings.screen_report_card_button_block_report}"
                 tools:text="@string/screen_report_card_button_block_report" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

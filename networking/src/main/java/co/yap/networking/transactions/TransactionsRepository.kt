@@ -14,12 +14,10 @@ import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsRespon
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
-import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
+import co.yap.networking.transactions.responsedtos.transaction.*
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
+import retrofit2.http.Body
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -86,6 +84,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_TRANSACTIONS_RECEIPT_SAVE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_RECEIPT_DELETE = "/transactions/api/transaction-receipt"
     const val URL_TRANSACTIONS_TOTAL_PURCHASES = "/transactions/api/total-purchases"
+    const val URL_TRANSACTIONS_VIEW_CATEGORIES = "/transactions/api/category"
+    const val URL_TRANSACTIONS_UPDATE_CATEGORY =
+        "/transactions/api/category/update-transaction-category"
+    const val URL_SEND_EMAIL =
+        "/transactions/api/email-me"
 
     // Bill payment
     const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
@@ -197,8 +200,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 cardTransactionRequest.title,
                 cardTransactionRequest.categories,
                 cardTransactionRequest.statues,
-                cardTransactionRequest.cardDetailsRequired
-
+                cardTransactionRequest.cardDetailsRequired,
+                cardTransactionRequest.debitSearch
             )
         })
 
@@ -224,16 +227,14 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.cardTopUpTransactionRequest(orderId, topUpTransactionRequest) })
 
     override suspend fun getAnalyticsByMerchantName(
-        cardSerialNo: String?,
         date: String?
     ): RetroApiResponse<AnalyticsResponseDTO> =
-        executeSafely(call = { api.getAnalyticsByMerchantName(cardSerialNo, date) })
+        executeSafely(call = { api.getAnalyticsByMerchantName(date) })
 
     override suspend fun getAnalyticsByCategoryName(
-        cardSerialNo: String?,
         date: String?
     ): RetroApiResponse<AnalyticsResponseDTO> =
-        executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
+        executeSafely(call = { api.getAnalyticsByCategoryName(date) })
 
     override suspend fun cashPayoutTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.cashPayoutTransferRequest(sendMoneyTransferRequest) })
@@ -296,7 +297,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         merchantType: String,
         cardSerialNo: String?,
         date: String?,
-        merchantName: ArrayList<String>?
+        merchantName: ArrayList<Any>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO> =
         executeSafely(call = {
             api.getTransactionsOfMerchant(
@@ -343,6 +344,27 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 receiverCustomerId = totalPurchaseRequest.receiverCustomerId,
                 senderCustomerId = totalPurchaseRequest.senderCustomerId,
                 productCode = totalPurchaseRequest.productCode,
+                merchantName = totalPurchaseRequest.merchantName
+            )
+        })
+
+    override suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse> =
+        executeSafely(call = {
+            api.getAllTransactionCategories()
+        })
+
+    override suspend fun updateTransactionCategory(
+        categoryId: String,
+        transactionId: String
+    ): RetroApiResponse<ApiResponse> = executeSafely(call = {
+        api.updateTransactionCategory(categoryId, transactionId)
+    })
+
+    override suspend fun requestSendEmail(
+        sendEmailRequestModel: SendEmailRequest
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.requestSendEmail(sendEmailRequestModel)
                 merchantName = totalPurchaseRequest.merchantName
             )
         })

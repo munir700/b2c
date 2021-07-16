@@ -156,6 +156,6 @@
     <color name="stepview_circle_selected">@android:color/white</color>
     <color name="stepview_selected_number">#25448a</color>
     <color name="stepview_mark">@color/stepview_selected_number</color>
-
+    <color name="teal_green">#44d389</color>
     <color name="colorPurple">#712ce2</color>
 </resources>

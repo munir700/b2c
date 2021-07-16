@@ -27,5 +27,6 @@ class CardStatementsState : BaseState(), ICardStatments.State {
             notifyPropertyChanged(BR.nextMonth)
         }
 
+    override var statementType: ObservableField<String> = ObservableField()
 
 }
