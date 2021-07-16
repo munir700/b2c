@@ -208,22 +208,29 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     private fun setContentDataColor(transaction: Transaction?) {
         //strike-thru textview
         transaction?.let {
-            if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) {
-                getBindings().tvTotalAmountValue.text =
-                    Translator.getString(context, R.string.screen_transaction_details_declined)
-                getBindings().tvTotalAmountValue.setTextColor(
-                    context.resources.getColor(
-                        co.yap.yapcore.R.color.red
+            // if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) {
+            viewModel.state.transactionData.get()?.isDeclinedTransaction?.let { isDeclinedTransaction ->
+                if (isDeclinedTransaction || transaction.isTransactionRejected()) {
+                    getBindings().tvTotalAmountValue.text =
+                        Translator.getString(context, R.string.screen_transaction_details_declined)
+                    getBindings().tvTotalAmountValue.setTextColor(
+                        context.resources.getColor(
+                            co.yap.yapcore.R.color.red
+                        )
                     )
-                )
-                getBindings().tvCurrency.visibility = View.INVISIBLE
-            } else {
-                getBindings().tvTotalAmountValue.text =
-                    if (viewModel.transaction.get()?.txnType.equals(TxnType.DEBIT.type))
-                        "- ${viewModel.state.transactionData.get()?.totalAmount.toString()
+                    getBindings().tvCurrency.visibility = View.INVISIBLE
+                } else {
+                    getBindings().tvTotalAmountValue.text =
+                        if (viewModel.transaction.get()?.txnType.equals(TxnType.DEBIT.type))
+                            "- ${viewModel.state.transactionData.get()?.totalAmount.toString()
+                                .toFormattedCurrency(
+                                    false,
+                                    SessionManager.getDefaultCurrency(),
+                                    true
+                                )}"
+                        else "+ ${viewModel.state.transactionData.get()?.totalAmount.toString()
                             .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
-                    else "+ ${viewModel.state.transactionData.get()?.totalAmount.toString()
-                        .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
+                }
             }
         }
     }

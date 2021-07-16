@@ -386,4 +386,8 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         analyticIcon = ""
     ) else transaction.tapixCategory
 
+    fun isDeclinedTransaction(): Boolean = transaction.category.equals(
+        "DECLINE_FEE",
+        true
+    )
 }
