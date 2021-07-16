@@ -255,8 +255,9 @@ fun Transaction?.getFormattedDate(): String? {
 }
 
 fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION): String {
+    //now we will show 12h format in whole app. Remove conditions after verifying at prod
     return when (adapterType) {
-        TransactionAdapterType.ANALYTICS_DETAILS,TransactionAdapterType.TOTAL_PURCHASE-> {
+        TransactionAdapterType.ANALYTICS_DETAILS, TransactionAdapterType.TOTAL_PURCHASE -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
         TransactionAdapterType.TRANSACTION -> {
