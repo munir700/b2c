@@ -37,6 +37,7 @@ class BillCategoryViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(Translator.getString(context, Strings.screen_add_bill_toolbar_title))
         toggleRightIconVisibility(false)
+        toggleSortIconVisibility(false)
     }
 
     override fun getBillProviders() {

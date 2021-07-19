@@ -27,6 +27,9 @@ class MyBillsViewModel(application: Application) :
         setToolBarTitle(Translator.getString(context, Strings.screen_my_bills_toolbar_text_title))
         toggleRightIconVisibility(true)
         context.getDrawable(R.drawable.ic_add_sign)?.let { setRightIconDrawable(it) }
+        parentViewModel?.billsResponse?.value?.toMutableList()?.let {
+            if (it.size > 1) toggleSortIconVisibility(true) else toggleSortIconVisibility(false)
+        }
     }
 
     override fun getFiltersList(): MutableList<CoreBottomSheetData> {

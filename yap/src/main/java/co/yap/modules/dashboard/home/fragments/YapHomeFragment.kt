@@ -480,7 +480,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         viewModel.parentViewModel?.isKycCompelted?.observe(this, Observer {
-            if(it)
+            if (it)
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
     }
@@ -981,7 +981,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             viewModel
         )
     }
-
 
     private fun setGraphViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()

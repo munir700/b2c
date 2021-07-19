@@ -93,7 +93,7 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.billModel.totalAmountDue,true,viewModel.billModel.settlementCurrency, true)}"
+            android:text="@{Double.parseDouble(viewModel.billModel.totalAmountDue) >= 1.0 ? CurrencyExtensionsKt.toFormattedCurrency(viewModel.billModel.totalAmountDue,true,viewModel.billModel.settlementCurrency, true) : viewModel.billModel.totalAmountDue}"
             tools:text="AED 200.00" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.formattedBillStatus}"
-            android:textColor="@{viewModel.billModel.status.equals(BillStatus.OVERDUE.name)?@color/red: @color/greyDark}"
+            android:textColor="@{viewModel.billModel.status.equals(BillStatus.PAID.name)?@color/greyDark: @color/red}"
             tools:text="Paid" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
