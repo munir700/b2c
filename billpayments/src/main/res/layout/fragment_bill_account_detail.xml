@@ -124,6 +124,7 @@
                 tools:listitem="@layout/layout_item_bill_history" />
 
             <co.yap.widgets.pieview.LineChart
+                android:visibility="gone"
                 android:id="@+id/billingHistoryChart"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_200sdp"

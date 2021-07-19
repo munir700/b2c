@@ -29,6 +29,7 @@ interface IMyBills {
 
     interface State : IBase.State {
         var screenTitle: ObservableField<String>
+        var isBillsAvailable: ObservableBoolean
         var totalBillAmount: Double
         var buttonText: ObservableField<String>
         var valid: ObservableBoolean

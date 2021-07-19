@@ -61,6 +61,7 @@ class MyBillsViewModel(application: Application) :
 
     override fun setScreenTitle() {
         if (parentViewModel?.billsResponse?.value?.size == 1) {
+            state.isBillsAvailable.set(true)
             state.screenTitle.set(
                 Translator.getString(
                     context,
@@ -68,6 +69,7 @@ class MyBillsViewModel(application: Application) :
                 )
             )
         } else if (2 <= parentViewModel?.billsResponse?.value?.size ?: 0) {
+            state.isBillsAvailable.set(true)
             state.screenTitle.set(
                 Translator.getString(
                     context,
@@ -77,6 +79,7 @@ class MyBillsViewModel(application: Application) :
             )
         } else {
             state.screenTitle.set("")
+            state.isBillsAvailable.set(false)
         }
     }
 
