@@ -22,7 +22,6 @@ import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageActivity
@@ -30,14 +29,12 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.PhotoSelectionType
-import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import pl.aprilapps.easyphotopicker.MediaFile
 
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
@@ -52,7 +49,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        setContentDataColor(viewModel.transaction.get())
+        viewModel.setContentDataColor(
+            viewModel.transaction.get(),
+            getBindings().tvTotalAmountValue,
+            getBindings().tvCurrency
+        )
     }
 
     override fun setObservers() {
@@ -204,29 +205,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             ), Constants.INTENT_ADD_NOTE_REQUEST
         )
     }
-
-    private fun setContentDataColor(transaction: Transaction?) {
+    /*private fun setContentDataColor(transaction: Transaction?) {
         //strike-thru textview
         transaction?.let {
-            if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) {
-                getBindings().tvTotalAmountValue.text =
-                    Translator.getString(context, R.string.screen_transaction_details_declined)
-                getBindings().tvTotalAmountValue.setTextColor(
-                    context.resources.getColor(
-                        co.yap.yapcore.R.color.red
-                    )
-                )
-                getBindings().tvCurrency.visibility = View.INVISIBLE
-            } else {
-                getBindings().tvTotalAmountValue.text =
-                    if (viewModel.transaction.get()?.txnType.equals(TxnType.DEBIT.type))
-                        "- ${viewModel.state.transactionData.get()?.totalAmount.toString()
-                            .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
-                    else "+ ${viewModel.state.transactionData.get()?.totalAmount.toString()
-                        .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
-            }
+            getBindings().tvTotalAmountValue.paintFlags =
+                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
