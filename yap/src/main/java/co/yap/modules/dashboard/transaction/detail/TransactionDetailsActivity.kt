@@ -43,7 +43,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     ITransactionDetails.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.activity_transaction_details
     override val viewModel: ITransactionDetails.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)

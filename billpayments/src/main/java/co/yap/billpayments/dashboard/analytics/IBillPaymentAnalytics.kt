@@ -28,6 +28,7 @@ interface IBillPaymentAnalytics {
             model: BPAnalyticsModel,
             currentPosition: Int
         )
+
         fun getPieChartColors(it: List<BPAnalyticsModel>?): List<Int>
         fun initCurrentDate()
         fun fetchBillCategoryAnalytics(currentMonth: String)
@@ -44,5 +45,6 @@ interface IBillPaymentAnalytics {
         var nextMonth: ObservableBoolean
         var previousMonth: ObservableBoolean
         var displayMonth: ObservableField<String>
+        var isNTRYShow: ObservableBoolean
     }
 }

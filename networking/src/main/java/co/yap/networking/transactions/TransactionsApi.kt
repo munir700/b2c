@@ -1,10 +1,12 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsResponse
@@ -126,6 +128,7 @@ interface TransactionsApi {
     suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>
     suspend fun fetchCustomerBillHistory(customerBillUuid: String): RetroApiResponse<BillAccountHistoryResponse>
     suspend fun getBPAnalytics(date: String?): RetroApiResponse<BPAnalyticsResponseDTO>
+    suspend fun getBPLineChartHistory(customerBillUuid: String): RetroApiResponse<BaseListResponse<BillLineChartHistory>>
     suspend fun getBPCategoryHistory(
         month: String?,
         categoryId: String?

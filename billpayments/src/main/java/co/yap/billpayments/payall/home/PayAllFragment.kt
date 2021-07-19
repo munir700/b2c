@@ -7,7 +7,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPayAllBinding
 import co.yap.billpayments.payall.base.PayAllBaseFragment
-import co.yap.billpayments.payall.payallsuccess.bottomsheetloder.PayBillLoderBottomSheet
+import co.yap.billpayments.payall.payallsuccess.bottomsheetloder.PayBillLoaderBottomSheet
 import co.yap.yapcore.enums.BillPaymentStatus
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -19,6 +19,7 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pay_all
     override val viewModel: PayAllViewModel by viewModels()
+    var firstVideoPlayed: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +54,8 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
     private val clickListener = Observer<Int> { it ->
         when (it) {
             R.id.btnPayAll -> {
+                openBottomSheet()
                 viewModel.payAllBills(viewModel.getPayAllBillsRequest()) {
-
                     if (viewModel.parentViewModel?.paidBills?.size == 1 && viewModel.parentViewModel?.paidBills?.count {
                             it.paymentStatus.equals(
                                 BillPaymentStatus.FAILEDTITLE.title
@@ -65,7 +66,6 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
                         navigate(R.id.action_payAllFragment_to_payAllStatusFragment)
                     }
                 }
-                //openBottomSheet()
             }
         }
     }
@@ -96,10 +96,12 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
     }
 
     private fun openBottomSheet() {
-        fragmentManager.let {
-            val payBillLoderBottomSheet =
-                PayBillLoderBottomSheet()
-            it?.let { it1 -> payBillLoderBottomSheet.show(it1, "") }
+        val payBillLoaderBottomSheet = PayBillLoaderBottomSheet(viewModel.loadingState)
+        parentFragmentManager.let {
+            it.let { it1 ->
+                payBillLoaderBottomSheet.isCancelable = false
+                payBillLoaderBottomSheet.show(it1, "")
+            }
         }
     }
 }

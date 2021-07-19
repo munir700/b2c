@@ -698,6 +698,10 @@
         <item name="sv_animationType">Line</item>
     </style>
 
+    <style name="BottomSheetProgressBarColor">
+        <item name="colorAccent">@color/colorPrimary</item> <!-- Whatever color you want-->
+    </style>
+
     <style name="ChipsTheme" parent="@style/Widget.MaterialComponents.Chip.Choice">
         <item name="chipIconVisible">false</item>
         <item name="closeIconVisible">false</item>

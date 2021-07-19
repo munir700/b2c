@@ -3,11 +3,13 @@ package co.yap.networking.transactions
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsResponse
@@ -99,6 +101,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_BILL_CATEGORY_HISTORY =
         "/transactions/api/billpayment/fetch-category-bill-history/{month}/{categoryId}"
     const val URL_PAY_ALL_BILL = "/transactions/api/billpayment/pay-all-bill"
+    const val URL_CUSTOMER_BILL_HISTORY_LINE_CHART =
+        "/transactions/api/billpayment/fetch-bill-history/{customerBillUuid}"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -395,6 +399,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun payAllBills(payAllBillsRequest: ArrayList<PayAllRequest>): RetroApiResponse<PayAllBillsResponse> =
         executeSafely(call = {
             api.payAllBills(payAllBillsRequest)
+        })
+
+    override suspend fun getBPLineChartHistory(customerBillUuid: String): RetroApiResponse<BaseListResponse<BillLineChartHistory>> =
+        executeSafely(call = {
+            api.getBPLineChartHistory(customerBillUuid)
         })
 }
 

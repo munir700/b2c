@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.databinding.FragmentPayAllBinding
 import co.yap.billpayments.payall.payallsuccess.adapter.PaidBill
 import co.yap.billpayments.payall.payallsuccess.adapter.PayAllBillsAdapter
+import co.yap.billpayments.paybill.enums.LoaderStatus
 import co.yap.networking.transactions.requestdtos.PayAllRequest
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -32,6 +33,7 @@ interface IPayAll {
 
         fun isBalanceAvailable(enterAmount: Double): Boolean
         fun getPayAllBillsRequest(): ArrayList<PayAllRequest>
+        var loadingState: MutableLiveData<LoaderStatus>
     }
 
     interface View : IBase.View<ViewModel> {

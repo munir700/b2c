@@ -1440,7 +1440,8 @@ object Strings {
         "screen_card_analytics_display_month_average_text"
     const val screen_card_analytics_tool_bar_title: String =
         "screen_card_analytics_tool_bar_title"
-
+    const val screen_card_analytics_ntry: String =
+        "screen_card_analytics_ntry"
 
     //CashPickup Transfer screen
     const val screen_cash_pickup_funds_display_text_header: String =

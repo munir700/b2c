@@ -50,6 +50,23 @@
                             android:layout_height="@dimen/_200sdp"
                             android:layout_centerHorizontal="true" />
 
+                        <TextView
+                            android:id="@+id/tvNothingToReportYet"
+                            style="@style/ALarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/chart1"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/_40sdp"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@string/screen_card_analytics_ntry"
+                            android:textSize="@dimen/_14sdp"
+                            android:visibility="@{viewModel.state.isNTRYShow? View.VISIBLE:View.GONE}" />
+
+
                         <LinearLayout
                             android:id="@+id/rlDetails"
                             android:layout_width="@dimen/_100sdp"
@@ -158,9 +175,9 @@
                         android:text="@{viewModel.state.displayMonth}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        tools:textColor="@color/colorPrimaryDark"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="April 2021" />
+                        tools:text="April 2021"
+                        tools:textColor="@color/colorPrimaryDark" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivNext"

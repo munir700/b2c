@@ -6,7 +6,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
-import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.billpayments.paybill.enums.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.BillerInputData

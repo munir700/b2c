@@ -3,7 +3,7 @@ package co.yap.billpayments.paybill
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.billpayments.databinding.FragmentPayBillBinding
-import co.yap.billpayments.paybill.enum.PaymentScheduleType
+import co.yap.billpayments.paybill.enums.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
@@ -37,9 +37,15 @@ interface IPayBill {
             isMonth: Boolean,
             paymentScheduleType: PaymentScheduleType
         )
+
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
         fun setMinMaxLimitForPostPaid(viewBillModel: ViewBillModel)
-        fun payBillAndEditBiller(payBillRequest: PayBillRequest, editBillerRequest: EditBillerRequest, success: () -> Unit)
+        fun payBillAndEditBiller(
+            payBillRequest: PayBillRequest,
+            editBillerRequest: EditBillerRequest,
+            success: () -> Unit
+        )
+
         fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest
         fun getEditBillerRequest(billModel: ViewBillModel?): EditBillerRequest
 

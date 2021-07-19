@@ -14,13 +14,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/margin_medium_large">
+            android:layout_height="0dp">
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivLogo"
@@ -101,6 +100,8 @@
                 android:id="@+id/historySeparator"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +113,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
                 app:adapter="@{viewModel.adapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -119,6 +122,15 @@
                 app:layout_constraintTop_toBottomOf="@id/historySeparator"
                 tools:itemCount="5"
                 tools:listitem="@layout/layout_item_bill_history" />
+
+            <co.yap.widgets.pieview.LineChart
+                android:id="@+id/billingHistoryChart"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_200sdp"
+                app:layout_constraintTop_toBottomOf="@+id/rvBillHistory"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
