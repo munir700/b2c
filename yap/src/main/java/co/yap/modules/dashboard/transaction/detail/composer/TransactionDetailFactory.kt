@@ -111,7 +111,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     }
 
     private fun isShowItemFeeVat(value: Double?): Boolean =
-        !(transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode && value == 0.0)
+        !((transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) && value == 0.0)
 
     private fun isInternationalPOS(transaction: Transaction): Boolean {
         return (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode) && transaction.currency != SessionManager.getDefaultCurrency()
