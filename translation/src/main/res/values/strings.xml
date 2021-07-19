@@ -867,6 +867,7 @@
     <string name="screen_card_analytics_display_tab_title_merchant">Merchant</string>
     <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s</string>
     <string name="screen_card_analytics_tool_bar_title">Analytics</string>
+    <string name="screen_card_analytics_ntry">Nothing to report yet</string>
 
     <!--    Edit -->
 

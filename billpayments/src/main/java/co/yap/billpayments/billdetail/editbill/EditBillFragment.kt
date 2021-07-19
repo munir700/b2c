@@ -11,8 +11,8 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
 import co.yap.billpayments.databinding.FragmentEditBillBinding
-import co.yap.billpayments.paybill.enum.PaymentScheduleType
-import co.yap.billpayments.paybill.enum.ReminderType
+import co.yap.billpayments.paybill.enums.PaymentScheduleType
+import co.yap.billpayments.paybill.enums.ReminderType
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet

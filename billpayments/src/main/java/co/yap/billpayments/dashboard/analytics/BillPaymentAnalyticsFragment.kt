@@ -57,9 +57,11 @@ class BillPaymentAnalyticsFragment : BillDashboardBaseFragment<IBillPaymentAnaly
                         withComma = true
                     )
                 viewModel.state.selectedItemName = "Total Bills"
+                viewModel.state.isNTRYShow.set(false)
             } else {
                 viewModel.state.selectedItemSpentValue = ""
                 viewModel.state.selectedItemName = ""
+                viewModel.state.isNTRYShow.set(true)
             }
         })
     }
@@ -97,7 +99,7 @@ class BillPaymentAnalyticsFragment : BillDashboardBaseFragment<IBillPaymentAnaly
     }
 
     override fun getBinding(): FragmentBillPaymentsAnalyticsBinding =
-            viewDataBinding as FragmentBillPaymentsAnalyticsBinding
+        viewDataBinding as FragmentBillPaymentsAnalyticsBinding
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)

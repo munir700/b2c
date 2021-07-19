@@ -1,4 +1,4 @@
-package co.yap.billpayments.paybill.enum
+package co.yap.billpayments.paybill.enums
 
 sealed class ReminderType {
     data class ThreeDays(var rdays: Int = 3) : ReminderType()

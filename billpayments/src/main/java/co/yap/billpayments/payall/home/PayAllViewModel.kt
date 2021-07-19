@@ -1,11 +1,13 @@
 package co.yap.billpayments.payall.home
 
 import android.app.Application
+import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
 import co.yap.billpayments.payall.base.PayAllBaseViewModel
 import co.yap.billpayments.payall.payallsuccess.adapter.PaidBill
 import co.yap.billpayments.payall.payallsuccess.adapter.PayAllBillsAdapter
+import co.yap.billpayments.paybill.enums.LoaderStatus
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -28,6 +30,7 @@ class PayAllViewModel(application: Application) :
     override val state: IPayAll.State = PayAllState()
     override var errorEvent: MutableLiveData<String> = MutableLiveData()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override var loadingState: MutableLiveData<LoaderStatus> = MutableLiveData()
     override var adapter: PayAllBillsAdapter = PayAllBillsAdapter(mutableListOf())
     override val repository: TransactionsRepository = TransactionsRepository
     override fun onResume() {
@@ -92,11 +95,12 @@ class PayAllViewModel(application: Application) :
         success: () -> Unit
     ) {
         launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
             val response = repository.payAllBills(payAllRequest)
             launch {
+                loadingState.postValue(LoaderStatus.LoadingState)
                 when (response) {
                     is RetroApiResponse.Success -> {
+                        loadingState.postValue(LoaderStatus.SuccessState)
                         state.viewState.value = false
                         parentViewModel?.paidBills!!.clear()
                         parentViewModel?.paidBills =
@@ -126,11 +130,12 @@ class PayAllViewModel(application: Application) :
                                     }
                                 }
                             }
-                        success.invoke()
+                        Handler().postDelayed({ success.invoke() }, 2000)
+
                     }
                     is RetroApiResponse.Error -> {
+                        loadingState.postValue(LoaderStatus.ErrorState)
                         showToast(response.error.message)
-                        state.viewState.value = false
                     }
                 }
             }
@@ -138,21 +143,19 @@ class PayAllViewModel(application: Application) :
     }
 
     override fun getPayAllBillsRequest(): ArrayList<PayAllRequest> {
-        val payAllRequestDataList = ArrayList<PayAllRequest>()
-        adapter.getDataList().forEach { payAllBills ->
-            payAllRequestDataList.add(
-                PayAllRequest(
-                    billerID = payAllBills.billerID ?: "",
-                    skuID = payAllBills.skuID ?: "",
-                    billAmount = payAllBills.billAmount.parseToDouble(),
-                    customerBillUuid = payAllBills.customerBillUuid ?: "",
-                    paymentInfo = payAllBills.paymentInfo,
-                    billerCategory = payAllBills.billerCategory!!.parseToInt(),
-                    billerName = payAllBills.billerName ?: "",
-                    billData = payAllBills.billData
-                )
+        val payAllRequestDataList = adapter.getDataList().map {
+            PayAllRequest(
+                billerID = it.billerID ?: "",
+                skuID = it.skuID ?: "",
+                billAmount = it.billAmount.parseToDouble(),
+                customerBillUuid = it.customerBillUuid ?: "",
+                paymentInfo = it.paymentInfo,
+                billerCategory = it.billerCategory!!.parseToInt(),
+                billerName = it.billerName ?: "",
+                billData = it.billData
             )
-        }
+        } as ArrayList<PayAllRequest>
+
         return payAllRequestDataList
     }
 
