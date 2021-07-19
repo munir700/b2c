@@ -99,7 +99,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             notifyPropertyChanged(BR.selectedItemName)
         }
 
-    override var selectedItemPosition: ObservableInt = ObservableInt(0)
+    override var selectedItemPosition: ObservableInt = ObservableInt(-1)
 
     @get:Bindable
     override var totalSpent: String? = ""
