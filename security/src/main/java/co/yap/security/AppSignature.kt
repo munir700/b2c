@@ -11,7 +11,6 @@ data class AppSignature(
     var versionName: String?,
     var versionCode: String?,
     var applicationId: String?,
-
     var sslPin1: String?,
     var sslPin2: String?,
     var sslPin3: String?,

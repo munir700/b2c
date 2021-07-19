@@ -7,17 +7,22 @@
 #include <chrono>
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*/,
-                                                    jstring javaString, jstring flavour,
-                                                    jstring buildVariant, jstring applicationId,
-                                                    jstring versionName, jstring versionCode) {
+Java_co_yap_app_AAPApplication_signatureKeysFromJNI(
+        JNIEnv *env,
+        jobject /*this*/,
+        jstring javaString,
+        jstring flavour,
+        jstring buildVariant,
+        jstring applicationId,
+        jstring versionName,
+        jstring versionCode) {
     const char *nativeString = env->GetStringUTFChars(javaString, 0);
     jclass appSignature = env->FindClass(nativeString);
     jmethodID constructor = env->GetMethodID(appSignature, "<init>",
                                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
                                              "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
                                              "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
-                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
     std::string sha1Encoded;
     std::string md5Encoded;
@@ -34,7 +39,6 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     std::string sslHost;
 
     std::string spayServiceId;
-
     std::string flagSmithAPIKey;
 
 
@@ -113,11 +117,10 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslHost = "*.yap.co";
     flagSmithAPIKey = "hyzRfWb6DS87tRpswTUiJB";
 
-
     sha1Encoded = "";
     md5Encoded = "";
     sha256Encoded = "";
-     spayServiceId = "";
+    spayServiceId = "";
 #endif
 
     const char *appId = env->GetStringUTFChars(applicationId, 0);
@@ -191,8 +194,8 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                   env->NewStringUTF(sslPin2.c_str()),
                                   env->NewStringUTF(sslPin3.c_str()),
                                   env->NewStringUTF(sslHost.c_str()),
-                                  env->NewStringUTF(spayServiceId.c_str()));
                                   env->NewStringUTF(sslHost.c_str()),
-                                  env->NewStringUTF(flagSmithAPIKey.c_str()));
+                                  env->NewStringUTF(flagSmithAPIKey.c_str()),
+                                  env->NewStringUTF(spayServiceId.c_str()));
     return jObj;
 }

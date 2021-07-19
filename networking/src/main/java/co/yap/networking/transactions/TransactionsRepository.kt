@@ -369,8 +369,6 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
             api.requestSendEmail(sendEmailRequestModel)
-                merchantName = totalPurchaseRequest.merchantName
-            )
         })
 
     override suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse> =
