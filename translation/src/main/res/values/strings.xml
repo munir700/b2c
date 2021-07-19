@@ -680,7 +680,7 @@
     <string name="screen_transaction_details_rating_label">How was your experience with %1s?</string>
     <string name="screen_transaction_details_rating_tap_to_rate">Tap to rate</string>
 
-     <!--  Send Money no contacts Screen-->
+    <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
     <string name="screen_send_money_no_contacts_display_text_sub_heading">Who would you like to send money to?</string>
     <string name="screen_send_money_no_contacts_display_text_detail">​You can send money to people around the world through your YAP account. Click below to start adding a beneficiary. You can also do this using the + button anytime.</string>
@@ -1449,6 +1449,8 @@
     <string name="screen_my_bills_btn_text_pay">Pay %1s %2s</string>
     <string name="screen_my_bills_text_title_on_selection">Select the bill you want to pay</string>
     <string name="screen_my_bills_text_title_bottom_sheet">Sort by</string>
+    <string name="screen_my_bills_text_title_no_bills">You have no bills registered yet</string>
+
 
     <!--    Add Bill Screen-->
     <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>

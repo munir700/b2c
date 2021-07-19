@@ -10,4 +10,5 @@ class MyBillsState : BaseState(),
     override var totalBillAmount: Double = 0.0
     override var valid: ObservableBoolean = ObservableBoolean(false)
     override var buttonText: ObservableField<String> = ObservableField("")
+    override var isBillsAvailable: ObservableBoolean = ObservableBoolean(false)
 }
