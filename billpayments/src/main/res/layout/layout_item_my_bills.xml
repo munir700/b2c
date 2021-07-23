@@ -94,6 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{Double.parseDouble(viewModel.billModel.totalAmountDue) >= 1.0 ? CurrencyExtensionsKt.toFormattedCurrency(viewModel.billModel.totalAmountDue,true,viewModel.billModel.settlementCurrency, true) : viewModel.billModel.totalAmountDue}"
+            android:visibility="@{Double.parseDouble(viewModel.billModel.totalAmountDue) >= 0.1 ? View.VISIBLE:View.GONE}"
             tools:text="AED 200.00" />
 
         <androidx.appcompat.widget.AppCompatTextView

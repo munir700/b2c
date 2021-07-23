@@ -85,27 +85,32 @@ class BillAccountDetailViewModel(application: Application) :
         return mutableListOf(
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_last_payment),
-                value = billHistory?.lastPayment?.month.toString()
-                        + ": " + billHistory?.currency + " " + billHistory?.lastPayment?.billAmount.toFormattedCurrency(
+                date = billHistory?.lastPayment?.month.toString(),
+                currency = billHistory?.currency.toString(),
+                amount = billHistory?.lastPayment?.billAmount.toFormattedCurrency(
                     withComma = true,
                     showCurrency = false
                 )
             ),
             BillHistoryModel(
-                key = getString(Strings.screen_bill_account_detail_text_total_payment),
-                value = billHistory?.currency + " " + billHistory?.totalPaidAmount.toString()
-                    .toFormattedCurrency(withComma = true, showCurrency = false)
-            ),
-            BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_highest_month),
-                value = billHistory?.highestPayment?.month.toString()
-                        + ": " + billHistory?.currency + " " + billHistory?.highestPayment?.billAmount.toString()
+                date = billHistory?.highestPayment?.month.toString(),
+                currency = billHistory?.currency.toString(),
+                amount = billHistory?.highestPayment?.billAmount.toString()
                     .toFormattedCurrency(withComma = true, showCurrency = false)
             ),
             BillHistoryModel(
                 key = getString(Strings.screen_bill_account_detail_text_lowest_month),
-                value = billHistory?.lowestPayment?.month.toString()
-                        + ": " + billHistory?.currency + " " + billHistory?.lowestPayment?.billAmount.toString()
+                date = billHistory?.lowestPayment?.month.toString(),
+                currency = billHistory?.currency.toString(),
+                amount = billHistory?.lowestPayment?.billAmount.toString()
+                    .toFormattedCurrency(withComma = true, showCurrency = false)
+            ),
+            BillHistoryModel(
+                key = getString(Strings.screen_bill_account_detail_text_total_payment),
+                date = "",
+                currency = billHistory?.currency.toString(),
+                amount = billHistory?.totalPaidAmount.toString()
                     .toFormattedCurrency(withComma = true, showCurrency = false)
             )
         )
