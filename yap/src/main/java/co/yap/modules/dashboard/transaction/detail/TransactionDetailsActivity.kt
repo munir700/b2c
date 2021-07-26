@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -30,7 +29,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.PhotoSelectionType
-import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
@@ -51,7 +49,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        setContentDataColor(viewModel.transaction.get())
+        //setContentDataColor(viewModel.transaction.get())
+        viewModel.setContentDataColor(
+            viewModel.transaction.get(), getBindings().tvTotalAmountValue, getBindings().tvCurrency
+
+        )
     }
 
     override fun setObservers() {
@@ -204,13 +206,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         )
     }
 
-    private fun setContentDataColor(transaction: Transaction?) {
+    /*private fun setContentDataColor(transaction: Transaction?) {
         //strike-thru textview
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =
                 if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -232,9 +234,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
                     viewModel.state.transactionNoteDate = "Note added  ${
-                        DateUtils.getCurrentDateWithFormat(
-                            DateUtils.FORMAT_LONG_OUTPUT
-                        )
+                    DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
                     }"
                 }
 
