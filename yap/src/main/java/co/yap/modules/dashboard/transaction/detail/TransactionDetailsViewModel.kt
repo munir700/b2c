@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Application
+import android.view.View
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
@@ -16,6 +18,7 @@ import co.yap.networking.transactions.responsedtos.TotalPurchasesResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
@@ -27,6 +30,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 
@@ -76,7 +80,7 @@ class TransactionDetailsViewModel(application: Application) :
                     view.loadImage(logo)
                 } ?: txns.setTransactionImage(view)
             } else {
-               txns.setTransactionImage(view)
+                txns.setTransactionImage(view)
             }
         }
     }
@@ -260,6 +264,36 @@ class TransactionDetailsViewModel(application: Application) :
         } else {
             state.transactionNoteDate = "Note added " + transaction.get()
                 .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
+        }
+    }
+
+    override fun setContentDataColor(
+        transaction: Transaction?,
+        tvTotalAmountValue: AppCompatTextView,
+        tvCurrency: AppCompatTextView
+    ) {
+        transaction?.let {
+            state.transactionData.get()?.isDeclinedTransaction?.let { isDeclinedTransaction ->
+                if (isDeclinedTransaction || transaction.isTransactionRejected()) {
+                    tvTotalAmountValue.text =
+                        Translator.getString(context, R.string.screen_transaction_details_declined)
+                    tvTotalAmountValue.setTextColor(
+                        context.resources.getColor(co.yap.yapcore.R.color.colorSecondaryMagenta)
+                    )
+                    tvCurrency.visibility = View.INVISIBLE
+                } else {
+                    tvTotalAmountValue.text =
+                        if (transaction.txnType.equals(TxnType.DEBIT.type))
+                            "- ${state.transactionData.get()?.totalAmount.toString()
+                                .toFormattedCurrency(
+                                    false,
+                                    SessionManager.getDefaultCurrency(),
+                                    true
+                                )}"
+                        else "+ ${state.transactionData.get()?.totalAmount.toString()
+                            .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
+                }
+            }
         }
     }
 }

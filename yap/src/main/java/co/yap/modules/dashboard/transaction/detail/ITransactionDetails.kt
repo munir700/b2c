@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail
 
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -42,7 +43,13 @@ interface ITransactionDetails {
         var itemsComposer: TransactionDetailComposer
         var transactionAdapter: TransactionDetailItemAdapter
         var totalPurchase: ObservableField<TotalPurchases>
-        fun setMerchantImage(view : CoreCircularImageView)
+        fun setMerchantImage(view: CoreCircularImageView)
+        fun setContentDataColor(
+            transaction: Transaction?,
+            tvTotalAmountValue: AppCompatTextView,
+            tvCurrency: AppCompatTextView
+
+        )
     }
 
     interface State : IBase.State {
