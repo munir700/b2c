@@ -1,9 +1,13 @@
 package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Application
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -35,9 +39,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import java.util.*
 
 
@@ -317,10 +319,7 @@ class TransactionDetailsViewModel(application: Application) :
     override fun setMap() {
         val location = transaction.get()?.latitude?.let { lat ->
             transaction.get()?.longitude?.let { long ->
-                LatLng(
-                    lat,
-                    long
-                )
+                LatLng(lat,long)
             }
         }
         gMap?.addMarker(
@@ -328,7 +327,8 @@ class TransactionDetailsViewModel(application: Application) :
                 MarkerOptions()
                     .position(it)
                     .title("")
-            }
+                    .icon(bitmapDescriptorFromVector(getApplication(), R.drawable.ic_location_pin))
+             }
         )
         val cameraPosition: CameraPosition = CameraPosition.Builder()
             .target(location)
@@ -345,6 +345,15 @@ class TransactionDetailsViewModel(application: Application) :
         } else {
             ivMap.visibility = View.VISIBLE
             map.view?.visibility = View.GONE
+        }
+    }
+
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(context, vectorResId)?.run {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
         }
     }
 }
