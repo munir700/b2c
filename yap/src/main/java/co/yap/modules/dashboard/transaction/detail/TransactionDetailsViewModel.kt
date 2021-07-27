@@ -2,8 +2,10 @@ package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Application
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.ObservableField
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
@@ -31,6 +33,11 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
 
 
@@ -51,8 +58,18 @@ class TransactionDetailsViewModel(application: Application) :
         )
     override var totalPurchase: ObservableField<TotalPurchases> = ObservableField()
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
-
     override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
+    override var gMap: GoogleMap? = null
+        set(value) {
+            field = value
+            gMap?.setOnMapLoadedCallback {
+                gMap?.run {
+                    uiSettings.isZoomGesturesEnabled = false
+                    uiSettings.isScrollGesturesEnabled = false
+                }
+            }
+        }
+
     override fun onCreate() {
         super.onCreate()
         setStatesData()
@@ -294,6 +311,40 @@ class TransactionDetailsViewModel(application: Application) :
                             .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
                 }
             }
+        }
+    }
+
+    override fun setMap() {
+        val location = transaction.get()?.latitude?.let { lat ->
+            transaction.get()?.longitude?.let { long ->
+                LatLng(
+                    lat,
+                    long
+                )
+            }
+        }
+        gMap?.addMarker(
+            location?.let {
+                MarkerOptions()
+                    .position(it)
+                    .title("")
+            }
+        )
+        val cameraPosition: CameraPosition = CameraPosition.Builder()
+            .target(location)
+            .zoom(10f).build()
+        gMap?.animateCamera(
+            CameraUpdateFactory.newCameraPosition(cameraPosition)
+        )
+    }
+
+    override fun setMapVisibility(ivMap: ImageView, map: Fragment, isShowMap: Boolean) {
+        if (isShowMap) {
+            ivMap.visibility = View.GONE
+            map.view?.visibility = View.VISIBLE
+        } else {
+            ivMap.visibility = View.VISIBLE
+            map.view?.visibility = View.GONE
         }
     }
 }
