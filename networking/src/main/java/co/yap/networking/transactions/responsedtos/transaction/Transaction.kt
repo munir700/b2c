@@ -179,9 +179,9 @@ data class Transaction(
     @SerializedName("cardHolderBillingTotalAmount")
     val cardHolderBillingTotalAmount: Double? = null,
     @SerializedName("latitude")
-    val latitude: Double = 0.0,
+    val latitude: Double ? = null,
     @SerializedName("longitude")
-    val longitude: Double = 0.0
+    val longitude: Double? = null
 ) : ApiResponse(), Parcelable
 
 @Parcelize

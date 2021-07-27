@@ -379,14 +379,14 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         "DECLINE_FEE",
         true
     )
-
-    fun isMApVisible(): Boolean? =
-        (transaction.latitude != 0.0 && transaction.longitude != 0.0) &&
-                (transaction.productCode == TransactionProductCode.ECOM.pCode ||
-                        transaction.productCode == TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode ||
-                        transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode ||
-                        transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
-                        transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
-
-
+    fun isMApVisible(): Boolean? = transaction.latitude?.let { lat ->
+        transaction.longitude?.let { long ->
+            (lat != 0.0 && long != 0.0) &&
+                    (transaction.productCode == TransactionProductCode.ECOM.pCode ||
+                            transaction.productCode == TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode ||
+                            transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode ||
+                            transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
+                            transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
+        }?:false
+    }?:false
 }

@@ -40,8 +40,6 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 isYTYTransfer = transactionDetailFactory?.isYTYTransaction(),
                 isDeclinedTransaction = transactionDetailFactory?.isDeclinedTransaction(),
                 isMApVisible = transactionDetailFactory?.isMApVisible()
-
-
             )
         } ?: return null
     }
