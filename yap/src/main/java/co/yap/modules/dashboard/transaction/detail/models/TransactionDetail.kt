@@ -24,7 +24,8 @@ data class TransactionDetail(
     val tapixCategory: TapixCategory?,
     val showFeedBack: Boolean?,
     val isYTYTransfer: Boolean? = false,
-    val isDeclinedTransaction: Boolean? = false
+    val isDeclinedTransaction: Boolean? = false,
+    val isMApVisible: Boolean? = false
 )
 
 
