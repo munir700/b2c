@@ -343,16 +343,11 @@ fun Transaction?.getFormattedTransactionAmount(): String? {
     )
 }
 
-fun Transaction?.getFormattedTransactionAmountAnalytics(): String? {
-    return String.format(
-        "%s %s",
-        this.getTransactionAmountPrefix(),
-        this?.totalAmount.toString().toFormattedCurrency(
-            showCurrency = false,
-            currency = this?.currency ?: SessionManager.getDefaultCurrency()
-        )
+fun Transaction?.getFormattedTransactionAmountAnalytics() =
+    this?.totalAmount.toString().toFormattedCurrency(
+        showCurrency = false,
+        currency = this?.currency ?: SessionManager.getDefaultCurrency()
     )
-}
 
 fun Transaction?.getTransactionAmountColor(): Int {
     if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
