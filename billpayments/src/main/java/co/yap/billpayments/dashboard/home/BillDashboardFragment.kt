@@ -26,6 +26,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 import com.google.gson.Gson
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -235,6 +236,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
 
     override fun onResume() {
         super.onResume()
+        SessionManager.updateCardBalance {}
         onTouchListener?.let { getBindings().lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(it) }
     }
 
