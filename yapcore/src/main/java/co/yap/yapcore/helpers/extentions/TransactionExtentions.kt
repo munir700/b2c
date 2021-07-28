@@ -333,24 +333,18 @@ fun Transaction?.getAmount(): Double {
     } ?: return 0.00
 }
 
-fun Transaction?.getFormattedTransactionAmount(): String? {
-    return String.format(
-        "%s %s", this?.getTransactionAmountPrefix(),
-        this?.getAmount().toString().toFormattedCurrency(
-            showCurrency = false,
-            currency = this?.currency ?: SessionManager.getDefaultCurrency()
-        )
+fun Transaction?.getFormattedTransactionAmount() = String.format(
+    "%s %s", this?.getTransactionAmountPrefix(),
+    this?.getAmount().toString().toFormattedCurrency(
+        showCurrency = false,
+        currency = this?.currency ?: SessionManager.getDefaultCurrency()
     )
-}
+)
 
 fun Transaction?.getFormattedTransactionAmountAnalytics(): String? {
-    return String.format(
-        "%s %s",
-        this.getTransactionAmountPrefix(),
-        this?.totalAmount.toString().toFormattedCurrency(
-            showCurrency = false,
-            currency = this?.currency ?: SessionManager.getDefaultCurrency()
-        )
+    return this?.totalAmount.toString().toFormattedCurrency(
+        showCurrency = false,
+        currency = this?.currency ?: SessionManager.getDefaultCurrency()
     )
 }
 

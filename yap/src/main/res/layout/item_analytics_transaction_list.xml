@@ -78,7 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
-            android:text="@{viewModel.item.txnType.equals(TxnType.DEBIT.type) ? `- `+CurrencyExtensionsKt.toFormattedCurrency(TransactionExtentionsKt.getFormattedTransactionAmountAnalytics(viewModel.item),false,SessionManager.INSTANCE.defaultCurrency,true) : `+ `+CurrencyExtensionsKt.toFormattedCurrency(TransactionExtentionsKt.getFormattedTransactionAmountAnalytics(viewModel.item),false,SessionManager.INSTANCE.defaultCurrency,true)}"
+            android:text="@{viewModel.item.txnType.equals(TxnType.DEBIT.type) ? `- `+TransactionExtentionsKt.getFormattedTransactionAmountAnalytics(viewModel.item) : `+ `+TransactionExtentionsKt.getFormattedTransactionAmountAnalytics(viewModel.item)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="+100" />

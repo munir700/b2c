@@ -113,7 +113,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             entries.add(PieEntry(100f))
             colors.add(ColorTemplate.getEmptyColor())
         } else {
-            chart.isHighlightPerTapEnabled = true
+            //chart.isHighlightPerTapEnabled = true
+            //graph click will not be handled in merchant tab
+            chart.isHighlightPerTapEnabled =
+                getBindingView().tabLayout.selectedTabPosition == CATEGORY_ANALYTICS
             for (item in txnAnalytics.iterator())
                 item.totalSpendingInPercentage?.toFloat()?.let { PieEntry(it) }?.let {
                     entries.add(it)
