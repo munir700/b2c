@@ -16,17 +16,32 @@ class MyBillsItemViewModel(
 
     val formattedBillStatus: String
         get() {
-            return (when (billModel?.status) {
-                BillStatus.BILL_DUE.name -> {
-                    return BillStatus.BILL_DUE.title
-                }
-                BillStatus.PAID.name -> {
-                    return BillStatus.PAID.title
-                }
-                BillStatus.OVERDUE.name -> {
-                    return BillStatus.OVERDUE.title
-                }
-                else -> BillStatus.PAID.title
-            })
+            if (billModel?.billerInfo?.skuInfos?.get(0)?.isPrepaid == true) {
+                return (when (billModel?.status) {
+                    BillStatus.BILL_DUE.name -> {
+                        return BillStatus.BILL_DUE.title
+                    }
+                    BillStatus.PAID.name -> {
+                        return BillStatus.PREPAID.title
+                    }
+                    BillStatus.OVERDUE.name -> {
+                        return BillStatus.OVERDUE.title
+                    }
+                    else -> BillStatus.PREPAID.title
+                })
+            } else {
+                return (when (billModel?.status) {
+                    BillStatus.BILL_DUE.name -> {
+                        return BillStatus.BILL_DUE.title
+                    }
+                    BillStatus.PAID.name -> {
+                        return BillStatus.PAID.title
+                    }
+                    BillStatus.OVERDUE.name -> {
+                        return BillStatus.OVERDUE.title
+                    }
+                    else -> BillStatus.PAID.title
+                })
+            }
         }
 }

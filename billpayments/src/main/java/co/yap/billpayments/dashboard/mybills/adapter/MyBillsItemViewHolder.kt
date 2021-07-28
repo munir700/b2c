@@ -19,7 +19,8 @@ class MyBillsItemViewHolder(private val layoutItemMyBillsBinding: LayoutItemMyBi
         onItemClickListener: OnItemClickListener?
     ) {
         if (billModel?.status == BillStatus.OVERDUE.name) {
-            val amountSpan = SpannableString("${billModel.settlementCurrency} ${billModel.totalAmountDue}")
+            val amountSpan =
+                SpannableString("${billModel.settlementCurrency} ${billModel.totalAmountDue}")
             layoutItemMyBillsBinding.tvAmount.text = billModel.settlementCurrency?.length?.let {
                 Utils.setSpan(
                     0,
@@ -32,7 +33,6 @@ class MyBillsItemViewHolder(private val layoutItemMyBillsBinding: LayoutItemMyBi
                 )
             }
         }
-
 
         layoutItemMyBillsBinding.viewModel =
             MyBillsItemViewModel(
