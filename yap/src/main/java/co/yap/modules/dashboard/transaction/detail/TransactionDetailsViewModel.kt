@@ -68,6 +68,9 @@ class TransactionDetailsViewModel(application: Application) :
                 gMap?.run {
                     uiSettings.isZoomGesturesEnabled = false
                     uiSettings.isScrollGesturesEnabled = false
+                    uiSettings.isMapToolbarEnabled = false
+                    uiSettings.isCompassEnabled = false
+                    uiSettings.isRotateGesturesEnabled = false
                 }
             }
         }
