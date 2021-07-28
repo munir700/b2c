@@ -136,7 +136,7 @@ class PayBillLoaderBottomSheet(val loadingState: MutableLiveData<LoaderStatus>) 
     }
 
     private fun updateProgressbar() {
-        val timer = object : CountDownTimer(250000, 5) {
+        val timer = object : CountDownTimer(250000, 3) {
             override fun onTick(millisUntilFinished: Long) {
                 if (viewModel.state.loadingPercentage.get() ?: 0 <= 87) {
                     viewModel.state.loadingPercentage.set(
