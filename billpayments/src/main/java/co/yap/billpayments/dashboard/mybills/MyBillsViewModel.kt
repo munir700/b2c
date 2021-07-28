@@ -104,13 +104,20 @@ class MyBillsViewModel(application: Application) :
                     )
                 }
                 sortByRecentlyAdded -> {
-                    adapter.getDataList().sortWith(compareByDescending {
+                    val allPrepaidBills = adapter.getDataList()
+                        .filter { s -> s.billerInfo?.skuInfos?.get(0)?.isPrepaid == true }
+                    val allPostpaidBills = adapter.getDataList()
+                        .filter { s -> s.billerInfo?.skuInfos?.get(0)?.isPrepaid == false }
+                    val allPostpaidBillsnew = allPostpaidBills.sortedWith(compareByDescending {
                         it.createdAt?.let { it1 ->
                             DateUtils.stringToDate(
                                 it1, DateUtils.SERVER_DATE_FULL_FORMAT
                             )
                         }
                     })
+                    adapter.getDataList().clear()
+                    adapter.setList(allPostpaidBillsnew + allPrepaidBills)
+
                 }
                 sortByAToZAscending -> {
                     adapter.getDataList().sortBy { billModel -> billModel.billerInfo?.billerName }
@@ -123,9 +130,5 @@ class MyBillsViewModel(application: Application) :
             adapter.notifyDataSetChanged()
             state.loading = false
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 }

@@ -88,7 +88,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPaidBills"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_medium"
             android:clipToPadding="false"
             android:orientation="vertical"
@@ -98,6 +98,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/successSeparator"
+            app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
             tools:listitem="@layout/layout_item_pay_all_success" />
 
         <co.yap.widgets.CoreButton

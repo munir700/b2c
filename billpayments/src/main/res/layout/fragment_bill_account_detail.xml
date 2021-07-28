@@ -38,7 +38,10 @@
                 style="@style/Title3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:gravity="center_horizontal"
                 android:text="@{viewModel.parentViewModel.selectedBill.billerInfo.billerName}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -112,10 +115,10 @@
                 tools:listitem="@layout/layout_item_bill_history" />
 
             <co.yap.widgets.pieview.LineChart
-                android:visibility="gone"
                 android:id="@+id/billingHistoryChart"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_200sdp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
