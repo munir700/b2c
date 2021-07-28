@@ -233,7 +233,7 @@ class PrepaidPayBillViewModel(application: Application) :
             id = Integer.parseInt(billModel?.id ?: "0"),
             billerID = billModel?.billerID ?: "",
             skuId = billModel?.skuId ?: "",
-            billNickName = billModel?.billerInfo?.billerName ?: "",
+            billNickName = billModel?.billNickName ?: "",
             autoPayment = false,
             reminderNotification = state.isBillReminderOn.get(),
             reminderFrequency = state.totalDays.get() ?: 3,

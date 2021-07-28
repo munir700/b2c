@@ -229,7 +229,7 @@ class PayBillViewModel(application: Application) :
             id = Integer.parseInt(billModel?.id ?: "0"),
             billerID = billModel?.billerID ?: "",
             skuId = billModel?.skuId ?: "",
-            billNickName = billModel?.billerInfo?.billerName ?: "",
+            billNickName = billModel?.billNickName ?: "",
             autoPayment = state.isAutoPaymentOn.get(),
             reminderNotification = billModel?.reminderNotification ?: false,
             reminderFrequency = null,
