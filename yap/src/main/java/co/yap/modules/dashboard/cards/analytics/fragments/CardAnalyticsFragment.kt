@@ -52,12 +52,12 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
             )
         )
+        setObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBindings()
-        setObservers()
         setupAdaptor()
         setupTabs()
     }
@@ -170,14 +170,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
                     Constants.MERCHANT_TYPE = "merchant-category-id"
-                    /*viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
+                    viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
                         viewModel.state.selectedTxnAnalyticsItem.set(list[it])
-                        updatePieChartInnerData(list[it])
                         setState(list[it])
-
-                    }*/
+                        updatePieChartInnerData(list[it])
+                        viewModel.setPieChartIcon(getBindingView().ivPieView)
+                    }
                     viewModel.state.selectedItemPosition.set(it)
-                    // showPieView(it)
+                    showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
                     Constants.MERCHANT_TYPE = "merchant-name"
@@ -223,6 +223,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.ivPrevious -> {
+                getBindingView().ivPieView.cropImage = false
                 viewModel.setPieChartIcon(getBindingView().ivPieView)
                 setTextColour()
             }
@@ -246,6 +247,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let { tabs ->
+                getBindingView().ivPieView.cropImage = false
                 setSelectedTabData(tabs.position, 0)
                 viewModel.state.selectedTab.set(tabs.position)
                 setupPieChart(tabs.position)
