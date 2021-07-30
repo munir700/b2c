@@ -38,7 +38,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     ICardAnalytics.View, OnChartValueSelectedListener {
 
     lateinit var chart: PieChart
-    override fun getBindingVariable(): Int = BR.viewModel
+    override fun getBindingVariable(): Int = BRK.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_analytics
 
     override val viewModel: CardAnalyticsViewModel by viewModels()
