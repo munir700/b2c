@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
-
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
     const val SIMPLE_DATE_FORMAT: String = "yyyy-MM-dd"
     val GMT: TimeZone = TimeZone.getTimeZone("GMT")
