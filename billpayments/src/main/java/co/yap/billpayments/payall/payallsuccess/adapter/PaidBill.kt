@@ -13,5 +13,7 @@ data class PaidBill(
     var billerName: String? = null,
     var billData: List<BillerInputData>? = null,
     var logo: String? = null,
-    var paymentStatus: String? = null
+    var paymentStatus: String? = null,
+    var skuDiscription: String? = null
+
 )
