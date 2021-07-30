@@ -10,6 +10,9 @@
             type="co.yap.billpayments.billdetail.billaccountdetail.BillAccountDetailViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
     </data>
 
     <ScrollView
@@ -67,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
                 android:text="@{viewModel.state.dueAmount}"
+                android:visibility="@{viewModel.parentViewModel.isPrepaid()==true? View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNickName"
@@ -79,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_three_dp"
                 android:text="@{viewModel.state.billStatus}"
+                android:visibility="@{viewModel.parentViewModel.isPrepaid()==true? View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvDueAmount"
