@@ -52,7 +52,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
             )
         )
-
         setObservers()
     }
 
@@ -196,6 +195,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.type.set(Constants.MERCHANT_TYPE)
         viewModel.parentViewModel
     }
+
     /*
     * In this function show PieView.
     * */
