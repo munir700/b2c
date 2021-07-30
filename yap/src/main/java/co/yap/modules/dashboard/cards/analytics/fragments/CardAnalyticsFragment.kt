@@ -170,14 +170,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
                     Constants.MERCHANT_TYPE = "merchant-category-id"
-                    viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
+                    /*viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
                         viewModel.state.selectedTxnAnalyticsItem.set(list[it])
-                        setState(list[it])
                         updatePieChartInnerData(list[it])
-                        viewModel.setPieChartIcon(getBindingView().ivPieView)
-                    }
+                        setState(list[it])
+
+                    }*/
                     viewModel.state.selectedItemPosition.set(it)
-                    showPieView(it)
+                    // showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
                     Constants.MERCHANT_TYPE = "merchant-name"
@@ -247,7 +247,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let { tabs ->
-                getBindingView().ivPieView.cropImage = false
                 setSelectedTabData(tabs.position, 0)
                 viewModel.state.selectedTab.set(tabs.position)
                 setupPieChart(tabs.position)
