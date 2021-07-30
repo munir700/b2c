@@ -52,6 +52,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
             )
         )
+
         setObservers()
     }
 
