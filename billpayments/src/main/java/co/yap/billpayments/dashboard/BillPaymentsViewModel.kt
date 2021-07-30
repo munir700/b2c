@@ -51,12 +51,12 @@ class BillPaymentsViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
                         billsResponse?.value = response.data.viewBillList?.toMutableList()
-                        var total: Double = 0.0
+                        var total = 0.0
                         billsResponse?.value?.forEach {
                             total = total.plus(it.totalAmountDue?.toDouble() ?: 0.0)
                             it.formattedDueDate = DateUtils.reformatStringDate(
                                 it.billDueDate.toString(),
-                                DateUtils.SERVER_DATE_FULL_FORMAT,
+                                DateUtils.SIMPLE_DATE_FORMAT,
                                 DateUtils.FORMATE_DATE_MONTH_YEAR
                             )
                         }
