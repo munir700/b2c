@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{viewModel.paidBill.billerType}"
+            android:text="@{viewModel.paidBill.skuDiscription}"
             tools:text="Telecom" />
 
         <androidx.constraintlayout.helper.widget.Flow
@@ -90,8 +90,8 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.PAIDTITLE.title)? @color/colorPrimaryDark : @color/greyDark }"
             android:text="@{SessionManager.INSTANCE.defaultCurrency+` `+ viewModel.paidBill.billAmount}"
+            android:textColor="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.PAIDTITLE.title)? @color/colorPrimaryDark : @color/greyDark }"
             tools:text="AED 200" />
 
         <androidx.appcompat.widget.AppCompatTextView

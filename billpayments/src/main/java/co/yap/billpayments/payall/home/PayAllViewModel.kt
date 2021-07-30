@@ -51,7 +51,8 @@ class PayAllViewModel(application: Application) :
                 billerName = it.billerInfo?.billerName,
                 billData = it.inputsData,
                 logo = it.billerInfo?.logo,
-                billerType = it.billerInfo?.billerType
+                billerType = it.billerInfo?.billerType,
+                skuDiscription = it.billerInfo?.skuInfos?.get(0)?.Description
             )
         }
         adapter.setList(state.allBillsToBePaid ?: arrayListOf())
