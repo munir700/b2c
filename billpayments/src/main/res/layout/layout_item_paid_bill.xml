@@ -65,7 +65,7 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/margin_normal"
             android:singleLine="true"
-            android:text="@{viewModel.bill.billerName}"
+            android:text="@{viewModel.bill.billerName == null ? `N/A` :viewModel.bill.billerName}"
             android:textColor="@color/colorMidnightExpress"
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
