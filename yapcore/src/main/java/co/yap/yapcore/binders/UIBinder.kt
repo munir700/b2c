@@ -912,9 +912,11 @@ object UIBinder {
     @BindingAdapter("spanColor")
     fun spanColor(view: AppCompatTextView, currency: String) {
         val splitStringArray: List<String> = currency.split(" ")
-        val spannable: Spannable =
-            SpannableStringBuilder(splitStringArray[0] + "  " + splitStringArray[1])
-
+        var currencyName = ""
+        for (i in 1..splitStringArray.size) {
+            currencyName += splitStringArray[i - 1] + " "
+        }
+        val spannable: Spannable = SpannableStringBuilder(currencyName)
         spannable.setSpan(
             ForegroundColorSpan(
                 view.context.getColor(R.color.greyDark)
