@@ -19,7 +19,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillCategory
+import co.yap.billpayments.utils.enums.BillCategory
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.gson.GsonBuilder

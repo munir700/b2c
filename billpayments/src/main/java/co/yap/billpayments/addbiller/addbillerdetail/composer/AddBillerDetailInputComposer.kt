@@ -1,8 +1,8 @@
 package co.yap.billpayments.addbiller.addbillerdetail.composer
 
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailInputFieldModel
+import co.yap.billpayments.utils.enums.BillerDetailInputType
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
-import co.yap.yapcore.enums.BillerDetailInputType
 
 
 interface AddBillerDetailsInputComposer {

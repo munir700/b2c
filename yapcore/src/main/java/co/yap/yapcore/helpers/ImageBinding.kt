@@ -275,7 +275,8 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("app:srcCompat")
     fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
-        imageView.setImageResource(resource)
+        if (resource > 0)
+            imageView.setImageResource(resource)
     }
 
     @JvmStatic
@@ -587,9 +588,9 @@ object ImageBinding {
         }
     }
 
-/*
-   New Binding Adapter for Analytics Categories it displays icons from api response along with circular background
-*/
+    /*
+       New Binding Adapter for Analytics Categories it displays icons from api response along with circular background
+    */
     @JvmStatic
     @BindingAdapter(
         value = ["imageLogo", "categoryTitle", "position", "isBackground", "showFirstInitials"],
@@ -624,6 +625,7 @@ object ImageBinding {
                         imageView.setImageDrawable(resImg)
                         if (isBackground) setCategoryDrawable(imageView, position)
                     }
+
                     override fun onLoadCleared(placeholder: Drawable?) {
                     }
                 })
@@ -677,14 +679,5 @@ object ImageBinding {
         val canvas = Canvas(bitmapResult)
         canvas.drawBitmap(resource, 0f, 0f, paint)
         return bitmapResult
-    }
-
-    @JvmStatic
-    @BindingAdapter("setImageByDrawableName")
-    fun setImageByDrawableName(imageView: ImageView, drawableName: String?) {
-        val resId = drawableName?.let { getResId(it) }
-        if (resId != -1) {
-            resId?.let { imageView.setImageResource(it) }
-        }
     }
 }

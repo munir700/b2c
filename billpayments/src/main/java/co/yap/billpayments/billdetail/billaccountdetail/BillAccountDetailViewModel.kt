@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryAdapter
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryModel
+import co.yap.billpayments.utils.enums.BillStatus
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -13,7 +14,6 @@ import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHist
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillStatus
 import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 

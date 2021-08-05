@@ -1,4 +1,4 @@
-package co.yap.billpayments.paybill.enums
+package co.yap.billpayments.utils.enums
 
 enum class PaymentScheduleType(type: String) {
     DAY("Day"),

@@ -12,9 +12,9 @@ import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsModel
 import co.yap.widgets.pieview.PieEntry
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillCategory
+import co.yap.billpayments.utils.enums.BillCategory
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.MonthYearHandler
+import co.yap.billpayments.utils.MonthYearHandler
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency

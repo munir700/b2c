@@ -10,7 +10,7 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentSingleDeclineBinding
 import co.yap.billpayments.payall.base.PayAllBaseFragment
-import co.yap.yapcore.helpers.extentions.strikeThroughText
+import co.yap.yapcore.binders.UIBinder.strikeThroughText
 
 class SingleDeclineFragment : PayAllBaseFragment<ISingleDecline.ViewModel>(),
     ISingleDecline.View {

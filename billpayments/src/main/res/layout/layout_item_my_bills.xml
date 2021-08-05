@@ -9,7 +9,7 @@
             name="viewModel"
             type="co.yap.billpayments.dashboard.mybills.adapter.MyBillsItemViewModel" />
 
-        <import type="co.yap.yapcore.enums.BillStatus" />
+        <import type="co.yap.billpayments.utils.enums.BillStatus" />
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 

@@ -7,7 +7,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.payall.base.PayAllBaseViewModel
 import co.yap.billpayments.payall.payallsuccess.adapter.PaidBill
 import co.yap.billpayments.payall.payallsuccess.adapter.PayAllBillsAdapter
-import co.yap.billpayments.paybill.enums.LoaderStatus
+import co.yap.billpayments.utils.enums.LoaderStatus
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -16,7 +16,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillPaymentStatus
+import co.yap.billpayments.utils.enums.BillPaymentStatus
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency

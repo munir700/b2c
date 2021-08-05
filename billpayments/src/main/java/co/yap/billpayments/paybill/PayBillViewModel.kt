@@ -3,7 +3,7 @@ package co.yap.billpayments.paybill
 import android.app.Application
 import co.yap.billpayments.R
 import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
-import co.yap.billpayments.paybill.enums.PaymentScheduleType
+import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel

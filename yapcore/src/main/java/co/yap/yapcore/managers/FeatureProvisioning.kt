@@ -4,8 +4,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.UserAccessRestriction
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 
-object
-FeatureProvisioning {
+object FeatureProvisioning {
     private var blockedFeatures: ArrayList<FeatureSet> = arrayListOf()
     private var restrictions: ArrayList<UserAccessRestriction> = arrayListOf()
     fun configure(

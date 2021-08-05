@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.billpayments.databinding.FragmentEditBillBinding
-import co.yap.billpayments.paybill.enums.PaymentScheduleType
+import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.yapcore.IBase

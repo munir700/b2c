@@ -13,7 +13,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillStatus
+import co.yap.billpayments.utils.enums.BillStatus
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 

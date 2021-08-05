@@ -17,6 +17,8 @@
 
         <import type="co.yap.yapcore.managers.SessionManager" />
 
+        <import type="co.yap.billpayments.utils.BPExtensionsKt" />
+
 
     </data>
 
@@ -28,6 +30,7 @@
             android:id="@+id/foregroundContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
             android:background="@{selected? @color/greySoft : @color/white}"
             android:onClick="@{viewModel::onViewClicked}">
 
@@ -39,7 +42,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:setImageByDrawableName="@{viewModel.bpAnalyticsModel.icon}"
+                app:srcCompat="@{BPExtensionsKt.getResId(viewModel.bpAnalyticsModel.icon)}"
                 tools:src="@drawable/icon_biller_type_utility_creditcard" />
 
             <androidx.constraintlayout.helper.widget.Flow

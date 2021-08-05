@@ -8,7 +8,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPayAllBinding
 import co.yap.billpayments.payall.base.PayAllBaseFragment
 import co.yap.billpayments.payall.payallsuccess.bottomsheetloder.PayBillLoaderBottomSheet
-import co.yap.yapcore.enums.BillPaymentStatus
+import co.yap.billpayments.utils.enums.BillPaymentStatus
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar

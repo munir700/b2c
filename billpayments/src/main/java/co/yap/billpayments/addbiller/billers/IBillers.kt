@@ -6,7 +6,7 @@ import co.yap.billpayments.addbiller.billers.adapter.BillersAdapter
 import co.yap.billpayments.databinding.FragmentBillersBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillCategory
+import co.yap.billpayments.utils.enums.BillCategory
 
 interface IBillers {
     interface View : IBase.View<ViewModel> {

@@ -17,6 +17,8 @@
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
+        <import type="co.yap.billpayments.utils.BPExtensionsKt" />
+
 
     </data>
 
@@ -31,7 +33,7 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal_large"
-            app:setImageByDrawableName="@{viewModel.state.bpAnalyticsModel.icon}"
+            app:srcCompat="@{BPExtensionsKt.getResId(viewModel.state.bpAnalyticsModel.icon)}"
             tools:src="@drawable/icon_biller_type_utility_creditcard" />
 
         <androidx.appcompat.widget.AppCompatTextView

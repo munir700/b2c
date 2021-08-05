@@ -14,7 +14,7 @@
 
         <import type="co.yap.yapcore.managers.SessionManager" />
 
-        <import type="co.yap.yapcore.enums.BillPaymentStatus" />
+        <import type="co.yap.billpayments.utils.enums.BillPaymentStatus" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

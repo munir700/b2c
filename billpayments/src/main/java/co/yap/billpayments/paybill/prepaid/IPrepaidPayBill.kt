@@ -3,7 +3,7 @@ package co.yap.billpayments.paybill.prepaid
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
-import co.yap.billpayments.paybill.enums.PaymentScheduleType
+import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.paybill.prepaid.skuadapter.SkuAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs

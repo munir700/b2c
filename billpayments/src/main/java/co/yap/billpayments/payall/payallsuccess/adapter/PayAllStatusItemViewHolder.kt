@@ -2,8 +2,8 @@ package co.yap.billpayments.payall.payallsuccess.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.databinding.LayoutItemPayAllSuccessBinding
-import co.yap.yapcore.enums.BillPaymentStatus
-import co.yap.yapcore.helpers.extentions.strikeThroughText
+import co.yap.billpayments.utils.enums.BillPaymentStatus
+import co.yap.yapcore.binders.UIBinder.strikeThroughText
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class PayAllStatusItemViewHolder(private val layoutItemPayAllSuccessBinding: LayoutItemPayAllSuccessBinding) :

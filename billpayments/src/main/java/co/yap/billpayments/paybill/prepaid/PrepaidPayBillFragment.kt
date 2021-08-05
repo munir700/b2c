@@ -9,8 +9,8 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
-import co.yap.billpayments.paybill.enums.PaymentScheduleType
-import co.yap.billpayments.paybill.enums.ReminderType
+import co.yap.billpayments.utils.enums.PaymentScheduleType
+import co.yap.billpayments.utils.enums.ReminderType
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings

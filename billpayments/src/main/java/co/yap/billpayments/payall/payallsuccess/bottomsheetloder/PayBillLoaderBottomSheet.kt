@@ -13,7 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.BottomSheetPayAllBillsLoadingBinding
-import co.yap.billpayments.paybill.enums.LoaderStatus
+import co.yap.billpayments.utils.enums.LoaderStatus
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BR
 import com.google.android.exoplayer2.Player

@@ -13,7 +13,7 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.enums.BillStatus" />
+        <import type="co.yap.billpayments.utils.enums.BillStatus" />
     </data>
 
     <RelativeLayout

@@ -1,5 +1,6 @@
-package co.yap.yapcore.helpers
+package co.yap.billpayments.utils
 
+import co.yap.yapcore.helpers.DateUtils
 import java.util.*
 
 class MonthYearHandler(availableMonthList: List<Date>, currDate: Date = Date()) {
@@ -14,8 +15,8 @@ class MonthYearHandler(availableMonthList: List<Date>, currDate: Date = Date()) 
 
     fun previousMonth(currentDate: Date?): Date? {
         val currDate = DateUtils.getPriviousMonthFromCurrentDate(
-                listOfMonths,
-                currentDate
+            listOfMonths,
+            currentDate
         )
         this.currentDate = currDate
         return this.currentDate
@@ -23,8 +24,8 @@ class MonthYearHandler(availableMonthList: List<Date>, currDate: Date = Date()) 
 
     fun nextMonth(currentDate: Date?): Date? {
         val currDate = DateUtils.getNextMonthFromCurrentDate(
-                listOfMonths,
-                currentDate
+            listOfMonths,
+            currentDate
         )
         this.currentDate = currDate
         return this.currentDate
@@ -40,7 +41,6 @@ class MonthYearHandler(availableMonthList: List<Date>, currDate: Date = Date()) 
                 }
             }
         }
-
         return index - 1 >= 0
     }
 
@@ -54,7 +54,6 @@ class MonthYearHandler(availableMonthList: List<Date>, currDate: Date = Date()) 
                 }
             }
         }
-
         return listOfMonths.size >= index + 2
     }
 }

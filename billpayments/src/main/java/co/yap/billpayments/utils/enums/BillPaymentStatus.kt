@@ -1,4 +1,4 @@
-package co.yap.yapcore.enums
+package co.yap.billpayments.utils.enums
 
 enum class BillPaymentStatus(val title: String) {
     PAID("SUCCESS"),

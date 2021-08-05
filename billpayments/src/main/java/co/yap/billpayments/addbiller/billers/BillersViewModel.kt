@@ -11,7 +11,7 @@ import co.yap.translation.Translator
 import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillCategory
+import co.yap.billpayments.utils.enums.BillCategory
 
 class BillersViewModel(application: Application) :
     AddBillBaseViewModel<IBillers.State>(application), IBillers.ViewModel,

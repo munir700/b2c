@@ -11,15 +11,15 @@ import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
 import co.yap.billpayments.databinding.FragmentEditBillBinding
-import co.yap.billpayments.paybill.enums.PaymentScheduleType
-import co.yap.billpayments.paybill.enums.ReminderType
+import co.yap.billpayments.utils.enums.PaymentScheduleType
+import co.yap.billpayments.utils.enums.ReminderType
+import co.yap.billpayments.utils.showAlertDialogAndExitApp
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
 
@@ -246,7 +246,8 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override fun onResume() {
         super.onResume()
         val index = updateTabsReminderSelection(
-            viewModel.parentViewModel?.selectedBill?.reminderFrequency ?: ReminderType.ThreeDays().rdays
+            viewModel.parentViewModel?.selectedBill?.reminderFrequency
+                ?: ReminderType.ThreeDays().rdays
         )
         getViewBinding().iBillReminder.tabLayout.getTabAt(index)?.select()
     }

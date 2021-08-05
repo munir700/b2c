@@ -1,4 +1,4 @@
-package co.yap.yapcore.enums
+package co.yap.billpayments.utils.enums
 
 import android.text.InputType
 

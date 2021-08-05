@@ -11,7 +11,7 @@ import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillCategory
+import co.yap.billpayments.utils.enums.BillCategory
 
 interface IAddBillerDetail {
 

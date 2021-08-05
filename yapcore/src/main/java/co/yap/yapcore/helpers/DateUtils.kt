@@ -25,7 +25,6 @@ object DateUtils {
     const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17 AM
     const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
     const val FORMATE_DATE_MONTH_YEAR = "dd MMM yyyy" // 12 Jan 2012
-    const val FORMATE_DATE_MONTH_YEAR_ENG = "MMMM yyyy" // april 2021
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()

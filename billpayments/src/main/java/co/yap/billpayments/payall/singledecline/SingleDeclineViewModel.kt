@@ -6,7 +6,7 @@ import co.yap.billpayments.payall.base.PayAllBaseViewModel
 import co.yap.billpayments.payall.payallsuccess.adapter.PaidBill
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.BillPaymentStatus
+import co.yap.billpayments.utils.enums.BillPaymentStatus
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class SingleDeclineViewModel(application: Application) :
