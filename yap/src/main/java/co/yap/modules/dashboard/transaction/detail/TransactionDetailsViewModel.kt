@@ -100,6 +100,8 @@ class TransactionDetailsViewModel(application: Application) :
             if (txns.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && txns.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
                 txns.merchantLogo?.let { logo ->
                     view.loadImage(logo)
+                    if (txns.productCode == TransactionProductCode.ECOM.pCode || txns.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                        view.setBackgroundColor(context.getColor(R.color.white))
                 } ?: txns.setTransactionImage(view)
             } else {
                 txns.setTransactionImage(view)
