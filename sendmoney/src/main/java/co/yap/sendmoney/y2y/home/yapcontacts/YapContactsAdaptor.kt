@@ -32,4 +32,6 @@ class YapContactsAdaptor(private val list: MutableList<IBeneficiary>) :
             .contains(filterString) || filterableStringForName.toLowerCase().contains(filterString))
 
     }
+
+    override fun getItemViewType(position: Int): Int = position
 }
