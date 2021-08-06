@@ -24,7 +24,7 @@ class ConfirmCardNameFragment : BaseBindingFragment<IConfirmCardName.ViewModel>(
                 R.id.btnNameFine -> {
                     //handle click event for name is fine scenario
                 }
-                R.id.tvEditFullName -> {
+                R.id.tvEditCardName -> {
                     //handle click event for editing name
                 }
             }
