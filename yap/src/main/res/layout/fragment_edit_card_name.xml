@@ -52,7 +52,7 @@
             android:gravity="center"
             android:textColor="@color/colorDarkSlateBlue"
             android:textSize="@dimen/text_size_h5"
-            android:text="What name would you like on your card?"
+            app:text="@{Strings.screen_edit_card_name_display_heading}"
             tools:text="What name would you like on your card?" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -62,7 +62,7 @@
             android:paddingBottom="@dimen/margin_normal_large"
             android:textColor="@color/colorHeatherTwo"
             android:textSize="@dimen/text_size_h3"
-            android:text="Please keep this as close to your real name"
+            app:text="@{Strings.screen_edit_card_name_display_subheading}"
             tools:text="Please keep this as close to your real name" />
 
         <include
@@ -107,7 +107,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btnNext"
             app:layout_constraintTop_toBottomOf="@+id/ctCardName"
             app:layout_constraintVertical_bias="0.85"
-            android:text="We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible."
+            app:text="@{Strings.screen_edit_card_name_display_description}"
             tools:text="We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible." />
 
         <co.yap.widgets.CoreButton
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal_large"
+            android:layout_marginBottom="40dp"
             android:enabled="true"
             android:gravity="center"
             android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
@@ -125,8 +125,8 @@
             app:btn_size="large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.638"
             app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_phone_number_button_send}"
-            />
+            app:text="@{Strings.screen_phone_number_button_send}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

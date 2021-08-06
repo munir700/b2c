@@ -1122,8 +1122,8 @@ object Strings {
     const val screen_transaction_feedback_improvement_label: String =
         "screen_transaction_feedback_improvement_label"
     const val screen_transaction_feedback_additional_detail_label: String =
-            "screen_transaction_feedback_additional_detail_label"
-        const val screen_transaction_details_rating_label: String =
+        "screen_transaction_feedback_additional_detail_label"
+    const val screen_transaction_details_rating_label: String =
         "screen_transaction_details_rating_label"
     const val screen_transaction_details_rating_tap_to_rate: String =
         "screen_transaction_details_rating_tap_to_rate"
@@ -2292,4 +2292,14 @@ object Strings {
         "screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you"
     const val screen_employment_questionnaire_display_text__bottom_sheet_title_segments =
         "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
+
+    //Edit Card Name Screen
+    const val screen_edit_card_name_text_heading: String = "screen_edit_card_name_text_heading"
+    const val screen_edit_card_name_display_heading: String =
+        "screen_edit_card_name_display_heading"
+    const val screen_edit_card_name_display_subheading: String =
+        "screen_edit_card_name_display_subheading"
+    const val screen_edit_card_name_display_description: String =
+        "screen_edit_card_name_display_description"
+
 }
