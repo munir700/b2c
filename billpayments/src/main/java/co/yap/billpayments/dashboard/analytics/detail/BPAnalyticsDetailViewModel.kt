@@ -50,16 +50,6 @@ class BPAnalyticsDetailViewModel(application: Application) :
         }
     }
 
-
-    private fun mockAnalytics(): BPAnalyticsDetailsResponse {
-        val gson = GsonBuilder().create()
-        return gson.fromJson<BPAnalyticsDetailsResponse>(
-            context.getJsonDataFromAsset(
-                "jsons/analytics_details.json"
-            ), object : TypeToken<BPAnalyticsDetailsResponse>() {}.type
-        )
-    }
-
     override fun initBpDetails(
         bpAnalyticsModel: BPAnalyticsModel?,
         monthYear: String?

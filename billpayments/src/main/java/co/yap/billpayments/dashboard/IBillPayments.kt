@@ -5,7 +5,6 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
-import co.yap.networking.customers.responsedtos.billpayment.BillResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.yapcore.IBase
@@ -31,7 +30,6 @@ interface IBillPayments {
         var selectedBill: ViewBillModel?
         var billsResponse: MutableLiveData<MutableList<ViewBillModel>>?
         fun onToolbarClick(id: Int)
-        fun getViewBillsFromJSONFile(): BillResponse
         fun getViewBills()
     }
 

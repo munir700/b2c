@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.BillProviderModel
-import co.yap.networking.customers.responsedtos.billpayment.BillResponse
 import co.yap.networking.customers.responsedtos.billpayment.BillerCatalogModel
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -13,11 +12,8 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 class BillPaymentsViewModel(application: Application) :
     BaseViewModel<IBillPayments.State>(application),
@@ -32,15 +28,6 @@ class BillPaymentsViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override fun onToolbarClick(id: Int) {
         onToolbarClickEvent.setValue(id)
-    }
-
-    override fun getViewBillsFromJSONFile(): BillResponse {
-        val gson = GsonBuilder().create()
-        return gson.fromJson<BillResponse>(
-            context.getJsonDataFromAsset(
-                "jsons/bill_list.json"
-            ), object : TypeToken<BillResponse>() {}.type
-        )
     }
 
     override fun getViewBills() {

@@ -7,10 +7,10 @@ import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.billpayments.addbiller.base.AddBillBaseViewModel
+import co.yap.billpayments.utils.enums.BillCategory
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.BillerInputData
 import co.yap.networking.customers.requestdtos.AddBillerInformationRequest
-import co.yap.networking.customers.responsedtos.billpayment.BillerDetailResponse
 import co.yap.networking.customers.responsedtos.billpayment.IoCatalogModel
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
@@ -19,11 +19,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.billpayments.utils.enums.BillCategory
-import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.interfaces.OnItemClickListener
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 class AddBillerDetailViewModel(application: Application) :
     AddBillBaseViewModel<IAddBillerDetail.State>(application), IAddBillerDetail.ViewModel,
@@ -94,15 +90,6 @@ class AddBillerDetailViewModel(application: Application) :
             }
         }
         return isValid
-    }
-
-    override fun readBillerDetailsFromFile(): BillerDetailResponse {
-        val gson = GsonBuilder().create()
-        return gson.fromJson<BillerDetailResponse>(
-            context.getJsonDataFromAsset(
-                "jsons/biller_details.json"
-            ), object : TypeToken<BillerDetailResponse>() {}.type
-        )
     }
 
     override fun getBillerDetails(billerId: String) {
