@@ -22,7 +22,7 @@
     <color name="greyDarkOpacity16">#299391B1</color>
     <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
-    <color name="darkSlateBlue">#802F2067</color>
+    <color name="darkSlateBlueFaded">#802F2067</color>
     <color name="darkBlue">#9890b9</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
@@ -53,7 +53,6 @@
     <color name="colorMidnightExpress">#1e1c37</color>
     <color name="colorDarkSlateBlue">#2f2067</color>
     <color name="colorBlueyPurple">#6334b6</color>
-    <color name="colorHeatherTwo">#9790b7</color>
     <color name="colorPurpleMain">#5e35b1</color>
     <!--    Backgorunds Colors-->
 
@@ -71,6 +70,7 @@
     <color name="dialog_title">#4b4b4b</color>
     <color name="itemBackground">#fafafa</color>
     <color name="textGreyDark">#979797</color>
+    <color name="colorHeatherTwo">#9790b7</color>
 
     <color name="colorLightGreyGradient">#eff2f9</color>
     <color name="colorDarkGreyGradient">#DAE0F0</color>

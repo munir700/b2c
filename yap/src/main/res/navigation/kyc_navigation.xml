@@ -18,6 +18,9 @@
             app:destination="@id/informationErrorFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_KYCHomeFragment_to_editCardNameFragment"
+            app:destination="@id/editCardNameFragment" />
     </fragment>
 
     <fragment
@@ -82,5 +85,10 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/editCardNameFragment"
+        android:name="co.yap.modules.kyc.fragments.EditCardNameFragment"
+        android:label="EditCardNameFragment"
+        tools:layout="@layout/fragment_edit_card_name"/>
 
 </navigation>
