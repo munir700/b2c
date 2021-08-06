@@ -309,8 +309,9 @@ fun Transaction?.isTransactionInProgress(): Boolean {
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {
-    return if (this?.status == TransactionStatus.PENDING.name || this?.status == TransactionStatus.IN_PROGRESS.name) ""
-    else when (this?.txnType) {
+    //return if (this?.status == TransactionStatus.PENDING.name || this?.status == TransactionStatus.IN_PROGRESS.name) ""
+    //else
+    return when (this?.txnType) {
         TxnType.DEBIT.type -> "-"
         TxnType.CREDIT.type -> "+"
         else -> ""
@@ -355,12 +356,12 @@ fun Transaction?.getTransactionAmountColor(): Int {
     } else {
         (return when (this?.txnType) {
             TxnType.DEBIT.type -> R.color.colorPrimaryDark
-            TxnType.CREDIT.type -> {
-                if (!this.isTransactionInProgress() && this.status != TransactionStatus.FAILED.name)
+            TxnType.CREDIT.type ->// {
+                //if (!this.isTransactionInProgress() && this.status != TransactionStatus.FAILED.name)
                     R.color.colorSecondaryGreen
-                else
-                    R.color.colorPrimaryDark
-            }
+                //else
+                    //R.color.colorPrimaryDark
+            //}
             else -> R.color.colorPrimaryDark
         })
     }
