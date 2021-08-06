@@ -14,61 +14,115 @@
             type="co.yap.modules.kyc.viewmodels.EditCardNameViewModel" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.R" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/margin_medium_large"
-    >
+        android:paddingHorizontal="@dimen/margin_medium_large">
+
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}" />
 
         <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/layFlow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/margin_medium_large"
-            app:constraint_referenced_ids="tvHeading,tvSubHeading"
+            app:constraint_referenced_ids="tvHeading,tvSubHeading,cardLay"
             app:flow_verticalGap="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="What name would you like on your card?"/>
+            android:gravity="center"
+            android:textColor="@color/colorDarkSlateBlue"
+            android:textSize="@dimen/text_size_h5"
+            tools:text="What name would you like on your card?" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSubHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Please keep this as close to your real name"/>
+            android:paddingBottom="@dimen/margin_normal_large"
+            android:textColor="@color/textGreyHeather"
+            android:textSize="@dimen/text_size_h3"
+            tools:text="Please keep this as close to your real name" />
+
+        <include
+            android:id="@+id/cardLay"
+            layout="@layout/card_item_view" />
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/ctCardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/search_widget_height"
+            android:hint="@string/screen_change_email_display_text_email_title"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:hintTextAppearance="@style/LabelTextStyl"
+            app:hintTextColorSelected="@color/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layFlow"
+            tools:hint="@string/screen_change_email_display_text_email_title">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNewCardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:theme="@style/Theme.EditText.Primary"
+                app:hint="@{Strings.screen_change_email_placeholder_email_address}"
+                tools:hint="@string/screen_change_email_placeholder_email_address" />
+
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible."
+            android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/margin_medium"
-            app:layout_constraintBottom_toTopOf="@+id/btnNext"/>
+            android:textColor="@color/textGreyHeather"
+            android:textSize="@dimen/text_size_h2"
+            app:layout_constraintBottom_toTopOf="@+id/btnNext"
+            app:layout_constraintTop_toBottomOf="@+id/ctCardName"
+            app:layout_constraintVertical_bias="0.85"
+            tools:text="We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible." />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
+            style="@style/RectangleBtnStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:btn_size="large"
-            android:enabled="true"
             android:layout_gravity="center_horizontal"
-            style="@style/RectangleBtnStyle"
-            android:textColor="@color/colorWhite"
-            android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
-            app:text="@{Strings.screen_phone_number_button_send}"
-            android:layout_marginBottom="@dimen/margin_normal_large"
-            android:gravity="center"
             android:layout_marginHorizontal="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal_large"
+            android:enabled="true"
+            android:gravity="center"
+            android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
+            android:textColor="@color/colorWhite"
+            app:btn_size="large"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:text="@{Strings.screen_phone_number_button_send}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
