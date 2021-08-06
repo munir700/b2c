@@ -70,7 +70,7 @@
     <color name="dialog_title">#4b4b4b</color>
     <color name="itemBackground">#fafafa</color>
     <color name="textGreyDark">#979797</color>
-    <color name="textGreyHeather">#9790b7</color>
+    <color name="colorHeatherTwo">#9790b7</color>
 
     <color name="colorLightGreyGradient">#eff2f9</color>
     <color name="colorDarkGreyGradient">#DAE0F0</color>
