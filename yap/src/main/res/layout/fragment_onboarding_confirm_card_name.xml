@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.viewmodels.ConfirmCardNameViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:paddingStart="@dimen/margin_medium_large"
+        android:paddingEnd="@dimen/margin_medium_large">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/ATitle3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:gravity="center"
+            android:textColor="@color/colorDarkSlateBlue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_onboarding_confirm_card_name_display_text_title}"
+            tools:text="@string/screen_onboarding_confirm_card_name_display_text_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSubTitle"
+            style="@style/DarkGreyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            android:textColor="@color/colorHeatherTwo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:text="@{Strings.screen_onboarding_confirm_card_name_display_text_sub_title}"
+            tools:text="@string/screen_onboarding_confirm_card_name_display_text_sub_title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_large"
+            android:src="@drawable/card_spare"
+            app:layout_constraintBottom_toTopOf="@+id/tvIsItSubText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvIsItSubText"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCard"
+            app:text="@{Strings.screen_onboarding_confirm_card_name_display_sub_text}"
+            tools:text="@string/screen_onboarding_confirm_card_name_display_sub_text" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFullName"
+            style="@style/ARegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:background="@drawable/bg_round_edit_text_general"
+            android:gravity="center"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:paddingBottom="@dimen/_12sdp"
+            android:text="@{viewModel.state.fullName}"
+            android:textColor="@color/colorBlueyPurple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIsItSubText"
+            tools:text="Nada Hassan" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNameCharacterLimit"
+            style="@style/MicroGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:gravity="center"
+            android:textColor="@color/colorHeatherTwo"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintBottom_toTopOf="@+id/btnNameFine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+            app:text="@{Strings.screen_onboarding_confirm_card_name_display_name_length_text}"
+            tools:text="@string/screen_onboarding_confirm_card_name_display_name_length_text" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnNameFine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:drawablePadding="@dimen/_20sdp"
+            android:gravity="center"
+            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+            android:textColor="@color/colorWhite"
+            app:btn_enable="true"
+            app:btn_round_radius="@dimen/_26sdp"
+            app:btn_size="medium"
+            app:btn_text_size="@dimen/text_size_h4"
+            app:layout_constraintBottom_toTopOf="@+id/tvEditCardName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_onboarding_confirm_card_name_btn_name_fine_text}"
+            tools:text="@string/screen_onboarding_confirm_card_name_btn_name_fine_text" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEditCardName"
+            style="@style/ARegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:gravity="center"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:paddingBottom="@dimen/_12sdp"
+            android:textColor="@color/colorPurpleMain"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_onboarding_confirm_card_name_edit_full_name_text}"
+            tools:text="@string/screen_onboarding_confirm_card_name_edit_full_name_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -210,6 +210,20 @@ object Strings {
     const val screen_onboarding_congratulations_button_queue_up: String =
         "screen_onboarding_congratulations_button_queue_up"
 
+    //onboarding confirm card name screen
+    const val screen_onboarding_confirm_card_name_display_text_title: String =
+        "screen_onboarding_confirm_card_name_display_text_title"
+    const val screen_onboarding_confirm_card_name_display_text_sub_title: String =
+        "screen_onboarding_confirm_card_name_display_text_sub_title"
+    const val screen_onboarding_confirm_card_name_display_sub_text: String =
+        "screen_onboarding_confirm_card_name_display_sub_text"
+    const val screen_onboarding_confirm_card_name_display_name_length_text: String =
+        "screen_onboarding_confirm_card_name_display_name_length_text"
+    const val screen_onboarding_confirm_card_name_edit_full_name_text: String =
+        "screen_onboarding_confirm_card_name_edit_full_name_text"
+    const val screen_onboarding_confirm_card_name_btn_name_fine_text: String =
+        "screen_onboarding_confirm_card_name_btn_name_fine_text"
+
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
     const val screen_notification_permission_text_title: String =
