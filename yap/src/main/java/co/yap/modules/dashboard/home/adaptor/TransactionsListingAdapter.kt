@@ -203,6 +203,7 @@ class TransactionsListingAdapter(
         ) {
             transaction.merchantLogo?.let { logo ->
                 itemTransactionListBinding.ivTransaction.loadImage(logo)
+                itemTransactionListBinding.ivTransaction.setBackgroundColor(itemTransactionListBinding.ivTransaction.context.getColor(R.color.white) )
             } ?: transaction.tapixCategory?.categoryIcon?.let { icon ->
                 ImageBinding.loadAnalyticsAvatar(
                     itemTransactionListBinding.ivTransaction,
