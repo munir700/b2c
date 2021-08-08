@@ -1434,5 +1434,8 @@ Due to all the excitement of our official launch, we are gradually activating as
 
 <!--    Edit Card Name -->
     <string name="screen_edit_card_name_text_heading">Type your full name</string>
+    <string name="screen_edit_card_name_display_heading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_display_description">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
 
 </resources>
