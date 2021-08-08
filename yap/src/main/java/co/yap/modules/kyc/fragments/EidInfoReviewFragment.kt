@@ -129,12 +129,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
-                        } else {
+                           /* viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(true)*/
+                                    navigateToConfirmNameFragment()
+                        }
+                        else {
                             showToast("Accounts info failed")
+                            /*
                             viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
+                                DocumentsResponse(true)*/
+                            //Need to discuss line 140 with faheem
+                            navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
+
                         }
 
                     })
@@ -163,6 +169,15 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
+    }
+
+    private fun navigateToConfirmNameFragment() {/*
+        arguments?.putString("FullName","")
+        arguments?.putString("EIDNumber","")
+        arguments?.putString("Nationality","")
+        arguments?.putString("CardSerialNumber","")*/
+        navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
+
     }
 
     private fun invalidCitizenNumber(title: String) {

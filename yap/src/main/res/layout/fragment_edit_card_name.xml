@@ -90,6 +90,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 android:singleLine="true"
+
                 android:theme="@style/Theme.EditText.Primary"
                 app:hint="@{Strings.screen_personal_detail_display_text_full_name}"
                 tools:hint="@string/screen_change_email_placeholder_email_address" />
