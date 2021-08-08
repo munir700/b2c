@@ -6,7 +6,7 @@ import co.yap.modules.kyc.states.ConfirmCardNameState
 import co.yap.yapcore.SingleClickEvent
 
 class ConfirmCardNameViewModel(application: Application) :
-    co.yap.yapcore.BaseViewModel<IConfirmCardName.State>(application),
+    KYCChildViewModel<IConfirmCardName.State>(application),
     IConfirmCardName.ViewModel {
     override val state = ConfirmCardNameState()
     override var clickEvent = SingleClickEvent()
