@@ -1,16 +1,20 @@
 package co.yap.modules.kyc.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.docscanner.models.Identity
+import java.util.*
+import kotlin.collections.ArrayList
 
 interface IDocumentsDashboard {
     interface State : IBase.State {
         var totalProgress: Int
         var currentProgress: Int
+        var middleName: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

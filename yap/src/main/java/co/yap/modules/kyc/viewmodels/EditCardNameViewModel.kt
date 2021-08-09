@@ -4,8 +4,11 @@ import android.app.Application
 import co.yap.modules.kyc.interfaces.IEditCardName
 import co.yap.modules.kyc.states.EditCardNameState
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.CardNameRequest
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.SessionManager
 
 class EditCardNameViewModel(application: Application) :
     KYCChildViewModel<IEditCardName.State>(application),
@@ -16,4 +19,28 @@ class EditCardNameViewModel(application: Application) :
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
+    fun postProfileInformation(success:(bool:Boolean)-> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.updateCardName(
+                CardNameRequest(
+                    customerIDNumber = SessionManager.user?.currentCustomer?.customerId,
+                    customerNationality = SessionManager.user?.currentCustomer?.nationality,
+                    customerIDFirstName = SessionManager.user?.currentCustomer?.firstName,
+                    customerIDLastName = SessionManager.user?.currentCustomer?.lastName,
+                    customerIDMiddleName = parentViewModel?.state?.middleName?.get(),
+                    displayCardName = state.fullName.get(),
+                    cardSerialNumber = SessionManager.card.value?.cardSerialNumber
+                )
+            )) {
+                is RetroApiResponse.Success -> {
+                    success(true)
+                }
+                is RetroApiResponse.Error ->{
+                    success(false)
+                }
+            }
+        }
+    }
+
 }
