@@ -24,6 +24,7 @@ interface IAddBeneficiary {
         var mobileNoLength: Int
         var valid: Boolean
         var country2DigitIsoCode: String
+        var beneficiaryAddress: String
 
         var id: Int
         var beneficiaryId: String?

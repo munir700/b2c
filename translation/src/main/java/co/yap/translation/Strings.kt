@@ -857,6 +857,8 @@ object Strings {
         "screen_personal_detail_display_text_full_name"
     const val screen_personal_detail_display_text_phone_number: String =
         "screen_personal_detail_display_text_phone_number"
+    const val screen_add_beneficiary_detail_display_text_beneficiary_address: String =
+        "screen_add_beneficiary_detail_display_text_beneficiary_address"
     const val screen_personal_detail_display_text_email: String =
         "screen_personal_detail_display_text_email"
     const val screen_personal_detail_display_text_address: String =
@@ -1235,8 +1237,12 @@ object Strings {
         "screen_add_beneficiary_detail_input_text_first_name_hint"
     const val screen_add_beneficiary_detail_input_text_last_name_hint: String =
         "screen_add_beneficiary_detail_input_text_last_name_hint"
+    const val screen_add_beneficiary_detail_input_text_beneficiary_address_hint: String =
+        "screen_add_beneficiary_detail_input_text_beneficiary_address_hint"
     const val screen_sdd_beneficiary_display_confirm_iban: String =
         "screen_sdd_beneficiary_display_confirm_iban"
+    const val screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text: String =
+        "screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text"
 
 
     const val screen_add_beneficiary_detail_display_text_alert_title: String =

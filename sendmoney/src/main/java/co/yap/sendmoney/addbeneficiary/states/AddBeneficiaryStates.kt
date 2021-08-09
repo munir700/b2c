@@ -134,6 +134,13 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
         }
 
     @get:Bindable
+    override var beneficiaryAddress: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryAddress)
+        }
+
+    @get:Bindable
     override var iban: String = ""
         set(value) {
             field = value
