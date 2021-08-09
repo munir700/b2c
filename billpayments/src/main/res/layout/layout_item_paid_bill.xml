@@ -70,7 +70,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="AmazonAmazonAmazonAmazonAmazonAmazonAmazonAmazon" />
+            tools:text="AmazonAmazon    Aasdasda  asd asd asd asd asdasd" />
 
         <TextView
             android:id="@+id/tvTransactionAmount"
@@ -78,10 +78,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
+            android:gravity="end"
             android:text="@{'-'+CurrencyExtensionsKt.toFormattedCurrency(viewModel.bill.billAmount,false,SessionManager.INSTANCE.defaultCurrency,true)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="-100" />
+            tools:text="100" />
 
         <TextView
             android:id="@+id/tvTransactionTimeAndCategory"
@@ -91,7 +92,7 @@
             android:layout_marginStart="@dimen/margin_normal"
             android:alpha="0.5"
             android:text="@{dateTime}"
-            app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
+            app:layout_constraintEnd_toEndOf="@+id/tvTransactionName"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
             tools:text="- 21.00 \u2022 jun 01" />

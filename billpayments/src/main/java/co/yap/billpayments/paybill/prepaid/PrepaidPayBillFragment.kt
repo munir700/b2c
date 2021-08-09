@@ -146,7 +146,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                             isThreedays = false,
                             isOneWeek = false,
                             isThreeWeek = true,
-                            totalDays = ReminderType.ThreeWeeks().rdays
+                            totalDays = ReminderType.TwoWeeks().rdays
                         )
                     }
                 }
@@ -260,7 +260,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     fun updateTabsReminderSelection(totalDays: Int): Int {
         return when (totalDays) {
-            ReminderType.ThreeWeeks().rdays -> threeWeeks
+            ReminderType.TwoWeeks().rdays -> threeWeeks
             ReminderType.OneWeek().rdays -> oneWeek
             ReminderType.ThreeDays().rdays -> threeDays
             else -> threeDays
