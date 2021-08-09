@@ -47,7 +47,7 @@ class DueBillsNotificationAdapter(
             binding.tvDescription.text = "You have a ${dueBill.totalAmountDue.toFormattedCurrency(
                 showCurrency = true,
                 currency = SessionManager.getDefaultCurrency()
-            )} on your ${dueBill.billerInfo?.billerName} bill."
+            )} outstanding on your ${dueBill.billerInfo?.billerName} bill."
 
             binding.cvNotification.setOnClickListener {
                 onItemClickListener?.onItemClick(binding.cvNotification, dueBill, adapterPosition)
