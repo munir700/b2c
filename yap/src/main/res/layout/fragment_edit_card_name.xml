@@ -52,22 +52,24 @@
             android:gravity="center"
             android:textColor="@color/colorDarkSlateBlue"
             android:textSize="@dimen/text_size_h5"
-            android:text="What name would you like on your card?"
-            tools:text="What name would you like on your card?" />
+            app:text="@{Strings.screen_onboarding_confirm_card_name_display_text_sub_title}"
+            tools:text="@string/screen_onboarding_confirm_card_name_display_text_sub_title" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSubHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingBottom="@dimen/margin_normal_large"
+            android:text="Please keep this as close to your real name"
             android:textColor="@color/colorHeatherTwo"
             android:textSize="@dimen/text_size_h3"
-            android:text="Please keep this as close to your real name"
             tools:text="Please keep this as close to your real name" />
 
         <include
             android:id="@+id/cardLay"
-            layout="@layout/card_item_view" />
+            layout="@layout/card_item_view"
+            app:viewModel="@{viewModel}" />
 
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
             android:id="@+id/ctCardName"
@@ -84,15 +86,17 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etNewCardName"
+                appdp:hint="@{Strings.screen_personal_detail_display_text_full_name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
+                android:inputType="textPersonName"
+                android:maxLength="26"
                 android:singleLine="true"
+                android:text="@={viewModel.state.fullName}"
                 android:theme="@style/Theme.EditText.Primary"
-                app:hint="@{Strings.screen_personal_detail_display_text_full_name}"
-                tools:hint="@string/screen_change_email_placeholder_email_address" />
+                tools:hint="@string/screen_personal_detail_display_text_full_name" />
 
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -107,8 +111,8 @@
             app:layout_constraintBottom_toTopOf="@+id/btnNext"
             app:layout_constraintTop_toBottomOf="@+id/ctCardName"
             app:layout_constraintVertical_bias="0.85"
-            android:text="We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible."
-            tools:text="We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible." />
+            app:text="@{Strings.screen_onboarding_confirm_card_name_display_name_length_text}"
+            tools:text="@string/screen_onboarding_confirm_card_name_display_name_length_text" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
@@ -118,7 +122,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="@dimen/margin_normal"
             android:layout_marginBottom="@dimen/margin_normal_large"
-            android:enabled="true"
+            android:enabled="@{viewModel.state.fullName.length() > 1}"
             android:gravity="center"
             android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
             android:textColor="@color/colorWhite"
@@ -126,7 +130,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_phone_number_button_send}"
-            />
+            app:text="@{Strings.screen_phone_number_button_send}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

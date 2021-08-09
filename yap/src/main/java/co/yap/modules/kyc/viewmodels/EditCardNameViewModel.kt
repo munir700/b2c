@@ -13,7 +13,6 @@ class EditCardNameViewModel(application: Application) :
     override val state: IEditCardName.State = EditCardNameState()
     override val repository: CustomersRepository get() = CustomersRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
