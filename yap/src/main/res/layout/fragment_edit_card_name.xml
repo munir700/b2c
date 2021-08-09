@@ -52,13 +52,14 @@
             android:gravity="center"
             android:textColor="@color/colorDarkSlateBlue"
             android:textSize="@dimen/text_size_h5"
-            app:text="@{Strings.screen_edit_card_name_display_heading}"
-            tools:text="What name would you like on your card?" />
+            app:text="@{Strings.screen_onboarding_confirm_card_name_display_text_sub_title}"
+            tools:text="@string/screen_onboarding_confirm_card_name_display_text_sub_title" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSubHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingBottom="@dimen/margin_normal_large"
             android:textColor="@color/colorHeatherTwo"
             android:textSize="@dimen/text_size_h3"
@@ -67,7 +68,8 @@
 
         <include
             android:id="@+id/cardLay"
-            layout="@layout/card_item_view" />
+            layout="@layout/card_item_view"
+            app:viewModel="@{viewModel}" />
 
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
             android:id="@+id/ctCardName"
@@ -88,12 +90,11 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
+                android:inputType="textPersonName"
+                android:maxLength="26"
                 android:singleLine="true"
-
-                android:theme="@style/Theme.EditText.Primary"
-                app:hint="@{Strings.screen_personal_detail_display_text_full_name}"
-                tools:hint="@string/screen_change_email_placeholder_email_address" />
+                android:text="@={viewModel.state.fullName}"
+                android:theme="@style/Theme.EditText.Primary" />
 
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -103,13 +104,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center_horizontal"
+            android:text="@{Strings.screen_edit_card_name_display_description}"
             android:textColor="@color/colorHeatherTwo"
             android:textSize="@dimen/text_size_h2"
             app:layout_constraintBottom_toTopOf="@+id/btnNext"
             app:layout_constraintTop_toBottomOf="@+id/ctCardName"
             app:layout_constraintVertical_bias="0.85"
-            app:text="@{Strings.screen_edit_card_name_display_description}"
-            tools:text="We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible." />
+            tools:text="@string/screen_edit_card_name_display_description" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
@@ -118,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="@dimen/margin_normal"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="@dimen/margin_normal_large"
             android:enabled="true"
             android:gravity="center"
             android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
@@ -126,7 +127,6 @@
             app:btn_size="large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.638"
             app:layout_constraintStart_toStartOf="parent"
             app:text="@{Strings.screen_phone_number_button_send}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
