@@ -64,6 +64,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 status = it.status
             )
         })
+        viewModel.gotoInformationErrorFragment?.observe(this, Observer { showProgress ->
+            if (showProgress){
+                progressBar.visibility = View.GONE
+            }
+            else{
+                progressBar.visibility = View.VISIBLE
+            }
+        })
     }
 
     private val clickEventObserver = Observer<Int> {

@@ -23,14 +23,19 @@ class ConfirmCardNameFragment : KYCChildFragment<IConfirmCardName.ViewModel>(),
     }
 
     private fun setObservers() {
+        viewModel.parentViewModel?.gotoInformationErrorFragment?.value = false
         viewModel.clickEvent.observe(this, onClickObserver)
     }
 
     val onClickObserver = Observer<Int> {
         when (it) {
             R.id.btnNameFine -> {
-                viewModel.parentViewModel?.finishKyc?.value =
-                    DocumentsResponse(true)
+                viewModel.postProfileInformation {
+                    if (it) {
+                        viewModel.parentViewModel?.finishKyc?.value =
+                            DocumentsResponse(true)
+                    }
+                }
             }
             R.id.tvEditCardName -> {
                 navigate(R.id.action_confirmCardNameFragment_to_editCardNameFragment)
