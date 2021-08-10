@@ -15,6 +15,7 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
+import retrofit2.Response
 import retrofit2.http.Body
 
 interface CustomersApi {
@@ -118,5 +119,5 @@ interface CustomersApi {
     suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse>
     suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
-
+   suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse>
 }

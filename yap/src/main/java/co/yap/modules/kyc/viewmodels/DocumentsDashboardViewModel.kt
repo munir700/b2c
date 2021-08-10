@@ -21,6 +21,7 @@ class DocumentsDashboardViewModel(application: Application) :
     override var skipFirstScreen: MutableLiveData<Boolean> = MutableLiveData(false)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var gotoInformationErrorFragment: MutableLiveData<Boolean>? = MutableLiveData(false)
+    override var showProgressBar: MutableLiveData<Boolean> = MutableLiveData()
     override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
 
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =

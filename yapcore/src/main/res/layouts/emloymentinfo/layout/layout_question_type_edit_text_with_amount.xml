@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2sp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
-                android:textColor="@color/darkSlateBlue"
+                android:textColor="@color/darkSlateBlueFaded"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="What is your monthly salary? Don’t worry there is no minimum salary requirement." />
 
@@ -59,7 +59,7 @@
                     android:layout_gravity="center_vertical"
                     android:lineSpacingExtra="0dp"
                     android:text="AED"
-                    android:textColor="@color/darkSlateBlue"
+                    android:textColor="@color/darkSlateBlueFaded"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

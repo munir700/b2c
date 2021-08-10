@@ -20,6 +20,7 @@ import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -127,6 +128,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
+    const val URL_UPDATE_PROFILE_FSS = "customers/api/update-profile-on-fss"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -465,4 +467,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = {
             api.stopRankingMsgRequest()
         })
+
+    override suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+        api.updateCardName(cardNameRequest)
+    })
 }

@@ -136,6 +136,14 @@ Due to all the excitement of our official launch, we are gradually activating as
 </string>
     <string name="screen_onboarding_congratulations_button_queue_up">Queue up!</string>
 
+    <!--    OnBoarding confirm card name screen-->
+    <string name="screen_onboarding_confirm_card_name_display_text_title">What name would you like on your card?</string>
+    <string name="screen_onboarding_confirm_card_name_display_text_sub_title">Please keep this as close to your real name.</string>
+    <string name="screen_onboarding_confirm_card_name_display_sub_text">Is it?</string>
+    <string name="screen_onboarding_confirm_card_name_display_name_length_text">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
+    <string name="screen_onboarding_confirm_card_name_edit_full_name_text">I’d like to edit my name</string>
+    <string name="screen_onboarding_confirm_card_name_btn_name_fine_text">This is fine!</string>
+
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
     <string name="screen_notification_permission_text_title">Would you like to receive notifications from us?</string>
@@ -682,7 +690,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_transaction_details_rating_label">How was your experience with %1s?</string>
     <string name="screen_transaction_details_rating_tap_to_rate">Tap to rate</string>
 
-     <!--  Send Money no contacts Screen-->
+    <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
     <string name="screen_send_money_no_contacts_display_text_sub_heading">Who would you like to send money to?</string>
     <string name="screen_send_money_no_contacts_display_text_detail">​You can send money to people around the world through your YAP account. Click below to start adding a beneficiary. You can also do this using the + button anytime.</string>
@@ -1422,5 +1430,12 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_cards_display_text_error_framework_internal">The error occurred in payment framework while processing the request. Please contact support for more information.</string>
     <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
     <!--    Samsung Pay end-->
+
+
+<!--    Edit Card Name -->
+    <string name="screen_edit_card_name_text_heading">Type your full name</string>
+    <string name="screen_edit_card_name_display_heading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_display_description">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
 
 </resources>
