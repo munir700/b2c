@@ -746,11 +746,15 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_beneficiary_detail_input_text_nick_name_hint">Add nickname</string>
     <string name="screen_add_beneficiary_detail_input_text_first_name_hint">Add first name</string>
     <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add last name</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_hint">Add the full address</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text">Number of characters</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_alert_text">The address must include a street name, city, province and postal code. </string>
 
     <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_last_name">Last name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_phone">Phone number (optional)</string>
+    <string name="screen_add_beneficiary_detail_display_text_beneficiary_address">Beneficiary address</string>
     <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
     <string name="screen_sdd_beneficiary_display_confirm_iban">Confirm IBAN</string>
     <string name="screen_add_beneficiary_display_help_content">Your IBAN is a sequence of 23 characters and can be found in the top right menu on your dashboard</string>

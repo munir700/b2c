@@ -134,6 +134,14 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
         }
 
     @get:Bindable
+    override var beneficiaryAddress: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryAddress)
+            validate()
+        }
+
+    @get:Bindable
     override var iban: String = ""
         set(value) {
             field = value
@@ -279,6 +287,7 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                                     "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) && !countryOfResidence.isNullOrBlank()
+                                && !beneficiaryAddress.isNullOrBlank()
                 }
                 DOMESTIC -> {
                     valid =

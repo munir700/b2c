@@ -339,6 +339,66 @@
                     app:pse_space="@dimen/_12sdp"
                     tools:text="322335" />
 
+                <TextView
+                    style="@style/Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_beneficiary_address}"
+                    app:textColor="@{viewModel.state.beneficiaryAddress.empty ? true : false}"
+                    tools:text="@string/screen_add_beneficiary_detail_display_text_beneficiary_address" />
+
+                <co.yap.widgets.DrawableClickEditText
+                    android:id="@+id/etBeneficiaryAddress"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/greyLight"
+                    android:drawableEnd="@{@drawable/ic_support}"
+                    android:drawableRight="@{@drawable/ic_support}"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="textPostalAddress"
+                    android:maxLength="35"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.beneficiaryAddress}"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_beneficiary_address_hint}"
+                    app:isDrawableShownWhenTextIsEmpty="true"
+                    app:popupContentValue="@string/screen_add_beneficiary_detail_input_text_beneficiary_address_alert_text"
+                    tools:drawableRight="@drawable/ic_support"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_beneficiary_address_hint" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/margin_extra_small"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/Micro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:textColor="@color/greyDark"
+                        app:text="@{Strings.screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text}"
+                        tools:text="@string/screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text" />
+
+                    <TextView
+                        style="@style/Micro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="@{String.valueOf(viewModel.state.beneficiaryAddress.length()) + ` / 35`, default = `0`}"
+                        android:textColor="@color/colorDarkGrey"
+                        tools:text="0 / 35" />
+
+                </RelativeLayout>
+
                 <co.yap.widgets.CoreButton
                     android:id="@+id/confirmButton"
                     style="@style/FragmentsBtnStyle"
