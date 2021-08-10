@@ -55,6 +55,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun addObservers() {
+        if (!viewModel.parentViewModel?.state?.nationality?.get()
+                .isNullOrEmpty()
+        ) viewModel.clickEvent.setValue(viewModel.eventNext)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivEditFirstName, R.id.tvFirstName -> {
@@ -129,12 +132,17 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
+                            /* viewModel.parentViewModel?.finishKyc?.value =
+                                 DocumentsResponse(true)*/
+                            navigateToConfirmNameFragment()
                         } else {
                             showToast("Accounts info failed")
+                            /*
                             viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
+                                DocumentsResponse(true)*/
+                            //Need to discuss line 140 with faheem
+                            navigateToConfirmNameFragment()
+
                         }
 
                     })
@@ -163,6 +171,14 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
+    }
+
+    private fun navigateToConfirmNameFragment() {
+        viewModel.parentViewModel?.state?.middleName?.set(viewModel.state.middleName)
+        viewModel.parentViewModel?.state?.firstName?.set(viewModel.state.firstName)
+        viewModel.parentViewModel?.state?.lastName?.set(viewModel.state.lastName)
+        viewModel.parentViewModel?.state?.nationality?.set(viewModel.state.nationality)
+        navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
     }
 
     private fun invalidCitizenNumber(title: String) {
