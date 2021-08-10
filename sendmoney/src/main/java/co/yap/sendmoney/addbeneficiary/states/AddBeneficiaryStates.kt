@@ -134,10 +134,11 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
         }
 
     @get:Bindable
-    override var beneficiaryAddress: String = ""
+    override var beneficiaryAddress: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryAddress)
+            validate()
         }
 
     @get:Bindable
@@ -286,6 +287,7 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                                     "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) && !countryOfResidence.isNullOrBlank()
+                                && !beneficiaryAddress.isNullOrBlank()
                 }
                 DOMESTIC -> {
                     valid =
