@@ -16,7 +16,7 @@ class EditCardNameFragment : KYCChildFragment<IEditCardName.ViewModel>(), IEditC
     override val viewModel: EditCardNameViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.parentViewModel?.gotoInformationErrorFragment?.value = true
+        viewModel.parentViewModel?.showProgressBar?.value = false
         viewModel.clickEvent.observe(this, Observer {
           when(it){
             R.id.btnNext -> {
@@ -29,13 +29,5 @@ class EditCardNameFragment : KYCChildFragment<IEditCardName.ViewModel>(), IEditC
         }}
 
         })
-    }
-
-    override fun onToolBarClick(id: Int) {
-        when (id) {
-            R.id.ivLeftIcon -> {
-                requireActivity().onBackPressed()
-            }
-        }
     }
 }

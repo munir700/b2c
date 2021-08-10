@@ -23,27 +23,17 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/margin_medium_large">
 
-        <co.yap.widgets.CoreToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
-            app:leftIconVisibility="@{true}" />
-
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/layFlow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:orientation="vertical"
             app:constraint_referenced_ids="tvHeading,tvSubHeading,cardLay"
             app:flow_verticalGap="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHeading"
@@ -104,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center_horizontal"
-            android:text="@{Strings.screen_edit_card_name_display_description}"
+            app:text="@{Strings.screen_edit_card_name_display_description}"
             android:textColor="@color/colorHeatherTwo"
             android:textSize="@dimen/text_size_h2"
             app:layout_constraintBottom_toTopOf="@+id/btnNext"

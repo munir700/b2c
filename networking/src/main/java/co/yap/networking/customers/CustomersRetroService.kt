@@ -299,6 +299,6 @@ interface CustomersRetroService {
     @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
     suspend fun stopRankingMsgRequest(): Response<ApiResponse>
 
-    @PUT(CustomersRepository.URL_UPDATE_PROFILE_FSS)
+    @POST(CustomersRepository.URL_UPDATE_PROFILE_FSS)
     suspend fun updateCardName(@Body cardNameRequest: CardNameRequest): Response<ApiResponse>
 }

@@ -14,7 +14,10 @@ interface IDocumentsDashboard {
     interface State : IBase.State {
         var totalProgress: Int
         var currentProgress: Int
+        var firstName: ObservableField<String>
         var middleName: ObservableField<String>
+        var lastName: ObservableField<String>
+        var nationality: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -27,6 +30,7 @@ interface IDocumentsDashboard {
         fun handlePressOnView(id: Int)
         var clickEvent:SingleClickEvent
         var gotoInformationErrorFragment :MutableLiveData<Boolean>?
+        var showProgressBar :MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel>

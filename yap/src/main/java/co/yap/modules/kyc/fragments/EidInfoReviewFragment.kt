@@ -55,6 +55,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun addObservers() {
+        if (!viewModel.parentViewModel?.state?.nationality?.get()
+                .isNullOrEmpty()
+        ) viewModel.clickEvent.setValue(viewModel.eventNext)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivEditFirstName, R.id.tvFirstName -> {
@@ -172,6 +175,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     private fun navigateToConfirmNameFragment() {
         viewModel.parentViewModel?.state?.middleName?.set(viewModel.state.middleName)
+        viewModel.parentViewModel?.state?.firstName?.set(viewModel.state.firstName)
+        viewModel.parentViewModel?.state?.lastName?.set(viewModel.state.lastName)
+        viewModel.parentViewModel?.state?.nationality?.set(viewModel.state.nationality)
         navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
     }
 

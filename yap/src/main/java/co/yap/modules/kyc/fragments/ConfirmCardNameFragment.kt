@@ -22,8 +22,9 @@ class ConfirmCardNameFragment : KYCChildFragment<IConfirmCardName.ViewModel>(),
         setObservers()
     }
 
+
     private fun setObservers() {
-        viewModel.parentViewModel?.gotoInformationErrorFragment?.value = false
+        viewModel.parentViewModel?.showProgressBar?.value = true
         viewModel.clickEvent.observe(this, onClickObserver)
     }
 

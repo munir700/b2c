@@ -25,9 +25,9 @@ class EditCardNameViewModel(application: Application) :
             when (val response = repository.updateCardName(
                 CardNameRequest(
                     customerIDNumber = SessionManager.user?.currentCustomer?.customerId,
-                    customerNationality = SessionManager.user?.currentCustomer?.nationality,
-                    customerIDFirstName = SessionManager.user?.currentCustomer?.firstName,
-                    customerIDLastName = SessionManager.user?.currentCustomer?.lastName,
+                    customerNationality = parentViewModel?.state?.nationality?.get(),
+                    customerIDFirstName = parentViewModel?.state?.firstName?.get(),
+                    customerIDLastName = parentViewModel?.state?.lastName?.get(),
                     customerIDMiddleName = parentViewModel?.state?.middleName?.get(),
                     displayCardName = state.fullName.get(),
                     cardSerialNumber = SessionManager.card.value?.cardSerialNumber
@@ -35,9 +35,12 @@ class EditCardNameViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     success(true)
+                    state.loading = false
                 }
                 is RetroApiResponse.Error ->{
                     success(false)
+                    state.loading = false
+                    showToast(response.error.message)
                 }
             }
         }
