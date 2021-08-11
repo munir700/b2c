@@ -87,6 +87,8 @@
             android:paddingEnd="@dimen/margin_medium_large"
             android:paddingBottom="@dimen/margin_normal"
             android:text="@{viewModel.state.fullName}"
+            android:maxLength="26"
+            android:ellipsize="end"
             android:textColor="@color/colorBlueyPurple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
