@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.helpers.extentions.*
@@ -86,6 +87,17 @@ class TransactionsListingAdapter(
                 position, type = Constants.MERCHANT_TYPE
 
             )
+            itemAnalyticsTransactionListBinding.tvTransactionTimeAndCategory.text =
+                getString(
+                    itemAnalyticsTransactionListBinding.tvCurrency.context,
+                    R.string.screen_fragment_home_transaction_time_category,
+                    transaction.getTransactionTime(TransactionAdapterType.TOTAL_PURCHASE),
+                    DateUtils.reformatStringDate(
+                        date = transaction.creationDate ?: "",
+                        inputFormatter = DateUtils.SERVER_DATE_FORMAT,
+                        outFormatter = DateUtils.FORMAT_SHORT_MONTH_DAY
+                    )
+                )
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
@@ -191,6 +203,7 @@ class TransactionsListingAdapter(
         ) {
             transaction.merchantLogo?.let { logo ->
                 itemTransactionListBinding.ivTransaction.loadImage(logo)
+                itemTransactionListBinding.ivTransaction.setBackgroundColor(itemTransactionListBinding.ivTransaction.context.getColor(R.color.white) )
             } ?: transaction.tapixCategory?.categoryIcon?.let { icon ->
                 ImageBinding.loadAnalyticsAvatar(
                     itemTransactionListBinding.ivTransaction,

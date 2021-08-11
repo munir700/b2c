@@ -22,7 +22,10 @@ data class TransactionDetail(
     val categoryType: Boolean?,
     val categoryDescription: String?,
     val tapixCategory: TapixCategory?,
-    val showFeedBack: Boolean?
+    val showFeedBack: Boolean?,
+    val isYTYTransfer: Boolean? = false,
+    val isDeclinedTransaction: Boolean? = false,
+    val isMApVisible: Boolean? = false
 )
 
 

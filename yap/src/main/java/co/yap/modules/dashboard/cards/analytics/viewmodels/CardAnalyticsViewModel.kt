@@ -209,7 +209,8 @@ class CardAnalyticsViewModel(application: Application) :
             title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
             url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
             position = state.selectedItemPosition.get(),
-            type = type.get() ?: "merchant-name",
+            /*type = type.get() ?: "merchant-name",*/
+            type = "merchant-category-id",
             showBackground = (state.selectedTxnAnalyticsItem.get()?.logoUrl.isNullOrEmpty() || state.selectedTxnAnalyticsItem.get()?.logoUrl == " ")
         )
     }
