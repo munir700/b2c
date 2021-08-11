@@ -32,6 +32,7 @@ import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.beneficiaryInfoDialog
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -208,7 +209,19 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     when (payload.itemData) {
                         is Beneficiary -> {
-                            startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
+                            requireContext().beneficiaryInfoDialog(
+                                title = "We need more information about the beneficiary",
+                                message = "Please fill in the address field to complete the transaction",
+                                buttonText = "Do it later",
+                                callback = {proceed->
+                                    if (proceed){
+                                        openEditBeneficiary(payload.itemData as Beneficiary)
+                                    }
+                                },
+                                icon = R.drawable.ic_exclamation_primary_white,
+                                coreButtonTitle = "Do it now"
+                            )
+                            // startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
                         }
                         is Contact -> {
                             startY2YTransfer(
