@@ -379,7 +379,7 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Micro"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -388,7 +388,7 @@
                         app:text="@{Strings.screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text}"
                         tools:text="@string/screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Micro"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

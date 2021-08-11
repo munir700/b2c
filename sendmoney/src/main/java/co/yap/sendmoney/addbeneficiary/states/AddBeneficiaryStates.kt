@@ -140,6 +140,7 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
             notifyPropertyChanged(BR.beneficiaryAddress)
             validate()
         }
+    override var addressMandatory: Boolean? = null
 
     @get:Bindable
     override var iban: String = ""
@@ -287,7 +288,10 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                                     "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) && !countryOfResidence.isNullOrBlank()
-                                && !beneficiaryAddress.isNullOrBlank()
+
+                    if (addressMandatory == true) {
+                        valid = !beneficiaryAddress.isNullOrBlank()
+                    }
                 }
                 DOMESTIC -> {
                     valid =

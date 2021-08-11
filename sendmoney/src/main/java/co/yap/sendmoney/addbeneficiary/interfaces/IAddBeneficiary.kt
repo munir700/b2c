@@ -25,6 +25,7 @@ interface IAddBeneficiary {
         var valid: Boolean
         var country2DigitIsoCode: String
         var beneficiaryAddress: String?
+        var addressMandatory: Boolean?
 
         var id: Int
         var beneficiaryId: String?
