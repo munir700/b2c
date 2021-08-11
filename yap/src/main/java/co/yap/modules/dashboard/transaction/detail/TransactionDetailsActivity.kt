@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -30,17 +29,20 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.PhotoSelectionType
-import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import kotlinx.android.synthetic.main.activity_transaction_details.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
-    ITransactionDetails.View {
+    ITransactionDetails.View, OnMapReadyCallback {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -51,7 +53,16 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        setContentDataColor(viewModel.transaction.get())
+        //setContentDataColor(viewModel.transaction.get())
+        viewModel.setContentDataColor(
+            viewModel.transaction.get(),
+            getBindings().tvTotalAmountValue,
+            getBindings().tvCurrency
+        )
+        viewModel.state.transactionData.get()?.isMApVisible?.let { showMAp ->
+            if (showMAp) initMap()
+            viewModel.setMapVisibility(getBindings().ivMap, map, showMAp)
+        }
     }
 
     override fun setObservers() {
@@ -204,13 +215,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         )
     }
 
-    private fun setContentDataColor(transaction: Transaction?) {
+    /*private fun setContentDataColor(transaction: Transaction?) {
         //strike-thru textview
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =
                 if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -232,9 +243,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                             DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                     }
                     viewModel.state.transactionNoteDate = "Note added  ${
-                        DateUtils.getCurrentDateWithFormat(
-                            DateUtils.FORMAT_LONG_OUTPUT
-                        )
+                    DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
                     }"
                 }
 
@@ -311,6 +322,17 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
             description = "Are you sure you want to submit this rating?",
             addOtherVisibility = false
         )
+    }
+
+    private fun initMap() {
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.view?.visibility = View.VISIBLE
+        mapFragment?.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        viewModel.gMap = googleMap
+        viewModel.setMap()
     }
 
 }
