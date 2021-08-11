@@ -22,7 +22,7 @@ class ConfirmCardNameViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         setProgress(25)
-        state.fullName.set("${parentViewModel?.state?.firstName?.get()} ${parentViewModel?.state?.lastName?.get()}")
+        state.fullName.set(formatedUserName())
     }
 
     fun postProfileInformation(success: (bool: Boolean) -> Unit) {
@@ -48,6 +48,16 @@ class ConfirmCardNameViewModel(application: Application) :
                     showToast(response.error.message)
                 }
             }
+        }
+    }
+
+    private fun formatedUserName(): String {
+        val name = parentViewModel?.state?.middleName?.get()?.let { middleName ->
+            "${parentViewModel?.state?.firstName?.get()} ${middleName} ${parentViewModel?.state?.lastName?.get()}"
+        } ?: "${parentViewModel?.state?.firstName?.get()} ${parentViewModel?.state?.lastName?.get()}"
+        return when {
+            name.length > 26 -> "${parentViewModel?.state?.firstName?.get()} ${parentViewModel?.state?.lastName?.get()}"
+            else -> name
         }
     }
 }
