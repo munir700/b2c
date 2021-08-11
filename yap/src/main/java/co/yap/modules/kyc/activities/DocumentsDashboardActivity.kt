@@ -44,10 +44,10 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.name.value = intent.getValue(Constants.name, ExtraType.STRING.name) as? String
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
-        viewModel.showProgressBar?.value = intent?.getBooleanExtra("GO_ERROR", true)
+        viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
-        if (viewModel.showProgressBar?.value == false) {
+        if (viewModel.showProgressBar.value == false) {
             progressBar.visibility = View.GONE
         }
         addObserver()
@@ -76,6 +76,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.showProgressBar.observe(this, Observer { showProgress ->
             if (showProgress) {
                 progressBar.progressLay.visibility = View.VISIBLE
+                progressBar.btnBack.visibility = View.GONE
             } else {
                 progressBar.progressLay.visibility = View.GONE
                 progressBar.btnBack.visibility = View.VISIBLE
