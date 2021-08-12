@@ -43,6 +43,7 @@ interface IEditBeneficiary {
         var valid: Boolean?
         var selectedCountryOfResidence: Country?
         var rightButtonText: ObservableField<String>
+        var beneficiaryAddress: String?
 
     }
 }
