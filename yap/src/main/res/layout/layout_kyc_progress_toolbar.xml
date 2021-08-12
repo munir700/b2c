@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -36,7 +37,8 @@
             android:paddingEnd="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back"
+            tools:srcCompat="@drawable/ic_back"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tbBtnCheck"
@@ -84,7 +86,8 @@
         android:paddingEnd="@dimen/margin_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back_arrow_left" />
+        app:srcCompat="@drawable/ic_back_arrow_left"
+        tools:srcCompat="@drawable/ic_back_arrow_left" />
 </FrameLayout>
 
 </layout>

@@ -16,10 +16,16 @@ class EditCardNameViewModel(application: Application) :
     override val state: IEditCardName.State = EditCardNameState()
     override val repository: CustomersRepository get() = CustomersRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override fun onCreate() {
+        super.onCreate()
+        state.date.set(SessionManager.card.value?.expiryDate)
+    }
+
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
     }
-    fun postProfileInformation(success:(bool:Boolean)-> Unit) {
+
+    fun postProfileInformation(success: (bool: Boolean) -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.updateCardName(
@@ -37,7 +43,7 @@ class EditCardNameViewModel(application: Application) :
                     success(true)
                     state.loading = false
                 }
-                is RetroApiResponse.Error ->{
+                is RetroApiResponse.Error -> {
                     success(false)
                     state.loading = false
                     showToast(response.error.message)
