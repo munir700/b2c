@@ -80,7 +80,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                     true
                 } ?: false
             }
-            TransactionDetailItem.TRANSFER_AMOUNT, TransactionDetailItem.EXCHANGE_RATE -> {
+            TransactionDetailItem.TRANSFER_AMOUNT -> {
                 isInternationalPOS(transaction) || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
             }
             TransactionDetailItem.SENDER -> {
@@ -89,7 +89,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.RECEIVER -> {
                 transaction.getProductType() == TransactionProductType.IS_SEND_MONEY && transaction.txnType == TxnType.DEBIT.type
             }
-            TransactionDetailItem.SENT_RECEIVED, TransactionDetailItem.FEES, TransactionDetailItem.VAT -> {
+            TransactionDetailItem.SENT_RECEIVED -> {
                 true
             }
             TransactionDetailItem.TOTAL -> {
@@ -101,6 +101,10 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.REMARKS -> {
                 !transaction.remarks.isNullOrEmpty()
             }
+            TransactionDetailItem.FEES, TransactionDetailItem.VAT, TransactionDetailItem.EXCHANGE_RATE ->
+                return !(transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode
+                        || transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
+
         }
     }
 
@@ -118,9 +122,11 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: 0.00)
                 }
-                it.isNonAEDTransaction() -> {
+                /*it.isNonAEDTransaction() -> {
                     it.cardHolderBillingAmount ?: 0.00
-                }
+                }*/
+                it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || it.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || it.productCode == TransactionProductCode.ECOM.pCode ->
+                    (it.cardHolderBillingTotalAmount ?: 0.00)
                 else -> it.amount ?: 0.00
             }
         }
@@ -379,6 +385,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         "DECLINE_FEE",
         true
     )
+
     fun isMApVisible(): Boolean? = transaction.latitude?.let { lat ->
         transaction.longitude?.let { long ->
             (lat != 0.0 && long != 0.0) &&
@@ -387,6 +394,6 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                             transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode ||
                             transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
                             transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
-        }?:false
-    }?:false
+        } ?: false
+    } ?: false
 }
