@@ -209,7 +209,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     when (payload.itemData) {
                         is Beneficiary -> {
-                            if (addressMandatory((payload.itemData as Beneficiary).isoCountryCode)) {
+                            if (addressMandatory((payload.itemData as Beneficiary).isoCountryCode) && (payload.itemData as Beneficiary).beneficiaryAddress.isNullOrEmpty()) {
                                 requireContext().beneficiaryInfoDialog(
                                     title = "We need more information about the beneficiary",
                                     message = "Please fill in the address field to complete the transaction",
