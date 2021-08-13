@@ -68,8 +68,8 @@ object Strings {
         "common_display_text_percentage"
     const val common_yap_share_content: String =
         "common_yap_share_content"
-    const val common_display_two_variables: String =
-        "common_display_two_variables"
+    const val common_display_one_variables: String =
+        "common_display_one_variables"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
