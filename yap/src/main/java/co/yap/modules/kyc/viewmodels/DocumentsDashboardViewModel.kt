@@ -23,6 +23,7 @@ class DocumentsDashboardViewModel(application: Application) :
     override var gotoInformationErrorFragment: MutableLiveData<Boolean>? = MutableLiveData(false)
     override var showProgressBar: MutableLiveData<Boolean> = MutableLiveData()
     override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
+    override var accountStatus: MutableLiveData<String> = MutableLiveData()
 
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =
         null

@@ -26,7 +26,6 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils.hideKeyboard
-import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -132,15 +131,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
-                            /* viewModel.parentViewModel?.finishKyc?.value =
-                                 DocumentsResponse(true)*/
                             navigateToConfirmNameFragment()
                         } else {
                             showToast("Accounts info failed")
-                            /*
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)*/
-                            //Need to discuss line 140 with faheem
                             navigateToConfirmNameFragment()
 
                         }
@@ -166,11 +159,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 )
             }
         })
-        viewModel.eidStateLiveData.observe(this, Observer {
+        viewModel.eidStateLiveData.observe(this, Observer
+        {
             if (it.status == Status.ERROR) {
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
+
     }
 
     private fun navigateToConfirmNameFragment() {

@@ -31,6 +31,7 @@ interface IDocumentsDashboard {
         var clickEvent:SingleClickEvent
         var gotoInformationErrorFragment :MutableLiveData<Boolean>?
         var showProgressBar :MutableLiveData<Boolean>
+        var accountStatus :MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel>

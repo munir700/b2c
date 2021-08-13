@@ -16,6 +16,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
@@ -47,6 +48,8 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
+        viewModel.accountStatus.value =
+            intent.getValue(Constants.status, ExtraType.STRING.name) as? String
         if (viewModel.showProgressBar.value == false) {
             progressBar.visibility = View.GONE
         }
@@ -82,6 +85,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 progressBar.btnBack.visibility = View.VISIBLE
             }
         })
+
     }
 
     private val clickEventObserver = Observer<Int> {

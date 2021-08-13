@@ -14,8 +14,10 @@ import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import java.io.File
@@ -49,6 +51,22 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 R.id.tvSkip -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_SKIP_EID)
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+                }
+            }
+        })
+        viewModel.parentViewModel?.accountStatus?.observe(this, Observer { status ->
+            when (status) {
+                AccountStatus.CAPTURED_EID.name -> {
+                    SessionManager.getAccountInfo {
+                        viewModel.parentViewModel?.state?.middleName?.set("")
+                        viewModel.parentViewModel?.state?.firstName?.set("")
+                        viewModel.parentViewModel?.state?.lastName?.set("")
+                        viewModel.parentViewModel?.state?.nationality?.set(SessionManager.user?.currentCustomer?.nationality)
+                        navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
+                    }
+                }
+                AccountStatus.FSS_PROFILE_UPDATED.name -> {
+                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
             }
         })

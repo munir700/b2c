@@ -133,6 +133,7 @@ object Constants {
     const val data = "payLoad"
     const val result = "result"
     const val skipped = "skipped"
+    const val status = "status"
     val FRAGMENT_CLASS = "fragment_class"
     val SHOW_TOOLBAR = "_show_toolbar"
     val EXTRA = "_bundle_extras"
