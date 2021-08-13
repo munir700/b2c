@@ -81,7 +81,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 } ?: false
             }
             TransactionDetailItem.TRANSFER_AMOUNT -> {
-                isInternationalPOS(transaction) || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
+                transaction.isNonAEDTransaction() || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
             }
             TransactionDetailItem.SENDER -> {
                 transaction.getProductType() == TransactionProductType.IS_SEND_MONEY && transaction.txnType == TxnType.CREDIT.type
