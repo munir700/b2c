@@ -140,7 +140,7 @@ class TransactionsListingAdapter(
             itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
                 if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
-            itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
+            //itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             itemTransactionListBinding.ivIncoming.background =
