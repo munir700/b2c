@@ -13,7 +13,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun label(forTag: TransactionDetailItem): String {
         return when (forTag) {
             TransactionDetailItem.CARD_NUMBER -> "Card"
-            TransactionDetailItem.TRANSFER_AMOUNT -> if (isInternationalPOS(transaction)) "Spent amount" else "Transfer amount"
+            TransactionDetailItem.TRANSFER_AMOUNT -> if (transaction.isNonAEDTransaction()) "Spent amount" else "Transfer amount"
             TransactionDetailItem.EXCHANGE_RATE -> "Exchange rate"
             TransactionDetailItem.SENDER -> "Sender"
             TransactionDetailItem.RECEIVER -> "Receiver"
