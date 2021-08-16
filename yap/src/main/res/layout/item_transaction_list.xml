@@ -117,5 +117,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionNote"
             tools:text="Transaction rejected" />
 
+        <TextView
+            android:id="@+id/tvForeignCurrency"
+            style="@style/ASmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
+            app:layout_constraintStart_toStartOf="@+id/tvTransactionName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionStatus"
+            tools:text="CAD 7.00" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
