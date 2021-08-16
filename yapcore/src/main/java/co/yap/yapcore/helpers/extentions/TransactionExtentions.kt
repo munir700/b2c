@@ -338,10 +338,10 @@ fun Transaction?.getFormattedTransactionAmount(): String? {
     return String.format(
         "%s %s", this?.getTransactionAmountPrefix(),
         //this?.getAmount().toString().toFormattedCurrency(
-        this?.cardHolderBillingTotalAmount.toString().toFormattedCurrency(
+        this?.cardHolderBillingTotalAmount?.toString()?.toFormattedCurrency(
             showCurrency = false,
-            currency = this?.currency ?: SessionManager.getDefaultCurrency()
-        )
+            currency = this.currency ?: SessionManager.getDefaultCurrency()
+        )?:0.0
     )
 }
 
