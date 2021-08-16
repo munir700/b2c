@@ -157,8 +157,8 @@ class TransactionsListingAdapter(
                 itemTransactionListBinding.tvForeignCurrency.visibility = View.VISIBLE
                 itemTransactionListBinding.tvForeignCurrency.text = getString(
                     context,
-                    R.string.common_display_two_variables,
-                    transaction.currency.toString(), transaction.totalAmount.toString()
+                    R.string.common_display_one_variables,
+                    transaction.amount.toString().toFormattedCurrency(currency = transaction.currency.toString())
                 )
             }
         }
