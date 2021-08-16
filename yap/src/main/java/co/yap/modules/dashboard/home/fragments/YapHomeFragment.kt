@@ -705,14 +705,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             ), RequestCodes.REQUEST_FOR_LOCATION
                         )
                     } else {
-                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                            putExtra(
-                                Constants.name,
-                                SessionManager.user?.currentCustomer?.firstName.toString()
-                            )
-                            putExtra(Constants.status,SessionManager.user?.notificationStatuses)
-                            putExtra(Constants.data, false)
-                        }
                         val kycAction =
                             data.getValue(
                                 "status",
