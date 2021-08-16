@@ -56,7 +56,7 @@ class ConfirmCardNameViewModel(application: Application) :
             "${parentViewModel?.state?.firstName?.get()} ${middleName} ${parentViewModel?.state?.lastName?.get()}"
         } ?: "${parentViewModel?.state?.firstName?.get()} ${parentViewModel?.state?.lastName?.get()}"
         return when {
-            name.length > 26 -> "${parentViewModel?.state?.firstName?.get()} ${parentViewModel?.state?.lastName?.get()}"
+            name.length > 26 -> "${parentViewModel?.state?.firstName?.get()?.substring(0)}. ${parentViewModel?.state?.lastName?.get()}"
             else -> name
         }
     }

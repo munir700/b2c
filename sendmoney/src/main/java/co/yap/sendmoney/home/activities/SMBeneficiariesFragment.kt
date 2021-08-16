@@ -209,19 +209,26 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     when (payload.itemData) {
                         is Beneficiary -> {
-                            requireContext().beneficiaryInfoDialog(
-                                title = "We need more information about the beneficiary",
-                                message = "Please fill in the address field to complete the transaction",
-                                buttonText = "Do it later",
-                                callback = {proceed->
-                                    if (proceed){
-                                        openEditBeneficiary(payload.itemData as Beneficiary)
-                                    }
-                                },
-                                icon = R.drawable.ic_exclamation_primary_white,
-                                coreButtonTitle = "Do it now"
-                            )
-                            // startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
+                            if (addressMandatory((payload.itemData as Beneficiary).isoCountryCode) && (payload.itemData as Beneficiary).beneficiaryAddress.isNullOrEmpty()) {
+                                requireContext().beneficiaryInfoDialog(
+                                    title = "We need more information about the beneficiary",
+                                    message = "Please fill in the address field to complete the transaction",
+                                    buttonText = "Do it later",
+                                    callback = { proceed ->
+                                        if (proceed) {
+                                            openEditBeneficiary(payload.itemData as Beneficiary)
+                                        }
+                                    },
+                                    icon = R.drawable.ic_exclamation_primary_white,
+                                    coreButtonTitle = "Do it now"
+                                )
+                            } else {
+                                startMoneyTransfer(
+                                    payload.itemData as Beneficiary,
+                                    payload.position
+                                )
+                            }
+
                         }
                         is Contact -> {
                             startY2YTransfer(
@@ -255,6 +262,13 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
             }
             R.id.tvCancel, R.id.tbBtnBack -> activity?.finish()
         }
+    }
+
+    private fun addressMandatory(countryCode: String?): Boolean {
+        val country = SessionManager.getCountries().filter {
+            it.isoCountryCode2Digit == countryCode
+        }
+        return country[0].addressMandatory ?: false
     }
 
     private fun deleteBeneficiary(beneficiary: Beneficiary, position: Int) {
