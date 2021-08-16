@@ -139,7 +139,11 @@ class TransactionsListingAdapter(
 
             itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
-                if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
+                if (transaction.getStatus().isEmpty()
+                    || transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode
+                    || transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode
+                    || transaction.category.equals("DECLINE_FEE", true)
+                ) View.GONE else View.VISIBLE
             //itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
             itemTransactionListBinding.tvCurrency.text = transaction.cardHolderBillingCurrency
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())
@@ -158,7 +162,8 @@ class TransactionsListingAdapter(
                 itemTransactionListBinding.tvForeignCurrency.text = getString(
                     context,
                     R.string.common_display_one_variables,
-                    transaction.amount.toString().toFormattedCurrency(currency = transaction.currency.toString())
+                    transaction.amount.toString()
+                        .toFormattedCurrency(currency = transaction.currency.toString())
                 )
             }
         }
