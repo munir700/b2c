@@ -7,8 +7,6 @@ import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsRespon
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.docscanner.models.Identity
-import java.util.*
-import kotlin.collections.ArrayList
 
 interface IDocumentsDashboard {
     interface State : IBase.State {
@@ -28,10 +26,10 @@ interface IDocumentsDashboard {
         var finishKyc: MutableLiveData<DocumentsResponse>
         var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation?
         fun handlePressOnView(id: Int)
-        var clickEvent:SingleClickEvent
-        var gotoInformationErrorFragment :MutableLiveData<Boolean>?
-        var showProgressBar :MutableLiveData<Boolean>
-        var accountStatus :MutableLiveData<String>
+        var clickEvent: SingleClickEvent
+        var gotoInformationErrorFragment: MutableLiveData<Boolean>?
+        var showProgressBar: MutableLiveData<Boolean>
+        var accountStatus: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel>

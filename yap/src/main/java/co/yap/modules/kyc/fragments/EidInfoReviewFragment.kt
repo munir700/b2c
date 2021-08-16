@@ -22,9 +22,11 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.widgets.Status
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
@@ -173,6 +175,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         viewModel.parentViewModel?.state?.firstName?.set(viewModel.state.firstName)
         viewModel.parentViewModel?.state?.lastName?.set(viewModel.state.lastName)
         viewModel.parentViewModel?.state?.nationality?.set(viewModel.state.nationality)
+        SharedPreferenceManager.getInstance(requireContext())
+            .save(Constants.KYC_FIRST_NAME, viewModel.state.firstName)
+        SharedPreferenceManager.getInstance(requireContext())
+            .save(Constants.KYC_LAST_NAME, viewModel.state.lastName)
+        SharedPreferenceManager.getInstance(requireContext())
+            .save(Constants.KYC_MIDDLE_NAME, viewModel.state.middleName)
         navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
     }
 

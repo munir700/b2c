@@ -9,6 +9,8 @@ import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.interfaces.IConfirmCardName
 import co.yap.modules.kyc.viewmodels.ConfirmCardNameViewModel
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class ConfirmCardNameFragment : KYCChildFragment<IConfirmCardName.ViewModel>(),
     IConfirmCardName.View {
@@ -35,6 +37,12 @@ class ConfirmCardNameFragment : KYCChildFragment<IConfirmCardName.ViewModel>(),
                     if (it) {
                         viewModel.parentViewModel?.finishKyc?.value =
                             DocumentsResponse(true)
+                        SharedPreferenceManager.getInstance(requireContext())
+                            .removeValue(Constants.KYC_MIDDLE_NAME)
+                        SharedPreferenceManager.getInstance(requireContext())
+                            .removeValue(Constants.KYC_LAST_NAME)
+                        SharedPreferenceManager.getInstance(requireContext())
+                            .removeValue(Constants.KYC_FIRST_NAME)
                     }
                 }
             }
