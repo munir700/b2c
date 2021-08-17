@@ -209,7 +209,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     when (payload.itemData) {
                         is Beneficiary -> {
-                            if (addressMandatory((payload.itemData as Beneficiary).isoCountryCode)) {
+                            if (addressMandatory((payload.itemData as Beneficiary).countryOfResidence)) {
                                 requireContext().beneficiaryInfoDialog(
                                     title = "We need more information about the beneficiary",
                                     message = "Please fill in the address field to complete the transaction",
@@ -265,10 +265,10 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
     }
 
     private fun addressMandatory(countryCode: String?): Boolean {
-        val country = SessionManager.getCountries().filter {
+        val country = SessionManager.getCountries().find {
             it.isoCountryCode2Digit == countryCode
         }
-        return country[0].addressMandatory ?: false
+        return country?.addressMandatory ?: false
     }
 
     private fun deleteBeneficiary(beneficiary: Beneficiary, position: Int) {
