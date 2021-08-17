@@ -265,10 +265,10 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
     }
 
     private fun addressMandatory(countryCode: String?): Boolean {
-        val country = SessionManager.getCountries().filter {
+        val country = SessionManager.getCountries().find {
             it.isoCountryCode2Digit == countryCode
         }
-        return country[0].addressMandatory ?: false
+        return country?.addressMandatory ?: false
     }
 
     private fun deleteBeneficiary(beneficiary: Beneficiary, position: Int) {

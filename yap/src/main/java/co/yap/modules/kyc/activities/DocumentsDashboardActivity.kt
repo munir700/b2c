@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_documents_dashboard.*
 import kotlinx.android.synthetic.main.layout_kyc_progress_toolbar.view.*
 import java.io.File
@@ -48,8 +49,6 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
-        viewModel.accountStatus.value =
-            intent.getValue(Constants.status, ExtraType.STRING.name) as? String
         if (viewModel.showProgressBar.value == false) {
             progressBar.visibility = View.GONE
         }
@@ -68,14 +67,6 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 status = it.status
             )
         })
-        /*   viewModel.gotoInformationErrorFragment?.observe(this, Observer { showProgress ->
-               if (showProgress){
-                   progressBar.visibility = View.GONE
-               }
-               else{
-                   progressBar.visibility = View.VISIBLE
-               }
-           })*/
         viewModel.showProgressBar.observe(this, Observer { showProgress ->
             if (showProgress) {
                 progressBar.progressLay.visibility = View.VISIBLE

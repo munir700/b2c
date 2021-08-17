@@ -33,6 +33,7 @@ class DocumentsDashboardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        accountStatus.value = SessionManager.user?.notificationStatuses
         state.middleName.set(
             SharedPreferenceManager.getInstance(context)
                 .getValueString(Constants.KYC_MIDDLE_NAME)

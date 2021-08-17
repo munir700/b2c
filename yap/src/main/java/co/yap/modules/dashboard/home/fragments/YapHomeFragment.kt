@@ -64,10 +64,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
@@ -603,14 +600,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                    putExtra(
-                        Constants.name,
-                        SessionManager.user?.currentCustomer?.firstName.toString()
+                if(SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name){
+                    startActivityForResult(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = SessionManager.userAddress ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                            onBoarding = true
+                        ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-                    putExtra(Constants.status,SessionManager.user?.notificationStatuses)
-                    putExtra(Constants.data, false)
+                } else{
+                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                        putExtra(
+                            Constants.name,
+                            SessionManager.user?.currentCustomer?.firstName.toString()
+                        )
+                        putExtra(Constants.data, false)
+                    }
                 }
+
             }
 
             NotificationAction.SET_PIN -> {

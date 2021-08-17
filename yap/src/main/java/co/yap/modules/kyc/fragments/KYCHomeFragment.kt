@@ -59,9 +59,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.parentViewModel?.accountStatus?.observe(this, Observer { status ->
             when (status) {
                 AccountStatus.CAPTURED_EID.name -> {
-                    SessionManager.getAccountInfo {
                         navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
-                    }
                 }
                 AccountStatus.FSS_PROFILE_UPDATED.name -> {
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
