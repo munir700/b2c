@@ -59,16 +59,16 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_xxl"
             android:text="@string/screen_yap_house_hold_user_info_button_next"
-            android:visibility="gone"
+            android:visibility="visible"
             app:enableCoreButton="@{true}"
             app:layout_constraintTop_toBottomOf="@+id/flowLay"
             app:btn_size="small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
            />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btnClose"
