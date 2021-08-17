@@ -139,6 +139,7 @@ object Constants {
     val EXTRA = "_bundle_extras"
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"
+    const val SHOW_ADDRESS_IN_BENEFICIARY = "SHOW_ADDRESS_IN_BENEFICIARY"
 
     // SharedPreference  Keys
 

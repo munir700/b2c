@@ -16,10 +16,13 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_documents_dashboard.*
 import kotlinx.android.synthetic.main.layout_kyc_progress_toolbar.view.*
 import java.io.File
@@ -94,15 +97,15 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 }
                 super.onBackPressed()
             } else {
-                /*if (SessionManager.user?.notificationStatuses == NotificationStatus.CAPTURED_EID.name) {
+                if (SessionManager.user?.notificationStatuses == NotificationStatus.CAPTURED_EID.name) {
                     if (!BackPressImpl(fragment).onBackPressed()) {
                         super.onBackPressed()
                     }
-                } else {*/
-                viewModel.paths.forEach { filePath ->
-                    File(filePath).deleteRecursively()
+                } else {
+                    viewModel.paths.forEach { filePath ->
+                        File(filePath).deleteRecursively()
+                    }
                 }
-                //}
                 super.onBackPressed()
             }
         }
