@@ -2,6 +2,7 @@ package co.yap.sendmoney.editbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -23,7 +24,6 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             beneficiary?.beneficiaryAddress = field
             validate()
         }
-
     @get:Bindable
     override var country: String? = ""
         set(value) {
@@ -56,7 +56,6 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             validate()
         }
 
-
     @get:Bindable
     override var firstName: String? = null
         set(value) {
@@ -64,6 +63,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.firstName)
             beneficiary?.firstName = field
         }
+
 
     @get:Bindable
     override var lastName: String? = null
@@ -208,4 +208,5 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
 
     }
 
+    override var showAddressField: ObservableBoolean = ObservableBoolean(false)
 }
