@@ -18,6 +18,9 @@
             app:destination="@id/informationErrorFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_KYCHomeFragment_to_confirmCardNameFragment"
+            app:destination="@id/confirmCardNameFragment" />
     </fragment>
 
     <fragment

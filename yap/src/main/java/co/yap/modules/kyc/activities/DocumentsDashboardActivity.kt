@@ -16,11 +16,13 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_documents_dashboard.*
 import kotlinx.android.synthetic.main.layout_kyc_progress_toolbar.view.*
 import java.io.File
@@ -65,14 +67,6 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 status = it.status
             )
         })
-        /*   viewModel.gotoInformationErrorFragment?.observe(this, Observer { showProgress ->
-               if (showProgress){
-                   progressBar.visibility = View.GONE
-               }
-               else{
-                   progressBar.visibility = View.VISIBLE
-               }
-           })*/
         viewModel.showProgressBar.observe(this, Observer { showProgress ->
             if (showProgress) {
                 progressBar.progressLay.visibility = View.VISIBLE
@@ -82,6 +76,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 progressBar.btnBack.visibility = View.VISIBLE
             }
         })
+
     }
 
     private val clickEventObserver = Observer<Int> {

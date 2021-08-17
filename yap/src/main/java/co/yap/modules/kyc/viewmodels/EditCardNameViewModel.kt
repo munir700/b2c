@@ -40,8 +40,11 @@ class EditCardNameViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    success(true)
-                    state.loading = false
+                    SessionManager.getDebitCard{
+                        success(true)
+                        state.loading = false
+                    }
+
                 }
                 is RetroApiResponse.Error -> {
                     success(false)

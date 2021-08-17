@@ -9,6 +9,8 @@ import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.interfaces.IEditCardName
 import co.yap.modules.kyc.viewmodels.EditCardNameViewModel
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class EditCardNameFragment : KYCChildFragment<IEditCardName.ViewModel>(), IEditCardName.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -18,15 +20,22 @@ class EditCardNameFragment : KYCChildFragment<IEditCardName.ViewModel>(), IEditC
         super.onViewCreated(view, savedInstanceState)
         viewModel.parentViewModel?.showProgressBar?.value = false
         viewModel.clickEvent.observe(this, Observer {
-          when(it){
-            R.id.btnNext -> {
-            viewModel.postProfileInformation {
-                if (it) {
-                    viewModel.parentViewModel?.finishKyc?.value =
-                        DocumentsResponse(true)
+            when (it) {
+                R.id.btnNext -> {
+                    viewModel.postProfileInformation {
+                        if (it) {
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(true)
+                            SharedPreferenceManager.getInstance(requireContext())
+                                .removeValue(Constants.KYC_MIDDLE_NAME)
+                            SharedPreferenceManager.getInstance(requireContext())
+                                .removeValue(Constants.KYC_LAST_NAME)
+                            SharedPreferenceManager.getInstance(requireContext())
+                                .removeValue(Constants.KYC_FIRST_NAME)
+                        }
+                    }
                 }
             }
-        }}
 
         })
     }
