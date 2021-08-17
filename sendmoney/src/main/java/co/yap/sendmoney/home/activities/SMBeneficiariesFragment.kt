@@ -70,6 +70,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initSwipeListener()
         if (viewModel.state.sendMoneyType.get() != SendMoneyTransferType.ALL_Y2Y_SM.name) {
             initComponents()
         }
@@ -88,7 +89,6 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 viewModel.state.isNoBeneficiary.set(true)
                 viewModel.state.hasBeneficiary.set(false)
             } else {
-                initSwipeListener()
                 viewModel.state.isNoBeneficiary.set(false)
                 viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
@@ -343,9 +343,10 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                                 }
                                 isDismissFlow == true -> {
                                 }
-                                else -> viewModel.parentViewModel?.requestAllBeneficiaries(
+                                else -> {
+                                    viewModel.parentViewModel?.requestAllBeneficiaries(
                                     viewModel.state.sendMoneyType.get() ?: ""
-                                )
+                                )}
                             }
                         }
                     }
