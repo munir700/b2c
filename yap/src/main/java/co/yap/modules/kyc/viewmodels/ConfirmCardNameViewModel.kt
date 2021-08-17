@@ -52,12 +52,23 @@ class ConfirmCardNameViewModel(application: Application) :
     }
 
     private fun formatedUserName(): String {
-        val name = parentViewModel?.state?.middleName?.get()?.let { middleName ->
+        val first_lastName =
+            "${parentViewModel?.state?.firstName?.get()} ${parentViewModel?.state?.lastName?.get()}"
+        val firstMiddleLastName = parentViewModel?.state?.middleName?.get()?.let { middleName ->
             "${parentViewModel?.state?.firstName?.get()} ${middleName} ${parentViewModel?.state?.lastName?.get()}"
-        } ?: "${parentViewModel?.state?.firstName?.get()} ${parentViewModel?.state?.lastName?.get()}"
+        } ?: first_lastName
+        val formatedName = "${
+            parentViewModel?.state?.firstName?.get()?.take(1)
+        }. ${parentViewModel?.state?.lastName?.get()}"
         return when {
-            name.length > 26 -> "${parentViewModel?.state?.firstName?.get()?.substring(0)}. ${parentViewModel?.state?.lastName?.get()}"
-            else -> name
+            firstMiddleLastName.length > 26 -> {
+                parentViewModel?.state?.middleName?.get()?.let {
+                    if (first_lastName.length > 26) {
+                        formatedName
+                    } else first_lastName
+                } ?: formatedName
+            }
+            else -> firstMiddleLastName
         }
     }
 }

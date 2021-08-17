@@ -14,12 +14,9 @@ import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import java.io.File
@@ -48,21 +45,15 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
+                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
+                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
+                    } else {
+                        navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
+                    }
                 }
                 R.id.tvSkip -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_SKIP_EID)
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-                }
-            }
-        })
-        viewModel.parentViewModel?.accountStatus?.observe(this, Observer { status ->
-            when (status) {
-                AccountStatus.CAPTURED_EID.name -> {
-                        navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
-                }
-                AccountStatus.FSS_PROFILE_UPDATED.name -> {
-                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
             }
         })
