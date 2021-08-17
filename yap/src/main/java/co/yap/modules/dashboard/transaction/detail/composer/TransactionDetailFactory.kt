@@ -17,7 +17,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.EXCHANGE_RATE -> "Exchange rate"
             TransactionDetailItem.SENDER -> "Sender"
             TransactionDetailItem.RECEIVER -> "Receiver"
-            TransactionDetailItem.SENT_RECEIVED -> if (transaction.isEcomPosTransaction())"Spent in AED" else "Amount"
+            TransactionDetailItem.SENT_RECEIVED -> if (transaction.isEcomPosTransaction()) "Spent in AED" else "Amount"
             TransactionDetailItem.FEES -> "Fee"
             TransactionDetailItem.VAT -> "VAT"
             TransactionDetailItem.TOTAL -> "Total amount"

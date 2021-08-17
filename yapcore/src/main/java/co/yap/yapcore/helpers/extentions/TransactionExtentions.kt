@@ -341,7 +341,7 @@ fun Transaction?.getFormattedTransactionAmount(): String? {
         this?.cardHolderBillingTotalAmount?.toString()?.toFormattedCurrency(
             showCurrency = false,
             currency = this.currency ?: SessionManager.getDefaultCurrency()
-        )?:0.0
+        ) ?: 0.0
     )
 }
 
@@ -524,6 +524,7 @@ fun Transaction?.isInternationalTransaction(): Boolean {
             this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode)
             && this.currency != SessionManager.getDefaultCurrency()
 }
-fun Transaction?.isEcomPosTransaction():Boolean{
+
+fun Transaction?.isEcomPosTransaction(): Boolean {
     return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ECOM.pCode)
 }
