@@ -524,3 +524,6 @@ fun Transaction?.isInternationalTransaction(): Boolean {
             this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode)
             && this.currency != SessionManager.getDefaultCurrency()
 }
+fun Transaction?.isEcomPosTransaction():Boolean{
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ECOM.pCode)
+}
