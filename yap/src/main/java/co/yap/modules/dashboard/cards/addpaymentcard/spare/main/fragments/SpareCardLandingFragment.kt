@@ -17,7 +17,6 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpar
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel
 import co.yap.yapcore.constants.Constants.KEY_AVAILABLE_BALANCE
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
 
 
@@ -66,8 +65,8 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
     private fun setCardDimens() {
         val params = linearLayout2.layoutParams
-        params.width = linearLayout2.context.dimen(R.dimen._204sdp)
-        params.height = linearLayout2.context.dimen(R.dimen._225sdp)
+        //params.width = linearLayout2.context.dimen(R.dimen._204sdp)
+        //params.height = linearLayout2.context.dimen(R.dimen._225sdp)
         linearLayout2.layoutParams = params
     }
 

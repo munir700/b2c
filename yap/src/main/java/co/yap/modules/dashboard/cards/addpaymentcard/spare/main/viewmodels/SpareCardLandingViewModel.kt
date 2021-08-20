@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states.SpareCard
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.parseToDouble
@@ -98,7 +97,8 @@ class SpareCardLandingViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(getString(Strings.screen_spare_card_landing_display_tool_bar_title))
+        //setToolBarTitle(getString(Strings.screen_spare_card_landing_display_tool_bar_title))
+        toggleToolBarVisibility(false)
     }
 
     override fun loadJSONDummyList(): ArrayList<BenefitsModel> {

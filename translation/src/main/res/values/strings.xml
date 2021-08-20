@@ -348,6 +348,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
     <string name="screen_spare_card_landing_display_tool_bar_title">Add a virtual card</string>
+    <string name="screen_spare_card_landing_display_text_description">Subscribe to a virtual card for AED 6/year and create a customizable card and shop online safely and securely.</string>
 
     <!-- Spare Card Benefit Screen -->
     <string name="screen_spare_card_benefit_display_text_title">Spare card benefits</string>
@@ -375,6 +376,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_virtual_spare_card_edit_name_label">Name your virtual card</string>
     <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
     <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title_choose_colour">Choose a card color</string>
 
 
     <!-- Add Spare card location -->

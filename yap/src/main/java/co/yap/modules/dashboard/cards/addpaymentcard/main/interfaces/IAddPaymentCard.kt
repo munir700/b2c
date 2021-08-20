@@ -13,6 +13,7 @@ interface IAddPaymentCard {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnBackButton()
+        fun handlePressOnInfoButton()
         fun getVirtualCardDesigns(success: () -> Unit)
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         var physicalCardFee: String

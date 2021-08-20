@@ -30,46 +30,17 @@
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:orientation="vertical">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgCard"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_300sdp"
                 android:layout_marginTop="@dimen/margin_btn_side_paddings_xl"
-                android:orientation="horizontal"
-                app:adapter="@{viewModel.adapter}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/card_spare" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvYoungCardText"
-                style="@style/SmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_extra_large"
-                android:text="Choose a colour"
-                android:textColor="@color/colorPrimaryDark"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewPager"
-                tools:text="Choose a colour" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_extra_large"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_xl"
-                app:layout_constraintTop_toBottomOf="@+id/viewPager"
-                app:tabGravity="center"
-                app:tabIndicator="@null"
-                app:tabPaddingEnd="6dp"
-                app:tabPaddingStart="6dp"
-                app:tabRippleColor="@null" />
-
-            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                 <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/ctcCardEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +49,7 @@
                 android:textColorHint="@color/colorPrimaryDark"
                 android:visibility="gone"
                 app:hintTextAppearance="@style/Small"
-                app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+                app:layout_constraintTop_toBottomOf="@+id/imgCard"
                 tools:hint="Name your virtual card">
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -116,7 +87,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+                app:layout_constraintTop_toBottomOf="@+id/ctcCardEdit"
                 app:layout_constraintVertical_bias="0.877" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

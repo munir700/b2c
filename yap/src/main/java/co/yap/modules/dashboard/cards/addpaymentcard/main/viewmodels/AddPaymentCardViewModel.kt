@@ -26,6 +26,11 @@ class AddPaymentCardViewModel(application: Application) :
         backButtonPressEvent.value = true
     }
 
+    override fun handlePressOnInfoButton() {
+
+    }
+
+
     override fun getVirtualCardDesigns(success: () -> Unit) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
