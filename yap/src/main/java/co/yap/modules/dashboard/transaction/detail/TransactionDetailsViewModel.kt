@@ -308,13 +308,15 @@ class TransactionDetailsViewModel(application: Application) :
                 } else {
                     tvTotalAmountValue.text =
                         if (transaction.txnType.equals(TxnType.DEBIT.type))
-                            "- ${state.transactionData.get()?.totalAmount.toString()
+                        //"- ${state.transactionData.get()?.totalAmount.toString()
+                            "- ${transaction.cardHolderBillingTotalAmount.toString()
                                 .toFormattedCurrency(
                                     false,
                                     SessionManager.getDefaultCurrency(),
                                     true
                                 )}"
-                        else "+ ${state.transactionData.get()?.totalAmount.toString()
+                        //else "+ ${state.transactionData.get()?.totalAmount.toString()
+                        else "+ ${transaction.cardHolderBillingTotalAmount.toString()
                             .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
                 }
             }
@@ -324,7 +326,7 @@ class TransactionDetailsViewModel(application: Application) :
     override fun setMap() {
         val location = transaction.get()?.latitude?.let { lat ->
             transaction.get()?.longitude?.let { long ->
-                LatLng(lat,long)
+                LatLng(lat, long)
             }
         }
         gMap?.addMarker(
@@ -333,7 +335,7 @@ class TransactionDetailsViewModel(application: Application) :
                     .position(it)
                     .title("")
                     .icon(bitmapDescriptorFromVector(getApplication(), R.drawable.ic_location_pin))
-             }
+            }
         )
         val cameraPosition: CameraPosition = CameraPosition.Builder()
             .target(location)
@@ -356,7 +358,8 @@ class TransactionDetailsViewModel(application: Application) :
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
-            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val bitmap =
+                Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
             draw(Canvas(bitmap))
             BitmapDescriptorFactory.fromBitmap(bitmap)
         }

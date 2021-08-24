@@ -140,7 +140,8 @@ class TransactionsListingAdapter(
             itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
                 if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
-            itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
+            //itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
+            itemTransactionListBinding.tvCurrency.text = transaction.cardHolderBillingCurrency
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             itemTransactionListBinding.ivIncoming.background =
@@ -152,7 +153,14 @@ class TransactionsListingAdapter(
             itemTransactionListBinding.tvTransactionAmount.text =
                 transaction.getFormattedTransactionAmount()
             setContentDataColor(transaction, itemTransactionListBinding)
-
+            if (transaction.isInternationalTransaction()) {
+                itemTransactionListBinding.tvForeignCurrency.visibility = View.VISIBLE
+                itemTransactionListBinding.tvForeignCurrency.text = getString(
+                    context,
+                    R.string.common_display_one_variables,
+                    transaction.amount?.toString()?.toFormattedCurrency(currency = transaction.currency.toString())?:"0.0"
+                )
+            }
         }
 
         private fun handleProductBaseCases(
@@ -203,7 +211,9 @@ class TransactionsListingAdapter(
         ) {
             transaction.merchantLogo?.let { logo ->
                 itemTransactionListBinding.ivTransaction.loadImage(logo)
-                itemTransactionListBinding.ivTransaction.setBackgroundColor(itemTransactionListBinding.ivTransaction.context.getColor(R.color.white) )
+                itemTransactionListBinding.ivTransaction.setBackgroundColor(
+                    itemTransactionListBinding.ivTransaction.context.getColor(R.color.white)
+                )
             } ?: transaction.tapixCategory?.categoryIcon?.let { icon ->
                 ImageBinding.loadAnalyticsAvatar(
                     itemTransactionListBinding.ivTransaction,

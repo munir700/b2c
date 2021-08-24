@@ -337,10 +337,11 @@ fun Transaction?.getAmount(): Double {
 fun Transaction?.getFormattedTransactionAmount(): String? {
     return String.format(
         "%s %s", this?.getTransactionAmountPrefix(),
-        this?.getAmount().toString().toFormattedCurrency(
+        //this?.getAmount().toString().toFormattedCurrency(
+        this?.cardHolderBillingTotalAmount?.toString()?.toFormattedCurrency(
             showCurrency = false,
-            currency = this?.currency ?: SessionManager.getDefaultCurrency()
-        )
+            currency = this.currency ?: SessionManager.getDefaultCurrency()
+        ) ?: 0.0
     )
 }
 
@@ -358,9 +359,9 @@ fun Transaction?.getTransactionAmountColor(): Int {
             TxnType.DEBIT.type -> R.color.colorPrimaryDark
             TxnType.CREDIT.type ->// {
                 //if (!this.isTransactionInProgress() && this.status != TransactionStatus.FAILED.name)
-                    R.color.colorSecondaryGreen
-                //else
-                    //R.color.colorPrimaryDark
+                R.color.colorSecondaryGreen
+            //else
+            //R.color.colorPrimaryDark
             //}
             else -> R.color.colorPrimaryDark
         })
@@ -515,4 +516,15 @@ fun setDescriptiveCategory(txn: Transaction, transactionType: TransactionAdapter
             } ?: "Online shopping"
         }
     }
+}
+
+fun Transaction?.isInternationalTransaction(): Boolean {
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode ||
+            this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || this?.productCode == TransactionProductCode.ECOM.pCode ||
+            this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode)
+            && this.currency != SessionManager.getDefaultCurrency()
+}
+
+fun Transaction?.isEcomPosTransaction(): Boolean {
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ECOM.pCode)
 }
