@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
