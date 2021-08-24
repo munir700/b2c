@@ -15,21 +15,24 @@ import co.yap.R
 import co.yap.databinding.FragmentAddSpareCardBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.AddSpareCardViewModel
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.CardEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
+
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     IAddSpareCard.View {
@@ -43,7 +46,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         get() = ViewModelProviders.of(this).get(AddSpareCardViewModel::class.java)
 
     private lateinit var navController: NavController
-
+    val list: MutableList<CoreBottomSheetData> = mutableListOf()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUpArguments()
@@ -91,7 +94,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         updateTransactionOnHome()
         SessionManager.updateCardBalance() {}
         cardAdded = true
-        view?.let {
+        openCardSuccessBottomSheet()
+        /*view?.let {
             this.activity?.let { activity ->
                 AddSpareVirtualCardViewHelper(
                     activity,
@@ -100,7 +104,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     viewModel
                 )
             }
-        }
+        }*/
     }
 
     private fun onPressConfirmPurchaseVirtual() {
@@ -229,5 +233,29 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         // Send Broadcast for updating transactions list in `Home Fragment`
         val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+    }
+
+    private fun openCardSuccessBottomSheet() {
+        list.add(CoreBottomSheetData(subTitle = Strings.screen_add_spare_card_completion_display_text_complete_transaction_virtual))
+        launchBottomSheetSegment(
+            cardBottomSheetItemClickListener,
+            configuration = BottomSheetConfiguration(
+                heading = ""
+            ),
+            viewType = Constants.VIEW_ITEM_CARD_SUCCESSS,
+            listData = list
+        )
+    }
+
+    private val cardBottomSheetItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is CoreBottomSheetData) {
+                when (view.id) {
+                    R.id.tvCopyCard -> {
+
+                    }
+                }
+            }
+        }
     }
 }

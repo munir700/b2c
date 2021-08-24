@@ -17,16 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <co.yap.widgets.CoreCircularImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_normal"
-            android:elevation="@dimen/_5sdp"
-            android:src="@drawable/ic_close"
-            app:civ_circle_background_color="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -45,7 +35,6 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@color/colorCardBg"
                     android:paddingBottom="@dimen/margin_medium"
-                    android:scaleType="fitXY"
                     android:src="@drawable/cardcover"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -210,6 +199,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivCross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:clickable="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
+            android:src="@drawable/ic_close"
+            app:civ_circle_background_color="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/addSpareCard"

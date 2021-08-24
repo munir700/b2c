@@ -15,7 +15,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.AddVirtualCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardname.AddVirtualCardNameViewModel" />
     </data>
 
     <ScrollView
@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
+            android:fitsSystemWindows="true"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -40,14 +41,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/card_spare" />
 
-                 <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/ctcCardEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_xl"
                 android:hint="@string/screen_add_virtual_spare_card_edit_name_label"
                 android:textColorHint="@color/colorPrimaryDark"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:hintTextAppearance="@style/Small"
                 app:layout_constraintTop_toBottomOf="@+id/imgCard"
                 tools:hint="Name your virtual card">

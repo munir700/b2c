@@ -631,6 +631,10 @@ object Strings {
         "screen_add_virtual_spare_card_tool_bar_title"
     const val screen_add_virtual_spare_card_tool_bar_title_choose_colour: String =
         "screen_add_virtual_spare_card_tool_bar_title_choose_colour"
+    const val screen_add_virtual_spare_card_tool_bar_title_choose_name: String =
+        "screen_add_virtual_spare_card_tool_bar_title_choose_name"
+    const val screen_add_virtual_spare_card_card_name: String =
+        "screen_add_virtual_spare_card_card_name"
 
 
     // Add funds Screen

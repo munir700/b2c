@@ -15,7 +15,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.AddVirtualCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour.AddVirtualCardViewModel" />
     </data>
 
     <ScrollView
@@ -59,7 +59,7 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_extra_large"
+                android:layout_height="@dimen/margin_btn_side_paddings_xl"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_xl"
                 app:layout_constraintTop_toBottomOf="@+id/viewPager"
@@ -111,7 +111,7 @@
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                 android:text="@string/screen_phone_number_button_send"
-                app:enableCoreButton="@{viewModel.state.enabelCoreButton}"
+                app:enableCoreButton="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

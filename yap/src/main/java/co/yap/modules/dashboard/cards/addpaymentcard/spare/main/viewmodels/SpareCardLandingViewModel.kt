@@ -130,7 +130,7 @@ class SpareCardLandingViewModel(application: Application) :
     private fun loadTransactionFromJsonAssets(context: Context): String? {
         val json: String?
         try {
-            val `is` = context.assets.open("benefits.json")
+            val `is` = context.assets.open("card_benefits.json")
             val size = `is`.available()
             val buffer = ByteArray(size)
             `is`.read(buffer)

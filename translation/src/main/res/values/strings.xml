@@ -377,6 +377,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
     <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
     <string name="screen_add_virtual_spare_card_tool_bar_title_choose_colour">Choose a card color</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title_choose_name">Name your card</string>
+    <string name="screen_add_virtual_spare_card_card_name">Card name</string>
 
 
     <!-- Add Spare card location -->

@@ -118,7 +118,9 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                         )
                     findNavController().navigate(action)
                 }
-
+                R.id.ivCross -> {
+                    activity?.onBackPressed()
+                }
             }
         })
         viewModel.errorEvent.observe(this, Observer {
