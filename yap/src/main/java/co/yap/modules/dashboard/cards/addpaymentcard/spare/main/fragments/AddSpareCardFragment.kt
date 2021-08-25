@@ -47,7 +47,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         get() = ViewModelProviders.of(this).get(AddSpareCardViewModel::class.java)
 
     private lateinit var navController: NavController
-    val list: MutableList<CoreBottomSheetData> = mutableListOf()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUpArguments()
@@ -237,14 +236,14 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     }
 
     private fun openCardSuccessBottomSheet() {
-        list.add(CoreBottomSheetData(subTitle = Strings.screen_add_spare_card_completion_display_text_complete_transaction_virtual))
+        viewModel.setListData()
         launchBottomSheetSegment(
             cardBottomSheetItemClickListener,
             configuration = BottomSheetConfiguration(
                 heading = ""
             ),
             viewType = Constants.VIEW_ITEM_CARD_SUCCESSS,
-            listData = list, isIAnimationComplete = this
+            listData = viewModel.list, isIAnimationComplete = this
         )
     }
 

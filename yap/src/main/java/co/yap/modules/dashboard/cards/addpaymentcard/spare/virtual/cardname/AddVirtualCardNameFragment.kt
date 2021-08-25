@@ -14,10 +14,18 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
     IAddVirtualCardName.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_virtual_card_name
-    override fun getBindings(): FragmentAddVirtualCardNameBinding {
-        return viewDataBinding as FragmentAddVirtualCardNameBinding
+    override val viewModel: AddVirtualCardNameViewModel
+        get() = ViewModelProviders.of(this).get(AddVirtualCardNameViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        addObservers()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.setCardImage(getBindings().imgCard)
+    }
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.state.cardName.addOnPropertyChangedCallback(stateObserver)
@@ -55,20 +63,11 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
         viewModel.state.cardName.removeOnPropertyChangedCallback(stateObserver)
     }
 
-    override val viewModel: AddVirtualCardNameViewModel
-        get() = ViewModelProviders.of(this).get(AddVirtualCardNameViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addObservers()
 
+    override fun getBindings(): FragmentAddVirtualCardNameBinding {
+        return viewDataBinding as FragmentAddVirtualCardNameBinding
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.setCardImage(getBindings().imgCard)
-    }
-
 }
 
 

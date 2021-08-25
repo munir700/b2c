@@ -97,7 +97,6 @@ class SpareCardLandingViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        //setToolBarTitle(getString(Strings.screen_spare_card_landing_display_tool_bar_title))
         toggleToolBarVisibility(false)
     }
 

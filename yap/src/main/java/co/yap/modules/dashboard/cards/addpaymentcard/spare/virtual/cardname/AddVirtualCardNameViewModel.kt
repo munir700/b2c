@@ -13,14 +13,14 @@ class AddVirtualCardNameViewModel(application: Application) :
     override val state: AddVirtualCardNameState =
         AddVirtualCardNameState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override fun handlePressOnButton(id: Int) {
-        clickEvent.setValue(id)
-    }
 
     override fun onCreate() {
         super.onCreate()
         setToolBarTitle(getString(Strings.screen_add_virtual_spare_card_tool_bar_title_choose_name))
         toggleToolBarVisibility(true)
+    }
+    override fun handlePressOnButton(id: Int) {
+        clickEvent.setValue(id)
     }
 
     override fun observeCardNameLength(str: String): Boolean {
