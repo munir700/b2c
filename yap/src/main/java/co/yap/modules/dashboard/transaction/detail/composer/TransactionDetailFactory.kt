@@ -17,7 +17,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.EXCHANGE_RATE -> "Exchange rate"
             TransactionDetailItem.SENDER -> "Sender"
             TransactionDetailItem.RECEIVER -> "Receiver"
-            TransactionDetailItem.SENT_RECEIVED -> "Amount"
+            TransactionDetailItem.SENT_RECEIVED -> if (transaction.isEcomPosTransaction()) "Spent in AED" else "Amount"
             TransactionDetailItem.FEES -> "Fee"
             TransactionDetailItem.VAT -> "VAT"
             TransactionDetailItem.TOTAL -> "Total amount"
@@ -101,10 +101,12 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.REMARKS -> {
                 !transaction.remarks.isNullOrEmpty()
             }
-            TransactionDetailItem.FEES, TransactionDetailItem.VAT, TransactionDetailItem.EXCHANGE_RATE ->
+            TransactionDetailItem.FEES, TransactionDetailItem.VAT ->
                 return !(transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode
                         || transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
-
+            TransactionDetailItem.EXCHANGE_RATE -> {
+                (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
+            }
         }
     }
 
