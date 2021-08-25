@@ -121,18 +121,15 @@
         <argument
             android:name="staticString"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="destinationValue"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="successType"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="placesPhotoId"
             android:defaultValue=" "
@@ -166,9 +163,19 @@
         android:label="AddVirtualCardFragment"
         tools:layout="@layout/fragment_add_virtual_card">
         <action
-            android:id="@+id/action_addVirtualCardFragment_to_addSpareCardFragment"
-            app:destination="@id/addSpareCardFragment" />
+            android:id="@+id/action_addVirtualCardFragment_to_addVirtualCardNameFragment"
+            app:destination="@id/addVirtualCardNameFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/addVirtualCardNameFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardname.AddVirtualCardNameFragment"
+        android:label="AddVirtualCardNameFragment"
+        tools:layout="@layout/fragment_add_virtual_card_name">
+        <action
+            android:id="@+id/action_addVirtualCardNameFragment_to_addSpareCardFragment"
+            app:destination="@+id/addSpareCardFragment" />
+
+    </fragment>
 
 </navigation>

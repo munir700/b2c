@@ -28,10 +28,10 @@
 
             <TextView
                 android:id="@+id/tvVirtualCardMonths"
-                style="@style/ASmallGrey"
+                style="@style/AMicroGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:layout_marginBottom="@dimen/_4sdp"
                 android:gravity="center"
                 android:text="@string/screen_add_spare_card_display_text_card_fee"
@@ -40,13 +40,11 @@
 
             <TextView
                 android:id="@+id/tvPrice"
-                style="@style/Title3"
+                style="@style/ATitle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|center"
                 android:text="@{viewModel.state.virtualCardFee}"
-                android:textColor="?attr/colorPrimaryDarkAttr"
-                tools:textColor="@color/colorPrimaryDark"
                 app:layout_constraintTop_toBottomOf="@+id/tvVirtualCardMonths"
                 tools:text="AED 6.00" />
 
@@ -55,14 +53,14 @@
                 style="@style/ASmallGrey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:gravity="center"
                 android:text="@{viewModel.state.availableBalance}"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Your available balance is AED 15.00.\n Top up to proceesd with this purchase asda."
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPrice"
                 app:layout_constraintVertical_bias="0.15"
-                app:layout_constraintBottom_toTopOf="@+id/btnConfirmVirtualCardPurchase"
-                app:layout_constraintTop_toBottomOf="@id/tvPrice" />
+                tools:text="Your available balance is AED 15.00.\n Top up to proceesd with this purchase asda." />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirmVirtualCardPurchase"
