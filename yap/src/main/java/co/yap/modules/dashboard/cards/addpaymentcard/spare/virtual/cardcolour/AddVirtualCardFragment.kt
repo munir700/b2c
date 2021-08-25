@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -108,15 +107,8 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.state.cardName.addOnPropertyChangedCallback(stateObserver)
     }
 
-    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
-        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            virtualCardAdapter.cardName.set(viewModel.state.cardName.get())
-            viewModel.clickEvent.call()
-        }
-    }
     private val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnNext -> {
@@ -128,7 +120,6 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
     }
 
     override fun removeObservers() {
-        viewModel.state.cardName.removeOnPropertyChangedCallback(stateObserver)
         viewModel.clickEvent.removeObserver(clickObserver)
     }
 

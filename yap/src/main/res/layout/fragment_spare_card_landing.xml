@@ -27,19 +27,19 @@
                 android:background="@color/colorWhite"
                 android:paddingBottom="@dimen/margin_medium">
 
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/linearLayout2"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lav_cards"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_300sdp"
-                    android:layout_gravity="center_horizontal"
                     android:background="@color/colorCardBg"
-                    android:paddingBottom="@dimen/margin_medium"
-                    android:src="@drawable/cardcover"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="false"
+                    app:lottie_fileName="card_stack.json"
+                    app:lottie_loop="false"
+                    app:lottie_speed="1.00" />
 
                 <ImageView
                     android:id="@+id/ivVirtualCard"
@@ -49,7 +49,7 @@
                     android:layout_marginTop="@dimen/margin_medium_large"
                     android:src="@drawable/ic_iconmetalcard"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                    app:layout_constraintTop_toBottomOf="@+id/lav_cards" />
 
                 <TextView
                     android:id="@+id/tvSpareCardTile"
@@ -204,9 +204,10 @@
             android:id="@+id/ivCross"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_normal"
             android:clickable="true"
+            android:focusable="true"
             android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
+            android:padding="@dimen/margin_normal"
             android:src="@drawable/ic_close"
             app:civ_circle_background_color="@color/white"
             app:layout_constraintStart_toStartOf="parent"

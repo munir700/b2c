@@ -19,23 +19,21 @@
         android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
         android:paddingBottom="@dimen/margin_xl">
 
-        <FrameLayout
-            android:id="@+id/flTransactionComplete"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lav_tick"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
-            android:background="@drawable/transaction_complete_selector"
+            android:elevation="@dimen/_5sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <ImageView
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
-                android:layout_gravity="center_vertical|center"
-                android:src="@drawable/ic_check" />
-        </FrameLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:lottie_autoPlay="false"
+            app:lottie_colorFilter="@color/colorDarkAqua"
+            app:lottie_fileName="tick_with_circle_lottie.json"
+            app:lottie_loop="false"
+            app:lottie_speed="0.75" />
 
         <TextView
             android:id="@+id/tvTransactionComplete"
@@ -46,7 +44,7 @@
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
+            app:layout_constraintTop_toBottomOf="@+id/lav_tick"
             app:layout_constraintVertical_chainStyle="spread_inside"
             app:text="@{viewModel.itemBottomSheet.subTitle}" />
 

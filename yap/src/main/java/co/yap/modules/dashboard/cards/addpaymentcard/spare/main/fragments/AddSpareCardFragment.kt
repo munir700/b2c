@@ -23,6 +23,7 @@ import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.IAnimationComplete
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
@@ -35,7 +36,7 @@ import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purc
 
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
-    IAddSpareCard.View {
+    IAddSpareCard.View, IAnimationComplete {
 
     private var cardAdded: Boolean = false
     override fun getBindingVariable(): Int = BR.viewModel
@@ -243,7 +244,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 heading = ""
             ),
             viewType = Constants.VIEW_ITEM_CARD_SUCCESSS,
-            listData = list
+            listData = list, isIAnimationComplete = this
         )
     }
 
@@ -256,6 +257,13 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     }
                 }
             }
+        }
+    }
+
+    override fun onAnimationComplete(isComplete: Boolean) {
+        if (isComplete) {
+            setupActionsIntent()
+            activity?.finish()
         }
     }
 }

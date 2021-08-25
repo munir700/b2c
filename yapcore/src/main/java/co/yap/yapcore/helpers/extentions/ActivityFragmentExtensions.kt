@@ -17,10 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
 import co.yap.networking.coreitems.CoreBottomSheetData
-import co.yap.widgets.bottomsheet.BottomSheet
-import co.yap.widgets.bottomsheet.BottomSheetConfiguration
-import co.yap.widgets.bottomsheet.BottomSheetItem
-import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.*
 import co.yap.widgets.bottomsheet.bottomsheet_with_initials.CoreInitialsBottomSheet
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -467,7 +464,8 @@ fun Fragment.launchBottomSheetSegment(
     itemClickListener: OnItemClickListener?,
     configuration: BottomSheetConfiguration,
     viewType: Int,
-    listData: MutableList<CoreBottomSheetData>
+    listData: MutableList<CoreBottomSheetData>,
+    isIAnimationComplete: IAnimationComplete? = null
 ) {
     fragmentManager.let {
         val coreBottomSheet =
@@ -475,7 +473,8 @@ fun Fragment.launchBottomSheetSegment(
                 itemClickListener,
                 bottomSheetItems = listData,
                 viewType = viewType,
-                configuration = configuration
+                configuration = configuration,
+                iAnimationComplete = isIAnimationComplete
             )
         it?.let { it1 -> coreBottomSheet.show(it1, "") }
     }

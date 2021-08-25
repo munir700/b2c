@@ -11,7 +11,6 @@ interface IAddVirtualCard {
     interface State : IBase.State {
         var designCode: MutableLiveData<String>?
         var cardDesigns: MutableLiveData<MutableList<VirtualCardDesigns>>?
-        var cardName: ObservableField<String>
         var childName: MutableLiveData<String>
         var enabelCoreButton: Boolean
     }

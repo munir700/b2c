@@ -60,45 +60,11 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_btn_side_paddings_xl"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_xl"
                 app:layout_constraintTop_toBottomOf="@+id/viewPager"
                 app:tabGravity="center"
                 app:tabIndicator="@null"
-                app:tabPaddingEnd="6dp"
-                app:tabPaddingStart="6dp"
                 app:tabRippleColor="@null" />
-
-            <co.yap.widgets.CollapsedColoredHintTextInputLayout
-                android:id="@+id/ctcCardEdit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
-                android:hint="@string/screen_add_virtual_spare_card_edit_name_label"
-                android:textColorHint="@color/colorPrimaryDark"
-                android:visibility="gone"
-                app:hintTextAppearance="@style/Small"
-                app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-                tools:hint="Name your virtual card">
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/etCardName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:importantForAutofill="no"
-                    android:inputType="textCapWords"
-                    android:maxLength="26"
-                    android:paddingBottom="@dimen/margin_normal"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.cardName}"
-                    android:textAllCaps="false"
-                    android:textColorHint="@color/colorPrimaryDarkFadedLight"
-                    android:theme="@style/Theme.EditText"
-                    app:hint="@{Strings.screen_add_virtual_spare_card_edit_name_hint}"
-                    tools:hint="@string/screen_add_virtual_spare_card_edit_name_hint" />
-            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnNext"

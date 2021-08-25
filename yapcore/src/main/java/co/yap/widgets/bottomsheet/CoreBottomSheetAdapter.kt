@@ -1,5 +1,6 @@
 package co.yap.widgets.bottomsheet
 
+import android.animation.Animator
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -14,7 +15,8 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 open class CoreBottomSheetAdapter(
     private val list: MutableList<CoreBottomSheetData>,
-    private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
+    private val viewType: Int = Constants.VIEW_WITHOUT_FLAG,
+    val iAnimationComplete: IAnimationComplete? = null
 ) : BaseBindingSearchRecylerAdapter<CoreBottomSheetData, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = when (viewType) {
@@ -53,7 +55,12 @@ open class CoreBottomSheetAdapter(
                 holder.onBind(list[position], position, onItemClickListener)
             }
             is BottomSheetAddCardSuccessViewHolder -> {
-                holder.onBind(list[position], position, onItemClickListener)
+                iAnimationComplete?.let {
+                    holder.onBind(
+                        list[position], position, onItemClickListener,
+                        it
+                    )
+                }
             }
         }
     }
@@ -119,18 +126,37 @@ class BottomSheetWithNoSeparatorViewHolder(private val itemBinding: ItemBottomSh
     }
 }
 
-class BottomSheetAddCardSuccessViewHolder(private val itemBinding: ItemBottomSheetAddCardSuccessBinding) :
+class BottomSheetAddCardSuccessViewHolder(
+    private val itemBinding: ItemBottomSheetAddCardSuccessBinding
+) :
     RecyclerView.ViewHolder(itemBinding.root) {
     fun onBind(
         bottomSheetItem: CoreBottomSheetData,
         position: Int,
-        onItemClickListener: OnItemClickListener?
+        onItemClickListener: OnItemClickListener?,
+        iAnimationComplete: IAnimationComplete
     ) {
         itemBinding.viewModel = CoreBottomSheetItemViewModel(
             bottomSheetItem = bottomSheetItem,
             position = position,
             onItemClickListener = onItemClickListener
         )
+        itemBinding.lavTick.progress = 0f
+        itemBinding.lavTick.playAnimation()
+        itemBinding.lavTick.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                iAnimationComplete.onAnimationComplete(true)
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+        })
         itemBinding.executePendingBindings()
     }
 }

@@ -44,6 +44,8 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                 viewModel.state.cardImageUrl =
                     viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage
                         ?: ""
+                lav_cards.progress = 0f
+                lav_cards.playAnimation()
             } else {
                 addSpareCard.enableButton(false)
             }
@@ -52,7 +54,6 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setCardDimens()
         addBenefitRecyclerView()
         SharedPreferenceManager.getInstance(requireActivity()).removeValue(KEY_AVAILABLE_BALANCE)
 
@@ -61,13 +62,6 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
             "Add a virtual spare card"
 
         setObservers()
-    }
-
-    private fun setCardDimens() {
-        val params = linearLayout2.layoutParams
-        //params.width = linearLayout2.context.dimen(R.dimen._204sdp)
-        //params.height = linearLayout2.context.dimen(R.dimen._225sdp)
-        linearLayout2.layoutParams = params
     }
 
     private fun gotoAddSpareVirtualCardConfirmScreen() {
