@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour
 
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
@@ -14,8 +14,8 @@ class VirtualCardViewHolder(private val itemYapVirtualCardBinding: ItemVirtualCa
     init {
         val binding = itemYapVirtualCardBinding
         val params = binding.ivCard.layoutParams
-        params.width = binding.ivCard.context.dimen(R.dimen._204sdp)
-        params.height = binding.ivCard.context.dimen(R.dimen._225sdp)
+        params.width = binding.ivCard.context.dimen(R.dimen._250sdp)
+        params.height = binding.ivCard.context.dimen(R.dimen._300sdp)
         binding.ivCard.layoutParams = params
     }
 

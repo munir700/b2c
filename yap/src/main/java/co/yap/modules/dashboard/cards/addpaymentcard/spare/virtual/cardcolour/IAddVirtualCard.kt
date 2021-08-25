@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,6 @@ interface IAddVirtualCard {
     interface State : IBase.State {
         var designCode: MutableLiveData<String>?
         var cardDesigns: MutableLiveData<MutableList<VirtualCardDesigns>>?
-        var cardName: ObservableField<String>
         var childName: MutableLiveData<String>
         var enabelCoreButton: Boolean
     }

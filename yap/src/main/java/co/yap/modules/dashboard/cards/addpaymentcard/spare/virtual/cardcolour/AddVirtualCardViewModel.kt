@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour
 
 import android.app.Application
 import androidx.databinding.ObservableField
@@ -18,7 +18,8 @@ class AddVirtualCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        setToolBarTitle(getString(Strings.screen_add_virtual_spare_card_tool_bar_title))
+        setToolBarTitle(getString(Strings.screen_add_virtual_spare_card_tool_bar_title_choose_colour))
+        toggleToolBarVisibility(true)
     }
 
     override fun observeCardNameLength(str: String): Boolean {
