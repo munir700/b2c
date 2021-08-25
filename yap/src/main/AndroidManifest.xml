@@ -71,8 +71,7 @@
         <activity
             android:name="co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/CoreAppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/spare_cards_navigation" />
         </activity>
         <activity
