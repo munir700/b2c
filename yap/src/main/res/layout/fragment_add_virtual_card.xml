@@ -15,7 +15,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.AddVirtualCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour.AddVirtualCardViewModel" />
     </data>
 
     <ScrollView

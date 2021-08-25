@@ -162,7 +162,7 @@
         tools:layout="@layout/fragment_add_physical_spare_card_success" />
     <fragment
         android:id="@+id/addVirtualCardFragment"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.AddVirtualCardFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour.AddVirtualCardFragment"
         android:label="AddVirtualCardFragment"
         tools:layout="@layout/fragment_add_virtual_card">
         <action
