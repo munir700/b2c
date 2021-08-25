@@ -89,8 +89,8 @@ fun Transaction?.getIcon(): Int {
 
 fun Transaction?.getStatus(): String {
     return when (this?.productCode) {
-        TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> this.cardAcceptorLocation
-            ?: ""
+        /*TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> this.cardAcceptorLocation
+            ?: ""*/
         TransactionProductCode.FUND_LOAD.pCode -> this.otherBankName ?: ""
         else ->
             when {
