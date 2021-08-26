@@ -22,6 +22,7 @@
             android:id="@+id/llConfirmVirtualCardPurchase"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:background="@color/colorWhite"
             android:gravity="center"
             android:orientation="vertical">
@@ -67,15 +68,15 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@{viewModel.state.coreButtonText}"
                 android:textAllCaps="false"
                 app:btn_enable="true"
                 app:btn_size="medium"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalanceTitle"
                 app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
