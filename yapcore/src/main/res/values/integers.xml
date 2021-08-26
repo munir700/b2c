@@ -15,5 +15,6 @@
     <integer name="swift_branch_name_length">35</integer>
     <integer name="swift_city_name_length">32</integer>
     <integer name="skeleton_layout_item_count">5</integer>
+    <integer name="remarks_length_limit">250</integer>
 
 </resources>

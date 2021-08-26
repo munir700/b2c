@@ -39,7 +39,7 @@
                     app:lottie_autoPlay="false"
                     app:lottie_fileName="card_stack.json"
                     app:lottie_loop="false"
-                    app:lottie_speed="1.00" />
+                    app:lottie_speed="1.50" />
 
                 <ImageView
                     android:id="@+id/ivVirtualCard"

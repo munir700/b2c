@@ -1042,6 +1042,8 @@ object Strings {
         "screen_y2y_funds_transfer_display_text_balance"
     const val screen_yap_to_yap_transfer_display_text_button: String =
         "screen_yap_to_yap_transfer_display_text_button"
+    const val screen_y2y_funds_transfer_display_text_remarks_placeholder: String =
+        "screen_y2y_funds_transfer_display_text_remarks_placeholder"
 
     //Y2Y contacts
     const val screen_y2y_display_text_no_yap_contacts: String =
