@@ -60,10 +60,12 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginTop="@dimen/margin_xl"
+                android:layout_marginTop="@dimen/margin_heading_to_field"
                 app:layout_constraintTop_toBottomOf="@+id/viewPager"
                 app:tabGravity="center"
                 app:tabIndicator="@null"
+                app:tabPaddingStart="@dimen/_6sdp"
+                app:tabPaddingEnd="@dimen/_6sdp"
                 app:tabRippleColor="@null" />
 
             <co.yap.widgets.CoreButton
