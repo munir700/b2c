@@ -1,31 +1,20 @@
 package co.yap.modules.dashboard.home.helpers.transaction
 
-import android.app.Activity
 import android.content.Context
 import android.os.Handler
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.util.DisplayMetrics
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import co.yap.R
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.translation.Translator
 import co.yap.widgets.tooltipview.TooltipView
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.RecyclerTouchListener
-import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.SessionManager
-import com.yarolegovich.discretescrollview.DiscreteScrollView
-import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
-import kotlinx.android.synthetic.main.fragment_yap_home.view.*
-import kotlinx.android.synthetic.main.view_graph.view.*
-import java.util.*
+import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
+import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
+import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
+import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
 
 class TransactionsViewHelper(
     val context: Context, val transactionsView: View,
@@ -38,7 +27,6 @@ class TransactionsViewHelper(
     var barSelectedPosition: Int = 0
     private var toolbarCollapsed = false
     private var rvTransactionScrollListener: OnScrollListener? = null
-
 
     init {
         //setOnGraphBarClickListeners()
@@ -110,7 +98,7 @@ class TransactionsViewHelper(
         }, delay)
     }
 
-    fun setTooltipOnZero() {
+    /*fun setTooltipOnZero() {
         setTooltipVisibility(View.VISIBLE)
         addToolTipDelay(300) {
             val newView =
@@ -122,22 +110,25 @@ class TransactionsViewHelper(
                 )
             }
         }
-    }
+    }*/
 
     fun setTooltipVisibility(visibility: Int = View.VISIBLE) {
-        transactionsView.tvTransactionDate?.visibility = visibility
+        //transactionsView.tvTransactionDate?.visibility = visibility
         tooltip?.visibility = visibility
         tooltip?.arrowView = transactionsView.findViewById(R.id.arrowView)
         tooltip?.arrowView?.visibility = visibility
     }
 
+/*
     fun addTooltip(view: View?, data: HomeTransactionListData, firstTime: Boolean = false) {
         setTooltipVisibility(View.VISIBLE)
-        transactionsView.tvTransactionDate.text = DateUtils.reformatStringDate(
+       */
+/* transactionsView.tvTransactionDate.text = DateUtils.reformatStringDate(
             data.originalDate ?: "",
             "yyyy-MM-dd",
             DateUtils.FORMAT_MON_YEAR
-        )
+        )*//*
+
 
         view?.let {
             val text = String.format(
@@ -225,9 +216,10 @@ class TransactionsViewHelper(
             }
         }
     }
+*/
 
     private fun removeRvTransactionScroll() {
-        rvTransactionScrollListener?.let { transactionsView.rvTransaction.removeOnScrollListener(it) }
+        //   rvTransactionScrollListener?.let { transactionsView.rvTransaction.removeOnScrollListener(it) }
 
     }
 
@@ -238,13 +230,21 @@ class TransactionsViewHelper(
                     super.onScrollStateChanged(recyclerView, newState)
                     when (newState) {
                         SCROLL_STATE_IDLE -> {
-                            checkScroll = false
+                            //reached top
+                            if (!recyclerView.canScrollVertically(-1)) {
+                                checkScroll = false
+                                transactionsView.layoutBalance.tvBalanceTitle.text =
+                                    Translator.getString(
+                                        context,
+                                        R.string.screen_fragment_yap_home_todays_balance
+                                    )
+                            }
                         }
                         SCROLL_STATE_DRAGGING -> {
-
+                            checkScroll = true
                         }
                         SCROLL_STATE_SETTLING -> {
-
+                            checkScroll = true
                         }
                     }
                 }
@@ -253,7 +253,51 @@ class TransactionsViewHelper(
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
+                    transactionsView.layoutBalance.tvAvailableBalance.text =
+                        viewModel.transactionsLiveData.value!![position].closingBalance.toString()
+                            .getAvailableBalanceWithFormat()
+
                     if (!checkScroll) {
+                        transactionsView.layoutBalance.tvBalanceTitle.text = Translator.getString(
+                            context,
+                            R.string.screen_fragment_yap_home_todays_balance
+                        )
+                    } else {
+                        transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
+                                viewModel.transactionsLiveData.value!![position].originalDate.toString(),
+                                "yyyy-MM-dd",
+                                TIME_ZONE_Default
+                            )
+                        ) Translator.getString(
+                            context,
+                            R.string.screen_fragment_yap_home_todays_balance
+                        ) else Translator.getString(
+                            context,
+                            R.string.screen_fragment_yap_home_balance_on_date,
+                            DateUtils.reformatStringDate(
+                                viewModel.transactionsLiveData.value!![position].originalDate ?: "",
+                                "yyyy-MM-dd",
+                                DateUtils.FORMAT_MONTH_DAY
+                            )
+                        )
+                    }
+                    /*transactionsView.layoutBalance.tvAvailableBalance.text =
+                        viewModel.transactionsLiveData.value!![position].closingBalance.toString()
+                            .getAvailableBalanceWithFormat()
+                    transactionsView.layoutBalance.tvBalanceTitle.text = if (position==0) Translator.getString(
+                        context,
+                        R.string.screen_fragment_yap_home_todays_balance
+                    ) else Translator.getString(
+                        context,
+                        R.string.screen_fragment_yap_home_balance_on_date,
+                        DateUtils.reformatStringDate(
+                            viewModel.transactionsLiveData.value!![position].originalDate ?: "",
+                            "yyyy-MM-dd",
+                            DateUtils.FORMAT_MONTH_DAY
+                        )
+                    )
+*/
+                    /*if (!checkScroll) {
                         val graphLayoutManager =
                             transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
                         val view =
@@ -276,10 +320,14 @@ class TransactionsViewHelper(
 
                             }
                         }
-                    }
+                    }*/
                 }
             }
-        rvTransactionScrollListener?.let { transactionsView.rvTransaction.addOnScrollListener(it) }
+        rvTransactionScrollListener?.let {
+            transactionsView.lyInclude.multiStateView.rvTransaction.addOnScrollListener(
+                it
+            )
+        }
     }
 
     fun onToolbarCollapsed() {

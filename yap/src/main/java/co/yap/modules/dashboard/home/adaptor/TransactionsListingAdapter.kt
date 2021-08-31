@@ -84,7 +84,11 @@ class TransactionsListingAdapter(
             itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
                 analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: "",
                 analyticsItemImgUrl ?: transaction.merchantLogo ?: "",
-                position, type = Constants.MERCHANT_TYPE
+                position, type = Constants.MERCHANT_TYPE,
+                transaction = transaction
+            )
+            itemAnalyticsTransactionListBinding.tvTransactionName.text =
+                analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: ""
 
             )
             itemAnalyticsTransactionListBinding.tvTransactionTimeAndCategory.text =
@@ -98,6 +102,22 @@ class TransactionsListingAdapter(
                         outFormatter = DateUtils.FORMAT_SHORT_MONTH_DAY
                     )
                 )
+            itemAnalyticsTransactionListBinding.tvTransactionTimeAndCategory.text =
+                    /*if (type == TransactionAdapterType.TOTAL_PURCHASE)*/ getString(
+                itemAnalyticsTransactionListBinding.tvCurrency.context,
+                R.string.screen_fragment_home_transaction_time_category,
+                transaction.getTransactionTime(TransactionAdapterType.TOTAL_PURCHASE),
+                DateUtils.reformatStringDate(
+                    date = transaction.creationDate ?: "",
+                    inputFormatter = DateUtils.SERVER_DATE_FORMAT,
+                    outFormatter = DateUtils.FORMAT_SHORT_MONTH_DAY
+                )
+            ) /*else getString(
+                    itemAnalyticsTransactionListBinding.tvCurrency.context,
+                    R.string.screen_fragment_home_transaction_time_category,
+                    transaction.getTransactionTime(TransactionAdapterType.ANALYTICS_DETAILS),
+                    transaction.getTransferType(TransactionAdapterType.ANALYTICS_DETAILS)
+                )*/
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }

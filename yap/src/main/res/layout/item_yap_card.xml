@@ -41,40 +41,21 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:src="@drawable/card_spare" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/cardLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:rotation="-90"
-            android:text="VIRTUAL CARD"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_size_h1"
-            android:visibility="@{viewModel.paymentCard.cardType.equals(Constants.INSTANCE.CARD_TYPE_DEBIT) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/imgCard"
-            app:layout_constraintEnd_toEndOf="@+id/imgCard"
-            app:layout_constraintHorizontal_bias="0.378"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
-            app:layout_constraintVertical_bias="0.267"
-            tools:textColor="@color/colorPrimaryDark" />
-
         <ImageView
             android:id="@+id/imgStatus"
             android:layout_width="@dimen/margin_xl"
             android:layout_height="@dimen/margin_xl"
+            android:layout_marginEnd="@dimen/margin_extra_small"
+            android:layout_marginBottom="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
             android:elevation="@dimen/_1sdp"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:cardStatus="@{viewModel.paymentCard}"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_extra_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.71"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
-            tools:src="@drawable/ic_status_expired"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
-            />
+            tools:src="@drawable/ic_status_expired" />
 
         <TextView
             android:id="@+id/tvCardName"
@@ -98,8 +79,8 @@
             layout="@layout/layout_card_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
             android:orientation="vertical"
             app:cardViewModel="@{viewModel}"
@@ -137,9 +118,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_large"
+            app:cardViewModel="@{viewModel}"
             app:layout_constraintEnd_toEndOf="@+id/frameContainer"
             app:layout_constraintStart_toStartOf="@+id/frameContainer"
-            app:layout_constraintTop_toBottomOf="@+id/frameContainer"
-            app:cardViewModel="@{viewModel}"/>
+            app:layout_constraintTop_toBottomOf="@+id/frameContainer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

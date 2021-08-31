@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -29,6 +30,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys

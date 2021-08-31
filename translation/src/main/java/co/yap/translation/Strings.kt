@@ -580,6 +580,10 @@ object Strings {
         "screen_fragment_home_transaction_time_category"
     const val screen_fragment_yap_home_add_money: String =
         "screen_fragment_yap_home_add_money"
+    const val screen_fragment_yap_home_balance_on_date: String =
+        "screen_fragment_yap_home_balance_on_date"
+    const val screen_fragment_yap_home_todays_balance:String =
+        "screen_fragment_yap_home_todays_balance"
 
     // spare cards Landing Screen
     const val screen_spare_card_landing_display_text_title: String =
@@ -1460,6 +1464,8 @@ object Strings {
         "screen_card_analytics_display_month_average_text"
     const val screen_card_analytics_tool_bar_title: String =
         "screen_card_analytics_tool_bar_title"
+    const val screen_card_analytics_total_spent: String =
+        "screen_card_analytics_total_spent"
 
 
     //CashPickup Transfer screen

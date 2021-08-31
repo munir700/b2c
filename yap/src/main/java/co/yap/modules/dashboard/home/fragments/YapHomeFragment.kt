@@ -19,10 +19,7 @@ import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
-import co.yap.databinding.FragmentLiteDashboardBinding
-import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
-import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
@@ -83,7 +80,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.view_graph.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -152,7 +148,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             R.layout.item_transaction_list_shimmer,
             5
         )
-        viewModel.state.showTxnShimmer.observe(viewLifecycleOwner, Observer { handleShimmerState(it) })
+        viewModel.state.showTxnShimmer.observe(
+            viewLifecycleOwner,
+            Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
         //rvTransactionsBarChart.updatePadding(right = getScreenWidth()/2)
 //        rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
@@ -335,12 +333,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
-            setAvailableBalance(value.availableBalance.toString())
+            //setAvailableBalance(value.availableBalance.toString())
         })
 
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
-                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().toolbarLayout.appbar.setExpanded(true)
+                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().toolbarLayout.appbar.setExpanded(
+                    true
+                )
 
                 getRecycleViewAdaptor()?.itemCount?.let { itemCount ->
                     if (itemCount > 0) {
@@ -380,7 +380,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
                     getRecycleViewAdaptor()?.addList(pair.first)
                 }
-             //   getGraphRecycleViewAdapter()?.addList(listToAppend)
+                //   getGraphRecycleViewAdapter()?.addList(listToAppend)
                 viewModel.isLoadMore.value = false
             } else {
                 when {
@@ -416,8 +416,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             viewModel.state.isTransEmpty.set(true)
                         }
                         getRecycleViewAdaptor()?.setList(it)
-                      //  getGraphRecycleViewAdapter()?.setList(it)
-                        transactionViewHelper?.setTooltipOnZero()
+                        //  getGraphRecycleViewAdapter()?.setList(it)
+                        getBindings().clMain.let {
+                            transactionViewHelper =
+                                TransactionsViewHelper(requireContext(), it, viewModel)
+                        }
                     }
                 }
             }
@@ -484,7 +487,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         viewModel.parentViewModel?.isKycCompelted?.observe(viewLifecycleOwner, Observer {
-            if(it)
+            if (it)
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
     }
@@ -548,7 +551,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     it,
                     viewModel
                 )
-         //       getGraphRecycleViewAdapter()?.helper = transactionViewHelper
+                //       getGraphRecycleViewAdapter()?.helper = transactionViewHelper
             }
         }
     }
@@ -593,9 +596,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun setAvailableBalance(balance: String?) {
-      /*  getBindings().skeletonLayout.apply {
-            if (balance.isNullOrEmpty()) showSkeleton() else showOriginal()
-        }*/
+        /*  getBindings().skeletonLayout.apply {
+              if (balance.isNullOrEmpty()) showSkeleton() else showOriginal()
+          }*/
         getBindings().tvAvailableBalance.text = balance.getAvailableBalanceWithFormat()
     }
 
@@ -744,7 +747,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         it.getBooleanExtra(Constants.isPinCreated, false)
                     val isSkip =
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
-               //     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
+                    //     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet) {
                         SessionManager.getDebitCard {
                             GlobalScope.launch(Main) {
@@ -1014,7 +1017,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (parentView?.isDrawerOpen() == false && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
             tourStep =
                 requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
-                  //  addAll(setGraphViewsArray())
+                    //  addAll(setGraphViewsArray())
                 }
             delay(300)
             drawerButtonEnabled = true

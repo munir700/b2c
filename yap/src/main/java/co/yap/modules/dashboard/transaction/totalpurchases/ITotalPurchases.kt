@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.totalpurchases
 
 import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.home.adaptor.TransactionsListingAdapter
+import co.yap.networking.transactions.requestdtos.TotalPurchaseRequest
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.IBase
 
@@ -10,6 +11,8 @@ interface ITotalPurchases {
     interface ViewModel : IBase.ViewModel<State> {
         val adapter: TransactionsListingAdapter
         var transaction: ObservableField<Transaction>
+        fun getTotalPurchaseList()
+        fun getTotalPurchaseRequest():TotalPurchaseRequest
     }
 
     interface State : IBase.State {

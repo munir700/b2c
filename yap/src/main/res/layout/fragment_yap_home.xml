@@ -34,16 +34,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-                <TextView
-                    android:id="@+id/tvAvailableBalance"
-                    style="@style/ALarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@={viewModel.state.availableBalance}"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/text_size_h7"
-                    tools:text="50,174.78" />
+            <TextView
+                android:id="@+id/tvAvailableBalance"
+                style="@style/ALarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@={viewModel.state.availableBalance}"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_h7"
+                tools:text="50,174.78" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
