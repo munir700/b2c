@@ -20,7 +20,6 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
         return when (forType) {
             QuestionType.EDIT_TEXT_FIELD -> R.layout.layout_question_type_edit_text
             QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> R.layout.layout_question_type_edit_text_with_amount
-            QuestionType.EDIT_TEXT_FIELD_WITH_SALARY_AMOUNT -> R.layout.layout_question_type_edit_text_with_amount
             QuestionType.COUNTRIES_FIELD -> R.layout.layout_question_type_countries
             QuestionType.DROP_DOWN_FIELD -> R.layout.layout_question_type_drop_down
         }
