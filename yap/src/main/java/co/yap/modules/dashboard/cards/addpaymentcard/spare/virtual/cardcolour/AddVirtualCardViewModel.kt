@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.networking.cards.responsedtos.VirtualCardDesigns
 import co.yap.translation.Strings
+import co.yap.widgets.CircleView
 import co.yap.yapcore.SingleClickEvent
 
 class AddVirtualCardViewModel(application: Application) :
@@ -12,6 +13,8 @@ class AddVirtualCardViewModel(application: Application) :
     override var adapter: ObservableField<AddVirtualCardAdapter> = ObservableField()
     override val state: AddVirtualCardState = AddVirtualCardState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var tabViews: ObservableField<ArrayList<CircleView>> = ObservableField(arrayListOf())
+
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
     }
@@ -20,6 +23,9 @@ class AddVirtualCardViewModel(application: Application) :
         super.onCreate()
         setToolBarTitle(getString(Strings.screen_add_virtual_spare_card_tool_bar_title_choose_colour))
         toggleToolBarVisibility(true)
+        adapter.set(AddVirtualCardAdapter(
+            mutableListOf()
+        ))
     }
 
     override fun observeCardNameLength(str: String): Boolean {

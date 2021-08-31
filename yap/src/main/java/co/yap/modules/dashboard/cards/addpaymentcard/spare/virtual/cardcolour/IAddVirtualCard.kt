@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.databinding.FragmentAddVirtualCardBinding
 import co.yap.networking.cards.responsedtos.VirtualCardDesigns
+import co.yap.widgets.CircleView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -21,6 +22,8 @@ interface IAddVirtualCard {
         val clickEvent: SingleClickEvent
         fun handlePressOnButton(id: Int)
         fun observeCardNameLength(str: String): Boolean
+        var tabViews: ObservableField<ArrayList<CircleView>>
+
     }
 
     interface View : IBase.View<ViewModel> {
