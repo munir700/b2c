@@ -226,23 +226,17 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     if (employmentStatus == EmploymentStatus.OTHER) {
                         !it.question.answer.get().isNullOrBlank()
                     } else {
-                        try {
-                            val salaryAmount =
-                                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
-                                    ?.getAnswer()
-                            val depositAmount =
-                                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
-                                    ?.getAnswer()
 
-                            !it.question.answer.get().isNullOrBlank() && !it.question.answer.equals(
-                                ""
-                            )
-                                    && salaryAmount?.parseToDouble() ?: 0.0 > 0 &&
-                                    salaryAmount.parseToDouble() > depositAmount.parseToDouble()
+                        val salaryAmount =
+                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                                ?.getAnswer()
+                        val depositAmount =
+                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                                ?.getAnswer()
 
-                        } catch (e: NumberFormatException) {
-                            false
-                        }
+                        !it.question.answer.get().isNullOrBlank()
+                                && salaryAmount?.parseToDouble() ?: 0.0 > 0 &&
+                                salaryAmount.parseToDouble() > depositAmount.parseToDouble()
                     }
                 }
                 else -> {
