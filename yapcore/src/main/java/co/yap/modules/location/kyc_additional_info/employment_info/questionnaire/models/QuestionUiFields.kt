@@ -11,7 +11,7 @@ data class QuestionUiFields(
     val isFocusInput: ObservableBoolean = ObservableBoolean(false)
 ) {
     fun getAnswer(): String {
-        return if (question.questionType == QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT) question.answer.get()
+        return if (question.questionType == QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT || question.questionType == QuestionType.EDIT_TEXT_FIELD_WITH_SALARY_AMOUNT) question.answer.get()
             .parseToDouble().toString() else question.answer.get().toString()
     }
 }

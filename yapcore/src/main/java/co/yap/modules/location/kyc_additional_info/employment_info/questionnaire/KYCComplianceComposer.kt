@@ -29,7 +29,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                     question = Question(
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                         placeholder = "Enter the amount",
-                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
+                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_SALARY_AMOUNT,
                         answer = ObservableField()
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
@@ -73,7 +73,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                     question = Question(
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                         placeholder = "Enter the amount",
-                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
+                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_SALARY_AMOUNT,
                         answer = ObservableField()
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
@@ -109,7 +109,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                     question = Question(
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                         placeholder = "Enter the amount",
-                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
+                        questionType = QuestionType.EDIT_TEXT_FIELD_WITH_SALARY_AMOUNT,
                         answer = ObservableField()
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
