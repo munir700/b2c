@@ -66,7 +66,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
 
 #endif
 #ifdef STG
-    api_endpoint = "https://stg.yap.co/";
+    api_endpoint = "https://s2.yap.co/";
     adjustAppToken = "am0wjeshw5xc";
     sslPin1 = "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=";
     sslPin2 = "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=";

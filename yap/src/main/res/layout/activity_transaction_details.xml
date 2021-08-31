@@ -113,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_normal_large"
                 app:layout_constraintBottom_toBottomOf="@+id/vLine"
+                android:paddingBottom="@dimen/margin_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/flImageLayout"
                 app:layout_constraintTop_toTopOf="@+id/flImageLayout"
@@ -193,6 +194,7 @@
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
                     android:maxLines="1"
+                    android:visibility="@{viewModel.state.transactionData.showCategory?View.GONE :View.VISIBLE}"
                     android:text="@{viewModel.state.transactionData.categoryTitle}"
                     android:textColor="@color/colorSecondaryOrange"
                     app:alpha="@{viewModel.state.isTransactionInProcessOrRejected ? 0.5f : 1f}"
@@ -228,11 +230,21 @@
                 layout="@layout/layout_transaction_categary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal_large"
                 android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
                 android:visibility="@{viewModel.state.transactionData.showCategory?View.VISIBLE :View.GONE}"
                 app:categoryViewModel="@{viewModel}"
                 app:layout_constraintTop_toBottomOf="@+id/clAmount" />
+            <View
+                android:id="@+id/vLine"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/divider"
+                android:layout_marginStart="@dimen/margin_medium"
+                app:layout_constraintEnd_toEndOf="@+id/clAmount"
+                app:layout_constraintStart_toStartOf="@+id/clAmount"
+                app:layout_constraintTop_toBottomOf="@id/layoutCategory" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNoteParent"
@@ -240,7 +252,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutCategory"
+                android:layout_marginTop="@{viewModel.state.transactionData.showCategory?@dimen/margin_medium :@dimen/margin_normal}"
+                app:layout_constraintTop_toBottomOf="@+id/vLine"
                 tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -248,7 +261,6 @@
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_normal_large"
                     android:background="@drawable/bg_round_purple_enabled"
                     android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                     android:visibility="visible"
@@ -313,6 +325,7 @@
                 layout="@layout/layout_transaction_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_large"
                 android:visibility="@{viewModel.state.receiptVisibility ? View.VISIBLE : View.GONE }"
                 app:layout_constraintTop_toBottomOf="@id/clNoteParent"
                 app:receiptViewModel="@{viewModel}" />
