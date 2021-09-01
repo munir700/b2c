@@ -33,13 +33,11 @@ class TotalPurchaseFragment : BaseBindingFragment<ITotalPurchases.ViewModel>(),
             viewModel.state.toolbarTitle = "$count transactions"
             val total = bundle.getDouble(Constants.TOTAL_TRANSACTION)
             viewModel.state.totalSpendings.set(total.toString())
-            ivMerchantLogo.setCircularDrawable(
-                type = Constants.MERCHANT_TYPE,
-                transaction = txn
-            )
+            viewModel.setMerchantImage(ivMerchantLogo)
             viewModel.state.merchantName.set(viewModel.transactionMerchantName(txn))
         }
     }
+
 
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)

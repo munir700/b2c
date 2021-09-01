@@ -88,9 +88,8 @@ class TransactionsListingAdapter(
                 transaction = transaction
             )
             itemAnalyticsTransactionListBinding.tvTransactionName.text =
-                analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: ""
+                transaction.merchantName ?: transaction.title ?: ""
 
-            )
             itemAnalyticsTransactionListBinding.tvTransactionTimeAndCategory.text =
                 getString(
                     itemAnalyticsTransactionListBinding.tvCurrency.context,
