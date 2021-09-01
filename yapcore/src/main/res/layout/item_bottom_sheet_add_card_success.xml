@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.widgets.bottomsheet.CoreBottomSheetItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@{viewModel.itemBottomSheet.isSelected ? @color/colorLightGreyWithOpacity : @color/white}"
+        android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
+        android:paddingBottom="@dimen/margin_xl">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lav_tick"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:elevation="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:lottie_autoPlay="false"
+            app:lottie_colorFilter="@color/colorDarkAqua"
+            app:lottie_fileName="tick_with_circle_lottie.json"
+            app:lottie_loop="false"
+            app:lottie_speed="0.75" />
+
+        <TextView
+            android:id="@+id/tvTransactionComplete"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lav_tick"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            app:text="@{viewModel.itemBottomSheet.subTitle}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -598,6 +598,8 @@ object Strings {
         "screen_spare_card_landing_display_text_physical_card"
     const val screen_spare_card_landing_display_tool_bar_title: String =
         "screen_spare_card_landing_display_tool_bar_title"
+    const val screen_spare_card_landing_display_text_description: String =
+        "screen_spare_card_landing_display_text_description"
 
     // spare cards Benefit detail Screen
     const val screen_spare_card_benefit_display_text_title: String =
@@ -643,6 +645,12 @@ object Strings {
         "screen_add_virtual_spare_card_edit_name_hint"
     const val screen_add_virtual_spare_card_tool_bar_title: String =
         "screen_add_virtual_spare_card_tool_bar_title"
+    const val screen_add_virtual_spare_card_tool_bar_title_choose_colour: String =
+        "screen_add_virtual_spare_card_tool_bar_title_choose_colour"
+    const val screen_add_virtual_spare_card_tool_bar_title_choose_name: String =
+        "screen_add_virtual_spare_card_tool_bar_title_choose_name"
+    const val screen_add_virtual_spare_card_card_name: String =
+        "screen_add_virtual_spare_card_card_name"
 
 
     // Add funds Screen
@@ -1056,6 +1064,8 @@ object Strings {
         "screen_y2y_funds_transfer_display_text_balance"
     const val screen_yap_to_yap_transfer_display_text_button: String =
         "screen_yap_to_yap_transfer_display_text_button"
+    const val screen_y2y_funds_transfer_display_text_remarks_placeholder: String =
+        "screen_y2y_funds_transfer_display_text_remarks_placeholder"
 
     //Y2Y contacts
     const val screen_y2y_display_text_no_yap_contacts: String =

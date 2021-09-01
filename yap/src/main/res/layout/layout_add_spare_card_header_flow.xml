@@ -25,6 +25,7 @@
             android:layout_width="@dimen/_160sdp"
             android:layout_height="@dimen/_240sdp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:orientation="vertical"
             android:src="@drawable/card_spare"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,20 +34,25 @@
 
         <TextView
             android:id="@+id/labelCardType"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_18sdp"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:background="@drawable/round_light_gery_background"
+            style="@style/AMicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:gravity="center"
-            android:text="@{cardType}"
-            android:textColor="?attr/colorPrimaryAttr"
-            android:textSize="@dimen/_9sdp"
-            app:btn_unpressed_color="@color/disabledLight"
+            android:text="@string/screen_add_virtual_spare_card_card_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            tools:text="Primary Card"
-            tools:textColor="@color/colorPrimary" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+        <TextView
+            android:id="@+id/tvCardName"
+            style="@style/ATitle2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{cardName}"
+            app:layout_constraintTop_toBottomOf="@+id/labelCardType"
+            tools:text="AED 6.00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

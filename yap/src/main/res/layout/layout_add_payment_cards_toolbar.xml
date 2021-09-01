@@ -27,7 +27,7 @@
             android:contentDescription="@string/empty_string"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnBackButton(v.id)}"
             android:paddingStart="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,5 +46,18 @@
             android:gravity="center"
             android:text="@={viewModel.state.tootlBarTitle}"
             tools:text="Add spare card" />
+
+        <ImageView
+            android:id="@+id/ivInfo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/empty_string"
+            android:focusable="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnBackButton(v.id)}"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/iconsinfo" />
     </LinearLayout>
 </layout>

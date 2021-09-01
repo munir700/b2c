@@ -29,9 +29,9 @@
 
             <include
                 android:id="@+id/include"
-                layout="@layout/layout_add_spare_card_header"
-                app:cardType="@{viewModel.state.cardType}"
-                app:cardName="@{viewModel.state.cardName}" />
+                layout="@layout/layout_add_spare_card_header_flow"
+                app:cardName="@{viewModel.state.cardName}"
+                app:cardType="@{viewModel.state.cardType}" />
 
             <include
                 android:id="@+id/layoutVirtualCardConfirmPurchase"

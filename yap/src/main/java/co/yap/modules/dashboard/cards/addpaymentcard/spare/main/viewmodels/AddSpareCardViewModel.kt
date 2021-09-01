@@ -9,6 +9,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states.AddSpareC
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -33,6 +34,7 @@ class AddSpareCardViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: AddSpareCardState =
         AddSpareCardState()
+    override val list: MutableList<CoreBottomSheetData> = mutableListOf()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -75,5 +77,9 @@ class AddSpareCardViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun setListData() {
+        list.add(CoreBottomSheetData(subTitle = Strings.screen_add_spare_card_completion_display_text_complete_transaction_virtual))
     }
 }

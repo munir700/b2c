@@ -41,15 +41,27 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+        //viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+        viewModel.clickEvent.observe(this, singleClickObserver)
     }
 
     override fun onDestroy() {
-        viewModel.backButtonPressEvent.removeObservers(this)
+        // viewModel.backButtonPressEvent.removeObservers(this)
+        viewModel.clickEvent.removeObserver(singleClickObserver)
         super.onDestroy()
     }
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
+
+    private val singleClickObserver = Observer<Int> { id ->
+        when (id) {
+            R.id.tbBtnBack -> {
+                onBackPressed()
+            }
+            R.id.ivInfo -> {
+            }
+        }
+    }
 
     fun hideToolbar() {
         viewModel.state.tootlBarVisibility = View.INVISIBLE

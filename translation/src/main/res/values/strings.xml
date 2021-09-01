@@ -353,6 +353,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
     <string name="screen_spare_card_landing_display_tool_bar_title">Add a virtual card</string>
+    <string name="screen_spare_card_landing_display_text_description">Subscribe to a virtual card for AED 6/year and create a customizable card and shop online safely and securely.</string>
 
     <!-- Spare Card Benefit Screen -->
     <string name="screen_spare_card_benefit_display_text_title">Spare card benefits</string>
@@ -380,6 +381,9 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_virtual_spare_card_edit_name_label">Name your virtual card</string>
     <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
     <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title_choose_colour">Choose a card color</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title_choose_name">Name your card</string>
+    <string name="screen_add_virtual_spare_card_card_name">Card name</string>
 
 
     <!-- Add Spare card location -->
@@ -655,6 +659,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
     <string name="screen_y2y_funds_transfer_display_text_limit_error">That\'s over your daily limit. Please enter an amount lower than AED</string>
+    <string name="screen_y2y_funds_transfer_display_text_remarks_placeholder">Leave a message (optional)</string>
 
     <!--    Y2Y funds Transfer success screen-->
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>

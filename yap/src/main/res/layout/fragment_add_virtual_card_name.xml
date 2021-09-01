@@ -15,7 +15,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour.AddVirtualCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardname.AddVirtualCardNameViewModel" />
     </data>
 
     <ScrollView
@@ -28,45 +28,49 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
+            android:fitsSystemWindows="true"
             android:orientation="vertical">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgCard"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_300sdp"
                 android:layout_marginTop="@dimen/margin_btn_side_paddings_xl"
-                android:orientation="horizontal"
-                app:adapter="@{viewModel.adapter}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/card_spare" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvYoungCardText"
-                style="@style/SmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_extra_large"
-                android:text="Choose a colour"
-                android:textColor="@color/colorPrimaryDark"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewPager"
-                tools:text="Choose a colour" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/ctcCardEdit"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginTop="@dimen/margin_heading_to_field"
-                app:layout_constraintTop_toBottomOf="@+id/viewPager"
-                app:tabGravity="center"
-                app:tabIndicator="@null"
-                app:tabPaddingStart="@dimen/_6sdp"
-                app:tabPaddingEnd="@dimen/_6sdp"
-                app:tabRippleColor="@null" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xl"
+                android:hint="@string/screen_add_virtual_spare_card_edit_name_label"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:visibility="visible"
+                app:hintTextAppearance="@style/Small"
+                app:layout_constraintTop_toBottomOf="@+id/imgCard"
+                tools:hint="Name your virtual card">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCardName"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapWords"
+                    android:maxLength="26"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.cardName}"
+                    android:textAllCaps="false"
+                    android:textColorHint="@color/colorPrimaryDarkFadedLight"
+                    android:theme="@style/Theme.EditText"
+                    app:hint="@{Strings.screen_add_virtual_spare_card_edit_name_hint}"
+                    tools:hint="@string/screen_add_virtual_spare_card_edit_name_hint" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnNext"
@@ -79,12 +83,12 @@
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                 android:text="@string/screen_phone_number_button_send"
-                app:enableCoreButton="@{true}"
+                app:enableCoreButton="@{viewModel.state.enabelCoreButton}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+                app:layout_constraintTop_toBottomOf="@+id/ctcCardEdit"
                 app:layout_constraintVertical_bias="0.877" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
