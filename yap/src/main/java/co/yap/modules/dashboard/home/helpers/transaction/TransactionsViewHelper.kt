@@ -77,7 +77,7 @@ class TransactionsViewHelper(
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         setRvTransactionScroll()
                         if (position == 0) {
-//                            transactionsView.toolbarLayout.id.appbar.setExpanded(true)
+                        transactionsView.toolbarLayout.id.appbar.setExpanded(true)
 
                         }
 

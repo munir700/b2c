@@ -330,7 +330,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getSectionedCountries(): RetroApiResponse<SectionedCountriesResponseDTO> =
         executeSafely(call = { api.getSectionedCountries() })
 
-    override suspend fun    verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse> =
+    override suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse> =
         executeSafely(call = { api.verifyUsername(username) })
 
     override suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse> =
