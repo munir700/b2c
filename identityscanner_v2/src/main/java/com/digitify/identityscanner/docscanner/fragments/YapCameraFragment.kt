@@ -41,6 +41,8 @@ import com.digitify.identityscanner.docscanner.viewmodels.CameraViewModel
 import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewModel
 import com.digitify.identityscanner.utils.ImageUtils
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
@@ -95,7 +97,7 @@ class YapCameraFragment : BaseFragment(),
             }
         }
         binding.camera.visibility = View.INVISIBLE
-        binding.cardOverlay.isDrawn.observe(this, Observer {
+        binding.cardOverlay.isDrawn.observe(viewLifecycleOwner, Observer {
             if (it) {
 //                binding.camera.layoutParams.width = binding.cardOverlay.width
 //                binding.camera.layoutParams.height = binding.cardOverlay.cardHeight+((binding.cardOverlay.cardHeight/10)*2)
@@ -305,8 +307,7 @@ class YapCameraFragment : BaseFragment(),
                     objectDetector.process(image)
                         .addOnSuccessListener { detectedObjects ->
                             if (detectedObjects.isEmpty()) {
-                                progress?.hide()
-                                setInstructions("Please readjust your card and scan again")
+                                showErrorInUI("Please readjust your card and scan again")
                             } else {
                                 var croppedBmp: Bitmap? = null
                                 for (detectedObject: DetectedObject in detectedObjects) {
@@ -321,17 +322,20 @@ class YapCameraFragment : BaseFragment(),
                                     )
                                     trackEventWithScreenName(if (viewModel?.scanMode == DocumentPageType.FRONT) FirebaseEvent.CLICK_SCAN_FRONT else FirebaseEvent.CLICK_SCAN_BACK)
                                     if (parentViewModel?.state?.scanMode != DocumentPageType.BACK) {
-                                        reWriteImage(filename, croppedBmp)
+                                        detectFace(croppedBmp) { found ->
+                                            if (found) {
+                                                reWriteImage(filename, croppedBmp)
+                                            } else {
+                                                showErrorInUI("Please rescan the card, No Face detected")
+                                            }
+                                        }
                                     } else {
                                         image = InputImage.fromBitmap(croppedBmp, 0)
                                         extractText(image) { success ->
                                             if (success) {
                                                 reWriteImage(filename, croppedBmp)
                                             } else {
-                                                activity?.runOnUiThread(Runnable {
-                                                    progress?.hide()
-                                                    setInstructions("Please rescan the card, it's not card back side")
-                                                })
+                                                showErrorInUI("Please rescan the card, it's not card back side")
                                             }
                                         }
                                     }
@@ -340,17 +344,12 @@ class YapCameraFragment : BaseFragment(),
                         }
                         .addOnFailureListener { e ->
                             e.printStackTrace()
-                            activity?.runOnUiThread(Runnable {
-                                progress?.hide()
-                                setInstructions("Please rescan the card")
-                            })
+                            showErrorInUI("Please rescan the card")
                         }
 
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    activity?.runOnUiThread(Runnable {
-                        progress?.hide()
-                    })
+                    hideProgressBar()
                 }
 
             }
@@ -359,15 +358,48 @@ class YapCameraFragment : BaseFragment(),
 
     }
 
+    private fun detectFace(bitmap: Bitmap, callback: (Boolean) -> Unit) {
+        val image = InputImage.fromBitmap(bitmap, 0)
+        val options = FaceDetectorOptions.Builder()
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+            .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
+            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+            .setMinFaceSize(0.15f)
+            .enableTracking()
+            .build()
+        val detector = FaceDetection.getClient(options)
+        detector.process(image)
+            .addOnSuccessListener { faces ->
+                if (faces.isNotEmpty()) {
+                    callback.invoke(true)
+                } else {
+                    callback.invoke(false)
+                }
+            }
+            .addOnFailureListener { e ->
+                callback.invoke(false)
+            }
+    }
+
+    private fun showErrorInUI(message: String) {
+        activity?.runOnUiThread {
+            progress?.hide()
+            setInstructions(message)
+        }
+    }
+
+    private fun hideProgressBar() {
+        activity?.runOnUiThread {
+            progress?.hide()
+        }
+    }
+
     private fun reWriteImage(filename: String, croppedBmp: Bitmap) {
         var file: File? = null
         Task.runSafely({
             file = overWrite(File(filename), croppedBmp, quality = 90)
         }, {
-            activity?.runOnUiThread(Runnable {
-                progress?.hide()
-            })
-
+            hideProgressBar()
             onCaptureProcessCompleted(filename)
         }, true)
     }
@@ -381,10 +413,7 @@ class YapCameraFragment : BaseFragment(),
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
-                activity?.runOnUiThread(Runnable {
-                    progress?.hide()
-                    setInstructions("Please rescan the card")
-                })
+                showErrorInUI("Please rescan the card")
             }
     }
 
