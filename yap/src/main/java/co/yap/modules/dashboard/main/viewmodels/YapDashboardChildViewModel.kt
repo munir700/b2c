@@ -8,6 +8,6 @@ import co.yap.yapcore.IBase
 abstract class YapDashboardChildViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
 
-    var parentViewModel: IYapDashboard.ViewModel? = null
+    var parentViewModel: YapDashBoardViewModel? = null
 
 }

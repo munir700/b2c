@@ -84,9 +84,12 @@ class TransactionsListingAdapter(
             itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
                 analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: "",
                 analyticsItemImgUrl ?: transaction.merchantLogo ?: "",
-                position, type = Constants.MERCHANT_TYPE
-
+                position, type = Constants.MERCHANT_TYPE,
+                transaction = transaction
             )
+            itemAnalyticsTransactionListBinding.tvTransactionName.text =
+                transaction.merchantName ?: transaction.title ?: ""
+
             itemAnalyticsTransactionListBinding.tvTransactionTimeAndCategory.text =
                 getString(
                     itemAnalyticsTransactionListBinding.tvCurrency.context,
@@ -98,6 +101,22 @@ class TransactionsListingAdapter(
                         outFormatter = DateUtils.FORMAT_SHORT_MONTH_DAY
                     )
                 )
+            itemAnalyticsTransactionListBinding.tvTransactionTimeAndCategory.text =
+                    /*if (type == TransactionAdapterType.TOTAL_PURCHASE)*/ getString(
+                itemAnalyticsTransactionListBinding.tvCurrency.context,
+                R.string.screen_fragment_home_transaction_time_category,
+                transaction.getTransactionTime(TransactionAdapterType.TOTAL_PURCHASE),
+                DateUtils.reformatStringDate(
+                    date = transaction.creationDate ?: "",
+                    inputFormatter = DateUtils.SERVER_DATE_FORMAT,
+                    outFormatter = DateUtils.FORMAT_SHORT_MONTH_DAY
+                )
+            ) /*else getString(
+                    itemAnalyticsTransactionListBinding.tvCurrency.context,
+                    R.string.screen_fragment_home_transaction_time_category,
+                    transaction.getTransactionTime(TransactionAdapterType.ANALYTICS_DETAILS),
+                    transaction.getTransferType(TransactionAdapterType.ANALYTICS_DETAILS)
+                )*/
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
@@ -139,7 +158,11 @@ class TransactionsListingAdapter(
 
             itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
-                if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
+                if (transaction.getStatus().isEmpty()
+                    || transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode
+                    || transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode
+                    || transaction.category.equals("DECLINE_FEE", true)
+                ) View.GONE else View.VISIBLE
             //itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
             itemTransactionListBinding.tvCurrency.text = transaction.cardHolderBillingCurrency
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())

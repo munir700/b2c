@@ -7,10 +7,7 @@ import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.networking.transactions.responsedtos.transaction.TransactionCategoryResponse
-import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
+import co.yap.networking.transactions.responsedtos.transaction.*
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
 
@@ -114,5 +111,7 @@ interface TransactionsApi {
     suspend fun requestSendEmail(
         sendEmailRequestModel: SendEmailRequest
     ): RetroApiResponse<ApiResponse>
+
+    suspend fun getTotalPurchasesList(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesTransactionResponse>
 
 }

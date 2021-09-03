@@ -12,6 +12,7 @@ import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.managers.SessionManager
@@ -48,9 +49,9 @@ fun Transaction?.getTitle(): String {
                         "DECLINE_FEE",
                         true
                     )
-                ) "ATM decline fee" else "ATM Withdrawal"
+                ) "ATM decline fee" else "ATM withdrawal"
             }
-            TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
+            TransactionProductCode.ATM_DEPOSIT.pCode -> "ATM deposit"
             TransactionProductCode.REFUND_MASTER_CARD.pCode -> "Refund from ${transaction.merchantName}"
             TransactionProductCode.FUND_LOAD.pCode -> transaction.senderName?.let { "Received from ${transaction.senderName}" }
                 ?: "Received transfer"
@@ -89,8 +90,8 @@ fun Transaction?.getIcon(): Int {
 
 fun Transaction?.getStatus(): String {
     return when (this?.productCode) {
-        TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> this.cardAcceptorLocation
-            ?: ""
+        /*TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> this.cardAcceptorLocation
+            ?: ""*/
         TransactionProductCode.FUND_LOAD.pCode -> this.otherBankName ?: ""
         else ->
             when {
@@ -110,10 +111,10 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Add money"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
-                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Deposit"
+                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Cash deposit"
             }
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode || TransactionProductCode.FUND_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.FUNDS_WITHDRAWAL_BY_CHEQUE.pCode == txn.productCode -> {
-                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Withdraw money"
+                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Cash withdraw"
             }
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
@@ -230,16 +231,22 @@ fun Transaction?.getFormattedDate(): String? {
         date?.let { convertedDate ->
             val smsTime: Calendar = Calendar.getInstance()
             smsTime.timeInMillis = convertedDate.time
-            //smsTime.timeZone = TimeZone.getDefault()
-
             val now: Calendar = Calendar.getInstance()
             val timeFormatString = "MMMM dd"
             val dateTimeFormatString = "EEEE, MMMM d"
             return when {
-                now.get(Calendar.DATE) === smsTime.get(Calendar.DATE) -> {
+                DateUtils.isToday(
+                    creationDate.toString(),
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
                     "Today, " + DateFormat.format(timeFormatString, smsTime)
                 }
-                now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) === 1 -> {
+                DateUtils.isYesterday(
+                    creationDate.toString(),
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
                     "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
                 }
                 now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR) -> {
@@ -256,7 +263,7 @@ fun Transaction?.getFormattedDate(): String? {
 fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION): String {
     //now we will show 12h format in whole app. Remove conditions after verifying at prod
     return when (adapterType) {
-        TransactionAdapterType.ANALYTICS_DETAILS -> {
+        TransactionAdapterType.ANALYTICS_DETAILS, TransactionAdapterType.TOTAL_PURCHASE -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
         TransactionAdapterType.TRANSACTION -> {
@@ -327,6 +334,7 @@ fun Transaction?.getAmount(): Double {
             }
             it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
                 ?: 0.0
+            it.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || it.productCode == TransactionProductCode.MOTO.pCode -> it.cardHolderBillingAmount?: 0.0
             else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
                 ?: 0.00
         }
@@ -505,6 +513,10 @@ fun Transaction?.isCategoryGeneral(): Boolean? = this?.let { transaction ->
 
 fun setDescriptiveCategory(txn: Transaction, transactionType: TransactionAdapterType?): String {
     return when {
+        (txn.productCode == TransactionProductCode.POS_PURCHASE.pCode || txn.productCode == TransactionProductCode.ECOM.pCode) && transactionType == TransactionAdapterType.ANALYTICS_DETAILS -> {
+            txn.merchantCategoryName
+                ?: if (txn.productCode == TransactionProductCode.POS_PURCHASE.pCode) "In store shopping" else "Online shopping"
+        }
         txn.productCode == TransactionProductCode.POS_PURCHASE.pCode && transactionType == TransactionAdapterType.TRANSACTION -> {
             txn.tapixCategory?.let { category ->
                 if (category.isGeneral) "In store shopping" else category.categoryName
@@ -516,6 +528,7 @@ fun setDescriptiveCategory(txn: Transaction, transactionType: TransactionAdapter
             } ?: "Online shopping"
         }
     }
+
 }
 
 fun Transaction?.isInternationalTransaction(): Boolean {

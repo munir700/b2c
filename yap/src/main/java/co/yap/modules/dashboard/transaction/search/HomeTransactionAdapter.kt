@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
 class HomeTransactionAdapter(
+
     internal var transactionData: MutableMap<String?, List<Transaction>>,
     val expandableItemManager: RecyclerViewExpandableItemManager
 ) :
@@ -209,9 +210,7 @@ class HomeTransactionAdapter(
             binding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             binding.ivIncoming.background =
-                if (transaction.getStatusIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
-                    R.drawable.bg_round_white
-                ) else
+                if (transaction.getStatusIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(R.drawable.bg_round_white) else
                     context.getDrawable(android.R.color.transparent)
             val txnIconResId = transaction.getIcon()
             transaction.productCode?.let {

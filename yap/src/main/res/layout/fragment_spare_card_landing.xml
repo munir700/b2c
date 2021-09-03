@@ -13,176 +13,220 @@
 
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/colorWhite"
-            android:paddingBottom="@dimen/margin_medium">
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/linearLayout2"
-                android:layout_width="@dimen/_121sdp"
-                android:layout_height="@dimen/_190sdp"
-                android:layout_gravity="center_horizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:cardImageUrl="@{viewModel.state.cardImageUrl}"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/tvSpareCardTile"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:gravity="center"
-                android:text="@string/screen_spare_card_landing_display_text_spare_card"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                app:text="@{Strings.screen_spare_card_landing_display_text_spare_card}" />
-
-            <TextView
-                android:id="@+id/tvSpareCardFee"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/margin_small"
-                android:text="@{String.format(@string/screen_add_spare_card_display_text_fee,viewModel.state.virtualCardFee)}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvBenefits"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/_15sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:itemCount="2"
-                app:layout_constraintTop_toBottomOf="@+id/tvSpareCardFee"
-                tools:listitem="@layout/item_benefits" />
+                android:background="@color/colorWhite"
+                android:paddingBottom="@dimen/margin_medium">
 
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/tvCardType"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:gravity="center"
-                android:text="@string/screen_spare_card_landing_display_text_select_card_type"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvBenefits"
-                app:text="@{Strings.screen_spare_card_landing_display_text_select_card_type}" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lav_cards"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_300sdp"
+                    android:background="@color/colorCardBg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="false"
+                    app:lottie_fileName="card_stack.json"
+                    app:lottie_loop="false"
+                    app:lottie_speed="1.50" />
 
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.513"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardType">
+                <ImageView
+                    android:id="@+id/ivVirtualCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_medium_large"
+                    android:src="@drawable/ic_iconmetalcard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lav_cards" />
+
+                <TextView
+                    android:id="@+id/tvSpareCardTile"
+                    style="@style/ALargeGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintStart_toEndOf="@+id/ivVirtualCard"
+                    app:layout_constraintTop_toTopOf="@+id/ivVirtualCard"
+                    app:text="@{Strings.screen_spare_card_landing_display_text_virtual_card}"
+                    tools:text="Virtual Card" />
+
+                <TextView
+                    android:id="@+id/tvSpareCardDesc"
+                    style="@style/MicroGrey"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvSpareCardTile"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"
+                    app:text="@{Strings.screen_spare_card_landing_display_text_description}"
+                    tools:text="@string/screen_spare_card_landing_display_text_description" />
+
+                <TextView
+                    android:id="@+id/tvSpareCardFee"
+                    style="@style/AMicroGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_small"
+                    android:text="@{String.format(@string/screen_add_spare_card_display_text_fee,viewModel.state.virtualCardFee)}"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBenefits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/margin_btn_side_paddings_xl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSpareCardDesc"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_benefits" />
+
+                <TextView
+                    android:id="@+id/tvCardType"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/screen_spare_card_landing_display_text_select_card_type"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rvBenefits"
+                    app:text="@{Strings.screen_spare_card_landing_display_text_select_card_type}" />
 
                 <LinearLayout
-                    android:id="@+id/llAddVirtualCard"
-                    android:layout_width="@dimen/_130sdp"
-                    android:layout_height="@dimen/_90sdp"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:background="@drawable/card_border_selector"
-                    android:clickable="true"
-                    android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
-                    android:orientation="vertical"
-                    android:paddingTop="@dimen/margin_medium">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.513"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCardType">
 
-                    <TextView
-                        android:id="@+id/tvVirtualCardTitle"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/screen_spare_card_landing_display_text_virtual_card"
-                        app:text="@{Strings.screen_spare_card_landing_display_text_virtual_card}" />
+                    <LinearLayout
+                        android:id="@+id/llAddVirtualCard"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:layout_marginRight="@dimen/margin_medium"
+                        android:background="@drawable/card_border_selector"
+                        android:clickable="true"
+                        android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/margin_medium">
 
-                    <TextView
-                        android:id="@+id/tvPrice"
-                        style="@style/Large"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium_large"
-                        android:gravity="center"
-                        android:text="@={viewModel.state.virtualCardFee}"
-                        android:textColor="?attr/colorPrimaryAttr" />
+                        <TextView
+                            android:id="@+id/tvVirtualCardTitle"
+                            style="@style/Regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/screen_spare_card_landing_display_text_virtual_card"
+                            app:text="@{Strings.screen_spare_card_landing_display_text_virtual_card}" />
+
+                        <TextView
+                            android:id="@+id/tvPrice"
+                            style="@style/Large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium_large"
+                            android:gravity="center"
+                            android:text="@={viewModel.state.virtualCardFee}"
+                            android:textColor="?attr/colorPrimaryAttr" />
 
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llAddPhysicalCard"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:background="@drawable/card_border_selector"
+                        android:clickable="true"
+                        android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/margin_medium">
+
+                        <TextView
+                            android:id="@+id/tvPhysicalCardTitle"
+                            style="@style/Regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/screen_spare_card_landing_display_text_physical_card"
+                            app:text="@{Strings.screen_spare_card_landing_display_text_physical_card}" />
+
+                        <TextView
+                            android:id="@+id/tvPhysicalCardPrice"
+                            style="@style/Large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium_large"
+                            android:gravity="center"
+                            android:text="@={viewModel.state.physicalCardFee}"
+                            android:textColor="?attr/colorPrimaryAttr" />
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/llAddPhysicalCard"
-                    android:layout_width="@dimen/_130sdp"
-                    android:layout_height="@dimen/_90sdp"
-                    android:background="@drawable/card_border_selector"
-                    android:clickable="true"
-                    android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
-                    android:orientation="vertical"
-                    android:paddingTop="@dimen/margin_medium">
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-                    <TextView
-                        android:id="@+id/tvPhysicalCardTitle"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/screen_spare_card_landing_display_text_physical_card"
-                        app:text="@{Strings.screen_spare_card_landing_display_text_physical_card}" />
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivCross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
+            android:padding="@dimen/margin_normal"
+            android:src="@drawable/ic_close"
+            app:civ_circle_background_color="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tvPhysicalCardPrice"
-                        style="@style/Large"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium_large"
-                        android:gravity="center"
-                        android:text="@={viewModel.state.physicalCardFee}"
-                        android:textColor="?attr/colorPrimaryAttr" />
-
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <co.yap.widgets.CoreButton
-                android:id="@+id/addSpareCard"
-                style="@style/FragmentsBtnStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:btn_size="small"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginBottom="@dimen/margin_extra_large"
-                android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
-                android:text="@string/common_button_add"
-                android:textAllCaps="false"
-                app:btn_enable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvBenefits"
-                app:text="@{Strings.common_button_add}" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        <co.yap.widgets.CoreButton
+            android:id="@+id/addSpareCard"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_extra_large"
+            android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
+            android:text="@string/common_button_add"
+            android:textAllCaps="false"
+            app:btn_enable="true"
+            app:btn_size="small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.common_button_add}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

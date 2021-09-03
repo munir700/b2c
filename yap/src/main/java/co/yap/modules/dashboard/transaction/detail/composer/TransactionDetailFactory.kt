@@ -39,9 +39,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
             TransactionDetailItem.EXCHANGE_RATE -> {
                 if (transaction.isNonAEDTransaction()) "${transaction.currency} 1.00 = AED ${
-                getExchangeRateForInternationalPOS(
-                    transaction
-                )
+                    getExchangeRateForInternationalPOS(
+                        transaction
+                    )
                 }" else "${transaction.currency} 1.00 = AED ${transaction.fxRate}"
             }
             TransactionDetailItem.SENDER, TransactionDetailItem.RECEIVER -> {
@@ -109,6 +109,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
         }
     }
+
+    private fun isShowItemFeeVat(value: Double?): Boolean =
+        !((transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) && value == 0.0)
 
     private fun isInternationalPOS(transaction: Transaction): Boolean {
         return (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode) && transaction.currency != SessionManager.getDefaultCurrency()
@@ -224,6 +227,12 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun getLocation(): String? {
         return when (transaction.productCode) {
             TransactionProductCode.FUND_LOAD.pCode -> transaction.otherBankName ?: ""
+            TransactionProductCode.ECOM.pCode -> {
+                if (isCategoryGeneral()) "Online shopping" else transaction.cardAcceptorLocation
+            }
+            TransactionProductCode.POS_PURCHASE.pCode -> {
+                if (isCategoryGeneral()) "In store shopping" else transaction.cardAcceptorLocation
+            }
             else -> transaction.cardAcceptorLocation ?: ""
         }
     }

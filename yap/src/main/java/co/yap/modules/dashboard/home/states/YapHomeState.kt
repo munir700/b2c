@@ -12,7 +12,7 @@ import co.yap.yapcore.managers.SessionManager
 class YapHomeState : BaseState(), IYapHome.State {
 
     @get:Bindable
-    override var availableBalance: String? = SessionManager.cardBalance.value?.availableBalance
+    override var availableBalance: String? = "0.00"
         set(value) {
             field = value
             notifyPropertyChanged(BR.availableBalance)

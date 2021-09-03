@@ -9,7 +9,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
-import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.SingleClickEvent
 
 class AddPaymentCardViewModel(application: Application) :
     BaseViewModel<IAddPaymentCard.State>(application),
@@ -17,13 +17,13 @@ class AddPaymentCardViewModel(application: Application) :
     override var physicalCardFee: String = ""
     override var virtualCardFee: String = ""
     override val repository: CardsRepository = CardsRepository
-    override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: AddPaymentCardsState = AddPaymentCardsState()
     override var virtualCardDesignsList: ArrayList<VirtualCardDesigns> = arrayListOf()
     override var selectedVirtualCard: VirtualCardDesigns? = null
 
-    override fun handlePressOnBackButton() {
-        backButtonPressEvent.value = true
+    override fun handlePressOnButton(id: Int) {
+        clickEvent.setValue(id)
     }
 
     override fun getVirtualCardDesigns(success: () -> Unit) {

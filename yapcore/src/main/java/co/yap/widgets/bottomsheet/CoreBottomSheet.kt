@@ -28,14 +28,15 @@ open class CoreBottomSheet(
     private val mListener: OnItemClickListener?,
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG,
-    private val configuration: BottomSheetConfiguration
-) : BottomSheetDialogFragment(), ICoreBottomSheet.View {
+    private val configuration: BottomSheetConfiguration,
+    private val iAnimationComplete: IAnimationComplete? = null
+) : BottomSheetDialogFragment(), ICoreBottomSheet.View, IAnimationComplete {
     lateinit var viewDataBinding: ViewDataBinding
     override val viewModel: CoreBottomSheetViewModel
         get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
 
     open val adapter: CoreBottomSheetAdapter by lazy {
-        CoreBottomSheetAdapter(bottomSheetItems, viewType)
+        CoreBottomSheetAdapter(bottomSheetItems, viewType, this)
     }
 
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
@@ -48,6 +49,10 @@ open class CoreBottomSheet(
         viewDataBinding =
             DataBindingUtil.inflate(inflater, R.layout.layout_bottom_sheet, container, false)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        if (viewType == Constants.VIEW_ITEM_CARD_SUCCESSS) {
+            dialog?.setCanceledOnTouchOutside(false)
+            dialog?.setCancelable(false)
+        }
         return viewDataBinding.root
     }
 
@@ -59,7 +64,7 @@ open class CoreBottomSheet(
     private fun initViews() {
         viewDataBinding.setVariable(BR.viewModel, viewModel)
         viewDataBinding.executePendingBindings()
-        val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
+        val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType, this)
         adapter.onItemClickListener = myListener
         adapter.allowFullItemClickListener = true
 //        viewModel.state.searchBarVisibility.set(viewType == Constants.VIEW_WITH_FLAG)
@@ -97,6 +102,10 @@ open class CoreBottomSheet(
             super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         bottomSheetDialog.setOnShowListener { dialog ->
             bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            if (viewType == Constants.VIEW_ITEM_CARD_SUCCESSS) {
+                bottomSheetDialog.setCanceledOnTouchOutside(false)
+                bottomSheetDialog.behavior.isHideable = false
+            }
         }
         return bottomSheetDialog
     }
@@ -126,5 +135,11 @@ open class CoreBottomSheet(
 
     private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
     override fun getScreenName(): String? = null
+
+    override fun onAnimationComplete(isComplete: Boolean) {
+        if (isComplete) {
+            iAnimationComplete?.onAnimationComplete(isComplete)
+        }
+    }
 
 }

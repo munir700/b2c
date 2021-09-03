@@ -42,4 +42,6 @@ class AddFundsState : BaseState(), IAddFunds.State {
         }
 
     override var valid: ObservableBoolean = ObservableBoolean(false)
+    override var leftIconVisibility: ObservableBoolean = ObservableBoolean()
+    override var topUpSuccessAmount: ObservableField<String> = ObservableField("")
 }

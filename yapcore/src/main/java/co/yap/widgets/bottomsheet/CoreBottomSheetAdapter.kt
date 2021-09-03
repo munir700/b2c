@@ -1,24 +1,30 @@
 package co.yap.widgets.bottomsheet
 
+import android.animation.Animator
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.ItemBottomSheetAddCardSuccessBinding
 import co.yap.yapcore.databinding.ItemBottomSheetNoSeparatorBinding
+import co.yap.yapcore.databinding.ItemBottomsheetCardDetailBinding
 import co.yap.yapcore.databinding.ItemBottomsheetWithFlagBinding
 import co.yap.yapcore.databinding.ItemCityBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 open class CoreBottomSheetAdapter(
     private val list: MutableList<CoreBottomSheetData>,
-    private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
+    private val viewType: Int = Constants.VIEW_WITHOUT_FLAG,
+    val iAnimationComplete: IAnimationComplete? = null
 ) : BaseBindingSearchRecylerAdapter<CoreBottomSheetData, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = when (viewType) {
         Constants.VIEW_ITEM_WITHOUT_SEPARATOR -> R.layout.item_bottom_sheet_no_separator
         Constants.VIEW_WITH_FLAG -> R.layout.item_bottomsheet_with_flag
+        Constants.VIEW_CARD_DETAIL_ITEM -> R.layout.item_bottomsheet_card_detail
+        Constants.VIEW_ITEM_CARD_SUCCESSS -> R.layout.item_bottom_sheet_add_card_success
         else -> R.layout.item_city
     }
 
@@ -33,6 +39,12 @@ open class CoreBottomSheetAdapter(
             is ItemBottomSheetNoSeparatorBinding -> {
                 BottomSheetWithNoSeparatorViewHolder(binding)
             }
+            is ItemBottomsheetCardDetailBinding -> {
+                 BottomSheetCardDetailViewHolder(binding)
+            }
+            is ItemBottomSheetAddCardSuccessBinding -> {
+                BottomSheetAddCardSuccessViewHolder(binding)
+            }
             else -> {
                 BottomSheetViewHolder(binding as ItemCityBinding)
             }
@@ -46,6 +58,17 @@ open class CoreBottomSheetAdapter(
             }
             is BottomSheetWithFlagViewHolder -> {
                 holder.onBind(list[position], position, onItemClickListener)
+            }
+            is BottomSheetCardDetailViewHolder -> {
+                holder.onBind(list[position], position, onItemClickListener)
+            }
+            is BottomSheetAddCardSuccessViewHolder -> {
+                iAnimationComplete?.let {
+                    holder.onBind(
+                        list[position], position, onItemClickListener,
+                        it
+                    )
+                }
             }
         }
     }
@@ -107,6 +130,56 @@ class BottomSheetWithNoSeparatorViewHolder(private val itemBinding: ItemBottomSh
             position = position,
             onItemClickListener = onItemClickListener
         )
+        itemBinding.executePendingBindings()
+    }
+}
+class BottomSheetCardDetailViewHolder(private val itemBinding: ItemBottomsheetCardDetailBinding) :
+    RecyclerView.ViewHolder(itemBinding.root) {
+    fun onBind(
+        bottomSheetItem: CoreBottomSheetData,
+        position: Int,
+        onItemClickListener: OnItemClickListener?
+    ) {
+        itemBinding.viewModel = CoreBottomSheetItemViewModel(
+            bottomSheetItem = bottomSheetItem,
+            position = position,
+            onItemClickListener = onItemClickListener
+        )
+        itemBinding.executePendingBindings()
+    }
+}
+
+class BottomSheetAddCardSuccessViewHolder(
+    private val itemBinding: ItemBottomSheetAddCardSuccessBinding
+) :
+    RecyclerView.ViewHolder(itemBinding.root) {
+    fun onBind(
+        bottomSheetItem: CoreBottomSheetData,
+        position: Int,
+        onItemClickListener: OnItemClickListener?,
+        iAnimationComplete: IAnimationComplete
+    ) {
+        itemBinding.viewModel = CoreBottomSheetItemViewModel(
+            bottomSheetItem = bottomSheetItem,
+            position = position,
+            onItemClickListener = onItemClickListener
+        )
+        itemBinding.lavTick.progress = 0f
+        itemBinding.lavTick.playAnimation()
+        itemBinding.lavTick.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                iAnimationComplete.onAnimationComplete(true)
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+        })
         itemBinding.executePendingBindings()
     }
 }
