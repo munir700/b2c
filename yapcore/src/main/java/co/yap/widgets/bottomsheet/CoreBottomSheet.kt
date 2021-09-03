@@ -50,6 +50,7 @@ open class CoreBottomSheet(
             DataBindingUtil.inflate(inflater, R.layout.layout_bottom_sheet, container, false)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         if (viewType == Constants.VIEW_ITEM_CARD_SUCCESSS) {
+            dialog?.setCanceledOnTouchOutside(false)
             dialog?.setCancelable(false)
         }
         return viewDataBinding.root
@@ -102,7 +103,8 @@ open class CoreBottomSheet(
         bottomSheetDialog.setOnShowListener { dialog ->
             bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
             if (viewType == Constants.VIEW_ITEM_CARD_SUCCESSS) {
-                bottomSheetDialog.setCancelable(false)
+                bottomSheetDialog.setCanceledOnTouchOutside(false)
+                bottomSheetDialog.behavior.isHideable = false
             }
         }
         return bottomSheetDialog

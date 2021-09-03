@@ -1108,20 +1108,17 @@ object UIBinder {
     @JvmStatic
     fun setCardStatus(constraintLayout: ConstraintLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
-            when (CardStatus.valueOf(card.status)) {
+           constraintLayout.visibility = when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
-                    if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
-                            constraintLayout.visibility = GONE
-                        else
-                            constraintLayout.visibility = VISIBLE
-                    } else
-                        constraintLayout.visibility = VISIBLE
+                        if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
+                            && !card.pinCreated)
+                            GONE else VISIBLE
                 }
                 CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
-                    constraintLayout.visibility = GONE
+                     GONE
                 }
-            }
+               else -> GONE
+           }
         }
     }
 

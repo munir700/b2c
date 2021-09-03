@@ -96,16 +96,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         SessionManager.updateCardBalance() {}
         cardAdded = true
         openCardSuccessBottomSheet()
-        /*view?.let {
-            this.activity?.let { activity ->
-                AddSpareVirtualCardViewHelper(
-                    activity,
-                    navController,
-                    it,
-                    viewModel
-                )
-            }
-        }*/
     }
 
     private fun onPressConfirmPurchaseVirtual() {
@@ -241,8 +231,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         launchBottomSheetSegment(
             cardBottomSheetItemClickListener,
             configuration = BottomSheetConfiguration(
-                heading = ""
-            ),
+                heading = ""),
             viewType = Constants.VIEW_ITEM_CARD_SUCCESSS,
             listData = viewModel.list, isIAnimationComplete = this
         )
@@ -252,9 +241,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is CoreBottomSheetData) {
                 when (view.id) {
-                    R.id.tvCopyCard -> {
-
-                    }
                 }
             }
         }

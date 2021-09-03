@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels
 
 import android.app.Application
 import android.content.Context
+import android.view.View
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpareCards
@@ -97,7 +98,7 @@ class SpareCardLandingViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        toggleToolBarVisibility(false)
+        toggleToolBarVisibility(View.GONE)
     }
 
     override fun loadJSONDummyList(): ArrayList<BenefitsModel> {

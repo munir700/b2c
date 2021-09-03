@@ -351,7 +351,6 @@ class YapCardsViewModel(application: Application) :
                     cardDetail.set(response.data.data)
                     loadBottomSheetData(cardDetail.get())
                     successCallback()
-                    //clickEvent.setValue(EVENT_CARD_DETAILS)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
@@ -371,7 +370,7 @@ class YapCardsViewModel(application: Application) :
                 } else {
                     if (card.cardNumber?.length == 16) {
                         val formattedCardNumber: StringBuilder =
-                            StringBuilder(card.cardNumber?: "")
+                            StringBuilder(card.cardNumber ?: "")
                         formattedCardNumber.insert(4, " ")
                         formattedCardNumber.insert(9, " ")
                         formattedCardNumber.insert(14, " ")

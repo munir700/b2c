@@ -73,7 +73,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         setupPager()
         toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-        //viewModel.getCards()
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 viewModel.adapter.setList(it)
@@ -522,7 +521,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         trackEventWithScreenName(if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == card.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
         viewModel.getCardDetail(card.cardSerialNumber) {
             launchBottomSheetSegment(
-                cardBottomSheetItemClickListener,
+                null,
                 configuration = BottomSheetConfiguration(
                     heading = Translator.getString(
                         requireContext(),
@@ -536,19 +535,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private val cardBottomSheetItemClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is CoreBottomSheetData) {
-                when (view.id) {
-                    R.id.tvCopyCard -> {
-                        Utils.copyToClipboard(view.context, data.subTitle ?: "")
-                        view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
-                    }
-                }
-            }
-
-        }
-    }
     private val pageChangedCallBack = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)

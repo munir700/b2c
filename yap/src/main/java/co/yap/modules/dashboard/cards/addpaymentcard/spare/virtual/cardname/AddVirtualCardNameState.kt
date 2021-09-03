@@ -7,9 +7,7 @@ import co.yap.yapcore.BaseState
 
 class AddVirtualCardNameState : BaseState(),
     IAddVirtualCardName.State {
-
     override var cardName: ObservableField<String> = ObservableField()
-
 
     @get:Bindable
     override var enabelCoreButton: Boolean = false

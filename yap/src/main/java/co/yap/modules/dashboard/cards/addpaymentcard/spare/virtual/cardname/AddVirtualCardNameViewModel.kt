@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardname
 
 import android.app.Application
+import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.translation.Strings
@@ -17,7 +18,7 @@ class AddVirtualCardNameViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         setToolBarTitle(getString(Strings.screen_add_virtual_spare_card_tool_bar_title_choose_name))
-        toggleToolBarVisibility(true)
+        toggleToolBarVisibility(View.VISIBLE)
     }
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
