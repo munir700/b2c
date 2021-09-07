@@ -128,6 +128,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
+        viewModel.setCategoryBar(getBindings().lyInclude.customCategoryBar)
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -332,9 +333,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-        SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
-            //setAvailableBalance(value.availableBalance.toString())
-        })
+        /* SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
+             //setAvailableBalance(value.availableBalance.toString())
+         })*/
 
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
