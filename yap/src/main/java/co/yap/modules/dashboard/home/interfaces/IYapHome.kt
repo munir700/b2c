@@ -2,12 +2,12 @@ package co.yap.modules.dashboard.home.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.home.component.categorybar.CustomCategoryBar
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.notification.responsedtos.HomeNotification
-import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -40,7 +40,8 @@ interface IYapHome {
             paymentCard: Card
         ): ArrayList<HomeNotification>
         fun shouldShowSetPin(paymentCard: Card): Boolean
-        fun fetchTransactionDetailsForLeanplum(cardStatus:String?)
+        fun fetchTransactionDetailsForLeanplum(cardStatus: String?)
+        fun setCategoryBar(customCategoryBar: CustomCategoryBar)
     }
 
     interface State : IBase.State {
