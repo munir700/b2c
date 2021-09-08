@@ -33,7 +33,6 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.lang.NumberFormatException
 
 class EmploymentQuestionnaireViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaire.State>(application),
@@ -62,7 +61,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun isDataRequiredFromApi(forStatus: EmploymentStatus) {
         when (forStatus) {
-            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> getCountriesAndSegments()
+            EmploymentStatus.Self_employed, EmploymentStatus.A -> getCountriesAndSegments()
             else -> {
             }
         }
@@ -308,7 +307,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         status: EmploymentStatus
     ): EmploymentInfoRequest {
         return when (status) {
-            EmploymentStatus.EMPLOYED -> {
+            EmploymentStatus.Salaried -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     employerName = getDataForPosition(0).getAnswer(),
@@ -316,7 +315,25 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     expectedMonthlyCredit = getDataForPosition(2).getAnswer()
                 )
             }
-            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
+            EmploymentStatus.Self_employed -> {
+                EmploymentInfoRequest(
+                    employmentStatus = status.name.replace("_", " "),
+                    companyName = getDataForPosition(0).getAnswer(),
+                    industrySegmentCodes = listOf(
+                        industrySegmentsList.first {
+                            it.segment == getDataForPosition(
+                                1
+                            ).getAnswer()
+                        }.segmentCode ?: ""
+                    ),
+                    businessCountries = parentViewModel?.countries?.filterSelectedIsoCodes(
+                        getDataForPosition(2).question.multipleAnswers.get() ?: arrayListOf()
+                    ),
+                    monthlySalary = getDataForPosition(3).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(4).getAnswer()
+                )
+            }
+            EmploymentStatus.A -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
