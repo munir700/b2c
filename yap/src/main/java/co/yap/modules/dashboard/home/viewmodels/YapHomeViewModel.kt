@@ -2,12 +2,10 @@ package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
 import android.graphics.Color
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.component.categorybar.CategorySegmentData
 import co.yap.modules.dashboard.home.component.categorybar.CustomCategoryBar
-import co.yap.modules.dashboard.home.component.categorybar.ISegmentClicked
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
@@ -354,16 +352,11 @@ class YapHomeViewModel(application: Application) :
         )
         var stringUrl =
             "https://s3-eu-west-1.amazonaws.com/s2-yap-documents-public/yap/yap_data/tapix_category_analytics_logos/Transporttransport42X42Copy2@3x.png"
-        val progress = floatArrayOf(40f, 20f, 20f, 10f, 10f)
+        val progress = floatArrayOf(60f, 10f, 10f, 10f, 10f)
         for (i in 0..4) {
             val progressSegment = CategorySegmentData(progress[i], stringUrl, colors[i])
             categorySegments.add(progressSegment)
         }
-        customCategoryBar.setCategoryPercent(categorySegments)
-        customCategoryBar.setSegmentClickedListener(object : ISegmentClicked {
-            override fun onClickSegment(pos: Int) {
-                Toast.makeText(context, "seg: $pos", Toast.LENGTH_SHORT).show()
-            }
-        })
+        customCategoryBar.setCategorySegmentFirstTime(categorySegments)
     }
 }

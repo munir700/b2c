@@ -22,6 +22,7 @@ import co.yap.databinding.FragmentDashboardHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
+import co.yap.modules.dashboard.home.component.categorybar.ISegmentClicked
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
@@ -128,7 +129,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
-        viewModel.setCategoryBar(getBindings().lyInclude.customCategoryBar)
+        getBindings().lyInclude.customCategoryBar.setSegmentClickedListener(object : ISegmentClicked {
+            override fun onClickSegment(pos: Int) {
+                launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS){
+                    putExtra("CurrentMonth", "Tue Jun 01 14:42:12 GMT+05:00 2021" )
+                }
+            }
+        })
     }
 
     private fun setClickOnWelcomeYapItem() {

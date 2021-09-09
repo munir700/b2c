@@ -1,12 +1,15 @@
 package co.yap.modules.dashboard.home.helpers.transaction
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Handler
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import co.yap.R
+import co.yap.modules.dashboard.home.component.categorybar.CategorySegmentData
+import co.yap.modules.dashboard.home.component.categorybar.CustomCategoryBar
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.translation.Translator
 import co.yap.widgets.tooltipview.TooltipView
@@ -238,6 +241,8 @@ class TransactionsViewHelper(
                                         context,
                                         R.string.screen_fragment_yap_home_todays_balance
                                     )
+                                val progress = floatArrayOf(30f, 20f, 20f, 20f, 10f)
+                                updateData(transactionsView.lyInclude.customCategoryBar, progress)
                             }
                         }
                         SCROLL_STATE_DRAGGING -> {
@@ -250,6 +255,7 @@ class TransactionsViewHelper(
                 }
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    var issc = false
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
@@ -262,7 +268,16 @@ class TransactionsViewHelper(
                             context,
                             R.string.screen_fragment_yap_home_todays_balance
                         )
+                        val progress = floatArrayOf(30f, 20f, 20f, 20f, 10f)
+                        updateData(transactionsView.lyInclude.customCategoryBar, progress)
                     } else {
+                        if (!issc) {
+                            val progress = floatArrayOf(60f, 10f, 10f, 10f, 10f)
+                            updateData(transactionsView.lyInclude.customCategoryBar, progress)
+                            collapse(transactionsView.lyInclude.customCategoryBar)
+                            issc = true
+                        }
+
                         transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
                                 viewModel.transactionsLiveData.value!![position].originalDate.toString(),
                                 "yyyy-MM-dd",
@@ -337,4 +352,39 @@ class TransactionsViewHelper(
     fun onToolbarExpanded() {
         toolbarCollapsed = false
     }
+
+    private fun updateData(customCategoryBar: CustomCategoryBar, progress: FloatArray) {
+
+        val categorySegments: ArrayList<CategorySegmentData> =
+            ArrayList<CategorySegmentData>()
+        val colors = intArrayOf(
+            Color.RED,
+            Color.GREEN,
+            Color.BLUE,
+            Color.GRAY,
+            Color.MAGENTA
+        )
+        var stringUrl =
+            "https://s3-eu-west-1.amazonaws.com/s2-yap-documents-public/yap/yap_data/tapix_category_analytics_logos/Transporttransport42X42Copy2@3x.png"
+        for (i in 0..4) {
+            val progressSegment = CategorySegmentData(progress[i], stringUrl, colors[i])
+            categorySegments.add(progressSegment)
+        }
+        customCategoryBar.updateCategorySegment(categorySegments)
+
+
+    }
+
+    fun collapse(v: View) {
+        /*val anim = ValueAnimator.ofInt(viewToIncreaseHeight.getMeasuredHeight(), -100)
+        anim.addUpdateListener { valueAnimator ->
+            val `val` = valueAnimator.animatedValue as Int
+            val layoutParams: ViewGroup.LayoutParams = viewToIncreaseHeight.getLayoutParams()
+            layoutParams.height = `val`
+            viewToIncreaseHeight.setLayoutParams(layoutParams)
+        }
+        anim.duration = DURATION
+        anim.start()*/
+    }
+
 }

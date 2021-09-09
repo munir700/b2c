@@ -30,6 +30,7 @@ import co.yap.yapcore.leanplum.AnalyticsEvents
 import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -46,12 +47,15 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         trackEvent(AnalyticsEvents.ANALYTICS_OPEN.type)
-        viewModel.fetchCardCategoryAnalytics(
-            DateUtils.dateToString(
-                Calendar.getInstance().time,
-                "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
+        viewModel.parentViewModel?.state?.selectedDate?.let {
+            val date = SimpleDateFormat(DateUtils.FORMAT_COMPLETE_DATE).parse(it)
+            viewModel.fetchCardCategoryAnalytics(
+                DateUtils.dateToString(
+                    date, "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
+                )
             )
-        )
+            viewModel.currentDate = date
+        } ?: setCurrentMonthCall()
         setObservers()
     }
 
@@ -309,10 +313,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         }
     }
 
-    private fun getBindingView(): FragmentCardAnalyticsBinding {
-        return (viewDataBinding as FragmentCardAnalyticsBinding)
-    }
-
     override fun onNothingSelected() {
 
     }
@@ -453,5 +453,19 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         } catch (ex: Exception) {
 
         }
+    }
+
+    private fun setCurrentMonthCall() {
+        viewModel.fetchCardCategoryAnalytics(
+            DateUtils.dateToString(
+                Calendar.getInstance().time,
+                "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
+            )
+        )
+        viewModel.currentDate = Date()
+    }
+
+    private fun getBindingView(): FragmentCardAnalyticsBinding {
+        return (viewDataBinding as FragmentCardAnalyticsBinding)
     }
 }

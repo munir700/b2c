@@ -29,6 +29,7 @@ object DateUtils {
     const val FORMATE_MONTH_COMPLETE = "MMMM" // january
     const val FORMAT_MONTH_DAY = "MMMM d"
     const val FORMAT_SHORT_MONTH_DAY = "MMM d" //jan 1
+    const val FORMAT_COMPLETE_DATE = "EEE MMM dd HH:mm:ss Z yyyy" //Tue Sep 07 14:42:12 GMT+05:00 2021
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
