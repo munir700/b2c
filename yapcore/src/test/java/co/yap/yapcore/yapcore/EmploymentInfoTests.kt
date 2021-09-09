@@ -33,14 +33,14 @@ class EmploymentInfoTests : BaseTestCase() {
     @Test
     fun test_no_of_questions_if_employment_status_is_employed() {
         val expectedResult = getQuestionnaire().employed
-        val actualResult = sut.questionnaires(EmploymentStatus.EMPLOYED)
+        val actualResult = sut.questionnaires(EmploymentStatus.Salaried)
         Assert.assertEquals(actualResult.size, expectedResult.size)
     }
 
     @Test
     fun test_questions_sequence_if_employment_status_is_employed() {
         val expectedResult = getQuestionnaire().employed
-        val actualResult = sut.questionnaires(EmploymentStatus.EMPLOYED)
+        val actualResult = sut.questionnaires(EmploymentStatus.Salaried)
         expectedResult.forEachIndexed { index, question ->
             Assert.assertEquals(question, actualResult[index])
         }
