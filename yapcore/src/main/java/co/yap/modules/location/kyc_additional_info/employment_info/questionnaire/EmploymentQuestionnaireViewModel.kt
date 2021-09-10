@@ -61,7 +61,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun isDataRequiredFromApi(forStatus: EmploymentStatus) {
         when (forStatus) {
-            EmploymentStatus.Self_employed, EmploymentStatus.A -> getCountriesAndSegments()
+            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> getCountriesAndSegments()
             else -> {
             }
         }
@@ -307,7 +307,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         status: EmploymentStatus
     ): EmploymentInfoRequest {
         return when (status) {
-            EmploymentStatus.Salaried -> {
+            EmploymentStatus.EMPLOYED -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     employerName = getDataForPosition(0).getAnswer(),
@@ -315,25 +315,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     expectedMonthlyCredit = getDataForPosition(2).getAnswer()
                 )
             }
-            EmploymentStatus.Self_employed -> {
-                EmploymentInfoRequest(
-                    employmentStatus = status.name.replace("_", " "),
-                    companyName = getDataForPosition(0).getAnswer(),
-                    industrySegmentCodes = listOf(
-                        industrySegmentsList.first {
-                            it.segment == getDataForPosition(
-                                1
-                            ).getAnswer()
-                        }.segmentCode ?: ""
-                    ),
-                    businessCountries = parentViewModel?.countries?.filterSelectedIsoCodes(
-                        getDataForPosition(2).question.multipleAnswers.get() ?: arrayListOf()
-                    ),
-                    monthlySalary = getDataForPosition(3).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(4).getAnswer()
-                )
-            }
-            EmploymentStatus.A -> {
+            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED,EmploymentStatus.SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),

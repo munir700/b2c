@@ -39,22 +39,22 @@ class EmploymentStatusSelectionViewModel(application: Application) :
         val employmentStatuses = mutableListOf<EmploymentStatusSelectionModel>()
         employmentStatuses.add(
             EmploymentStatusSelectionModel(
-                EmploymentStatus.Salaried,
-                EmploymentStatus.Salaried.status,
+                EmploymentStatus.EMPLOYED,
+                EmploymentStatus.EMPLOYED.status,
                 false
             )
         )
         employmentStatuses.add(
             EmploymentStatusSelectionModel(
-                EmploymentStatus.Self_employed,
-                EmploymentStatus.Self_employed.status,
+                EmploymentStatus.SELF_EMPLOYED,
+                EmploymentStatus.SELF_EMPLOYED.status,
                 false
             )
         )
         employmentStatuses.add(
             EmploymentStatusSelectionModel(
-                EmploymentStatus.A,
-                EmploymentStatus.A.status,
+                EmploymentStatus.SALARIED_AND_SELF_EMPLOYED,
+                EmploymentStatus.SALARIED_AND_SELF_EMPLOYED.status,
                 false
             )
         )

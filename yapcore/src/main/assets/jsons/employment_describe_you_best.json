@@ -1,11 +1,11 @@
 [
   {
     "employmentType": "I am a homemaker",
-    "employmentTypeCode": "Housewife"
+    "employmentTypeCode": "HOUSEWIFE"
   },
   {
     "employmentType": "I am retired",
-    "employmentTypeCode": "Retired"
+    "employmentTypeCode": "RETIRED"
   },
   {
     "employmentType": "I am a pensioner",
