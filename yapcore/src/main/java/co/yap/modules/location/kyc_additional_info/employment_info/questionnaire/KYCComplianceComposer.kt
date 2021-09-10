@@ -16,7 +16,7 @@ interface ComplianceQuestionsItemsComposer {
 class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
     override fun compose(employmentStatus: EmploymentStatus): ArrayList<QuestionUiFields> {
         return when (employmentStatus) {
-            Salaried -> arrayListOf(
+            EMPLOYED -> arrayListOf(
                 QuestionUiFields(
                     question = Question(
                         questionTitle = "Tell us where you work?",
@@ -44,7 +44,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                 )
 
             )
-            A, Self_employed -> arrayListOf(
+            SALARIED_AND_SELF_EMPLOYED, SELF_EMPLOYED -> arrayListOf(
                 QuestionUiFields(
                     question = Question(
                         questionTitle = "Tell us the name of your company?",
