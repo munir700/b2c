@@ -26,7 +26,7 @@ data class KycResponse(
         val method: String,
         @SerializedName("mrz_type")
         val mrz_type: String,
-        @SerializedName("names")
+        @SerializedName("full_name")
         val names: String,
         @SerializedName("nationality")
         val nationality: String,
