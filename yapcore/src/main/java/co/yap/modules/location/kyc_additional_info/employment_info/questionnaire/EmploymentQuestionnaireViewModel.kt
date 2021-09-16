@@ -33,7 +33,6 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.lang.NumberFormatException
 
 class EmploymentQuestionnaireViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaire.State>(application),
@@ -316,7 +315,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     expectedMonthlyCredit = getDataForPosition(2).getAnswer()
                 )
             }
-            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
+            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED,EmploymentStatus.SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
