@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class CategoryBarResponse(
     @SerializedName("errors") val errors: String,
-    @SerializedName("data") val data: Data
+    @SerializedName("data") val categoryBarData: CategoryBarData
 ) : ApiResponse()

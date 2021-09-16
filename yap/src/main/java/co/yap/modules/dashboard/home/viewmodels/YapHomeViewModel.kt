@@ -350,7 +350,7 @@ class YapHomeViewModel(application: Application) :
         launch {
             when (val response = transactionsRepository.requestCategoryBarData()) {
                 is RetroApiResponse.Success -> {
-                    this.monthData = response.data.data.monthData
+                    this.monthData = response.data.categoryBarData.monthData
                 }
                 is RetroApiResponse.Error -> {
 
