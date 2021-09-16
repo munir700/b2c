@@ -7,6 +7,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
+import co.yap.networking.transactions.responsedtos.categorybar.CategoryBarResponse
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -85,6 +86,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_SEND_EMAIL =
         "/transactions/api/email-me"
     const val URL_TOTAL_TRANSACTION_PURCHASES_LIST = "/transactions/api/total-transaction-purchases"
+    const val URL_DASHBOARD_CATEGORY_BAR = "/transactions/api/transaction/dashboard/category-bar"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -362,5 +364,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.requestSendEmail(sendEmailRequestModel)
         })
 
+    override suspend fun requestCategoryBarData(): RetroApiResponse<CategoryBarResponse> =
+        executeSafely(call = {
+            api.getCategoryBarData()
+        })
 }
 

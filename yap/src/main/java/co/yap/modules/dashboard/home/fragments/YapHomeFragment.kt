@@ -81,6 +81,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
+import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -129,13 +131,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
-        getBindings().lyInclude.customCategoryBar.setSegmentClickedListener(object : ISegmentClicked {
-            override fun onClickSegment(pos: Int) {
-                launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS){
-                    putExtra("CurrentMonth", "Tue Jun 01 14:42:12 GMT+05:00 2021" )
-                }
-            }
-        })
+        categoryBarSetup()
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -1050,4 +1046,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
     }
+ private fun categoryBarSetup(){
+     getBindings().lyInclude.customCategoryBar.setSegmentClickedListener(object :
+         ISegmentClicked {
+         override fun onClickSegment(selectedDate: String) {
+             if(selectedDate!="")
+                 launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS) {
+                     putExtra("CurrentMonth", selectedDate)
+                 }            }
+     })
+     viewModel.requestCategoryBarData()
+ }
 }

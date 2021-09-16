@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
@@ -12,10 +11,12 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import co.yap.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import com.liveperson.infra.utils.picasso.Picasso
 
@@ -26,6 +27,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
     private var singleCategory = false
     private var linearArray = ArrayList<LinearLayout>(10)
     private val colorsArray = ArrayList<Int>()
+    private var selectedDate: String = ""
 
     init {
         init(attrs)
@@ -40,25 +42,39 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
             linearContainer?.let { linearContainerView ->
                 linearContainerView.gravity = Gravity.CENTER_VERTICAL
                 linearContainerView.orientation = HORIZONTAL
+                linearContainerView.background = context.getDrawable(R.drawable.category_background)
+                linearContainerView.clipToOutline = true
                 linearContainerView.weightSum = 100.0f
             }
         }
     }
 
-    fun setCategorySegmentFirstTime(categorySegmentDataList: ArrayList<CategorySegmentData>) {
+    private fun setCategorySegmentFirstTime(categorySegmentDataList: ArrayList<CategorySegmentData>) {
         singleCategory = categorySegmentDataList.size == 0
         linearContainer?.let { linearContainer ->
-            for (i in 0 until categorySegmentDataList.size) {
-                val linearLayout = createSegmentLayout(categorySegmentDataList[i])
+            //we will have default 10 layouts
+            var linearLayout: LinearLayout
+            for (i in 0 until 10) {
+                //if categorySegmentDataList is less than 10 then create remaining with 0 progress
+                linearLayout = if (i >= categorySegmentDataList.size) {
+                    createSegmentLayout(0f)
+                } else {
+                    createSegmentLayout(categorySegmentDataList[i].progress)
+                }
                 when (i) {
                     0 -> {
-                        setFirstSegment(i, categorySegmentDataList[i], linearLayout)
-                    }
-                    categorySegmentDataList.size - 1 -> {
-                        setLastSegment(i, linearLayout)
+                        if (categorySegmentDataList.isNotEmpty())
+                            setFirstSegment(i, categorySegmentDataList[i], linearLayout)
+                        else
+                        //we will create first segment with 0 in order to animate it
+                            setFirstSegment(
+                                0,
+                                CategorySegmentData(progress = 0f, icon = ""),
+                                linearLayout
+                            )
                     }
                     else -> {
-                        setCenterdSegments(i, linearLayout)
+                        setOtherSegments(i, linearLayout)
                     }
                 }
                 linearContainer.addView(linearLayout, i)
@@ -67,45 +83,56 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         this.addView(parentView)
     }
 
-    fun updateCategorySegment(categorySegmentDataList: ArrayList<CategorySegmentData>) {
-        singleCategory = categorySegmentDataList.size == 0
-        if (linearArray.size == 0) setCategorySegmentFirstTime(categorySegmentDataList)
-        else {
-            linearContainer?.let { linearContainer ->
-                /*val params = linearContainer.layoutParams
-                params.height = context.dimen(R.dimen._5sdp)
-                linearContainer.layoutParams =params*/
+    fun updateCategorySegment(
+        categorySegmentDataList: ArrayList<CategorySegmentData>,
+        mode: Int,
+        date: String
+    ) {
+        selectedDate = date
+        //allow max 10 categories
+        if (categorySegmentDataList.size <= 10) {
+            singleCategory = categorySegmentDataList.size == 0
+            if (linearArray.size == 0) {
+                setCategorySegmentFirstTime(categorySegmentDataList)
+            } else {
+                if (!singleCategory) {
+                    linearContainer?.let { linearContainer ->
+                        if (mode == Constants.COLLAPSE_MODE) {
+                            linearContainer.animate()
+                                .scaleY(0.5f)
+                                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 300
+                            linearContainer.background =
+                                context.getDrawable(R.drawable.category_background_collapse)
 
-                for (i in 0 until categorySegmentDataList.size) {
-                    when (i) {
-                        0 -> {
-                            val animationWrapper = ViewWeightAnimationWrapper(linearArray[i])
-                            val anim = ObjectAnimator.ofFloat(
-                                animationWrapper,
-                                "weight",
-                                animationWrapper.weight,
-                                categorySegmentDataList[i].progress
-                            )
-                            anim.duration = 500
-                            anim.start()
-
-                            val layout: LinearLayout = linearArray[i]
+                            val layout: LinearLayout = linearArray[0]
+                            var imageView: ImageView = layout.getChildAt(0) as ImageView
                             var textView: TextView = layout.getChildAt(1) as TextView
-                            textView.text = categorySegmentDataList[i].progress.toString()
+                            textView.visibility = View.GONE
+                            imageView.visibility = View.GONE
+                        } else {
+                            linearContainer.animate()
+                                .scaleY(1f)
+                                .setInterpolator(AccelerateDecelerateInterpolator()).duration = 300
+                            linearContainer.background =
+                                context.getDrawable(R.drawable.category_background)
+                            val layout: LinearLayout = linearArray[0]
+                            var imageView: ImageView = layout.getChildAt(0) as ImageView
+                            var textView: TextView = layout.getChildAt(1) as TextView
+                            textView.text = "${categorySegmentDataList[0].progress.toInt()}%"
+                            val urlString = categorySegmentDataList[0].icon
+                            val uiHandler = Handler(Looper.getMainLooper())
+                            uiHandler.post {
+                                Picasso.get().load(urlString).into(imageView)
+                            }
+                            textView.visibility = View.VISIBLE
+                            imageView.visibility = View.VISIBLE
+
                         }
-                        categorySegmentDataList.size - 1 -> {
-                            val animationWrapper = ViewWeightAnimationWrapper(linearArray[i])
-                            val anim = ObjectAnimator.ofFloat(
-                                animationWrapper,
-                                "weight",
-                                animationWrapper.weight,
-                                categorySegmentDataList[i].progress
-                            )
-                            anim.duration = 500
-                            anim.start()
-                        }
-                        else -> {
-                            val animationWrapper = ViewWeightAnimationWrapper(linearArray[i])
+
+
+                        for (i in 0 until categorySegmentDataList.size) {
+                            val animationWrapper =
+                                ViewWeightAnimationWrapper(linearArray[i])
                             val anim = ObjectAnimator.ofFloat(
                                 animationWrapper,
                                 "weight",
@@ -119,7 +146,6 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
                 }
             }
         }
-
     }
 
     fun setSegmentClickedListener(segmentClickedListener: ISegmentClicked?) {
@@ -128,9 +154,11 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_UP) {
-            segmentClickedListener!!.onClickSegment(
-                3
-            )
+            segmentClickedListener?.let {
+                segmentClickedListener!!.onClickSegment(
+                    selectedDate
+                )
+            }
         }
         return true
     }
@@ -138,13 +166,14 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
     /**
      * Create segment layout
      */
-    private fun createSegmentLayout(categorySegmentData: CategorySegmentData): LinearLayout {
+    private fun createSegmentLayout(progress: Float): LinearLayout {
         val linearLayout = LinearLayout(context)
         linearLayout.orientation = HORIZONTAL
         val params = LayoutParams(LayoutParams.WRAP_CONTENT, context.dimen(R.dimen._20sdp))
         params.gravity = Gravity.CENTER_VERTICAL
-        params.weight = categorySegmentData.progress
+        params.weight = progress
         linearLayout.layoutParams = params
+        linearLayout.clipToOutline = true
         return linearLayout
     }
 
@@ -156,16 +185,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         categorySegmentData: CategorySegmentData,
         linearLayout: LinearLayout
     ) {
-        //set shaped background to first segment
-        val shape = GradientDrawable()
-        shape.shape = GradientDrawable.RECTANGLE
-        if (singleCategory)
-            shape.cornerRadii = floatArrayOf(15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f)
-        else
-            shape.cornerRadii = floatArrayOf(15f, 15f, 0f, 0f, 0f, 0f, 15f, 15f)
-
-        shape.setColor(colorsArray[position % colorsArray.size])
-        linearLayout.background = shape
+        linearLayout.setBackgroundColor(colorsArray[position % colorsArray.size])
         //add image
         var imageView = ImageView(context)
         imageView.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
@@ -178,10 +198,13 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         layoutParams.marginStart = context.dimen(R.dimen._3sdp)
         imageView.layoutParams = layoutParams
         val urlString = categorySegmentData.icon
-        val uiHandler = Handler(Looper.getMainLooper())
-        uiHandler.post {
-            Picasso.get().load(urlString).into(imageView)
+        if (urlString != "") {
+            val uiHandler = Handler(Looper.getMainLooper())
+            uiHandler.post {
+                Picasso.get().load(urlString).into(imageView)
+            }
         }
+
         linearLayout.addView(imageView, 0)
         //add textview
         val textView = TextView(context)
@@ -190,28 +213,24 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         layoutParamsTextView.gravity = Gravity.CENTER
         layoutParamsTextView.marginStart = context.dimen(R.dimen._3sdp)
         textView.layoutParams = layoutParamsTextView
-        textView.text = categorySegmentData.progress.toString()
+        textView.text = "${categorySegmentData.progress.toInt()} %"
         textView.setTextAppearance(R.style.AMicroGrey)
         textView.setTextColor(Color.WHITE)
         textView.id = position
         linearLayout.addView(textView, 1)
+        if (categorySegmentData.progress == 0f) {
+            textView.visibility = View.GONE
+            imageView.visibility = View.GONE
+        } else {
+            textView.visibility = View.VISIBLE
+            imageView.visibility = View.VISIBLE
+
+        }
         linearArray.add(0, linearLayout)
 
     }
 
-    private fun setLastSegment(
-        position: Int,
-        linearLayout: LinearLayout
-    ) {
-        val shape = GradientDrawable()
-        shape.shape = GradientDrawable.RECTANGLE
-        shape.cornerRadii = floatArrayOf(0f, 0f, 15f, 15f, 15f, 15f, 0f, 0f)
-        shape.setColor(colorsArray[position % colorsArray.size])
-        linearLayout.background = shape
-        linearArray.add(position, linearLayout)
-    }
-
-    private fun setCenterdSegments(
+    private fun setOtherSegments(
         position: Int,
         linearLayout: LinearLayout
     ) {

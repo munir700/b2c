@@ -30,6 +30,7 @@ object DateUtils {
     const val FORMAT_MONTH_DAY = "MMMM d"
     const val FORMAT_SHORT_MONTH_DAY = "MMM d" //jan 1
     const val FORMAT_COMPLETE_DATE = "EEE MMM dd HH:mm:ss Z yyyy" //Tue Sep 07 14:42:12 GMT+05:00 2021
+    const val FORMAT_MONTH_YEAR_SHORT = "YYYY-MM"
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -468,5 +469,16 @@ object DateUtils {
                 else -> dateToString(dateTime, outFormatter, outTimeZone)
             }
         } ?: reformatDate(date, inputFormatter, outFormatter, inputTimeZone, outTimeZone)
+    }
+    fun getMonthWithYear(
+        currentDate: Date,
+        format: String = FORMAT_MONTH_YEAR_SHORT
+    ): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.MONTH))
+        calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+         return dateToString(calendar.time, format, false)
+
     }
 }

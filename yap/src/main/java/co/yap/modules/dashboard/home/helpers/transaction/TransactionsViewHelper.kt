@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.home.helpers.transaction
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Handler
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,13 +10,18 @@ import co.yap.R
 import co.yap.modules.dashboard.home.component.categorybar.CategorySegmentData
 import co.yap.modules.dashboard.home.component.categorybar.CustomCategoryBar
 import co.yap.modules.dashboard.home.interfaces.IYapHome
+import co.yap.networking.transactions.responsedtos.categorybar.Categories
+import co.yap.networking.transactions.responsedtos.categorybar.MonthData
 import co.yap.translation.Translator
 import co.yap.widgets.tooltipview.TooltipView
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.extentions.getAvailableBalanceWithFormat
 import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
+import java.text.SimpleDateFormat
+
 
 class TransactionsViewHelper(
     val context: Context, val transactionsView: View,
@@ -30,6 +34,9 @@ class TransactionsViewHelper(
     var barSelectedPosition: Int = 0
     private var toolbarCollapsed = false
     private var rvTransactionScrollListener: OnScrollListener? = null
+    private var visibleMonth: String? = null
+    private var currentMode: Int = 0
+    private var filteredList = listOf<Categories>()
 
     init {
         //setOnGraphBarClickListeners()
@@ -241,8 +248,31 @@ class TransactionsViewHelper(
                                         context,
                                         R.string.screen_fragment_yap_home_todays_balance
                                     )
-                                val progress = floatArrayOf(30f, 20f, 20f, 20f, 10f)
-                                updateData(transactionsView.lyInclude.customCategoryBar, progress)
+                                var filterd: List<MonthData>? =
+                                    viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
+                                filterd?.let {
+                                    if (filterd.isNotEmpty()) {
+                                        filteredList = filterd[0].categories
+                                        if (filteredList.isNotEmpty()) {
+                                            updateData(
+                                                transactionsView.lyInclude.customCategoryBar,
+                                                filteredList,
+                                                SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                    viewModel.transactionsLiveData.value!![0].originalDate
+                                                ).toString(),
+                                                Constants.EXPAND_MODE
+                                            )
+                                            transactionsView.lyInclude.customCategoryBar.visibility =
+                                                View.VISIBLE
+                                        } else {
+                                            goneWithZeoProgress()
+                                        }
+                                    } else {
+                                        goneWithZeoProgress()
+                                    }
+                                } ?: goneWithZeoProgress()
+
+                                currentMode = Constants.EXPAND_MODE
                             }
                         }
                         SCROLL_STATE_DRAGGING -> {
@@ -268,16 +298,101 @@ class TransactionsViewHelper(
                             context,
                             R.string.screen_fragment_yap_home_todays_balance
                         )
-                        val progress = floatArrayOf(30f, 20f, 20f, 20f, 10f)
-                        updateData(transactionsView.lyInclude.customCategoryBar, progress)
-                    } else {
-                        if (!issc) {
-                            val progress = floatArrayOf(60f, 10f, 10f, 10f, 10f)
-                            updateData(transactionsView.lyInclude.customCategoryBar, progress)
-                            collapse(transactionsView.lyInclude.customCategoryBar)
-                            issc = true
-                        }
+                        visibleMonth =
+                            viewModel.transactionsLiveData.value!![position].monthYear.toString()
 
+                        var filterd: List<MonthData>? =
+                            viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
+                        filterd?.let {
+                            if (filterd.isNotEmpty()) {
+                                filteredList =
+                                    filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+                                if (filteredList.isNotEmpty()) {
+                                    updateData(
+                                        transactionsView.lyInclude.customCategoryBar,
+                                        filteredList,
+                                        SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                            viewModel.transactionsLiveData.value!![position].originalDate
+                                        ).toString(),
+                                        Constants.DEFAULT_MODE
+                                    )
+                                    transactionsView.lyInclude.customCategoryBar.visibility =
+                                        View.VISIBLE
+                                } else {
+                                    goneWithZeoProgress()
+                                }
+                            } else {
+                                goneWithZeoProgress()
+                            }
+                        } ?: goneWithZeoProgress()
+                        currentMode = Constants.DEFAULT_MODE
+                    } else {
+                        //new month
+                        if (viewModel.transactionsLiveData.value!![position].monthYear.toString() != visibleMonth) {
+
+                            var filterd: List<MonthData>? =
+                                viewModel.monthData?.filter { monthData -> monthData.date == viewModel.transactionsLiveData.value!![position].monthYear.toString() }
+                            filterd?.let {
+                                if (filterd.isNotEmpty()) {
+                                    filteredList =
+                                        filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+
+                                    if (filteredList.isNotEmpty()) {
+                                        updateData(
+                                            transactionsView.lyInclude.customCategoryBar,
+                                            filteredList,
+                                            SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                viewModel.transactionsLiveData.value!![position].originalDate
+                                            ).toString(),
+                                            Constants.COLLAPSE_MODE
+                                        )
+                                        transactionsView.lyInclude.customCategoryBar.visibility =
+                                            View.VISIBLE
+                                        currentMode = Constants.COLLAPSE_MODE
+
+                                    } else {
+                                        goneWithZeoProgress()
+                                    }
+                                } else {
+                                    goneWithZeoProgress()
+                                }
+
+                            } ?: goneWithZeoProgress()
+
+                            visibleMonth =
+                                viewModel.transactionsLiveData.value!![position].monthYear.toString()
+                        } else if (currentMode != Constants.COLLAPSE_MODE && viewModel.transactionsLiveData.value!![position].monthYear.toString() == visibleMonth) {
+                            //only collapse
+                            var filterd: List<MonthData>? =
+                                viewModel.monthData?.filter { monthData -> monthData.date == viewModel.transactionsLiveData.value!![position].monthYear.toString() }
+                            filterd?.let {
+                                if (filterd.isNotEmpty()) {
+                                    filteredList =
+                                        filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+
+                                    if (filteredList.isNotEmpty()) {
+                                        updateData(
+                                            transactionsView.lyInclude.customCategoryBar,
+                                            filteredList,
+                                            SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                viewModel.transactionsLiveData.value!![position].originalDate
+                                            ).toString(),
+                                            Constants.COLLAPSE_MODE
+                                        )
+                                        transactionsView.lyInclude.customCategoryBar.visibility =
+                                            View.VISIBLE
+                                    } else {
+                                        goneWithZeoProgress()
+                                    }
+                                } else {
+                                    goneWithZeoProgress()
+                                }
+
+                            } ?: goneWithZeoProgress()
+
+                            currentMode = Constants.COLLAPSE_MODE
+
+                        }
                         transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
                                 viewModel.transactionsLiveData.value!![position].originalDate.toString(),
                                 "yyyy-MM-dd",
@@ -353,38 +468,43 @@ class TransactionsViewHelper(
         toolbarCollapsed = false
     }
 
-    private fun updateData(customCategoryBar: CustomCategoryBar, progress: FloatArray) {
+    private fun updateData(
+        customCategoryBar: CustomCategoryBar, progress: List<Categories>, date: String,
+        mode: Int
+    ) {
 
         val categorySegments: ArrayList<CategorySegmentData> =
             ArrayList<CategorySegmentData>()
-        val colors = intArrayOf(
-            Color.RED,
-            Color.GREEN,
-            Color.BLUE,
-            Color.GRAY,
-            Color.MAGENTA
-        )
-        var stringUrl =
-            "https://s3-eu-west-1.amazonaws.com/s2-yap-documents-public/yap/yap_data/tapix_category_analytics_logos/Transporttransport42X42Copy2@3x.png"
-        for (i in 0..4) {
-            val progressSegment = CategorySegmentData(progress[i], stringUrl, colors[i])
+
+
+        for (i in progress.indices) {
+            val progressSegment =
+                CategorySegmentData(progress[i].categoryWisePercentage, progress[i].logoUrl)
             categorySegments.add(progressSegment)
         }
-        customCategoryBar.updateCategorySegment(categorySegments)
+        customCategoryBar.updateCategorySegment(categorySegments, mode, date)
 
 
     }
 
-    fun collapse(v: View) {
-        /*val anim = ValueAnimator.ofInt(viewToIncreaseHeight.getMeasuredHeight(), -100)
-        anim.addUpdateListener { valueAnimator ->
-            val `val` = valueAnimator.animatedValue as Int
-            val layoutParams: ViewGroup.LayoutParams = viewToIncreaseHeight.getLayoutParams()
-            layoutParams.height = `val`
-            viewToIncreaseHeight.setLayoutParams(layoutParams)
+    fun goneWithZeoProgress() {
+        var size = 0
+
+        size = if (filteredList.isNotEmpty())
+            filteredList.size
+        else 9
+        var filteredListWithZeroProgress = ArrayList<Categories>(size)
+        for (i in 0..size) {
+            filteredListWithZeroProgress.add(
+                i,
+                Categories(categoryWisePercentage = 0f, logoUrl = "")
+            )
+            filteredListWithZeroProgress[i].categoryWisePercentage = 0f
         }
-        anim.duration = DURATION
-        anim.start()*/
+        updateData(
+            transactionsView.lyInclude.customCategoryBar,
+            filteredListWithZeroProgress, "",
+            Constants.COLLAPSE_MODE
+        )
     }
-
 }

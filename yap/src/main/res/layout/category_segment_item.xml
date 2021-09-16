@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/containerLinear"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_40sdp"
-    android:layout_margin="@dimen/_10sdp"
+    android:layout_height="@dimen/_20sdp"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="horizontal" />
