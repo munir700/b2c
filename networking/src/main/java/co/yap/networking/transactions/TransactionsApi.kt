@@ -4,10 +4,14 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.categorybar.CategoryBarResponse
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
-import co.yap.networking.transactions.responsedtos.transaction.*
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionCategoryResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
 
@@ -113,5 +117,7 @@ interface TransactionsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getTotalPurchasesList(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesTransactionResponse>
+
+    suspend fun requestCategoryBarData(): RetroApiResponse<CategoryBarResponse>
 
 }

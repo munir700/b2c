@@ -212,4 +212,9 @@ object Constants {
     const val FEEDBACK_TITLE = "FEEDBACK_TITLE"
     const val TRANSACTION_COUNT = "TRANSACTION_COUNT"
     const val TOTAL_TRANSACTION = "TOTAL_TRANSACTION"
+
+    //category bar status
+    const val EXPAND_MODE = 0
+    const val COLLAPSE_MODE = 1
+    const val DEFAULT_MODE = 2
 }

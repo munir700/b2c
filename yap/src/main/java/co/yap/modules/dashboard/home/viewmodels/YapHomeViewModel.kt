@@ -1,13 +1,8 @@
 package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
-import android.graphics.Color
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
-import co.yap.modules.dashboard.home.component.categorybar.CategorySegmentData
-import co.yap.modules.dashboard.home.component.categorybar.CustomCategoryBar
-import co.yap.modules.dashboard.home.component.categorybar.ISegmentClicked
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
@@ -17,6 +12,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.categorybar.MonthData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -26,11 +22,13 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.PaymentCardStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import java.text.SimpleDateFormat
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -45,8 +43,9 @@ class YapHomeViewModel(application: Application) :
     override var isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
-    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     override var MAX_CLOSING_BALANCE: Double = 0.0
+    override var monthData: List<MonthData>? = ArrayList()
+    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
     init {
@@ -213,7 +212,12 @@ class YapHomeViewModel(application: Application) :
                 response.data.data.sort,
                 response.data.data.totalElements,
                 response.data.data.totalPages,
-                contentsList[0].creationDate.toString()
+                contentsList[0].creationDate.toString(),
+                monthYear = DateUtils.getMonthWithYear(
+                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                        contentsList[0].creationDate.toString()
+                    )
+                )
             )
             transactionModelData.add(transactionModel)
             MAX_CLOSING_BALANCE =
@@ -342,28 +346,16 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
-    override fun setCategoryBar(customCategoryBar: CustomCategoryBar) {
-        val categorySegments: ArrayList<CategorySegmentData> =
-            ArrayList<CategorySegmentData>()
-        val colors = intArrayOf(
-            Color.RED,
-            Color.GREEN,
-            Color.BLUE,
-            Color.GRAY,
-            Color.MAGENTA
-        )
-        var stringUrl =
-            "https://s3-eu-west-1.amazonaws.com/s2-yap-documents-public/yap/yap_data/tapix_category_analytics_logos/Transporttransport42X42Copy2@3x.png"
-        val progress = floatArrayOf(40f, 20f, 20f, 10f, 10f)
-        for (i in 0..4) {
-            val progressSegment = CategorySegmentData(progress[i], stringUrl, colors[i])
-            categorySegments.add(progressSegment)
-        }
-        customCategoryBar.setCategoryPercent(categorySegments)
-        customCategoryBar.setSegmentClickedListener(object : ISegmentClicked {
-            override fun onClickSegment(pos: Int) {
-                Toast.makeText(context, "seg: $pos", Toast.LENGTH_SHORT).show()
+    override fun requestCategoryBarData() {
+        launch {
+            when (val response = transactionsRepository.requestCategoryBarData()) {
+                is RetroApiResponse.Success -> {
+                    this.monthData = response.data.categoryBarData.monthData
+                }
+                is RetroApiResponse.Error -> {
+
+                }
             }
-        })
+        }
     }
 }

@@ -31,7 +31,7 @@ class CardAnalyticsViewModel(application: Application) :
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    private var currentDate: Date? = Date()
+    override var currentDate: Date? = null
     private var listOfMonths: List<Date> = arrayListOf()
 
     override var type: ObservableField<String> = ObservableField("merchant-category-id")
@@ -50,6 +50,7 @@ class CardAnalyticsViewModel(application: Application) :
         )
         setSelectedDate(currentDate)
         state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
+        state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
     }
 
     override fun handlePressOnView(id: Int) {
