@@ -16,6 +16,7 @@ import androidx.databinding.Observable.OnPropertyChangedCallback
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import co.yap.translation.Strings
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -39,6 +40,7 @@ import com.digitify.identityscanner.docscanner.interfaces.Cropper
 import com.digitify.identityscanner.docscanner.interfaces.ICamera
 import com.digitify.identityscanner.docscanner.viewmodels.CameraViewModel
 import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewModel
+import com.digitify.identityscanner.utils.GlareDetector
 import com.digitify.identityscanner.utils.ImageUtils
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
@@ -48,6 +50,8 @@ import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import com.google.mlkit.vision.text.TextRecognition
 import id.zelory.compressor.overWrite
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 
@@ -307,7 +311,12 @@ class YapCameraFragment : BaseFragment(),
                     objectDetector.process(image)
                         .addOnSuccessListener { detectedObjects ->
                             if (detectedObjects.isEmpty()) {
-                                showErrorInUI("Please readjust your card and scan again")
+                                showErrorInUI(
+                                    getString(
+                                        requireContext(),
+                                        Strings.identity_scanner_sdk_screen_scanner_object_detection_error
+                                    )
+                                )
                             } else {
                                 var croppedBmp: Bitmap? = null
                                 for (detectedObject: DetectedObject in detectedObjects) {
@@ -321,21 +330,55 @@ class YapCameraFragment : BaseFragment(),
                                         boundingBox.height()
                                     )
                                     trackEventWithScreenName(if (viewModel?.scanMode == DocumentPageType.FRONT) FirebaseEvent.CLICK_SCAN_FRONT else FirebaseEvent.CLICK_SCAN_BACK)
-                                    if (parentViewModel?.state?.scanMode != DocumentPageType.BACK) {
-                                        detectFace(croppedBmp) { found ->
-                                            if (found) {
-                                                reWriteImage(filename, croppedBmp)
-                                            } else {
-                                                showErrorInUI("Please rescan the card, No Face detected")
-                                            }
+                                    lifecycleScope.launch(Dispatchers.Default) {
+                                        var imageForGlareDetection = croppedBmp
+                                        if (!isCardFrontSide()) {
+                                            // Further cropping bitmap to detect glare on MRZ area
+                                            imageForGlareDetection = Bitmap.createBitmap(
+                                                croppedBmp,
+                                                0,
+                                                (croppedBmp.height / 2),
+                                                croppedBmp.width,
+                                                croppedBmp.height / 2
+                                            )
                                         }
-                                    } else {
-                                        image = InputImage.fromBitmap(croppedBmp, 0)
-                                        extractText(image) { success ->
-                                            if (success) {
-                                                reWriteImage(filename, croppedBmp)
+                                        GlareDetector().detectGlare(imageForGlareDetection) { glareDetected ->
+                                            if (glareDetected) {
+                                                showErrorInUI(
+                                                    getString(
+                                                        requireContext(),
+                                                        Strings.identity_scanner_sdk_screen_scanner_glare_error
+                                                    )
+                                                )
                                             } else {
-                                                showErrorInUI("Please rescan the card, it's not card back side")
+                                                if (isCardFrontSide()) {
+                                                    detectFace(croppedBmp) { faceFound ->
+                                                        if (faceFound) {
+                                                            reWriteImage(filename, croppedBmp)
+                                                        } else {
+                                                            showErrorInUI(
+                                                                getString(
+                                                                    requireContext(),
+                                                                    Strings.identity_scanner_sdk_screen_scanner_face_detection_error
+                                                                )
+                                                            )
+                                                        }
+                                                    }
+                                                } else {
+                                                    image = InputImage.fromBitmap(croppedBmp, 0)
+                                                    extractText(image) { success ->
+                                                        if (success) {
+                                                            reWriteImage(filename, croppedBmp)
+                                                        } else {
+                                                            showErrorInUI(
+                                                                getString(
+                                                                    requireContext(),
+                                                                    Strings.identity_scanner_sdk_screen_scanner_mrz_error
+                                                                )
+                                                            )
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -344,7 +387,12 @@ class YapCameraFragment : BaseFragment(),
                         }
                         .addOnFailureListener { e ->
                             e.printStackTrace()
-                            showErrorInUI("Please rescan the card")
+                            showErrorInUI(
+                                getString(
+                                    requireContext(),
+                                    Strings.identity_scanner_sdk_screen_scanner_object_detection_error
+                                )
+                            )
                         }
 
                 } catch (e: IOException) {
@@ -358,6 +406,8 @@ class YapCameraFragment : BaseFragment(),
 
     }
 
+    private fun isCardFrontSide() = parentViewModel?.state?.scanMode == DocumentPageType.FRONT
+    
     private fun detectFace(bitmap: Bitmap, callback: (Boolean) -> Unit) {
         val image = InputImage.fromBitmap(bitmap, 0)
         val options = FaceDetectorOptions.Builder()

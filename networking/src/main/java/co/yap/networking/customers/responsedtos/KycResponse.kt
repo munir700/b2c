@@ -30,9 +30,9 @@ data class KycResponse(
         val names: String,
         @SerializedName("nationality")
         val nationality: String,
-        @SerializedName("number")
+        @SerializedName("card_number")
         val number: String,
-        @SerializedName("optional1")
+        @SerializedName("id_number")
         val optional1: String,
         @SerializedName("optional2")
         val optional2: String,
