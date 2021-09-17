@@ -252,13 +252,13 @@ class TransactionsViewHelper(
                                     viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
                                 filterd?.let {
                                     if (filterd.isNotEmpty()) {
-                                        filteredList = filterd[0].categories
+                                        filteredList = filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
                                         if (filteredList.isNotEmpty()) {
                                             updateData(
                                                 transactionsView.lyInclude.customCategoryBar,
                                                 filteredList,
                                                 SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                    viewModel.transactionsLiveData.value!![0].originalDate
+                                                    viewModel.transactionsLiveData.value?.get(0)?.originalDate
                                                 ).toString(),
                                                 Constants.EXPAND_MODE
                                             )
@@ -290,7 +290,7 @@ class TransactionsViewHelper(
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
                     transactionsView.layoutBalance.tvAvailableBalance.text =
-                        viewModel.transactionsLiveData.value!![position].closingBalance.toString()
+                        viewModel.transactionsLiveData.value?.get(position)?.closingBalance.toString()
                             .getAvailableBalanceWithFormat()
 
                     if (!checkScroll) {
@@ -299,7 +299,7 @@ class TransactionsViewHelper(
                             R.string.screen_fragment_yap_home_todays_balance
                         )
                         visibleMonth =
-                            viewModel.transactionsLiveData.value!![position].monthYear.toString()
+                            viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
 
                         var filterd: List<MonthData>? =
                             viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
@@ -312,7 +312,7 @@ class TransactionsViewHelper(
                                         transactionsView.lyInclude.customCategoryBar,
                                         filteredList,
                                         SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                            viewModel.transactionsLiveData.value!![position].originalDate
+                                            viewModel.transactionsLiveData.value?.get(position)?.originalDate
                                         ).toString(),
                                         Constants.DEFAULT_MODE
                                     )
@@ -328,10 +328,10 @@ class TransactionsViewHelper(
                         currentMode = Constants.DEFAULT_MODE
                     } else {
                         //new month
-                        if (viewModel.transactionsLiveData.value!![position].monthYear.toString() != visibleMonth) {
+                        if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() != visibleMonth) {
 
                             var filterd: List<MonthData>? =
-                                viewModel.monthData?.filter { monthData -> monthData.date == viewModel.transactionsLiveData.value!![position].monthYear.toString() }
+                                viewModel.monthData?.filter { monthData -> monthData.date == viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() }
                             filterd?.let {
                                 if (filterd.isNotEmpty()) {
                                     filteredList =
@@ -342,7 +342,7 @@ class TransactionsViewHelper(
                                             transactionsView.lyInclude.customCategoryBar,
                                             filteredList,
                                             SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                viewModel.transactionsLiveData.value!![position].originalDate
+                                                viewModel.transactionsLiveData.value?.get(position)?.originalDate
                                             ).toString(),
                                             Constants.COLLAPSE_MODE
                                         )
@@ -360,11 +360,11 @@ class TransactionsViewHelper(
                             } ?: goneWithZeoProgress()
 
                             visibleMonth =
-                                viewModel.transactionsLiveData.value!![position].monthYear.toString()
-                        } else if (currentMode != Constants.COLLAPSE_MODE && viewModel.transactionsLiveData.value!![position].monthYear.toString() == visibleMonth) {
+                                viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
+                        } else if (currentMode != Constants.COLLAPSE_MODE && viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() == visibleMonth) {
                             //only collapse
                             var filterd: List<MonthData>? =
-                                viewModel.monthData?.filter { monthData -> monthData.date == viewModel.transactionsLiveData.value!![position].monthYear.toString() }
+                                viewModel.monthData?.filter { monthData -> monthData.date == viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() }
                             filterd?.let {
                                 if (filterd.isNotEmpty()) {
                                     filteredList =
@@ -375,7 +375,7 @@ class TransactionsViewHelper(
                                             transactionsView.lyInclude.customCategoryBar,
                                             filteredList,
                                             SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                viewModel.transactionsLiveData.value!![position].originalDate
+                                                viewModel.transactionsLiveData.value?.get(position)?.originalDate
                                             ).toString(),
                                             Constants.COLLAPSE_MODE
                                         )
@@ -394,7 +394,7 @@ class TransactionsViewHelper(
 
                         }
                         transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
-                                viewModel.transactionsLiveData.value!![position].originalDate.toString(),
+                                viewModel.transactionsLiveData.value?.get(position)?.originalDate.toString(),
                                 "yyyy-MM-dd",
                                 TIME_ZONE_Default
                             )
@@ -405,7 +405,7 @@ class TransactionsViewHelper(
                             context,
                             R.string.screen_fragment_yap_home_balance_on_date,
                             DateUtils.reformatStringDate(
-                                viewModel.transactionsLiveData.value!![position].originalDate ?: "",
+                                viewModel.transactionsLiveData.value?.get(position)?.originalDate ?: "",
                                 "yyyy-MM-dd",
                                 DateUtils.FORMAT_MONTH_DAY
                             )

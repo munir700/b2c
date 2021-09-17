@@ -57,9 +57,9 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
             for (i in 0 until 10) {
                 //if categorySegmentDataList is less than 10 then create remaining with 0 progress
                 linearLayout = if (i >= categorySegmentDataList.size) {
-                    createSegmentLayout(0f)
+                    createSegmentLayout(0f, i)
                 } else {
-                    createSegmentLayout(categorySegmentDataList[i].progress)
+                    createSegmentLayout(categorySegmentDataList[i].progress, i)
                 }
                 when (i) {
                     0 -> {
@@ -126,9 +126,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
                             }
                             textView.visibility = View.VISIBLE
                             imageView.visibility = View.VISIBLE
-
                         }
-
 
                         for (i in 0 until categorySegmentDataList.size) {
                             val animationWrapper =
@@ -154,11 +152,9 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_UP) {
-            segmentClickedListener?.let {
-                segmentClickedListener!!.onClickSegment(
-                    selectedDate
-                )
-            }
+            segmentClickedListener?.onClickSegment(
+                selectedDate
+            )
         }
         return true
     }
@@ -166,7 +162,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
     /**
      * Create segment layout
      */
-    private fun createSegmentLayout(progress: Float): LinearLayout {
+    private fun createSegmentLayout(progress: Float, position: Int): LinearLayout {
         val linearLayout = LinearLayout(context)
         linearLayout.orientation = HORIZONTAL
         val params = LayoutParams(LayoutParams.WRAP_CONTENT, context.dimen(R.dimen._20sdp))
@@ -204,7 +200,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
                 Picasso.get().load(urlString).into(imageView)
             }
         }
-
+        imageView.clipToOutline = true
         linearLayout.addView(imageView, 0)
         //add textview
         val textView = TextView(context)
@@ -217,6 +213,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         textView.setTextAppearance(R.style.AMicroGrey)
         textView.setTextColor(Color.WHITE)
         textView.id = position
+        textView.clipToOutline = true
         linearLayout.addView(textView, 1)
         if (categorySegmentData.progress == 0f) {
             textView.visibility = View.GONE
