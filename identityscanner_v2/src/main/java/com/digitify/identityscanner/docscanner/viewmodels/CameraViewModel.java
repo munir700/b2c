@@ -85,7 +85,7 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
         getState().setInstructions(inst);
         WorkerHandler.get("instruction_handler").get().postDelayed(() -> {
             getState().setInstructions("");
-        }, 3000);
+        }, 5000);
     }
 
     public DocumentType getDocumentType() {

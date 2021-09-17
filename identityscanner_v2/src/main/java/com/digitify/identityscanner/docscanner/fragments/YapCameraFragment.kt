@@ -16,6 +16,7 @@ import androidx.databinding.Observable.OnPropertyChangedCallback
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import co.yap.translation.Strings
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -39,13 +40,18 @@ import com.digitify.identityscanner.docscanner.interfaces.Cropper
 import com.digitify.identityscanner.docscanner.interfaces.ICamera
 import com.digitify.identityscanner.docscanner.viewmodels.CameraViewModel
 import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewModel
+import com.digitify.identityscanner.utils.GlareDetector
 import com.digitify.identityscanner.utils.ImageUtils
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import com.google.mlkit.vision.text.TextRecognition
 import id.zelory.compressor.overWrite
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 
@@ -95,7 +101,7 @@ class YapCameraFragment : BaseFragment(),
             }
         }
         binding.camera.visibility = View.INVISIBLE
-        binding.cardOverlay.isDrawn.observe(this, Observer {
+        binding.cardOverlay.isDrawn.observe(viewLifecycleOwner, Observer {
             if (it) {
 //                binding.camera.layoutParams.width = binding.cardOverlay.width
 //                binding.camera.layoutParams.height = binding.cardOverlay.cardHeight+((binding.cardOverlay.cardHeight/10)*2)
@@ -305,8 +311,12 @@ class YapCameraFragment : BaseFragment(),
                     objectDetector.process(image)
                         .addOnSuccessListener { detectedObjects ->
                             if (detectedObjects.isEmpty()) {
-                                progress?.hide()
-                                setInstructions("Please readjust your card and scan again")
+                                showErrorInUI(
+                                    getString(
+                                        requireContext(),
+                                        Strings.identity_scanner_sdk_screen_scanner_object_detection_error
+                                    )
+                                )
                             } else {
                                 var croppedBmp: Bitmap? = null
                                 for (detectedObject: DetectedObject in detectedObjects) {
@@ -320,18 +330,55 @@ class YapCameraFragment : BaseFragment(),
                                         boundingBox.height()
                                     )
                                     trackEventWithScreenName(if (viewModel?.scanMode == DocumentPageType.FRONT) FirebaseEvent.CLICK_SCAN_FRONT else FirebaseEvent.CLICK_SCAN_BACK)
-                                    if (parentViewModel?.state?.scanMode != DocumentPageType.BACK) {
-                                        reWriteImage(filename, croppedBmp)
-                                    } else {
-                                        image = InputImage.fromBitmap(croppedBmp, 0)
-                                        extractText(image) { success ->
-                                            if (success) {
-                                                reWriteImage(filename, croppedBmp)
+                                    lifecycleScope.launch(Dispatchers.Default) {
+                                        var imageForGlareDetection = croppedBmp
+                                        if (!isCardFrontSide()) {
+                                            // Further cropping bitmap to detect glare on MRZ area
+                                            imageForGlareDetection = Bitmap.createBitmap(
+                                                croppedBmp,
+                                                0,
+                                                (croppedBmp.height / 2),
+                                                croppedBmp.width,
+                                                croppedBmp.height / 2
+                                            )
+                                        }
+                                        GlareDetector().detectGlare(imageForGlareDetection) { glareDetected ->
+                                            if (glareDetected) {
+                                                showErrorInUI(
+                                                    getString(
+                                                        requireContext(),
+                                                        Strings.identity_scanner_sdk_screen_scanner_glare_error
+                                                    )
+                                                )
                                             } else {
-                                                activity?.runOnUiThread(Runnable {
-                                                    progress?.hide()
-                                                    setInstructions("Please rescan the card, it's not card back side")
-                                                })
+                                                if (isCardFrontSide()) {
+                                                    detectFace(croppedBmp) { faceFound ->
+                                                        if (faceFound) {
+                                                            reWriteImage(filename, croppedBmp)
+                                                        } else {
+                                                            showErrorInUI(
+                                                                getString(
+                                                                    requireContext(),
+                                                                    Strings.identity_scanner_sdk_screen_scanner_face_detection_error
+                                                                )
+                                                            )
+                                                        }
+                                                    }
+                                                } else {
+                                                    image = InputImage.fromBitmap(croppedBmp, 0)
+                                                    extractText(image) { success ->
+                                                        if (success) {
+                                                            reWriteImage(filename, croppedBmp)
+                                                        } else {
+                                                            showErrorInUI(
+                                                                getString(
+                                                                    requireContext(),
+                                                                    Strings.identity_scanner_sdk_screen_scanner_mrz_error
+                                                                )
+                                                            )
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -340,23 +387,61 @@ class YapCameraFragment : BaseFragment(),
                         }
                         .addOnFailureListener { e ->
                             e.printStackTrace()
-                            activity?.runOnUiThread(Runnable {
-                                progress?.hide()
-                                setInstructions("Please rescan the card")
-                            })
+                            showErrorInUI(
+                                getString(
+                                    requireContext(),
+                                    Strings.identity_scanner_sdk_screen_scanner_object_detection_error
+                                )
+                            )
                         }
 
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    activity?.runOnUiThread(Runnable {
-                        progress?.hide()
-                    })
+                    hideProgressBar()
                 }
 
             }
         }
         Thread(runnable).start()
 
+    }
+
+    private fun isCardFrontSide() = parentViewModel?.state?.scanMode == DocumentPageType.FRONT
+
+    private fun detectFace(bitmap: Bitmap, callback: (Boolean) -> Unit) {
+        val image = InputImage.fromBitmap(bitmap, 0)
+        val options = FaceDetectorOptions.Builder()
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+            .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
+            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+            .setMinFaceSize(0.15f)
+            .enableTracking()
+            .build()
+        val detector = FaceDetection.getClient(options)
+        detector.process(image)
+            .addOnSuccessListener { faces ->
+                if (faces.isNotEmpty()) {
+                    callback.invoke(true)
+                } else {
+                    callback.invoke(false)
+                }
+            }
+            .addOnFailureListener { e ->
+                callback.invoke(false)
+            }
+    }
+
+    private fun showErrorInUI(message: String) {
+        activity?.runOnUiThread {
+            progress?.hide()
+            setInstructions(message)
+        }
+    }
+
+    private fun hideProgressBar() {
+        activity?.runOnUiThread {
+            progress?.hide()
+        }
     }
 
     private fun reWriteImage(filename: String, croppedBmp: Bitmap) {
