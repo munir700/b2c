@@ -260,7 +260,8 @@ class TransactionsViewHelper(
                                                 SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                                                     viewModel.transactionsLiveData.value?.get(0)?.originalDate
                                                 ).toString(),
-                                                Constants.EXPAND_MODE
+                                                Constants.EXPAND_MODE,
+                                                true
                                             )
                                             transactionsView.lyInclude.customCategoryBar.visibility =
                                                 View.VISIBLE
@@ -314,7 +315,8 @@ class TransactionsViewHelper(
                                         SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                                             viewModel.transactionsLiveData.value?.get(position)?.originalDate
                                         ).toString(),
-                                        Constants.DEFAULT_MODE
+                                        Constants.DEFAULT_MODE,
+                                        true
                                     )
                                     transactionsView.lyInclude.customCategoryBar.visibility =
                                         View.VISIBLE
@@ -344,7 +346,8 @@ class TransactionsViewHelper(
                                             SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                                                 viewModel.transactionsLiveData.value?.get(position)?.originalDate
                                             ).toString(),
-                                            Constants.COLLAPSE_MODE
+                                            Constants.COLLAPSE_MODE,
+                                            true
                                         )
                                         transactionsView.lyInclude.customCategoryBar.visibility =
                                             View.VISIBLE
@@ -377,7 +380,8 @@ class TransactionsViewHelper(
                                             SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                                                 viewModel.transactionsLiveData.value?.get(position)?.originalDate
                                             ).toString(),
-                                            Constants.COLLAPSE_MODE
+                                            Constants.COLLAPSE_MODE,
+                                            false
                                         )
                                         transactionsView.lyInclude.customCategoryBar.visibility =
                                             View.VISIBLE
@@ -470,7 +474,8 @@ class TransactionsViewHelper(
 
     private fun updateData(
         customCategoryBar: CustomCategoryBar, progress: List<Categories>, date: String,
-        mode: Int
+        mode: Int,
+        isZero: Boolean
     ) {
 
         val categorySegments: ArrayList<CategorySegmentData> =
@@ -482,17 +487,13 @@ class TransactionsViewHelper(
                 CategorySegmentData(progress[i].categoryWisePercentage, progress[i].logoUrl)
             categorySegments.add(progressSegment)
         }
-        customCategoryBar.updateCategorySegment(categorySegments, mode, date)
+        customCategoryBar.updateCategorySegment(categorySegments, mode, date,isZero, transactionsView.lyInclude.customCategoryBar)
 
 
     }
 
     fun goneWithZeoProgress() {
-        var size = 0
-
-        size = if (filteredList.isNotEmpty())
-            filteredList.size
-        else 9
+        var size = 9
         var filteredListWithZeroProgress = ArrayList<Categories>(size)
         for (i in 0..size) {
             filteredListWithZeroProgress.add(
@@ -504,7 +505,7 @@ class TransactionsViewHelper(
         updateData(
             transactionsView.lyInclude.customCategoryBar,
             filteredListWithZeroProgress, "",
-            Constants.COLLAPSE_MODE
+            Constants.COLLAPSE_MODE,true
         )
-    }
+     }
 }

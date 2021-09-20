@@ -86,7 +86,9 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
     fun updateCategorySegment(
         categorySegmentDataList: ArrayList<CategorySegmentData>,
         mode: Int,
-        date: String
+        date: String,
+        isZero: Boolean,
+        customCategoryBar: CustomCategoryBar
     ) {
         selectedDate = date
         //allow max 10 categories
@@ -94,6 +96,12 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
             singleCategory = categorySegmentDataList.size == 0
             if (linearArray.size == 0) {
                 setCategorySegmentFirstTime(categorySegmentDataList)
+                if (!isZero) {
+                    customCategoryBar.visibility = View.VISIBLE
+                } else {
+                    customCategoryBar.visibility = View.GONE
+
+                }
             } else {
                 if (!singleCategory) {
                     linearContainer?.let { linearContainer ->

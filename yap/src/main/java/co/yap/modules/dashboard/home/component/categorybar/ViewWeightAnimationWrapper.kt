@@ -2,7 +2,9 @@ package co.yap.modules.dashboard.home.component.categorybar
 
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.Keep
 
+@Keep
 class ViewWeightAnimationWrapper(view: View) {
     private var view: View? = null
     var weight: Float
