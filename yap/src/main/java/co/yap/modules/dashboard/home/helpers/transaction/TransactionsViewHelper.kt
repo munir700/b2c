@@ -330,6 +330,9 @@ class TransactionsViewHelper(
                         currentMode = Constants.DEFAULT_MODE
                     } else {
                         //new month
+                            if(viewModel.transactionsLiveData.value?.get(position)?.monthYear.isNullOrBlank()){
+                                viewModel.transactionsLiveData.value?.get(position)?.monthYear = visibleMonth
+                            }
                         if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() != visibleMonth) {
 
                             var filterd: List<MonthData>? =
