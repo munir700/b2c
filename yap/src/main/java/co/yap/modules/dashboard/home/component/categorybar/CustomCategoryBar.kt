@@ -150,6 +150,12 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
                         }
                     }
                 }
+                if (!isZero) {
+                    customCategoryBar.visibility = View.VISIBLE
+                } else {
+                    customCategoryBar.visibility = View.GONE
+
+                }
             }
         }
     }
