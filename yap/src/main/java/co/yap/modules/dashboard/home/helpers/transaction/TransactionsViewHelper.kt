@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import co.yap.R
-import co.yap.modules.dashboard.home.component.categorybar.CategorySegmentData
 import co.yap.modules.dashboard.home.component.categorybar.CustomCategoryBar
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.networking.transactions.responsedtos.categorybar.Categories
@@ -476,23 +475,11 @@ class TransactionsViewHelper(
     }
 
     private fun updateData(
-        customCategoryBar: CustomCategoryBar, progress: List<Categories>, date: String,
+        customCategoryBar: CustomCategoryBar, progressList: List<Categories>, date: String,
         mode: Int,
         isZero: Boolean
     ) {
-
-        val categorySegments: ArrayList<CategorySegmentData> =
-            ArrayList<CategorySegmentData>()
-
-
-        for (i in progress.indices) {
-            val progressSegment =
-                CategorySegmentData(progress[i].categoryWisePercentage, progress[i].logoUrl)
-            categorySegments.add(progressSegment)
-        }
-        customCategoryBar.updateCategorySegment(categorySegments, mode, date,isZero, transactionsView.lyInclude.customCategoryBar)
-
-
+        customCategoryBar.updateCategorySegment(progressList, mode, date,isZero, transactionsView.lyInclude.customCategoryBar)
     }
 
     fun goneWithZeoProgress() {

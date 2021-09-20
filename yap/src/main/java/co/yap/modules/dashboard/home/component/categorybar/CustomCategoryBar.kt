@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import co.yap.R
+import co.yap.networking.transactions.responsedtos.categorybar.Categories
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import com.liveperson.infra.utils.picasso.Picasso
@@ -49,7 +50,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         }
     }
 
-    private fun setCategorySegmentFirstTime(categorySegmentDataList: ArrayList<CategorySegmentData>) {
+    private fun setCategorySegmentFirstTime(categorySegmentDataList: List<Categories>) {
         singleCategory = categorySegmentDataList.size == 0
         linearContainer?.let { linearContainer ->
             //we will have default 10 layouts
@@ -59,7 +60,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
                 linearLayout = if (i >= categorySegmentDataList.size) {
                     createSegmentLayout(0f, i)
                 } else {
-                    createSegmentLayout(categorySegmentDataList[i].progress, i)
+                    createSegmentLayout(categorySegmentDataList[i].categoryWisePercentage, i)
                 }
                 when (i) {
                     0 -> {
@@ -69,7 +70,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
                         //we will create first segment with 0 in order to animate it
                             setFirstSegment(
                                 0,
-                                CategorySegmentData(progress = 0f, icon = ""),
+                                Categories(categoryWisePercentage = 0f, logoUrl = ""),
                                 linearLayout
                             )
                     }
@@ -84,7 +85,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
     }
 
     fun updateCategorySegment(
-        categorySegmentDataList: ArrayList<CategorySegmentData>,
+        categorySegmentDataList: List<Categories>,
         mode: Int,
         date: String,
         isZero: Boolean,
@@ -93,7 +94,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         selectedDate = date
         //allow max 10 categories
         if (categorySegmentDataList.size <= 10) {
-            singleCategory = categorySegmentDataList.size == 0
+            singleCategory = categorySegmentDataList.isEmpty()
             if (linearArray.size == 0) {
                 setCategorySegmentFirstTime(categorySegmentDataList)
                 if (!isZero) {
@@ -126,8 +127,8 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
                             val layout: LinearLayout = linearArray[0]
                             var imageView: ImageView = layout.getChildAt(0) as ImageView
                             var textView: TextView = layout.getChildAt(1) as TextView
-                            textView.text = "${categorySegmentDataList[0].progress.toInt()}%"
-                            val urlString = categorySegmentDataList[0].icon
+                            textView.text = "${categorySegmentDataList[0].categoryWisePercentage.toInt()}%"
+                            val urlString = categorySegmentDataList[0].logoUrl
                             val uiHandler = Handler(Looper.getMainLooper())
                             uiHandler.post {
                                 Picasso.get().load(urlString).into(imageView)
@@ -136,14 +137,14 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
                             imageView.visibility = View.VISIBLE
                         }
 
-                        for (i in 0 until categorySegmentDataList.size) {
+                        for (i in categorySegmentDataList.indices) {
                             val animationWrapper =
                                 ViewWeightAnimationWrapper(linearArray[i])
                             val anim = ObjectAnimator.ofFloat(
                                 animationWrapper,
                                 "weight",
                                 animationWrapper.weight,
-                                categorySegmentDataList[i].progress
+                                categorySegmentDataList[i].categoryWisePercentage
                             )
                             anim.duration = 500
                             anim.start()
@@ -192,7 +193,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
      */
     private fun setFirstSegment(
         position: Int,
-        categorySegmentData: CategorySegmentData,
+        categorySegmentData: Categories,
         linearLayout: LinearLayout
     ) {
         linearLayout.setBackgroundColor(colorsArray[position % colorsArray.size])
@@ -207,7 +208,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         layoutParams.gravity = Gravity.CENTER
         layoutParams.marginStart = context.dimen(R.dimen._3sdp)
         imageView.layoutParams = layoutParams
-        val urlString = categorySegmentData.icon
+        val urlString = categorySegmentData.logoUrl
         if (urlString != "") {
             val uiHandler = Handler(Looper.getMainLooper())
             uiHandler.post {
@@ -223,13 +224,13 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : LinearLayout(co
         layoutParamsTextView.gravity = Gravity.CENTER
         layoutParamsTextView.marginStart = context.dimen(R.dimen._3sdp)
         textView.layoutParams = layoutParamsTextView
-        textView.text = "${categorySegmentData.progress.toInt()} %"
+        textView.text = "${categorySegmentData.categoryWisePercentage.toInt()} %"
         textView.setTextAppearance(R.style.AMicroGrey)
         textView.setTextColor(Color.WHITE)
         textView.id = position
         textView.clipToOutline = true
         linearLayout.addView(textView, 1)
-        if (categorySegmentData.progress == 0f) {
+        if (categorySegmentData.categoryWisePercentage == 0f) {
             textView.visibility = View.GONE
             imageView.visibility = View.GONE
         } else {
