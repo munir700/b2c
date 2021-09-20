@@ -14,7 +14,7 @@ import androidx.annotation.Keep
 enum class FirebaseEvent(val event: String?, val screenName: String?) {
     /**	When a user opens the app for the first time, default Firebase event	*/
     FIRST_OPEN(
-        "	first_open	",
+        "first_open",
         ""
     ),
 
@@ -310,7 +310,11 @@ enum class FirebaseEvent(val event: String?, val screenName: String?) {
         "delivery_confirmed",
         "Sign_In_Card_01b"
     ),
-
+    /**	User opens 'Delivery confirmed' screen for the first time	*/
+    DELIVERY_CONFIRMED_NEW(
+        "deliveryconfirmed",
+        "Sign_In_Card_01b"
+    ),
     /**	User clicks on Set Pin Now in the Sign in screen	*/
     CLICK_CARDPIN_NOW(
         "click_cardpin_now",
