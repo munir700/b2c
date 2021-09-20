@@ -43,8 +43,8 @@ android {
         }
 
         Preprod {
-            versionCode 75
-            versionName "1.7.5"
+            versionCode 76
+            versionName "1.7.6"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
