@@ -68,9 +68,10 @@ object Strings {
         "common_display_text_percentage"
     const val common_display_text_available_balance_error_without_fee: String =
         "common_display_text_available_balance_error_without_fee"
-
     const val common_yap_share_content: String =
         "common_yap_share_content"
+    const val common_display_one_variables: String =
+        "common_display_one_variables"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -1109,11 +1110,13 @@ object Strings {
     const val screen_transaction_feedback_improvement_label: String =
         "screen_transaction_feedback_improvement_label"
     const val screen_transaction_feedback_additional_detail_label: String =
-            "screen_transaction_feedback_additional_detail_label"
-        const val screen_transaction_details_rating_label: String =
+        "screen_transaction_feedback_additional_detail_label"
+    const val screen_transaction_details_rating_label: String =
         "screen_transaction_details_rating_label"
     const val screen_transaction_details_rating_tap_to_rate: String =
         "screen_transaction_details_rating_tap_to_rate"
+    const val screen_transaction_details_declined: String =
+        "screen_transaction_details_declined"
 
     //     Send Money no contacts Screen
     const val screen_send_money_no_contacts_display_text_title: String =

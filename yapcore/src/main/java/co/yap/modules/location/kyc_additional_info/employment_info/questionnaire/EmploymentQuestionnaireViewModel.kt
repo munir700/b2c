@@ -298,7 +298,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     expectedMonthlyCredit = getDataForPosition(2).getAnswer()
                 )
             }
-            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
+            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED,EmploymentStatus.SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),

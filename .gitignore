@@ -52,3 +52,4 @@ wallet/src/main/res/raw/tav_private_key.pem
 *.apk
 *.json
 /fastlane/report.xml
+wallet/src/main/res/raw/tav_private_key_apple.pem

@@ -1,7 +1,15 @@
 package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Application
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.view.View
+import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.transaction.detail.adaptor.TransactionDetailItemAdapter
@@ -16,6 +24,7 @@ import co.yap.networking.transactions.responsedtos.TotalPurchasesResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
@@ -27,6 +36,10 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.*
 import java.util.*
 
 
@@ -47,8 +60,21 @@ class TransactionDetailsViewModel(application: Application) :
         )
     override var totalPurchase: ObservableField<TotalPurchases> = ObservableField()
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
-
     override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
+    override var gMap: GoogleMap? = null
+        set(value) {
+            field = value
+            gMap?.setOnMapLoadedCallback {
+                gMap?.run {
+                    uiSettings.isZoomGesturesEnabled = false
+                    uiSettings.isScrollGesturesEnabled = false
+                    uiSettings.isMapToolbarEnabled = false
+                    uiSettings.isCompassEnabled = false
+                    uiSettings.isRotateGesturesEnabled = false
+                }
+            }
+        }
+
     override fun onCreate() {
         super.onCreate()
         setStatesData()
@@ -74,9 +100,11 @@ class TransactionDetailsViewModel(application: Application) :
             if (txns.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && txns.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
                 txns.merchantLogo?.let { logo ->
                     view.loadImage(logo)
+                    if (txns.productCode == TransactionProductCode.ECOM.pCode || txns.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                        view.setBackgroundColor(context.getColor(R.color.white))
                 } ?: txns.setTransactionImage(view)
             } else {
-               txns.setTransactionImage(view)
+                txns.setTransactionImage(view)
             }
         }
     }
@@ -260,6 +288,80 @@ class TransactionDetailsViewModel(application: Application) :
         } else {
             state.transactionNoteDate = "Note added " + transaction.get()
                 .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
+        }
+    }
+
+    override fun setContentDataColor(
+        transaction: Transaction?,
+        tvTotalAmountValue: AppCompatTextView,
+        tvCurrency: AppCompatTextView
+    ) {
+        transaction?.let {
+            state.transactionData.get()?.isDeclinedTransaction?.let { isDeclinedTransaction ->
+                if (isDeclinedTransaction || transaction.isTransactionRejected()) {
+                    tvTotalAmountValue.text =
+                        Translator.getString(context, R.string.screen_transaction_details_declined)
+                    tvTotalAmountValue.setTextColor(
+                        context.resources.getColor(co.yap.yapcore.R.color.colorSecondaryMagenta)
+                    )
+                    tvCurrency.visibility = View.INVISIBLE
+                } else {
+                    tvTotalAmountValue.text =
+                        if (transaction.txnType.equals(TxnType.DEBIT.type))
+                        //"- ${state.transactionData.get()?.totalAmount.toString()
+                            "- ${transaction.cardHolderBillingTotalAmount.toString()
+                                .toFormattedCurrency(
+                                    false,
+                                    SessionManager.getDefaultCurrency(),
+                                    true
+                                )}"
+                        //else "+ ${state.transactionData.get()?.totalAmount.toString()
+                        else "+ ${transaction.cardHolderBillingTotalAmount.toString()
+                            .toFormattedCurrency(false, SessionManager.getDefaultCurrency(), true)}"
+                }
+            }
+        }
+    }
+
+    override fun setMap() {
+        val location = transaction.get()?.latitude?.let { lat ->
+            transaction.get()?.longitude?.let { long ->
+                LatLng(lat, long)
+            }
+        }
+        gMap?.addMarker(
+            location?.let {
+                MarkerOptions()
+                    .position(it)
+                    .title("")
+                    .icon(bitmapDescriptorFromVector(getApplication(), R.drawable.ic_location_pin))
+            }
+        )
+        val cameraPosition: CameraPosition = CameraPosition.Builder()
+            .target(location)
+            .zoom(10f).build()
+        gMap?.animateCamera(
+            CameraUpdateFactory.newCameraPosition(cameraPosition)
+        )
+    }
+
+    override fun setMapVisibility(ivMap: ImageView, map: Fragment, isShowMap: Boolean) {
+        if (isShowMap) {
+            ivMap.visibility = View.GONE
+            map.view?.visibility = View.VISIBLE
+        } else {
+            ivMap.visibility = View.VISIBLE
+            map.view?.visibility = View.GONE
+        }
+    }
+
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(context, vectorResId)?.run {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            val bitmap =
+                Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
         }
     }
 }
