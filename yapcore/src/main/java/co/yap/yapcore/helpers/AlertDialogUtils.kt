@@ -9,8 +9,8 @@ import android.view.View
 import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import co.yap.widgets.CoreButton
@@ -320,6 +320,45 @@ fun Context.infoDialog(
     dialogLayout.show()
 }
 
+fun Context.beneficiaryInfoDialog(
+    title: String = "",
+    message: String,
+    buttonText: String? = null,
+    callback: (proceed: Boolean) -> Unit = {},
+    icon: Int? = null,
+    coreButtonTitle: String? = null
+) {
+
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.dialog_information)
+    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
+    val tbBtnInfo = dialogLayout.findViewById<AppCompatImageView>(R.id.tbBtnInfo)
+    messageView.text = message
+    dialogTitle.text = title
+    icon?.let { resource ->
+        tbBtnInfo.setImageResource(resource)
+    }
+    val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
+    val btnNext = dialogLayout.findViewById<CoreButton>(R.id.btnNext)
+    btnClose.text = buttonText
+    btnClose.setOnClickListener {
+        callback.invoke(false)
+        dialogLayout.dismiss()
+    }
+    coreButtonTitle?.let { label ->
+        btnNext.visibility = View.VISIBLE
+        btnNext.text = label
+        btnNext.setOnClickListener {
+            callback.invoke(true)
+            dialogLayout.dismiss()
+        }
+    }
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
+}
 fun Context.successDialog(
     title: String = "",
     message: String,

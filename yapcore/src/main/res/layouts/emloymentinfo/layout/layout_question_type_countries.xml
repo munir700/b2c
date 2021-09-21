@@ -43,7 +43,7 @@
                 android:layout_marginBottom="@dimen/_3sdp"
                 android:lineSpacingExtra="@dimen/_2sdp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
-                android:textColor="@color/darkSlateBlue"
+                android:textColor="@color/darkSlateBlueFaded"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
                 tools:text="Add all the countries your company does business with" />

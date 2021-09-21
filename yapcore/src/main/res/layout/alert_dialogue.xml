@@ -22,10 +22,11 @@
             android:paddingHorizontal="@dimen/margin_normal_large"
             android:textColor="@color/dialogTitleColor"
             android:textStyle="bold"
-            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            tools:visibility="visible"
             tools:text="Are you sure you want to delete this bills?" />
 
         <androidx.appcompat.widget.AppCompatTextView
