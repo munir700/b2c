@@ -38,8 +38,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:lottie_autoPlay="false"
                     app:lottie_fileName="card_stack.json"
-                    app:lottie_loop="false"
-                    app:lottie_speed="1.50" />
+                    app:lottie_loop="false"/>
 
                 <ImageView
                     android:id="@+id/ivVirtualCard"
