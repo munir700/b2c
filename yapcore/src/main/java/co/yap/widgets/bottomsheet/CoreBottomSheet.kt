@@ -62,7 +62,6 @@ open class CoreBottomSheet(
         val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
         adapter.onItemClickListener = myListener
         adapter.allowFullItemClickListener = true
-//        viewModel.state.searchBarVisibility.set(viewType == Constants.VIEW_WITH_FLAG)
         viewModel.state.searchBarVisibility.set(configuration.showSearch)
         viewModel.state.headerSeparatorVisibility.set(configuration.showHeaderSeparator ?: false)
         configuration.heading?.let {

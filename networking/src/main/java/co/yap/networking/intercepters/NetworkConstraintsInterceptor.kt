@@ -1,7 +1,9 @@
 package co.yap.networking.intercepters
 
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -31,12 +33,8 @@ internal abstract class NetworkConstraintsInterceptor(val context: Context) : In
     }
 
     private fun isInternetAvailable(): Boolean {
-         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        if (connectivityManager!=null){
-            if (connectivityManager.activeNetworkInfo!=null){
-                return connectivityManager.activeNetworkInfo.isConnected
-            }
-        }
-        return false
+        val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+        return capabilities?.hasCapability(NET_CAPABILITY_INTERNET) == true
     }
 }
