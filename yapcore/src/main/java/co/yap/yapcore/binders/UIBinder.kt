@@ -1105,6 +1105,7 @@ object UIBinder {
     }
 
     @BindingAdapter("strikeThroughText")
+    @JvmStatic
     fun AppCompatTextView.strikeThroughText(isStrikeThrough: Boolean) {
         this.paintFlags =
             if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
