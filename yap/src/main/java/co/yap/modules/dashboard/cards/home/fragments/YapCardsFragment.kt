@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -23,10 +22,11 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.wallet.samsung.SamsungPayWalletManager
@@ -53,7 +53,7 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
     private var tourStep: TourSetup? = null
-
+    private lateinit var mNavigator: ActivityNavigator
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_cards
@@ -101,6 +101,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
             })
+        mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
     }
 
     private fun setupPager() {
@@ -247,7 +248,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
                 R.id.imgStatus -> {
-                    if (card.status == CardStatus.ACTIVE.name) openCardDetailBottomSheet(card)
+                    mNavigator.startVerifyPassCodePresenterActivity(
+                        requireActivity(),
+                        bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
+                    ) { resultCode, data ->
+                        if (resultCode == Activity.RESULT_OK) {
+                            if (card.status == CardStatus.ACTIVE.name) openCardDetailBottomSheet(
+                                card
+                            )
+                        }
+                    }
                 }
             }
         }
