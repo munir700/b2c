@@ -352,8 +352,8 @@ class YapCameraFragment : BaseFragment(),
                                                 )
                                             } else {
                                                 if (isCardFrontSide()) {
-                                                    detectFace(croppedBmp) { faceFound ->
-                                                        if (faceFound) {
+                                                    detectBlur(croppedBmp) { blurNotFound ->
+                                                        if (blurNotFound) {
                                                             reWriteImage(filename, croppedBmp)
                                                         } else {
                                                             showErrorInUI(
@@ -513,5 +513,36 @@ class YapCameraFragment : BaseFragment(),
         }
 
         success.invoke(rotatedBitmap)
+    }
+
+    private fun detectBlur(bitmap: Bitmap, callback: (Boolean) -> Unit) {
+        var cropedbitmap = Bitmap.createBitmap(
+            bitmap,
+            0,
+            (bitmap.height / 2),
+            bitmap.width,
+            bitmap.height / 2
+        )
+        var isNameThere = false
+        var isNationalityThere = false
+        val image = InputImage.fromBitmap(cropedbitmap, 0)
+        TextRecognition.getClient().process(image)
+            .addOnSuccessListener { visionText ->
+                for (block in visionText.textBlocks) {
+                    if (block.text.contains("Nationality")) {
+                        isNationalityThere = true
+                    } else if (block.text.contains("Name")) {
+                        isNameThere = true
+                    }
+                }
+                if (isNameThere && isNationalityThere) {
+                    callback.invoke(true)
+                } else {
+                    callback.invoke(false)
+                }
+            }
+            .addOnFailureListener { e ->
+                callback.invoke(false)
+            }
     }
 }
