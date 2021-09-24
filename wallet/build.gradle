@@ -6,6 +6,12 @@ dependencies {
     project.walletDependencies.each {
         add(it.configuration, it.dependency)
     }
+
+    if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
+        project.kaptBindingDependencies.each {
+            add(it.configuration, it.dependency)
+        }
+    }
     // https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path
     implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
 

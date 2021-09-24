@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bill_payments_main_navigation"
+    app:startDestination="@id/billsDashboardFragment">
+
+    <fragment
+        android:id="@+id/billsDashboardFragment"
+        android:name="co.yap.billpayments.dashboard.home.BillDashboardFragment"
+        android:label="PayBillsFragment"
+        tools:layout="@layout/fragment_bill_dashboard">
+        <action
+            android:id="@+id/action_billsDashboardFragment_to_myBillsFragment"
+            app:destination="@id/myBillsFragment" />
+        <action
+            android:id="@+id/action_billsDashboardFragment_to_addBillFragment"
+            app:destination="@id/billCategoryFragment" />
+        <action
+            android:id="@+id/action_billsDashboardFragment_to_billPaymentAnalyticsFragment"
+            app:destination="@id/billPaymentAnalyticsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myBillsFragment"
+        android:name="co.yap.billpayments.dashboard.mybills.MyBillsFragment"
+        android:label="MyBillsFragment"
+        tools:layout="@layout/fragment_my_bills">
+        <action
+            android:id="@+id/action_myBillsFragment_to_billCategoryFragment"
+            app:destination="@id/billCategoryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/billCategoryFragment"
+        android:name="co.yap.billpayments.billcategory.BillCategoryFragment"
+        android:label="BillCategoryFragment"
+        tools:layout="@layout/fragment_bill_category" />
+    <fragment
+        android:id="@+id/billPaymentAnalyticsFragment"
+        tools:layout="@layout/fragment_bill_payments_analytics"
+        android:name="co.yap.billpayments.dashboard.analytics.BillPaymentAnalyticsFragment"
+        android:label="BillPaymentAnalyticsFragment" >
+        <action
+            android:id="@+id/action_billPaymentAnalyticsFragment_to_BPAnalyticsDetailFragment"
+            app:destination="@id/BPAnalyticsDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/BPAnalyticsDetailFragment"
+        android:name="co.yap.billpayments.dashboard.analytics.detail.BPAnalyticsDetailFragment"
+        tools:layout="@layout/fragment_bp_analytics_details"
+        android:label="BPAnalyticsDetailFragment" />
+</navigation>

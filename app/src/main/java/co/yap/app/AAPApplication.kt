@@ -83,7 +83,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin2 = originalSign.sslPin2,
             sslPin3 = originalSign.sslPin3,
             sslHost = originalSign.sslHost,
-            spayServiceId = originalSign.spayServiceId
+            spayServiceId = originalSign.spayServiceId,
+            flagSmithAPIKey = originalSign.flagSmithAPIKey
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {

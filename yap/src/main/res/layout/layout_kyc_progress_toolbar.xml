@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
             type="co.yap.modules.kyc.viewmodels.DocumentsDashboardViewModel" />
+        <import type="android.view.View" />
     </data>
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_44sdp"
+>
     <RelativeLayout
+        android:id="@+id/progressLay"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_44sdp"
+        android:layout_height="match_parent"
         android:background="@color/white"
+        android:visibility="@{viewModel.showProgressBar?View.VISIBLE:View.GONE}"
         android:gravity="center_vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -30,7 +37,8 @@
             android:paddingEnd="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back"
+            tools:srcCompat="@drawable/ic_back"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tbBtnCheck"
@@ -63,5 +71,23 @@
             android:progress="@{viewModel.state.currentProgress}" />
 
     </RelativeLayout>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:contentDescription="@string/empty_string"
+        android:focusable="true"
+        android:visibility="@{viewModel.showProgressBar?View.GONE:View.VISIBLE,default=gone}"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+        android:paddingStart="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back_arrow_left"
+        tools:srcCompat="@drawable/ic_back_arrow_left" />
+</FrameLayout>
 
 </layout>

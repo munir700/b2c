@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.viewmodels.EditCardNameViewModel" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.R" />
+    </data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/margin_medium_large">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/layFlow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="tvHeading,tvSubHeading,cardLay"
+            app:flow_verticalGap="@dimen/margin_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorDarkSlateBlue"
+            android:textSize="@dimen/text_size_h5"
+            app:text="@{Strings.screen_edit_card_name_display_heading}"
+            tools:text="@string/screen_edit_card_name_display_heading" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSubHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="@dimen/margin_normal_large"
+            android:textColor="@color/colorHeatherTwo"
+            android:textSize="@dimen/text_size_h3"
+            app:text="@{Strings.screen_onboarding_confirm_card_name_display_text_sub_title}"
+            tools:text="Please keep this as close to your real name" />
+
+        <include
+            android:id="@+id/cardLay"
+            layout="@layout/card_item_view"
+            app:viewModel="@{viewModel}" />
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/ctCardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/search_widget_height"
+            android:hint="@string/screen_edit_card_name_text_heading"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:hintTextAppearance="@style/LabelTextStyl"
+            app:hintTextColorSelected="@color/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layFlow"
+            tools:hint="@string/screen_edit_card_name_text_heading">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etNewCardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:maxLength="26"
+                android:singleLine="true"
+                android:text="@={viewModel.state.fullName}"
+                android:theme="@style/Theme.EditText.Primary" />
+
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:gravity="center_horizontal"
+            app:text="@{Strings.screen_edit_card_name_display_description}"
+            android:textColor="@color/colorHeatherTwo"
+            android:textSize="@dimen/text_size_h2"
+            app:layout_constraintBottom_toTopOf="@+id/btnNext"
+            app:layout_constraintTop_toBottomOf="@+id/ctCardName"
+            app:layout_constraintVertical_bias="0.85"
+            tools:text="@string/screen_edit_card_name_display_description" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnNext"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal_large"
+            app:enableCoreButton="@{viewModel.state.fullName.length()!=0}"
+            android:gravity="center"
+            android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
+            android:textColor="@color/colorWhite"
+            app:btn_size="large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_phone_number_button_send}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+</layout>

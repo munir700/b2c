@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.billdetail.editbill.EditBillViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="@{viewModel.state.autoPaymentScheduleTypeWeek ? View.VISIBLE:View.GONE}">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTinNumber"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="@string/screen_pay_bill_select_week_day_text"
+            android:textColor="#80272262"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_pay_bill_select_week_day_text}"
+            tools:text="@string/screen_pay_bill_select_week_day_text" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDropDownWeekDays"
+            style="@style/ARegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:background="@null"
+            android:drawableEnd="@drawable/ic_chevron_down"
+            android:drawableTint="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+            android:paddingTop="@dimen/margin_extra_small"
+            android:paddingBottom="@dimen/margin_extra_small"
+            android:text="@{viewModel.state.selectedWeekDay}"
+            android:textColor="@color/colorPrimaryDark"
+            tools:text="Monday" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/_13sdp"
+            android:background="@color/greyLight" />
+
+    </LinearLayout>
+</layout>
