@@ -543,6 +543,7 @@ class YapCameraFragment : BaseFragment(),
             }
             .addOnFailureListener { e ->
                 callback.invoke(false)
+
             }
     }
 }
