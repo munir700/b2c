@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -380,7 +381,18 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlSpareCardActions.visibility = View.VISIBLE
         }
         btnCardDetails.setOnClickListener {
-            viewModel.getCardDetails()
+            mNavigator.startVerifyPassCodePresenterActivity(
+                this,
+                bundleOf(
+                    co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(
+                        Strings.screen_verify_passcode_button_verify
+                    )
+                )
+            ) { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
+                    viewModel.getCardDetails()
+                }
+            }
         }
         CoroutineScope(Dispatchers.Main).launch {
             delay(300)
@@ -768,9 +780,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupActionsIntent() {
-        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated || nameUpdated || addedRemovedFunds ) {
+        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated || nameUpdated || addedRemovedFunds) {
             val updateCard = viewModel.card.value!!
-            updateCard.cardBalance = viewModel.state.cardBalance.get()?:""
+            updateCard.cardBalance = viewModel.state.cardBalance.get() ?: ""
             updateCard.cardName = viewModel.state.cardName
 
             if (cardFreezeUnfreeze) {
@@ -783,7 +795,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             val returnIntent = Intent()
             returnIntent.putExtra("card", updateCard)
             returnIntent.putExtra("cardRemoved", cardRemoved)
-            returnIntent.putExtra("addRemoveFunds",addedRemovedFunds)
+            returnIntent.putExtra("addRemoveFunds", addedRemovedFunds)
             setResult(Activity.RESULT_OK, returnIntent)
         }
     }
