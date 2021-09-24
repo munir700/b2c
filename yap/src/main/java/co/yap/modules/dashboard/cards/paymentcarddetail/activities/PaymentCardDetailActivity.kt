@@ -796,6 +796,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             returnIntent.putExtra("card", updateCard)
             returnIntent.putExtra("cardRemoved", cardRemoved)
             returnIntent.putExtra("addRemoveFunds", addedRemovedFunds)
+            returnIntent.putExtra("nameUpdate", nameUpdated)
             setResult(Activity.RESULT_OK, returnIntent)
         }
     }

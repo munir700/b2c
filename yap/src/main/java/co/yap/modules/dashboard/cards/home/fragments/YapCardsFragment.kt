@@ -327,7 +327,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
                     val cardReorder = data?.getBooleanExtra("cardReorder", false)
                     val addRemoveFunds = data?.getBooleanExtra("addRemoveFunds", false)
-
+                    val nameUpdate = data?.getBooleanExtra("nameUpdate", false)
                     when {
                         true == removed -> {
                             viewModel.removeCard(updatedCard)
@@ -341,6 +341,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         true == addRemoveFunds -> {
+                            viewModel.adapter.removeAllItems()
+                            viewModel.getCards()
+                        }
+                        true == nameUpdate -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
                         }
