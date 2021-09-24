@@ -435,6 +435,14 @@ object Strings {
         "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file"
     const val idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete: String =
         "idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete"
+    const val identity_scanner_sdk_screen_scanner_glare_error: String =
+        "identity_scanner_sdk_screen_scanner_glare_error"
+    const val identity_scanner_sdk_screen_scanner_face_detection_error: String =
+        "identity_scanner_sdk_screen_scanner_face_detection_error"
+    const val identity_scanner_sdk_screen_scanner_mrz_error: String =
+        "identity_scanner_sdk_screen_scanner_mrz_error"
+    const val identity_scanner_sdk_screen_scanner_object_detection_error: String =
+        "identity_scanner_sdk_screen_scanner_object_detection_error"
 
     //Set card PIN welcome screen
     const val screen_set_card_pin_welcome_display_text_title: String =
