@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:padding="@dimen/margin_small"
                 android:text="@{Strings.screen_add_spare_card_display_text_fee}"
-                tools:text="Subscribe to a virtual card for AED 6/year and create ds ds sd ds sa customizable card and shop online safely and securely."
+                tools:text="@string/screen_add_spare_card_display_text_fee"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
@@ -105,7 +105,7 @@
                     android:id="@+id/llAddVirtualCard"
                     android:layout_width="@dimen/_130sdp"
                     android:layout_height="@dimen/_90sdp"
-                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/card_border_selector"
                     android:clickable="true"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
