@@ -334,7 +334,8 @@ fun Transaction?.getAmount(): Double {
             }
             it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
                 ?: 0.0
-            it.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || it.productCode == TransactionProductCode.MOTO.pCode -> it.cardHolderBillingAmount?: 0.0
+            it.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || it.productCode == TransactionProductCode.MOTO.pCode -> it.cardHolderBillingAmount
+                ?: 0.0
             else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
                 ?: 0.00
         }
@@ -360,19 +361,9 @@ fun Transaction?.getFormattedTransactionAmountAnalytics() =
     )
 
 fun Transaction?.getTransactionAmountColor(): Int {
-    if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
-        return R.color.colorPrimaryDark
-    } else {
-        (return when (this?.txnType) {
-            TxnType.DEBIT.type -> R.color.colorPrimaryDark
-            TxnType.CREDIT.type ->// {
-                //if (!this.isTransactionInProgress() && this.status != TransactionStatus.FAILED.name)
-                R.color.colorSecondaryGreen
-            //else
-            //R.color.colorPrimaryDark
-            //}
-            else -> R.color.colorPrimaryDark
-        })
+    return when (this?.txnType) {
+        TxnType.DEBIT.type -> R.color.colorPrimaryDark
+        else -> R.color.colorSecondaryGreen //for CREDIT
     }
 }
 
