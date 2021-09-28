@@ -14,7 +14,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -42,8 +41,6 @@ import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
-import co.yap.modules.dummy.ActivityNavigator
-import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
@@ -88,7 +85,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private var limitsUpdated: Boolean = false
     private var nameUpdated: Boolean = false
     private var addedRemovedFunds: Boolean = false
-    private lateinit var mNavigator: ActivityNavigator
 
     companion object {
         const val CARD = "card"
@@ -109,7 +105,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerTransactionBroadcast()
-        mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
         setUpTransactionsListRecyclerView()
         setObservers()
         setupView()
@@ -381,18 +376,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlSpareCardActions.visibility = View.VISIBLE
         }
         btnCardDetails.setOnClickListener {
-            mNavigator.startVerifyPassCodePresenterActivity(
-                this,
-                bundleOf(
-                    co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(
-                        Strings.screen_verify_passcode_button_verify
-                    )
-                )
-            ) { resultCode, data ->
-                if (resultCode == Activity.RESULT_OK) {
-                    viewModel.getCardDetails()
-                }
-            }
+            viewModel.getCardDetails()
         }
         CoroutineScope(Dispatchers.Main).launch {
             delay(300)
