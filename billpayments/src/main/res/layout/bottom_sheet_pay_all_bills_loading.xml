@@ -35,8 +35,8 @@
 
         <RelativeLayout
             android:id="@+id/rl_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,12 +60,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </FrameLayout>
 
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivSuccess"
-                android:layout_width="@dimen/_150sdp"
-                android:layout_height="@dimen/_150sdp"
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/_76sdp"
+                android:layout_height="@dimen/_76sdp"
                 android:layout_gravity="center"
-                android:padding="@dimen/_20sdp"
                 android:visibility="@{viewModel.state.isResponceReceived == true ? View.VISIBLE : View.GONE}"
                 app:srcCompat="@drawable/ic_checkmark" />
 
