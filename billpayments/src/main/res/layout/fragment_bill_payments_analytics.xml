@@ -53,7 +53,6 @@
                         <TextView
                             android:id="@+id/tvNothingToReportYet"
                             style="@style/ALarge"
-                            android:textColor="@color/colorPrimarySoft"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/chart1"
@@ -64,6 +63,7 @@
                             android:maxLines="1"
                             android:singleLine="true"
                             android:text="@string/screen_card_analytics_ntry"
+                            android:textColor="@color/greyDark"
                             android:textSize="@dimen/_14sdp"
                             android:visibility="@{viewModel.state.isNTRYShow? View.VISIBLE:View.GONE}" />
 
