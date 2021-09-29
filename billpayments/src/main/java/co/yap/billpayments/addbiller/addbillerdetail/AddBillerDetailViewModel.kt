@@ -66,7 +66,7 @@ class AddBillerDetailViewModel(application: Application) :
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
-                R.id.etUserInput -> {
+                R.id.etUserInput, R.id.etNickName -> {
                     if (validate()) {
                         state.valid.set(true)
                     } else {
