@@ -61,6 +61,7 @@
                 android:layout_marginStart="@dimen/margin_small"
                 android:ellipsize="end"
                 android:lineSpacingExtra="0sp"
+                android:padding="@dimen/_4sdp"
                 android:maxLines="4"
                 app:layout_constraintEnd_toStartOf="@+id/ivCross"
                 app:layout_constraintStart_toEndOf="@+id/ivNotification"
