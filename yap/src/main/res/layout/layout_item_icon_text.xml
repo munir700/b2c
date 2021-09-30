@@ -19,7 +19,7 @@
             type="int" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lnAnalytics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,21 +28,31 @@
         android:paddingTop="@dimen/margin_small"
         android:paddingBottom="@dimen/margin_small">
 
+
         <androidx.appcompat.widget.AppCompatImageView
-            tools:src="@drawable/ic_support"
-            android:layout_width="@dimen/_22sdp"
+            android:id="@+id/ivIcon"
+            tintAppCompatImageView="@{tint}"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_22sdp"
             android:src="@{icon}"
-            android:tint="@{tint}" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_support" />
 
         <TextView
+            android:id="@+id/tvTitle"
             style="@style/ASmall"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/margin_small"
             android:paddingEnd="@dimen/_2sdp"
-            android:text="@{title}"  />
+            android:text="@{title}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

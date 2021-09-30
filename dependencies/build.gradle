@@ -142,8 +142,8 @@ project.ext {
             exoplayer                : 'com.google.android.exoplayer:exoplayer:2.10.3',
 
             //adjust
-            adjust                   : 'com.adjust.sdk:adjust-android:4.21.0',
-            adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1',
+            adjust                   : 'com.adjust.sdk:adjust-android:4.28.1',
+            adjustReferrer           : 'com.android.installreferrer:installreferrer:2.2',
             expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
             //pdfViewer

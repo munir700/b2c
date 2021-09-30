@@ -106,10 +106,12 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         super.onResume()
         animatorSet?.resume()
     }
+
     override fun onPause() {
         super.onPause()
         animatorSet?.pause()
     }
+
     override fun onDestroyView() {
         animatorSet?.cancel()
         animatorSet = null

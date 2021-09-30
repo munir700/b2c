@@ -15,7 +15,9 @@ class BottomSheet(
     private val mListener: OnItemClickListener? = null,
     private val bottomSheetItems: MutableList<BottomSheetItem>,
     private val headingLabel: String? = null,
-    private val subHeadingLabel: String? = null
+    private val subHeadingLabel: String? = null,
+    private val showDivider: Boolean? = null
+
 ) : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
@@ -27,6 +29,7 @@ class BottomSheet(
         val view = inflater.inflate(R.layout.core_bottom_sheet, container, false)
         val tvHeading: TextView = view.findViewById(R.id.tvHeadingTitle)
         val tvSubHeading: TextView = view.findViewById(R.id.tvSubTitle)
+        val divider: View = view.findViewById(R.id.divider)
         headingLabel?.let {
             tvHeading.visibility = View.VISIBLE
             tvHeading.text = it
@@ -35,6 +38,7 @@ class BottomSheet(
             tvSubHeading.visibility = View.VISIBLE
             tvSubHeading.text = it
         }
+        divider.visibility = if (showDivider == true) View.VISIBLE else View.GONE
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)

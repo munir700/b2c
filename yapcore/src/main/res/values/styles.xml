@@ -142,6 +142,8 @@
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
+
+
     <style name="Micro" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -155,6 +157,13 @@
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
+    </style>
+
+    <style name="RegularPrimary" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+         <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <!-- Grey text -->
@@ -264,6 +273,12 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
+    <style name="DarkSlateBlue" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimaryDarkHouseHold</item>
+    </style>
+
     <style name="MicroGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -275,6 +290,13 @@
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/greyDark</item>
+    </style>
+
+    <style name="DarkGreyMedium" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="purpleLabel" parent="AppFontRegular">
@@ -685,4 +707,15 @@
         <item name="rippleColor">@color/greyLight</item>
 
     </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorDarkGreyGradient</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <style name="ShapeAppearance.App.CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

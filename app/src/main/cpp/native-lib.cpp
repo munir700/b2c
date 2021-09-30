@@ -34,6 +34,8 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     std::string sslHost;
     std::string uxCamKey;
 
+    std::string spayServiceId;
+
 #ifdef LIVE
     api_endpoint = "https://ae-prod.yap.com/";
     adjustAppToken = "xty7lf6skgsg";
@@ -46,6 +48,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
     md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
     sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
+    spayServiceId = "9f189cfac32b46d9b5c284";
     uxCamKey = "c6jc2d10p4rbbo6";
 
 #endif
@@ -61,6 +64,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
     md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
     sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
+    spayServiceId = "9f2b7fca270c4f3c81d99e";
     uxCamKey = "7z7psf07jm1kjoz";
 
 #endif
@@ -74,6 +78,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha1Encoded = "REI6QTg6REE6OTg6RUY6ODA6QkY6ODQ6MDQ6RDE6NzM6Rjg6QzE6RjE6QzA6MTU6NTk6MjA6MTY6RDI=";
     md5Encoded = "MjU6ODQ6MUY6RTE6RjE6QTg6QzI6NTg6N0I6QUU6RUE6QjM6NDE6NjU6NzY6RkU=";
     sha256Encoded = "QTQ6QUM6MTQ6RjM6REQ6RDg6NTc6RTk6RkM6QUM6N0M6MDk6NkM6QTQ6MEQ6RUM6QjU6MEU6RTE6OTY6QTI6RjA6Qjc6Q0M6QjA6MEY6MDc6MDA6Qzc6N0M6RjM6Qjg=";
+    spayServiceId = "9f2b7fca270c4f3c81d99e";
     uxCamKey = "7z7psf07jm1kjoz";
 
 #endif
@@ -90,6 +95,8 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha1Encoded = "";
     md5Encoded = "";
     sha256Encoded = "";
+    spayServiceId = "9f2b7fca270c4f3c81d99e";
+
     uxCamKey = "7z7psf07jm1kjoz";
 
 #endif
@@ -105,6 +112,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sha1Encoded = "";
     md5Encoded = "";
     sha256Encoded = "";
+    spayServiceId = "9f2b7fca270c4f3c81d99e";
     uxCamKey = "7z7psf07jm1kjoz";
 
 #endif
@@ -180,6 +188,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                   env->NewStringUTF(sslPin2.c_str()),
                                   env->NewStringUTF(sslPin3.c_str()),
                                   env->NewStringUTF(sslHost.c_str()),
+                                  env->NewStringUTF(spayServiceId.c_str()),
                                   env->NewStringUTF(uxCamKey.c_str()));
     return jObj;
 }

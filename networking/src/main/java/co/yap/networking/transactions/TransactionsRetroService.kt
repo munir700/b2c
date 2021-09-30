@@ -100,7 +100,8 @@ interface TransactionsRetroService {
         @Query("title") title: String?,
         @Query("merchantCategoryNames") category: ArrayList<String>?,
         @Query("statuses") txnStatuses: ArrayList<String>?,
-        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean,
+        @Query("debitSearch") debitSearch: Boolean
     ): Response<HomeTransactionsResponse>
 
     // Get transaction fee
@@ -129,14 +130,12 @@ interface TransactionsRetroService {
     //Get analytics by merchant name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_MERCHANT_NAME)
     suspend fun getAnalyticsByMerchantName(
-        @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?
     ): Response<AnalyticsResponseDTO>
 
     //Get analytics by category name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
     suspend fun getAnalyticsByCategoryName(
-        @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?
     ): Response<AnalyticsResponseDTO>
 
@@ -212,7 +211,7 @@ interface TransactionsRetroService {
         @Path("merchant-type") merchantType: String,
         @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?,
-        @Body merchantName: ArrayList<String>?
+        @Body merchantName: ArrayList<Any>?
     ): Response<AnalyticsDetailResponseDTO>
 
     @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM)
@@ -241,16 +240,33 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
     suspend fun getTotalPurchases(
         @Query("txnType")
-         txnType: String,
+        txnType: String,
         @Query("beneficiaryId")
-         beneficiaryId: String? = null,
+        beneficiaryId: String? = null,
         @Query("receiverCustomerId")
-         receiverCustomerId: String? = null,
+        receiverCustomerId: String? = null,
         @Query("senderCustomerId")
-         senderCustomerId: String? = null,
+        senderCustomerId: String? = null,
         @Query("productCode")
-         productCode: String,
+        productCode: String,
         @Query("merchantName")
         merchantName: String? = null
     ): Response<TotalPurchasesResponse>
+
+    @GET(TransactionsRepository.URL_TRANSACTIONS_VIEW_CATEGORIES)
+    suspend fun getAllTransactionCategories(): Response<TransactionCategoryResponse>
+
+    @PUT(TransactionsRepository.URL_TRANSACTIONS_UPDATE_CATEGORY)
+    suspend fun updateTransactionCategory(
+        @Query("category-id")
+        categoryId: String,
+        @Query("transaction-id")
+        transactionId: String? = null
+    ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_SEND_EMAIL)
+    suspend fun requestSendEmail(
+        @Body sendEmailRequestModel: SendEmailRequest
+    ): Response<ApiResponse>
+
 }

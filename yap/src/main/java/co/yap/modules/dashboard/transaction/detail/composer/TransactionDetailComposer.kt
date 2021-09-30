@@ -31,7 +31,15 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 showTotalPurchase = transactionDetailFactory?.isTotalPurchaseAvailable(),
                 showError = transactionDetailFactory?.isTransactionNotCompleted(),
                 showReceipts = transactionDetailFactory?.isShowReceiptSection(),
-                isAtmTransaction = transactionDetailFactory?.isAtmTransaction()
+                isAtmTransaction = transactionDetailFactory?.isAtmTransaction(),
+                showCategory = transactionDetailFactory?.showTransactionCategory(),
+                categoryType = transactionDetailFactory?.isCategoryGeneral(),
+                categoryDescription = transactionDetailFactory?.getCategoryDescription(),
+                tapixCategory = transactionDetailFactory?.getTapixCategory(),
+                showFeedBack = transactionDetailFactory?.showFeedbackOption(),
+                isYTYTransfer = transactionDetailFactory?.isYTYTransaction(),
+                isDeclinedTransaction = transactionDetailFactory?.isDeclinedTransaction(),
+                isMApVisible = transactionDetailFactory?.isMApVisible()
             )
         } ?: return null
     }

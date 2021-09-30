@@ -78,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/margin_normal"
-                android:paddingBottom="@dimen/margin_normal"
                 android:layout_marginTop="@dimen/margin_extra_small"
                 app:adapter="@{receiptViewModel.adapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -24,5 +24,8 @@ data class CardTransactionRequest(
     @SerializedName("merchantCategoryNames")
     var categories: ArrayList<String>? = null,
     @SerializedName("statuses")
-    var statues: ArrayList<String>? = null
+    var statues: ArrayList<String>? = null,
+    @SerializedName("debitSearch")
+    var debitSearch: Boolean =false
+
 )

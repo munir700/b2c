@@ -22,7 +22,6 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
@@ -35,6 +34,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ProductFlavour
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -588,14 +588,6 @@ object Utils {
         )
     }
 
-    fun getBody(context: Context): String {
-        return Translator.getString(
-            context,
-            Strings.common_yap_share_content,
-            getAdjustURL()
-        )
-    }
-
     fun getGeneralInvitationBody(context: Context): String {
         return Translator.getString(
             context,
@@ -683,9 +675,9 @@ object Utils {
 
     fun getOtpBlockedMessage(context: Context): String {
         return "${
-        context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            SessionManager.helpPhoneNumber
-        )
+            context.getString(R.string.screen_blocked_otp_display_text_message).format(
+                SessionManager.helpPhoneNumber
+            )
         }^${AlertType.DIALOG.name}"
     }
 
@@ -765,14 +757,13 @@ object Utils {
 
     fun getAdjustURL(): String {
         val userId = SessionManager.user?.currentCustomer?.customerId
-        val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
-        val time = date.replace(" ", "_")
+        val time = DateUtils.getCurrentDateWithFormat(SERVER_DATE_FULL_FORMAT)
         return (when (YAPApplication.configManager?.flavor) {
             ProductFlavour.PROD.flavour -> {
                 "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             ProductFlavour.PREPROD.flavour -> {
-                "https://grwl.adj.st?adjust_t=v3jlxlh_oo71763&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+                "https://7s29.adj.st?adjust_t=v3jlxlh_oo71763&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             ProductFlavour.STG.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"

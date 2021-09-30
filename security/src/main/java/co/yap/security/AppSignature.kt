@@ -16,6 +16,7 @@ data class AppSignature(
     var sslPin2: String?,
     var sslPin3: String?,
     var sslHost: String?,
+    var spayServiceId: String?,
     var uxCamKey: String?
 ) {
 

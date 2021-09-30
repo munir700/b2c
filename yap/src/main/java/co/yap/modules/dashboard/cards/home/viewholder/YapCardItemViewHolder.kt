@@ -39,7 +39,7 @@ class YapCardItemViewHolder(
         } else {
             itemYapCardBinding.imgCard.loadCardImage(paymentCard?.frontImage)
         }
-        itemYapCardBinding.includeWalletButton.btnSamsungPay.setBackgroundResource(if (paymentCard?.isAddedSamsungPay == true) R.drawable.bg_gray_rounded_corner_black else R.drawable.bg_rounded_corner_black)
+       // itemYapCardBinding.includeWalletButton.btnSamsungPay.setBackgroundResource(if (paymentCard?.isAddedSamsungPay == true) R.drawable.bg_gray_rounded_corner_black else R.drawable.bg_rounded_corner_black)
         itemYapCardBinding.viewModel =
             YapCardItemViewModel(context, paymentCard, position, onItemClickListener)
         itemYapCardBinding.executePendingBindings()

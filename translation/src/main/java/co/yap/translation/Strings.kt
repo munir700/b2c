@@ -66,9 +66,10 @@ object Strings {
         "common_display_text_no_country_found"
     const val common_display_text_percentage: String =
         "common_display_text_percentage"
-
     const val common_yap_share_content: String =
         "common_yap_share_content"
+    const val common_display_one_variables: String =
+        "common_display_one_variables"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -784,6 +785,10 @@ object Strings {
         "screen_card_statement_display_text_view"
     const val screen_card_statement_display_text_title: String =
         "screen_card_statement_display_text_title"
+    const val screen_card_statement_display_button_text_email: String =
+        "screen_card_statement_display_button_text_email"
+    const val screen_card_statement_display_email_sent_success: String =
+        "screen_card_statement_display_email_sent_success"
 
 
     //Profile Settings screen
@@ -1095,7 +1100,22 @@ object Strings {
         "screen_transaction_details_added_receipt_label"
     const val screen_transaction_details_single_added_receipt_label: String =
         "screen_transaction_details_single_added_receipt_label"
-
+    const val screen_transaction_details_category_label: String =
+        "screen_transaction_details_category_label"
+    const val screen_transaction_details_total_purchases: String =
+        "screen_transaction_details_total_purchases"
+    const val screen_transaction_details_display_feedback_label: String =
+        "screen_transaction_details_display_feedback_label"
+    const val screen_transaction_feedback_improvement_label: String =
+        "screen_transaction_feedback_improvement_label"
+    const val screen_transaction_feedback_additional_detail_label: String =
+        "screen_transaction_feedback_additional_detail_label"
+    const val screen_transaction_details_rating_label: String =
+        "screen_transaction_details_rating_label"
+    const val screen_transaction_details_rating_tap_to_rate: String =
+        "screen_transaction_details_rating_tap_to_rate"
+    const val screen_transaction_details_declined: String =
+        "screen_transaction_details_declined"
 
     //     Send Money no contacts Screen
     const val screen_send_money_no_contacts_display_text_title: String =
@@ -1847,6 +1867,18 @@ object Strings {
         "screen_waiting_list_display_text_log_back"
     const val screen_waiting_list_display_text_rank_hashtag: String =
         "screen_waiting_list_display_text_rank_hashtag"
+    const val screen_waiting_list_display_text_notification_jump_rank: String =
+        "screen_waiting_list_display_text_notification_jump_rank"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_no_referred_users"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_referred_users_count"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_spots_count"
+    const val screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide: String =
+        "screen_waiting_list_display_text_bottom_sheet_text_with_bumped_up_guide"
+    const val screen_waiting_list_display_text_signed_up_users: String =
+        "screen_waiting_list_display_text_signed_up_users"
 
     //Change Card Pin screen
 
@@ -2202,6 +2234,8 @@ object Strings {
         "screen_transaction_add_another_receipt"
     const val screen_transaction_details_receipt_success_label: String =
         "screen_transaction_details_receipt_success_label"
+    const val screen_transaction_details_feedback_success_label: String =
+        "screen_transaction_details_feedback_success_label"
 
     // Reached on the top of queue screen
     const val screen_reached_top_queue_display_text =

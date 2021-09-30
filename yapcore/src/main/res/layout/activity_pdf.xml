@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,6 +12,8 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.R" />
+
+        <import type="co.yap.translation.Strings" />
 
     </data>
 
@@ -40,6 +43,7 @@
                 app:leftIcon="@{R.drawable.ic_back_arrow_left}"
                 app:leftIconVisibility="@{true}"
                 app:onClick="@{viewModel::onToolBarClick}"
+                app:titleString="@{viewModel.state.toolBarTitle}"
                 app:rightIcon="@{R.drawable.ic_settings}"
                 app:rightIconVisibility="@{false}" />
 
@@ -62,12 +66,27 @@
             android:id="@+id/pdfView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin_extra_small"
+            app:layout_constraintBottom_toTopOf="@+id/btnSendEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarContainer" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnSendEmail"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small"
+            android:gravity="center"
+            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
+            android:textColor="@color/colorWhite"
+            android:visibility="@{viewModel.state.cardStatement.sendEmail?View.VISIBLE:View.GONE}"
+            app:btn_size="small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarContainer"
-
-            />
+            app:text="@{Strings.screen_card_statement_display_button_text_email}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,8 +1,12 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.text.format.DateFormat
+import android.widget.ImageView
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
@@ -38,13 +42,13 @@ fun Transaction?.getTitle(): String {
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Remove from ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to ${if (transaction.cardType == CardType.PREPAID.type) transaction.cardName1 ?: "Virtual Card" else transaction.cardName2 ?: "Virtual Card"}"
-            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "Spent at ${transaction.merchantName}"
+            TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ECOM.pCode -> "${transaction.merchantName}"
             TransactionProductCode.ATM_WITHDRAWL.pCode -> {
                 if (transaction.category.equals(
                         "DECLINE_FEE",
                         true
                     )
-                ) "ATM decline fee" else "Withdraw money"
+                ) "ATM decline fee" else "ATM Withdrawal"
             }
             TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
             TransactionProductCode.REFUND_MASTER_CARD.pCode -> "Refund from ${transaction.merchantName}"
@@ -113,6 +117,15 @@ fun Transaction?.getTransferType(transactionType: TransactionAdapterType? = Tran
             }
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
+            }
+            /*TransactionProductCode.POS_PURCHASE.pCode == txn.productCode -> {
+                "In store shopping"
+            }
+            TransactionProductCode.ECOM.pCode == txn.productCode -> {
+                "Online shopping"
+            }*/
+            TransactionProductCode.POS_PURCHASE.pCode == txn.productCode || TransactionProductCode.ECOM.pCode == txn.productCode -> {
+                setDescriptiveCategory(txn, transactionType)
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
@@ -241,11 +254,15 @@ fun Transaction?.getFormattedDate(): String? {
 }
 
 fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION): String {
+    //now we will show 12h format in whole app. Remove conditions after verifying at prod
     return when (adapterType) {
         TransactionAdapterType.ANALYTICS_DETAILS -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
         TransactionAdapterType.TRANSACTION -> {
+            getFormattedTime(DateUtils.FORMAT_TIME_12H)
+        }
+        else -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
     }
@@ -292,8 +309,9 @@ fun Transaction?.isTransactionInProgress(): Boolean {
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {
-    return if (this?.status == TransactionStatus.PENDING.name || this?.status == TransactionStatus.IN_PROGRESS.name) ""
-    else when (this?.txnType) {
+    //return if (this?.status == TransactionStatus.PENDING.name || this?.status == TransactionStatus.IN_PROGRESS.name) ""
+    //else
+    return when (this?.txnType) {
         TxnType.DEBIT.type -> "-"
         TxnType.CREDIT.type -> "+"
         else -> ""
@@ -303,8 +321,8 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 fun Transaction?.getAmount(): Double {
     this?.let {
         return when {
-            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() -> {
-                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode) it.cardHolderBillingTotalAmount
+            it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode || it.isNonAEDTransaction() || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode -> {
+                if (it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode) it.cardHolderBillingTotalAmount
                     ?: 0.0 else it.amount ?: 0.0
             }
             it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> it.cardHolderBillingTotalAmount
@@ -319,12 +337,19 @@ fun Transaction?.getAmount(): Double {
 fun Transaction?.getFormattedTransactionAmount(): String? {
     return String.format(
         "%s %s", this?.getTransactionAmountPrefix(),
-        this?.getAmount().toString().toFormattedCurrency(
+        //this?.getAmount().toString().toFormattedCurrency(
+        this?.cardHolderBillingTotalAmount?.toString()?.toFormattedCurrency(
             showCurrency = false,
-            currency = this?.currency ?: SessionManager.getDefaultCurrency()
-        )
+            currency = this.currency ?: SessionManager.getDefaultCurrency()
+        ) ?: 0.0
     )
 }
+
+fun Transaction?.getFormattedTransactionAmountAnalytics() =
+    this?.totalAmount.toString().toFormattedCurrency(
+        showCurrency = false,
+        currency = this?.currency ?: SessionManager.getDefaultCurrency()
+    )
 
 fun Transaction?.getTransactionAmountColor(): Int {
     if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
@@ -332,12 +357,12 @@ fun Transaction?.getTransactionAmountColor(): Int {
     } else {
         (return when (this?.txnType) {
             TxnType.DEBIT.type -> R.color.colorPrimaryDark
-            TxnType.CREDIT.type -> {
-                if (!this.isTransactionInProgress() && this.status != TransactionStatus.FAILED.name)
-                    R.color.colorSecondaryGreen
-                else
-                    R.color.colorPrimaryDark
-            }
+            TxnType.CREDIT.type ->// {
+                //if (!this.isTransactionInProgress() && this.status != TransactionStatus.FAILED.name)
+                R.color.colorSecondaryGreen
+            //else
+            //R.color.colorPrimaryDark
+            //}
             else -> R.color.colorPrimaryDark
         })
     }
@@ -398,4 +423,108 @@ fun Transaction.getTransactionStatusMessage(context: Context): String {
         }
         else -> ""
     }
+}
+
+fun Transaction?.setTransactionImage(imageView: CoreCircularImageView) {
+    this?.let { transaction ->
+        when (TransactionProductCode.Y2Y_TRANSFER.pCode) {
+            transaction.productCode ?: "" -> {
+                ImageBinding.loadAvatar(
+                    imageView,
+                    if (TxnType.valueOf(
+                            transaction.txnType ?: ""
+                        ) == TxnType.DEBIT
+                    ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                    if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                    android.R.color.transparent,
+                    R.dimen.text_size_h2
+                )
+            }
+            else -> {
+                val txnIconResId = transaction.getIcon()
+                if (transaction.productCode == TransactionProductCode.ECOM.pCode) {
+                    setInitialsAsTxnImage(transaction, imageView)
+                } else if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+                    setVirtualCardIcon(transaction, imageView)
+                } else if (txnIconResId != -1) {
+                    imageView.setImageResource(txnIconResId)
+                    when (txnIconResId) {
+                        R.drawable.ic_rounded_plus -> {
+                            imageView.setBackgroundResource(R.drawable.bg_round_grey)
+                        }
+                        R.drawable.ic_grey_minus_transactions, R.drawable.ic_grey_plus_transactions -> {
+                            imageView.setBackgroundResource(R.drawable.bg_round_disabled_transaction)
+                        }
+                    }
+                } else
+                    setInitialsAsTxnImage(transaction, imageView)
+            }
+        }
+    }
+}
+
+private fun setInitialsAsTxnImage(transaction: Transaction, imageView: CoreCircularImageView) {
+    ImageBinding.loadAvatar(
+        imageView,
+        "",
+        transaction.merchantName ?: transaction.title,
+        android.R.color.transparent,
+        R.dimen.text_size_h2
+    )
+
+}
+
+private fun setVirtualCardIcon(
+    transaction: Transaction,
+    imageView: ImageView
+) {
+    transaction.virtualCardDesign?.let {
+        try {
+            val startColor = Color.parseColor(it.designCodeColors?.firstOrNull()?.colorCode)
+            val endColor = Color.parseColor(
+                if (it.designCodeColors?.size ?: 0 > 1) it.designCodeColors?.get(1)?.colorCode else it.designCodeColors?.firstOrNull()?.colorCode
+            )
+            val gd = GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(startColor, endColor)
+            )
+            gd.shape = GradientDrawable.OVAL
+
+            imageView.background = null
+            imageView.background = gd
+            imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
+
+        } catch (e: Exception) {
+        }
+    } ?: imageView.setImageResource(R.drawable.ic_virtual_card_yap_it)
+}
+
+fun Transaction?.isCategoryGeneral(): Boolean? = this?.let { transaction ->
+    (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+            && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
+}
+
+fun setDescriptiveCategory(txn: Transaction, transactionType: TransactionAdapterType?): String {
+    return when {
+        txn.productCode == TransactionProductCode.POS_PURCHASE.pCode && transactionType == TransactionAdapterType.TRANSACTION -> {
+            txn.tapixCategory?.let { category ->
+                if (category.isGeneral) "In store shopping" else category.categoryName
+            } ?: "In store shopping"
+        }
+        else -> {
+            txn.tapixCategory?.let { category ->
+                if (category.isGeneral) "Online shopping" else category.categoryName
+            } ?: "Online shopping"
+        }
+    }
+}
+
+fun Transaction?.isInternationalTransaction(): Boolean {
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ATM_DEPOSIT.pCode ||
+            this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || this?.productCode == TransactionProductCode.ECOM.pCode ||
+            this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode)
+            && this.currency != SessionManager.getDefaultCurrency()
+}
+
+fun Transaction?.isEcomPosTransaction(): Boolean {
+    return (this?.productCode == TransactionProductCode.POS_PURCHASE.pCode || this?.productCode == TransactionProductCode.ECOM.pCode)
 }
