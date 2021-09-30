@@ -233,7 +233,6 @@
 
             </co.yap.widgets.MultiStateView>
         </LinearLayout>
-
         <co.yap.widgets.tooltipview.TriangleView
             android:id="@+id/arrowView"
             android:layout_width="@dimen/_10sdp"
