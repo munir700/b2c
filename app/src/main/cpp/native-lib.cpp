@@ -17,7 +17,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
                                              "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
                                              "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
-                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
     std::string sha1Encoded;
     std::string md5Encoded;
@@ -49,7 +49,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
     sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
     spayServiceId = "9f189cfac32b46d9b5c284";
-    uxCamKey = "c6jc2d10p4rbbo6";
+    uxCamKey = "7z7psf07jm1kjoz";
 
 #endif
 #ifdef Preprod
