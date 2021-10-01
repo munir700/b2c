@@ -2292,6 +2292,11 @@ object Strings {
         "screen_biller_detail_title_text_credit_card"
     const val screen_biller_detail_title_text_enter_you_account_details: String =
         "screen_biller_detail_title_text_enter_you_account_details"
+    const val screen_bill_payment_prepaid_bills_airtime_button_title: String =
+        "screen_bill_payment_prepaid_bills_airtime_button_title"
+    const val screen_bill_payment_prepaid_bills_data_button_title: String =
+        "screen_bill_payment_prepaid_bills_data_button_title"
+
 
     //Employee information screen
     const val screen_employee_information_display_bottom_sheet_text_heading =
@@ -2337,6 +2342,7 @@ object Strings {
         "screen_bill_payment_bill_total_due_label"
     const val screen_bill_payment_due_bills_swipe_button_title: String =
         "screen_bill_payment_due_bills_swipe_button_title"
+
 
     //Biller Screen
     const val screen_bill_payment_text_title_add_a_credit_card: String =

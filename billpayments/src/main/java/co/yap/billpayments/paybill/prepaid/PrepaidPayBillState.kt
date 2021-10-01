@@ -25,6 +25,9 @@ class PrepaidPayBillState : BaseState(), IPrepaidPayBill.State {
     override val minLimit: ObservableField<Double> = ObservableField()
     override val maxLimit: ObservableField<Double> = ObservableField()
     override val billReferences: ObservableField<String> = ObservableField()
+    override var isBillTypeDuPrepaid: ObservableBoolean = ObservableBoolean(false)
+    override var isAirtimeButtonClicked: ObservableBoolean = ObservableBoolean(true)
+    override var isDataButtonClicked: ObservableBoolean = ObservableBoolean(false)
 
     @get:Bindable
     override var amount: String = ""

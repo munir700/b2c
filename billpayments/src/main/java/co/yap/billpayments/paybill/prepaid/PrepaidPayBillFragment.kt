@@ -11,6 +11,7 @@ import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.utils.enums.ReminderType
+import co.yap.billpayments.utils.enums.SkuInfoType
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
@@ -195,6 +196,16 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                     viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
                     navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
                 }
+            }
+            R.id.btnAirtime -> {
+                viewModel.setSkuInfos(SkuInfoType.Airtime().airtime)
+                viewModel.state.isAirtimeButtonClicked.set(true)
+                viewModel.state.isDataButtonClicked.set(false)
+            }
+            R.id.btnData -> {
+                viewModel.setSkuInfos(SkuInfoType.Data().data)
+                viewModel.state.isAirtimeButtonClicked.set(false)
+                viewModel.state.isDataButtonClicked.set(true)
             }
         }
     }

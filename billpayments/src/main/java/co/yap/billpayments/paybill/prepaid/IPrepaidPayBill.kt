@@ -33,6 +33,10 @@ interface IPrepaidPayBill {
         val minLimit: ObservableField<Double>
         val maxLimit: ObservableField<Double>
         val billReferences: ObservableField<String>
+        var isBillTypeDuPrepaid: ObservableBoolean
+        var isAirtimeButtonClicked: ObservableBoolean
+        var isDataButtonClicked: ObservableBoolean
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -63,6 +67,7 @@ interface IPrepaidPayBill {
 
         fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest
         fun getEditBillerRequest(billModel: ViewBillModel?): EditBillerRequest
+        fun setSkuInfos(type: String?)
     }
 
     interface View : IBase.View<ViewModel> {
