@@ -28,7 +28,6 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
     private var parentView: View? = null
     private var constraintContainer: ConstraintLayout? = null
     private var segmentClickedListener: ISegmentClicked? = null
-    private var singleCategory = false
     private var constraintArray = ArrayList<ConstraintLayout>(10)
     private val colorsArray = ArrayList<Int>()
     private var selectedDate: String = ""
@@ -65,7 +64,6 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
         selectedDate = date
         //allow max 10 categories
         if (categorySegmentDataList.size <= 10) {
-            singleCategory = categorySegmentDataList.isEmpty()
             //segment creation first time
             if (constraintArray.size == 0) {
                 setCategorySegmentFirstTime(categorySegmentDataList)
@@ -79,36 +77,34 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
             else {
                 if (!isZero) {
                     setVisibilityWithAnimation(customCategoryBar, 1f)
-                    if (!singleCategory) {
-                        constraintContainer?.let { linearContainer ->
-                            if (mode == Constants.COLLAPSE_MODE) {
-                                setCollapseMode(linearContainer)
-                            } else {
-                                setExpandMode(linearContainer, categorySegmentDataList)
-                            }
-                            weights.clear()
-                            for (i in 0..9) {
-                                if (i >= categorySegmentDataList.size)
-                                    weights.add(0f)
-                                else
-                                    weights.add(
-                                        i,
-                                        categorySegmentDataList[i].categoryWisePercentage
-                                    )
-                            }
-                            //Reset the weights with animation
-                            TransitionManager.beginDelayedTransition(constraintContainer!!)
-                            set?.createHorizontalChain(
-                                ConstraintSet.PARENT_ID,
-                                ConstraintSet.LEFT,
-                                ConstraintSet.PARENT_ID,
-                                ConstraintSet.RIGHT,
-                                ids.toIntArray(),
-                                weights.toFloatArray(),
-                                ConstraintSet.CHAIN_SPREAD_INSIDE
-                            )
-                            set?.applyTo(constraintContainer)
+                    constraintContainer?.let { linearContainer ->
+                        if (mode == Constants.COLLAPSE_MODE) {
+                            setCollapseMode(linearContainer)
+                        } else {
+                            setExpandMode(linearContainer, categorySegmentDataList)
                         }
+                        weights.clear()
+                        for (i in 0..9) {
+                            if (i >= categorySegmentDataList.size)
+                                weights.add(0f)
+                            else
+                                weights.add(
+                                    i,
+                                    categorySegmentDataList[i].categoryWisePercentage
+                                )
+                        }
+                        //Reset the weights with animation
+                        TransitionManager.beginDelayedTransition(constraintContainer!!)
+                        set?.createHorizontalChain(
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.LEFT,
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.RIGHT,
+                            ids.toIntArray(),
+                            weights.toFloatArray(),
+                            ConstraintSet.CHAIN_SPREAD_INSIDE
+                        )
+                        set?.applyTo(constraintContainer)
                     }
                 } else {
                     setVisibilityWithAnimation(customCategoryBar, 0f)
