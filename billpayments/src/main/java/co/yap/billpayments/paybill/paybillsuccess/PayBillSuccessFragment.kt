@@ -1,6 +1,5 @@
 package co.yap.billpayments.paybill.paybillsuccess
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -37,8 +36,12 @@ class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel
 
     private fun setIntentResult() {
         val intent = Intent()
-        requireActivity().setResult(Activity.RESULT_OK, intent)
-        requireActivity().finish()
+        intent.setClassName(
+            requireContext().packageName,
+            "co.yap.modules.dashboard.main.activities.YapDashboardActivity"
+        )
+        startActivity(intent)
+        activity?.finishAffinity()
     }
 
     override fun removeObservers() {
