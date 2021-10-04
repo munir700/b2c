@@ -352,14 +352,14 @@ class YapCameraFragment : BaseFragment(),
                                                 )
                                             } else {
                                                 if (isCardFrontSide()) {
-                                                    detectBlur(croppedBmp) { blurNotFound ->
-                                                        if (blurNotFound) {
+                                                    isNationalityAndNameAvailable(croppedBmp) { nationalityAndNameFound ->
+                                                        if (nationalityAndNameFound) {
                                                             reWriteImage(filename, croppedBmp)
                                                         } else {
                                                             showErrorInUI(
                                                                 getString(
                                                                     requireContext(),
-                                                                    Strings.identity_scanner_sdk_screen_scanner_face_detection_error
+                                                                    Strings.identity_scanner_sdk_screen_scanner_nationality_name_detection_error
                                                                 )
                                                             )
                                                         }
@@ -509,17 +509,10 @@ class YapCameraFragment : BaseFragment(),
         success.invoke(rotatedBitmap)
     }
 
-    private fun detectBlur(bitmap: Bitmap, callback: (Boolean) -> Unit) {
-        var cropedbitmap = Bitmap.createBitmap(
-            bitmap,
-            0,
-            (bitmap.height / 2),
-            bitmap.width,
-            bitmap.height / 2
-        )
+    private fun isNationalityAndNameAvailable(bitmap: Bitmap, callback: (Boolean) -> Unit) {
         var isNameThere = false
         var isNationalityThere = false
-        val image = InputImage.fromBitmap(cropedbitmap, 0)
+        val image = InputImage.fromBitmap(bitmap, 0)
         TextRecognition.getClient().process(image)
             .addOnSuccessListener { visionText ->
                 for (block in visionText.textBlocks) {

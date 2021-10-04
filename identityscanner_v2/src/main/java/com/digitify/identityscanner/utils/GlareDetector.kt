@@ -5,7 +5,7 @@ import android.graphics.Color
 
 
 class GlareDetector {
-    private val glareThreshold = 0.3f
+    private val glareThreshold = 0.1f
     private val whitePixelThreshold = 230
 
     suspend fun detectGlare(bitmap: Bitmap, callback: (found: Boolean) -> Unit) {
