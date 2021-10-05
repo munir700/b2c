@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
+import co.yap.yapcore.constants.Constants
 
 class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel>(),
     IPayBillSuccess.View {
@@ -35,13 +37,10 @@ class PayBillSuccessFragment : PayBillMainBaseFragment<IPayBillSuccess.ViewModel
     override fun onBackPressed(): Boolean = true
 
     private fun setIntentResult() {
-        val intent = Intent()
-        intent.setClassName(
-            requireContext().packageName,
-            "co.yap.modules.dashboard.main.activities.YapDashboardActivity"
-        )
-        startActivity(intent)
-        activity?.finishAffinity()
+        val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+        activity?.finish()
+
     }
 
     override fun removeObservers() {
