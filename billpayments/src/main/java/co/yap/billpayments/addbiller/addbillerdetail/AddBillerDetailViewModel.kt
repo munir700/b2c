@@ -67,7 +67,7 @@ class AddBillerDetailViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.etUserInput, R.id.etNickName -> {
-                    if (validate() && state.nickNameValue.get()?.length ?: 0 > 1) {
+                    if (validate()) {
                         state.valid.set(true)
                     } else {
                         state.valid.set(false)
