@@ -43,8 +43,6 @@ import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewMod
 import com.digitify.identityscanner.utils.GlareDetector
 import com.digitify.identityscanner.utils.ImageUtils
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
@@ -407,29 +405,6 @@ class YapCameraFragment : BaseFragment(),
     }
 
     private fun isCardFrontSide() = parentViewModel?.state?.scanMode == DocumentPageType.FRONT
-    
-    private fun detectFace(bitmap: Bitmap, callback: (Boolean) -> Unit) {
-        val image = InputImage.fromBitmap(bitmap, 0)
-        val options = FaceDetectorOptions.Builder()
-            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
-            .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
-            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-            .setMinFaceSize(0.15f)
-            .enableTracking()
-            .build()
-        val detector = FaceDetection.getClient(options)
-        detector.process(image)
-            .addOnSuccessListener { faces ->
-                if (faces.isNotEmpty()) {
-                    callback.invoke(true)
-                } else {
-                    callback.invoke(false)
-                }
-            }
-            .addOnFailureListener { e ->
-                callback.invoke(false)
-            }
-    }
 
     private fun showErrorInUI(message: String) {
         activity?.runOnUiThread {
