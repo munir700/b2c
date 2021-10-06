@@ -36,6 +36,8 @@ data class SkuCatalogs(
     var ioCatalogs: List<IoCatalogModel>? = null,
     @SerializedName("isPostpaid")
     var isPostpaid: Int? = null,
+    @SerializedName("isAirtime")
+    var isAirtime: Boolean = false,
     @SerializedName("type")
     var type: String? = null
 ) : Parcelable {

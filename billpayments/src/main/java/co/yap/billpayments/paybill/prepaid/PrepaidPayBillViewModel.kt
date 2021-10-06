@@ -5,6 +5,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
 import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.paybill.prepaid.skuadapter.SkuAdapter
+import co.yap.billpayments.utils.enums.SkuInfoType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
@@ -41,7 +42,33 @@ class PrepaidPayBillViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.availableBalanceString.set(getAvailableBalance())
-        parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.let { adapter.setList(it) }
+        state.isBillTypeDuPrepaid.set(
+            parentViewModel?.billModel?.value?.billerInfo?.billerName.equals(
+                "Du Prepaid"
+            )
+        )
+        setSkuInfos(SkuInfoType.Airtime().airtime)
+    }
+
+    override fun setSkuInfos(type: String?) {
+        if (state.isBillTypeDuPrepaid.get()) {
+
+            if (type.equals(SkuInfoType.Airtime().airtime)) {
+                (parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.filter { it.isAirtime })?.let {
+                    adapter.setList(
+                        it
+                    )
+                }
+            } else {
+                (parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.filter { !it.isAirtime })?.let {
+                    adapter.setList(
+                        it
+                    )
+                }
+            }
+        } else {
+            parentViewModel?.billModel?.value?.billerInfo?.skuInfos?.let { adapter.setList(it) }
+        }
     }
 
     override fun onResume() {

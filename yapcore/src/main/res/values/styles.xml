@@ -143,7 +143,6 @@
     </style>
 
 
-
     <style name="Micro" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -161,7 +160,7 @@
 
     <style name="RegularPrimary" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
-         <item name="android:textStyle">normal</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
@@ -716,4 +715,10 @@
         <item name="colorControlNormal">@color/colorDarkGreyGradient</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
+
+    <style name="RadioButtonStyle" parent="@android:style/Widget.CompoundButton">
+        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:button">@null</item>
+    </style>
+
 </resources>

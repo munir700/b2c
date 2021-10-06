@@ -2292,6 +2292,10 @@ object Strings {
         "screen_biller_detail_title_text_credit_card"
     const val screen_biller_detail_title_text_enter_you_account_details: String =
         "screen_biller_detail_title_text_enter_you_account_details"
+    const val screen_bill_payment_prepaid_bills_airtime_button_title: String =
+        "screen_bill_payment_prepaid_bills_airtime_button_title"
+    const val screen_bill_payment_prepaid_bills_data_button_title: String =
+        "screen_bill_payment_prepaid_bills_data_button_title"
 
     //Employee information screen
     const val screen_employee_information_display_bottom_sheet_text_heading =

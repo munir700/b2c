@@ -11,6 +11,7 @@ import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.utils.enums.ReminderType
+import co.yap.billpayments.utils.enums.SkuInfoType
 import co.yap.networking.customers.responsedtos.billpayment.SkuCatalogs
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
@@ -45,6 +46,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         initReminderTabLayout()
         setEditTextWatcher()
         setValidation()
+        setRadioGroup()
     }
 
     private fun setValidation() {
@@ -72,6 +74,16 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
             } else {
                 viewModel.state.valid.set(false)
                 cancelAllSnackBar()
+            }
+        }
+    }
+
+    private fun setRadioGroup() {
+        getViewBinding().raAirtimData.setOnCheckedChangeListener { group, checkedId ->
+            if (checkedId == R.id.btnAirtime) {
+                viewModel.setSkuInfos(SkuInfoType.Airtime().airtime)
+            } else {
+                viewModel.setSkuInfos(SkuInfoType.Data().data)
             }
         }
     }
