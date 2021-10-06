@@ -260,7 +260,7 @@ class TransactionsViewHelper(
                                                     viewModel.transactionsLiveData.value?.get(0)?.originalDate
                                                 ).toString(),
                                                 Constants.EXPAND_MODE,
-                                                true
+                                                false
                                             )
                                             transactionsView.lyInclude.customCategoryBar.visibility =
                                                 View.VISIBLE
@@ -315,7 +315,7 @@ class TransactionsViewHelper(
                                             viewModel.transactionsLiveData.value?.get(position)?.originalDate
                                         ).toString(),
                                         Constants.DEFAULT_MODE,
-                                        true
+                                        false
                                     )
                                     transactionsView.lyInclude.customCategoryBar.visibility =
                                         View.VISIBLE
@@ -349,7 +349,7 @@ class TransactionsViewHelper(
                                                 viewModel.transactionsLiveData.value?.get(position)?.originalDate
                                             ).toString(),
                                             Constants.COLLAPSE_MODE,
-                                            true
+                                            false
                                         )
                                         transactionsView.lyInclude.customCategoryBar.visibility =
                                             View.VISIBLE
@@ -479,7 +479,7 @@ class TransactionsViewHelper(
         mode: Int,
         isZero: Boolean
     ) {
-        customCategoryBar.updateCategorySegment(progressList, mode, date,isZero, transactionsView.lyInclude.customCategoryBar)
+        customCategoryBar.setCategoryBar(progressList, mode, date,isZero, transactionsView.lyInclude.customCategoryBar)
     }
 
     fun goneWithZeoProgress() {

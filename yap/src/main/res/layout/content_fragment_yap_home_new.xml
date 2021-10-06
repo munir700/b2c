@@ -28,7 +28,7 @@
             <co.yap.modules.dashboard.home.component.categorybar.CustomCategoryBar
                 android:id="@+id/customCategoryBar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:gravity="center"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:alpha="@{viewModel.state.isPartnerBankStatusActivated ? 1f : 0.5f}"
                 android:enabled="@{viewModel.state.isPartnerBankStatusActivated}"
                 android:orientation="horizontal">
