@@ -168,6 +168,7 @@ class PayBillViewModel(application: Application) :
             }
 
             enterAmount < state.minLimit.get() ?: 0.0 -> {
+                showUpperLowerLimitError()
                 state.valid.set(false)
             }
 
