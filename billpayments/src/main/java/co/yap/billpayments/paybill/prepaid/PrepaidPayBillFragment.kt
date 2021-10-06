@@ -46,6 +46,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
         initReminderTabLayout()
         setEditTextWatcher()
         setValidation()
+        setRadioGroup()
     }
 
     private fun setValidation() {
@@ -73,6 +74,16 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
             } else {
                 viewModel.state.valid.set(false)
                 cancelAllSnackBar()
+            }
+        }
+    }
+
+    private fun setRadioGroup() {
+        getViewBinding().raAirtimData.setOnCheckedChangeListener { group, checkedId ->
+            if (checkedId == R.id.btnAirtime) {
+                viewModel.setSkuInfos(SkuInfoType.Airtime().airtime)
+            } else {
+                viewModel.setSkuInfos(SkuInfoType.Data().data)
             }
         }
     }
@@ -196,16 +207,6 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                     viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
                     navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
                 }
-            }
-            R.id.btnAirtime -> {
-                viewModel.setSkuInfos(SkuInfoType.Airtime().airtime)
-                viewModel.state.isAirtimeButtonClicked.set(true)
-                viewModel.state.isDataButtonClicked.set(false)
-            }
-            R.id.btnData -> {
-                viewModel.setSkuInfos(SkuInfoType.Data().data)
-                viewModel.state.isAirtimeButtonClicked.set(false)
-                viewModel.state.isDataButtonClicked.set(true)
             }
         }
     }

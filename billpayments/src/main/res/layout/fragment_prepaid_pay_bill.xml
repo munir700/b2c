@@ -14,8 +14,6 @@
         <import type="co.yap.translation.Translator" />
 
         <import type="android.view.View" />
-
-
     </data>
 
     <ScrollView
@@ -84,49 +82,59 @@
                 app:layout_constraintTop_toBottomOf="@id/tvReferenceId"
                 tools:text="My Personal Number" />
 
-            <LinearLayout
-                android:id="@+id/llAirtimData"
+            <RadioGroup
+                android:id="@+id/raAirtimData"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/_25sdp"
+                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
                 android:orientation="horizontal"
-                android:visibility="@{viewModel.state.isBillTypeDuPrepaid?View.VISIBLE:View.GONE}"
                 android:weightSum="2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvNickName">
+                app:layout_constraintTop_toBottomOf="@+id/tvNickName"
+                android:checked="true"
+                app:singleSelection="true">
 
-                <Button
+                <RadioButton
                     android:id="@+id/btnAirtime"
-                    android:layout_width="match_parent"
+                    style="@style/RadioButtonStyle"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_weight="1"
-                    android:background="@{viewModel.state.isAirtimeButtonClicked()?@drawable/button_selector:@drawable/button_unselector}"
+                    android:button="@drawable/button_selector"
+                    android:checked="true"
+                    android:clickable="true"
                     android:fontFamily="@font/roboto_regular"
-                    android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
+                    android:gravity="center"
+                    android:text="@string/screen_bill_payment_prepaid_bills_airtime_button_title"
                     android:textAllCaps="false"
-                    android:textColor="@{viewModel.state.isAirtimeButtonClicked()?@color/colorPrimary:@color/colorPrimaryDark}"
-                    app:text="@{Strings.screen_bill_payment_prepaid_bills_airtime_button_title}"
+                    android:textColor="@drawable/text_label_color_state"
+                    android:textSize="@dimen/text_size_h3"
                     tools:text="@string/screen_bill_payment_prepaid_bills_airtime_button_title" />
 
-                <Button
+                <RadioButton
                     android:id="@+id/btnData"
-                    android:layout_width="match_parent"
+                    style="@style/RadioButtonStyle"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_weight="1"
-                    android:background="@{viewModel.state.isDataButtonClicked()?@drawable/button_selector:@drawable/button_unselector}"
+                    android:button="@drawable/button_selector"
+                    android:checked="false"
+                    android:clickable="true"
                     android:fontFamily="@font/roboto_regular"
-                    android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
+                    android:gravity="center"
+                    android:text="@string/screen_bill_payment_prepaid_bills_data_button_title"
                     android:textAllCaps="false"
-                    android:textColor="@{viewModel.state.isDataButtonClicked()?@color/colorPrimary:@color/colorPrimaryDark}"
-                    app:text="@{Strings.screen_bill_payment_prepaid_bills_data_button_title}"
+                    android:textColor="@drawable/text_label_color_state"
+                    android:textSize="@dimen/text_size_h3"
                     tools:text="@string/screen_bill_payment_prepaid_bills_data_button_title" />
 
-            </LinearLayout>
+            </RadioGroup>
 
             <TextView
                 android:id="@+id/tvCurrency"
@@ -137,7 +145,7 @@
                 android:text="AED"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llAirtimData"
+                app:layout_constraintTop_toBottomOf="@+id/raAirtimData"
                 tools:text="AED" />
 
             <!-- ALERT:  DO NOT APPLY DATA BINDING FOR THIS FIELD-->

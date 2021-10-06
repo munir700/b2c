@@ -34,9 +34,6 @@ interface IPrepaidPayBill {
         val maxLimit: ObservableField<Double>
         val billReferences: ObservableField<String>
         var isBillTypeDuPrepaid: ObservableBoolean
-        var isAirtimeButtonClicked: ObservableBoolean
-        var isDataButtonClicked: ObservableBoolean
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
