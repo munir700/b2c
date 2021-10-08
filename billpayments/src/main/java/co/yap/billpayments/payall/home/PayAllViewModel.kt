@@ -45,7 +45,7 @@ class PayAllViewModel(application: Application) :
                 billerID = it.billerInfo?.billerID,
                 skuID = it.skuId,
                 billAmount = it.billAmountDue,
-                customerBillUuid = it.customerUUID,
+                customerBillUuid = it.uuid,
                 paymentInfo = it.paymentInfo,
                 billerCategory = it.billerInfo?.categoryId,
                 billerName = it.billerInfo?.billerName,

@@ -64,11 +64,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_6sdp"
-                android:text="@{viewModel.state.billReferences}"
+                android:text="@{viewModel.state.customerAccountNumber}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFullName"
-                tools:text="5314 5678 0987 0987" />
+                tools:text="108000912134" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNickName"
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_two_dp"
-                android:text="@{viewModel.parentViewModel.billModel.billNickName}"
+                android:text="@{viewModel.state.customerFullName}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvReferenceId"

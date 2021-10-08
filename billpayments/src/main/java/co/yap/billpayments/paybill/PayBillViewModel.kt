@@ -46,7 +46,8 @@ class PayBillViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_pay_bill_text_title))
         toggleRightIconVisibility(true)
-        state.billReferences.set(getBillReferences())
+        state.customerFullName.set(SessionManager.user?.currentCustomer?.getFullName() ?: "")
+        state.customerAccountNumber.set(SessionManager.user?.accountNo ?: "")
         state.isAutoPaymentOn.set(parentViewModel?.billModel?.value?.autoPayment ?: false)
     }
 

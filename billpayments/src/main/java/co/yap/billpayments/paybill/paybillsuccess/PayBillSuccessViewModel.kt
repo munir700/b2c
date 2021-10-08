@@ -5,6 +5,7 @@ import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
 
 class PayBillSuccessViewModel(application: Application) :
     PayBillMainBaseViewModel<IPayBillSuccess.State>(application),
@@ -20,10 +21,8 @@ class PayBillSuccessViewModel(application: Application) :
             parentViewModel?.state?.paidAmount?.get()
                 .toFormattedCurrency(showCurrency = true, withComma = true)
         )
-        state.inputFieldString.set(
-            parentViewModel?.billModel?.value?.inputsData?.joinToString(
-                separator = " | "
-            ) { billerInputData -> billerInputData.value.toString() })
+        state.customerAccountNumber.set(SessionManager.user?.accountNo ?: "")
+        state.customerFullName.set(SessionManager.user?.currentCustomer?.getFullName() ?: "")
     }
 
     override fun handleOnPressView(id: Int) {
