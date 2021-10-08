@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{viewModel.dueBill.billerInfo.billerName+` - `+viewModel.dueBill.billNickName}"
+                android:text="@{viewModel.dueBill.billNickName.equals(``) ? viewModel.dueBill.billerInfo.billerName : viewModel.dueBill.billerInfo.billerName+` - `+viewModel.dueBill.billNickName }"
                 app:layout_constrainedWidth="true"
                 tools:text="Etsiast" />
 

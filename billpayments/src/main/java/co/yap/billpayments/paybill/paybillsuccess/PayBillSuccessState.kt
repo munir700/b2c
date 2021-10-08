@@ -5,5 +5,6 @@ import co.yap.yapcore.BaseState
 
 class PayBillSuccessState : BaseState(), IPayBillSuccess.State {
     override var paidAmount: ObservableField<String> = ObservableField("")
-    override var inputFieldString: ObservableField<String> = ObservableField("")
+    override val customerAccountNumber: ObservableField<String> = ObservableField()
+    override val customerFullName: ObservableField<String> = ObservableField()
 }

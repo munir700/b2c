@@ -32,7 +32,8 @@ interface IPrepaidPayBill {
         var amount: String
         val minLimit: ObservableField<Double>
         val maxLimit: ObservableField<Double>
-        val billReferences: ObservableField<String>
+        val customerFullName: ObservableField<String>
+        val customerAccountNumber: ObservableField<String>
         var isBillTypeDuPrepaid: ObservableBoolean
     }
 
