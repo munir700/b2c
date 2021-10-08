@@ -69,7 +69,7 @@ class EditBillViewModel(application: Application) :
             state.totalDays.get() != parentViewModel?.selectedBill?.reminderFrequency ?: 3
         ) {
             state.valid.set(true)
-        } else if (lengthValidation() && state.nickNameValue.get()?.length ?: 0 > 1) {
+        } else if (lengthValidation()) {
             state.valid.set(textChangedValidation())
         } else
             state.valid.set(false)
