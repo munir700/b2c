@@ -1500,6 +1500,7 @@
     <string name="screen_bill_account_detail_button_text">Pay Now</string>
     <string name="screen_bill_payment_prepaid_bills_airtime_button_title">Airtime</string>
     <string name="screen_bill_payment_prepaid_bills_data_button_title">Data</string>
+    <string name="screen_bill_account_detail_text_no_bills_paid_yet">No bills paid yet</string>
 
     <!-- Edit Bill Screen-->
     <string name="screen_edit_bill_title_text">Edit your account details</string>

@@ -42,11 +42,13 @@ class PrepaidPayBillViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.availableBalanceString.set(getAvailableBalance())
-        state.isBillTypeDuPrepaid.set(
-            parentViewModel?.billModel?.value?.billerInfo?.billerName.equals(
-                "Du Prepaid"
+        parentViewModel?.billModel?.value?.billerInfo?.billerName?.let {
+            state.isBillTypeDuPrepaid.set(
+                it?.contains(
+                    "Du Prepaid"
+                )
             )
-        )
+        }
         setSkuInfos(SkuInfoType.Airtime().airtime)
     }
 
