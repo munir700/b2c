@@ -20,8 +20,8 @@ class PayBillState : BaseState(), IPayBill.State {
     override val valid: ObservableBoolean = ObservableBoolean(false)
     override val minLimit: ObservableField<Double> = ObservableField()
     override val maxLimit: ObservableField<Double> = ObservableField()
-    override val billReferences: ObservableField<String> = ObservableField()
-
+    override val customerAccountNumber: ObservableField<String> = ObservableField()
+    override val customerFullName: ObservableField<String> = ObservableField()
     @get:Bindable
     override var amount: String = ""
         set(value) {

@@ -17,6 +17,7 @@ interface IPayBillSuccess {
 
     interface State : IBase.State {
         var paidAmount: ObservableField<String>
-        var inputFieldString: ObservableField<String>
+        val customerFullName: ObservableField<String>
+        val customerAccountNumber: ObservableField<String>
     }
 }
