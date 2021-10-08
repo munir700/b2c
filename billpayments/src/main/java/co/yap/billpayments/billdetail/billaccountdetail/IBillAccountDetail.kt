@@ -1,5 +1,6 @@
 package co.yap.billpayments.billdetail.billaccountdetail
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryAdapter
@@ -33,5 +34,6 @@ interface IBillAccountDetail {
         var screenTitle: ObservableField<String>
         var dueAmount: CharSequence
         var billStatus: ObservableField<String>
+        var isBillsPaidYet: ObservableBoolean
     }
 }

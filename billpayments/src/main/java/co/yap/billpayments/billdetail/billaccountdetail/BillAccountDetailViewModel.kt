@@ -70,6 +70,9 @@ class BillAccountDetailViewModel(application: Application) :
                         if (response.data.billHistory != null) {
                             billHistory = response.data.billHistory
                             adapter.setList(getBillHistory())
+                            state.isBillsPaidYet.set(true)
+                        } else {
+                            state.isBillsPaidYet.set(false)
                         }
                     }
                     is RetroApiResponse.Error -> {

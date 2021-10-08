@@ -2403,6 +2403,8 @@ object Strings {
         "screen_bill_account_detail_text_lowest_month"
     const val screen_bill_account_detail_button_text: String =
         "screen_bill_account_detail_button_text"
+    const val screen_bill_account_detail_text_no_bills_paid_yet: String =
+        "screen_bill_account_detail_text_no_bills_paid_yet"
 
     // Edit Bill
     const val screen_edit_bill_title_text: String =
