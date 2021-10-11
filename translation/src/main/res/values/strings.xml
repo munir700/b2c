@@ -371,7 +371,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_spare_card_display_button_block_alert_top_up">Top up</string>
     <string name="screen_add_spare_card_display_button_block_alert_skip">Skip for now</string>
 
-    <string name="screen_add_spare_card_display_text_fee">Subscribe to a virtual card for AED 6/year and create a customizable card and shop online safely and securely.</string>
+    <string name="screen_add_spare_card_display_text_fee">Subscribe to a virtual card for %1$s/year and create a customizable card and shop online safely and securely.</string>
     <string name="screen_add_virtual_spare_card_edit_name_label">Name your virtual card</string>
     <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
     <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
