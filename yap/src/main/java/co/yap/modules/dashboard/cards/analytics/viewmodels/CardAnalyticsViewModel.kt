@@ -210,8 +210,7 @@ class CardAnalyticsViewModel(application: Application) :
             title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
             url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
             position = state.selectedItemPosition.get(),
-            type = "merchant-category-id",
-            showBackground = (state.selectedTxnAnalyticsItem.get()?.logoUrl.isNullOrEmpty() || state.selectedTxnAnalyticsItem.get()?.logoUrl == " ")
-        )
+            type = Constants.CATEGORY_TYPE,
+            showBackground = false)
     }
 }

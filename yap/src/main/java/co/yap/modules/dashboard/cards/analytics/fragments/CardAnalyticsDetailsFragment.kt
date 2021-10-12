@@ -60,6 +60,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                     if (txnAnalytics.title.getMerchantCategoryIcon() == -1) null else txnAnalytics.title
                 viewModel.adapter.analyticsItemImgUrl = txnAnalytics.logoUrl
                 viewModel.adapter.categoryColour = txnAnalytics.categoryColor
+                viewModel.adapter.analyticType = txnAnalytics.analyticType
                 viewModel.fetchMerchantTransactions(
                     Constants.MERCHANT_TYPE,
                     viewModel.parentViewModel?.state?.currentSelectedDate ?: ""
