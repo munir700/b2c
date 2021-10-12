@@ -311,7 +311,8 @@ project.ext {
             [configuration: "api", dependency: libraries.playServicesLocation],
             [configuration: "implementation", dependency: libraries.tagmanager],
             [configuration: "implementation", dependency: libraries.analytics],
-            [configuration: "implementation", dependency: libraries.playLibPlaces]
+            [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: libraries.uxcam]
 
     ]
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
