@@ -37,6 +37,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.liveperson.infra.utils.Utils.getResources
+import kotlin.math.roundToInt
 
 
 object ImageBinding {
@@ -592,7 +593,7 @@ object ImageBinding {
     */
     @JvmStatic
     @BindingAdapter(
-        value = ["imageLogo", "categoryTitle", "position", "isBackground", "showFirstInitials"],
+        value = ["imageLogo", "categoryTitle", "position", "isBackground", "showFirstInitials", "categoryColor"],
         requireAll = false
     )
     fun loadCategoryAvatar(
@@ -601,7 +602,8 @@ object ImageBinding {
         categoryTitle: String?,
         position: Int,
         isBackground: Boolean = true,
-        showFirstInitials: Boolean = false
+        showFirstInitials: Boolean = false,
+        categoryColor: String = ""
     ) {
         if (categoryTitle.isNullOrEmpty()) return
         val fName = categoryTitle ?: ""
@@ -615,15 +617,33 @@ object ImageBinding {
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
-
-                        val bitmapResult: Bitmap = getTintBitmap(imageView, resource, position)
                         val resImg = BitmapDrawable(
                             getResources(),
-                            bitmapResult
+                            resource
                         )
                         imageView.setImageDrawable(resImg)
-                        if (isBackground) setCategoryDrawable(imageView, position)
+                        if (isBackground) {
+                            if (categoryColor.isNotEmpty()) {
+                                val colorCode = Utils.categoryColorValidation(categoryColor)
+                                if(colorCode!=-1)
+                                setCategoryDrawable(
+                                    imageView,
+                                    getColorWithAlpha(
+                                       colorCode,
+                                        0.20f
+                                    )
+                                )
+                            } else {
+                                setCategoryDrawable(
+                                    imageView, Utils.getBackgroundColorForAnalytics(
+                                        imageView.context,
+                                        position = position
+                                    )
+                                )
+                            }
+                        }
                     }
+
                     override fun onLoadCleared(placeholder: Drawable?) {
                     }
                 })
@@ -649,15 +669,21 @@ object ImageBinding {
         }
     }
 
-    private fun setCategoryDrawable(imageView: ImageView, position: Int) {
+    private fun setCategoryDrawable(imageView: ImageView, color: Int) {
         val oval = ShapeDrawable(OvalShape())
         oval.intrinsicHeight = 50
         oval.intrinsicWidth = 50
-        oval.paint.color = Utils.getBackgroundColorForAnalytics(
-            imageView.context,
-            position = position
-        )
+        oval.paint.color = color
         imageView.background = oval
+    }
+
+    private fun getColorWithAlpha(color: Int, ratio: Float): Int {
+        return Color.argb(
+            (Color.alpha(color) * ratio).roundToInt(),
+            Color.red(color),
+            Color.green(color),
+            Color.blue(color)
+        )
     }
 
     private fun getTintBitmap(imageView: ImageView, resource: Bitmap, position: Int): Bitmap {

@@ -14,6 +14,8 @@ class CardAnalyticsDetailsState : BaseState(), ICardAnalyticsDetails.State {
     override var avgSpending: ObservableField<String> = ObservableField()
     override var currToLast: ObservableField<String> = ObservableField("0.0")
     override var ImageUrl: ObservableField<String> = ObservableField("Url")
+    override var categoryColor: String = ""
+    override var analyticType: String = ""
 
     @get:Bindable
     override var position: Int = 0

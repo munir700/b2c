@@ -8,6 +8,7 @@ data class Categories(
 	@SerializedName("totalSpending") val totalSpending: Double? = 0.0,
 	@SerializedName("totalSpendingInPercentage") val totalSpendingInPercentage: Double? = 0.0,
 	@SerializedName("logoUrl") val logoUrl: String,
+	@SerializedName("categoryColor") val categoryColor: String = "",
 	@SerializedName("yapCategoryId") val yapCategoryId: Int? = 0,
 	@SerializedName("date") val date: String? = "",
 	@SerializedName("categoryWisePercentage") var categoryWisePercentage: Float,

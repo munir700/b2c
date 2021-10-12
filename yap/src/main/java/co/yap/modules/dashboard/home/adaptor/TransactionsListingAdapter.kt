@@ -33,6 +33,7 @@ class TransactionsListingAdapter(
     var analyticsItemPosition: Int = 0
     var analyticsItemTitle: String? = null
     var analyticsItemImgUrl: String? = null
+    var categoryColour: String? = null
     override fun getLayoutIdForViewType(viewType: Int): Int {
         return if (adapterType == TransactionAdapterType.TRANSACTION) R.layout.item_transaction_list else R.layout.item_analytics_transaction_list
     }
@@ -46,7 +47,7 @@ class TransactionsListingAdapter(
                 list[position],
                 analyticsItemPosition,
                 analyticsItemTitle,
-                analyticsItemImgUrl, adapterType
+                analyticsItemImgUrl, adapterType,categoryColour
             )
     }
 
@@ -68,7 +69,8 @@ class TransactionsListingAdapter(
             position: Int,
             analyticsItemTitle: String?,
             analyticsItemImgUrl: String?,
-            type: TransactionAdapterType
+            type: TransactionAdapterType,
+            categoryColour: String?
         ) {
             itemAnalyticsTransactionListBinding.viewModel =
                 ItemAnalyticsTransactionVM(
@@ -85,7 +87,8 @@ class TransactionsListingAdapter(
                 analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: "",
                 analyticsItemImgUrl ?: transaction.merchantLogo ?: "",
                 position, type = Constants.MERCHANT_TYPE,
-                transaction = transaction
+                transaction = transaction,
+                categoryColor = categoryColour.toString()
             )
             itemAnalyticsTransactionListBinding.tvTransactionName.text =
                 transaction.merchantName ?: transaction.title ?: ""

@@ -20,6 +20,7 @@ import androidx.transition.TransitionManager
 import co.yap.R
 import co.yap.networking.transactions.responsedtos.categorybar.Categories
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
 import com.liveperson.infra.utils.picasso.Picasso
 
@@ -29,7 +30,6 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
     private var constraintContainer: ConstraintLayout? = null
     private var segmentClickedListener: ISegmentClicked? = null
     private var constraintArray = ArrayList<ConstraintLayout>(10)
-    private val colorsArray = ArrayList<Int>()
     private var selectedDate: String = ""
     private val ids = arrayListOf<Int>()
     private val weights = arrayListOf<Float>()
@@ -38,7 +38,6 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
     init {
         init()
         set = ConstraintSet()
-        colorsArray.addAll(resources.getIntArray(R.array.analyticsColors).toTypedArray())
     }
 
     private fun init() {
@@ -85,13 +84,15 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
                         }
                         weights.clear()
                         for (i in 0..9) {
-                            if (i >= categorySegmentDataList.size)
+                            if (i >= categorySegmentDataList.size) {
                                 weights.add(0f)
-                            else
-                                weights.add(
-                                    i,
-                                    categorySegmentDataList[i].categoryWisePercentage
+                            } else {
+                                weights.add(i, categorySegmentDataList[i].categoryWisePercentage)
+                                setCategorySegmentColor(
+                                    categorySegmentDataList[i].categoryColor,
+                                    constraintArray[i]
                                 )
+                            }
                         }
                         //Reset the weights with animation
                         TransitionManager.beginDelayedTransition(constraintContainer!!)
@@ -124,7 +125,12 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
                 params.setMargins(0, 0, 0, 0)
                 constraintSegment.layoutParams = params
                 constraintSegment.id = View.generateViewId()
-                constraintSegment.setBackgroundColor(colorsArray[i % colorsArray.size])
+                if (i < categorySegmentDataList.size) {
+                    setCategorySegmentColor(
+                        categorySegmentDataList[i].categoryColor,
+                        constraintSegment
+                    )
+                }
                 constraintContainer.addView(constraintSegment)
                 ids.add(constraintSegment.id)
                 if (i >= categorySegmentDataList.size)
@@ -161,6 +167,16 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
         this.addView(parentView)
     }
 
+    private fun setCategorySegmentColor(
+        categoryColor: String,
+        constraintSegment: ConstraintLayout
+    ) {
+        val categoryColorCode = Utils.categoryColorValidation(categoryColor)
+        if (categoryColorCode != -1) {
+            constraintSegment.setBackgroundColor(categoryColorCode)
+        }
+    }
+
     /**
      * Set segments in collapse mode
      */
@@ -170,7 +186,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
             .setInterpolator(AccelerateDecelerateInterpolator()).duration =
             300
         linearContainer.background =
-            context.getDrawable(R.drawable.category_background_collapse)
+            ContextCompat.getDrawable(context, R.drawable.category_background_collapse)
 
         val layout: ConstraintLayout = constraintArray[0]
         var imageView: ImageView = layout.getChildAt(0) as ImageView
@@ -191,7 +207,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
             .setInterpolator(AccelerateDecelerateInterpolator()).duration =
             300
         linearContainer.background =
-            context.getDrawable(R.drawable.category_background)
+            ContextCompat.getDrawable(context, R.drawable.category_background)
         val layout: ConstraintLayout = constraintArray[0]
         var imageView: ImageView = layout.getChildAt(0) as ImageView
         var textView: TextView = layout.getChildAt(1) as TextView

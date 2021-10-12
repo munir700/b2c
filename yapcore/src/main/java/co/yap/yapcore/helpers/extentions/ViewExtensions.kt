@@ -2,6 +2,7 @@ package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
+import android.provider.SyncStateContract
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.ImageView
@@ -10,6 +11,7 @@ import androidx.annotation.LayoutRes
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.ImageBinding
 import com.google.android.material.appbar.AppBarLayout
@@ -61,36 +63,42 @@ fun CoreCircularImageView?.setCircularDrawable(
     showBackground: Boolean = true,
     showInitials: Boolean = true,
     type: String = "merchant-category-id",
-    transaction: Transaction? = null
-) {
+    transaction: Transaction? = null,
+    categoryColor :String =""
+    ) {
     this?.let { image ->
-        if (type == "merchant-category-id") {
-            ImageBinding.loadCategoryAvatar(
-                image,
-                url,
-                title,
-                position,
-                showBackground,
-                showInitials
-            )
-        } else if (type == "merchant-name") {
-            ImageBinding.loadAnalyticsAvatar(
-                image,
-                url,
-                title,
-                position,
-                false,
-                showInitials
-            )
-        } else {
-            image.background = image.context.getDrawable(R.drawable.bg_round_purple_enabled)
-            transaction?.let { txns ->
-                if (txns.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && txns.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
-                    txns.merchantLogo?.let { logo ->
-                        image.loadImage(logo)
-                    } ?: txns.setTransactionImage(image)
-                } else {
-                    txns.setTransactionImage(image)
+        when (type) {
+            Constants.CATEGORY_TYPE -> {
+                ImageBinding.loadCategoryAvatar(
+                    image,
+                    url,
+                    title,
+                    position,
+                    showBackground,
+                    showInitials,
+                    categoryColor
+                )
+            }
+            Constants.MERCHANT_TYPE -> {
+                ImageBinding.loadAnalyticsAvatar(
+                    image,
+                    url,
+                    title,
+                    position,
+                    false,
+                    showInitials
+                )
+            }
+            else -> {
+                image.background = image.context.getDrawable(R.drawable.bg_round_purple_enabled)
+                transaction?.let { txns ->
+                    if (txns.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && txns.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
+                        txns.merchantLogo?.let { logo ->
+                            image.loadImage(logo)
+                        } ?: txns.setTransactionImage(image)
+                    } else {
+                        txns.setTransactionImage(image)
+                    }
                 }
             }
         }
