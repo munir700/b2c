@@ -2,7 +2,6 @@ package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
-import android.provider.SyncStateContract
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.ImageView
@@ -57,15 +56,15 @@ fun ChipGroup.generateChipViews(@LayoutRes itemView: Int, list: List<String>) {
 }
 
 fun CoreCircularImageView?.setCircularDrawable(
-    title: String="",
-    url: String="",
-    position: Int=0,
+    title: String = "",
+    url: String = "",
+    position: Int = 0,
     showBackground: Boolean = true,
     showInitials: Boolean = true,
     type: String = "merchant-category-id",
     transaction: Transaction? = null,
-    categoryColor :String =""
-    ) {
+    categoryColor: String = ""
+) {
     this?.let { image ->
         when (type) {
             Constants.CATEGORY_TYPE -> {
