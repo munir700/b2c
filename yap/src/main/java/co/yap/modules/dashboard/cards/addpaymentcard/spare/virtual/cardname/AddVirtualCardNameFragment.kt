@@ -2,9 +2,9 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardname
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddVirtualCardNameBinding
@@ -26,44 +26,31 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
         super.onViewCreated(view, savedInstanceState)
         viewModel.setCardImage(getBindings().imgCard)
     }
+
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.state.cardName.addOnPropertyChangedCallback(stateObserver)
+        viewModel.state.cardName.observe(this, nameObserver)
     }
 
-    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
-        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            if (viewModel.observeCardNameLength(viewModel.state.cardName.get() ?: "")) {
-                viewModel.clickEvent.call()
-            }
-        }
+    private val nameObserver = Observer<String> {
+        if (viewModel.observeCardNameLength(viewModel.state.cardName.value ?: ""))
+            viewModel.clickEvent.call()
     }
 
     private val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnNext -> {
-                val action =
-                    AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToAddSpareCardFragment(
-                        getString(R.string.screen_spare_card_landing_display_text_virtual_card),
-                        "",
-                        "",
-                        "",
-                        "",
-                        false,
-                        viewModel.state.cardName.get() ?: ""
-                    )
-
-                navigate(action)
+                viewModel.parentViewModel?.selectedCardName?.set(viewModel.state.cardName.value)
+                viewModel.parentViewModel?.isFromBlockCard?.set(false)
+                findNavController().navigate(R.id.action_addVirtualCardNameFragment_to_addSpareCardFragment)
             }
         }
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
-        viewModel.state.cardName.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.state.cardName.removeObserver(nameObserver)
     }
-
-
 
     override fun getBindings(): FragmentAddVirtualCardNameBinding {
         return viewDataBinding as FragmentAddVirtualCardNameBinding
