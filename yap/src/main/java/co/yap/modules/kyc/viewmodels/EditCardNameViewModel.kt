@@ -30,7 +30,7 @@ class EditCardNameViewModel(application: Application) :
             state.loading = true
             when (val response = repository.updateCardName(
                 CardNameRequest(
-                    customerIDNumber = SessionManager.user?.currentCustomer?.customerId,
+                    customerIDNumber = parentViewModel?.identity?.citizenNumber,
                     customerNationality = parentViewModel?.state?.nationality?.get(),
                     customerIDFirstName = parentViewModel?.state?.firstName?.get(),
                     customerIDLastName = parentViewModel?.state?.lastName?.get(),
@@ -40,7 +40,7 @@ class EditCardNameViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    SessionManager.getDebitCard{
+                    SessionManager.getDebitCard {
                         success(true)
                         state.loading = false
                     }
