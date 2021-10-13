@@ -92,7 +92,7 @@ class PDFViewModel(application: Application) :
                         statementType = cardStatement?.statementType ?: "",
                         cardType = when (cardStatement?.cardType) {
                             CardType.DEBIT.name -> {
-                                CardType.DEBIT.name
+                                if (cardStatement.statementType == "EMAIL_ME_ACCOUNT") "" else CardType.DEBIT.name
                             }
                             CardType.PREPAID.name -> "VIRTUAL"
                             else -> ""
