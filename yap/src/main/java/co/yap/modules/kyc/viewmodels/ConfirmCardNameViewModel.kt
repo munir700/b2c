@@ -7,6 +7,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.CardNameRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.SessionManager
 
 class ConfirmCardNameViewModel(application: Application) :
     KYCChildViewModel<IConfirmCardName.State>(application),
@@ -30,7 +31,7 @@ class ConfirmCardNameViewModel(application: Application) :
             when (val response = repository.updateCardName(
                 CardNameRequest(
                     customerIDNumber = parentViewModel?.identity?.citizenNumber,
-                    customerNationality = parentViewModel?.state?.nationality?.get(),
+                    customerNationality = SessionManager.user?.currentCustomer?.nationality,
                     customerIDFirstName = parentViewModel?.state?.firstName?.get(),
                     customerIDLastName = parentViewModel?.state?.lastName?.get(),
                     customerIDMiddleName = parentViewModel?.state?.middleName?.get()
