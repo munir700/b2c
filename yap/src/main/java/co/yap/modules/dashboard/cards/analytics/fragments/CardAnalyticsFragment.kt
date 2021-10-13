@@ -23,6 +23,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -112,6 +113,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setData(txnAnalytics: List<TxnAnalytic>?) {
         val entries: ArrayList<PieEntry> = ArrayList()
         val colors = ArrayList<Int>()
+        var colorCode: Int
         if (txnAnalytics.isNullOrEmpty()) {
             chart.isHighlightPerTapEnabled = false
             entries.add(PieEntry(100f))
@@ -124,9 +126,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             for (item in txnAnalytics.iterator())
                 item.totalSpendingInPercentage?.toFloat()?.let { PieEntry(it) }?.let {
                     entries.add(it)
+                    colorCode = Utils.categoryColorValidation(item.categoryColor)
+                    if (colorCode != -1)
+                        colors.add(colorCode)
                 }
         }
-        colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
         val dataSet = PieDataSet(entries, "")
         dataSet.setDrawIcons(false)
         dataSet.sliceSpace = 0f
@@ -443,13 +447,12 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     private fun setTextColour() {
+        val colorCode: Int
         if (viewModel.state.selectedItemPosition.get() == -1) return
         try {
-            context?.let {
-                val colors = it.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
-                getBindingView().tvPieViewTitle.setTextColor(colors[viewModel.state.selectedItemPosition.get() % colors.size])
-            }
-
+            colorCode = Utils.categoryColorValidation(viewModel.state.selectedTxnAnalyticsItem.get()?.categoryColor.toString())
+            if (colorCode != -1)
+                getBindingView().tvPieViewTitle.setTextColor(colorCode)
         } catch (ex: Exception) {
 
         }

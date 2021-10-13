@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBase
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CategoryAnalyticsViewModel
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.item_analytics.view.*
 
@@ -92,7 +93,9 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
                     totalSpending = selectedItem.totalSpending,
                     logoUrl = selectedItem.logoUrl,
                     totalSpendingInPercentage = selectedItem.totalSpendingInPercentage,
-                    categories = category
+                    categories = category,
+                    categoryColor = selectedItem.categoryColor,
+                    analyticType = Constants.CATEGORY_TYPE
                 ),
                 Constants.TRANSACTION_POSITION to pos
             )
@@ -100,7 +103,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     }
 
     private fun highlightSelectedItem(view: View?, pos: Int) {
-        val colors = resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
+        val textColorsCode: Int
         if (getAdaptor().checkedPosition != pos) {
             view?.let { itemView ->
                 itemView.isSelected = true
@@ -110,7 +113,13 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
                         R.color.itemBackground
                     )
                 )
-                itemView.tvName.setTextColor(colors[pos % colors.size])
+                textColorsCode = Utils.categoryColorValidation(
+                    viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.get(pos)?.categoryColor.toString()
+                )
+                if (textColorsCode != -1)
+                    itemView.tvName.setTextColor(
+                        textColorsCode
+                    )
                 getAdaptor().notifyItemChanged(getAdaptor().checkedPosition)
                 getAdaptor().checkedPosition = pos
             }

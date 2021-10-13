@@ -20,14 +20,16 @@ class AddVirtualCardNameViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_add_virtual_spare_card_tool_bar_title_choose_name))
         toggleToolBarVisibility(View.VISIBLE)
     }
+
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override fun observeCardNameLength(str: String): Boolean {
-        state.enabelCoreButton = str.isNotEmpty() && str.length <= 26
-        return str.isNotEmpty() && str.length <= 26
-    }
+    override fun observeCardNameLength(str: String): Boolean =
+        (str.isNotEmpty() && str.length <= 26).let {
+            state.enabelCoreButton = it
+            it
+        }
 
     override fun setCardImage(imgCard: AppCompatImageView) {
         imgCard.loadCardImage(parentViewModel?.selectedVirtualCard?.frontSideDesignImage)

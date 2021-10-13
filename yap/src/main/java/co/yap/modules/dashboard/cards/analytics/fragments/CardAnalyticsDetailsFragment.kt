@@ -16,10 +16,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.extentions.setCircularDrawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.ObjectKey
 import kotlinx.android.synthetic.main.fragment_card_analytics_details.*
 
 class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDetails.ViewModel>() {
@@ -54,6 +50,8 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 )
                 viewModel.state.monthlyTotalPercentage.set("${txnAnalytics.totalSpendingInPercentage}%")
                 viewModel.state.categories.set(txnAnalytics.categories as ArrayList<Any>)
+                viewModel.state.categoryColor = txnAnalytics.categoryColor
+                viewModel.state.analyticType = txnAnalytics.analyticType
                 val array = arrayListOf<Any>(txnAnalytics.yapCategoryId ?: 0)
                 viewModel.yapCategoryId?.set(array)
                 if (txnAnalytics.title.equals("General")) viewModel.state.percentCardVisibility =
@@ -61,6 +59,8 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 viewModel.adapter.analyticsItemTitle =
                     if (txnAnalytics.title.getMerchantCategoryIcon() == -1) null else txnAnalytics.title
                 viewModel.adapter.analyticsItemImgUrl = txnAnalytics.logoUrl
+                viewModel.adapter.categoryColour = txnAnalytics.categoryColor
+                viewModel.adapter.analyticType = txnAnalytics.analyticType
                 viewModel.fetchMerchantTransactions(
                     Constants.MERCHANT_TYPE,
                     viewModel.parentViewModel?.state?.currentSelectedDate ?: ""
@@ -94,7 +94,8 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
             viewModel.state.title.get() ?: "General",
             viewModel.state.ImageUrl.get() ?: "",
             viewModel.state.position,
-            type = Constants.MERCHANT_TYPE
+            type = viewModel.state.analyticType,
+            categoryColor = viewModel.state.categoryColor
         )
 
         multiStateView.viewState = MultiStateView.ViewState.CONTENT
