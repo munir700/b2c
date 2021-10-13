@@ -30,7 +30,7 @@ class EditCardNameViewModel(application: Application) :
             state.loading = true
             when (val response = repository.updateCardName(
                 CardNameRequest(
-                    customerIDNumber = SessionManager.user?.currentCustomer?.customerId,
+                    customerIDNumber = parentViewModel?.identity?.citizenNumber,
                     customerNationality = SessionManager.user?.currentCustomer?.nationality,
                     customerIDFirstName = parentViewModel?.state?.firstName?.get(),
                     customerIDLastName = parentViewModel?.state?.lastName?.get(),

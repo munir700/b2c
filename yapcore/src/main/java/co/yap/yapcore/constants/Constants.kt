@@ -70,7 +70,7 @@ object Constants {
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = "https://www.yap.com/fees"
     const val URL_INSTAGRAM = "https://www.instagram.com/yap"
-    const val URL_FACEBOOK = "https://www.facebook.com/yapbanking"
+    const val URL_FACEBOOK = "https://www.facebook.com/YAP/"
     const val URL_TWITTER = "https://twitter.com/yap"
 
 
