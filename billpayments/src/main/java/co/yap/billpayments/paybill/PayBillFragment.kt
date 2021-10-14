@@ -88,7 +88,6 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
                     viewModel.checkOnTextChangeValidation(viewModel.state.amount.parseToDouble())
                 } else
                     viewModel.state.valid.set(true)
-                viewModel.state.isError.set(false)
             } else {
                 viewModel.state.valid.set(false)
                 viewModel.state.isError.set(false)
