@@ -91,6 +91,12 @@ class YapCameraFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        setOverlayInstructions(
+            getString(
+                requireContext(),
+                Strings.identity_scanner_sdk_screen_scanner_overlay_instruction_title
+            )
+        )
         binding.camera.setLifecycleOwner(this)
         binding.camera.addCameraListener(this)
         if (progress == null) {
@@ -238,6 +244,10 @@ class YapCameraFragment : BaseFragment(),
 
     override fun setInstructions(inst: String) {
         viewModel?.setInstructions(inst)
+    }
+
+    override fun setOverlayInstructions(overlayInstructions: String) {
+        viewModel?.setOverlayInstructions(overlayInstructions)
     }
 
     override fun onRequestPermissionsResult(
@@ -434,7 +444,10 @@ class YapCameraFragment : BaseFragment(),
         val recognizer = TextRecognition.getClient()
         recognizer.process(inputImage)
             .addOnSuccessListener { visionText ->
-                callback(visionText.text.lines().reversed().subList(0, 3).filter { it.length in 28..32 }.size == 3)
+                callback(
+                    visionText.text.lines().reversed().subList(0, 3)
+                        .filter { it.length in 28..32 }.size == 3
+                )
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()

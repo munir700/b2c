@@ -88,6 +88,11 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
         }, 5000);
     }
 
+    @Override
+    public void setOverlayInstructions(String overlayInstructions) {
+        getState().setOverlayInstructionsTitle(overlayInstructions);
+    }
+
     public DocumentType getDocumentType() {
         if (documentType == null) documentType = DocumentType.EID;
         return documentType;
