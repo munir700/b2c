@@ -45,11 +45,13 @@ class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(
     }
 
     private fun onCategorySelection(billCategory: BillProviderModel?) {
-        launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL) {
-            putExtra(
-                ExtraKeys.BILL_PROVIDER.name,
-                billCategory
-            )
+        if (!billCategory?.categoryType.equals("CREDIT_CARD")) {
+            launchActivity<AddBillActivity>(requestCode = RequestCodes.REQUEST_ADD_BILL) {
+                putExtra(
+                    ExtraKeys.BILL_PROVIDER.name,
+                    billCategory
+                )
+            }
         }
     }
 

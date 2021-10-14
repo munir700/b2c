@@ -2505,4 +2505,8 @@ object Strings {
         "screen_pay_all_success_title_all_decline"
     const val screen_pay_all_success_text_decline_status: String =
         "screen_pay_all_success_text_decline_status"
+
+    //Bill Category
+    const val screen_bill_category_title_coming_soon: String =
+        "screen_bill_category_title_coming_soon"
 }

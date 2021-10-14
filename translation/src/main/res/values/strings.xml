@@ -1562,4 +1562,8 @@
     <string name="screen_pay_all_toolbar_title">Pay all bills</string>
     <string name="screen_pay_all_text_total_payment_for">Total Payment for</string>
     <string name="screen_pay_all_text_button">Pay Bills</string>
+
+    <!-- Bill Category Screen-->
+    <string name="screen_bill_category_title_coming_soon">Coming soon</string>
+
 </resources>
