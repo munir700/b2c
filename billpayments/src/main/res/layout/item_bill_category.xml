@@ -11,6 +11,9 @@
 
         <import type="co.yap.billpayments.utils.BPExtensionsKt" />
 
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,11 +48,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:text="@{viewModel.billProviderModel.categoryName}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/ivLogo"
                 app:layout_constraintStart_toStartOf="@id/ivLogo"
                 app:layout_constraintTop_toBottomOf="@id/ivLogo"
                 tools:text="Dubai Police" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvComingSoon"
+                style="@style/LabelTextStylInComingSoon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:visibility="@{viewModel.billProviderModel.categoryType.equals(`CREDIT_CARD`) ? View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tvBillerTypeName"
+                app:layout_constraintStart_toStartOf="@id/tvBillerTypeName"
+                app:layout_constraintTop_toBottomOf="@id/tvBillerTypeName"
+                app:text="@{Strings.screen_bill_category_title_coming_soon}"
+                tools:text="@string/screen_bill_category_title_coming_soon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
