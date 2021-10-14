@@ -80,12 +80,19 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     private fun setRadioGroup() {
         getViewBinding().raAirtimData.setOnCheckedChangeListener { group, checkedId ->
+            resetAmountValueOnChange()
             if (checkedId == R.id.btnAirtime) {
                 viewModel.setSkuInfos(SkuInfoType.Airtime().airtime)
             } else {
                 viewModel.setSkuInfos(SkuInfoType.Data().data)
             }
         }
+    }
+
+    private fun resetAmountValueOnChange() {
+        getViewBinding().etAmount.setText("0.00")
+        viewModel.state.valid.set(false)
+        cancelAllSnackBar()
     }
 
     private fun initTabLayout() {

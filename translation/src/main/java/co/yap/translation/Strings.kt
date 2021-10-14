@@ -2463,6 +2463,8 @@ object Strings {
         "screen_pay_bill_success_you_have_paid"
     const val screen_pay_bill_success_button_text: String =
         "screen_pay_bill_success_button_text"
+    const val screen_pay_bill_success_button_back_to_dashboard_text: String =
+        "screen_pay_bill_success_button_back_to_dashboard_text"
 
     //Single Decline
     const val screen_single_decline_top_message: String =

@@ -112,8 +112,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            app:text="@{Strings.screen_pay_bill_success_button_text}"
-            tools:text="@string/screen_pay_bill_success_button_text" />
+            app:text="@{Strings.screen_pay_bill_success_button_back_to_dashboard_text}"
+            tools:text="@string/screen_pay_bill_success_button_back_to_dashboard_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

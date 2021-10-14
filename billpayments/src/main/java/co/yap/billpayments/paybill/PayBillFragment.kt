@@ -72,18 +72,29 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         }
     }
 
+    private fun setErrorBorder() {
+        getViewBinding().etAmount.background =
+            this.resources.getDrawable(
+                if (viewModel.state.isError.get()) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
+                null
+            )
+    }
+
     private fun setEditTextWatcher() {
         getViewBinding().etAmount.afterTextChanged {
             if (it.isNotBlank()) {
                 viewModel.state.amount = it
-                if (viewModel.parentViewModel?.isPrepaid() == false)
+                if (viewModel.parentViewModel?.isPrepaid() == false) {
                     viewModel.checkOnTextChangeValidation(viewModel.state.amount.parseToDouble())
-                else
+                } else
                     viewModel.state.valid.set(true)
+                viewModel.state.isError.set(false)
             } else {
                 viewModel.state.valid.set(false)
+                viewModel.state.isError.set(false)
                 cancelAllSnackBar()
             }
+            setErrorBorder()
         }
     }
 
