@@ -6,7 +6,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cvNotification"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_120sdp"
         app:cardCornerRadius="8dp"
         app:cardElevation="@dimen/_10sdp"
         app:cardUseCompatPadding="true">
