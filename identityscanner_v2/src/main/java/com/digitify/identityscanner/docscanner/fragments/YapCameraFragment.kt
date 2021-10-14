@@ -434,11 +434,11 @@ class YapCameraFragment : BaseFragment(),
         val recognizer = TextRecognition.getClient()
         recognizer.process(inputImage)
             .addOnSuccessListener { visionText ->
-                callback(visionText.text.contains("<<"))
+                callback(visionText.text.lines().reversed().subList(0, 3).filter { it.length in 28..32 }.size == 3)
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
-                showErrorInUI("Please rescan the card")
+                callback(false)
             }
     }
 
