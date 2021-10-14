@@ -8,6 +8,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -18,6 +19,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(etSwiftCode,etBankCity,etBranch,etBankName)}"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -67,6 +67,7 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
+import com.uxcam.UXCam
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -1101,5 +1102,13 @@ object UIBinder {
             }
         }
 
+    }
+
+    @BindingAdapter("sensitiveViews")
+    @JvmStatic
+    fun hideSensitiveViews(rootView: View, views: List<View>) {
+        views.forEach {
+            UXCam.occludeSensitiveView(it)
+        }
     }
 }

@@ -418,8 +418,7 @@ object Utils {
             str.setSpan(
                 fcs,
                 separated[0].length,
-                separated[0].length + currencyType.length + (amount.toFormattedCurrency()?.length
-                    ?: 0) + 1,
+                separated[0].length + currencyType.length + amount.toFormattedCurrency().length + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str
@@ -821,4 +820,7 @@ object Utils {
         }
         return str
     }
+
+    @JvmStatic
+    fun getViewsList(vararg views: View) = listOf(*views)
 }
