@@ -165,22 +165,26 @@ class PayBillViewModel(application: Application) :
         when {
             !isBalanceAvailable(enterAmount) -> {
                 state.valid.set(false)
+                state.isError.set(true)
                 showBalanceNotAvailableError()
             }
 
             enterAmount < state.minLimit.get() ?: 0.0 -> {
                 showUpperLowerLimitError()
                 state.valid.set(false)
+                state.isError.set(true)
             }
 
             enterAmount > state.maxLimit.get() ?: 0.0 -> {
                 showUpperLowerLimitError()
                 state.valid.set(false)
+                state.isError.set(true)
             }
 
             else -> {
                 cancelAllSnackBar()
                 state.valid.set(true)
+                state.isError.set(false)
             }
         }
     }

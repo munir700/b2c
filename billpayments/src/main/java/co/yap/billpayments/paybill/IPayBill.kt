@@ -27,7 +27,8 @@ interface IPayBill {
         val minLimit: ObservableField<Double>
         val maxLimit: ObservableField<Double>
         val customerFullName: ObservableField<String>
-        val customerAccountNumber: ObservableField<String>    }
+        val customerAccountNumber: ObservableField<String>
+        var isError: ObservableBoolean }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
