@@ -19,12 +19,14 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.R" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvCardBalance)}"
         android:background="@color/white">
 
         <LinearLayout

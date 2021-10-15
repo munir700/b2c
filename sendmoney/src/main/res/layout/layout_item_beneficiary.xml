@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:sensitiveViews="@{Utils.getViewsList(imgProfile,tvFullName,tvName,flagImg)}">
+        app:sensitiveViews="@{Utils.getViewsList(imgProfile,tvFullName,tvName)}">
 
         <LinearLayout
             android:id="@+id/swipe"

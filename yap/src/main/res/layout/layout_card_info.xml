@@ -35,6 +35,7 @@
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,6 +43,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(tvCardNumber,tvCardType,tvCardName)}"
         android:layout_gravity="center_horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView

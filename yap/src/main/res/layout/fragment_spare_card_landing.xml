@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -15,7 +16,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvSpareCardFee,tvSpareCardTile)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
