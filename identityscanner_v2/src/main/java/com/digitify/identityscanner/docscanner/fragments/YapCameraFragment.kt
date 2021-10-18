@@ -445,8 +445,7 @@ class YapCameraFragment : BaseFragment(),
         recognizer.process(inputImage)
             .addOnSuccessListener { visionText ->
                 callback(
-                    visionText.text.lines().reversed().subList(0, 3)
-                        .filter { it.length in 28..32 }.size == 3
+                    visionText.text.lines().filter { it.length in 28..32 }.size >= 3
                 )
             }
             .addOnFailureListener { e ->
