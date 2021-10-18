@@ -23,7 +23,7 @@ class YapNotificationAdapter(
 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val v = LayoutInflater.from(p0.context).inflate(R.layout.view_notifications, p0, false)
+        val v = LayoutInflater.from(p0.context).inflate(R.layout.view_notifications_household, p0, false)
         return ViewHolder(v)
     }
 

@@ -70,10 +70,7 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.NotificationHelper
-import co.yap.yapcore.helpers.TourGuideManager
-import co.yap.yapcore.helpers.TourGuideType
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -538,6 +535,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onCloseClick(notification: HomeNotification, position: Int) {
         super.onCloseClick(notification, position)
+        AnimationUtils.slideView(
+            getBindings().clMain.rvNotificationList,
+            getBindings().clMain.rvNotificationList.measuredHeight,
+            0
+        )
         clearNotification()
     }
 
