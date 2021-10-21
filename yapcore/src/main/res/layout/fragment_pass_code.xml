@@ -14,6 +14,7 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.R" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
@@ -21,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        app:sensitiveViews="@{Utils.getViewsList(dialer)}"
         tools:context=".modules.onboarding.activities.CreatePasscodeActivity">
 
         <co.yap.widgets.CoreToolbar

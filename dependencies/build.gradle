@@ -207,7 +207,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.facebook],
             [configuration: "implementation", dependency: libraries.playservicesAuth],
             [configuration: "implementation", dependency: libraries.playservicesAuthPhone],
-            [configuration: "implementation", dependency: libraries.lotieAnimation]
+            [configuration: "implementation", dependency: libraries.lotieAnimation],
+            [configuration: "implementation", dependency: libraries.uxcam]
 
     ]
 
