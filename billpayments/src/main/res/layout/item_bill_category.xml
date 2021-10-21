@@ -38,6 +38,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:alpha="@{viewModel.billProviderModel.categoryType.equals(`CREDIT_CARD`) ? 0.5f:255.0f}"
                 app:srcCompat="@{BPExtensionsKt.getResId(viewModel.billProviderModel.icon)}"
                 tools:src="@drawable/icon_biller_type_utility" />
 
@@ -47,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:alpha="@{viewModel.billProviderModel.categoryType.equals(`CREDIT_CARD`) ? 0.4f:255.0f}"
                 android:text="@{viewModel.billProviderModel.categoryName}"
                 app:layout_constraintEnd_toEndOf="@id/ivLogo"
                 app:layout_constraintStart_toStartOf="@id/ivLogo"
