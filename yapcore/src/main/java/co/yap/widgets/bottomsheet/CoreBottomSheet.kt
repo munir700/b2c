@@ -2,13 +2,11 @@ package co.yap.widgets.bottomsheet
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -18,6 +16,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.LayoutBottomSheetBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.getScreenHeight
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -40,6 +39,11 @@ open class CoreBottomSheet(
     }
 
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObserver()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +76,10 @@ open class CoreBottomSheet(
         viewModel.state.headerSeparatorVisibility.set(configuration.showHeaderSeparator ?: false)
         configuration.heading?.let {
             getBinding().tvlabel.text = it
+            if (viewType == Constants.VIEW_ITEM_ACCOUNT_DETAIL) {
+                getBinding().tvlabel.gravity = Gravity.CENTER
+                viewModel.state.buttonVisibility.set(true)
+            }
         }
         getBinding().lySearchView.etSearch.afterTextChanged {
             adapter.filter.filter(it) { itemCount ->
@@ -92,7 +100,8 @@ open class CoreBottomSheet(
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            this@CoreBottomSheet.dismiss()
+            if (viewType != Constants.VIEW_ITEM_ACCOUNT_DETAIL)
+                this@CoreBottomSheet.dismiss()
             mListener?.onItemClick(view, data, pos)
         }
     }
@@ -133,7 +142,6 @@ open class CoreBottomSheet(
     override fun onNetworkStateChanged(isConnected: Boolean) {
     }
 
-    private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
     override fun getScreenName(): String? = null
 
     override fun onAnimationComplete(isComplete: Boolean) {
@@ -141,5 +149,33 @@ open class CoreBottomSheet(
             iAnimationComplete?.onAnimationComplete(isComplete)
         }
     }
+
+    private fun setObserver() {
+        viewModel.clickEvent.observe(this, clickObserver)
+    }
+
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.btnShare -> {
+                context?.share(text = getBody(), title = "Share")
+            }
+        }
+    }
+
+    private fun getBody(): String {
+        return "Name: ${bottomSheetItems[0].subContent}\n" +
+                "SWIFT/BIC: ${bottomSheetItems[4].subContent}\n" +
+                "IBAN: ${bottomSheetItems[1].subContent}\n" +
+                "Account: ${bottomSheetItems[2].subContent}\n" +
+                "Bank: ${bottomSheetItems[3].subContent}\n" +
+                "Address: ${bottomSheetItems[5].subContent}\n"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.removeObserver(clickObserver)
+    }
+
+    private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
 
 }

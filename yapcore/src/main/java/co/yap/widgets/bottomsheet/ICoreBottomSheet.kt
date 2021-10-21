@@ -11,6 +11,7 @@ interface ICoreBottomSheet {
         var searchBarVisibility : ObservableBoolean
         var noItemFound: ObservableBoolean
         val headerSeparatorVisibility: ObservableBoolean
+        val buttonVisibility: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

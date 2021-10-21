@@ -1,10 +1,9 @@
 package co.yap.modules.dashboard.more.home.fragments
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -14,7 +13,6 @@ import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
-import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
@@ -24,8 +22,11 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notifications.main.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
@@ -88,6 +89,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 viewModel.getTransactionsNotificationsCount {
                     item.badgeCount =
                         Leanplum.getInbox().unreadCount().plus(notificationCount).plus(it ?: 0)
+                    viewModel.badgeCount.set(item.badgeCount.toString())
+                    viewModel.hasBadge.set(item.badgeCount > 0)
                     //Leanplum.getInbox().unreadCount() > 0
 //                Leanplum.getInbox().addChangedHandler(object : InboxChangedCallback() {
 //                    override fun inboxChanged() {
@@ -189,7 +192,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             }
             R.id.btnBankDetails -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_BANK_DETAILS)
-                launchActivity<BankDetailActivity>()
+                openAccountDetailBottomSheet()
+                //launchActivity<BankDetailActivity>()
             }
             R.id.yapForYou -> {
                 launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
@@ -265,6 +269,33 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 TourGuideType.MORE_SCREEN,
                 skipped = true
             )
+        }
+    }
+
+    private fun openAccountDetailBottomSheet() {
+        launchBottomSheetSegment(
+            accountDetailBottomSheetItemClickListener,
+            configuration = BottomSheetConfiguration(
+                heading = Translator.getString(
+                    requireContext(),
+                    Strings.screen_more_display_text_bank_details
+                )
+            ),
+            viewType = Constants.VIEW_ITEM_ACCOUNT_DETAIL,
+            listData = viewModel.loadBottomSheetData()
+        )
+    }
+
+    private val accountDetailBottomSheetItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is CoreBottomSheetData) {
+                when (view.id) {
+                    R.id.ivCopy -> {
+                        Utils.copyToClipboard(view.context, data.subContent ?: "")
+                        view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
+                    }
+                }
+            }
         }
     }
 

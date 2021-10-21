@@ -502,6 +502,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_more_detail_display_text_tour_yap_for_you_heading">YAP for you</string>
     <string name="screen_more_detail_display_text_tour_yap_for_you_description">A fun way to track your progress on YAP, complete missions and explore all the different aspects of the YAP app and account.</string>
     <string name="screen_more_detail_display_text_tour_yap_for_you_btn_text">Finish</string>
+    <string name="screen_more_detail_display_text_bank">Bank</string>
+    <string name="screen_more_detail_display_text_account">Account</string>
 
 
     <!--   Profile Settings screen-->

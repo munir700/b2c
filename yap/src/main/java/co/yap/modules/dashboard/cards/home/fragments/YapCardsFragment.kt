@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -27,6 +28,7 @@ import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.wallet.samsung.SamsungPayWalletManager
@@ -535,7 +537,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         trackEventWithScreenName(if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == card.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
         viewModel.getCardDetail(card.cardSerialNumber) {
             launchBottomSheetSegment(
-                null,
+                cardBottomSheetItemClickListener,
                 configuration = BottomSheetConfiguration(
                     heading = Translator.getString(
                         requireContext(),
@@ -546,6 +548,19 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 viewType = Constants.VIEW_CARD_DETAIL_ITEM,
                 listData = viewModel.list
             )
+        }
+    }
+
+    private val cardBottomSheetItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is CoreBottomSheetData) {
+                when (view.id) {
+                    R.id.tvCopyCard -> {
+                        Utils.copyToClipboard(view.context, data.subTitle ?: "")
+                        view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
+                    }
+                }
+            }
         }
     }
 

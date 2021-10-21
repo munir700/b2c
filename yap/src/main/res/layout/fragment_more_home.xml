@@ -12,9 +12,12 @@
             type="co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel" />
 
         <import type="android.view.View" />
+
         <import type="android.R.dimen" />
+
         <import type="co.yap.yapcore.R" />
-        <import type="co.yap.yapcore.managers.SessionManager"/>
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
     </data>
 
@@ -37,6 +40,44 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_settings" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgNotification"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:contentDescription="@string/empty_string"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintEnd_toStartOf="@+id/imgSettings"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_notification_icon" />
+
+        <FrameLayout
+            android:id="@+id/lyBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:visibility="@{viewModel.hasBadge ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="@+id/imgNotification"
+            app:layout_constraintStart_toStartOf="@+id/imgNotification"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <co.yap.widgets.BadgeTextView
+                android:id="@+id/textBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSecondaryMagenta"
+                android:text="@{viewModel.badgeCount}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_6sdp"
+                app:mbtv_border_alpha="1"
+                app:mbtv_border_color="@color/white"
+                app:mbtv_border_width="@dimen/_1sdp"
+                app:mbtv_type="shadow_alpha"
+                tools:text="41" />
+        </FrameLayout>
+
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
@@ -47,13 +88,13 @@
             android:background="@drawable/bg_round_white"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            tools:src="@drawable/lp_messaging_ui_icon_image_broken"
-            app:imageUrl="@{viewModel.state.image == null ? `` : viewModel.state.image}"
-            app:fullName="@{SessionManager.INSTANCE.user.currentCustomer.getFullName()}"
             app:colorCode="@{SessionManager.INSTANCE.user.currentCustomer.parsedColor}"
+            app:fullName="@{SessionManager.INSTANCE.user.currentCustomer.getFullName()}"
+            app:imageUrl="@{viewModel.state.image == null ? `` : viewModel.state.image}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imgSettings"
+            tools:src="@drawable/lp_messaging_ui_icon_image_broken" />
 
 
         <TextView
@@ -101,12 +142,12 @@
             style="@style/RectangleBtnSmallStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:btn_size="mini_medium"
             android:layout_marginTop="@dimen/margin_normal"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             app:btn_enable="true"
+            app:btn_size="mini_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvBic"

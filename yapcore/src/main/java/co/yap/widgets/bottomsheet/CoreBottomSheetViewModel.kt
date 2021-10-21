@@ -7,8 +7,7 @@ import co.yap.yapcore.SingleClickEvent
 class CoreBottomSheetViewModel(application: Application) :
     BaseViewModel<ICoreBottomSheet.State>(application),
     ICoreBottomSheet.ViewModel {
-    override val clickEvent: SingleClickEvent
-        get() = SingleClickEvent()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override val state: CoreBottomSheetState = CoreBottomSheetState()
 

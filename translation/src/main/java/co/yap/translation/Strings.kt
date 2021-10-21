@@ -582,7 +582,7 @@ object Strings {
         "screen_fragment_yap_home_add_money"
     const val screen_fragment_yap_home_balance_on_date: String =
         "screen_fragment_yap_home_balance_on_date"
-    const val screen_fragment_yap_home_todays_balance:String =
+    const val screen_fragment_yap_home_todays_balance: String =
         "screen_fragment_yap_home_todays_balance"
 
     // spare cards Landing Screen
@@ -931,6 +931,10 @@ object Strings {
         "screen_more_detail_display_text_tour_yap_for_you_description"
     const val screen_more_detail_display_text_tour_yap_for_you_btn_text: String =
         "screen_more_detail_display_text_tour_yap_for_you_btn_text"
+    const val screen_more_detail_display_text_bank: String =
+        "screen_more_detail_display_text_bank"
+    const val screen_more_detail_display_text_account: String =
+        "screen_more_detail_display_text_account"
 
     //Help & Suppor
     const val screen_help_support_display_text_title: String =
