@@ -197,7 +197,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             R.id.yapForYou -> {
                 launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
             }
-            Constants.MORE_NOTIFICATION -> {
+            Constants.MORE_NOTIFICATION, R.id.imgNotification -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_NOTIFICATIONS)
                 requireActivity().launchActivity<NotificationsActivity>(requestCode = RequestCodes.REQUEST_NOTIFICATION_FLOW) {
                 }

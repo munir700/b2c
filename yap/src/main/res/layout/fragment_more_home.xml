@@ -48,6 +48,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
             android:tint="@color/colorPrimary"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toStartOf="@+id/imgSettings"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_notification_icon" />
