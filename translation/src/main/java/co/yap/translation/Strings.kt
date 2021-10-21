@@ -935,6 +935,8 @@ object Strings {
         "screen_more_detail_display_text_bank"
     const val screen_more_detail_display_text_account: String =
         "screen_more_detail_display_text_account"
+    const val screen_more_detail_display_text_copied_to_clipboard: String =
+        "screen_more_detail_display_text_copied_to_clipboard"
 
     //Help & Suppor
     const val screen_help_support_display_text_title: String =

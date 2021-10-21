@@ -557,7 +557,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 when (view.id) {
                     R.id.tvCopyCard -> {
                         Utils.copyToClipboard(view.context, data.subTitle ?: "")
-                        view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
+                        view.context.toast(
+                            Translator.getString(
+                                requireContext(),
+                                Strings.screen_more_detail_display_text_copied_to_clipboard
+                            ),
+                            Toast.LENGTH_SHORT
+                        )
                     }
                 }
             }

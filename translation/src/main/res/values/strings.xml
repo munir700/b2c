@@ -504,6 +504,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_more_detail_display_text_tour_yap_for_you_btn_text">Finish</string>
     <string name="screen_more_detail_display_text_bank">Bank</string>
     <string name="screen_more_detail_display_text_account">Account</string>
+    <string name="screen_more_detail_display_text_copied_to_clipboard">Copied to clipboard</string>
 
 
     <!--   Profile Settings screen-->

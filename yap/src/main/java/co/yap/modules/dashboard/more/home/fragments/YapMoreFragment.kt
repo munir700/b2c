@@ -291,7 +291,12 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 when (view.id) {
                     R.id.ivCopy -> {
                         Utils.copyToClipboard(view.context, data.subContent ?: "")
-                        view.context.toast("Copied to clipboard", Toast.LENGTH_SHORT)
+                        view.context.toast(
+                            Translator.getString(
+                                requireContext(),
+                                Strings.screen_more_detail_display_text_copied_to_clipboard
+                            ), Toast.LENGTH_SHORT
+                        )
                     }
                 }
             }
