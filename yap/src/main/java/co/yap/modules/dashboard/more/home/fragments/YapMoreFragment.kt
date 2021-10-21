@@ -193,7 +193,6 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             R.id.btnBankDetails -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_BANK_DETAILS)
                 openAccountDetailBottomSheet()
-                //launchActivity<BankDetailActivity>()
             }
             R.id.yapForYou -> {
                 launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
