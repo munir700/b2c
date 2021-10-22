@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.Observable
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -23,8 +24,7 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
     TabLayout.OnTabSelectedListener, IAddVirtualCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_virtual_card
-    override val viewModel: AddVirtualCardViewModel
-        get() = ViewModelProviders.of(this).get(AddVirtualCardViewModel::class.java)
+    override val viewModel: AddVirtualCardViewModel by viewModels()
     var virtualCardAdapter: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
     private var tabViews = ArrayList<CircleView>()
 
