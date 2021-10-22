@@ -54,7 +54,8 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
                     false,
                     (data as CardStatement).also {
                         it.statementType = viewModel.state.statementType.get()
-                        it.sendEmail =true
+                        it.sendEmail = true
+                        it.cardType = viewModel.card.cardType
                     }
                 )
             )
