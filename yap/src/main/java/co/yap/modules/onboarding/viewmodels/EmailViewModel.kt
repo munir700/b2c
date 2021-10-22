@@ -12,12 +12,15 @@ import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SaveReferalRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
@@ -36,7 +39,6 @@ class EmailViewModel(application: Application) :
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override fun onResume() {
         super.onResume()
@@ -82,17 +84,18 @@ class EmailViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    sharedPreferenceManager.save(
+                    SharedPreferenceManager.getInstance(context).save(
                         KEY_IS_USER_LOGGED_IN,
                         true
                     )
 
                     parentViewModel?.onboardingData?.passcode?.let { passCode ->
-                        sharedPreferenceManager.savePassCodeWithEncryption(passCode)
+                        SharedPreferenceManager.getInstance(context).savePassCodeWithEncryption(passCode)
                     } ?: toast(context, "Invalid pass code")
 
                     trackEvent(SignupEvents.SIGN_UP_EMAIL.type, state.twoWayTextWatcher)
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
+                    trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL)
+                    SharedPreferenceManager.getInstance(context).saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
                     state.setSuccessUI()
                     state.loading = false
@@ -102,6 +105,7 @@ class EmailViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.emailError = response.error.message
+                    parentViewModel?.state?.emailError = true
                 }
             }
         }
@@ -135,6 +139,7 @@ class EmailViewModel(application: Application) :
         launch {
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
@@ -144,6 +149,7 @@ class EmailViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Error -> {
                     state.emailError = response.error.message
+                    parentViewModel?.state?.emailError = true
                     state.loading = false
 
                 }
@@ -158,11 +164,12 @@ class EmailViewModel(application: Application) :
     override fun postDemographicData() {
 
         val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         launch {
             state.valid = false
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.postDemographicData(
                 DemographicDataRequest(
                     "SIGNUP",
@@ -190,14 +197,17 @@ class EmailViewModel(application: Application) :
         launch {
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        parentViewModel?.onboardingData?.ibanNumber = response.data.data[0].iban
+                        val accountInfo: AccountInfo = response.data.data[0]
+                        parentViewModel?.onboardingData?.ibanNumber = accountInfo.iban
                         delay(500)
-                        SessionManager.user = response.data.data[0]
+                        SessionManager.user = accountInfo
                         SessionManager.setupDataSetForBlockedFeatures()
                         state.valid = true
+                        state.isWaiting = accountInfo.isWaiting
                         state.loading = false
                         nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                     }
@@ -225,13 +235,13 @@ class EmailViewModel(application: Application) :
     }
 
     private fun requestSaveReferral() {
-        SharedPreferenceManager(context).getReferralInfo()?.let {
+        SharedPreferenceManager.getInstance(context).getReferralInfo()?.let {
             launch {
                 when (val response =
                     repository.saveReferalInvitation(SaveReferalRequest(it.id, it.date))) {
 
                     is RetroApiResponse.Success -> {
-                        SharedPreferenceManager(context).setReferralInfo(null)
+                        SharedPreferenceManager.getInstance(context).setReferralInfo(null)
                     }
                     is RetroApiResponse.Error -> {
                     }

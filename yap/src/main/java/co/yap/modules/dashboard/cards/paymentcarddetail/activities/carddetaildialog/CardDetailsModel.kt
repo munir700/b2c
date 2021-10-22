@@ -5,6 +5,7 @@ data class CardDetailsModel(
     var cardNumber: String? = "",
     var cardExpiry: String? = "",
     var cardCvv: String? = "",
-    var displayName: String? = ""
+    var displayName: String? = "",
+    var cardImg: String? = ""
 ) {
 }

@@ -2,16 +2,19 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -141,6 +144,9 @@ interface CustomersRetroService {
     suspend fun getAllBeneficiaries(): Response<GetAllBeneficiaryResponse>
 
     @GET(CustomersRepository.URL_GET_COUNTRIES)
+    suspend fun getCountries(): Response<CountryModel>
+
+    @GET(CustomersRepository.URL_GET_ALL_COUNTRIES)
     suspend fun getAllCountries(): Response<CountryModel>
 
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
@@ -241,4 +247,55 @@ interface CustomersRetroService {
         @Query("beneficiaryId") beneficiaryId: String,
         @Query("productCode") productCode: String
     ): Response<SMCoolingPeriodResponseDTO>
+
+    @POST(CustomersRepository.URL_GET_QR_CONTACT)
+    suspend fun getQRContact(@Body qrContactRequest: QRContactRequest): Response<QRContactResponse>
+
+    @PATCH(CustomersRepository.URL_UPDATE_HOME_COUNTRY)
+    suspend fun updateHomeCountry(@Body homeCountry: UpdateHomeCountryRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_HOME_COUNTRY_FX_RATE)
+    suspend fun updateFxRate(@Body fxRate: FxRateRequest): Response<FxRateResponse>
+
+    @POST(CustomersRepository.URL_TOUR_GUIDES)
+    suspend fun updateTourGuideStatus(@Body tourGuide: TourGuideRequest): Response<UpdateTourGuideResponse>
+
+    @GET(CustomersRepository.URL_TOUR_GUIDES)
+    suspend fun getTourGuides(): Response<TourGuideResponse>
+
+    //Get additional info required
+    @GET(CustomersRepository.URL_GET_ADDITIONAL_DOCUMENT)
+    suspend fun getAdditionalInfoRequired(): Response<AdditionalInfoResponse>
+
+    // Upload Addition Documents Request
+    @Multipart
+    @POST(CustomersRepository.URL_ADDITIONAL_DOCUMENT_UPLOAD)
+    suspend fun uploadAdditionalDocuments(
+        @Part files: MultipartBody.Part,
+        @Part("documentType") documentType: RequestBody
+    ): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)
+    suspend fun uploadAdditionalQuestion(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_SEND_INVITE_FRIEND)
+    suspend fun sendInviteFriend(@Body sendInviteFriendRequest: SendInviteFriendRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_ADDITIONAL_SUBMIT)
+    suspend fun submitAdditionalInfo(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_GET_RANKING)
+    suspend fun getWaitingRanking(): Response<WaitingRankingResponse>
+
+    @POST(CustomersRepository.URL_COMPLETE_VERIFICATION)
+    suspend fun completeVerification(@Body completeVerificationRequest: CompleteVerificationRequest): Response<SignUpResponse>
+
+    @GET(CustomersRepository.URL_GET_INDUSTRY_SEGMENTS)
+    suspend fun getIndustriesSegments(): Response<IndustrySegmentsResponse>
+
+    @POST(CustomersRepository.URL_SAVE_EMPLOYMENT_INFO)
+    suspend fun submitEmploymentInfo(@Body employmentInfoRequest: EmploymentInfoRequest): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
+    suspend fun stopRankingMsgRequest(): Response<ApiResponse>
 }

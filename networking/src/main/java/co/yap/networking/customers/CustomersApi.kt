@@ -2,15 +2,18 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 
@@ -53,6 +56,7 @@ interface CustomersApi {
 
     suspend fun getRecentBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
+    suspend fun getCountries(): RetroApiResponse<CountryModel>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
     suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO>
     suspend fun validateBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse>
@@ -81,6 +85,7 @@ interface CustomersApi {
     ): RetroApiResponse<CountryLimitsResponseDTO>
 
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse>
+
     /*
     * fun that comes from admin repo to be replaced
     * */
@@ -98,6 +103,20 @@ interface CustomersApi {
     suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse>
     suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse>
     suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO>
-
+    suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse>
+    suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse>
+    suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse>
+    suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse>
+    suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse>
+    suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
+    suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun sendInviteFriend(sendInviteFriendRequest: SendInviteFriendRequest): RetroApiResponse<ApiResponse>
+    suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun getWaitingRanking(): RetroApiResponse<WaitingRankingResponse>
+    suspend fun completeVerification(completeVerificationRequest: CompleteVerificationRequest): RetroApiResponse<SignUpResponse>
+    suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse>
+    suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
+    suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
 
 }

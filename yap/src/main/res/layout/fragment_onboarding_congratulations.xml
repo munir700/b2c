@@ -7,6 +7,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.onboarding.viewmodels.CongratulationsViewModel" />
@@ -21,7 +23,7 @@
         android:layout_marginEnd="@dimen/_8sdp"
         android:background="@color/white">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/ATitle3"
             android:layout_width="match_parent"
@@ -42,7 +44,7 @@
             app:text="@{Strings.screen_onboarding_congratulations_display_text_title}"
             tools:text="@string/screen_onboarding_congratulations_display_text_title" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSubTitle"
             style="@style/ASmallGrey"
             android:layout_width="match_parent"
@@ -57,7 +59,7 @@
             app:text="@{Strings.screen_onboarding_congratulations_display_text_sub_title_no_interval}"
             tools:text="@string/screen_onboarding_congratulations_display_text_sub_title_no_interval" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCard"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="0dp"
@@ -68,7 +70,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSubTitle" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvIbanTitle"
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
@@ -77,6 +79,7 @@
             android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center"
             android:text="@string/screen_onboarding_congratulations_display_text_iban"
+            android:visibility="@{viewModel.state.waiting ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/tvIban"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +87,7 @@
             app:text="@{Strings.screen_onboarding_congratulations_display_text_iban}" />
 
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvIban"
             style="@style/ARegular"
             android:layout_width="wrap_content"
@@ -98,12 +101,13 @@
             android:paddingBottom="@dimen/_12sdp"
             android:text="@{viewModel.state.ibanNumber}"
             android:textColor="?attr/colorPrimaryAttr"
+            android:visibility="@{viewModel.state.waiting ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/tvMeetingNotes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="AE07 0331 2345 6789 01** ***" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMeetingNotes"
             style="@style/MicroGrey"
             android:layout_width="match_parent"
@@ -114,35 +118,29 @@
             android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/btnCompleteVerification"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_onboarding_congratulations_display_text_meeting_note}"
+            app:text="@{viewModel.state.waiting ? Strings.screen_onboarding_congratulations_display_text_delay_detail_text:Strings.screen_onboarding_congratulations_display_text_meeting_note}"
             tools:text="@string/screen_onboarding_congratulations_display_text_meeting_note" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnCompleteVerification"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xl"
-            android:layout_marginEnd="@dimen/margin_xl"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:drawablePadding="@dimen/_20sdp"
             android:gravity="center"
-            android:minHeight="@dimen/_52sdp"
             android:onClick="@{(v)-> viewModel.handlePressOnCompleteVerification(v.id)}"
-            android:paddingStart="@dimen/margin_large"
-            android:paddingTop="@dimen/_8sdp"
-            android:paddingEnd="@dimen/margin_large"
-            android:paddingBottom="@dimen/_8sdp"
             android:textColor="@color/colorWhite"
             app:btn_enable="true"
             app:btn_round_radius="@dimen/_26sdp"
             app:btn_shape_type="rectangle"
+            app:btn_size="medium"
             app:btn_text_size="@dimen/text_size_h4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_onboarding_congratulations_button_complete_verification}"
-            tools:ignore="MissingConstraints"
+            app:text="@{viewModel.state.waiting ? Strings.screen_onboarding_congratulations_button_queue_up:Strings.screen_onboarding_congratulations_button_complete_verification }"
             tools:text="@string/screen_onboarding_congratulations_button_complete_verification" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

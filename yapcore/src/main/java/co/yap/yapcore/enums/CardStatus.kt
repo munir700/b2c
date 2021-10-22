@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 
 @Keep
 enum class CardStatus {
-    ACTIVE, BLOCKED, INACTIVE, HOTLISTED, EXPIRED, PIN_BLOCKED;
+    ACTIVE, BLOCKED, INACTIVE, HOTLISTED, EXPIRED;
 
     //Zain ul Abe Din Sohail Zahid There is new status added in card status PIN_BLOCKED.
     // Please handle this at your side also because currently at backend we have added

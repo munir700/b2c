@@ -16,17 +16,29 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.widgets.bottomsheet.BottomSheet
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.bottomsheet_with_initials.CoreInitialsBottomSheet
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.TourGuideManager
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -54,6 +66,31 @@ inline fun <reified T : Any> Activity.launchActivity(
     }
 }
 
+inline fun <reified T : Any> FragmentActivity.launchActivityForResult(
+    requestCode: Int = -1,
+    options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
+    noinline init: Intent.() -> Unit = {},
+    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    completionHandler?.let {
+        val intent = newIntent<T>(this)
+        intent.init()
+        intent.putExtra(EXTRA, options)
+        this@launchActivityForResult.startForResult(intent) { result ->
+            it.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            it.invoke(result.resultCode, result.data)
+        }
+    } ?: run {
+        launchActivity<T>(
+            requestCode = requestCode,
+            options = options,
+            type = type,
+            init = init
+        )
+    }
+}
+
 inline fun <reified T : Any> Fragment.launchActivity(
     requestCode: Int = -1,
     options: Bundle? = null,
@@ -69,6 +106,25 @@ inline fun <reified T : Any> Fragment.launchActivity(
             startActivityForResult(intent, requestCode, options)
         } else {
             startActivityForResult(intent, requestCode)
+        }
+    }
+}
+
+inline fun <reified T : Any> Fragment.launchActivityForActivityResult(
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    type: FeatureSet = FeatureSet.NONE,
+    noinline init: Intent.() -> Unit = {}
+) {
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(requireActivity(), type)
+    } else {
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            requireActivity().startActivityForResult(intent, requestCode, options)
+        } else {
+            requireActivity().startActivityForResult(intent, requestCode)
         }
     }
 }
@@ -93,21 +149,26 @@ inline fun <reified T : Any> Context.launchActivity(
 
 inline fun <reified T : Any> Fragment.launchActivityForResult(
     requestCode: Int = -1,
-    options: Bundle? = null,
+    options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {},
     noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
 ) {
-    completionHandler?.let {
-        val intent = newIntent<T>(requireContext())
-        intent.init()
-        intent.putExtra(EXTRA, options)
-        this.startForResult(intent) { result ->
-            it.invoke(result.resultCode, result.data)
-        }.onFailed { result ->
-            it.invoke(result.resultCode, result.data)
+
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(requireActivity(), type)
+    } else {
+        completionHandler?.let {
+            val intent = newIntent<T>(requireContext())
+            intent.init()
+            intent.putExtra(EXTRA, options)
+            this.startForResult(intent) { result ->
+                it.invoke(result.resultCode, result.data)
+            }.onFailed { result ->
+                it.invoke(result.resultCode, result.data)
+            }
+        } ?: run {
+            launchActivity<T>(requestCode = requestCode, options = options, init = init)
         }
-    } ?: run {
-        launchActivity<T>(requestCode = requestCode, options = options, init = init)
     }
 }
 
@@ -369,7 +430,8 @@ fun Fragment.openAppSetting(requestCode: Int = RequestCodes.REQUEST_FOR_GPS) {
         Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
     intent.data = uri
-    startActivityForResult(intent, requestCode)
+    if (intent.resolveActivity(requireContext().packageManager) != null)
+        startActivityForResult(intent, requestCode)
 }
 
 inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
@@ -383,4 +445,77 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
 
 fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
+/**
+ *
+ *
+ */
+inline fun Activity.launchTourGuide(
+    screenName: TourGuideType,
+    init: ArrayList<GuidedTourViewDetail>.() -> Unit = {}
+): TourSetup? {
+    return if (!TourGuideManager.getBlockedTourGuideScreens.contains(screenName)) {
+        val list = arrayListOf<GuidedTourViewDetail>()
+        list.init()
+        val tour = TourSetup(this, list)
+        tour.startTour()
+        TourGuideManager.lockTourGuideScreen(screenName, viewed = true)
+        return tour
+    } else null
+}
+
+fun Fragment.launchBottomSheetSegment(
+    itemClickListener: OnItemClickListener?,
+    configuration: BottomSheetConfiguration,
+    viewType: Int,
+    listData: MutableList<CoreBottomSheetData>
+) {
+    fragmentManager.let {
+        val coreBottomSheet =
+            CoreBottomSheet(
+                itemClickListener,
+                bottomSheetItems = listData,
+                viewType = viewType,
+                configuration = configuration
+            )
+        it?.let { it1 -> coreBottomSheet.show(it1, "") }
+    }
+}
+
+fun FragmentActivity.launchSheet(
+    itemClickListener: OnItemClickListener? = null,
+    itemsList: ArrayList<BottomSheetItem>,
+    heading: String? = null,
+    subHeading: String? = null,
+    showDivider: Boolean? = null
+) {
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
+            BottomSheet(
+                itemClickListener,
+                bottomSheetItems = itemsList,
+                headingLabel = heading,
+                subHeadingLabel = subHeading,
+                showDivider = showDivider
+            )
+        coreBottomSheet.show(it, "")
+    }
+}
+
+fun FragmentActivity.launchInitialBottomSheet(
+    itemClickListener: OnItemClickListener? = null,
+    configuration: BottomSheetConfiguration,
+    viewType: Int? = Constants.VIEW_WITHOUT_FLAG,
+    listData: MutableList<CoreBottomSheetData>? = arrayListOf()
+) {
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
+            CoreInitialsBottomSheet(
+                itemClickListener,
+                bottomSheetItems = listData ?: arrayListOf(),
+                viewType = viewType ?: Constants.VIEW_WITHOUT_FLAG,
+                configuration = configuration
+            )
+        it.let { it1 -> coreBottomSheet.show(it1, "") }
+    }
+}
 

@@ -35,7 +35,6 @@
             app:rightIconVisibility="@{false}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
@@ -55,20 +54,20 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgFaqs"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    app:tint="?attr/colorPrimaryAttr"
-                    app:srcCompat="@drawable/ic_support" />
+                    app:srcCompat="@drawable/ic_support"
+                    app:tint="?attr/colorPrimaryAttr" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvFaqs"
                     style="@style/Small"
                     android:layout_width="wrap_content"
@@ -84,7 +83,7 @@
                     app:text="@{Strings.screen_help_support_display_text_faqs}"
                     tools:text="@string/screen_help_support_display_text_faqs" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgFaqsArrow"
                     android:layout_width="@dimen/_26sdp"
                     android:layout_height="@dimen/_26sdp"
@@ -106,20 +105,20 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lLyFaqs">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgChat"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
-                    android:padding="@dimen/_10sdp"
-                    app:tint="?attr/colorPrimaryAttr"
-                    app:srcCompat="@drawable/ic_chat" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_chat"
+                    app:tint="?attr/colorPrimaryAttr" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvChat"
                     style="@style/Small"
                     android:layout_width="wrap_content"
@@ -135,7 +134,7 @@
                     app:text="@{Strings.screen_help_support_display_text_live_chat}"
                     tools:text="@string/screen_help_support_display_text_live_chat" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgChatArrow"
                     android:layout_width="@dimen/_26sdp"
                     android:layout_height="@dimen/_26sdp"
@@ -147,7 +146,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/lyLiveWhatsApp"
                 android:layout_width="match_parent"
@@ -157,20 +155,20 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lyChat">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgWhatsApp"
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_35sdp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
-                    android:padding="@dimen/_10sdp"
+                    android:padding="@dimen/_13sdp"
                     app:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_whatsapp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvWhatsApp"
                     style="@style/Small"
                     android:layout_width="wrap_content"
@@ -186,7 +184,7 @@
                     app:text="@{Strings.screen_help_support_display_text_chat_via_whatsApp}"
                     tools:text="@string/screen_help_support_display_text_chat_via_whatsApp" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgWhatsAppArrow"
                     android:layout_width="@dimen/_26sdp"
                     android:layout_height="@dimen/_26sdp"
@@ -195,7 +193,6 @@
                     android:contentDescription="@string/empty_string"
                     android:rotation="180"
                     app:srcCompat="@drawable/ic_back_arrow_left" />
-
 
             </LinearLayout>
 
@@ -208,18 +205,18 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lyLiveWhatsApp">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgCall"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:background="@drawable/bg_round_purple"
+                    android:background="@drawable/bg_help_round_purple"
                     android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    app:tint="?attr/colorPrimaryAttr"
-                    app:srcCompat="@drawable/ic_phone_vector" />
+                    app:srcCompat="@drawable/ic_phone_vector"
+                    app:tint="?attr/colorPrimaryAttr" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
@@ -227,7 +224,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvCall"
                         style="@style/Small"
                         android:layout_width="wrap_content"
@@ -244,8 +241,7 @@
                         app:text="@{Strings.screen_help_support_display_text_call_us}"
                         tools:text="@string/screen_help_support_display_text_call_us" />
 
-
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvCallAvalabile"
                         style="@style/MicroGrey"
                         android:layout_width="wrap_content"
@@ -265,7 +261,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCallPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -277,15 +273,14 @@
                     android:gravity="center|end"
                     android:lineSpacingExtra="8sp"
                     android:lines="1"
-                    android:textColor="?attr/colorPrimaryDarkAttr"
+                    android:textColor="?attr/colorPrimaryAttr"
                     android:textSize="@dimen/text_size_h2"
                     app:underline_text="@{viewModel.state.contactPhone}"
                     tools:text="+971 600 55 1214" />
-
             </LinearLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

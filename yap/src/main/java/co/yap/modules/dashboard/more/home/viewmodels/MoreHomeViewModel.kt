@@ -7,9 +7,12 @@ import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.states.MoreState
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.NotificationsRepository
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
 
@@ -86,5 +89,19 @@ class MoreHomeViewModel(application: Application) :
             )
         )
         return list
+    }
+
+    override fun getTransactionsNotificationsCount(onComplete: (Int?) -> Unit) {
+        launch {
+            when (val response = NotificationsRepository.getTransactionsNotificationsCount()) {
+                is RetroApiResponse.Success -> {
+                    onComplete.invoke(response.data.data?.parseToInt())
+                }
+                is RetroApiResponse.Error -> {
+                    onComplete.invoke(0)
+
+                }
+            }
+        }
     }
 }

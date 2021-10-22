@@ -88,7 +88,10 @@ class TopUpBeneficiariesViewModel(application: Application) :
                     state.noOfCard.set("Start by adding a card")
                     state.message.set("No cards are connected to this account yet")
                 }
-                1 -> state.noOfCard.set(message.substring(0, message.length - 1))
+                1 -> {
+                    state.noOfCard.set(message.substring(0, message.length - 1))
+                    state.message.set("Choose which card you want to top up with")
+                }
                 else -> state.noOfCard.set(message)
             }
         }

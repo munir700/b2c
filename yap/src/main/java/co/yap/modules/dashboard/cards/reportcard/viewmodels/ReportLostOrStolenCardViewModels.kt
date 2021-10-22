@@ -16,6 +16,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class ReportLostOrStolenCardViewModels(application: Application) :
@@ -130,9 +131,14 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                     if (response.data.data != null) {
                         if (response.data.data?.feeType == co.yap.yapcore.constants.Constants.FEE_TYPE_FLAT) {
                             val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+
+                            val vatAmount =
+                                ((feeAmount
+                                    ?: 0.0) * (response.data.data?.tierRateDTOList?.get(0)?.vatPercentage?.parseToDouble()
+                                    ?.div(100)
+                                    ?: 0.0))
                             cardFee =
-                                feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                feeAmount?.plus(vatAmount ?: 0.0).toString()
                                     .toFormattedCurrency()
                         }
                     } else {
@@ -155,9 +161,13 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                     if (response.data.data != null) {
                         if (response.data.data?.feeType == co.yap.yapcore.constants.Constants.FEE_TYPE_FLAT) {
                             val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                            val vatAmount =
+                                ((feeAmount
+                                    ?: 0.0) * (response.data.data?.tierRateDTOList?.get(0)?.vatPercentage?.parseToDouble()
+                                    ?.div(100)
+                                    ?: 0.0))
                             cardFee =
-                                feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                feeAmount?.plus(vatAmount ?: 0.0).toString()
                                     .toFormattedCurrency()
                         }
                     } else {

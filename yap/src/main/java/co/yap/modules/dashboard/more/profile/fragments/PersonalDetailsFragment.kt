@@ -21,8 +21,6 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
-import co.yap.modules.location.fragments.POBSelectionFragment
-import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
@@ -32,14 +30,11 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.FeatureProvisioning
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 
 
@@ -57,11 +52,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override val viewModel: PersonalDetailsViewModel
         get() = ViewModelProviders.of(this).get(PersonalDetailsViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.onUpdateAddressSuccess.observe(this, onAddressSuccess)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity)
@@ -76,7 +66,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override fun onResume() {
         super.onResume()
         viewModel.toggleToolBar(true)
-        viewModel.orderCardSuccess.observe(this, onCardOrderSuccess)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEditPhoneNumber -> {
@@ -98,7 +87,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditEmail -> {
-                    if (!FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_EMAIL)){
+                    if (!FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_EMAIL)) {
                         viewModel.toggleToolBar(true)
                         viewModel.updateToolBarText("")
                     }
@@ -119,7 +108,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-
                 }
 
                 R.id.cvCard -> {
@@ -159,17 +147,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             }
         })
 
-        viewModel.onUpdateAddressSuccess.observe(this, Observer {
-            if (it) {
-                val action =
-                    PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
-                        getString(R.string.screen_address_success_display_text_sub_heading_update),
-                        " ", placesPhotoId = photoPlacesId
-                    )
-                findNavController().navigate(action)
-            }
-        })
-
         toggleAddressVisibility()
     }
 
@@ -198,44 +175,14 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override fun onPause() {
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
-        viewModel.onUpdateAddressSuccess.removeObservers(this)
-        viewModel.orderCardSuccess.removeObserver(onCardOrderSuccess)
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
-        viewModel.onUpdateAddressSuccess.removeObservers(this)
         super.onDestroy()
         if (changeAddress) {
             viewModel.toggleToolBar(true)
             changeAddress = true
-        }
-    }
-
-    private val onCardOrderSuccess = Observer<Boolean> {
-        if (it) {
-            startActivityForResult(
-                FragmentPresenterActivity.getIntent(
-                    requireContext(),
-                    Constants.MODE_MEETING_CONFORMATION,
-                    null
-                ), RequestCodes.REQUEST_MEETING_CONFIRMED
-            )
-
-        } else {
-
-        }
-    }
-
-    private val onAddressSuccess = Observer<Boolean> {
-        if (it) {
-            val action =
-                PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
-                    getString(R.string.screen_address_success_display_text_sub_heading_update),
-                    " ", placesPhotoId = photoPlacesId
-                )
-            findNavController().navigate(action)
-
         }
     }
 
@@ -297,12 +244,12 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     private fun handleLocationRequestResult(data: Intent?) {
         data?.let {
-            val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-            photoPlacesId = it.getStringExtra(Constants.PLACES_PHOTO_ID)
+            val result = it.getBooleanExtra(ADDRESS_SUCCESS, false)
+            photoPlacesId = it.getStringExtra(Constants.PLACES_PHOTO_ID) ?: ""
             if (result) {
                 val address = it.getParcelableExtra<Address>(ADDRESS)
                 SessionManager.userAddress = address
-                viewModel.requestOrderCard(address)
+                setIntentResult()
             }
         }
     }
@@ -316,10 +263,26 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     }
 
     private fun updateUserAddress(address: Address) {
-        viewModel.requestUpdateAddress(address)
+        viewModel.requestUpdateAddress(address) {
+            if (it) {
+                val action =
+                    PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
+                        getString(R.string.screen_address_success_display_text_sub_heading_update),
+                        " ", placesPhotoId = photoPlacesId
+                    )
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun getBinding(): FragmentPersonalDetailBinding {
         return (viewDataBinding as FragmentPersonalDetailBinding)
+    }
+
+    private fun setIntentResult() {
+        val intent = Intent()
+        intent.putExtra(Constants.result, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 }

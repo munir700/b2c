@@ -83,6 +83,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_medium_large"
                     android:checked="@={SessionManager.INSTANCE.isRemembered}"
+                    android:padding="@dimen/margin_normal"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_label_switch_text)}"
                     android:theme="@style/CustomSwitch" />
 
@@ -95,12 +96,12 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnLogIn"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
-                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_gravity="center_horizontal"
                     android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_button_sign_in)}"
+                    app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}" />
 
                 <View
@@ -116,7 +117,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView

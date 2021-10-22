@@ -1,6 +1,7 @@
 package co.yap.yapcore
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.databinding.Bindable
@@ -98,7 +99,7 @@ abstract class BaseListItemViewModel<ITEM : Any> : ViewModel(), Observable, OnIt
     private var mCallbacks: PropertyChangeRegistry? = null
 
     private var isFirstTimeUiCreate = true
-
+    var onChildViewClickListener: ((view: View, position: Int, data: ITEM?) -> Unit)?=null
     abstract fun setItem(item: ITEM, position: Int)
     abstract fun getItem(): ITEM
 

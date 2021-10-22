@@ -16,6 +16,7 @@ import co.yap.yapcore.BaseState
 class ChangePhoneNumberState(application: Application) : BaseState(), IChangePhoneNumber.State {
 
     val context = application.applicationContext
+
     @get:Bindable
     override var background: Drawable? = context.getDrawable(R.drawable.bg_phone_number_under_line)
         set(value) {
@@ -84,7 +85,7 @@ class ChangePhoneNumberState(application: Application) : BaseState(), IChangePho
                 background = context.getDrawable(R.drawable.bg_edit_text_red_under_line)
                 drawbleRight =
                     context!!.resources.getDrawable(co.yap.yapcore.R.drawable.ic_error, null)
-            }else{
+            } else {
                 background = context.getDrawable(R.drawable.bg_phone_number_under_line)
                 drawbleRight = null
             }

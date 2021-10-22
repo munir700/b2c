@@ -4,7 +4,6 @@ import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.onboarding.interfaces.IOnboarding
 import co.yap.yapcore.BaseState
-import android.animation.ObjectAnimator
 
 class OnboardingState : BaseState(), IOnboarding.State {
 
@@ -20,5 +19,12 @@ class OnboardingState : BaseState(), IOnboarding.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.currentProgress)
+        }
+
+    @get:Bindable
+    override var emailError: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.emailError)
         }
 }

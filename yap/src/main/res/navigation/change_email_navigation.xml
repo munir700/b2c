@@ -19,30 +19,8 @@
 
     <fragment
         android:id="@+id/changeEmailSuccessFragment"
-        android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.UnverifiedChangeEmailSuccessFragment"
         android:label="ChangeEmailSuccessFragment"
-        tools:layout="@layout/fragment_success">
-        <argument
-            android:name="staticString"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="destinationValue"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="successType"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="placesPhotoId"
-            android:defaultValue=" "
-            app:argType="string" />
-        <action
-            android:id="@+id/action_changeEmailSuccessFragment_to_moreNavigation"
-            app:destination="@id/personalDetailsFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:popUpTo="@id/personalDetailsFragment"
-            app:popUpToInclusive="true" />
+        tools:layout="@layout/fragment_unverified_change_email_success">
     </fragment>
 </navigation>

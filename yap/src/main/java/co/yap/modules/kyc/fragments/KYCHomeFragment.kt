@@ -13,9 +13,9 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
-import co.yap.yapcore.firebase.FirebaseEvents
-import co.yap.yapcore.firebase.FirebaseTagManagerModel
-import co.yap.yapcore.firebase.firebaseTagManagerEvent
+import co.yap.translation.Strings
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import java.io.File
@@ -31,7 +31,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.SCAN_ID.event))
+        trackEventWithScreenName(FirebaseEvent.SCAN_ID)
+//        requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.SCAN_ID.event))
         shouldSkipScreen()
         addObservers()
     }
@@ -46,6 +47,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
                 R.id.tvSkip -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_SKIP_EID)
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
                 }
             }
@@ -56,10 +58,23 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
                 findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+            } else if (viewModel.parentViewModel?.gotoInformationErrorFragment?.value == true) {
+                navigateToInformationErrorFragment()
             } else {
                 viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
             }
+        } ?: if (viewModel.parentViewModel?.gotoInformationErrorFragment?.value == true) {
+            navigateToInformationErrorFragment()
         }
+    }
+
+    private fun navigateToInformationErrorFragment() {
+        val action =
+            KYCHomeFragmentDirections.actionKYCHomeFragmentToInformationErrorFragment(
+                getString(Strings.screen_kyc_information_error_display_text_title_from_us),
+                getString(Strings.screen_kyc_information_error_text_description_from_us)
+            )
+        navigate(action)
     }
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {

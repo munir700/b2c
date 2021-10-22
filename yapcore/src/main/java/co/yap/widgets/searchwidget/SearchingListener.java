@@ -3,7 +3,7 @@ package co.yap.widgets.searchwidget;
 public interface SearchingListener {
     void onCancel();
 
-    default void onTypingSearch(boolean isSearching, String search){
+    default void onTypingSearch(String search){
 
     }
 

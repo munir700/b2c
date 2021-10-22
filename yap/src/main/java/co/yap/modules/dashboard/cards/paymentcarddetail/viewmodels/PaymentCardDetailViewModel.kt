@@ -50,7 +50,7 @@ class PaymentCardDetailViewModel(application: Application) :
     private var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
     override var cardTransactionRequest: CardTransactionRequest =
-        CardTransactionRequest(0, 20, "", null, null)
+        CardTransactionRequest(0, 200, "", null, null)
 
     override fun requestAccountTransactions() {
         launch {
@@ -242,7 +242,8 @@ class PaymentCardDetailViewModel(application: Application) :
                         card.value?.availableBalance = cardBalance?.availableBalance.toString()
                         state.cardBalance = cardBalance?.availableBalance?.toFormattedCurrency(
                             showCurrency = true,
-                            currency = cardBalance.currencyCode ?: SessionManager.getDefaultCurrency()
+                            currency = cardBalance.currencyCode
+                                ?: SessionManager.getDefaultCurrency()
                         ) ?: ""
                     } catch (e: Exception) {
                         e.printStackTrace()

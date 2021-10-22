@@ -16,7 +16,7 @@ class IVerifyCardCvv {
 
     interface State : IBase.State {
         var cardCvv: String
-        var cvvSpanableString: ObservableField<String>
+        var cvvSpanableString: ObservableField<CharSequence>
         var cardInfo: ObservableField<TopUpCard>
         var formattedCardNo: ObservableField<String>
     }

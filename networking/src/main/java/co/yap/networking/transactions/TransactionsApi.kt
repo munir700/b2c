@@ -9,6 +9,10 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionCategoryResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
+import okhttp3.MultipartBody
 
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
@@ -35,23 +39,22 @@ interface TransactionsApi {
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
     suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse>
     suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
+    suspend fun searchTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO>
     suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO>
     suspend fun check3DEnrollmentSession(check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): RetroApiResponse<Check3DEnrollmentSessionResponse>
-    suspend fun secureIdPooling(secureId: String = ""): RetroApiResponse<StringDataResponseDTO>
+    suspend fun secureIdPooling(secureId: String? = ""): RetroApiResponse<StringDataResponseDTO>
     suspend fun cardTopUpTransactionRequest(
         orderId: String,
         topUpTransactionRequest: TopUpTransactionRequest
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getAnalyticsByMerchantName(
-        cardSerialNo: String? = "",
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 
     suspend fun getAnalyticsByCategoryName(
-        cardSerialNo: String? = "",
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 
@@ -77,9 +80,39 @@ interface TransactionsApi {
         beneficiaryName: String?,
         amount: String?
     ): RetroApiResponse<ApiResponse>
+
     suspend fun getTransactionsOfMerchant(
         merchantType: String,
         cardSerialNo: String?,
-        date: String?, merchantName: ArrayList<String>?
+        date: String?, merchantName: ArrayList<Any>?
+
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
+
+    suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<TransactionReceiptResponse>
+    suspend fun addTransactionReceipt(
+        transactionId: String,
+        transactionReceipt: MultipartBody.Part
+    ): RetroApiResponse<ApiResponse>
+
+    suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse>
+    suspend fun deleteTransactionReceipt(
+        transactionId: String,
+        receipt: String
+    ): RetroApiResponse<ApiResponse>
+
+    suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
+    suspend fun getTotalPurchases(
+        totalPurchaseRequest: TotalPurchaseRequest
+    ): RetroApiResponse<TotalPurchasesResponse>
+
+    suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse>
+    suspend fun updateTransactionCategory(
+        categoryId: String,
+        transactionId: String
+    ): RetroApiResponse<ApiResponse>
+
+    suspend fun requestSendEmail(
+        sendEmailRequestModel: SendEmailRequest
+    ): RetroApiResponse<ApiResponse>
+
 }

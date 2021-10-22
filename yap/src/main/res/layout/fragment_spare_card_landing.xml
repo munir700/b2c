@@ -7,9 +7,13 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.SpareCardLandingViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel" />
 
     </data>
 
@@ -23,17 +27,17 @@
             android:background="@color/colorWhite"
             android:paddingBottom="@dimen/margin_medium">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/linearLayout2"
                 android:layout_width="@dimen/_121sdp"
                 android:layout_height="@dimen/_190sdp"
                 android:layout_gravity="center_horizontal"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
-                android:src="@drawable/card_spare"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints" />
+                app:cardImageUrl="@{viewModel.state.cardImageUrl}"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvSpareCardTile"
@@ -56,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="@dimen/margin_small"
-                android:text="@{String.format(@string/screen_add_spare_card_display_text_fee,viewModel.state.virtualCardFee)}"
+                android:text="@{String.format(@string/screen_add_spare_card_display_text_fee,CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.virtualCardFee,true,SessionManager.INSTANCE.defaultCurrency,true))}"
+                tools:text="@string/screen_add_spare_card_display_text_fee"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
@@ -70,6 +75,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                tools:itemCount="2"
                 app:layout_constraintTop_toBottomOf="@+id/tvSpareCardFee"
                 tools:listitem="@layout/item_benefits" />
 
@@ -103,7 +109,7 @@
                     android:id="@+id/llAddVirtualCard"
                     android:layout_width="@dimen/_130sdp"
                     android:layout_height="@dimen/_90sdp"
-                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/card_border_selector"
                     android:clickable="true"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
@@ -168,12 +174,11 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/addSpareCard"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
                 android:text="@string/common_button_add"
                 android:textAllCaps="false"

@@ -12,14 +12,14 @@ interface IHouseHoldSubscription {
         var annuallyFee: String
         var subscriptionFee: String
         var hasSelectedPackage: Boolean
-        var planDiscount:String
+        var planDiscount: String
         var valid: Boolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var benefitsList: ArrayList<BenefitsModel>
-        var plansList:ArrayList<HouseHoldPlan>
+        var plansList: ArrayList<HouseHoldPlan>
         fun handlePressOnCloseIcon(id: Int)
         fun handlePressOnMonthlyPackage(id: Int)
         fun handlePressOnYearlyPackage(id: Int)

@@ -142,6 +142,8 @@
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
+
+
     <style name="Micro" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -155,6 +157,13 @@
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
+    </style>
+
+    <style name="RegularPrimary" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+         <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <!-- Grey text -->
@@ -264,6 +273,12 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
+    <style name="DarkSlateBlue" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimaryDarkHouseHold</item>
+    </style>
+
     <style name="MicroGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -275,6 +290,13 @@
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/greyDark</item>
+    </style>
+
+    <style name="DarkGreyMedium" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="purpleLabel" parent="AppFontRegular">
@@ -619,6 +641,13 @@
         <item name="android:textColor">@color/colorPlaceHolderGrey</item>
     </style>
 
+    <style name="LabelTextStylInActive" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="AppSearchViewPlane" parent="Widget.AppCompat.SearchView">
         <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:editTextColor">?attr/colorPrimaryDarkAttr</item>
@@ -642,4 +671,51 @@
         <item name="android:focusable">false</item>
         <item name="android:elevation">@dimen/margin_zero_dp</item>
     </style>
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="StepView">
+        <item name="sv_selectedCircleColor">@color/colorPrimary</item>
+        <item name="sv_selectedCircleRadius">14dp</item>
+        <item name="sv_selectedTextColor">@color/white</item>
+        <item name="sv_selectedStepNumberColor">@color/white</item>
+        <item name="sv_stepNumberTextSize">12sp</item>
+        <item name="sv_doneStepMarkColor">@color/white</item>
+        <item name="sv_doneCircleColor">@color/colorPrimary</item>
+        <item name="sv_doneCircleRadius">14dp</item>
+        <item name="sv_doneTextColor">@color/stepview_text_done</item>
+        <item name="sv_nextTextColor">@color/stepview_text_next</item>
+        <item name="sv_nextStepLineColor">@color/stepview_line_next</item>
+        <item name="sv_doneStepLineColor">@color/stepview_line_next</item>
+        <item name="sv_stepPadding">12dp</item>
+        <item name="sv_textPadding">12dp</item>
+        <item name="sv_stepLineWidth">0.5dp</item>
+        <item name="sv_animationDuration">200</item>
+        <item name="sv_textSize">14sp</item>
+        <item name="sv_animationType">Line</item>
+    </style>
+
+    <style name="ChipsTheme" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipIconVisible">false</item>
+        <item name="closeIconVisible">false</item>
+        <item name="android:checkable">true</item>
+        <item name="checkedIcon">@null</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="rippleColor">@color/greyLight</item>
+
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorDarkGreyGradient</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <style name="ShapeAppearance.App.CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

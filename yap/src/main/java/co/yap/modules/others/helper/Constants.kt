@@ -7,7 +7,6 @@ object Constants {
     const val CARD_TYPE_PREPAID: String = "PREPAID"
 
     const val TEXT_PRIMARY_CARD: String = "Primary card"
-    const val TEXT_SPARE_CARD_VIRTUAL: String = "Spare virtual card"
     const val TEXT_SPARE_CARD_PHYSICAL: String = "Spare physical card"
 
     const val EVENT_ADD_CARD_NAME: Int = 1
@@ -22,10 +21,6 @@ object Constants {
     const val REQUEST_ADD_REMOVE_FUNDS: Int = 56
     const val REQUEST_REPORT_LOST_OR_STOLEN: Int = 57
     const val REQUEST_SET_LIMITS: Int = 58
-
-    const val EVENT_ADD_PHOTO: Int = 6
-    const val EVENT_CHOOSE_PHOTO: Int = 7
-    const val EVENT_REMOVE_PHOTO: Int = 8
 
     const val EVENT_ADD_TOPUP_CARD: Int = 100
     const val EVENT_DELETE_TOPUP_CARD: Int = 101

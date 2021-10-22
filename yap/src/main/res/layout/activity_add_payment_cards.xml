@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel"/>
+            type="co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel"/>
     </data>
 
     <LinearLayout

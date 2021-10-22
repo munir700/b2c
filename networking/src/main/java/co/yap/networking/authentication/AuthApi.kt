@@ -1,8 +1,10 @@
 package co.yap.networking.authentication
 
 import co.yap.networking.authentication.requestdtos.LoginRequest
+import co.yap.networking.notification.requestdtos.FCMTokenRequest
 import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
+import co.yap.networking.notification.responsedtos.MsTokenResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 

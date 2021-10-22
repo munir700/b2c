@@ -4,7 +4,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemYapForYouBinding
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class YAPForYouAdapter(private val list: MutableList<Achievement>) :

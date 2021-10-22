@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.interfaces
 
+import androidx.databinding.ObservableField
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -22,5 +23,6 @@ interface IUpdateCardName {
     interface State : IBase.State {
         var cardName: String
         var valid: Boolean
+        var card: ObservableField<Card>
     }
 }

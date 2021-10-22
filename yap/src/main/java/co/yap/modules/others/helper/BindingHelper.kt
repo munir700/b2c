@@ -9,6 +9,8 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.modules.dashboard.home.status.StageProgress
 import co.yap.networking.transactions.responsedtos.CardStatement
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.timelineview.TimelineView
 import com.liveperson.infra.utils.Utils.getResources
 
@@ -49,7 +51,10 @@ object BindingHelper {
                     getResources().getColor(R.color.colorOpaquAqua),
                     PorterDuff.Mode.SRC_IN
                 )
-                view.text = "Completed"
+                view.text = Translator.getString(
+                    view.context,
+                    Strings.dashboard_timeline_top_up_stage_completion_title
+                )
             }
 
             StageProgress.IN_PROGRESS -> {
@@ -57,7 +62,10 @@ object BindingHelper {
                     getResources().getColor(R.color.colorOpaquSecondaryOrange),
                     PorterDuff.Mode.SRC_IN
                 )
-                view.text = "In progress"
+                view.text = Translator.getString(
+                    view.context,
+                    Strings.dashboard_timeline_top_up_stage_in_process_title
+                )
             }
             else -> {
                 view.background.setColorFilter(

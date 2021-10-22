@@ -1,6 +1,8 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
 import android.os.Parcelable
+import co.yap.networking.cards.responsedtos.VirtualCardDesigns
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -136,8 +138,12 @@ data class Transaction(
     val transactionId: String? = null,
     @SerializedName("transactionNote")
     var transactionNote: String? = null,
+    @SerializedName("receiverTransactionNote")
+    var receiverTransactionNote: String? = null,
     @SerializedName("transactionNoteDate")
     var transactionNoteDate: String? = null,
+    @SerializedName("receiverTransactionNoteDate")
+    var receiverTransactionNoteDate: String? = null,
     @SerializedName("txnRefNo")
     val txnRefNo: String? = null,
     @SerializedName("txnState")
@@ -159,6 +165,40 @@ data class Transaction(
     @SerializedName("receiverProfilePictureUrl")
     val receiverProfilePictureUrl: String? = null,
     @SerializedName("cancelReason")
-    val cancelReason: String? = null
+    val cancelReason: String? = null,
+    @SerializedName("designCodesDTO")
+    val virtualCardDesign: VirtualCardDesigns? = null,
+    @SerializedName("cardName1")
+    val cardName1: String? = null,
+    @SerializedName("cardName2")
+    val cardName2: String? = null,
+    @SerializedName("cardAccepter")
+    val cardAccepter: String? = null,
+    @SerializedName("yapCategoryDTO")
+    val tapixCategory: TapixCategory? = null,
+    @SerializedName("cardHolderBillingTotalAmount")
+    val cardHolderBillingTotalAmount: Double? = null,
+    @SerializedName("latitude")
+    val latitude: Double ? = null,
+    @SerializedName("longitude")
+    val longitude: Double? = null
+) : ApiResponse(), Parcelable
 
-) : Parcelable
+@Parcelize
+data class TapixCategory(
+    @SerializedName("id")
+    val id: Int? = null,
+    @SerializedName("category")
+    var categoryName: String? = "General",
+    @SerializedName("categoryIcon")
+    val categoryIcon: String? = null,
+    @SerializedName("analyticIcon")
+    val analyticIcon: String? = null,
+    @Transient
+    var isSelected: Boolean = false,
+    @Transient
+    var type: Boolean? = null
+) : ApiResponse(), Parcelable {
+    val isGeneral: Boolean get() = categoryName.equals("General")
+    val description: String get() = if (isGeneral) "Check back later to see the category updated " else "Tap to change category"
+}

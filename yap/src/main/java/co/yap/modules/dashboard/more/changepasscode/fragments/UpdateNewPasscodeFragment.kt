@@ -27,7 +27,7 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
     IPassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
-    override val viewModel: IPassCode.ViewModel
+    override val viewModel: PassCodeViewModel
         get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,9 +96,8 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
     }
 
     private fun navigateToForgotPassCodeFlow() {
-        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
         if (viewModel.isUserLoggedIn()) {
-            sharedPreferenceManager.getDecryptedUserName()?.let {
+            SharedPreferenceManager.getInstance(requireContext()).getDecryptedUserName()?.let {
                 val action =
                     UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToForgotPasscodeNavigation(
                         viewModel.mobileNumber,

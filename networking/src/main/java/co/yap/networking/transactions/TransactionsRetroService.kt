@@ -10,6 +10,10 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
+import okhttp3.MultipartBody
+import co.yap.networking.transactions.responsedtos.transaction.*
+import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -70,7 +74,18 @@ interface TransactionsRetroService {
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
-        @Query("title") title: String?
+        @Query("title") title: String?,
+        @Query("merchantCategoryNames") category: ArrayList<String>?,
+        @Query("statuses") txnStatuses: ArrayList<String>?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
+    ): Response<HomeTransactionsResponse>
+
+    @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
+    suspend fun searchTransactions(
+        @Path("number") number: Int?,
+        @Path("size") size: Int?,
+        @Query("searchField") minAmount: String?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean
     ): Response<HomeTransactionsResponse>
 
     // Get Card Transactions
@@ -82,8 +97,11 @@ interface TransactionsRetroService {
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
-        @Query("title") title: String?
-
+        @Query("title") title: String?,
+        @Query("merchantCategoryNames") category: ArrayList<String>?,
+        @Query("statuses") txnStatuses: ArrayList<String>?,
+        @Query("cardDetailsRequired") cardDetailsRequired: Boolean,
+        @Query("debitSearch") debitSearch: Boolean
     ): Response<HomeTransactionsResponse>
 
     // Get transaction fee
@@ -100,7 +118,7 @@ interface TransactionsRetroService {
 
     // Secure id pooling
     @GET(TransactionsRepository.URL_SECURE_ID_POOLING)
-    suspend fun secureIdPooling(@Path("secureId") secureId: String): Response<StringDataResponseDTO>
+    suspend fun secureIdPooling(@Path("secureId") secureId: String?): Response<StringDataResponseDTO>
 
     // Card top up transaction request
     @PUT(TransactionsRepository.URL_TOP_UP_TRANSACTION)
@@ -112,14 +130,12 @@ interface TransactionsRetroService {
     //Get analytics by merchant name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_MERCHANT_NAME)
     suspend fun getAnalyticsByMerchantName(
-        @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?
     ): Response<AnalyticsResponseDTO>
 
     //Get analytics by category name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
     suspend fun getAnalyticsByCategoryName(
-        @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?
     ): Response<AnalyticsResponseDTO>
 
@@ -195,6 +211,62 @@ interface TransactionsRetroService {
         @Path("merchant-type") merchantType: String,
         @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?,
-        @Body merchantName : ArrayList<String>?
+        @Body merchantName: ArrayList<Any>?
     ): Response<AnalyticsDetailResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM)
+    suspend fun getTransactionDetailForLeanplum(): Response<TransactionDataResponseForLeanplum>
+
+
+    @GET(TransactionsRepository.URL_TRANSACTIONS_RECEIPT + "/{transaction-id}")
+    suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String): Response<TransactionReceiptResponse>
+
+    @Multipart
+    @POST(TransactionsRepository.URL_TRANSACTIONS_RECEIPT_SAVE)
+    suspend fun addTransactionReceipt(
+        @Query("transaction-id") transactionId: String,
+        @Part TransactionReceipt: MultipartBody.Part
+    ): Response<ApiResponse>
+
+    @PUT(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
+    suspend fun updateTransactionReceipt(@Query("transaction-id") transactionId: String): Response<ApiResponse>
+
+    @DELETE(TransactionsRepository.URL_TRANSACTIONS_RECEIPT_DELETE)
+    suspend fun deleteTransactionReceipt(
+        @Query("receipt-image") receipt: String,
+        @Query("transaction-id") transactionId: String
+    ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_TRANSACTIONS_TOTAL_PURCHASES)
+    suspend fun getTotalPurchases(
+        @Query("txnType")
+        txnType: String,
+        @Query("beneficiaryId")
+        beneficiaryId: String? = null,
+        @Query("receiverCustomerId")
+        receiverCustomerId: String? = null,
+        @Query("senderCustomerId")
+        senderCustomerId: String? = null,
+        @Query("productCode")
+        productCode: String,
+        @Query("merchantName")
+        merchantName: String? = null
+    ): Response<TotalPurchasesResponse>
+
+    @GET(TransactionsRepository.URL_TRANSACTIONS_VIEW_CATEGORIES)
+    suspend fun getAllTransactionCategories(): Response<TransactionCategoryResponse>
+
+    @PUT(TransactionsRepository.URL_TRANSACTIONS_UPDATE_CATEGORY)
+    suspend fun updateTransactionCategory(
+        @Query("category-id")
+        categoryId: String,
+        @Query("transaction-id")
+        transactionId: String? = null
+    ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_SEND_EMAIL)
+    suspend fun requestSendEmail(
+        @Body sendEmailRequestModel: SendEmailRequest
+    ): Response<ApiResponse>
+
 }

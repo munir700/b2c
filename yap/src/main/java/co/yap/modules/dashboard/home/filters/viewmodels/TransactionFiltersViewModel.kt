@@ -52,4 +52,23 @@ class TransactionFiltersViewModel(application: Application) :
         state.rangeEndValue.set(endRangeValues)
     }
 
+    override fun getCategoriesList(): ArrayList<String> {
+        return arrayListOf(
+            "Travel",
+            "Utilities",
+            "Shopping",
+            "Groceries",
+            "Media and Entertainment",
+            "Food and drinks",
+            "Services",
+            "Transport",
+            "Health and beauty",
+            "Insurance",
+            "Education"
+
+        )
+
+    }
+
+
 }

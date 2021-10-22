@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName
 
 data class Pageable(
     @SerializedName("offset")
-    var offset: Int,
+    var offset: Int?=0,
     @SerializedName("pageNumber")
-    var pageNumber: Int,
+    var pageNumber: Int?=0,
     @SerializedName("pageSize")
-    var pageSize: Int,
+    var pageSize: Int?=0,
     @SerializedName("paged")
-    var paged: Boolean,
+    var paged: Boolean?=true,
     @SerializedName("sort")
-    var sort: Sort,
+    var sort: Sort?=Sort(),
     @SerializedName("unpaged")
-    var unpaged: Boolean
+    var unpaged: Boolean?=false
 )

@@ -291,6 +291,7 @@
                     android:text="@string/screen_add_beneficiary_display_text_select_residence_country"
                     app:text="@{Strings.screen_add_beneficiary_display_text_select_residence_country}"
                     tools:text="@string/screen_add_beneficiary_display_text_select_residence_country" />
+
                 <co.yap.widgets.country_spinner.CountrySpinner
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
@@ -363,6 +364,7 @@
                             android:digits="1234567890 "
                             android:drawableRight="@{viewModel.state.drawbleRight}"
                             android:enabled="false"
+                            android:hint="@string/empty_string"
                             android:imeOptions="actionDone"
                             android:inputType="phone"
                             android:maxLength="@{viewModel.state.mobileNoLength}"
@@ -507,8 +509,8 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
-                    app:capitalise="@{true}"
-                    android:text="@={viewModel.state.swiftCode}" />
+                    android:text="@={viewModel.state.swiftCode}"
+                    app:capitalise="@{true}" />
 
                 <TextView
                     style="@style/Small"
@@ -541,18 +543,17 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/confirmButton"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginTop="@dimen/_60sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnConfirm(v.id)}"
+                app:btn_size="small"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:text="@{Strings.screen_beneficiary_overview_button_confirm}"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="44dp"
                 tools:text="@string/screen_beneficiary_overview_button_confirm" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

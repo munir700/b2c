@@ -14,6 +14,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.City
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
@@ -42,6 +43,10 @@ class LocationSelectionViewModel(application: Application) :
         super.onCreate()
         getCities()
         initializePlacesAdapter()
+        if (parentViewModel?.isOnBoarding == true) {
+            progressToolBarVisibility(true)
+            setProgress(40)
+        }
     }
 
     override fun handleOnPressView(id: Int) {
@@ -73,11 +78,14 @@ class LocationSelectionViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        state.toolbarVisibility = true
+        if (parentViewModel?.isOnBoarding == true) {
+            state.toolbarVisibility = false
+        }
     }
 
     override fun onLocationSelected() {
         hasSeletedLocation = true
+        setProgress(60)
 
         if (state.placeTitle.get()?.toLowerCase()
                 ?.contains(unNamed.toLowerCase()) == true || !StringUtils.isValidAddress(
@@ -107,7 +115,10 @@ class LocationSelectionViewModel(application: Application) :
         } else {
             state.isUnNamed.set(false)
             state.addressTitle.set(state.placeSubTitle.get() ?: "")
-            state.headingTitle.set(state.placeTitle.get() ?: "")
+            state.headingTitle.set(
+                state.placeSubTitle.get()
+                    ?: getString(Strings.screen_meeting_location_display_text_add_new_address_title)
+            )
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),
@@ -143,6 +154,11 @@ class LocationSelectionViewModel(application: Application) :
         address?.address1 = state.addressTitle.get()
         address?.address2 = state.addressSubtitle.get()
         address?.city = state.city.get()
+        address?.cityIATA3Code = if (state.iata3Code.get().isNullOrEmpty())
+            cities.value?.firstOrNull { it.name.equals(state.city.get(), true) }?.iata3Code
+        else state.iata3Code.get()
+
+//        address?.cityIATA3Code = state.iata3Code.get()
         // this needs to be update and addresse title 1,2,3 should remove only addresse object will pass and recived.
         address?.nearestLandMark = state.addressTitle.get()
         address?.country = "United Arab Emirates"
@@ -172,7 +188,8 @@ class LocationSelectionViewModel(application: Application) :
     }
 
     private fun initializePlacesAdapter() {
-        val placeAPI = PlaceAPI.Builder().apiKey(context.getString(R.string.google_maps_key)).build(context)
+        val placeAPI =
+            PlaceAPI.Builder().apiKey(context.getString(R.string.google_maps_key)).build(context)
         placesAdapter = PlacesAutoCompleteAdapter(context, placeAPI)
     }
 }

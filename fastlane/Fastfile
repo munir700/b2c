@@ -1,0 +1,95 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  scheme = nil
+  app_center_api_token = nil
+  app_center_app_name  = nil
+  before_all do
+    scheme = get_scheme(git_branch)
+    app_center_api_token =  get_appcenter_token(scheme)
+    app_center_app_name = get_appcenter_app_name(scheme)
+    UI.important "Initiating job for scheme #{scheme.downcase}"
+ end
+
+  desc "Build"
+  lane :build do
+    version = appcenter_fetch_version_number(
+      api_token: "#{app_center_api_token}",
+      owner_name: "android-yap.com",
+      app_name: "#{app_center_app_name}",
+    )
+    UI.important "Fasttlanne build number job  #{version}"
+    gradle(
+      task: 'assemble',
+      flavor: "#{scheme}",
+      build_type: 'Release'
+    )
+ end
+
+   desc "Upload build to appcenter"
+    lane :upload_to_appcenter do
+      build
+    appcenter_upload(
+      api_token: "#{app_center_api_token}",
+      owner_name: "android-yap.com",
+      app_name: "#{app_center_app_name}",
+      file: "./app/build/outputs/apk/#{scheme.downcase}/release/app-#{scheme.downcase}-release.apk",
+      notify_testers: false
+    )
+ end
+end
+
+def get_scheme (branch)
+    if branch == "qa_release" || branch == "Sprint/SPRINT-YAP-RAK-8-A-bill-payments"
+      return "Qa"
+    elsif branch == "stage_merge_release"
+      return "Stg"
+    elsif branch == "stage_internal_release"
+      return "Yapinternal"
+    elsif branch == "preprod_merge_release" || branch == "preprod_release"
+      return "Preprod"
+    elsif branch == "production_release"
+      return "Live"
+    end
+end
+
+# Get appcenter api token to upload Release
+def get_appcenter_token (env)
+    if env ==  "Qa"
+      return "7136cda8116b166093bb5f7b27ec72b3f75d9312"
+    elsif env == "Yapinternal"
+      return "ed82e56a02e7f997dfc207c52d0db23934f5a961"
+    elsif env == "Stg"
+      return "043c9fb6a75772962bf7451ddaf2da16265d1952"
+    elsif env == "Preprod"
+      return "97b00674a32a217920ab442df62afb408644fde5"
+    end
+end
+
+# Get appcenter App name to upload Release
+def get_appcenter_app_name (env)
+    if env ==  "Qa"
+      return "YAP-Qa"
+    elsif env == "Yapinternal"
+      return "YAP-Internal"
+    elsif env == "Stg"
+      return "YAP-Stg"
+    elsif env == "Preprod"
+      return "YAP-Pre-Prod"
+    end
+end

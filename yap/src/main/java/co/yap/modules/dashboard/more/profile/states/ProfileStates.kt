@@ -4,6 +4,7 @@ import android.net.Uri
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
@@ -57,6 +58,6 @@ class ProfileStates : BaseState(), IProfile.State {
             }
         }
 
-
     override var isShowErrorIcon: ObservableField<Boolean> = ObservableField(false)
+    override var isNotificationsEnabled: ObservableBoolean = ObservableBoolean(false)
 }

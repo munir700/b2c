@@ -26,6 +26,13 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
         }
 
     @get:Bindable
+    override var cardNameText: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardTypeText)
+        }
+
+    @get:Bindable
     override var cardTypeText: String = ""
         set(value) {
             field = value
@@ -72,6 +79,13 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.balanceLoading)
+        }
+
+    @get:Bindable
+    override var cardImageUrl: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardImageUrl)
         }
 
     override var filterCount: ObservableField<Int> = ObservableField(0)

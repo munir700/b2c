@@ -21,10 +21,13 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants.SUCCESS_BUTTON_LABEL
 import co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -40,7 +43,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     companion object {
         fun newIntent(context: Context, successButtonLabel: String): Intent {
             val intent = Intent(context, TopUpBeneficiariesActivity::class.java)
-            intent.putExtra("successButtonLabel", successButtonLabel)
+            intent.putExtra(SUCCESS_BUTTON_LABEL, successButtonLabel)
             return intent
         }
     }
@@ -59,7 +62,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
         addObservers()
         setupCards()
         successButtonLabel =
-            (intent?.getValue("successButtonLabel", ExtraType.STRING.name) as? String) ?: ""
+            (intent?.getValue(SUCCESS_BUTTON_LABEL, ExtraType.STRING.name) as? String) ?: ""
 
     }
 
@@ -294,12 +297,13 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     }
 
     private fun startTopUpActivity(item: TopUpCard) {
+        // trackEventWithScreenName(FirebaseEvent.CLICK_MAIN_TOPUP)
         launchActivity<TopUpCardActivity>(
             requestCode = RequestCodes.REQUEST_TOP_UP_BENEFICIARY,
             type = FeatureSet.TOP_UP_BY_EXTERNAL_CARD
         ) {
             putExtra(co.yap.yapcore.constants.Constants.CARD, item)
-            putExtra("successButtonLabel", successButtonLabel)
+            putExtra(SUCCESS_BUTTON_LABEL, successButtonLabel)
         }
     }
 
@@ -322,6 +326,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
 
     private fun addCardProcess() {
         getUrl()?.let {
+            trackEventWithScreenName(FirebaseEvent.CLICK_ADD_CARD)
             launchActivity<AddTopUpCardActivityV2>(requestCode = EVENT_ADD_TOPUP_CARD) {
                 putExtra(co.yap.yapcore.constants.Constants.KEY, it)
                 putExtra(co.yap.yapcore.constants.Constants.TYPE, TYPE_ADD_CARD)
@@ -344,7 +349,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             "qa" -> {
                 "https://qa-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
-            "stg","yapinternal" -> {
+            "stg", "yapinternal" -> {
                 "https://stg-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
             else -> null

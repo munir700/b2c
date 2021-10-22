@@ -40,7 +40,7 @@ import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCa
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
-import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants
@@ -48,27 +48,33 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.widgets.guidedtour.OnTourItemClickListener
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.helpers.*
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
+import com.liveperson.infra.configuration.Configuration
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 import kotlinx.android.synthetic.main.layout_card_info.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
@@ -83,7 +89,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private lateinit var mNavigator: ActivityNavigator
 
     companion object {
-        private const val CARD = "card"
+        const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, PaymentCardDetailActivity::class.java)
             intent.putExtra(CARD, card)
@@ -115,6 +121,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
             viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
+            viewModel.cardTransactionRequest.debitSearch = it.cardType == "DEBIT"
             viewModel.requestAccountTransactions()
         })
 
@@ -190,7 +197,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.llAddFunds -> {
-                trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
+                trackEventWithScreenName(FirebaseEvent.CLICK_ADD_FUNDS)
                 viewModel.card.value?.let { card ->
                     launchActivity<AddFundsActivity>(
                         requestCode = Constants.REQUEST_ADD_REMOVE_FUNDS,
@@ -216,6 +223,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llRemoveFunds -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_FUNDS)
                 if (viewModel.card.value?.blocked == false) {
                     viewModel.card.value?.let { card ->
                         launchActivity<RemoveFundsActivity>(
@@ -231,6 +239,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llCardLimits -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_LIMITS)
                 startActivityForResult(
                     CardLimitsActivity.getIntent(this, viewModel.card.value!!),
                     Constants.REQUEST_SET_LIMITS
@@ -255,10 +264,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                 cardFreezeUnfreeze = true
                 viewModel.card.value?.blocked = viewModel.card.value?.blocked != true
+                if (viewModel.card.value?.blocked == true)
+                    trackEventWithScreenName(if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) FirebaseEvent.CLICK_FREEZE_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_FREEZE_VIRTUAL_CARD_DASHBOARD)
                 checkFreezeUnfreezStatus()
             }
 
             viewModel.EVENT_CARD_DETAILS -> {
+                trackEventWithScreenName(if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
                 showCardDetailsPopup()
             }
 
@@ -283,6 +295,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     primaryCardBottomSheet =
                         PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
                     primaryCardBottomSheet.show(supportFragmentManager, "")
+                    trackEventWithScreenName(FirebaseEvent.CLICK_MORE_CARD_MAIN_SCREEN)
                 } else {
                     spareCardBottomSheet =
                         SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
@@ -308,6 +321,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
+        viewModel.state.cardImageUrl = viewModel.card.value?.frontImage ?: ""
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
@@ -316,7 +330,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 if (it) {
                     viewModel.state.cardName = cardName
                 } else {
-                    viewModel.state.cardName = cardName.toCamelCase()
+                    viewModel.state.cardName = cardName
                 }
             }
         }
@@ -343,8 +357,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             if (viewModel.card.value?.physical!!) {
                 viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
-                viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_VIRTUAL
+                viewModel.state.cardTypeText =
+                    getString(Strings.screen_spare_card_landing_display_text_virtual_card)
             }
+            viewModel.state.cardNameText = viewModel.card.value?.cardName ?: ""
             viewModel.getCardBalance { balance ->
                 llAddFunds.alpha = 1f
                 llAddFunds.isEnabled = true
@@ -360,6 +376,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(300)
+            launchTourGuide(TourGuideType.PRIMARY_CARD_DETAIL_SCREEN) {
+                addAll(setViewsArray())
+            }
         }
     }
 
@@ -597,6 +619,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             viewModel.cardTransactionRequest.amountEndRange = it.amountEndRange
             viewModel.cardTransactionRequest.title = null
             viewModel.cardTransactionRequest.totalAppliedFilter = it.totalAppliedFilter
+            viewModel.cardTransactionRequest.categories = it.categories
+            viewModel.cardTransactionRequest.statues =
+                if (it.pendingTxn == true) arrayListOf(
+                    TransactionStatus.PENDING.name,
+                    TransactionStatus.IN_PROGRESS.name
+                ) else null
+
             viewModel.state.filterCount.set(it.totalAppliedFilter)
         }
     }
@@ -622,7 +651,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun showCardDetailsPopup() {
-        val dialog = Dialog(this)
+        val dialog = Dialog(this, R.style.DialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_card_details)
@@ -645,13 +674,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
         }
 
+
         cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             "Primary card"
         } else {
             if (viewModel.card.value?.physical == true) {
                 Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
-                Constants.TEXT_SPARE_CARD_VIRTUAL
+                getString(
+                    Strings.screen_spare_card_landing_display_text_virtual_card
+                )
             }
         }
 
@@ -667,7 +699,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.card.value?.cardName
+                displayName = viewModel.card.value?.cardName,
+                cardImg = viewModel.card.value?.frontImage
             )
         )
         pagerList.add(
@@ -676,7 +709,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.card.value?.cardName
+                displayName = viewModel.card.value?.cardName,
+                cardImg = viewModel.card.value?.frontImage
             )
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
@@ -684,7 +718,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         indicator?.setViewPager2(viewPager)
         dialog.show()
     }
-
 
     private fun setUpTransactionsListRecyclerView() {
         rvTransaction.setHasFixedSize(true)
@@ -782,4 +815,62 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
     }
 
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        val toolBarView: View? = ctToolbar?.findViewById(R.id.ivRightIcon)
+        toolBarView?.let { toolBarRightIcon ->
+            list.add(
+                GuidedTourViewDetail(
+                    toolBarRightIcon,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_more),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_more_des),
+                    padding = Configuration.getDimension(R.dimen._15sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._50sdp),
+                    callBackListener = tourItemListener
+                )
+            )
+        }
+        if (getBindings().rlPrimaryCardActions.visibility == View.VISIBLE) {
+            list.add(
+                GuidedTourViewDetail(
+                    getBindings().llFreezePrimaryCard,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card_des),
+                    padding = Configuration.getDimension(R.dimen._43sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._45sdp),
+                    callBackListener = tourItemListener
+                )
+            )
+
+            list.add(
+                GuidedTourViewDetail(
+                    getBindings().llCardLimits,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_limit),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_limit_des),
+                    padding = Configuration.getDimension(R.dimen._43sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._45sdp),
+                    btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
+                    showSkip = false,
+                    callBackListener = tourItemListener
+                )
+            )
+        }
+        return list
+    }
+
+    private val tourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.PRIMARY_CARD_DETAIL_SCREEN,
+                completed = true
+            )
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.PRIMARY_CARD_DETAIL_SCREEN,
+                skipped = true
+            )
+        }
+    }
 }

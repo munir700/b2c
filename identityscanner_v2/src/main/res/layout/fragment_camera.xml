@@ -134,19 +134,19 @@
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/camFab"
+                style="@style/RectangleBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="150dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                android:clickable="@{!model.state.capturing}"
+                android:enabled="false"
                 android:text="@{model.state.submitButtonTitle}"
-                android:layout_margin="24dp"
-                style="@style/RectangleBtnStyle"
-                tools:text="Scan"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:padding="8dp"
-                android:enabled="false"
-                android:clickable="@{!model.state.capturing}"/>
+                app:btn_size="small"
+                tools:text="Scan" />
 
         </LinearLayout>
 

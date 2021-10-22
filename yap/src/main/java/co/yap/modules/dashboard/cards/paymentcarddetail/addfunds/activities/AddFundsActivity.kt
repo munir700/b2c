@@ -9,11 +9,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.animation.addListener
 import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityAddFundsBinding
@@ -42,11 +42,10 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_add_funds
-    override val viewModel: AddFundsViewModel
-        get() = ViewModelProviders.of(this).get(AddFundsViewModel::class.java)
+    override val viewModel: AddFundsViewModel by viewModels()
 
     companion object {
-         const val CARD = "card"
+        const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, AddFundsActivity::class.java)
             intent.putExtra(CARD, card)
@@ -62,7 +61,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         val display = this.windowManager.defaultDisplay
         display.getRectSize(Rect())
         getBinding().clBottomNew.children.forEach { it.alpha = 0f }
-
     }
 
     override fun addObservers() {
@@ -90,7 +88,12 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private fun setDenominationValue(denominationAmount: String) {
         hideKeyboard()
         getBinding().etAmount.setText("")
-        getBinding().etAmount.setText(denominationAmount)
+        getBinding().etAmount.setText(
+            denominationAmount.toFormattedCurrency(
+                showCurrency = false,
+                withComma = true
+            )
+        )
         val position = getBinding().etAmount.length()
         getBinding().etAmount.setSelection(position)
         getBinding().etAmount.clearFocus()
@@ -267,11 +270,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
-//        getBinding().etAmountLayout.background =
-//            this.resources.getDrawable(
-//                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
-//                null
-//            )
         if (!isError) cancelAllSnackBar()
         viewModel.state.valid.set(isValid)
     }
@@ -396,7 +394,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             }.start()
         }, 500)
     }
-
 
     private fun cardAnimation(): AnimatorSet {
         val checkBtnEndPosition =

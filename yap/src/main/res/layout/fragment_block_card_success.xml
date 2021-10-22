@@ -77,18 +77,16 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnReOrder"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xl"
-                android:layout_marginRight="@dimen/margin_xl"
+                android:layout_marginBottom="@dimen/margin_medium"
+                app:btn_size="small"
                 android:gravity="center"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.722"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFeeCaption"
-                app:layout_constraintVertical_bias="0.809"
+                app:layout_constraintBottom_toTopOf="@+id/tvAddLater"
                 app:text="@{Strings.screen_card_blocked_button_reorder_new_card}"
                 tools:text="@string/screen_card_blocked_button_reorder_new_card" />
 
@@ -98,12 +96,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="center"
                 android:paddingTop="@dimen/margin_small"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnReOrder"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.screen_card_blocked_button_order_later}"
                 tools:text="@string/screen_card_blocked_button_order_later" />
         </androidx.constraintlayout.widget.ConstraintLayout>

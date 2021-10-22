@@ -9,23 +9,27 @@ import co.yap.yapcore.SingleClickEvent
 interface ICardAnalyticsDetails {
     interface View : IBase.View<ViewModel> {
     }
+
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent?
         fun handleOnClickEvent(id: Int)
         val adapter: TransactionsListingAdapter
-        var transactionResponse : TransactionAnalyticsDetailsResponse
-        fun fetchMerchantTransactions(merchantType : String, currentDate : String)
+        var transactionResponse: TransactionAnalyticsDetailsResponse
+        var yapCategoryId: ObservableField<ArrayList<Any>>
+        fun fetchMerchantTransactions(merchantType: String, currentDate: String)
+        fun getConcatinatedString(count: Int): String
     }
+
     interface State : IBase.State {
-        var title : ObservableField<String>
-        var totalSpendings : ObservableField<String>
-        var countWithDate : ObservableField<String>
-        var avgSpending : ObservableField<String>
-        var currToLast : ObservableField<String>
-        var monthlyTotalPercentage : ObservableField<String>
-        var ImageUrl : ObservableField<String>
-        var position : Int
-        var percentCardVisibility : Boolean
-        var categories : ArrayList<String>?
+        var title: ObservableField<String>
+        var totalSpendings: ObservableField<String>
+        var countWithDate: ObservableField<String>
+        var avgSpending: ObservableField<String>
+        var currToLast: ObservableField<String>
+        var monthlyTotalPercentage: ObservableField<String>
+        var ImageUrl: ObservableField<String>
+        var position: Int
+        var percentCardVisibility: Boolean
+        var categories: ObservableField<ArrayList<Any>>
     }
 }

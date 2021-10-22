@@ -27,7 +27,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     IPassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
-    override val viewModel: IPassCode.ViewModel
+    override val viewModel: PassCodeViewModel
         get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,24 +53,19 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                 R.id.btnAction -> {
                     if (viewModel.state.passCode == parentActivity.passCodeData.newPassCode) {
                         viewModel.updatePassCodeRequest {
-                            moveToSuccessScreen()
+                            SharedPreferenceManager.getInstance(requireContext()).savePassCodeWithEncryption(viewModel.state.passCode)
+                            navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
                         }
                     } else
                         getBinding().dialer.startAnimation()
                 }
                 R.id.tvForgotPasscode -> {
-                    viewModel.createForgotPassCodeOtp {username->
+                    viewModel.createForgotPassCodeOtp { username ->
                         startOtpFragment(username)
                     }
                 }
             }
         })
-    }
-
-    private fun moveToSuccessScreen() {
-        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
-        sharedPreferenceManager.savePassCodeWithEncryption(viewModel.state.passCode)
-        findNavController().navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
     }
 
     private fun startOtpFragment(name: String) {
@@ -108,13 +103,13 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
 
     private fun navigateToForgotPassCodeFlow() {
         if (viewModel.isUserLoggedIn()) {
-                val action =
-                    UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
-                        viewModel.mobileNumber,
-                        viewModel.token,
-                        Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
-                    )
-            navigate(action,screenType = FeatureSet.FORGOT_PASSCODE)
+            val action =
+                UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToForgotPasscodeNavigation(
+                    viewModel.mobileNumber,
+                    viewModel.token,
+                    Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
+                )
+            navigate(action, screenType = FeatureSet.FORGOT_PASSCODE)
             findNavController().navigate(action)
         }
     }

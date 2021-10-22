@@ -13,7 +13,6 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
@@ -122,8 +121,10 @@ class EasyMoneyEditText : AppCompatEditText {
         background = getShapeBackground()
         //setCursorColor(context.getColors(R.color.colorPrimary))
         gravity = Gravity.CENTER
-        @RequiresApi(Build.VERSION_CODES.O)
-        importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+//        @RequiresApi(Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+        }
         TextViewCompat.setAutoSizeTextTypeWithDefaults(
             this,
             TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM

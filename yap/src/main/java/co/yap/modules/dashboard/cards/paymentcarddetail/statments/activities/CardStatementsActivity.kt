@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -29,9 +28,11 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
         viewModel.card = intent.getParcelableExtra("card")
         val isFromDrawer = intent.getBooleanExtra("isFromDrawer", false)
         if (isFromDrawer) {
+            viewModel.state.statementType.set("EMAIL_ME_ACCOUNT")
             viewModel.loadStatementsFromDashBoard()
         } else {
             viewModel.loadStatements(viewModel.card.cardSerialNumber)
+            viewModel.state.statementType.set("EMAIL_ME_CARD")
         }
         viewModel.adapter.set(CardStatementsAdaptor(mutableListOf()))
         viewModel.adapter.get()?.allowFullItemClickListener = true
@@ -50,8 +51,12 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
             startActivity(
                 PDFActivity.newIntent(
                     view.context,
-                    (data as CardStatement).statementURL ?: "",
-                    false
+                    false,
+                    (data as CardStatement).also {
+                        it.statementType = viewModel.state.statementType.get()
+                        it.sendEmail = true
+                        it.cardType = viewModel.card.cardType
+                    }
                 )
             )
         }

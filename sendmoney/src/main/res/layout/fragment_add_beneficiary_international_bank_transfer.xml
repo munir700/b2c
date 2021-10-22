@@ -227,8 +227,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.nickName}"
-                    tools:hint="@string/screen_add_beneficiary_detail_input_text_nick_name_hint"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_nick_name_hint" />
 
 
                 <TextView
@@ -257,8 +257,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
-                    tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}" />
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint" />
 
 
                 <TextView
@@ -287,8 +287,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
-                    tools:hint="@string/screen_add_beneficiary_detail_input_text_last_name_hint"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_last_name_hint" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSelectCountry"
@@ -324,6 +324,7 @@
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etMobileNumber"
                     style="@style/Yap.App.Widget.TextInputEditText"
+                    android:hint="@string/empty_string"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:paddingBottom="16dp"
@@ -341,13 +342,13 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/confirmButton"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                   android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_34sdp"
-                    android:layout_marginBottom="@dimen/margin_medium_large"
-                    android:minWidth="@dimen/_180sdp"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
+                    app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{viewModel.state.transferType.equals(`Cash Pickup`)?Strings.screen_add_beneficiary_detail_button_confirm:Strings.common_button_next}"

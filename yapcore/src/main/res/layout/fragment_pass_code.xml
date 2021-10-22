@@ -38,10 +38,9 @@
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_settings}"
             app:rightIconVisibility="@{false}"
-
             />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/Large"
             android:layout_width="match_parent"
@@ -50,6 +49,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
             android:lineSpacingExtra="0dp"
+            android:layout_marginTop="@dimen/margin_large"
             android:text="@{viewModel.state.title}"
             android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -67,7 +67,6 @@
             app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTermsAndConditions"
@@ -114,13 +113,10 @@
             style="@style/RectangleBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:btn_size="small"
             android:layout_marginBottom="@dimen/margin_normal_large"
             android:gravity="center"
             android:onClick="@{(v)-> viewModel.handlePressView(v.id)}"
-            android:paddingStart="@dimen/_65sdp"
-            android:paddingTop="@dimen/_13sdp"
-            android:paddingEnd="@dimen/_65sdp"
-            android:paddingBottom="@dimen/_13sdp"
             android:text="@{viewModel.state.buttonTitle}"
             android:textColor="@color/colorWhite"
             app:enableCoreButton="@{viewModel.state.valid}"

@@ -11,14 +11,18 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import co.yap.app.YAPApplication
+import co.yap.localization.LocaleManager
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.enums.YAPThemes
+import co.yap.yapcore.firebase.trackScreenViewEvent
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
@@ -36,26 +40,40 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var progress: Dialog? = null
     open lateinit var context: Context
     open fun onToolBarClick(id: Int) {}
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
-//        setUpFirebaseAnalytics()
-
-        applySelectedTheme(SharedPreferenceManager(this))
+        trackScreenViewEvent()
+        applySelectedTheme(SharedPreferenceManager.getInstance(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
         NetworkConnectionManager.init(this)
         NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
         registerStateListeners()
-
         progress = Utils.createProgressDialog(this)
-        preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
+        preventTakeScreenShot(
+            YAPApplication.configManager?.isReleaseBuild() == true
+                    && YAPApplication.configManager?.flavor != ProductFlavour.INTERNAL.flavour
+        )
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
+        })
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
         })
     }
 
@@ -151,7 +169,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             .setAction(
                 "Settings"
             ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            .setActionTextColor(Utils.getColor(this, R.color.colorDarkGreen))
+            .setActionTextColor(ContextCompat.getColor(this, R.color.colorDarkGreen))
+
         snackbar?.show()
     }
 
@@ -199,6 +218,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         cancelAllSnackBar()
         progress?.dismiss()
         viewModel.toolBarClickEvent.removeObservers(this)
+        viewModel.state.viewState.removeObservers(this)
         super.onDestroy()
     }
 
@@ -260,5 +280,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
+    }
+
+    override fun getScreenName(): String? = ""
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleManager.setLocale(base))
     }
 }

@@ -11,7 +11,10 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.leanplum.Leanplum
+import com.leanplum.callbacks.VariablesChangedCallback
 import java.text.SimpleDateFormat
 
 fun Fragment.trackEvent(eventName: String, value: String = "") {
@@ -46,6 +49,25 @@ fun Fragment.trackEventInFragments(
 }
 
 fun ViewModel.trackEventWithAttributes(
+    user: AccountInfo?,
+    signup_length: String? = null,
+    account_active: String? = null,
+    context: Context? = null,
+    eidExpire: Boolean = false,
+    eidExpireDate: String = "",
+    city: String? = null
+) {
+    trackAttributes(
+        user,
+        signup_length,
+        account_active,
+        context,
+        eidExpire,
+        eidExpireDate, city
+    )
+}
+
+fun trackEventWithAttributes(
     user: AccountInfo?,
     signup_length: String? = null,
     account_active: String? = null,
@@ -101,8 +123,14 @@ private fun trackAttributes(
         }
         it.currentCustomer.customerId?.let { customerId ->
             info[UserAttributes().customerId] = customerId
+            Firebase.analytics.setUserId(customerId)
         }
         it.uuid?.let { Leanplum.setUserAttributes(it, info) }
+        Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
+            override fun variablesChanged() {
+
+            }
+        })
     }
 }
 
@@ -128,7 +156,7 @@ fun getFormattedDate(creationDate: String?): String {
 
 private fun isBioMetricEnabled(context: Context?): Boolean {
     return context?.let {
-        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager(it).getValueBoolien(
+        return@let (BiometricUtil.hasBioMetricFeature(it) && SharedPreferenceManager.getInstance(it).getValueBoolien(
             KEY_TOUCH_ID_ENABLED,
             false
         ))
@@ -145,5 +173,51 @@ fun fireEventWithAttribute(eventName: String, value: String) {
         Leanplum.track(eventName)
     } else {
         Leanplum.track(eventName, value)
+    }
+}
+
+fun ViewModel.trackEventWithAttributes(
+    uuid: String?,
+    info: HashMap<String, Any?>
+) {
+    Leanplum.setUserAttributes(uuid, info)
+}
+
+fun Fragment.trackEvent(
+    eventName: String,
+    lastCountry: String? = null,
+    lastType: String? = null
+) {
+
+    val params: HashMap<String, Any> = HashMap()
+    params["LastCountry"] = lastCountry ?: ""
+    params["LastType"] = lastType ?: ""
+
+    fireEvent(eventName, params)
+}
+
+fun fireEvent(eventName: String, params: Map<String, Any>) {
+    Leanplum.track(eventName, params)
+}
+
+fun deleteLeanPlumMessage(messageId: String?) {
+    try {
+        messageId?.let {
+            val message = Leanplum.getInbox().messageForId(it)
+            message.remove()
+        }
+
+    } catch (e: Exception) {
+    }
+}
+
+fun markReadLeanPlumMessage(messageId: String?) {
+    try {
+        messageId?.let {
+            val message = Leanplum.getInbox().messageForId(it)
+            message.read()
+        }
+
+    } catch (e: Exception) {
     }
 }

@@ -13,15 +13,17 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentGenericOtpBinding
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import kotlinx.android.synthetic.main.fragment_generic_otp.*
 
 class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGenericOtp.View {
-    private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+    private var intentFilter: IntentFilter? = null
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -51,7 +53,30 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
         viewModel.state.otp.addOnPropertyChangedCallback(stateObserverOtp)
         context?.startSmsConsent()
         initBroadcast()
-        context?.registerReceiver(appSMSBroadcastReceiver, intentFilter)
+        viewModel.requestKeyBoard.observe(this, Observer {
+            if (it) {
+                Utils.requestKeyboard(
+                    getDataBindingView<FragmentGenericOtpBinding>().otpView,
+                    request = true,
+                    forced = true
+                )
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireContext().registerReceiver(
+            appSMSBroadcastReceiver,
+            intentFilter,
+            SmsRetriever.SEND_PERMISSION,
+            null
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireContext().unregisterReceiver(appSMSBroadcastReceiver)
     }
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
@@ -64,6 +89,7 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     }
 
     private fun initBroadcast() {
+        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
         appSMSBroadcastReceiver =
             MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
                 override fun onReceive(code: Intent?) {
@@ -97,8 +123,9 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
         when (requestCode) {
             Constants.SMS_CONSENT_REQUEST ->
                 if (resultCode == Activity.RESULT_OK) {
-                    val message = data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
-                    viewModel.state.otp.set(context?.getOtpFromMessage(message ?: "") ?: "")
+                    data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE).also {
+                        viewModel.state.otp.set(it?.getOtpFromMessage() ?: "")
+                    }
                 }
         }
     }
@@ -137,20 +164,20 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
         viewModel.clickEvent.removeObservers(this)
         SessionManager.onAccountInfoSuccess.removeObservers(this)
         viewModel.state.isOtpBlocked.removeOnPropertyChangedCallback(stateObserver)
-        context?.unregisterReceiver(appSMSBroadcastReceiver)
         viewModel.state.otp.removeOnPropertyChangedCallback(stateObserver)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Utils.hideKeyboard(otp_view)
+        otp_view.hideKeyboard()
         removeObservers()
     }
 
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                activity?.onBackPressed()
+                otp_view.hideKeyboard()
+                requireActivity().onBackPressed()
             }
         }
     }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Parcelable
 import co.yap.countryutils.country.utils.Currency
 import co.yap.countryutils.country.utils.CurrencyUtils
-import kotlinx.android.parcel.IgnoredOnParcel
+import co.yap.networking.coreitems.CoreBottomSheetData
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -21,7 +21,7 @@ data class Country(
     private var flagDrawableResId: Int = -1,
     private var currency: Currency? = null,
     var ibanMandatory: Boolean? = false
-) : Parcelable {
+) : Parcelable , CoreBottomSheetData(){
     var isCashPickUpAllowed: Boolean?
         get() {
             val size = supportedCurrencies!!.size
@@ -96,5 +96,18 @@ data class Country(
     fun setFlagDrawableResId(flagDrawableResId: Int) {
         this.flagDrawableResId = flagDrawableResId
     }
+}
 
+fun List<Country>.filterSelectedCountriesByNames(selectedCountriesNames: List<String>) =
+    filter { m -> selectedCountriesNames.any { it == m.getName() } }
+
+fun List<Country>.unSelectAllCountries(selectedCountriesNames: List<String>) {
+    filterSelectedCountriesByNames(selectedCountriesNames).forEach {
+        it.isSelected = false
+    }
+}
+fun List<Country>.filterSelectedIsoCodes(selectedCountriesNames: List<String>): List<String> {
+    return filterSelectedCountriesByNames(selectedCountriesNames).map {
+        it.isoCountryCode2Digit?:""
+    }
 }

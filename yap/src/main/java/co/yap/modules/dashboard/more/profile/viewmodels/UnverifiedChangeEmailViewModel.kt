@@ -4,13 +4,14 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.SessionManager
 
 class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailViewModel(application) {
     override val success: MutableLiveData<Boolean> = MutableLiveData()
     override val repository: CustomersRepository = CustomersRepository
-    override val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override fun onHandlePressOnNextButton() {
         if (state.newEmailValidation() && state.confirmEmailValidation()) {
@@ -31,7 +32,8 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
                     }
                 }
             } else {
-                state.setErrors("Email is not matched.")
+                state.setErrors(Translator.getString(context,
+                    Strings.screen_change_email_display_text_email_match_error))
             }
         }
     }
@@ -42,7 +44,7 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
                 repository.changeUnverifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
                     SessionManager.user?.currentCustomer?.email = state.newEmail
-                    sharedPreferenceManager.saveUserNameWithEncryption(state.newEmail)
+                    SharedPreferenceManager.getInstance(context).saveUserNameWithEncryption(state.newEmail)
                     success.value = true
                 }
 

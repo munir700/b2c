@@ -6,9 +6,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.dashboard.home.models.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.databinding.ViewNotificationsBinding
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
 
 class NotificationAdapter(
@@ -41,8 +42,14 @@ class NotificationAdapter(
             binding.cvNotification.layoutParams = params
 
             binding.tvTitle.text = notification.title
+            notification.imgResId?.let {
+                ImageBinding.loadGifImageView(binding.ivNotification, it)
+            }
+
+
+//            binding.ivNotification
             binding.tvDescription.text = notification.description
-            if (notification.title.isBlank()) {
+            if (notification.title?.isBlank() == true) {
                 binding.tvTitle.visibility = View.INVISIBLE
             } else {
                 binding.tvTitle.visibility = View.VISIBLE

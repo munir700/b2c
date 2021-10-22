@@ -10,6 +10,11 @@ import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import com.google.android.material.textfield.TextInputLayout
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 /**
  * Checks if a string is a valid email
@@ -67,3 +72,39 @@ fun shortName(cardFullName: String): String {
 
 @SuppressLint("DefaultLocale")
 fun String.toCamelCase(): String = split(" ").joinToString(" ") { it.toLowerCase().capitalize() }
+
+fun String.getQRCode(): String {
+    if ((this.contains("yap-app:"))) {
+        return this.replace("yap-app:", "")
+    }
+    return this
+}
+
+fun String.generateQRCode(): String {
+    return "yap-app:$this"
+}
+
+fun String?.encodeToUTF8(): String {
+    this?.let {
+        return URLEncoder.encode(it, StandardCharsets.UTF_8.name())
+    } ?: return ""
+}
+
+fun String?.decodeToUTF8(): String {
+    this?.let {
+        return URLDecoder.decode(it, StandardCharsets.UTF_8.name())
+    } ?: return ""
+
+}
+
+fun String?.getOtpFromMessage(): String? {
+    var otpCode = ""
+    this?.let {
+        val pattern: Pattern = Pattern.compile("(|^)\\d{6}")
+        val matcher: Matcher = pattern.matcher(it)
+        if (matcher.find()) {
+            otpCode = matcher.group(0) ?: ""
+        }
+    }
+    return otpCode
+}

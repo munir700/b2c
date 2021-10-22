@@ -3,7 +3,6 @@ package co.yap.security
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.widget.Toast
 import java.security.MessageDigest
 
 class SecurityHelper(
@@ -64,7 +63,8 @@ class SecurityHelper(
                         sslPin1 = "",
                         sslPin2 = "",
                         sslPin3 = "",
-                        sslHost = ""
+                        sslHost = "",
+                        spayServiceId = ""
                     )
                     signaturesList.add(signatures)
                 }
@@ -93,35 +93,6 @@ class SecurityHelper(
         return bytesToString(digestSHA256.digest())
     }
 
-    private fun bytesToHex(bytes: ByteArray): String {
-        val hexArray = charArrayOf(
-            '0',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            'A',
-            'B',
-            'C',
-            'D',
-            'E',
-            'F'
-        )
-        val hexChars = CharArray(bytes.size * 2)
-        var v: Int
-        for (j in bytes.indices) {
-            v = bytes[j].toInt() and 0xFF
-            hexChars[j * 2] = hexArray[v.ushr(4)]
-            hexChars[j * 2 + 1] = hexArray[v and 0x0F]
-        }
-        return String(hexChars)
-    }
-
     private fun bytesToString(bytes: ByteArray): String? {
         val md5StrBuff = java.lang.StringBuilder()
         for (i in bytes.indices) {
@@ -135,13 +106,5 @@ class SecurityHelper(
             }
         }
         return md5StrBuff.toString()
-    }
-
-    private fun showToast(context: Context, msg: String) {
-        Toast.makeText(
-            context,
-            msg,
-            Toast.LENGTH_LONG
-        ).show()
     }
 }

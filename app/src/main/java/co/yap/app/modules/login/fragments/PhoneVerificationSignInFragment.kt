@@ -19,14 +19,21 @@ import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.onboarding.fragments.WaitingListFragment
+import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startSmsConsent
+import co.yap.yapcore.leanplum.SignInEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +43,7 @@ import kotlinx.coroutines.launch
 
 class PhoneVerificationSignInFragment :
     MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
-    private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+    private var intentFilter: IntentFilter? = null
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -70,7 +77,12 @@ class PhoneVerificationSignInFragment :
         viewModel.state.otp.addOnPropertyChangedCallback(stateObserver)
         context?.startSmsConsent()
         initBroadcast()
-        context?.registerReceiver(appSMSBroadcastReceiver, intentFilter)
+        requireContext().registerReceiver(
+            appSMSBroadcastReceiver,
+            intentFilter,
+            SmsRetriever.SEND_PERMISSION,
+            null
+        )
         viewModel.clickEvent.observe(this, Observer {
             viewModel.verifyOtp()
         })
@@ -79,10 +91,17 @@ class PhoneVerificationSignInFragment :
     }
 
     private fun initBroadcast() {
+        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
         appSMSBroadcastReceiver =
             MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
                 override fun onReceive(code: Intent?) {
-                    startActivityForResult(code, SMS_CONSENT_REQUEST)
+                    code?.let {
+                        it.resolveActivity(requireContext().packageManager)?.run {
+                            if (packageName == "com.google.android.gms" && className == "com.google.android.gms.auth.api.phone.ui.UserConsentPromptActivity"
+                            )
+                                startActivityForResult(it, SMS_CONSENT_REQUEST)
+                        }
+                    }
                 }
             })
     }
@@ -91,44 +110,105 @@ class PhoneVerificationSignInFragment :
         viewModel.getAccountInfo()
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
-        it?.run {
-            SessionManager.updateCardBalance {  }
-            if (accountType == AccountType.B2C_HOUSEHOLD.name) {
-                val bundle = Bundle()
-                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
-                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
-                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-                activity?.finish()
+        if (!it.isWaiting) {
+            if (it.iban.isNullOrBlank()) {
+                startFragment(
+                    fragmentName = ReachedTopQueueFragment::class.java.name,
+                    clearAllPrevious = true
+                )
             } else {
-                if (BiometricUtil.hasBioMetricFeature(requireActivity())
-                ) {
-                    if (SharedPreferenceManager(requireContext()).getValueBoolien(
-                            co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
-                            false
-                        )
-                    ) {
-                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                        else
-                            findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                getCardAndTourInfo(it)
+            }
+        } else {
+            startFragment(
+                fragmentName = WaitingListFragment::class.java.name,
+                clearAllPrevious = true
+            )
+        }
+    }
 
-                        activity?.finish()
-                    } else {
-                        val action =
-                            PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                                Constants.TOUCH_ID_SCREEN_TYPE
-                            )
-                        findNavController().navigate(action)
-                    }
-
-                } else {
-                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                    else
-                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-
+    private fun getCardAndTourInfo(accountInfo: AccountInfo?) {
+        accountInfo?.run {
+            trackEventWithScreenName(FirebaseEvent.SIGN_IN_PIN)
+            TourGuideManager.getTourGuides()
+            SessionManager.getDebitCard { card ->
+                SessionManager.updateCardBalance { }
+                if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                    val bundle = Bundle()
+                    SharedPreferenceManager.getInstance(requireContext())
+                        .setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, accountInfo)
+                    startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
                     activity?.finish()
+                } else {
+                    if (BiometricUtil.hasBioMetricFeature(requireActivity())
+                    ) {
+                        SharedPreferenceManager.getInstance(requireContext()).save(
+                            co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                            true
+                        )
+                        if (SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
+                                co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                                false
+                            )
+                        ) {
+                            if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                                startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                            else {
+                                SessionManager.sendFcmTokenToServer(requireContext()) {}
+                                if (!this.isWaiting) {
+                                    if (this.iban.isNullOrBlank()) {
+                                        startFragment(
+                                            fragmentName = ReachedTopQueueFragment::class.java.name,
+                                            clearAllPrevious = true
+                                        )
+
+                                    } else {
+                                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                                    }
+                                } else {
+                                    startFragment(
+                                        fragmentName = WaitingListFragment::class.java.name,
+                                        clearAllPrevious = true
+                                    )
+                                }
+
+                            }
+                            activity?.finish()
+                        } else {
+                            val action =
+                                PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                                    Constants.TOUCH_ID_SCREEN_TYPE
+                                )
+                            findNavController().navigate(action)
+                        }
+
+                    } else {
+                        if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
+                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                        } else {
+                            SessionManager.sendFcmTokenToServer(requireContext()) {}
+                            if (!this.isWaiting) {
+                                if (this.iban.isNullOrBlank()) {
+                                    startFragment(
+                                        fragmentName = ReachedTopQueueFragment::class.java.name,
+                                        clearAllPrevious = true
+                                    )
+
+                                } else {
+                                    trackEvent(SignInEvents.SIGN_IN.type)
+                                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                                }
+                            } else {
+                                startFragment(
+                                    fragmentName = WaitingListFragment::class.java.name,
+                                    clearAllPrevious = true
+                                )
+                            }
+                        }
+                        activity?.finish()
+                    }
                 }
             }
         }
@@ -146,8 +226,9 @@ class PhoneVerificationSignInFragment :
         when (requestCode) {
             SMS_CONSENT_REQUEST ->
                 if (resultCode == Activity.RESULT_OK) {
-                    val message = data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
-                    viewModel.state.otp.set(context?.getOtpFromMessage(message ?: "") ?: "")
+                    data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE).also {
+                        viewModel.state.otp.set(it?.getOtpFromMessage() ?: "")
+                    }
                 }
         }
     }
@@ -157,7 +238,6 @@ class PhoneVerificationSignInFragment :
         viewModel.postDemographicDataResult.removeObservers(this)
         viewModel.accountInfo.removeObservers(this)
         viewModel.clickEvent.removeObservers(this)
-        context?.unregisterReceiver(appSMSBroadcastReceiver)
     }
 
     override fun onDestroy() {

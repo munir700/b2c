@@ -7,17 +7,29 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePassCodeViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_change_passcode_toolbar"
-            app:viewModel="@{viewModel}" />
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE:View.GONE}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:titleTranslator="@{viewModel.state.toolBarTitle}"
+            />
         <fragment
             android:id="@+id/change_passcode_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"

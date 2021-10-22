@@ -43,6 +43,7 @@ interface ILocationSelection {
         var headingTitle: ObservableField<String>
         var subHeadingTitle: ObservableField<String>
         var city: ObservableField<String>
+        var iata3Code: ObservableField<String>
         var placeTitle: ObservableField<String>
         var placeSubTitle: ObservableField<String>
         var placePhoto: ObservableField<Bitmap>

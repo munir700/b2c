@@ -1,5 +1,6 @@
 package co.yap.modules.frame
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -7,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import co.yap.localization.LocaleManager
 import co.yap.yapcore.*
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
@@ -16,7 +18,6 @@ import co.yap.yapcore.databinding.ActivityFrameBinding
 import co.yap.yapcore.helpers.extentions.createFragmentInstance
 import co.yap.yapcore.helpers.extentions.instantiateFragment
 import kotlinx.android.synthetic.main.activity_frame.*
-
 
 class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
     IFrameActivity.View, IFragmentHolder {
@@ -69,13 +70,20 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         fragment.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        fragment.onRequestPermissionsResult(requestCode,permissions,grantResults)
+    }
     override fun onBackPressed() {
         super.onBackPressed()
         fragment.onBackPressed()
     }
 
-    fun setupToolbar(visibility: Boolean) {
-
+    private fun setupToolbar(visibility: Boolean) {
         getBinding().toolbar?.let {
             toolbar?.title = ""
             toolbar?.visibility = (if (visibility) View.VISIBLE else View.GONE)
@@ -98,9 +106,16 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
     override fun onOptionsItemSelected(item: MenuItem?) =
         when (item?.itemId) {
             android.R.id.home -> {
+                hideKeyboard()
                 onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    override fun getScreenName(): String? = null
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleManager.setLocale(base))
+    }
 }

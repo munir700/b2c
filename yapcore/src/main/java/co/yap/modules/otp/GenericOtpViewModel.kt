@@ -2,6 +2,7 @@ package co.yap.modules.otp
 
 import android.app.Application
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import co.yap.networking.authentication.AuthApi
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.messages.MessagesRepository
@@ -17,6 +18,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
@@ -33,7 +36,7 @@ class GenericOtpViewModel(application: Application) :
     override var token: String? = ""
     override val state: GenericOtpState = GenericOtpState(application = application)
     private val authRepository: AuthApi = AuthRepository
-
+    override var requestKeyBoard: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onCreate() {
         super.onCreate()
@@ -196,15 +199,14 @@ class GenericOtpViewModel(application: Application) :
     }
 
     private fun getUserName(): String? {
-        val sharedPreferenceManager = SharedPreferenceManager(context)
-        return if (!SharedPreferenceManager(context).getValueBoolien(
+        return if (!SharedPreferenceManager.getInstance(context).getValueBoolien(
                 Constants.KEY_IS_USER_LOGGED_IN,
                 false
             )
         ) {
             state.otpDataModel?.username
         } else {
-            sharedPreferenceManager.getDecryptedUserName()
+            SharedPreferenceManager.getInstance(context).getDecryptedUserName()
         }
     }
 
@@ -333,10 +335,12 @@ class GenericOtpViewModel(application: Application) :
     }
 
     private fun handleResendEvent(resend: Boolean, context: Context) {
-        if (resend)
+        if (resend) {
             state.toast =
                 getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-
+            logFirebaseEvent(true)
+        }
+        requestKeyBoard.value = true
         state.reverseTimer(10, context)
         state.validResend = false
     }
@@ -350,5 +354,13 @@ class GenericOtpViewModel(application: Application) :
             getString(Strings.screen_verify_phone_number_display_text_sub_title).format(
                 state.mobileNumber[0]
             )
+    }
+
+    override fun logFirebaseEvent(resend: Boolean?) {
+        when (state.otpDataModel?.otpAction) {
+            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.CASHPAYOUT.name -> {
+                trackEventWithScreenName(if (resend == true) FirebaseEvent.CLICK_RESEND_TRANSFEROTP else FirebaseEvent.CLICK_CONFIRM_TRANSFER)
+            }
+        }
     }
 }

@@ -28,6 +28,7 @@ class EditBeneficiaryViewModel(application: Application) :
     override var onUpdateSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override var isBeneficiaryValid: MutableLiveData<Boolean> = MutableLiveData()
     override var onBeneficiaryCreatedSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    override var countriesList: MutableLiveData<ArrayList<Country>> = MutableLiveData()
 
     override fun requestUpdateBeneficiary() {
         launch {
@@ -108,12 +109,13 @@ class EditBeneficiaryViewModel(application: Application) :
     ) {
         launch {
             state.loading = true
-            when (val response = repository.getAllCountries()) {
+            when (val response = repository.getCountries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.selectedCountryOfResidence = Utils.parseCountryList(response.data.data)
                         ?.firstOrNull { it.isoCountryCode2Digit == beneficiary?.countryOfResidence }
-                    success(Utils.parseCountryList(response.data.data))
+                    countriesList.value = Utils.parseCountryList(response.data.data)
+                    success(countriesList.value)
                 }
 
                 is RetroApiResponse.Error -> {

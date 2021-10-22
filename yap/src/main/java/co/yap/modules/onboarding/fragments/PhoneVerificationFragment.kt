@@ -16,10 +16,11 @@ import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.firebase.FirebaseEvents
-import co.yap.yapcore.firebase.FirebaseTagManagerModel
-import co.yap.yapcore.firebase.firebaseTagManagerEvent
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -27,7 +28,7 @@ import com.google.android.gms.auth.api.phone.SmsRetriever
 
 class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(),
     IPhoneVerification.View {
-    private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+    private var intentFilter: IntentFilter? = null
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -37,37 +38,40 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     override val viewModel: PhoneVerificationViewModel
         get() = ViewModelProviders.of(this).get(PhoneVerificationViewModel::class.java)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setObservers()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.VERIFY_NUMBER.event))
         viewModel.state.reverseTimer(10, requireContext())
-    }
-
-    override fun setObservers() {
-        context?.startSmsConsent()
+        requireContext().startSmsConsent()
         initBroadcast()
-        context?.registerReceiver(appSMSBroadcastReceiver, intentFilter)
         viewModel.state.otp.addOnPropertyChangedCallback(stateObserverOtp)
         viewModel.nextButtonPressEvent.observe(this, clickEvent)
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireContext().registerReceiver(
+            appSMSBroadcastReceiver,
+            intentFilter,
+            SmsRetriever.SEND_PERMISSION,
+            null
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireContext().unregisterReceiver(appSMSBroadcastReceiver)
+    }
+
     private val clickEvent = Observer<Int> { id ->
         when (id) {
+            R.id.btnResend -> {
+                requireContext().startSmsConsent()
+            }
             R.id.done -> {
                 viewModel.verifyOtp {
-                    viewModel.parentViewModel?.isWaitingList?.value?.let { isWaitingList ->
-                        if (isWaitingList) findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment) else startActivityForResult(
-                            context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                            Constants.REQUEST_CODE_CREATE_PASSCODE
-                        )
-                    } ?: startActivityForResult(
-                        context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                        Constants.REQUEST_CODE_CREATE_PASSCODE
+                    trackEventWithScreenName(FirebaseEvent.VERIFY_NUMBER)
+                    launchActivity<CreatePasscodeActivity>(
+                        requestCode = RequestCodes.REQUEST_CODE_CREATE_PASSCODE
                     )
                 }
             }
@@ -84,43 +88,43 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     }
 
     private fun initBroadcast() {
+        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
         appSMSBroadcastReceiver =
             MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
                 override fun onReceive(code: Intent?) {
-                    startActivityForResult(
-                        code,
-                        Constants.SMS_CONSENT_REQUEST
-                    )
+                    code?.let {
+                        it.resolveActivity(requireContext().packageManager)?.run {
+                            if (packageName == "com.google.android.gms" && className == "com.google.android.gms.auth.api.phone.ui.UserConsentPromptActivity")
+                                startActivityForResult(it, Constants.SMS_CONSENT_REQUEST)
+                        }
+                    }
                 }
             })
     }
 
-    override fun removeObservers() {
+    override fun onDestroyView() {
         viewModel.nextButtonPressEvent.removeObservers(this)
         viewModel.state.otp.removeOnPropertyChangedCallback(stateObserverOtp)
-        context?.unregisterReceiver(appSMSBroadcastReceiver)
-    }
-
-    override fun onDestroyView() {
-        removeObservers()
         super.onDestroyView()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            Constants.REQUEST_CODE_CREATE_PASSCODE -> {
+            RequestCodes.REQUEST_CODE_CREATE_PASSCODE -> {
                 if (null != data) {
                     //trackEvent(TrackEvents.OTP_CODE_ENTERED)
                     viewModel.setPasscode(data.getStringExtra("PASSCODE") ?: "")
                     findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+                    trackEventWithScreenName(FirebaseEvent.CREATE_PIN)
                     trackEvent(SignupEvents.SIGN_UP_PASSCODE_CREATED.type)
                 }
             }
             Constants.SMS_CONSENT_REQUEST ->
                 if (resultCode == Activity.RESULT_OK) {
-                    val message = data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
-                    viewModel.state.otp.set(context?.getOtpFromMessage(message ?: "") ?: "")
+                    data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE).also {
+                        viewModel.state.otp.set(it?.getOtpFromMessage() ?: "")
+                    }
                 }
         }
     }

@@ -69,7 +69,7 @@
             <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
-            android:name=".modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
+            android:name="co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/spare_cards_navigation" />
@@ -84,8 +84,8 @@
 
         <activity
             android:name=".modules.dashboard.more.main.activities.MoreActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/CoreAppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/more_main_navigation" />
@@ -152,8 +152,9 @@
         <activity
             android:name="co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name=".modules.dashboard.transaction.activities.TransactionDetailsActivity"
+            android:name=".modules.dashboard.transaction.detail.TransactionDetailsActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -207,9 +208,32 @@
         <activity
             android:name=".modules.dashboard.cards.reordercard.activities.ReorderCardActivity"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name=".modules.dashboard.more.notification.activities.NotificationsActivity"
+            android:name=".modules.dashboard.more.notifications.main.NotificationsActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".modules.dashboard.addionalinfo.activities.AdditionalInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".sendmoney.home.main.SMBeneficiaryParentActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.transaction.receipt.viewer.ImageViewerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.store.cardplans.activities.CardPlansActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

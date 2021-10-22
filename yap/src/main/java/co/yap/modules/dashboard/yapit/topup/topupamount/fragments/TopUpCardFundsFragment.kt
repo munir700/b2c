@@ -21,11 +21,10 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.getValueWithoutComa
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 
@@ -127,7 +126,9 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                if (viewModel.enteredAmount.value?.getValueWithoutComa().parseToDouble() ?: 0.0 < viewModel.state.minLimit) {
+                if (viewModel.enteredAmount.value?.getValueWithoutComa()
+                        .parseToDouble() ?: 0.0 < viewModel.state.minLimit
+                ) {
                     viewModel.state.amountBackground =
                         resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                     showUpperLowerLimitError()
@@ -198,14 +199,13 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             viewModel.state.cardName = (context as TopUpCardActivity).cardInfo?.alias.toString()
         }
 
-        viewModel.state.availableBalance =
-            SessionManager.cardBalance.value?.availableBalance.toString()
-
-        getBindings().tvAvailableBalanceGuide.text = Utils.getSppnableStringForAmount(
-            requireContext(),
-            viewModel.state.availableBalanceGuide,
-            viewModel.state.currencyType,
-            Utils.getFormattedCurrencyWithoutComma(viewModel.state.availableBalance)
+        getBindings().tvAvailableBalanceGuide.text = requireContext().resources.getText(
+            getString(Strings.common_display_text_available_balance),
+            requireContext().color(
+                R.color.colorPrimaryDark,
+                SessionManager.cardBalance.value?.availableBalance.toString()
+                    .toFormattedCurrency(showCurrency = true)
+            )
         )
     }
 
@@ -218,20 +218,14 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 requireContext(),
                 viewModel.state.transactionFeeSpannableString, transactionFee
             )
+
         } else if (transactionFee.toDouble() >= 0) {
-            viewModel.state.transactionFeeSpannableString =
-                getString(Strings.screen_topup_transfer_display_text_transaction_fee)
-                    .format(
-                        viewModel.state.currencyType + " " + transactionFee.toFormattedCurrency(
-                            showCurrency = false,
-                            currency = SessionManager.getDefaultCurrency()
-                        )
-                    )
-            getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
-                requireContext(),
-                viewModel.state.transactionFeeSpannableString ?: "",
-                viewModel.state.currencyType,
-                transactionFee
+            getBindings().tvFeeDescription.text = requireContext().resources.getText(
+                getString(Strings.screen_topup_transfer_display_text_transaction_fee),
+                requireContext().color(
+                    R.color.colorPrimaryDark,
+                    transactionFee.parseToDouble().roundValHalfEven().toString().toFormattedCurrency(showCurrency = true)
+                )
             )
         }
     }

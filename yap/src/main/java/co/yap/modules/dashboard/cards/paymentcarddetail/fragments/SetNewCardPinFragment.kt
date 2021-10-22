@@ -20,7 +20,7 @@ open class SetNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.V
     override fun getLayoutId(): Int = R.layout.fragment_pin
 
     var oldPinCode: String? = null
-    override val viewModel: PINViewModel
+    override val viewModel: IPin.ViewModel
         get() = ViewModelProviders.of(this).get(PINViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

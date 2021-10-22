@@ -23,6 +23,8 @@ class TransactionNoteViewModel(application: Application) :
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
+    override var txnType: String = ""
+
     override fun onCreate() {
         super.onCreate()
         state.toolbarVisibility.set(true)
@@ -36,11 +38,21 @@ class TransactionNoteViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun addEditNote(transactionId: String?, transactionDetail: String?) {
+    override fun addEditNote(
+        transactionId: String?,
+        transactionDetail: String?,
+        receiverNote: String?
+    ) {
         launch {
             state.loading = true
             when (val response =
-                repository.addEditNote(AddEditNoteRequest(transactionId, transactionDetail))) {
+                repository.addEditNote(
+                    AddEditNoteRequest(
+                        transactionId,
+                        transactionDetail,
+                        receiverNote
+                    )
+                )) {
                 is RetroApiResponse.Success -> addEditNoteSuccess.value = true
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

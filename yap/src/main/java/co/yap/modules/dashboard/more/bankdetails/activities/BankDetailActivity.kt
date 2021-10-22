@@ -11,14 +11,13 @@ import co.yap.modules.dashboard.more.bankdetails.interfaces.IBankDetail
 import co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.helpers.ImageBinding
+import co.yap.yapcore.helpers.extentions.share
+import co.yap.yapcore.managers.SessionManager
+import kotlinx.android.synthetic.main.activity_bank_detail.*
+
 
 class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDetail.View {
-
-    companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, BankDetailActivity::class.java)
-        }
-    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -40,19 +39,10 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
 
                 }
                 R.id.btnConfirm -> {
-                    shareInfo()
+                    context.share(text = getBody(),title = "Share")
                 }
             }
         })
-    }
-
-    private fun shareInfo() {
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        // not set because ios team is not doing this.
-        //sharingIntent.putExtra(Intent.EXTRA_SUBJECT, viewModel.state.title.get())
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody())
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun getBody(): String {
@@ -67,6 +57,20 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SessionManager.user?.let { user ->
+            ImageBinding.loadAvatar(
+                imgProfile,
+                user.currentCustomer.getPicture(),
+                user.currentCustomer.getFullName(),
+                user.currentCustomer.parsedColor
+            )
+
+        }
+
     }
 
     override fun onToolBarClick(id: Int) {

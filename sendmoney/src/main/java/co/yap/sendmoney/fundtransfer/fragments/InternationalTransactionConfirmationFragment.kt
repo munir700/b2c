@@ -33,6 +33,8 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.leanplum.SendMoneyEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 class InternationalTransactionConfirmationFragment :
@@ -165,6 +167,7 @@ class InternationalTransactionConfirmationFragment :
             }
 
             Constants.ADD_SUCCESS -> {
+                trackEvent(SendMoneyEvents.SEND_MONEY_INTERNATIONAL.type,viewModel.parentViewModel?.beneficiary?.value?.country, viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType)
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
