@@ -97,6 +97,23 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
 
+        <TextView
+            android:id="@+id/inst_overlay_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/white_round_background"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@{model.state.overlayInstructionsTitle}"
+            android:textSize="12sp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
