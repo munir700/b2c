@@ -66,7 +66,7 @@ object Constants {
     const val QR_CODE_SCREEN: Int = 9
 
     const val URL_YAP_WEBSITE = "https://www.yap.com/"
-    const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
+    const val URL_TERMS_CONDITION = "https://www.yap.com/yap-legal/"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = "https://www.yap.com/fees"
     const val URL_INSTAGRAM = "https://www.instagram.com/yap"

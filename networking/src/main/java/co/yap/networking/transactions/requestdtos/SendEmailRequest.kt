@@ -7,7 +7,8 @@ data class SendEmailRequest(
     @SerializedName("fileUrl") val fileUrl: String? = "",
     @SerializedName("month") val month: String? = "",
     @SerializedName("year") val year: String? = "",
-    @SerializedName("statementType") val statementType: String? = ""
+    @SerializedName("statementType") val statementType: String? = "",
+    @SerializedName("cardType") val cardType: String? = ""
 ) : ApiResponse() {
 
 }

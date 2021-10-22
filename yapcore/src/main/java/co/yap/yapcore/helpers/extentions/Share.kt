@@ -147,7 +147,7 @@ fun Context.isWhatsAppInstalled(): Boolean {
 }
 
 fun Context.openWhatsApp() {
-    val contact = "+971 4 365 3789" // use country code with your phone number
+    val contact = "+971 600 551214" // use country code with your phone number
     val url =
         "https://api.whatsapp.com/send?phone=$contact"
     val i = Intent(ACTION_VIEW)
