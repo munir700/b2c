@@ -311,7 +311,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     private fun splitLastNames(lastNames: String) {
-        val parts = lastNames.split(" ")
+        val parts = lastNames.trim().split(" ")
         state.firstName = parts[0]
 
         when {

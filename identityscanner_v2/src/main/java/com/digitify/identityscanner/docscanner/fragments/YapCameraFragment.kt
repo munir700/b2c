@@ -93,6 +93,12 @@ class YapCameraFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        setOverlayInstructions(
+            getString(
+                requireContext(),
+                Strings.identity_scanner_sdk_screen_scanner_overlay_instruction_title
+            )
+        )
         binding.camera.setLifecycleOwner(this)
         binding.camera.addCameraListener(this)
         if (progress == null) {
@@ -242,6 +248,10 @@ class YapCameraFragment : BaseFragment(),
         viewModel?.setInstructions(inst)
     }
 
+    override fun setOverlayInstructions(overlayInstructions: String) {
+        viewModel?.setOverlayInstructions(overlayInstructions)
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -352,14 +362,14 @@ class YapCameraFragment : BaseFragment(),
                                                 )
                                             } else {
                                                 if (isCardFrontSide()) {
-                                                    detectBlur(croppedBmp) { blurNotFound ->
-                                                        if (blurNotFound) {
+                                                    isNationalityAndNameAvailable(croppedBmp) { nationalityAndNameFound ->
+                                                        if (nationalityAndNameFound) {
                                                             reWriteImage(filename, croppedBmp)
                                                         } else {
                                                             showErrorInUI(
                                                                 getString(
                                                                     requireContext(),
-                                                                    Strings.identity_scanner_sdk_screen_scanner_face_detection_error
+                                                                    Strings.identity_scanner_sdk_screen_scanner_nationality_name_detection_error
                                                                 )
                                                             )
                                                         }
@@ -408,29 +418,6 @@ class YapCameraFragment : BaseFragment(),
 
     private fun isCardFrontSide() = parentViewModel?.state?.scanMode == DocumentPageType.FRONT
 
-    private fun detectFace(bitmap: Bitmap, callback: (Boolean) -> Unit) {
-        val image = InputImage.fromBitmap(bitmap, 0)
-        val options = FaceDetectorOptions.Builder()
-            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
-            .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
-            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-            .setMinFaceSize(0.15f)
-            .enableTracking()
-            .build()
-        val detector = FaceDetection.getClient(options)
-        detector.process(image)
-            .addOnSuccessListener { faces ->
-                if (faces.isNotEmpty()) {
-                    callback.invoke(true)
-                } else {
-                    callback.invoke(false)
-                }
-            }
-            .addOnFailureListener { e ->
-                callback.invoke(false)
-            }
-    }
-
     private fun showErrorInUI(message: String) {
         activity?.runOnUiThread {
             progress?.hide()
@@ -449,10 +436,7 @@ class YapCameraFragment : BaseFragment(),
         Task.runSafely({
             file = overWrite(File(filename), croppedBmp, quality = 90)
         }, {
-            activity?.runOnUiThread(Runnable {
-                progress?.hide()
-            })
-
+            hideProgressBar()
             onCaptureProcessCompleted(filename)
         }, true)
     }
@@ -462,14 +446,13 @@ class YapCameraFragment : BaseFragment(),
         val recognizer = TextRecognition.getClient()
         recognizer.process(inputImage)
             .addOnSuccessListener { visionText ->
-                callback(visionText.text.contains("<<"))
+                callback(
+                    visionText.text.lines().filter { it.length in 28..32 }.size >= 3
+                )
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
-                activity?.runOnUiThread(Runnable {
-                    progress?.hide()
-                    setInstructions("Please rescan the card")
-                })
+                callback(false)
             }
     }
 
@@ -515,17 +498,10 @@ class YapCameraFragment : BaseFragment(),
         success.invoke(rotatedBitmap)
     }
 
-    private fun detectBlur(bitmap: Bitmap, callback: (Boolean) -> Unit) {
-        var cropedbitmap = Bitmap.createBitmap(
-            bitmap,
-            0,
-            (bitmap.height / 2),
-            bitmap.width,
-            bitmap.height / 2
-        )
+    private fun isNationalityAndNameAvailable(bitmap: Bitmap, callback: (Boolean) -> Unit) {
         var isNameThere = false
         var isNationalityThere = false
-        val image = InputImage.fromBitmap(cropedbitmap, 0)
+        val image = InputImage.fromBitmap(bitmap, 0)
         TextRecognition.getClient().process(image)
             .addOnSuccessListener { visionText ->
                 for (block in visionText.textBlocks) {

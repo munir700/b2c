@@ -39,3 +39,23 @@ fun Bitmap.toBlackWhite(threshold: Int = 128): Bitmap? {
     }
     return bitmap
 }
+
+fun Bitmap.writeBitmapOnExternalStorage() {
+    val root: String = Environment.getExternalStorageDirectory().toString()
+    val myDir = File("$root/yap_scanner_images")
+    myDir.mkdirs()
+
+    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val fname = "Yap_$timeStamp.jpg"
+
+    val file = File(myDir, fname)
+    if (file.exists()) file.delete()
+    try {
+        val out = FileOutputStream(file)
+        this.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        out.flush()
+        out.close()
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+    }
+}
