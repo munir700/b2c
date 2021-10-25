@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import androidx.annotation.AnimRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -465,12 +466,14 @@ fun Fragment.launchBottomSheetSegment(
     configuration: BottomSheetConfiguration,
     viewType: Int,
     listData: MutableList<CoreBottomSheetData>,
-    isIAnimationComplete: IAnimationComplete? = null
+    isIAnimationComplete: IAnimationComplete? = null,
+    buttonClick: View.OnClickListener? = null
 ) {
     fragmentManager.let {
         val coreBottomSheet =
             CoreBottomSheet(
-                itemClickListener,
+                buttonClickListener = buttonClick,
+                mListener = itemClickListener,
                 bottomSheetItems = listData,
                 viewType = viewType,
                 configuration = configuration,

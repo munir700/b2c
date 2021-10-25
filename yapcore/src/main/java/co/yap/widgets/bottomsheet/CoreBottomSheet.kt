@@ -6,7 +6,6 @@ import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -16,11 +15,11 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.LayoutBottomSheetBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.getScreenHeight
-import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.layout_bottom_sheet.*
 
 
 open class CoreBottomSheet(
@@ -28,7 +27,8 @@ open class CoreBottomSheet(
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG,
     private val configuration: BottomSheetConfiguration,
-    private val iAnimationComplete: IAnimationComplete? = null
+    private val iAnimationComplete: IAnimationComplete? = null,
+    private val buttonClickListener: View.OnClickListener? = null
 ) : BottomSheetDialogFragment(), ICoreBottomSheet.View, IAnimationComplete {
     lateinit var viewDataBinding: ViewDataBinding
     override val viewModel: CoreBottomSheetViewModel
@@ -39,11 +39,6 @@ open class CoreBottomSheet(
     }
 
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObserver()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,6 +91,8 @@ open class CoreBottomSheet(
             if (viewType == Constants.VIEW_WITH_FLAG || viewType == Constants.VIEW_FIXED_HEIGHT) (getScreenHeight() / 2) + 100 else params.height
         getBinding().rvBottomSheet.layoutParams = params
         getBinding().rvBottomSheet.adapter = adapter
+        getBinding().btnShare.setOnClickListener(buttonClickListener)
+
     }
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
@@ -148,32 +145,6 @@ open class CoreBottomSheet(
         if (isComplete) {
             iAnimationComplete?.onAnimationComplete(isComplete)
         }
-    }
-
-    private fun setObserver() {
-        viewModel.clickEvent.observe(this, clickObserver)
-    }
-
-    private val clickObserver = Observer<Int> {
-        when (it) {
-            R.id.btnShare -> {
-                context?.share(text = getBody(), title = "Share")
-            }
-        }
-    }
-
-    private fun getBody(): String {
-        return "Name: ${bottomSheetItems[0].subContent}\n" +
-                "SWIFT/BIC: ${bottomSheetItems[4].subContent}\n" +
-                "IBAN: ${bottomSheetItems[1].subContent}\n" +
-                "Account: ${bottomSheetItems[2].subContent}\n" +
-                "Bank: ${bottomSheetItems[3].subContent}\n" +
-                "Address: ${bottomSheetItems[5].subContent}\n"
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.clickEvent.removeObserver(clickObserver)
     }
 
     private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding

@@ -29,6 +29,7 @@ class MoreHomeViewModel(application: Application) :
     override val state: MoreState = MoreState()
     override var badgeCount: ObservableField<String> = ObservableField("")
     override var hasBadge: ObservableField<Boolean> = ObservableField(false)
+    override val list: MutableList<CoreBottomSheetData>  = mutableListOf()
 
     override fun onResume() {
         super.onResume()
@@ -112,7 +113,6 @@ class MoreHomeViewModel(application: Application) :
         }
     }
     override fun loadBottomSheetData():MutableList<CoreBottomSheetData>{
-        val list : MutableList<CoreBottomSheetData> = mutableListOf()
         list.add(
             CoreBottomSheetData(
                 content = Translator.getString(getApplication(),Strings.screen_b2c_eid_info_review_display_text_name_heading),

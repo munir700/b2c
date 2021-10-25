@@ -13,7 +13,6 @@ import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
-import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
@@ -282,7 +281,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 )
             ),
             viewType = Constants.VIEW_ITEM_ACCOUNT_DETAIL,
-            listData = viewModel.loadBottomSheetData()
+            listData = viewModel.loadBottomSheetData(),
+            buttonClick = onBottomSheetButtonClick
         )
     }
 
@@ -302,6 +302,19 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 }
             }
         }
+    }
+    private val onBottomSheetButtonClick = View.OnClickListener {
+        if (viewModel.list.isNotEmpty())
+            context?.share(text = getBody(), title = "Share")
+    }
+
+    private fun getBody(): String {
+        return "Name: ${viewModel.list[0].subContent}\n" +
+                "SWIFT/BIC: ${viewModel.list[4].subContent}\n" +
+                "IBAN: ${viewModel.list[1].subContent}\n" +
+                "Account: ${viewModel.list[2].subContent}\n" +
+                "Bank: ${viewModel.list[3].subContent}\n" +
+                "Address: ${viewModel.list[5].subContent}\n"
     }
 
     override fun getBinding(): FragmentMoreHomeBinding {

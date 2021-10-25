@@ -94,7 +94,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:visibility="@{viewModel.state.buttonVisibility?View.VISIBLE:View.GONE}"
             app:btn_size="small"
             app:enableCoreButton="@{true}"

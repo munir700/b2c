@@ -17,6 +17,7 @@ interface IMoreHome {
         val clickEvent: SingleClickEvent
         var badgeCount: ObservableField<String>
         var hasBadge: ObservableField<Boolean>
+        val list : MutableList<CoreBottomSheetData>
         fun handlePressOnView(id: Int)
         fun handlePressOnYAPforYou(id: Int)
         fun getMoreOptions(): MutableList<MoreOption>
