@@ -17,7 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sensitiveViews="@{Utils.getViewsList(etBankREquiredFieldCode,etSwiftCode,etAccountIbanNumber,llBankDetail,viewPhoneNumber,spinner,etLastName,etFirstName,etnickName)}"
+        app:sensitiveViews="@{Utils.getViewsList(etBankREquiredFieldCode,etSwiftCode,etAccountIbanNumber,llBankDetail,viewPhoneNumber,spinner,etLastName,etFirstName,etnickName,tvCountryName,tvTransferType,labelCardType)}"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,6 +84,7 @@
                                 app:src="@{viewModel.state.flagDrawableResId}" />
 
                             <TextView
+                                android:id="@+id/tvCountryName"
                                 style="@style/Small"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -125,6 +126,7 @@
 
 
                         <TextView
+                            android:id="@+id/tvTransferType"
                             style="@style/Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
