@@ -630,7 +630,6 @@ public class PieChartRenderer extends DataRenderer {
         c.restore();
     }
 
-    @Override
     public void drawValue(Canvas c, String valueText, float x, float y, int color) {
         mValuePaint.setColor(color);
         c.drawText(valueText, x, y, mValuePaint);

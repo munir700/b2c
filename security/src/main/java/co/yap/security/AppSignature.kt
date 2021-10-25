@@ -11,12 +11,12 @@ data class AppSignature(
     var versionName: String?,
     var versionCode: String?,
     var applicationId: String?,
-
     var sslPin1: String?,
     var sslPin2: String?,
     var sslPin3: String?,
     var sslHost: String?,
-    var spayServiceId: String?
+    var spayServiceId: String?,
+    var flagSmithAPIKey: String?
 ) {
 
     override fun equals(other: Any?): Boolean {

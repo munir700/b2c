@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.payall.payallsuccess.adapter.PayAllStatusItemViewModel" />
+
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.billpayments.utils.enums.BillPaymentStatus" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{(v)->viewModel.onViewClicked(v)}">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginVertical="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            app:fullName="@{viewModel.paidBill.billerName}"
+            app:imageUrl="@{viewModel.paidBill.logo}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:position="@{viewModel.position}" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/fwNameAndDesc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="tvBillerName,tvCategory"
+            app:flow_verticalGap="@dimen/_1sdp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@id/ivIcon"
+            app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
+            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintTop_toTopOf="@id/ivIcon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBillerName"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.paidBill.billerName}"
+            tools:text="Etsilat" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCategory"
+            style="@style/MicroGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{viewModel.paidBill.billerType}"
+            tools:text="Telecom" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/fwAmountAndStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="tvAmount,tvBillPaymentStatus"
+            app:flow_horizontalAlign="end"
+            app:flow_horizontalBias="0"
+            app:flow_verticalAlign="center"
+            app:layout_constraintBottom_toBottomOf="@id/fwNameAndDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fwNameAndDesc"
+            app:layout_constraintTop_toTopOf="@id/fwNameAndDesc" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAmount"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{SessionManager.INSTANCE.defaultCurrency+` `+ viewModel.paidBill.billAmount}"
+            android:textColor="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.PAIDTITLE.title)? @color/colorPrimaryDark : @color/greyDark }"
+            tools:text="AED 200" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBillPaymentStatus"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.paidBill.paymentStatus}"
+            android:textColor="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.FAILEDTITLE.title)? @color/colorSecondaryMagenta : @color/warning}"
+            android:visibility="@{viewModel.paidBill.paymentStatus.equals(BillPaymentStatus.PAIDTITLE.title)? View.GONE : View.VISIBLE }"
+            tools:text="Declined" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

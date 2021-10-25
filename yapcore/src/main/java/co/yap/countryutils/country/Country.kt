@@ -20,7 +20,8 @@ data class Country(
     private var name: String? = null,
     private var flagDrawableResId: Int = -1,
     private var currency: Currency? = null,
-    var ibanMandatory: Boolean? = false
+    var ibanMandatory: Boolean? = false,
+    var addressMandatory: Boolean? = false
 ) : Parcelable , CoreBottomSheetData(){
     var isCashPickUpAllowed: Boolean?
         get() {

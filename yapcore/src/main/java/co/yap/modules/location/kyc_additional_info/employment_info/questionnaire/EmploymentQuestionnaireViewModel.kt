@@ -191,6 +191,31 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         }
     }
 
+    fun validate() {
+        var isValid = false
+        questionsList.forEach {
+            isValid = when (it.question.questionType) {
+                QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.get()
+                    ?.isNotEmpty() == true
+                QuestionType.EDIT_TEXT_FIELD -> {
+                    StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
+                }
+                else -> !it.question.answer.get().isNullOrBlank()
+            }
+
+            if (!isValid) {
+                state.valid.set(isValid)
+                return
+            }
+        }
+        val depositAmount =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                ?.getAnswer()
+        val salaryAmount =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                ?.getAnswer()
+        state.valid.set(isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble())
+    }
 
     private fun fetchParallelAPIResponses(
         responses: (RetroApiResponse<CountryModel>, RetroApiResponse<IndustrySegmentsResponse>) -> Unit
@@ -209,48 +234,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             )
         }
     }
-
-    fun validate() {
-        var isValid = false
-        questionsList.forEach {
-            isValid = when (it.question.questionType) {
-                QuestionType.COUNTRIES_FIELD -> {
-                    it.question.multipleAnswers.get()
-                        ?.isNotEmpty() == true
-                }
-                QuestionType.EDIT_TEXT_FIELD -> {
-                    StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
-                }
-                QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> {
-                    if (employmentStatus == EmploymentStatus.OTHER) {
-                        !it.question.answer.get().isNullOrBlank()
-                    } else {
-
-                        val salaryAmount =
-                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
-                                ?.getAnswer()
-                        val depositAmount =
-                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
-                                ?.getAnswer()
-
-                        !it.question.answer.get().isNullOrBlank()
-                                && salaryAmount?.parseToDouble() ?: 0.0 > 0 &&
-                                salaryAmount.parseToDouble() > depositAmount.parseToDouble()
-                    }
-                }
-                else -> {
-                    !it.question.answer.get().isNullOrBlank()
-                }
-            }
-
-            if (!isValid) {
-                state.valid.set(isValid)
-                return
-            }
-        }
-        state.valid.set(isValid)
-    }
-
 
     override fun getCountriesAndSegments() {
         fetchParallelAPIResponses { countriesResponse, segmentsResponse ->
