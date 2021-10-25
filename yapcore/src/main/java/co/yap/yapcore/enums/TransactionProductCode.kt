@@ -38,7 +38,8 @@ enum class TransactionProductCode(val pCode: String) {
     PIN_CHANGE("P039"),
     ACCOUNT_STATUS_INQUIRY("P040"),
     PAYMENT_TRANSACTION("P041"),
-    FSS_FEE_NOTIFICATION("P042");
+    FSS_FEE_NOTIFICATION("P042"),
+    BILL_PAYMENTS("P043");
 
 }
 
