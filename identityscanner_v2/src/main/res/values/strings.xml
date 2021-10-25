@@ -90,6 +90,13 @@
 
     <!-- Error Messages -->
     <string name="identity_scanner_sdk_screen_scanner_glare_error">Glare has been detected. Please rescan your card.</string>
+    <string name="identity_scanner_sdk_screen_scanner_face_detection_error">We weren\’t able to capture your picture clearly. Please rescan the front of your card.</string>
+    <string name="identity_scanner_sdk_screen_scanner_mrz_error">We couldn\’t capture the bar code correctly. Please rescan the back of your card.</string>
+    <string name="identity_scanner_sdk_screen_scanner_object_detection_error">Your card is not in the correct position. Please lay it on a flat surface and rescan your card.</string>
+    <!-- Error Messages End -->
+
+    <!-- Error Messages -->
+    <string name="identity_scanner_sdk_screen_scanner_glare_error">Glare has been detected. Please rescan your card.</string>
     <string name="identity_scanner_sdk_screen_scanner_nationality_name_detection_error">We couldn\'t read your name and nationality on front side of card. Please rescan.</string>
     <string name="identity_scanner_sdk_screen_scanner_mrz_error">We couldn\’t capture the bar code correctly. Please rescan the back of your card.</string>
     <string name="identity_scanner_sdk_screen_scanner_object_detection_error">Your card is not in the correct position. Please lay it on a flat surface and rescan your card.</string>

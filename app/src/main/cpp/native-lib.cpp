@@ -7,15 +7,10 @@
 #include <chrono>
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_co_yap_app_AAPApplication_signatureKeysFromJNI(
-        JNIEnv *env,
-        jobject /*this*/,
-        jstring javaString,
-        jstring flavour,
-        jstring buildVariant,
-        jstring applicationId,
-        jstring versionName,
-        jstring versionCode) {
+Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*/,
+                                                    jstring javaString, jstring flavour,
+                                                    jstring buildVariant, jstring applicationId,
+                                                    jstring versionName, jstring versionCode) {
     const char *nativeString = env->GetStringUTFChars(javaString, 0);
     jclass appSignature = env->FindClass(nativeString);
     jmethodID constructor = env->GetMethodID(appSignature, "<init>",

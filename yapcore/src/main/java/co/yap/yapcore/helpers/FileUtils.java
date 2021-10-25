@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -11,11 +12,15 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.util.Log;
+import android.webkit.MimeTypeMap;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
-import android.util.Log;
-import android.webkit.MimeTypeMap;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileFilter;
@@ -25,10 +30,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Comparator;
-import co.yap.yapcore.BuildConfig;
+import java.util.List;
+
 import okhttp3.ResponseBody;
-import timber.log.Timber;
 
 public class FileUtils {
     public static final String DOCUMENTS_DIR = "documents";
@@ -162,7 +168,7 @@ public class FileUtils {
         return getMimeType(file);
     }
 
-      /**
+    /**
      * @return The MIME type for the give String Uri.
      */
     public static String getMimeType(Context context, String url) {
@@ -172,7 +178,7 @@ public class FileUtils {
         }
         return type;
     }
-    
+
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is local.
@@ -247,8 +253,8 @@ public class FileUtils {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(column_index);
             }
-        }  catch (Exception e) {
-            Timber.e(e);
+        } catch (Exception e) {
+            Log.e(TAG, "getDataColumn: ", e);
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -256,7 +262,7 @@ public class FileUtils {
         return null;
     }
 
-     /**
+    /**
      * Get a file path from a Uri. This will get the the path for Storage Access
      * Framework Documents, as well as the _data field for the MediaStore and
      * other file-based ContentProviders.<br>
@@ -273,7 +279,7 @@ public class FileUtils {
         String absolutePath = getLocalPath(context, uri);
         return absolutePath != null ? absolutePath : uri.toString();
     }
-    
+
     private static String getLocalPath(final Context context, final Uri uri) {
 
         if (DEBUG)
@@ -288,6 +294,7 @@ public class FileUtils {
             );
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        final boolean isAndroid11 = Build.VERSION.SDK_INT > Build.VERSION_CODES.Q;
 
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
@@ -311,17 +318,17 @@ public class FileUtils {
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
 
-                final String id = DocumentsContract.getDocumentId(uri);
-
+                String id = DocumentsContract.getDocumentId(uri);
                 if (id != null && id.startsWith("raw:")) {
                     return id.substring(4);
+                } else {
+                    if (id != null && id.contains(":"))
+                        id = id.split(":")[1];
                 }
-
                 String[] contentUriPrefixesToTry = new String[]{
                         "content://downloads/public_downloads",
                         "content://downloads/my_downloads"
                 };
-
                 for (String contentUriPrefix : contentUriPrefixesToTry) {
                     Uri contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.valueOf(id));
                     try {
@@ -329,7 +336,8 @@ public class FileUtils {
                         if (path != null) {
                             return path;
                         }
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
                 }
 
                 // path could not be retrieved using ContentResolver, therefore copy file to accessible cache using streams
@@ -346,25 +354,28 @@ public class FileUtils {
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-
-                Uri contentUri = null;
-                if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                if (isAndroid11) {
+                    String docId = DocumentsContract.getDocumentId(uri);
+                    List<String> split = Arrays.asList(docId.split(":"));
+                    String type = split.get(0);
+                    //TODO Convert this Function to Java or Convert this file to Kotlin.
+                    return Filer.INSTANCE.copyFileToInternalStorage(context, uri, "yapTemp");
+                } else {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
+                    Uri contentUri = null;
+                    if ("image".equals(type)) {
+                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("video".equals(type)) {
+                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("audio".equals(type)) {
+                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    }
+                    final String selection = "_id=?";
+                    final String[] selectionArgs = new String[]{split[1]};
+                    return getDataColumn(context, contentUri, selection, selectionArgs);
                 }
-
-                final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{
-                        split[1]
-                };
-
-                return getDataColumn(context, contentUri, selection, selectionArgs);
             }
             //GoogleDriveProvider
             else if (isGoogleDriveUri(uri)) {
@@ -439,7 +450,7 @@ public class FileUtils {
                 }
             }
         }
-        return String.valueOf(dec.format(fileSize) + suffix);
+        return dec.format(fileSize) + suffix;
     }
 
     /**
@@ -529,7 +540,7 @@ public class FileUtils {
     }
 
     private static void logDir(File dir) {
-        if(!DEBUG) return;
+        if (!DEBUG) return;
         Log.d(TAG, "Dir=" + dir);
         File[] files = dir.listFiles();
         for (File file : files) {
@@ -753,5 +764,13 @@ public class FileUtils {
             e.printStackTrace();
         }
         return file.getPath();
+    }
+
+    public static String getContentType(Context context, @NotNull Uri uri) {
+        String contentType = "";
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT))
+            contentType = context.getContentResolver().getType(uri);// For files that is selected from the file manager.
+        else contentType = getMimeType(context, uri); // For Image that is captured through Camera.
+        return contentType;
     }
 }
