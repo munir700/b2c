@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        app:sensitiveViews="@{Utils.getViewsList(imgProfile,tvAddressValue,tvBankValue,tvSwiftValue,tvAccountValue,tvIban,tvNameValue)}"
+        app:sensitiveViews="@{Utils.getViewsList(imgProfile,tvAddressValue,tvBankValue,tvSwiftValue,tvAccountValue,tvIbanValue,tvNameValue)}"
         android:orientation="vertical">
 
         <co.yap.widgets.CoreToolbar

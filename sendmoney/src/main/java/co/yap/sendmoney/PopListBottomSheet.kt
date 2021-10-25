@@ -10,6 +10,7 @@ import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayme
 import co.yap.widgets.expandablelist.PopParentAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.uxcam.UXCam
 
 class PopListBottomSheet(
     private val mListener: OnItemClickListener,
@@ -24,6 +25,7 @@ class PopListBottomSheet(
         val view = inflater.inflate(R.layout.bottom_sheet_pop, container, false)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        UXCam.occludeSensitiveView(recyclerView)
         val titleList = purposeCategories?.keys?.let { ArrayList(it) } ?: arrayListOf()
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter =

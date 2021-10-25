@@ -26,7 +26,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        app:sensitiveViews="@{Utils.getViewsList(llBeneficiaryName,etSwiftCode,ivTransferType,tvBeneficiaryName,imgProfile,etAccountNumber,clTransferType,llBankDetail,etAccountNumberRMT,etPhoneNumber,layoutReasonsSpinner,etLastName,etFirstName,etnickName,llCurrencyType,tvCountryName)}">
+        app:sensitiveViews="@{Utils.getViewsList(labelCardType,llBeneficiaryName,etSwiftCode,ivTransferType,tvBeneficiaryName,imgProfile,etAccountNumber,clTransferType,llBankDetail,etAccountNumberRMT,etPhoneNumber,layoutReasonsSpinner,etLastName,etFirstName,etnickName,llCurrencyType,tvCountryName)}">
 
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"

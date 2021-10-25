@@ -10,6 +10,7 @@
             type="co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        app:sensitiveViews="@{Utils.getViewsList(tvTotalAmount)}"
         android:paddingBottom="@dimen/margin_extra_small">
 
         <TextView
