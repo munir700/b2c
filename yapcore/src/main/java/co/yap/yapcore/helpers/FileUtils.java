@@ -294,7 +294,7 @@ public class FileUtils {
             );
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        final boolean isAndroid11 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R;
+        final boolean isAndroid11 = Build.VERSION.SDK_INT > Build.VERSION_CODES.Q;
 
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
