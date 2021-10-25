@@ -19,6 +19,7 @@ import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
+import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
@@ -536,8 +537,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onCloseClick(notification: HomeNotification, position: Int) {
         super.onCloseClick(notification, position)
         AnimationUtils.slideView(
-            getBindings().clMain.rvNotificationList,
-            getBindings().clMain.rvNotificationList.measuredHeight,
+            getDataBindingView<FragmentDashboardHomeBinding>().clMain.rvNotificationList,
+            getDataBindingView<FragmentDashboardHomeBinding>().clMain.rvNotificationList.measuredHeight,
             0
         )
         clearNotification()
