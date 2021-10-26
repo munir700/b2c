@@ -20,6 +20,7 @@ import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
+import co.yap.modules.dashboard.home.adaptor.DashboardShortCutAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.component.categorybar.ISegmentClicked
@@ -132,6 +133,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
         categoryBarSetup()
+        viewModel.requestDashboardShortCut()
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -148,6 +150,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
+
+        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.layoutManager =
+            LinearLayoutManager(
+                context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.adapter =
+            DashboardShortCutAdapter(mutableListOf(), transactionClickListener)
+
         skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
             R.layout.item_transaction_list_shimmer,
             5
@@ -312,11 +324,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             }
                         }
                     }
-                    R.id.lyAnalytics, R.id.ivAnalytics -> {
+                    R.id.ivAnalytics -> {
                         launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
-                    }
-                    R.id.lyAdd -> {
-                        openTopUpScreen()
                     }
                 }
         })
@@ -493,6 +502,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.parentViewModel?.isKycCompelted?.observe(viewLifecycleOwner, Observer {
             if (it)
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
+        })
+        viewModel.dashboardShortCutList.observe(viewLifecycleOwner, Observer { list ->
+            (getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.adapter as DashboardShortCutAdapter).setList(
+                list)
         })
     }
 
@@ -904,10 +917,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    private fun openTopUpScreen() {
-        launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
-    }
-
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
@@ -1046,15 +1055,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
     }
- private fun categoryBarSetup(){
-     getBindings().lyInclude.customCategoryBar.setSegmentClickedListener(object :
-         ISegmentClicked {
-         override fun onClickSegment(selectedDate: String) {
-             if(selectedDate!="")
-                 launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS) {
-                     putExtra("CurrentMonth", selectedDate)
-                 }            }
-     })
-     viewModel.requestCategoryBarData()
- }
+
+    private fun categoryBarSetup() {
+        getBindings().lyInclude.customCategoryBar.setSegmentClickedListener(object :
+            ISegmentClicked {
+            override fun onClickSegment(selectedDate: String) {
+                if (selectedDate != "")
+                    launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS) {
+                        putExtra("CurrentMonth", selectedDate)
+                    }
+            }
+        })
+        viewModel.requestCategoryBarData()
+    }
 }

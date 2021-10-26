@@ -33,6 +33,7 @@ interface IYapHome {
         var isRefreshing: MutableLiveData<Boolean>
         var isLast: MutableLiveData<Boolean>
         var monthData: List<MonthData>?
+        var dashboardShortCutList: MutableLiveData<List<String>>
         fun loadMore()
         fun filterTransactions()
         fun requestAccountTransactions()
@@ -44,6 +45,7 @@ interface IYapHome {
         fun shouldShowSetPin(paymentCard: Card): Boolean
         fun fetchTransactionDetailsForLeanplum(cardStatus: String?)
         fun requestCategoryBarData()
+        fun requestDashboardShortCut()
     }
 
     interface State : IBase.State {
