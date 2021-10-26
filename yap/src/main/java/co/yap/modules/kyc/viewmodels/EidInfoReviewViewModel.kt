@@ -138,18 +138,23 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = File(result.document.files[1].croppedFile)
+            val fileFront = File(result.document.files[0].croppedFile)
+            val fileBack = File(result.document.files[1].croppedFile)
 
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
-            val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
-            val part =
-                MultipartBody.Part.createFormData("files", file?.name, fileReqBody)
+            val fileFrontReqBody = RequestBody.create(MediaType.parse("image/*"), fileFront)
+            val partFront =
+                MultipartBody.Part.createFormData("files_f", fileFront.name, fileFrontReqBody)
+
+            val fileBackReqBody = RequestBody.create(MediaType.parse("image/*"), fileBack)
+            val partBack =
+                MultipartBody.Part.createFormData("files_b", fileBack.name, fileBackReqBody)
             launch {
                 state.loading = true
-                when (val response = repository.detectCardData(part)) {
+                when (val response = repository.detectCardData(partFront, partBack)) {
 
                     is RetroApiResponse.Success -> {
                         val data = response.data.data
@@ -158,7 +163,6 @@ class EidInfoReviewViewModel(application: Application) :
                             identity.nationality = data.nationality
                             identity.gender =
                                 if (data.sex.equals("M", true)) Gender.Male else Gender.Female
-                            identity.sirName = data.surname
                             identity.givenName = data.names
                             trackEventWithAttributes(
                                 SessionManager.user,
@@ -307,7 +311,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     private fun splitLastNames(lastNames: String) {
-        val parts = lastNames.split(" ")
+        val parts = lastNames.trim().split(" ")
         state.firstName = parts[0]
 
         when {

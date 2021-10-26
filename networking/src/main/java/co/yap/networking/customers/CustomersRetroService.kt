@@ -108,7 +108,7 @@ interface CustomersRetroService {
 
     @Multipart
     @POST(CustomersRepository.URL_DETECT)
-    suspend fun uploadIdCard(@Part file: MultipartBody.Part): Response<KycResponse>
+    suspend fun uploadIdCard(@Part fileFront: MultipartBody.Part, @Part fileBack: MultipartBody.Part): Response<KycResponse>
 
     @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
     suspend fun getY2YBeneficiaries(@Body contacts: List<Contact>): Response<Y2YBeneficiariesResponse>
