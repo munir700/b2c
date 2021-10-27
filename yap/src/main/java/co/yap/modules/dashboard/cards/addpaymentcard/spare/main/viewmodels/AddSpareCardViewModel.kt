@@ -25,12 +25,10 @@ class AddSpareCardViewModel(application: Application) :
 
     override val CONFIRM_VIRTUAL_PURCHASE: Int = 3000
     override var paymentCard: Card? = null
-    override var cardName: String? = ""
     override val ADD_VIRTUAL_SPARE_SUCCESS_EVENT: Int = 5000
     override val repository: CardsRepository = CardsRepository
     override val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper =
         AddSpareVirtualCardLogicHelper(context, this)
-    override var cardType: String = ""
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: AddSpareCardState =
         AddSpareCardState()
@@ -61,7 +59,7 @@ class AddSpareCardViewModel(application: Application) :
             when (val response = repository.addSpareVirtualCard(
                 //   AddVirtualSpareCardRequest(SessionManager.user?.currentCustomer?.getFullName())
                 AddVirtualSpareCardRequest(
-                    cardName,
+                    state.cardName,
                     parentViewModel?.selectedVirtualCard?.designCode
                 )
             )) {
