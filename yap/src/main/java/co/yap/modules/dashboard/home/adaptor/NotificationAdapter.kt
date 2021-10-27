@@ -42,10 +42,8 @@ class NotificationAdapter(
             binding.cvNotification.layoutParams = params
 
             binding.tvTitle.text = notification.title
-            notification.imgResId?.let {
-                ImageBinding.loadGifImageView(binding.ivNotification, it)
-            }
 
+            notification.fileName?.let { binding.lottie.setAnimation(it) }
 
 //            binding.ivNotification
             binding.tvDescription.text = notification.description
