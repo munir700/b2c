@@ -274,7 +274,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
            } ?: viewModel.showMessage("No city found")*/
         this.childFragmentManager.let {
             val coreBottomSheet = CoreBottomSheet(
-                object :
+                mListener = object :
                     OnItemClickListener {
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         (data as? CoreBottomSheet)?.dismiss()

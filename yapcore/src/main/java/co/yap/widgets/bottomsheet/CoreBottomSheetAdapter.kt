@@ -7,11 +7,7 @@ import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.databinding.ItemBottomSheetAddCardSuccessBinding
-import co.yap.yapcore.databinding.ItemBottomSheetNoSeparatorBinding
-import co.yap.yapcore.databinding.ItemBottomsheetCardDetailBinding
-import co.yap.yapcore.databinding.ItemBottomsheetWithFlagBinding
-import co.yap.yapcore.databinding.ItemCityBinding
+import co.yap.yapcore.databinding.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 open class CoreBottomSheetAdapter(
@@ -25,6 +21,7 @@ open class CoreBottomSheetAdapter(
         Constants.VIEW_WITH_FLAG -> R.layout.item_bottomsheet_with_flag
         Constants.VIEW_CARD_DETAIL_ITEM -> R.layout.item_bottomsheet_card_detail
         Constants.VIEW_ITEM_CARD_SUCCESSS -> R.layout.item_bottom_sheet_add_card_success
+        Constants.VIEW_ITEM_ACCOUNT_DETAIL -> R.layout.item_bottom_sheet_account_detail
         else -> R.layout.item_city
     }
 
@@ -40,10 +37,13 @@ open class CoreBottomSheetAdapter(
                 BottomSheetWithNoSeparatorViewHolder(binding)
             }
             is ItemBottomsheetCardDetailBinding -> {
-                 BottomSheetCardDetailViewHolder(binding)
+                BottomSheetCardDetailViewHolder(binding)
             }
             is ItemBottomSheetAddCardSuccessBinding -> {
                 BottomSheetAddCardSuccessViewHolder(binding)
+            }
+            is ItemBottomSheetAccountDetailBinding -> {
+                BottomSheetAccountDetailHolder(binding)
             }
             else -> {
                 BottomSheetViewHolder(binding as ItemCityBinding)
@@ -69,6 +69,9 @@ open class CoreBottomSheetAdapter(
                         it
                     )
                 }
+            }
+            is BottomSheetAccountDetailHolder -> {
+                holder.onBind(list[position], position, onItemClickListener)
             }
         }
     }
@@ -133,6 +136,7 @@ class BottomSheetWithNoSeparatorViewHolder(private val itemBinding: ItemBottomSh
         itemBinding.executePendingBindings()
     }
 }
+
 class BottomSheetCardDetailViewHolder(private val itemBinding: ItemBottomsheetCardDetailBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {
     fun onBind(
@@ -180,6 +184,24 @@ class BottomSheetAddCardSuccessViewHolder(
             override fun onAnimationStart(animation: Animator?) {
             }
         })
+        itemBinding.executePendingBindings()
+    }
+}
+
+class BottomSheetAccountDetailHolder(
+    private val itemBinding: ItemBottomSheetAccountDetailBinding
+) :
+    RecyclerView.ViewHolder(itemBinding.root) {
+    fun onBind(
+        bottomSheetItem: CoreBottomSheetData,
+        position: Int,
+        onItemClickListener: OnItemClickListener?
+    ) {
+        itemBinding.viewModel = CoreBottomSheetItemViewModel(
+            bottomSheetItem = bottomSheetItem,
+            position = position,
+            onItemClickListener = onItemClickListener
+        )
         itemBinding.executePendingBindings()
     }
 }

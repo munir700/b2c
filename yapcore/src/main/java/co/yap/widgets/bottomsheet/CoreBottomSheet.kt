@@ -2,10 +2,7 @@ package co.yap.widgets.bottomsheet
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -22,6 +19,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.layout_bottom_sheet.*
 
 
 open class CoreBottomSheet(
@@ -29,7 +27,8 @@ open class CoreBottomSheet(
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG,
     private val configuration: BottomSheetConfiguration,
-    private val iAnimationComplete: IAnimationComplete? = null
+    private val iAnimationComplete: IAnimationComplete? = null,
+    private val buttonClickListener: View.OnClickListener? = null
 ) : BottomSheetDialogFragment(), ICoreBottomSheet.View, IAnimationComplete {
     lateinit var viewDataBinding: ViewDataBinding
     override val viewModel: CoreBottomSheetViewModel
@@ -72,6 +71,10 @@ open class CoreBottomSheet(
         viewModel.state.headerSeparatorVisibility.set(configuration.showHeaderSeparator ?: false)
         configuration.heading?.let {
             getBinding().tvlabel.text = it
+            if (viewType == Constants.VIEW_ITEM_ACCOUNT_DETAIL) {
+                getBinding().tvlabel.gravity = Gravity.CENTER
+                viewModel.state.buttonVisibility.set(true)
+            }
         }
         getBinding().lySearchView.etSearch.afterTextChanged {
             adapter.filter.filter(it) { itemCount ->
@@ -88,11 +91,14 @@ open class CoreBottomSheet(
             if (viewType == Constants.VIEW_WITH_FLAG || viewType == Constants.VIEW_FIXED_HEIGHT) (getScreenHeight() / 2) + 100 else params.height
         getBinding().rvBottomSheet.layoutParams = params
         getBinding().rvBottomSheet.adapter = adapter
+        getBinding().btnShare.setOnClickListener(buttonClickListener)
+
     }
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            this@CoreBottomSheet.dismiss()
+            if (viewType != Constants.VIEW_ITEM_ACCOUNT_DETAIL)
+                this@CoreBottomSheet.dismiss()
             mListener?.onItemClick(view, data, pos)
         }
     }
@@ -133,7 +139,6 @@ open class CoreBottomSheet(
     override fun onNetworkStateChanged(isConnected: Boolean) {
     }
 
-    private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
     override fun getScreenName(): String? = null
 
     override fun onAnimationComplete(isComplete: Boolean) {
@@ -141,5 +146,7 @@ open class CoreBottomSheet(
             iAnimationComplete?.onAnimationComplete(isComplete)
         }
     }
+
+    private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
 
 }
