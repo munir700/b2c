@@ -18,10 +18,8 @@ interface IAddSpareCard {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var cardType: String
         val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper
         var paymentCard: Card?
-        var cardName: String?
         val CONFIRM_VIRTUAL_PURCHASE: Int
         val ADD_VIRTUAL_SPARE_SUCCESS_EVENT: Int
         val list: MutableList<CoreBottomSheetData>

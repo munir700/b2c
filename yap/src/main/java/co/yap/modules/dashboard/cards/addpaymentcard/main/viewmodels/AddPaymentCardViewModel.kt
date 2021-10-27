@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.IAddPaymentCard
 import co.yap.modules.dashboard.cards.addpaymentcard.main.states.AddPaymentCardsState
 import co.yap.networking.cards.CardsRepository
@@ -21,6 +22,8 @@ class AddPaymentCardViewModel(application: Application) :
     override val state: AddPaymentCardsState = AddPaymentCardsState()
     override var virtualCardDesignsList: ArrayList<VirtualCardDesigns> = arrayListOf()
     override var selectedVirtualCard: VirtualCardDesigns? = null
+    override var selectedCardName = ObservableField("")
+    override var isFromBlockCard: ObservableField<Boolean> = ObservableField(false)
 
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)

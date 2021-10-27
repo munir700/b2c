@@ -19,6 +19,7 @@ import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
+import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
@@ -70,10 +71,7 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.NotificationHelper
-import co.yap.yapcore.helpers.TourGuideManager
-import co.yap.yapcore.helpers.TourGuideType
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -538,6 +536,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onCloseClick(notification: HomeNotification, position: Int) {
         super.onCloseClick(notification, position)
+        AnimationUtils.slideView(
+            getDataBindingView<FragmentDashboardHomeBinding>().clMain.rvNotificationList,
+            getDataBindingView<FragmentDashboardHomeBinding>().clMain.rvNotificationList.measuredHeight,
+            0
+        )
         clearNotification()
     }
 
