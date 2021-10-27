@@ -138,4 +138,24 @@ object AnimationUtils {
         view.startAnimation(animation)
         return view
     }
+
+    fun slideView(
+        view: View,
+        currentHeight: Int,
+        newHeight: Int
+    ) {
+        val slideAnimator = ValueAnimator
+            .ofInt(currentHeight, newHeight)
+            .setDuration(500)
+        slideAnimator.addUpdateListener { animation1: ValueAnimator ->
+            val value = animation1.animatedValue as Int
+            view.layoutParams.height = value
+            view.requestLayout()
+        }
+
+        val animationSet = AnimatorSet()
+        animationSet.interpolator = AccelerateDecelerateInterpolator()
+        animationSet.play(slideAnimator);
+        animationSet.start()
+    }
 }
