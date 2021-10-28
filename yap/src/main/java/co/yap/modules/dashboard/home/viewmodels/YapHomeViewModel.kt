@@ -45,7 +45,7 @@ class YapHomeViewModel(application: Application) :
     override var isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
     override var MAX_CLOSING_BALANCE: Double = 0.0
     override var monthData: List<MonthData>? = ArrayList()
-    override var dashboardShortCutList: MutableLiveData<List<String>> = MutableLiveData()
+    override var dashboardWidgetList: MutableLiveData<List<String>> = MutableLiveData()
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
@@ -370,6 +370,6 @@ class YapHomeViewModel(application: Application) :
         list.add(5, "11")
         list.add(6, "11")
         list.add(7, "11")
-        dashboardShortCutList.postValue(list)
+        dashboardWidgetList.postValue(list)
     }
 }

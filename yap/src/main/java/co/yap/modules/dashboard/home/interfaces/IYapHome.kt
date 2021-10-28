@@ -33,7 +33,7 @@ interface IYapHome {
         var isRefreshing: MutableLiveData<Boolean>
         var isLast: MutableLiveData<Boolean>
         var monthData: List<MonthData>?
-        var dashboardShortCutList: MutableLiveData<List<String>>
+        var dashboardWidgetList: MutableLiveData<List<String>>
         fun loadMore()
         fun filterTransactions()
         fun requestAccountTransactions()

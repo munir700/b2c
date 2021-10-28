@@ -151,13 +151,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
-        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.layoutManager =
+        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.layoutManager =
             LinearLayoutManager(
                 context,
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
-        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.adapter =
+        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.adapter =
             DashboardWidgetAdapter(mutableListOf(), transactionClickListener)
 
         skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
@@ -503,8 +503,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (it)
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
-        viewModel.dashboardShortCutList.observe(viewLifecycleOwner, Observer { list ->
-            (getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.adapter as DashboardWidgetAdapter).setList(
+        viewModel.dashboardWidgetList.observe(viewLifecycleOwner, Observer { list ->
+            (getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.adapter as DashboardWidgetAdapter).setList(
                 list)
         })
     }
