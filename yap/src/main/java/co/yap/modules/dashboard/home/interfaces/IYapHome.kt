@@ -45,7 +45,7 @@ interface IYapHome {
         fun shouldShowSetPin(paymentCard: Card): Boolean
         fun fetchTransactionDetailsForLeanplum(cardStatus: String?)
         fun requestCategoryBarData()
-        fun requestDashboardShortCut()
+        fun requestDashboardWidget()
     }
 
     interface State : IBase.State {

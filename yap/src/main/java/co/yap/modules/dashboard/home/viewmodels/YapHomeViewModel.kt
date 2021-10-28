@@ -360,7 +360,7 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
-    override fun requestDashboardShortCut() {
+    override fun requestDashboardWidget() {
         val list: MutableList<String> = mutableListOf()
         list.add(0, "11")
         list.add(1, "11")

@@ -20,7 +20,7 @@ import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
-import co.yap.modules.dashboard.home.adaptor.DashboardShortCutAdapter
+import co.yap.modules.dashboard.home.adaptor.DashboardWidgetAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.component.categorybar.ISegmentClicked
@@ -133,7 +133,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
         categoryBarSetup()
-        viewModel.requestDashboardShortCut()
+        viewModel.requestDashboardWidget()
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -158,7 +158,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 false
             )
         getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.adapter =
-            DashboardShortCutAdapter(mutableListOf(), transactionClickListener)
+            DashboardWidgetAdapter(mutableListOf(), transactionClickListener)
 
         skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
             R.layout.item_transaction_list_shimmer,
@@ -504,7 +504,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
         viewModel.dashboardShortCutList.observe(viewLifecycleOwner, Observer { list ->
-            (getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.adapter as DashboardShortCutAdapter).setList(
+            (getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerShortCut.adapter as DashboardWidgetAdapter).setList(
                 list)
         })
     }
