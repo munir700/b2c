@@ -113,6 +113,7 @@ class MoreHomeViewModel(application: Application) :
         }
     }
     override fun loadBottomSheetData():MutableList<CoreBottomSheetData>{
+        list.clear()
         list.add(
             CoreBottomSheetData(
                 content = Translator.getString(getApplication(),Strings.screen_b2c_eid_info_review_display_text_name_heading),
