@@ -38,6 +38,7 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
+import co.yap.modules.dashboard.widgets.EditWidgetActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -314,7 +315,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
                     }
                     R.id.lyAdd -> {
-                        openTopUpScreen()
+                        openEditWidgets()
                     }
                 }
         })
@@ -909,6 +910,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun openTopUpScreen() {
         launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
+    }
+
+    private fun openEditWidgets() {
+        launchActivity<EditWidgetActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
