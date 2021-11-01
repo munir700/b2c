@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.widgets
 
-import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
@@ -12,9 +11,6 @@ interface IWidget {
     }
 
     interface State : IBase.State {
-        var toolBarVisibility: ObservableBoolean?
-        var toolBarRightIconVisibility: ObservableBoolean?
-
         var widgetMap: MutableLiveData<MutableMap<String?, List<Widget>>>?
     }
 }
