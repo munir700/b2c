@@ -21,7 +21,7 @@
         android:id="@+id/svContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sensitiveViews="@{Utils.getViewsList(tvSelectReason,layoutReasonsSpinner,etNote,tvIntBankFee,tvDynamicCurrencyRete,tvDefaultCurrencyRate,etReceiver,etBeneficiaryCurrency,etSenderAmount,etSenderCurrency,tvName,ivAddProfilePic,rlAddNewProfilePic,tvAvailableBalance,tvFee)}"
+        app:sensitiveViews="@{Utils.getViewsList(tvSelectReason,layoutReasonsSpinner,etNote,tvIntBankFee,tvDynamicCurrencyRete,tvDefaultCurrencyRate,etReceiver,etBeneficiaryCurrency,etSenderAmount,etSenderCurrency,tvName,rlAddNewProfilePic,ivProfilePic,tvAvailableBalance,tvFee)}"
         android:fillViewport="true">
 
 
