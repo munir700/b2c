@@ -172,17 +172,19 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun navigateToConfirmNameFragment() {
-        viewModel.parentViewModel?.state?.middleName?.set(viewModel.state.middleName)
-        viewModel.parentViewModel?.state?.firstName?.set(viewModel.state.firstName)
-        viewModel.parentViewModel?.state?.lastName?.set(viewModel.state.lastName)
-        viewModel.parentViewModel?.state?.nationality?.set(viewModel.state.nationality)
-        SharedPreferenceManager.getInstance(requireContext())
-            .save(Constants.KYC_FIRST_NAME, viewModel.state.firstName)
-        SharedPreferenceManager.getInstance(requireContext())
-            .save(Constants.KYC_LAST_NAME, viewModel.state.lastName)
-        SharedPreferenceManager.getInstance(requireContext())
-            .save(Constants.KYC_MIDDLE_NAME, viewModel.state.middleName)
-        navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
+        viewModel.parentViewModel?.state?.let { state ->
+            state.middleName.set(viewModel.state.middleName)
+            state.firstName.set(viewModel.state.firstName)
+            state.lastName.set(viewModel.state.lastName)
+            state.nationality.set(viewModel.state.nationality)
+            SharedPreferenceManager.getInstance(requireContext())
+                .save(Constants.KYC_FIRST_NAME, state.firstName.get() ?: "")
+            SharedPreferenceManager.getInstance(requireContext())
+                .save(Constants.KYC_LAST_NAME, state.lastName.get() ?: "")
+            SharedPreferenceManager.getInstance(requireContext())
+                .save(Constants.KYC_MIDDLE_NAME, state.middleName.get() ?: "")
+            navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
+        }
     }
 
     private fun invalidCitizenNumber(title: String) {
