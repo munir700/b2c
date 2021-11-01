@@ -83,7 +83,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun parseEmploymentTypes(employmentTypes: MutableList<EmploymentType>): MutableList<CoreBottomSheetData> {
         employmentTypes.forEach {
-            it.subTitle = it.employmentType
+            it.subTitle = it.employmentType.trim()
         }
         return employmentTypes.toMutableList()
     }
@@ -322,7 +322,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     employmentType = employmentTypes().first {
                         it.employmentType == getDataForPosition(
                             0
-                        ).getAnswer()
+                        ).getAnswer().trim()
                     }.employmentTypeCode,
                     sponsorName = getDataForPosition(1).getAnswer(),
                     monthlySalary = getDataForPosition(2).getAnswer(),
