@@ -100,7 +100,7 @@ class WidgetAdapter(
     }
 
 
-    class GroupViewHolder(
+    inner class GroupViewHolder(
         view: View,
         viewModel: WidgetGroupItemVM,
         mDataBinding: ViewDataBinding
@@ -108,7 +108,11 @@ class WidgetAdapter(
         view,
         viewModel,
         mDataBinding
-    ), IStickyHeaderViewHolder
+    ), IStickyHeaderViewHolder{
+        override fun setItem(item: WidgetList, position: Int) {
+            super.setItem(item, position)
+        }
+    }
 
     inner class ChildViewHolder(
         view: View,

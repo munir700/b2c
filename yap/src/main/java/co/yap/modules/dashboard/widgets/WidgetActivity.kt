@@ -12,10 +12,6 @@ import kotlinx.android.synthetic.main.fragment_transaction_search.*
 
 class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
 
-    private lateinit var mAdapter: WidgetAdapter
-    private lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
-    private lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
-
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -29,18 +25,7 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
     }
 
     private fun intRecyclersView() {
-        mRecyclerViewExpandableItemManager = RecyclerViewExpandableItemManager(null)
-        mAdapter = WidgetAdapter(mutableMapOf(), mRecyclerViewExpandableItemManager)
-        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(mAdapter)
-        mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        recyclerView.apply {
-            addItemDecoration(StickyHeaderItemDecoration())
-            mRecyclerViewExpandableItemManager.attachRecyclerView(this)
-            adapter = mWrappedAdapter
-            viewModel.widgetAdapter?.set(mAdapter)
-            viewModel.getWidgetList()
-            setHasFixedSize(true)
-        }
+
     }
 
     override fun onToolBarClick(id: Int) {

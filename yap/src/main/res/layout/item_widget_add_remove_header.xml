@@ -19,7 +19,8 @@
         android:paddingStart="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_normal"
         android:paddingEnd="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_normal">
+        android:paddingBottom="@dimen/margin_normal"
+        android:background="@color/white">
         <!--second condition p grey MicroGrey-->
         <TextView
             android:id="@+id/tvHeaderText"
