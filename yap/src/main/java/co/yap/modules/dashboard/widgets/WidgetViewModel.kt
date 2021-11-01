@@ -12,11 +12,6 @@ class WidgetViewModel(application: Application) :
 
     override var widgetAdapter: ObservableField<WidgetAdapter>? = ObservableField()
 
-    override fun onCreate() {
-        super.onCreate()
-        state.toolbarTitle = getString(Strings.screen_edit_widget_heading_text)
-    }
-
     fun getWidgetList() {
         val widgetData = mutableMapOf<String?, List<Widget>>()
 
