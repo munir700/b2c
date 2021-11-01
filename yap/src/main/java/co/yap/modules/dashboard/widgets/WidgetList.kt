@@ -1,4 +1,8 @@
 package co.yap.modules.dashboard.widgets
 
-data class WidgetList (var title: String,
-                       var widget: List<Widget>)
+import co.yap.networking.models.ApiResponse
+
+data class WidgetList(
+    var title: String? = null,
+    var widget: List<Widget>
+) : ApiResponse()

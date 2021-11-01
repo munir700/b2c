@@ -1,13 +1,20 @@
 package co.yap.modules.dashboard.widgets
 
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 
-interface IEditWidget {
+interface IWidget {
     interface View : IBase.View<ViewModel>
-    interface ViewModel : IBase.ViewModel<State>
+    interface ViewModel : IBase.ViewModel<State> {
+        val widgetAdapter: ObservableField<WidgetAdapter>?
+    }
+
     interface State : IBase.State {
         var toolBarVisibility: ObservableBoolean?
         var toolBarRightIconVisibility: ObservableBoolean?
+
+        var widgetMap: MutableLiveData<MutableMap<String?, List<Widget>>>?
     }
 }

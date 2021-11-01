@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.widgets.EditWidgetViewModel" />
+            type="co.yap.modules.dashboard.widgets.WidgetViewModel" />
 
         <import type="android.view.View" />
 
@@ -49,7 +49,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_search_transaction_child" />
+                tools:listitem="@layout/item_widget_add_remove_body" />
         </co.yap.widgets.MultiStateView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

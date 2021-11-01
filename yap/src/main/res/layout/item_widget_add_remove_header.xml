@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="@dimen/margin_medium"
-    android:paddingTop="@dimen/margin_normal"
-    android:paddingEnd="@dimen/margin_medium">
-    <!--second condition p grey MicroGrey-->
-    <TextView
-        android:id="@+id/tvHeaderText"
-        style="@style/ASmall"
-        android:layout_width="0dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="widgetGroupItemVM"
+            type="co.yap.modules.dashboard.widgets.WidgetGroupItemVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_normal"
-        android:layout_marginEnd="@dimen/margin_normal"
-        android:singleLine="true"
-        android:text="@string/screen_dashboard_widget_edit_hide_text"
-        android:textColor="@color/colorMidnightExpress"
-        app:layout_constraintEnd_toStartOf="@+id/switchWidget"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/switchWidget"
-        tools:text="@string/screen_dashboard_widget_edit_hide_text" />
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_normal">
+        <!--second condition p grey MicroGrey-->
+        <TextView
+            android:id="@+id/tvHeaderText"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:singleLine="true"
+            android:text="@{widgetGroupItemVM.item.title}"
+            android:textColor="@color/colorMidnightExpress"
+            app:layout_constraintEnd_toStartOf="@+id/switchWidget"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/switchWidget"
+            tools:text="@string/screen_dashboard_widget_edit_hide_text" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchWidget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvHeaderText"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchWidget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvHeaderText"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+</layout>
 

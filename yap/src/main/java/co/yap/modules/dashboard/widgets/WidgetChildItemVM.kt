@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
-import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseListItemViewModel
 
-class EditWidgetChildItemVM : BaseListItemViewModel<Widget>() {
+class WidgetChildItemVM : BaseListItemViewModel<Widget>() {
     private lateinit var mItem: Widget
     override fun setItem(item: Widget, position: Int) {
         this.mItem = item
@@ -15,7 +14,7 @@ class EditWidgetChildItemVM : BaseListItemViewModel<Widget>() {
 
     override fun getItem() = mItem
 
-    override fun layoutRes() = R.layout.item_search_transaction_child
+    override fun layoutRes() = R.layout.item_widget_add_remove_body
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
 

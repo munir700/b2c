@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import co.yap.R
 import co.yap.yapcore.BaseListItemViewModel
 
-class EditWidgetGroupItemVM : BaseListItemViewModel<WidgetList>() {
+class WidgetGroupItemVM : BaseListItemViewModel<WidgetList>() {
     private lateinit var mItem: WidgetList
     override fun setItem(item: WidgetList, position: Int) {
         this.mItem = item
@@ -14,7 +14,7 @@ class EditWidgetGroupItemVM : BaseListItemViewModel<WidgetList>() {
 
     override fun getItem() = mItem
 
-    override fun layoutRes() = R.layout.item_search_transaction_group
+    override fun layoutRes() = R.layout.item_widget_add_remove_header
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
 
