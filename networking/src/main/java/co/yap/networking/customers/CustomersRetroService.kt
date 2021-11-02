@@ -1,5 +1,6 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.models.dashboardwidget.DashboardWidgetResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -298,4 +299,7 @@ interface CustomersRetroService {
 
     @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
     suspend fun stopRankingMsgRequest(): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_DASHBOARD_WIDGETS)
+    suspend fun getDashboardWidget(): Response<DashboardWidgetResponse>
 }
