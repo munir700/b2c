@@ -14,13 +14,13 @@
         android:id="@+id/cvNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal_large"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal_large"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="true"
-        app:contentPadding="0dp"
-        android:layout_marginStart="@dimen/margin_normal_large"
-        android:layout_marginEnd="@dimen/margin_normal_large"
-        android:layout_marginTop="@dimen/margin_normal">
+        app:contentPadding="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,16 +28,24 @@
             android:background="@color/purpleLightCard"
             android:padding="@dimen/_6sdp">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie"
+            <VideoView
+                android:id="@+id/cardAnimation"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_margin="@dimen/margin_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--            <com.airbnb.lottie.LottieAnimationView-->
+            <!--                android:id="@+id/lottie"-->
+            <!--                android:layout_width="@dimen/_40sdp"-->
+            <!--                android:layout_height="@dimen/_40sdp"-->
+            <!--                android:layout_margin="@dimen/margin_small"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:lottie_autoPlay="true"-->
+            <!--                app:lottie_loop="true" />-->
 
             <ImageView
                 android:id="@+id/ivCross"
@@ -58,7 +66,7 @@
                 android:lines="1"
                 app:layout_constraintEnd_toStartOf="@+id/ivCross"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@+id/lottie"
+                app:layout_constraintStart_toEndOf="@+id/cardAnimation"
                 app:layout_constraintTop_toTopOf="@+id/ivCross"
                 tools:text="YAP service notice." />
 
@@ -74,7 +82,7 @@
                 android:maxLines="5"
                 android:paddingBottom="@dimen/margin_small"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lottie"
+                app:layout_constraintStart_toEndOf="@+id/cardAnimation"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 tools:text="Some features may appeassad asdas  Y sadsada ar bloc you made too many incorrect OTP attempts. Call or chat with us now to get full access." />
         </androidx.constraintlayout.widget.ConstraintLayout>
