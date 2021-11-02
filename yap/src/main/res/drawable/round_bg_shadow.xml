@@ -5,7 +5,4 @@
     <stroke
         android:width="0dp"
         android:color="#fff" />
-    <size
-        android:width="@dimen/margin_btn_side_paddings"
-        android:height="@dimen/margin_btn_side_paddings" />
 </shape>

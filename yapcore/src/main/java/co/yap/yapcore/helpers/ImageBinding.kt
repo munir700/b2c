@@ -42,9 +42,9 @@ import kotlin.math.roundToInt
 
 object ImageBinding {
     @JvmStatic
-    @BindingAdapter(value = ["imageUrlWidget","drawableResource"])
-    fun setImageUrl(imageView: AppCompatImageView, url: String?, drawableResource : Drawable) {
-        url?.let { setImage(imageView, it) } ?: setImageDrawable(imageView, drawableResource)
+    @BindingAdapter(value = ["imageUrlWidget", "drawableResource"])
+    fun setImageUrl(imageView: AppCompatImageView, url: String?, drawableResource: Drawable) {
+        url?.let { setImage(imageView, it) } ?: setBackground(imageView, drawableResource)
     }
 
     @JvmStatic
@@ -52,7 +52,7 @@ object ImageBinding {
     fun setImageDrawable(imageView: AppCompatImageView, drawable: Drawable?) {
         drawable?.let {
             setImage(imageView, drawable)
-        }
+         }
 
     }
 
@@ -625,14 +625,14 @@ object ImageBinding {
                         if (isBackground) {
                             if (categoryColor.isNotEmpty()) {
                                 val colorCode = Utils.categoryColorValidation(categoryColor)
-                                if(colorCode!=-1)
-                                setCategoryDrawable(
-                                    imageView,
-                                    getColorWithAlpha(
-                                       colorCode,
-                                        0.20f
+                                if (colorCode != -1)
+                                    setCategoryDrawable(
+                                        imageView,
+                                        getColorWithAlpha(
+                                            colorCode,
+                                            0.20f
+                                        )
                                     )
-                                )
                             } else {
                                 setCategoryDrawable(
                                     imageView, Utils.getBackgroundColorForAnalytics(
@@ -703,5 +703,9 @@ object ImageBinding {
         val canvas = Canvas(bitmapResult)
         canvas.drawBitmap(resource, 0f, 0f, paint)
         return bitmapResult
+    }
+
+    fun setBackground(imageView: AppCompatImageView, drawableResource: Drawable) {
+        imageView.background = drawableResource
     }
 }
