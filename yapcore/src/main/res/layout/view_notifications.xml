@@ -14,9 +14,8 @@
         android:id="@+id/cvNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_normal_large"
         android:layout_marginTop="@dimen/margin_normal"
-        android:layout_marginEnd="@dimen/margin_normal_large"
+        android:layout_marginEnd="@dimen/_5sdp"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="true"
@@ -29,9 +28,10 @@
             android:padding="@dimen/_6sdp">
 
             <VideoView
-                android:id="@+id/cardAnimation"
+                android:id="@+id/notificationVv"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
+                android:background="@color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +66,7 @@
                 android:lines="1"
                 app:layout_constraintEnd_toStartOf="@+id/ivCross"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@+id/cardAnimation"
+                app:layout_constraintStart_toEndOf="@+id/notificationVv"
                 app:layout_constraintTop_toTopOf="@+id/ivCross"
                 tools:text="YAP service notice." />
 
@@ -80,9 +80,10 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/_2sdp"
                 android:maxLines="5"
+                android:lines="4"
                 android:paddingBottom="@dimen/margin_small"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cardAnimation"
+                app:layout_constraintStart_toEndOf="@+id/notificationVv"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 tools:text="Some features may appeassad asdas  Y sadsada ar bloc you made too many incorrect OTP attempts. Call or chat with us now to get full access." />
         </androidx.constraintlayout.widget.ConstraintLayout>

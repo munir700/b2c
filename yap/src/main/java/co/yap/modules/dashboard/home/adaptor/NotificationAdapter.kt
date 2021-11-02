@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.home.adaptor
 
 import android.content.Context
+import android.net.Uri
 import android.view.View
+import android.widget.VideoView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -9,6 +11,10 @@ import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.databinding.ViewNotificationsBinding
+import co.yap.yapcore.helpers.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NotificationAdapter(
     val context: Context,
@@ -16,8 +22,10 @@ class NotificationAdapter(
     val clickListener: NotificationItemClickListener
 ) :
     BaseBindingRecyclerAdapter<HomeNotification, NotificationAdapter.ViewHolder>(listItems) {
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 80, 15)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
+
         return ViewHolder(binding as ViewNotificationsBinding)
     }
 
@@ -31,10 +39,18 @@ class NotificationAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(notification: HomeNotification) {
+            val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams
+            params.width = dimensions[0]
+            //params.height = dimensions[1]
+            binding.cvNotification.layoutParams = params
 
             binding.tvTitle.text = notification.title
 
-            notification.fileName?.let { binding.lottie.setAnimation(it) }
+            notification.fileName?.let {
+                CoroutineScope(Dispatchers.Default).launch {
+                    iniVideoView(binding.notificationVv,it)
+                }
+            }
 
 //            binding.ivNotification
             binding.tvDescription.text = notification.description
@@ -50,6 +66,20 @@ class NotificationAdapter(
 
             binding.ivCross.setOnClickListener {
                 clickListener.onCloseClick(listItems[adapterPosition], adapterPosition)
+            }
+        }
+    }
+    private fun iniVideoView(video: VideoView, res: Int) {
+        CoroutineScope(Dispatchers.Default).launch {
+            val uri =
+                Uri.parse("android.resource://" + context.packageName + "/" + res)
+            video.setVideoURI(uri)
+            video.start()
+            launch {
+                video.setOnCompletionListener { mediaPlayer ->
+                    mediaPlayer.isLooping = true
+                    video.start()
+                }
             }
         }
     }
