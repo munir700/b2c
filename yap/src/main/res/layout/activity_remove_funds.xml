@@ -23,7 +23,7 @@
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sensitiveViews="@{Utils.getViewsList(tvAvailableBalanceGuide,tvFee,llDenominations,etAmount,tvCardNameSuccess,tvCardNumberSuccess,tvTopUp,tvPrimaryCardBalance,tvNewSpareCardBalance)}">
+        app:sensitiveViews="@{Utils.getViewsList(tvAvailableBalanceGuide,tvFee,etAmount,tvCardNameSuccess,tvCardNumberSuccess,tvTopUp,tvPrimaryCardBalance,tvNewSpareCardBalance)}">
 
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
