@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,10 +13,10 @@
 
         <import type="co.yap.R" />
 
-        <import type="co.yap.translation.Strings"/>
+        <import type="co.yap.translation.Strings" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -33,26 +34,55 @@
             app:rightIconVisibility="@{false}"
             app:titleTranslator='@{Strings.screen_edit_widget_heading_text}' />
 
-        <co.yap.widgets.MultiStateView
-            android:id="@+id/multiStateView"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:msv_animateViewChanges="false"
-            app:msv_emptyView="@layout/error_view_no_transaction_found"
-            app:msv_errorView="@layout/error_view_no_transaction_found"
-            app:msv_loadingView="@layout/layout_loading_view">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
-                android:id="@+id/recyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_widget_add_remove_body" />
-        </co.yap.widgets.MultiStateView>
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/margin_medium"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingEnd="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_normal">
+
+                    <TextView
+                        android:id="@+id/tvHeaderText"
+                        style="@style/ASmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:singleLine="true"
+                        android:text="@{@string/screen_dashboard_widget_edit_hide_text}"
+                        android:textColor="@color/colorMidnightExpress" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchWidget"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_weight="0.2" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_widget_add_remove_body" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

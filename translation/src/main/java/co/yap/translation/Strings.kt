@@ -2327,4 +2327,6 @@ object Strings {
         "screen_dashboard_widget_edit_hide_text"
     const val screen_edit_widget_heading_text =
         "screen_edit_widget_heading_text"
+    const val screen_edit_widget_hidden_text =
+        "screen_edit_widget_hidden_text"
 }

@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="widgetChildItemVM"
-            type="co.yap.modules.dashboard.widgets.WidgetChildItemVM" />
+            name="viewModel"
+            type="co.yap.modules.dashboard.widgets.Widget" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -40,7 +40,7 @@
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_normal"
             android:singleLine="true"
-            android:text="@{widgetChildItemVM.item.title}"
+            android:text="@{viewModel.title}"
             android:textColor="@color/colorMidnightExpress"
             app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
             app:layout_constraintEnd_toStartOf="@+id/image"

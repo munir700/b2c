@@ -11,6 +11,6 @@ interface IWidget {
     }
 
     interface State : IBase.State {
-        var widgetMap: MutableLiveData<MutableMap<String?, List<Widget>>>?
+        var widgetMap: MutableLiveData<MutableList<Widget>>?
     }
 }

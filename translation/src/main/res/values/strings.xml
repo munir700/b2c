@@ -1447,5 +1447,6 @@ Due to all the excitement of our official launch, we are gradually activating as
     <!--Dashboard Widgets and Edit Screen-->
     <string name="screen_dashboard_widget_edit_hide_text">Hide widgets from dashboard</string>
     <string name="screen_edit_widget_heading_text">Edit dashboard widgets</string>
+    <string name="screen_edit_widget_hidden_text">Hidden</string>
 
 </resources>

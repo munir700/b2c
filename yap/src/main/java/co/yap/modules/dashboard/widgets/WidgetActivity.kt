@@ -2,13 +2,11 @@ package co.yap.modules.dashboard.widgets
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
-import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
-import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.BaseBindingActivity
-import kotlinx.android.synthetic.main.fragment_transaction_search.*
+import kotlinx.android.synthetic.main.activity_widget.*
 
 class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
 
@@ -25,7 +23,14 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
     }
 
     private fun intRecyclersView() {
-
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.apply {
+            val mAdapter = WidgetAdapter(mutableListOf())
+            adapter = mAdapter
+            viewModel.widgetAdapter?.set(mAdapter)
+            viewModel.getWidgetList()
+            recyclerView.setHasFixedSize(true)
+        }
     }
 
     override fun onToolBarClick(id: Int) {
