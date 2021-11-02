@@ -48,7 +48,9 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
                         viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                     } else {
-                        navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
+                        viewModel.requestDocumentsInformation{
+                            navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
+                        }
                     }
                 }
                 R.id.tvSkip -> {
