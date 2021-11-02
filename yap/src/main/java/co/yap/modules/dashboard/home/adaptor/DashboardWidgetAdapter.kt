@@ -4,14 +4,16 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemDashboardWidgetBindingImpl
+import co.yap.modules.dashboard.home.models.WidgetItemViewModel
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class DashboardWidgetAdapter(
-    private val list: MutableList<String>,
+    private val list: MutableList<WidgetData>,
     private val adaptorClick: OnItemClickListener
 ) :
-    BaseBindingRecyclerAdapter<String, RecyclerView.ViewHolder>(list) {
+    BaseBindingRecyclerAdapter<WidgetData, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_dashboard_widget
 
@@ -30,10 +32,12 @@ class DashboardWidgetAdapter(
         RecyclerView.ViewHolder(itemDashboardShortcutsBindingImpl.root) {
 
         fun onBind(
-            data: String,
+            data: WidgetData,
             adaptorClick: OnItemClickListener,
-            groupPosition: Int
+            position: Int
         ) {
+            itemDashboardShortcutsBindingImpl.viewModel =
+                WidgetItemViewModel(data, position, adaptorClick)
             itemDashboardShortcutsBindingImpl.executePendingBindings()
         }
     }

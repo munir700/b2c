@@ -8,6 +8,8 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
@@ -38,6 +40,7 @@ class YapHomeViewModel(application: Application) :
     override val state: YapHomeState = YapHomeState()
     override var txnFilters: TransactionFilters = TransactionFilters()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    private val customerRepository: CustomersRepository = CustomersRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
     override var isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -45,7 +48,7 @@ class YapHomeViewModel(application: Application) :
     override var isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
     override var MAX_CLOSING_BALANCE: Double = 0.0
     override var monthData: List<MonthData>? = ArrayList()
-    override var dashboardWidgetList: MutableLiveData<List<String>> = MutableLiveData()
+    override var dashboardWidgetList: MutableLiveData<List<WidgetData>> = MutableLiveData()
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
@@ -361,15 +364,28 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun requestDashboardWidget() {
-        val list: MutableList<String> = mutableListOf()
-        list.add(0, "11")
-        list.add(1, "11")
-        list.add(2, "11")
-        list.add(3, "11")
-        list.add(4, "11")
-        list.add(5, "11")
-        list.add(6, "11")
-        list.add(7, "11")
-        dashboardWidgetList.postValue(list)
+        launch {
+            when (val response = customerRepository.getDashboardWidget()) {
+                is RetroApiResponse.Success -> {
+                    dashboardWidgetList.postValue(getFilteredList(response.data.widgetList))
+                }
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
+
+    private fun getFilteredList(widgetList: MutableList<WidgetData>): MutableList<WidgetData> {
+
+        var list : MutableList<WidgetData> =
+            widgetList.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList()
+        list.add(WidgetData(id = -1, name = "Edit"))
+        return list
+        /*return widgetList.apply {
+            this.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList().apply {
+                this.add(WidgetData(id = -1, name = "Edit"))
+            }
+        }*/
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.responsedtos.categorybar.MonthData
@@ -33,7 +34,7 @@ interface IYapHome {
         var isRefreshing: MutableLiveData<Boolean>
         var isLast: MutableLiveData<Boolean>
         var monthData: List<MonthData>?
-        var dashboardWidgetList: MutableLiveData<List<String>>
+        var dashboardWidgetList: MutableLiveData<List<WidgetData>>
         fun loadMore()
         fun filterTransactions()
         fun requestAccountTransactions()

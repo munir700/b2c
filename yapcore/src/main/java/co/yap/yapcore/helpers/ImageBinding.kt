@@ -42,9 +42,9 @@ import kotlin.math.roundToInt
 
 object ImageBinding {
     @JvmStatic
-    @BindingAdapter("imageUrl")
-    fun setImageUrl(imageView: AppCompatImageView, url: String) {
-        setImage(imageView, url)
+    @BindingAdapter(value = ["imageUrlWidget","drawableResource"])
+    fun setImageUrl(imageView: AppCompatImageView, url: String?, drawableResource : Drawable) {
+        url?.let { setImage(imageView, it) } ?: setImageDrawable(imageView, drawableResource)
     }
 
     @JvmStatic
