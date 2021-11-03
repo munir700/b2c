@@ -16,15 +16,12 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_documents_dashboard.*
-import kotlinx.android.synthetic.main.layout_kyc_progress_toolbar.view.*
 import java.io.File
 
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
@@ -46,10 +43,10 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.name.value = intent.getValue(Constants.name, ExtraType.STRING.name) as? String
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
-        viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
+        viewModel.gotoInformationErrorFragment?.value = intent?.getBooleanExtra("GO_ERROR", false)
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
-        if (viewModel.showProgressBar.value == false) {
+        if (viewModel.gotoInformationErrorFragment?.value == true) {
             progressBar.visibility = View.GONE
         }
         addObserver()
@@ -67,21 +64,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 status = it.status
             )
         })
-        viewModel.showProgressBar.observe(this, Observer { showProgress ->
-            if (showProgress) {
-                progressBar.progressLay.visibility = View.VISIBLE
-                progressBar.btnBack.visibility = View.GONE
-            } else {
-                progressBar.progressLay.visibility = View.GONE
-                progressBar.btnBack.visibility = View.VISIBLE
-            }
-        })
-
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
-            R.id.tbBtnBack, R.id.btnBack -> {
+            R.id.tbBtnBack -> {
                 onBackPressed()
             }
         }
@@ -97,11 +84,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 }
                 super.onBackPressed()
             } else {
-                if (SessionManager.user?.notificationStatuses == NotificationStatus.CAPTURED_EID.name) {
-                    if (!BackPressImpl(fragment).onBackPressed()) {
-                        super.onBackPressed()
-                    }
-                } else {
+                if (!BackPressImpl(fragment).onBackPressed()) {
                     viewModel.paths.forEach { filePath ->
                         File(filePath).deleteRecursively()
                     }
