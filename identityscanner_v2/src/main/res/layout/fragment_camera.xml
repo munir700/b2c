@@ -9,6 +9,7 @@
         <import type="android.view.View"/>
 
         <import type="android.text.TextUtils"/>
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="model"
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
+        app:sensitiveViews="@{Utils.getViewsList(cardOverlay)}"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
