@@ -27,6 +27,7 @@ import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
+import co.yap.yapcore.helpers.glide.setImage1
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -44,7 +45,7 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter(value = ["imageUrlWidget", "drawableResource"])
     fun setImageUrl(imageView: AppCompatImageView, url: String?, drawableResource: Drawable) {
-        url?.let { setImage(imageView, it) } ?: setBackground(imageView, drawableResource)
+        url?.let { setImage1(imageView, it) } ?: setImage(imageView, drawableResource)
     }
 
     @JvmStatic
@@ -703,9 +704,5 @@ object ImageBinding {
         val canvas = Canvas(bitmapResult)
         canvas.drawBitmap(resource, 0f, 0f, paint)
         return bitmapResult
-    }
-
-    fun setBackground(imageView: AppCompatImageView, drawableResource: Drawable) {
-        imageView.background = drawableResource
     }
 }

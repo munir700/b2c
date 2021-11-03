@@ -376,16 +376,9 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
-    private fun getFilteredList(widgetList: MutableList<WidgetData>): MutableList<WidgetData> {
-
-        var list : MutableList<WidgetData> =
-            widgetList.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList()
-        list.add(WidgetData(id = -1, name = "Edit"))
-        return list
-        /*return widgetList.apply {
-            this.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList().apply {
-                this.add(WidgetData(id = -1, name = "Edit"))
+    private fun getFilteredList(widgetList: MutableList<WidgetData>) =  widgetList.run {
+            this.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList().also {
+                it.add(WidgetData(id = -1, name = "Edit"))
             }
-        }*/
     }
 }
