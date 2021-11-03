@@ -57,10 +57,10 @@ class MoreHomeViewModel(application: Application) :
         val list = mutableListOf<MoreOption>()
         list.add(
             MoreOption(
-                Constants.MORE_NOTIFICATION,
-                "Notifications",
+                Constants.MORE_YAP_FOR_YOU,
+                Translator.getString(context,Strings.screen_yap_for_you_display_text_title),
                 R.drawable.ic_notification_more,
-                ContextCompat.getColor(context, R.color.colorSecondaryOrange),
+                ContextCompat.getColor(context, R.color.transparent),
                 false,
                 Leanplum.getInbox().unreadCount()
             )
@@ -69,7 +69,7 @@ class MoreHomeViewModel(application: Application) :
         list.add(
             MoreOption(
                 Constants.MORE_LOCATE_ATM,
-                "Locate ATM and CDM",
+                Translator.getString(context, Strings.screen_more_atm_cdm),
                 R.drawable.ic_home_more,
                 ContextCompat.getColor(context, R.color.colorSecondaryGreen),
                 false,
@@ -79,7 +79,7 @@ class MoreHomeViewModel(application: Application) :
         list.add(
             MoreOption(
                 Constants.MORE_INVITE_FRIEND,
-                "Invite a friend",
+                Translator.getString(context, Strings.screen_more_invite_a_friend),
                 R.drawable.ic_gift,
                 ContextCompat.getColor(context, R.color.colorPrimaryAlt),
                 false,
@@ -89,7 +89,29 @@ class MoreHomeViewModel(application: Application) :
         list.add(
             MoreOption(
                 Constants.MORE_HELP_SUPPORT,
-                "Help and support",
+                Translator.getString(context, Strings.screen_more_help_and_support),
+
+                R.drawable.ic_support,
+                ContextCompat.getColor(context, R.color.colorSecondaryBlue),
+                false,
+                0
+            )
+        )
+        list.add(
+            MoreOption(
+                Constants.MORE_GIFTS,
+                Translator.getString(context, Strings.screen_more_gifts),
+                R.drawable.ic_support,
+                ContextCompat.getColor(context, R.color.colorSecondaryBlue),
+                false,
+                0
+
+            )
+        )
+        list.add(
+            MoreOption(
+                Constants.MORE_SUBSCRIPTION,
+                Translator.getString(context, Strings.screen_more_subscription),
                 R.drawable.ic_support,
                 ContextCompat.getColor(context, R.color.colorSecondaryBlue),
                 false,

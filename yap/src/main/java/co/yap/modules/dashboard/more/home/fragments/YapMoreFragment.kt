@@ -141,7 +141,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal_large) ?: 16, 2, true
+                dimen(R.dimen.margin_normal) ?: 16, 3, true
             )
         )
         adapter.allowFullItemClickListener = true
@@ -194,7 +194,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 trackEventWithScreenName(FirebaseEvent.CLICK_BANK_DETAILS)
                 openAccountDetailBottomSheet()
             }
-            R.id.yapForYou -> {
+            Constants.MORE_YAP_FOR_YOU -> {
                 launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
             }
             Constants.MORE_NOTIFICATION, R.id.imgNotification -> {
@@ -235,20 +235,6 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 description = getString(Strings.screen_more_detail_display_text_tour_bank_details_description),
                 padding = -getDimension(R.dimen._45sdp),
                 circleRadius = getDimension(R.dimen._65sdp),
-                callBackListener = tourItemListener
-            )
-        )
-        list.add(
-            GuidedTourViewDetail(
-                getBinding().yapForYou,
-                title = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_heading),
-                description = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_description),
-                showSkip = false,
-                showPageNo = true,
-                btnText = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_btn_text),
-                padding = getDimension(R.dimen._80sdp),
-                circleRadius = getDimension(R.dimen._90sdp),
-                isRectangle = true,
                 callBackListener = tourItemListener
             )
         )

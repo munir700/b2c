@@ -40,6 +40,9 @@ object Constants {
     const val MORE_LOCATE_ATM: Int = 2
     const val MORE_INVITE_FRIEND: Int = 3
     const val MORE_HELP_SUPPORT: Int = 4
+    const val MORE_YAP_FOR_YOU: Int = 14
+    const val MORE_GIFTS: Int = 15
+    const val MORE_SUBSCRIPTION: Int = 16
     const val EVENT_CREATE_CARD_PIN: Int = 13
 
     //Add Note flow constants
