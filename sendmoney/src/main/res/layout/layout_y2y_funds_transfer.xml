@@ -18,7 +18,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sensitiveViews="@{Utils.getViewsList(lyUserImage,etNote,tvAvailableBalance,tvFee,etAmount,ivFlag,tvFullName)}"
+        app:sensitiveViews="@{Utils.getViewsList(lyUserImage,etNote,tvAvailableBalance,tvFee,etAmount,tvFullName)}"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

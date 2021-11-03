@@ -17,7 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sensitiveViews="@{Utils.getViewsList(etBankREquiredFieldCode,etSwiftCode,etAccountIbanNumber,llBankDetail,viewPhoneNumber,spinner,etLastName,etFirstName,etnickName,tvCountryName,tvTransferType,labelCardType)}"
+        app:sensitiveViews="@{Utils.getViewsList(etBankREquiredFieldCode,etSwiftCode,etAccountIbanNumber,llBankDetail,viewPhoneNumber,etLastName,etFirstName,etnickName,tvCountryName)}"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

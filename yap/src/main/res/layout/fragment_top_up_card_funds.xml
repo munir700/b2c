@@ -21,7 +21,7 @@
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sensitiveViews="@{Utils.getViewsList(etAmount,llDenominations,tvAvailableBalanceGuide,tvFeeDescription)}"
+        app:sensitiveViews="@{Utils.getViewsList(etAmount,tvAvailableBalanceGuide,tvFeeDescription)}"
         android:background="@color/white">
 
         <co.yap.widgets.CoreToolbar
