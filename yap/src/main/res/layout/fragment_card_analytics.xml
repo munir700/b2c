@@ -8,6 +8,7 @@
         <import type="co.yap.yapcore.R" />
 
         <import type="android.view.View" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="constant"
@@ -22,6 +23,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvPieViewPrice,tvTotalSpent)}"
         android:animateLayoutChanges="true"
         android:background="@color/white">
 

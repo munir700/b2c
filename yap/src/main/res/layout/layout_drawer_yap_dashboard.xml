@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="4dp"
-        app:sensitiveViews="@{Utils.getViewsList(tvIbanNo,tvAccountNo,tvFounder,tvUserName)}"
+        app:sensitiveViews="@{Utils.getViewsList(tvIbanNo,tvAccountNo,tvFounder,tvUserName,imgProfile)}"
         android:orientation="horizontal"
         android:weightSum="100"
         app:elevation="4dp">

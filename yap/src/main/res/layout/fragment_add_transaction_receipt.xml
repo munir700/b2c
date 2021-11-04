@@ -10,11 +10,13 @@
             type="co.yap.modules.dashboard.transaction.receipt.add.AddTransactionReceiptViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(camera)}">
 
         <com.digitify.identityscanner.camera.CameraView
             android:id="@+id/camera"

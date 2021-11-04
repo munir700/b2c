@@ -12,13 +12,11 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
-        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sensitiveViews="@{Utils.getViewsList(txtCardName)}"
         android:orientation="vertical">
 
         <View
