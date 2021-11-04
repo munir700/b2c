@@ -95,7 +95,7 @@ class MoreHomeViewModel(application: Application) :
                 0
             )
         )
-        list.add(
+        /*list.add(
             MoreOption(
                 Constants.MORE_SUBSCRIPTION,
                 Translator.getString(context, Strings.screen_more_subscription),
@@ -115,7 +115,7 @@ class MoreHomeViewModel(application: Application) :
                 0
 
             )
-        )
+        )*/
         return list
     }
 
