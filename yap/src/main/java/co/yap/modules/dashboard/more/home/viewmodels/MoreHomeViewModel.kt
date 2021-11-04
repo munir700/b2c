@@ -134,6 +134,7 @@ class MoreHomeViewModel(application: Application) :
     }
 
     override fun loadBottomSheetData(): MutableList<CoreBottomSheetData> {
+        list.clear()
         list.add(
             CoreBottomSheetData(
                 content = Translator.getString(
