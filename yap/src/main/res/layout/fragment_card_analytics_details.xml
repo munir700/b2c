@@ -26,6 +26,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvTotalAmount)}"
         android:orientation="vertical">
 
         <co.yap.widgets.CoreCircularImageView
@@ -51,6 +52,7 @@
             tools:text="July 2019・5 transactions" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTotalAmount"
             style="@style/AppFontRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

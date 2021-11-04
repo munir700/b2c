@@ -16,7 +16,8 @@ data class AppSignature(
     var sslPin2: String?,
     var sslPin3: String?,
     var sslHost: String?,
-    var spayServiceId: String?
+    var spayServiceId: String?,
+    var uxCamKey: String?
 ) {
 
     override fun equals(other: Any?): Boolean {

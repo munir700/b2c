@@ -12,13 +12,15 @@
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clQuestionTypeEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(etQuestionEditText)}">
 
         <LinearLayout
             android:id="@+id/lyTinNumber"

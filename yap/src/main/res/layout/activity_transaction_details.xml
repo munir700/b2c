@@ -37,6 +37,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:sensitiveViews="@{Utils.getViewsList(rvTransactionDetail,tvNoteDetails,tvTotalAmountValue,tvTransactionHeading,flImageLayout)}"
             android:background="@color/white">
 
             <co.yap.widgets.CoreToolbar

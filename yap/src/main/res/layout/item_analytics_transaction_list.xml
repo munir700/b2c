@@ -21,6 +21,8 @@
 
         <import type="co.yap.yapcore.managers.SessionManager" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
         <variable
             name="constant"
             type="co.yap.yapcore.constants.Constants" />
@@ -34,6 +36,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        app:sensitiveViews="@{Utils.getViewsList(tvTransactionAmount,tvTransactionName,ivItemTransaction)}"
         android:paddingStart="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_normal"
         android:paddingEnd="@dimen/margin_medium">

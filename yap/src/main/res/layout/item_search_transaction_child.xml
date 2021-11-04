@@ -28,6 +28,8 @@
         <import type="co.yap.R" />
 
         <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +38,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        app:sensitiveViews="@{Utils.getViewsList(tvTransactionAmount,tvTransactionName,flImageLayout)}"
         android:paddingStart="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_normal"
         android:paddingEnd="@dimen/margin_medium">

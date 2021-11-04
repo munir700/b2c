@@ -15,12 +15,14 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        app:sensitiveViews="@{Utils.getViewsList(dialer)}"
         tools:context="co.yap.app.modules.login.activities.VerifyPasscodeActivity">
 
         <ImageView

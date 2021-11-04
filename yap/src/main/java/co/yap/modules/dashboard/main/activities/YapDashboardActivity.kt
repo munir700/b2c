@@ -18,6 +18,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -28,6 +29,7 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityYapDashboardBinding
+import co.yap.databinding.DialogChangeUnverifiedEmailBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.home.fragments.YapHomeFragment
@@ -257,7 +259,15 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_change_unverified_email)
+
+        val dialogBinding: DialogChangeUnverifiedEmailBinding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.dialog_change_unverified_email,
+            null,
+            false
+        )
+
+        dialog.setContentView(dialogBinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
@@ -317,7 +327,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
-            viewModel.resendVerificationEmail() {
+            viewModel.resendVerificationEmail {
                 trackEventWithScreenName(FirebaseEvent.MAIL_VERIFICATION_RESEND)
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
@@ -489,7 +499,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override fun onResume() {
         super.onResume()
         if (bottomNav.selectedItemId == R.id.yapHome) {
-            SessionManager.getAccountInfo() {
+            SessionManager.getAccountInfo {
                 viewModel.populateState()
             }
         }

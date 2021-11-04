@@ -19,7 +19,8 @@ data class BuildConfigManager(
     var sslPin2: String?,
     var sslPin3: String?,
     var sslHost: String?,
-    var spayServiceId: String?
+    var spayServiceId: String?,
+    var uxCamKey: String?
 ) {
 
     fun isReleaseBuild(): Boolean = buildType == "release"
@@ -101,7 +102,7 @@ data class BuildConfigManager(
     }
 
     override fun toString(): String {
-        return "BuildConfigManager(md5=$md5, sha1=$sha1, sha256=$sha256, leanPlumSecretKey=$leanPlumSecretKey, leanPlumKey=$leanPlumKey, adjustToken=$adjustToken, baseUrl=$baseUrl, buildType=$buildType, flavor=$flavor, versionName=$versionName, versionCode=$versionCode, applicationId=$applicationId, hasValidSignature=$hasValidSignature, sslPin1=$sslPin1, sslPin2=$sslPin2, sslPin3=$sslPin3, sslHost=$sslHost)"
+        return "BuildConfigManager(md5=$md5, sha1=$sha1, sha256=$sha256, leanPlumSecretKey=$leanPlumSecretKey, leanPlumKey=$leanPlumKey, adjustToken=$adjustToken, baseUrl=$baseUrl, buildType=$buildType, flavor=$flavor, versionName=$versionName, versionCode=$versionCode, applicationId=$applicationId, hasValidSignature=$hasValidSignature, sslPin1=$sslPin1, sslPin2=$sslPin2, sslPin3=$sslPin3, sslHost=$sslHost, uxCamKey=$uxCamKey)"
     }
 
 }

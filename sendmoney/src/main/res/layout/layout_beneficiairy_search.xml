@@ -10,6 +10,9 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +22,7 @@
         android:layout_marginStart="@dimen/_26sdp"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/_26sdp"
+        app:sensitiveViews="@{Utils.getViewsList(clSearchBeneficiary)}"
         android:background="@drawable/bg_search_widget"
         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
 

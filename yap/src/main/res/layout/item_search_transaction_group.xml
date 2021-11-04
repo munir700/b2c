@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,6 +12,8 @@
         <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -18,6 +21,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/white"
+        app:sensitiveViews="@{Utils.getViewsList(tvGroupAmount)}"
         android:paddingStart="@dimen/margin_normal"
         android:paddingTop="@dimen/margin_small"
         android:paddingEnd="@dimen/margin_normal"
@@ -32,6 +36,7 @@
             tools:text="Today, Sep 03" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvGroupAmount"
             style="@style/Yap.App.Widget.TextView.Label"
             android:layout_width="0dp"
             android:layout_weight="1"
