@@ -16,7 +16,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.maskAccountNumber
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.managers.SessionManager
@@ -29,7 +28,7 @@ class MoreHomeViewModel(application: Application) :
     override val state: MoreState = MoreState()
     override var badgeCount: ObservableField<String> = ObservableField("")
     override var hasBadge: ObservableField<Boolean> = ObservableField(false)
-    override val list: MutableList<CoreBottomSheetData>  = mutableListOf()
+    override val list: MutableList<CoreBottomSheetData> = mutableListOf()
 
     override fun onResume() {
         super.onResume()
@@ -98,6 +97,16 @@ class MoreHomeViewModel(application: Application) :
         )
         list.add(
             MoreOption(
+                Constants.MORE_SUBSCRIPTION,
+                Translator.getString(context, Strings.screen_more_subscription),
+                R.drawable.subscription,
+                ContextCompat.getColor(context, R.color.colorSecondaryBlue),
+                false,
+                0
+            )
+        )
+        list.add(
+            MoreOption(
                 Constants.MORE_GIFTS,
                 Translator.getString(context, Strings.screen_more_gifts),
                 R.drawable.more_gift,
@@ -105,16 +114,6 @@ class MoreHomeViewModel(application: Application) :
                 false,
                 0
 
-            )
-        )
-        list.add(
-            MoreOption(
-                Constants.MORE_SUBSCRIPTION,
-                Translator.getString(context, Strings.screen_more_subscription),
-                R.drawable.subscription,
-                ContextCompat.getColor(context, R.color.colorSecondaryBlue),
-                false,
-                0
             )
         )
         return list
@@ -142,7 +141,7 @@ class MoreHomeViewModel(application: Application) :
                     Strings.screen_b2c_eid_info_review_display_text_name_heading
                 ),
                 subContent = SessionManager.user?.currentCustomer?.getFullName(),
-                isSelected = true
+                isSelected = false
             )
         )
         list.add(
