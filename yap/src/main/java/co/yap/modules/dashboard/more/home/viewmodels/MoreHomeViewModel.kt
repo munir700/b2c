@@ -16,6 +16,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.maskAccountNumber
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.managers.SessionManager
@@ -28,7 +29,7 @@ class MoreHomeViewModel(application: Application) :
     override val state: MoreState = MoreState()
     override var badgeCount: ObservableField<String> = ObservableField("")
     override var hasBadge: ObservableField<Boolean> = ObservableField(false)
-    override val list: MutableList<CoreBottomSheetData> = mutableListOf()
+    override val list: MutableList<CoreBottomSheetData>  = mutableListOf()
 
     override fun onResume() {
         super.onResume()

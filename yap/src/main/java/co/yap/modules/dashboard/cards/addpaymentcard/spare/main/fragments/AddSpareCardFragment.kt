@@ -111,12 +111,9 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     }
 
     private fun getUpArguments() {
-        viewModel.cardType =
-            arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardType } as String
-        viewModel.state.cardType = viewModel.cardType
-        viewModel.cardName =
-            arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardName } as String
-        viewModel.state.cardName = viewModel.cardName ?: ""
+        viewModel.state.cardType =
+            getString(R.string.screen_spare_card_landing_display_text_virtual_card)
+        viewModel.state.cardName = viewModel.parentViewModel?.selectedCardName?.get() ?: ""
         getBinding().include.cardView.loadCardImage(viewModel.parentViewModel?.selectedVirtualCard?.frontSideDesignImage)
         setBalanceContent()
     }

@@ -10,7 +10,6 @@ import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.databinding.ViewNotificationsBinding
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.Utils
 
 class NotificationAdapter(
     val context: Context,
@@ -18,8 +17,6 @@ class NotificationAdapter(
     val clickListener: NotificationItemClickListener
 ) :
     BaseBindingRecyclerAdapter<HomeNotification, NotificationAdapter.ViewHolder>(listItems) {
-
-    private var dimensions: IntArray = Utils.getCardDimensions(context, 80, 15)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
         return ViewHolder(binding as ViewNotificationsBinding)
@@ -36,17 +33,10 @@ class NotificationAdapter(
 
         fun onBind(notification: HomeNotification) {
 
-            val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams
-            params.width = dimensions[0]
-            //params.height = dimensions[1]
-            binding.cvNotification.layoutParams = params
-
             binding.tvTitle.text = notification.title
             notification.imgResId?.let {
                 ImageBinding.loadGifImageView(binding.ivNotification, it)
             }
-
-
 //            binding.ivNotification
             binding.tvDescription.text = notification.description
             if (notification.title?.isBlank() == true) {
