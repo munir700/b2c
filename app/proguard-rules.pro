@@ -169,6 +169,11 @@
 -keep class co.yap.wallet.samsung.** { *; }
 #Samsung ProGuard rules end
 
+#UXCam ProGuard rules start
+-keep class com.uxcam.** { *; }
+-dontwarn com.uxcam.**
+#UXCam ProGuard rules end
+
 #All Other rule will goes above (Important)
 # Crashlytics 2.+
 -keep class com.crashlytics.** { *; }
@@ -177,5 +182,3 @@
 -keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
   <fields>;
 }
--keep class com.uxcam.** { *; }
--dontwarn com.uxcam.**
