@@ -9,12 +9,15 @@
             name="viewModel"
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <co.yap.widgets.OnlyVerticalSwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvAvailableBalance)}"
         android:enabled="@{viewModel.state.isUserAccountActivated}"
         android:orientation="vertical"
         app:srcCompat="?attr/colorPrimaryAttr">
