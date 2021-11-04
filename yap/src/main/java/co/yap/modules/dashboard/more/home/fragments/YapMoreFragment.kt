@@ -144,6 +144,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 dimen(R.dimen.margin_normal) ?: 16, 3, true
             )
         )
+        getBinding().recyclerOptions.itemAnimator?.changeDuration = 0
         adapter.allowFullItemClickListener = true
         adapter.setItemListener(listener)
     }
