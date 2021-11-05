@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="missingInfoItem"
+            type="String" />
+
+        <variable
+            name="adapterIndex"
+            type="Integer" />
+    </data>
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/AMicro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:paddingTop="@dimen/_3sdp"
+        android:paddingBottom="@dimen/_3sdp"
+        android:text='@{String.valueOf(adapterIndex).concat(". ").concat(String.valueOf(missingInfoItem))}'
+        android:textColor="?attr/colorPrimaryDark"
+        tools:text="Missing Info Item." />
+</layout>

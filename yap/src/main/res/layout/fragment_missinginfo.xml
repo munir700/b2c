@@ -67,7 +67,7 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_150sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
@@ -78,36 +78,29 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDescription">
 
-            <ScrollView
-                android:id="@+id/missingInfoContainer"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <TextView
+                    style="@style/ASmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:gravity="start"
+                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_review_required)}"
+                    android:textColor="?attr/colorPrimaryAttr"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                    tools:text="@string/screen_missing_info_review_required" />
 
-                    <TextView
-                        style="@style/ASmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_review_required)}"
-                        android:textColor="?attr/colorPrimaryAttr"
-                        android:textStyle="bold"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                        tools:text="@string/screen_missing_info_review_required" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/missingItemsRecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </ScrollView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/missingItemsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -131,10 +124,10 @@
 
         <TextView
             android:id="@+id/tvDoItLater"
-            style="@style/Regular"
+            style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal_large"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
             android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintBottom_toBottomOf="parent"

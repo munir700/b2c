@@ -14,9 +14,14 @@ object MissingInfoRepository : BaseRepository(), MissingInfoApi {
     override suspend fun getMissingInfoList(request: GetMissingInfoListRequest): RetroApiResponse<MissingInfoResponse> {
         //executeSafely(call = { API.getMissingInfoList(request) })
         val data = ArrayList<String>()
-        for (i in 0..5) {
-            data.add("Missing Item $i")
-        }
+        data.add("ID Number")
+        data.add("First Name")
+        data.add("Middle Name")
+        data.add("Date of Birth")
+        data.add("ID Number")
+        data.add("First Name")
+        data.add("Middle Name")
+        data.add("Date of Birth")
         return RetroApiResponse.Success(200, MissingInfoResponse(data))
     }
 
