@@ -1,5 +1,9 @@
 package co.yap.modules.kyc.amendments.missinginfo.ui
 
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -12,4 +16,14 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
 
     override val viewModel: IMissingInfo.ViewModel
         get() = ViewModelProviders.of(this).get(MissingInfoFragmentViewModel::class.java)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.missingInfoItems.observe(viewLifecycleOwner, missingInfoItemsObserver)
+        viewModel.getMissingInfoItems()
+    }
+
+    private val missingInfoItemsObserver = Observer<ArrayList<String>> {
+        it.map { item -> Log.e("Item", item) }
+    }
 }
