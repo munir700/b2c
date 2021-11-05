@@ -8,6 +8,7 @@ interface IMissingInfo {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
+        val onClickEvent: MutableLiveData<Int>
         val missingInfoItems: MutableLiveData<ArrayList<String>>
         fun getMissingInfoItems()
         fun handlePressView(id: Int)

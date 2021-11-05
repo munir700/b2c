@@ -10,7 +10,9 @@ import co.yap.R
 import co.yap.databinding.FragmentMissinginfoBinding
 import co.yap.modules.kyc.amendments.missinginfo.adapters.MissingInfoAdapter
 import co.yap.modules.kyc.amendments.missinginfo.interfaces.IMissingInfo
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.managers.SessionManager
 
 class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMissingInfo.View {
     override fun getBindingVariable() = BR.viewModel
@@ -23,6 +25,13 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
         super.onViewCreated(view, savedInstanceState)
         initializeComponents()
         viewModel.missingInfoItems.observe(viewLifecycleOwner, missingInfoItemsObserver)
+        viewModel.onClickEvent.observe(viewLifecycleOwner, onClickView)
+        SessionManager.getAccountInfo {
+            getDataBindingView<FragmentMissinginfoBinding>().tvTitle.text =
+                getString(Strings.screen_missing_info_title).format(
+                    SessionManager.user?.currentCustomer?.firstName
+                )
+        }
         viewModel.getMissingInfoItems()
     }
 
@@ -46,4 +55,20 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
             getRecycleViewAdaptor()?.setList(items)
         }
     }
+
+    private val onClickView = Observer<Int> {
+        when (it) {
+            R.id.btnGetStarted -> {
+            }
+            R.id.tvDoItLater -> {
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.onClickEvent.removeObserver(onClickView)
+        viewModel.missingInfoItems.removeObserver(missingInfoItemsObserver)
+    }
+
 }

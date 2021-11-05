@@ -17,6 +17,7 @@ class MissingInfoFragmentViewModel(application: Application) :
     override val state: IMissingInfo.State = MissingInfoState(application = application)
 
     override val repository: MissingInfoRepository = MissingInfoRepository
+    override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
     override val missingInfoItems: MutableLiveData<ArrayList<String>> = MutableLiveData()
 
     override fun getMissingInfoItems() {
@@ -40,5 +41,6 @@ class MissingInfoFragmentViewModel(application: Application) :
     }
 
     override fun handlePressView(id: Int) {
+        onClickEvent.value = id
     }
 }
