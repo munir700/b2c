@@ -21,6 +21,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.CampaignInfo
+import com.uxcam.UXCam
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 
@@ -106,7 +107,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             fragmentName = WebViewFragment::class.java.name,
             bundle = bundleOf(
                 Constants.PAGE_URL to url
-            ), toolBarTitle = viewModel.state.toolbarTitle ?: "", showToolBar = false
+            ), toolBarTitle = viewModel.state.toolbarTitle, showToolBar = false
         )
     }
 
@@ -114,6 +115,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         super.onResume()
         if (activity is YapDashboardActivity)
             (activity as YapDashboardActivity).showHideBottomBar(false)
+        UXCam.occludeSensitiveScreen(false)
     }
 
     override fun onStop() {

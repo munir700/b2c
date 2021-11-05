@@ -65,6 +65,7 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
+import com.uxcam.UXCam
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import kotlinx.coroutines.CoroutineScope
@@ -503,6 +504,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 viewModel.populateState()
             }
         }
+        UXCam.occludeSensitiveScreen(false)
     }
 
     override fun onRequestPermissionsResult(
