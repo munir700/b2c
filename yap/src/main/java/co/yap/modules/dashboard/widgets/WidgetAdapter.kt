@@ -10,7 +10,6 @@ import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-
 class WidgetAdapter(
     internal var list: MutableList<WidgetData>,
     private val adaptorClick: OnItemClickListener
@@ -22,7 +21,6 @@ class WidgetAdapter(
 
     override fun getLayoutIdForViewType(viewType: Int): Int =
         if (viewType == actual) R.layout.item_widget_add_remove_body else R.layout.item_widget_add_remove_header
-
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return if (binding is ItemWidgetAddRemoveBodyBinding) BodyViewHolder(
@@ -55,7 +53,6 @@ class WidgetAdapter(
         }
     }
 
-
     class HeaderViewHolder(private val itemWidgetAddRemoveHeaderBinding: ItemWidgetAddRemoveHeaderBinding) :
         RecyclerView.ViewHolder(itemWidgetAddRemoveHeaderBinding.root) {
 
@@ -63,7 +60,6 @@ class WidgetAdapter(
             itemWidgetAddRemoveHeaderBinding.executePendingBindings()
         }
     }
-
 
     class BodyViewHolder(private val itemWidgetAddRemoveBodyBinding: ItemWidgetAddRemoveBodyBinding) :
         RecyclerView.ViewHolder(itemWidgetAddRemoveBodyBinding.root) {
