@@ -19,7 +19,6 @@ import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
-import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.DashboardWidgetAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
@@ -31,6 +30,7 @@ import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
+import co.yap.modules.dashboard.home.models.WidgetItemList
 import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
@@ -213,14 +213,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private val transactionClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.clickEvent.setPayload(
-                SingleClickEvent.AdaptorPayLoadHolder(
-                    view,
-                    data,
-                    pos
-                )
-            )
-            viewModel.clickEvent.setValue(view.id)
+            when(view.id){
+                R.id.imgShortcut->{
+                    launchActivity<WidgetActivity>(requestCode = RequestCodes.REQUEST_EDIT_WIDGET) {
+                        putExtra(
+                            ExtraKeys.EDIT_WIDGET.name,
+                            WidgetItemList(viewModel.widgetList)
+                        )
+                    }
+
+                }else-> {
+                    viewModel.clickEvent.setPayload(
+                        SingleClickEvent.AdaptorPayLoadHolder(
+                            view,
+                            data,
+                            pos
+                        )
+                    )
+                    viewModel.clickEvent.setValue(view.id)
+                }
+            }
         }
     }
 

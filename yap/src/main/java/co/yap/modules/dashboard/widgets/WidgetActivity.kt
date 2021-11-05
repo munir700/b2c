@@ -1,11 +1,15 @@
 package co.yap.modules.dashboard.widgets
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.home.models.WidgetItemList
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_widget.*
 
 class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
@@ -19,17 +23,32 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getDatFromBundle()
         intRecyclersView()
     }
 
+    private fun getDatFromBundle() {
+        if (intent?.hasExtra(ExtraKeys.EDIT_WIDGET.name) == true) {
+            intent.getParcelableExtra<WidgetItemList>(ExtraKeys.EDIT_WIDGET.name)?.let {
+                viewModel.widgetDataList.addAll(it.widgetData)
+            }
+        }
+    }
+
     private fun intRecyclersView() {
-        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.apply {
-            val mAdapter = WidgetAdapter(mutableListOf())
+            layoutManager = LinearLayoutManager(this@WidgetActivity)
+            val mAdapter = WidgetAdapter(mutableListOf(), clickListener)
             adapter = mAdapter
             viewModel.widgetAdapter?.set(mAdapter)
             viewModel.getWidgetList()
             recyclerView.setHasFixedSize(true)
+        }
+    }
+
+    private val clickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+
         }
     }
 

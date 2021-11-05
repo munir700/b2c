@@ -5,11 +5,17 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemWidgetAddRemoveBodyBinding
 import co.yap.databinding.ItemWidgetAddRemoveHeaderBinding
+import co.yap.modules.dashboard.home.models.WidgetItemViewModel
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-class WidgetAdapter(internal var list: MutableList<Widget>) :
-    BaseBindingRecyclerAdapter<Widget, RecyclerView.ViewHolder>(list) {
+class WidgetAdapter(
+    internal var list: MutableList<WidgetData>,
+    private val adaptorClick: OnItemClickListener
+) :
+    BaseBindingRecyclerAdapter<WidgetData, RecyclerView.ViewHolder>(list) {
 
     private val heading = 1
     private val actual = 2
@@ -29,7 +35,7 @@ class WidgetAdapter(internal var list: MutableList<Widget>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is BodyViewHolder) {
-            holder.onBind(list[position], position)
+            holder.onBind(list[position], adaptorClick, position)
         } else {
             if (holder is HeaderViewHolder)
                 holder.onBind(position)
@@ -42,7 +48,7 @@ class WidgetAdapter(internal var list: MutableList<Widget>) :
 
     override fun getItemCount() = list.size
 
-    fun setData(listData: MutableList<Widget>?) {
+    fun setData(listData: MutableList<WidgetData>?) {
         listData?.let {
             this.list = listData
             notifyDataSetChanged()
@@ -63,10 +69,12 @@ class WidgetAdapter(internal var list: MutableList<Widget>) :
         RecyclerView.ViewHolder(itemWidgetAddRemoveBodyBinding.root) {
 
         fun onBind(
-            widgetData: Widget,
+            data: WidgetData,
+            adaptorClick: OnItemClickListener,
             groupPosition: Int
         ) {
-            itemWidgetAddRemoveBodyBinding.viewModel = widgetData
+            itemWidgetAddRemoveBodyBinding.viewModel =
+                WidgetItemViewModel(data, groupPosition, adaptorClick)
             itemWidgetAddRemoveBodyBinding.executePendingBindings()
         }
     }
