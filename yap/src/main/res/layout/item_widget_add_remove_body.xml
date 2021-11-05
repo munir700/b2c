@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.home.models.WidgetItemViewModel" />
+            type="co.yap.modules.dashboard.widgets.WidgetItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -31,7 +31,7 @@
             android:contentDescription="@string/empty_string"
             android:padding="@dimen/_10sdp"
             app:drawableResource="@{@drawable/bg_round_purple_enabled}"
-            app:imageUrlWidget="@{viewModel.widgetDataItem.icon}"
+            app:imageUrlWidget="@{viewModel.item.icon}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +43,7 @@
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_normal"
             android:singleLine="true"
-            android:text="@{viewModel.widgetDataItem.name}"
+            android:text="@{viewModel.item.name}"
             android:textColor="@color/colorMidnightExpress"
             app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
             app:layout_constraintEnd_toStartOf="@+id/image"
@@ -55,7 +55,7 @@
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@{viewModel.widgetDataItem.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
+            android:src="@{viewModel.item.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
             app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
             android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
