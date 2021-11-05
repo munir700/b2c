@@ -22,7 +22,7 @@ class NotificationAdapter(
     val clickListener: NotificationItemClickListener
 ) :
     BaseBindingRecyclerAdapter<HomeNotification, NotificationAdapter.ViewHolder>(listItems) {
-    private var dimensions: IntArray = Utils.getCardDimensions(context, 80, 15)
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 88, 15)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
 
