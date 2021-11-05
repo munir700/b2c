@@ -12,12 +12,13 @@ class WidgetViewModel(application: Application) :
     override val widgetAdapter: ObservableField<WidgetAdapter>? = ObservableField()
     override var widgetDataList: MutableList<WidgetData> = mutableListOf()
 
-    fun getWidgetList() {
+    override fun filterWidgetDataList() {
         widgetDataList.sortedByDescending { it.status }
         val index = widgetDataList.count {
             it.status == true
         }
         widgetDataList.add(index, WidgetData(id = -1, name = "Heading"))
+        widgetAdapter?.get()?.setData(widgetDataList)
 
 //        widgetDataList.run {
 //            sortedByDescending { it.status }.toMutableList().run {
@@ -27,8 +28,6 @@ class WidgetViewModel(application: Application) :
 //                )
 //            }
 //        }
-
-        widgetAdapter?.get()?.setData(widgetDataList)
     }
 
 }

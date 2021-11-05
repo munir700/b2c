@@ -9,6 +9,7 @@ interface IWidget {
     interface ViewModel : IBase.ViewModel<State> {
         val widgetAdapter: ObservableField<WidgetAdapter>?
         var widgetDataList: MutableList<WidgetData>
+        fun filterWidgetDataList()
     }
 
     interface State : IBase.State {

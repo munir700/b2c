@@ -41,7 +41,7 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
             val mAdapter = WidgetAdapter(mutableListOf(), clickListener)
             adapter = mAdapter
             viewModel.widgetAdapter?.set(mAdapter)
-            viewModel.getWidgetList()
+            viewModel.filterWidgetDataList()
             recyclerView.setHasFixedSize(true)
         }
     }
