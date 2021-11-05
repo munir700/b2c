@@ -144,8 +144,8 @@
                 android:id="@+id/recyclerWidget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:paddingStart="@dimen/margin_extra_small"
                 />
 
             <RelativeLayout

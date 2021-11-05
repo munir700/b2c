@@ -27,6 +27,7 @@ import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
+import co.yap.yapcore.helpers.glide.setImage1
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -42,9 +43,9 @@ import kotlin.math.roundToInt
 
 object ImageBinding {
     @JvmStatic
-    @BindingAdapter(value = ["imageUrlWidget","drawableResource"])
-    fun setImageUrl(imageView: AppCompatImageView, url: String?, drawableResource : Drawable) {
-        url?.let { setImage(imageView, it) } ?: setImageDrawable(imageView, drawableResource)
+    @BindingAdapter(value = ["imageUrlWidget", "drawableResource"])
+    fun setImageUrl(imageView: AppCompatImageView, url: String?, drawableResource: Drawable) {
+        url?.let { setImage1(imageView, it) } ?: setImage(imageView, drawableResource)
     }
 
     @JvmStatic
@@ -52,7 +53,7 @@ object ImageBinding {
     fun setImageDrawable(imageView: AppCompatImageView, drawable: Drawable?) {
         drawable?.let {
             setImage(imageView, drawable)
-        }
+         }
 
     }
 
@@ -625,14 +626,14 @@ object ImageBinding {
                         if (isBackground) {
                             if (categoryColor.isNotEmpty()) {
                                 val colorCode = Utils.categoryColorValidation(categoryColor)
-                                if(colorCode!=-1)
-                                setCategoryDrawable(
-                                    imageView,
-                                    getColorWithAlpha(
-                                       colorCode,
-                                        0.20f
+                                if (colorCode != -1)
+                                    setCategoryDrawable(
+                                        imageView,
+                                        getColorWithAlpha(
+                                            colorCode,
+                                            0.20f
+                                        )
                                     )
-                                )
                             } else {
                                 setCategoryDrawable(
                                     imageView, Utils.getBackgroundColorForAnalytics(
