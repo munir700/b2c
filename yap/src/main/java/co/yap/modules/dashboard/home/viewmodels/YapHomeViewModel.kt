@@ -49,6 +49,7 @@ class YapHomeViewModel(application: Application) :
     override var MAX_CLOSING_BALANCE: Double = 0.0
     override var monthData: List<MonthData>? = ArrayList()
     override var dashboardWidgetList: MutableLiveData<List<WidgetData>> = MutableLiveData()
+    override var widgetList: List<WidgetData> = ArrayList()
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
@@ -367,7 +368,8 @@ class YapHomeViewModel(application: Application) :
         launch {
             when (val response = customerRepository.getDashboardWidget()) {
                 is RetroApiResponse.Success -> {
-                    dashboardWidgetList.postValue(getFilteredList(response.data.widgetList))
+                    widgetList = response.data.widgetList
+                    dashboardWidgetList.postValue(getFilteredList(widgetList.toMutableList()))
                 }
                 is RetroApiResponse.Error -> {
 

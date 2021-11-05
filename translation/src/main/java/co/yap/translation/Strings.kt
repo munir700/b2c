@@ -2321,4 +2321,12 @@ object Strings {
         "screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you"
     const val screen_employment_questionnaire_display_text__bottom_sheet_title_segments =
         "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
+
+    //Dashboard Widgets and Edit Screen
+    const val screen_dashboard_widget_edit_hide_text =
+        "screen_dashboard_widget_edit_hide_text"
+    const val screen_edit_widget_heading_text =
+        "screen_edit_widget_heading_text"
+    const val screen_edit_widget_hidden_text =
+        "screen_edit_widget_hidden_text"
 }
