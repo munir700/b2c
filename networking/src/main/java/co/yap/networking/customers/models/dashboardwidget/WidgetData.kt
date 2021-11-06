@@ -11,5 +11,6 @@ data class WidgetData(
 	@SerializedName("icon") var icon: String? = null,
 	@SerializedName("status") val status: Boolean? = false,
 	@SerializedName("shuffleIndex") val shuffleIndex: Int? = -1,
-	@Transient var isPinned: Boolean? = false
+	@Transient var isPinned: Boolean? = false,
+	var clickId: Long? = System.currentTimeMillis()
 ): Parcelable

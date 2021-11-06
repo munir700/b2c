@@ -39,7 +39,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         setHasStableIds(true)
     }
 
-    override fun getItemId(position: Int) = datas[position].id!!.toLong()
+    override fun getItemId(position: Int) = datas[position].clickId!!
     override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
