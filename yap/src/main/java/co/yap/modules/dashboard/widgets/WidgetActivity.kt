@@ -38,11 +38,11 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
     private fun intRecyclersView() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@WidgetActivity)
-            val mAdapter = WidgetAdapter(mutableListOf(), clickListener)
-            adapter = mAdapter
-            viewModel.widgetAdapter?.set(mAdapter)
-            viewModel.filterWidgetDataList()
-            recyclerView.setHasFixedSize(true)
+//            val mAdapter = WidgetAdapter(mutableListOf(), clickListener)
+//            adapter = mAdapter
+//            viewModel.widgetAdapter?.set(mAdapter)
+//            viewModel.filterWidgetDataList()
+//            recyclerView.setHasFixedSize(true)
         }
     }
 

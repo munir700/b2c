@@ -13,56 +13,103 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_normal"
-        android:paddingEnd="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_normal">
+        android:layout_height="wrap_content">
 
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivWidget"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginBottom="@dimen/_12sdp"
-            android:background="@drawable/bg_round_purple_enabled"
-            android:contentDescription="@string/empty_string"
-            android:padding="@dimen/_10sdp"
-            app:drawableResource="@{@drawable/bg_round_purple_enabled}"
-            app:imageUrlWidget="@{viewModel.item.icon}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvWidgetName"
-            style="@style/ASmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal"
-            android:singleLine="true"
-            android:text="@{viewModel.item.name}"
-            android:textColor="@color/colorMidnightExpress"
-            app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
-            app:layout_constraintEnd_toStartOf="@+id/image"
-            app:layout_constraintStart_toEndOf="@+id/ivWidget"
-            app:layout_constraintTop_toTopOf="@+id/ivWidget"
-            tools:text="@string/screen_dashboard_widget_edit_hide_text" />
-
-        <ImageView
-            android:id="@+id/image"
+        <FrameLayout
+            android:id="@+id/flSwipeable"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@{viewModel.item.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
-            app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
-            android:contentDescription="@string/empty_string"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivWidget" />
+            android:layout_height="@dimen/_62sdp"
+            android:layout_gravity="end|center_vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-    </androidx.constraintlayout.widget.ConstraintLayout><!--
-        android:src="@{viewModel.beneficiary.userType.equals(`Y2Y`)?@drawable/ic_package_standered : null}"
-    -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDelete"
+                style="@style/Micro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@color/colorSecondaryMagenta"
+                android:drawableTop="@drawable/ic_delete_bin"
+                android:drawablePadding="@dimen/_2sdp"
+                android:drawableTint="@color/white"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_normal"
+                android:textColor="@color/white"
+                app:text="@{Strings.common_button_delete}"
+                tools:text="Delete" />
+        </FrameLayout>
+
+        <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
+        <!--        android:id="@+id/foregroundContainer"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="@dimen/_62sdp"-->
+        <!--        android:background="@color/white"-->
+        <!--        android:orientation="horizontal"-->
+        <!--        android:layout_gravity="center_vertical"-->
+        <!--        android:paddingStart="@dimen/margin_medium_large"-->
+        <!--        android:paddingTop="@dimen/margin_normal"-->
+        <!--        android:paddingEnd="@dimen/margin_medium_large"-->
+        <!--        android:paddingBottom="@dimen/margin_normal"-->
+        <!--        tools:visibility="invisible">-->
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_normal"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_normal">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivWidget"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:background="@drawable/bg_round_purple_enabled"
+                android:contentDescription="@string/empty_string"
+                android:padding="@dimen/_10sdp"
+                app:drawableResource="@{@drawable/bg_round_purple_enabled}"
+                app:imageUrlWidget="@{viewModel.item.icon}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvWidgetName"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:singleLine="true"
+                android:text="@{viewModel.item.name}"
+                android:textColor="@color/colorMidnightExpress"
+                app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
+                app:layout_constraintEnd_toStartOf="@+id/image"
+                app:layout_constraintStart_toEndOf="@+id/ivWidget"
+                app:layout_constraintTop_toTopOf="@+id/ivWidget"
+                tools:text="@string/screen_dashboard_widget_edit_hide_text" />
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/empty_string"
+                android:src="@{viewModel.item.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
+                app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ivWidget" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+    <!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
 </layout>
 
