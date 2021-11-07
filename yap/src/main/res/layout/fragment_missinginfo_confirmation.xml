@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.amendments.confirmation.ui.MissingInfoConfirmationViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@+id/tvAllSet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="missing_info_success_lottie.json"
+            app:lottie_loop="false" />
+
+        <TextView
+            android:id="@+id/tvAllSet"
+            style="@style/Regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_confirmation_display_all_set)}"
+            android:textColor="?attr/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/screen_missing_info_confirmation_display_all_set" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:gravity="center"
+            android:text="@{viewModel.state.subTitle}"
+            android:textColor="@color/greyDark"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAllSet"
+            tools:text="@string/screen_missing_info_description" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnDone"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:gravity="center"
+            android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_confirmation_button_done)}"
+            android:textColor="@color/colorWhite"
+            app:btn_size="small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:text="@string/screen_missing_info_confirmation_button_done" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

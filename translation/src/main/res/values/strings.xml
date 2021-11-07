@@ -1432,4 +1432,9 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_missing_info_review_required">Review required for:</string>
     <!-- KYC Amendments/ Missing Info Screen End -->
 
+    <!-- KYC Amendments/ Missing Info Confirmation Screen start -->
+    <string name="screen_missing_info_confirmation_button_done">Done</string>
+    <string name="screen_missing_info_confirmation_display_all_set">You\’re all set!</string>
+    <!-- KYC Amendments/ Missing Info Confirmation Screen end -->
+
 </resources>
