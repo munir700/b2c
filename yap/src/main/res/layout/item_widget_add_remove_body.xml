@@ -59,13 +59,16 @@
         <!--        tools:visibility="invisible">-->
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_normal"
+            android:orientation="horizontal"
+            android:background="@color/white"
             android:paddingEnd="@dimen/margin_medium"
+            tools:visibility="invisible"
             android:paddingBottom="@dimen/margin_normal">
 
 
@@ -86,6 +89,7 @@
                 android:id="@+id/tvWidgetName"
                 style="@style/ASmall"
                 android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
@@ -103,12 +107,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/empty_string"
+                tools:src="@drawable/ic_plus"
                 android:src="@{viewModel.item.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
                 app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/ivWidget" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>
     <!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
 </layout>

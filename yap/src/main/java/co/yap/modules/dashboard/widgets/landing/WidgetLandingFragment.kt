@@ -80,7 +80,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
             )
 //            dragStartItemAnimationDuration = 2000
             draggingItemAlpha = 1f
-            isCheckCanDropEnabled = true
+            isCheckCanDropEnabled = false
 //            draggingItemRotation = 15.0f
             onItemDragEventListener = this@WidgetLandingFragment
 //            itemSettleBackIntoPlaceAnimationDuration = 2000
@@ -102,9 +102,9 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
                     true
                 )
             )
-            mRecyclerViewDragDropManager?.attachRecyclerView(this)
             mRecyclerViewTouchActionGuardManager?.attachRecyclerView(this)
             mRecyclerViewSwipeManager?.attachRecyclerView(this)
+            mRecyclerViewDragDropManager?.attachRecyclerView(this)
         }
     }
 
