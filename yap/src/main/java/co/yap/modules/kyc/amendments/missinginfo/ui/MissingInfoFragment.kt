@@ -3,6 +3,7 @@ package co.yap.modules.kyc.amendments.missinginfo.ui
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
@@ -19,11 +20,11 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
     override fun getLayoutId() = R.layout.fragment_missinginfo
 
     override val viewModel: IMissingInfo.ViewModel
-        get() = ViewModelProviders.of(this).get(MissingInfoFragmentViewModel::class.java)
+        get() = ViewModelProvider(this).get(MissingInfoFragmentViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.missingInfoItems.observe(viewLifecycleOwner, missingInfoItemsObserver)
+        viewModel.adapter.set(MissingInfoAdapter(mutableListOf(),null))
         viewModel.onClickEvent.observe(viewLifecycleOwner, onClickView)
         SessionManager.getAccountInfo {
             getDataBindingView<FragmentMissinginfoBinding>().tvTitle.text =
@@ -32,12 +33,6 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                 )
         }
         viewModel.getMissingInfoItems()
-    }
-
-    private val missingInfoItemsObserver = Observer<ArrayList<String>> {
-        it?.let { items ->
-            viewModel.adapter.setData(items)
-        }
     }
 
     private val onClickView = Observer<Int> {
@@ -52,7 +47,6 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.onClickEvent.removeObserver(onClickView)
-        viewModel.missingInfoItems.removeObserver(missingInfoItemsObserver)
     }
 
 }

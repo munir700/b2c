@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.amendments.missinginfo.ui
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.kyc.amendments.missinginfo.adapters.MissingInfoAdapter
 import co.yap.modules.kyc.amendments.missinginfo.interfaces.IMissingInfo
@@ -15,7 +16,7 @@ class MissingInfoFragmentViewModel(application: Application) :
     BaseViewModel<IMissingInfo.State>(application), IMissingInfo.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
-    override val adapter: MissingInfoAdapter = MissingInfoAdapter(mutableListOf(), null)
+    override val adapter = ObservableField<MissingInfoAdapter>()
     override val state: IMissingInfo.State = MissingInfoState()
     override val repository: CustomersRepository = CustomersRepository
     override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
@@ -28,7 +29,8 @@ class MissingInfoFragmentViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
-                            missingInfoItems.value = response.data.data
+                            adapter.get()?.setData(it)
+
                         }
                     }
                     state.loading = false
