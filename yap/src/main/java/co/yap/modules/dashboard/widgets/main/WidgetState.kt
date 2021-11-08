@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.widgets
+package co.yap.modules.dashboard.widgets.main
 
 import co.yap.yapcore.BaseState
 

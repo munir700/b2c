@@ -39,7 +39,7 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
-import co.yap.modules.dashboard.widgets.WidgetActivity
+import co.yap.modules.dashboard.widgets.main.WidgetActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity

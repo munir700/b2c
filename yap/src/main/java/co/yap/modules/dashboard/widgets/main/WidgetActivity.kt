@@ -1,19 +1,19 @@
-package co.yap.modules.dashboard.widgets
+package co.yap.modules.dashboard.widgets.main
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.home.models.WidgetItemList
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.defaults.DefaultNavigator
+import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.activity_widget.*
+import co.yap.yapcore.interfaces.IBaseNavigator
 
-class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
-
+class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), INavigator,
+    IFragmentHolder, IWidget.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -21,10 +21,12 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
 
     override val viewModel: WidgetViewModel by viewModels()
 
+    override val navigator: IBaseNavigator
+        get() = DefaultNavigator(this@WidgetActivity, R.id.widget_nav_host_fragment)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getDatFromBundle()
-        intRecyclersView()
     }
 
     private fun getDatFromBundle() {
@@ -32,23 +34,6 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View {
             intent.getParcelableExtra<WidgetItemList>(ExtraKeys.EDIT_WIDGET.name)?.let {
                 viewModel.widgetDataList.addAll(it.widgetData)
             }
-        }
-    }
-
-    private fun intRecyclersView() {
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@WidgetActivity)
-            val mAdapter = WidgetAdapter(mutableListOf(), clickListener)
-            adapter = mAdapter
-            viewModel.widgetAdapter?.set(mAdapter)
-            viewModel.filterWidgetDataList()
-            recyclerView.setHasFixedSize(true)
-        }
-    }
-
-    private val clickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-
         }
     }
 

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.widgets.WidgetViewModel" />
+            type="co.yap.modules.dashboard.widgets.main.WidgetViewModel" />
 
         <import type="android.view.View" />
 
@@ -18,8 +17,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
@@ -34,55 +32,16 @@
             app:rightIconVisibility="@{false}"
             app:titleTranslator='@{Strings.screen_edit_widget_heading_text}' />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <fragment
+            android:id="@+id/widget_nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:navGraph="@navigation/widget_navigation" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/margin_medium"
-                    android:paddingTop="@dimen/margin_normal"
-                    android:paddingEnd="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_normal">
-
-                    <TextView
-                        android:id="@+id/tvHeaderText"
-                        style="@style/ASmall"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8"
-                        android:singleLine="true"
-                        android:text="@{@string/screen_dashboard_widget_edit_hide_text}"
-                        android:textColor="@color/colorMidnightExpress" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switchWidget"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:layout_weight="0.2" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_widget_add_remove_body" />
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
