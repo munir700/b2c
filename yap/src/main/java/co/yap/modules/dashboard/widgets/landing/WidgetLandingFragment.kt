@@ -117,8 +117,12 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
             message = getString(screen_multi_currency_wallet_display_text_delete_message),
             title = getString(screen_multi_currency_wallet_display_text_delete_header)
         )*/
-        viewModel.changeStatus(position)
+        viewModel.changeStatus( position = position, status = false)
 //        mAdapter.removeAt(position)
+    }
+
+    override fun onAddedButtonClick(v: View?, position: Int) {
+        viewModel.changeStatus( position = position, status = true)
     }
 
     private fun onClick(id: Int) {

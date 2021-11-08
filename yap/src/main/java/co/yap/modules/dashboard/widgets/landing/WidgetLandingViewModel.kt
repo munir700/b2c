@@ -20,8 +20,7 @@ class WidgetLandingViewModel(application: Application) :
         widgetDataList.forEach {
             it.isPinned = false
         }
-
-        reverseList()
+        sortList()
         val index = widgetDataList.count {
             it.status == true
         }
@@ -29,17 +28,24 @@ class WidgetLandingViewModel(application: Application) :
         widgetAdapter?.get()?.setData(widgetDataList)
     }
 
-    override fun changeStatus( position:Int) {
+    override fun changeStatus( position:Int, status:Boolean) {
         val widgetData = widgetDataList[position]
-        widgetData.status = false
+        widgetData.status = status
         widgetData.isPinned = false
         widgetDataList.removeAt(position)
-        widgetDataList.add(widgetDataList.size, widgetData)
-//        widgetAdapter?.get()?.removeAt(position)
+        when(status){
+            true->{
+                widgetDataList.add(widgetDataList.count {
+                    it.status == true
+                }, widgetData)
+            }else->{
+            widgetDataList.add(widgetDataList.size, widgetData)
+            }
+        }
         widgetAdapter?.get()?.setData(widgetDataList)
     }
 
-    fun reverseList(){
+    fun sortList(){
         widgetDataList = widgetDataList.sortedByDescending { it.status }.toMutableList()
     }
 }

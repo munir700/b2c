@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View"/>
+
     </data>
 
     <FrameLayout
@@ -63,7 +65,9 @@
                 app:drawableResource="@{@drawable/bg_round_purple_enabled}"
                 app:imageUrlWidget="@{viewModel.item.icon}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="@dimen/_8sdp"
+                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvWidgetName"
@@ -84,7 +88,7 @@
                 tools:text="@string/screen_dashboard_widget_edit_hide_text" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image"
+                android:id="@+id/imageDragDropAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -93,7 +97,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/ivWidget"
-                tools:src="@drawable/ic_plus" />
+                tools:src="@drawable/ic_icon_menu"
+                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>

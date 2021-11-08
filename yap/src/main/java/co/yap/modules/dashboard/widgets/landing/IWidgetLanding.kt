@@ -10,7 +10,7 @@ class IWidgetLanding {
         val widgetAdapter: ObservableField<WidgetAdapter>?
         var widgetDataList: MutableList<WidgetData>
         fun filterWidgetDataList()
-        fun changeStatus( position:Int)
+        fun changeStatus( position:Int, status:Boolean)
     }
 
     interface State : IBase.State {
