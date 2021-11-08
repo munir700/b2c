@@ -298,4 +298,8 @@ interface CustomersRetroService {
 
     @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
     suspend fun stopRankingMsgRequest(): Response<ApiResponse>
+
+    // Get Missing Info
+    @GET(CustomersRepository.URL_GET_MISSING_INFO)
+    suspend fun getMissingInfoList(@Body request: GetMissingInfoListRequest): Response<MissingInfoResponse>
 }
