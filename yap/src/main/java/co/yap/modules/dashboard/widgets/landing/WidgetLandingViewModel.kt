@@ -14,19 +14,38 @@ class WidgetLandingViewModel(application: Application) :
     override var widgetDataList: MutableList<WidgetData> = mutableListOf()
     override val state: IWidgetLanding.State =  WidgetLandingState()
 
+    var parentViewModel: WidgetViewModel? = null
 
     override fun filterWidgetDataList() {
-        for( widgetData in widgetDataList){
-            widgetData.isPinned = false
-            widgetData.clickId = System.currentTimeMillis()
+        widgetDataList.forEach {
+            it.isPinned = false
         }
-        widgetDataList.sortedByDescending { it.status }
+        sortList()
         val index = widgetDataList.count {
             it.status == true
         }
-        widgetDataList.add(index, WidgetData(id = -1, name = "Heading"))
+        widgetDataList.add(index, WidgetData(id = 2000 , name = "Heading"))
         widgetAdapter?.get()?.setData(widgetDataList)
     }
 
-    var parentViewModel: WidgetViewModel? = null
+    override fun changeStatus( position:Int, status:Boolean) {
+        val widgetData = widgetDataList[position]
+        widgetData.status = status
+        widgetData.isPinned = false
+        widgetDataList.removeAt(position)
+        when(status){
+            true->{
+                widgetDataList.add(widgetDataList.count {
+                    it.status == true
+                }, widgetData)
+            }else->{
+            widgetDataList.add(widgetDataList.size, widgetData)
+            }
+        }
+        widgetAdapter?.get()?.setData(widgetDataList)
+    }
+
+    fun sortList(){
+        widgetDataList = widgetDataList.sortedByDescending { it.status }.toMutableList()
+    }
 }

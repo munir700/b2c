@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View"/>
+
     </data>
 
     <FrameLayout
@@ -22,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_62sdp"
             android:layout_gravity="end|center_vertical"
+            android:background="@color/colorSecondaryMagenta"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -30,65 +33,51 @@
                 style="@style/Micro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="@color/colorSecondaryMagenta"
+                android:layout_gravity="end|center_vertical"
                 android:drawableTop="@drawable/ic_delete_bin"
                 android:drawablePadding="@dimen/_2sdp"
                 android:drawableTint="@color/white"
                 android:gravity="center"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_normal"
                 android:textColor="@color/white"
                 app:text="@{Strings.common_button_delete}"
                 tools:text="Delete" />
         </FrameLayout>
 
-        <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
-        <!--        android:id="@+id/foregroundContainer"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="@dimen/_62sdp"-->
-        <!--        android:background="@color/white"-->
-        <!--        android:orientation="horizontal"-->
-        <!--        android:layout_gravity="center_vertical"-->
-        <!--        android:paddingStart="@dimen/margin_medium_large"-->
-        <!--        android:paddingTop="@dimen/margin_normal"-->
-        <!--        android:paddingEnd="@dimen/margin_medium_large"-->
-        <!--        android:paddingBottom="@dimen/margin_normal"-->
-        <!--        tools:visibility="invisible">-->
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_62sdp"
+            android:background="@color/white"
+            android:orientation="horizontal"
             android:paddingStart="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_normal"
             android:paddingEnd="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_normal">
-
+            tools:visibility="invisible">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivWidget"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginBottom="@dimen/_12sdp"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/bg_round_purple_enabled"
                 android:contentDescription="@string/empty_string"
-                android:padding="@dimen/_10sdp"
                 app:drawableResource="@{@drawable/bg_round_purple_enabled}"
                 app:imageUrlWidget="@{viewModel.item.icon}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="@dimen/_8sdp"
+                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvWidgetName"
                 style="@style/ASmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_weight="1"
                 android:singleLine="true"
                 android:text="@{viewModel.item.name}"
                 android:textColor="@color/colorMidnightExpress"
@@ -98,18 +87,19 @@
                 app:layout_constraintTop_toTopOf="@+id/ivWidget"
                 tools:text="@string/screen_dashboard_widget_edit_hide_text" />
 
-            <ImageView
-                android:id="@+id/image"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageDragDropAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:contentDescription="@string/empty_string"
                 android:src="@{viewModel.item.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
                 app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/ivWidget" />
+                app:layout_constraintTop_toTopOf="@+id/ivWidget"
+                tools:src="@drawable/ic_icon_menu"
+                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>
-    <!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
 </layout>
-
