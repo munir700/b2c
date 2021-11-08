@@ -2,6 +2,8 @@ package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
 import co.yap.networking.cards.responsedtos.*
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.dashboardwidget.DashboardWidgetResponse
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
@@ -108,5 +110,7 @@ interface CardsRetroService {
     @GET(CardsRepository.URL_GET_SAMSUNG_PAY_TOKEN)
     suspend fun getCardTokenForSamsungPay(@Query("cardSerialNumber") cardSerialNumber: String): Response<SPayCardResponse>
 
+    @PUT(CustomersRepository.URL_DASHBOARD_WIDGETS_UPDATE)
+    suspend fun updateDashboardWidget(@Body dashboardWidgetBody: DashboardWidgetResponse): Response<DashboardWidgetResponse>
 
 }

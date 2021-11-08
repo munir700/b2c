@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class WidgetData(
 	@SerializedName("id") val id: Int,
-	@SerializedName("name") val name: String,
+	@SerializedName("name") val name: String?=null,
 	@SerializedName("icon") var icon: String? = null,
 	@SerializedName("status") var status: Boolean? = false,
 	@SerializedName("shuffleIndex") val shuffleIndex: Int? = -1,

@@ -1,6 +1,8 @@
 package co.yap.networking.customers
 
 import co.yap.networking.customers.models.dashboardwidget.DashboardWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -120,5 +122,4 @@ interface CustomersApi {
     suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
     suspend fun getDashboardWidget(): RetroApiResponse<DashboardWidgetResponse>
-
-}
+    suspend fun updateDashboardWidget(list: List<WidgetData>): RetroApiResponse<UpdateWidgetResponse>}
