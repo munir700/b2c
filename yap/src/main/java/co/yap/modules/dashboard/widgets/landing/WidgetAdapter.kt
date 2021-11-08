@@ -1,9 +1,10 @@
-package co.yap.modules.dashboard.widgets
+package co.yap.modules.dashboard.widgets.landing
 
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.BR
 import co.yap.databinding.ItemWidgetAddRemoveBodyBinding
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.widgets.advrecyclerview.draggable.DraggableItemAdapter
@@ -15,15 +16,14 @@ import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultActionMoveToSw
 import co.yap.widgets.advrecyclerview.utils.AbstractDraggableSwipeableItemViewHolder
 import co.yap.yapcore.BaseRVAdapter
 import java.util.*
-import co.yap.BR
 
 class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?) :
-    BaseRVAdapter<WidgetData, WidgetItemViewModel, WidgetAdapter.ViewHolder>(
+    BaseRVAdapter<WidgetData, WidgetLandingItemViewModel, WidgetAdapter.ViewHolder>(
         mValue,
         navigation
     ), DraggableItemAdapter<WidgetAdapter.ViewHolder>,
     SwipeableItemAdapter<WidgetAdapter.ViewHolder> {
-    var editWidget: Boolean = false
+    var editWidget: Boolean = true
         set(value) {
             field = value
             if (oldSwipePosition != RecyclerView.NO_POSITION) {
@@ -52,12 +52,12 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
 
     override fun getViewHolder(
         view: View,
-        viewModel: WidgetItemViewModel,
+        viewModelLanding: WidgetLandingItemViewModel,
         mDataBinding: ViewDataBinding,
         viewType: Int
-    ) = ViewHolder(this, view, viewModel, mDataBinding)
+    ) = ViewHolder(this, view, viewModelLanding, mDataBinding)
 
-    override fun getViewModel(viewType: Int) = WidgetItemViewModel()
+    override fun getViewModel(viewType: Int) = WidgetLandingItemViewModel()
     override fun getVariableId() = BR.viewModel
     override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int) = editWidget
     override fun onGetItemDraggableRange(holder: ViewHolder, position: Int): Nothing? = null
@@ -127,12 +127,12 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     class ViewHolder(
         mAdapter: WidgetAdapter?,
         view: View,
-        viewModel: WidgetItemViewModel,
+        viewModelLanding: WidgetLandingItemViewModel,
         mDataBinding: ViewDataBinding
     ) :
-        AbstractDraggableSwipeableItemViewHolder<WidgetData, WidgetItemViewModel>(
+        AbstractDraggableSwipeableItemViewHolder<WidgetData, WidgetLandingItemViewModel>(
             view,
-            viewModel,
+            viewModelLanding,
             mDataBinding
         ) {
         var binding = mDataBinding as ItemWidgetAddRemoveBodyBinding

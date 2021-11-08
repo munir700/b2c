@@ -1,28 +1,29 @@
-package co.yap.modules.dashboard.widgets
+package co.yap.modules.dashboard.widgets.landing
 
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
-import android.view.View
-import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.util.Log
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.home.models.WidgetItemList
-import co.yap.widgets.SpacesItemDecoration
-import co.yap.widgets.advrecyclerview.animator.DraggableItemAnimator
+import co.yap.BR
 import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
 import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
+import co.yap.yapcore.BaseBindingFragment
+import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
+import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.widgets.main.WidgetViewModel
+import co.yap.widgets.SpacesItemDecoration
+import co.yap.widgets.advrecyclerview.animator.DraggableItemAnimator
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
-import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.dimen
-import kotlinx.android.synthetic.main.activity_widget.*
+import kotlinx.android.synthetic.main.fragment_widget_landing.*
 
-class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View,
+class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
+    IWidgetLanding.View ,
     RecyclerViewDragDropManager.OnItemDragEventListener,
     RecyclerViewSwipeManager.OnItemSwipeEventListener, WidgetAdapter.EventListener {
     private var mWrappedAdapter: RecyclerView.Adapter<*>? = null
@@ -33,33 +34,24 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View,
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_widget
+    override fun getLayoutId(): Int = R.layout.fragment_widget_landing
 
-    override val viewModel: WidgetViewModel by viewModels()
+    override val viewModel: WidgetLandingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getDatFromBundle()
-        intRecyclersView()
+
+        viewModel.parentViewModel =
+            activity?.let { ViewModelProviders.of(it).get(WidgetViewModel::class.java) }
     }
 
-    private fun getDatFromBundle() {
-        if (intent?.hasExtra(ExtraKeys.EDIT_WIDGET.name) == true) {
-            intent.getParcelableExtra<WidgetItemList>(ExtraKeys.EDIT_WIDGET.name)?.let {
-                viewModel.widgetDataList.addAll(it.widgetData)
-            }
-        }
-    }
-
-    private fun intRecyclersView() {
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@WidgetActivity)
-            mAdapter = WidgetAdapter(mutableListOf(), null)
-            adapter = mAdapter
-            viewModel.widgetAdapter?.set(mAdapter)
-            viewModel.filterWidgetDataList()
-            recyclerView.setHasFixedSize(true)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.widgetDataList.addAll( viewModel.parentViewModel!!.widgetDataList)
+        mAdapter = WidgetAdapter( mutableListOf(), null)
+        viewModel.widgetAdapter?.set(mAdapter)
+        viewModel.filterWidgetDataList()
+        initDragDropAdapter()
     }
 
     private fun initDragDropAdapter() {
@@ -75,22 +67,22 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View,
             mWrappedAdapter?.let {
                 mWrappedAdapter = mRecyclerViewSwipeManager?.createWrappedAdapter(it)
             }
-            mRecyclerViewSwipeManager?.onItemSwipeEventListener = this@WidgetActivity
+            mRecyclerViewSwipeManager?.onItemSwipeEventListener = this@WidgetLandingFragment
 //            setInitiateOnLongPress(true)
 //            setInitiateOnMove(true)
 //            setLongPressTimeout(250)
             dragEdgeScrollSpeed = 1.0f
             setDraggingItemShadowDrawable(
                 ContextCompat.getDrawable(
-                    this@WidgetActivity,
-                    R.drawable.flag_id
+                    requireContext(),
+                    R.drawable.material_shadow_z3
                 ) as NinePatchDrawable
             )
 //            dragStartItemAnimationDuration = 2000
             draggingItemAlpha = 1f
             isCheckCanDropEnabled = true
 //            draggingItemRotation = 15.0f
-            onItemDragEventListener = this@WidgetActivity
+            onItemDragEventListener = this@WidgetLandingFragment
 //            itemSettleBackIntoPlaceAnimationDuration = 2000
             itemMoveMode = RecyclerViewDragDropManager.ITEM_MOVE_MODE_DEFAULT
         }
@@ -116,18 +108,39 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View,
         }
     }
 
-    override fun onToolBarClick(id: Int) {
+    override fun onItemPinned(position: Int, isPinned: Boolean) {
+
+    }
+
+    override fun onUnderSwipeableViewButtonClicked(v: View?, position: Int) {
+        /*confirm(
+            message = getString(screen_multi_currency_wallet_display_text_delete_message),
+            title = getString(screen_multi_currency_wallet_display_text_delete_header)
+        )*/ {
+            mAdapter.removeAt(position)
+        }
+    }
+
+    private fun onClick(id: Int) {
         when (id) {
-            R.id.ivLeftIcon -> {
-                finish()
-            }
+//            R.id.tvEdit -> {
+//                viewModel.state.editWallet.value = !viewModel.state.editWallet.value!!
+//                mAdpter.editWallet = viewModel.state.editWallet.value!!
+//                tvEdit?.text = if (mAdpter.editWallet) getString(
+//                    screen_multi_currency_wallet_display_text_close_wallet
+//                ) else getString(screen_multi_currency_wallet_display_text_edit_wallet)
+//            }
         }
     }
 
     override fun onItemDragStarted(position: Int) {
+
     }
 
-    override fun onItemDragPositionChanged(fromPosition: Int, toPosition: Int) {
+    override fun onItemDragPositionChanged(
+        fromPosition: Int,
+        toPosition: Int
+    ) {
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
@@ -137,21 +150,11 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), IWidget.View,
     }
 
     override fun onItemSwipeStarted(position: Int) {
+        Log.d("", "")
     }
 
     override fun onItemSwipeFinished(position: Int, result: Int, afterSwipeReaction: Int) {
-    }
-
-    override fun onItemPinned(position: Int, isPinned: Boolean) {
-    }
-
-    override fun onUnderSwipeableViewButtonClicked(v: View?, position: Int) {
-        /*confirm(
-            message = getString(screen_multi_currency_wallet_display_text_delete_message),
-            title = getString(screen_multi_currency_wallet_display_text_delete_header)
-        ) {*/
-            mAdapter.removeAt(position)
-//        }
+        Log.d("", "")
     }
 
     override fun onPause() {

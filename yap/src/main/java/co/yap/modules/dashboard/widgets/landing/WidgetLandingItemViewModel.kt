@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.widgets
+package co.yap.modules.dashboard.widgets.landing
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,7 @@ import co.yap.R
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.yapcore.BaseListItemViewModel
 
-class WidgetItemViewModel : BaseListItemViewModel<WidgetData>() {
+class WidgetLandingItemViewModel : BaseListItemViewModel<WidgetData>() {
     private lateinit var widgetData: WidgetData
     override fun setItem(item: WidgetData, position: Int) {
         widgetData = item
