@@ -17,15 +17,15 @@ class WidgetLandingViewModel(application: Application) :
     var parentViewModel: WidgetViewModel? = null
 
     override fun filterWidgetDataList() {
-        for( widgetData in widgetDataList){
-            widgetData.isPinned = false
-            widgetData.clickId = System.currentTimeMillis()
+        widgetDataList.forEach {
+            it.isPinned = false
         }
+
         reverseList()
         val index = widgetDataList.count {
             it.status == true
         }
-        widgetDataList.add(index, WidgetData(id = -1, name = "Heading"))
+        widgetDataList.add(index, WidgetData(id = 2000 , name = "Heading"))
         widgetAdapter?.get()?.setData(widgetDataList)
     }
 

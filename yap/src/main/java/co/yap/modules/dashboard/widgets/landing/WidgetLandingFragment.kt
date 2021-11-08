@@ -3,27 +3,26 @@ package co.yap.modules.dashboard.widgets.landing
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
-import co.yap.R
-import co.yap.BR
-import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
-import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
-import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
-import co.yap.yapcore.BaseBindingFragment
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
-import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import androidx.recyclerview.widget.RecyclerView
+import co.yap.BR
+import co.yap.R
 import co.yap.modules.dashboard.widgets.main.WidgetViewModel
 import co.yap.widgets.SpacesItemDecoration
 import co.yap.widgets.advrecyclerview.animator.DraggableItemAnimator
+import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
+import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
+import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_widget_landing.*
 
 class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
-    IWidgetLanding.View ,
+    IWidgetLanding.View,
     RecyclerViewDragDropManager.OnItemDragEventListener,
     RecyclerViewSwipeManager.OnItemSwipeEventListener, WidgetAdapter.EventListener {
     private var mWrappedAdapter: RecyclerView.Adapter<*>? = null
@@ -47,8 +46,8 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.widgetDataList.addAll( viewModel.parentViewModel!!.widgetDataList)
-        mAdapter = WidgetAdapter( mutableListOf(), null)
+        viewModel.widgetDataList.addAll(viewModel.parentViewModel!!.widgetDataList)
+        mAdapter = WidgetAdapter(mutableListOf(), null)
         viewModel.widgetAdapter?.set(mAdapter)
         viewModel.filterWidgetDataList()
         initDragDropAdapter()
@@ -113,12 +112,12 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onUnderSwipeableViewButtonClicked(v: View?, position: Int) {
-        Log.v("","")
+        Log.v("", "")
         /*confirm(
             message = getString(screen_multi_currency_wallet_display_text_delete_message),
             title = getString(screen_multi_currency_wallet_display_text_delete_header)
         )*/
-        viewModel.changeStatus( position)
+        viewModel.changeStatus(position)
 //        mAdapter.removeAt(position)
     }
 
@@ -145,6 +144,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
+        mAdapter.editWidget = false
     }
 
     override fun onItemDragMoveDistanceUpdated(offsetX: Int, offsetY: Int) {
