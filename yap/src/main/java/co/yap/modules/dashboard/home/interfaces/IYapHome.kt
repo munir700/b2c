@@ -56,5 +56,6 @@ interface IYapHome {
         var isTransEmpty: ObservableField<Boolean>
         var isUserAccountActivated: ObservableField<Boolean>
         var isPartnerBankStatusActivated: ObservableField<Boolean>
+        var isCardStatusActivated: ObservableField<Boolean>
     }
 }
