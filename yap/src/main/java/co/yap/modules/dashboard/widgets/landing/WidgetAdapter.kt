@@ -63,8 +63,8 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     {
        val  dragHandleView =  holder.binding.image
         val containerView = holder.binding.constraintLayout
-        val offsetX: Int = containerView.left + (containerView.translationX + 0.5f) as Int
-        val offsetY: Int = containerView.top + (containerView.translationY + 0.5f) as Int
+        val offsetX: Int = containerView.left + (containerView.translationX + 0.5f).toInt()
+        val offsetY: Int = containerView.top + (containerView.translationY + 0.5f).toInt()
         return hitTest(dragHandleView, x - offsetX, y - offsetY)
     }
     fun hitTest( v:View,  x:Int,  y:Int):Boolean {
