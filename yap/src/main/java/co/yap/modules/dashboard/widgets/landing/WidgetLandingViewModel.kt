@@ -14,13 +14,14 @@ class WidgetLandingViewModel(application: Application) :
     override var widgetDataList: MutableList<WidgetData> = mutableListOf()
     override val state: IWidgetLanding.State =  WidgetLandingState()
 
+    var parentViewModel: WidgetViewModel? = null
 
     override fun filterWidgetDataList() {
         for( widgetData in widgetDataList){
             widgetData.isPinned = false
             widgetData.clickId = System.currentTimeMillis()
         }
-        widgetDataList.sortedByDescending { it.status }
+        reverseList()
         val index = widgetDataList.count {
             it.status == true
         }
@@ -28,5 +29,17 @@ class WidgetLandingViewModel(application: Application) :
         widgetAdapter?.get()?.setData(widgetDataList)
     }
 
-    var parentViewModel: WidgetViewModel? = null
+    override fun changeStatus( position:Int) {
+        val widgetData = widgetDataList[position]
+        widgetData.status = false
+        widgetData.isPinned = false
+        widgetDataList.removeAt(position)
+        widgetDataList.add(widgetDataList.size, widgetData)
+//        widgetAdapter?.get()?.removeAt(position)
+        widgetAdapter?.get()?.setData(widgetDataList)
+    }
+
+    fun reverseList(){
+        widgetDataList = widgetDataList.sortedByDescending { it.status }.toMutableList()
+    }
 }

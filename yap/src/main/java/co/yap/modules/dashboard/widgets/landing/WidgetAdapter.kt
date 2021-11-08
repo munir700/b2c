@@ -59,15 +59,15 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
 
     override fun getViewModel(viewType: Int) = WidgetLandingItemViewModel()
     override fun getVariableId() = BR.viewModel
-    override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int):Boolean
-    {
-       val  dragHandleView =  holder.binding.image
+    override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
+        val dragHandleView = holder.binding.image
         val containerView = holder.binding.constraintLayout
         val offsetX: Int = containerView.left + (containerView.translationX + 0.5f).toInt()
         val offsetY: Int = containerView.top + (containerView.translationY + 0.5f).toInt()
         return hitTest(dragHandleView, x - offsetX, y - offsetY)
     }
-    fun hitTest( v:View,  x:Int,  y:Int):Boolean {
+
+    fun hitTest(v: View, x: Int, y: Int): Boolean {
         val tx = (v.translationX + 0.5f).toInt()
         val ty = (v.translationY + 0.5f).toInt()
         val left = v.left + tx
@@ -78,14 +78,14 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         return (x in left..right && y >= top && y <= bottom)
 
     }
+
     override fun onGetItemDraggableRange(holder: ViewHolder, position: Int): Nothing? = null
     override fun onMoveItem(fromPosition: Int, toPosition: Int) {
         if (fromPosition == toPosition) {
             return
         }
         Collections.swap(datas, fromPosition, toPosition)
-//        val item: MultiCurrencyWallet =
-//            datas.removeAt(fromPosition)
+//        val item = datas.removeAt(fromPosition)
 //        datas.add(toPosition, item)
     }
 
@@ -158,6 +158,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
 
         init {
             binding.tvDelete.setOnClickListener {
+                mAdapter?.oldSwipePosition = RecyclerView.NO_POSITION
                 mAdapter?.mEventListener?.onUnderSwipeableViewButtonClicked(
                     itemView,
                     adapterPosition

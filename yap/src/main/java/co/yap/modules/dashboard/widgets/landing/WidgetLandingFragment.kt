@@ -113,12 +113,13 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onUnderSwipeableViewButtonClicked(v: View?, position: Int) {
+        Log.v("","")
         /*confirm(
             message = getString(screen_multi_currency_wallet_display_text_delete_message),
             title = getString(screen_multi_currency_wallet_display_text_delete_header)
-        )*/ {
-            mAdapter.removeAt(position)
-        }
+        )*/
+        viewModel.changeStatus( position)
+//        mAdapter.removeAt(position)
     }
 
     private fun onClick(id: Int) {

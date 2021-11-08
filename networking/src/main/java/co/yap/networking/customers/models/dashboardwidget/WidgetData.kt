@@ -9,7 +9,7 @@ data class WidgetData(
 	@SerializedName("id") val id: Int,
 	@SerializedName("name") val name: String,
 	@SerializedName("icon") var icon: String? = null,
-	@SerializedName("status") val status: Boolean? = false,
+	@SerializedName("status") var status: Boolean? = false,
 	@SerializedName("shuffleIndex") val shuffleIndex: Int? = -1,
 	@Transient var isPinned: Boolean? = false,
 	var clickId: Long? = System.currentTimeMillis()
