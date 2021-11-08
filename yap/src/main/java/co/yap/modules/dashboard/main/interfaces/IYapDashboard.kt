@@ -25,6 +25,7 @@ interface IYapDashboard {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        val isFromSideMenu : Boolean
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
         fun getAccountInfo(): String
