@@ -213,16 +213,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private val transactionClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            when(view.id){
-                R.id.imgShortcut->{
-                    launchActivity<WidgetActivity>(requestCode = RequestCodes.REQUEST_EDIT_WIDGET) {
-                        putExtra(
-                            ExtraKeys.EDIT_WIDGET.name,
-                            WidgetItemList(viewModel.widgetList)
-                        )
-                    }
-
-                }else-> {
+            when (view.id) {
+                R.id.imgWidget -> {
+                    startActivityForResult(
+                        WidgetActivity.newIntent(
+                            context = requireContext(),
+                            widgetList = WidgetItemList(viewModel.widgetList)
+                        ), RequestCodes.REQUEST_EDIT_WIDGET
+                    )
+                }
+                else -> {
                     viewModel.clickEvent.setPayload(
                         SingleClickEvent.AdaptorPayLoadHolder(
                             view,
@@ -516,7 +516,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
         viewModel.dashboardWidgetList.observe(viewLifecycleOwner, Observer { list ->
             (getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.adapter as DashboardWidgetAdapter).setList(
-                list)
+                list
+            )
         })
     }
 
@@ -860,6 +861,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     SessionManager.getAccountInfo {
                         GlobalScope.launch(Main) {
                             dashboardNotificationStatusHelper?.notifyAdapter()
+                        }
+                    }
+                }
+            }
+            RequestCodes.REQUEST_EDIT_WIDGET -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    when (data?.getIntExtra("ACTION", -1)) {
+                        Constants.HIDE_WIDGET -> {
+                            getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
+                                View.GONE
+                        }
+                        Constants.CHANGE_WIDGET -> {
+
                         }
                     }
                 }

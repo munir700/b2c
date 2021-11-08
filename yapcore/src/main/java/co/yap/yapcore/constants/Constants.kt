@@ -219,4 +219,8 @@ object Constants {
     const val EXPAND_MODE = 0
     const val COLLAPSE_MODE = 1
     const val DEFAULT_MODE = 2
+
+    //Widget bar
+    const val HIDE_WIDGET = 0
+    const val CHANGE_WIDGET = 1
 }
