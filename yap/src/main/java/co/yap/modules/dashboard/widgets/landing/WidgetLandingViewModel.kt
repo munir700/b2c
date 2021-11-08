@@ -61,7 +61,7 @@ class WidgetLandingViewModel(application: Application) :
             state.loading = true
             when (val response = list?.let { customerRepository.updateDashboardWidget(it) }) {
                 is RetroApiResponse.Success -> {
-                    signInButtonPressEvent.value = true
+                    apiSuccessEvent.value = true
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
