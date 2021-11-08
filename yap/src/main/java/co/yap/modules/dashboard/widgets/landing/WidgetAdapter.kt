@@ -62,8 +62,12 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     override fun getViewModel(viewType: Int) = WidgetLandingItemViewModel()
     override fun getVariableId() = BR.viewModel
     override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
-
-        return editWidget
+        return if( datas[position].status == true){
+            editWidget
+        }else{
+            editWidget = false
+            false
+        }
     }
 
     override fun onGetItemDraggableRange(holder: ViewHolder, position: Int):ItemDraggableRange{
@@ -73,9 +77,9 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         if (fromPosition == toPosition) {
             return
         }
-        Collections.swap(datas, fromPosition, toPosition)
-//        val item = datas.removeAt(fromPosition)
-//        datas.add(toPosition, item)
+//        Collections.swap(datas, fromPosition, toPosition)
+        val item = datas.removeAt(fromPosition)
+        datas.add(toPosition, item)
     }
 
     override fun onCheckCanDrop(draggingPosition: Int, dropPosition: Int) = true
@@ -97,7 +101,11 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         return if (onCheckCanStartDrag(holder, position, x, y)) {
             REACTION_CAN_NOT_SWIPE_BOTH_H
         } else {
-            REACTION_CAN_SWIPE_LEFT
+            if(datas[position].status == true){
+                REACTION_CAN_SWIPE_LEFT
+            }else{
+                REACTION_CAN_NOT_SWIPE_UP
+            }
         }
     }
 
@@ -153,9 +161,16 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
                     adapterPosition
                 )
             }
-            binding.image.setOnLongClickListener {
-                mAdapter?.editWidget = true
-                 true
+            binding.imageDragDropAdd.setOnLongClickListener {
+                if(mAdapter?.datas?.get(adapterPosition)?.status == true){
+                    mAdapter?.editWidget = true
+                }
+                true
+            }
+            binding.imageDragDropAdd.setOnClickListener {
+                if(mAdapter?.datas?.get(adapterPosition)?.status == false){
+                    mAdapter?.mEventListener?.onAddedButtonClick( itemView, position = adapterPosition)
+                }
             }
         }
     }
@@ -229,5 +244,6 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     interface EventListener {
         fun onItemPinned(position: Int, isPinned: Boolean)
         fun onUnderSwipeableViewButtonClicked(v: View?, position: Int)
+        fun onAddedButtonClick(v: View?, position: Int)
     }
 }
