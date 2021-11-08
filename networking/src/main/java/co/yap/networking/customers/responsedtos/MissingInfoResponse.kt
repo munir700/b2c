@@ -1,4 +1,4 @@
-package co.yap.networking.missinginfo.responsedtos
+package co.yap.networking.customers.responsedtos
 
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName

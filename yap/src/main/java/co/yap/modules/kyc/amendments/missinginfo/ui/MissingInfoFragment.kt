@@ -23,7 +23,6 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeComponents()
         viewModel.missingInfoItems.observe(viewLifecycleOwner, missingInfoItemsObserver)
         viewModel.onClickEvent.observe(viewLifecycleOwner, onClickView)
         SessionManager.getAccountInfo {
@@ -35,24 +34,9 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
         viewModel.getMissingInfoItems()
     }
 
-    private fun initializeComponents() {
-        getDataBindingView<FragmentMissinginfoBinding>().missingItemsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = MissingInfoAdapter(mutableListOf())
-        }
-    }
-
-    private fun getRecycleViewAdaptor(): MissingInfoAdapter? {
-        return if (getDataBindingView<FragmentMissinginfoBinding>().missingItemsRecyclerView.adapter is MissingInfoAdapter) {
-            getDataBindingView<FragmentMissinginfoBinding>().missingItemsRecyclerView.adapter as MissingInfoAdapter
-        } else {
-            null
-        }
-    }
-
     private val missingInfoItemsObserver = Observer<ArrayList<String>> {
         it?.let { items ->
-            getRecycleViewAdaptor()?.setList(items)
+            viewModel.adapter.setData(items)
         }
     }
 

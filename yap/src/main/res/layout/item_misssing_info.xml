@@ -5,12 +5,8 @@
     <data>
 
         <variable
-            name="missingInfoItem"
-            type="String" />
-
-        <variable
-            name="adapterIndex"
-            type="Integer" />
+            name="viewModel"
+            type="co.yap.modules.kyc.amendments.missinginfo.ui.MissingInfoItemViewModel" />
     </data>
 
 
@@ -22,7 +18,7 @@
         android:lines="1"
         android:paddingTop="@dimen/_3sdp"
         android:paddingBottom="@dimen/_3sdp"
-        android:text='@{String.valueOf(adapterIndex).concat(". ").concat(String.valueOf(missingInfoItem))}'
+        android:text='@{viewModel.textForItem}'
         android:textColor="?attr/colorPrimaryDark"
         tools:text="Missing Info Item." />
 </layout>

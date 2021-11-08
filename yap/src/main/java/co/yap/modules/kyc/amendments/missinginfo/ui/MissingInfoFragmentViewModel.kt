@@ -2,21 +2,22 @@ package co.yap.modules.kyc.amendments.missinginfo.ui
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.kyc.amendments.missinginfo.adapters.MissingInfoAdapter
 import co.yap.modules.kyc.amendments.missinginfo.interfaces.IMissingInfo
 import co.yap.modules.kyc.amendments.missinginfo.states.MissingInfoState
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.GetMissingInfoListRequest
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.missinginfo.MissingInfoRepository
-import co.yap.networking.missinginfo.requestdtos.GetMissingInfoListRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 
 class MissingInfoFragmentViewModel(application: Application) :
     BaseViewModel<IMissingInfo.State>(application), IMissingInfo.ViewModel,
-    IRepositoryHolder<MissingInfoRepository> {
+    IRepositoryHolder<CustomersRepository> {
 
-    override val state: IMissingInfo.State = MissingInfoState(application = application)
-
-    override val repository: MissingInfoRepository = MissingInfoRepository
+    override val adapter: MissingInfoAdapter = MissingInfoAdapter(mutableListOf(), null)
+    override val state: IMissingInfo.State = MissingInfoState()
+    override val repository: CustomersRepository = CustomersRepository
     override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
     override val missingInfoItems: MutableLiveData<ArrayList<String>> = MutableLiveData()
 

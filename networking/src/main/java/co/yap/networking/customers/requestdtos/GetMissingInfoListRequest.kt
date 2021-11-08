@@ -1,3 +1,3 @@
-package co.yap.networking.missinginfo.requestdtos
+package co.yap.networking.customers.requestdtos
 
 data class GetMissingInfoListRequest(val request: String)
