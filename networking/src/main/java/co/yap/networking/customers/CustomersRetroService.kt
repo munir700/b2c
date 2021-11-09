@@ -1,6 +1,8 @@
 package co.yap.networking.customers
 
 import co.yap.networking.customers.models.dashboardwidget.DashboardWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -302,4 +304,7 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_DASHBOARD_WIDGETS)
     suspend fun getDashboardWidget(): Response<DashboardWidgetResponse>
+
+    @PUT(CustomersRepository.URL_DASHBOARD_WIDGETS_UPDATE)
+    suspend fun updateDashboardWidget(@Body dashboardWidgetBody: List<WidgetData>): Response<UpdateWidgetResponse>
 }

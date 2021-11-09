@@ -37,11 +37,5 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), INavigator,
         }
     }
 
-    override fun onToolBarClick(id: Int) {
-        when (id) {
-            R.id.ivLeftIcon -> {
-                finish()
-            }
-        }
-    }
+
 }

@@ -19,19 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <co.yap.widgets.CoreToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left_gery}"
-            app:leftIconVisibility="@{true}"
-            app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIconVisibility="@{false}"
-            app:titleTranslator='@{Strings.screen_edit_widget_heading_text}' />
-
         <fragment
             android:id="@+id/widget_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -39,7 +26,7 @@
             android:layout_height="0dp"
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/widget_navigation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

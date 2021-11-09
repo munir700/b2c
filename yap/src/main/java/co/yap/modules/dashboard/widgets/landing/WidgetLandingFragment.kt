@@ -1,11 +1,14 @@
 package co.yap.modules.dashboard.widgets.landing
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
@@ -18,6 +21,7 @@ import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_widget_landing.*
 
@@ -39,7 +43,6 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewModel.parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(WidgetViewModel::class.java) }
     }
@@ -51,6 +54,8 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
         viewModel.widgetAdapter?.set(mAdapter)
         viewModel.filterWidgetDataList()
         initDragDropAdapter()
+        viewModel.apiSuccessEvent.observe(this, apiSuccessObserver)
+
     }
 
     private fun initDragDropAdapter() {
@@ -185,5 +190,29 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
             mWrappedAdapter = null
         }
         super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        viewModel.apiSuccessEvent.removeObservers(this)
+        super.onDestroyView()
+    }
+
+    private val apiSuccessObserver = Observer<Boolean> {
+        setResultData()
+    }
+
+    private fun setResultData() {
+        val intent = Intent()
+        intent.putExtra("ACTION", Constants.CHANGE_WIDGET)
+        activity?.setResult(RESULT_OK, intent)
+        activity?.finish()
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                viewModel.requestWidgetUpdation()
+            }
+        }
     }
 }
