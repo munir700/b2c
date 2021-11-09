@@ -64,10 +64,13 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchWidget"
+                        style="@style/Regular"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:layout_weight="0.2" />
+                        android:layout_weight="0.2"
+                        android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+                        android:theme="@style/CustomSwitch" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

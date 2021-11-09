@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.widgets.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import co.yap.BR
@@ -9,7 +11,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), INavigator,
@@ -21,6 +22,18 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), INavigator,
 
     override val viewModel: WidgetViewModel by viewModels()
 
+    companion object {
+        const val EDIT_WIDGET = "editWidget"
+        fun newIntent(
+            context: Context,
+            widgetList: WidgetItemList
+        ): Intent {
+            val intent = Intent(context, WidgetActivity::class.java)
+            intent.putExtra(EDIT_WIDGET, widgetList)
+            return intent
+        }
+    }
+
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this@WidgetActivity, R.id.widget_nav_host_fragment)
 
@@ -30,9 +43,11 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), INavigator,
     }
 
     private fun getDatFromBundle() {
-        if (intent?.hasExtra(ExtraKeys.EDIT_WIDGET.name) == true) {
-            intent.getParcelableExtra<WidgetItemList>(ExtraKeys.EDIT_WIDGET.name)?.let {
-                viewModel.widgetDataList.addAll(it.widgetData)
+        intent?.let {
+            if (it.hasExtra(EDIT_WIDGET)) {
+                it.getParcelableExtra<WidgetItemList>(EDIT_WIDGET).let { widgetList ->
+                    viewModel.widgetDataList.addAll(widgetList.widgetData)
+                }
             }
         }
     }

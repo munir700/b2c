@@ -8,12 +8,14 @@ import co.yap.yapcore.SingleLiveEvent
 class IWidgetLanding {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
+        val clickEvent: SingleClickEvent
         val widgetAdapter: ObservableField<WidgetAdapter>?
         var widgetDataList: MutableList<WidgetData>
         val apiSuccessEvent: SingleLiveEvent<Boolean>
 
         fun filterWidgetDataList()
         fun requestWidgetUpdation()
+        fun handlePressOnView(id: Int)
         fun changeStatus( position:Int, status:Boolean)
     }
 

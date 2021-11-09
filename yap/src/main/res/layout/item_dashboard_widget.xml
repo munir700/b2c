@@ -17,7 +17,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgShortcut"
+            android:id="@+id/imgWidget"
             android:layout_width="@dimen/margin_xl"
             android:layout_height="@dimen/margin_xl"
             android:layout_margin="@dimen/cardview_compat_inset_shadow"
@@ -43,8 +43,8 @@
             android:text="@{viewModel.widgetDataItem.name}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imgShortcut"
-            app:layout_constraintStart_toStartOf="@+id/imgShortcut"
-            app:layout_constraintTop_toBottomOf="@+id/imgShortcut" />
+            app:layout_constraintEnd_toEndOf="@+id/imgWidget"
+            app:layout_constraintStart_toStartOf="@+id/imgWidget"
+            app:layout_constraintTop_toBottomOf="@+id/imgWidget" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

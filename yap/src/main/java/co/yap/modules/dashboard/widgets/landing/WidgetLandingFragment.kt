@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.widgets.main.WidgetViewModel
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.SpacesItemDecoration
 import co.yap.widgets.advrecyclerview.animator.DraggableItemAnimator
 import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
@@ -21,6 +23,9 @@ import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.bottomsheet_edit_widget.BottomSheetEditWidget
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_widget_landing.*
@@ -43,8 +48,59 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel.parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(WidgetViewModel::class.java) }
+        handleClick()
+    }
+
+    private fun handleClick() {
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.switchWidget -> {
+                    openBottomSheet()
+                }
+            }
+        })
+    }
+
+    private fun openBottomSheet() {
+        var onBottomSheetButtonClick: View.OnClickListener? = null
+        var widgetBottomSheet = BottomSheetEditWidget(BottomSheetConfiguration())
+        activity?.supportFragmentManager.let { fragmentManager ->
+            onBottomSheetButtonClick = View.OnClickListener { view ->
+                when (view.id) {
+                    R.id.btnHide -> {
+                        val intent = Intent()
+                        intent.putExtra("ACTION", Constants.HIDE_WIDGET)
+                        activity?.setResult(RESULT_OK, intent)
+                        activity?.finish()
+                    }
+                    R.id.tvCancel -> {
+                        widgetBottomSheet.dismiss()
+                        switchWidget.isChecked = false
+                    }
+                }
+            }
+            widgetBottomSheet =
+                BottomSheetEditWidget(
+                    buttonClickListener = onBottomSheetButtonClick,
+                    configuration = BottomSheetConfiguration(
+                        heading = context?.let {
+                            Translator.getString(
+                                it,
+                                Strings.screen_dashboard_widget_edit_hide_bottom_sheet_title
+                            )
+                        }, subHeading = context?.let {
+                            Translator.getString(
+                                it,
+                                Strings.screen_dashboard_widget_edit_hide_bottom_sheet_content
+                            )
+                        }
+                    )
+                )
+            fragmentManager?.let { widgetBottomSheet.show(it, "") }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

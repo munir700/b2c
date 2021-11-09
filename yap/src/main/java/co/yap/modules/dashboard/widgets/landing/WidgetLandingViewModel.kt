@@ -8,6 +8,7 @@ import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.SingleClickEvent
 
 class WidgetLandingViewModel(application: Application) :
     BaseViewModel<IWidgetLanding.State>(application = application),
@@ -17,7 +18,12 @@ class WidgetLandingViewModel(application: Application) :
     override var widgetDataList: MutableList<WidgetData> = mutableListOf()
     override val state: IWidgetLanding.State = WidgetLandingState()
     override val apiSuccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val state: IWidgetLanding.State = WidgetLandingState()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
 
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
     var parentViewModel: WidgetViewModel? = null
 
     override fun filterWidgetDataList() {
