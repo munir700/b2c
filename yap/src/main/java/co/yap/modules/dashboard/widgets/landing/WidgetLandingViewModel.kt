@@ -16,8 +16,7 @@ class WidgetLandingViewModel(application: Application) :
     private val customerRepository: CustomersRepository = CustomersRepository
     override val widgetAdapter: ObservableField<WidgetAdapter>? = ObservableField()
     override var widgetDataList: MutableList<WidgetData> = mutableListOf()
-    override val state: IWidgetLanding.State = WidgetLandingState()
-    override val apiSuccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+     override val apiSuccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: IWidgetLanding.State = WidgetLandingState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 

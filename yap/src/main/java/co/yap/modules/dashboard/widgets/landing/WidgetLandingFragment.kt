@@ -23,8 +23,7 @@ import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.constants.Constants
-import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+ import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.bottomsheet_edit_widget.BottomSheetEditWidget
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen

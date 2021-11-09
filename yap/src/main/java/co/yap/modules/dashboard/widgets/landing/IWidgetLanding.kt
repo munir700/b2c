@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.widgets.landing
 import androidx.databinding.ObservableField
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 class IWidgetLanding {
