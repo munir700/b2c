@@ -409,6 +409,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 closeDrawer()
             }
         }
+        getViewBinding().includedDrawerLayout.lManageWidget.lnAnalytics.setOnClickListener {
+                 viewModel.isFromSideMenu = true
+                viewModel.isYapHomeFragmentVisible.value = true
+                closeDrawer()
+        }
         getViewBinding().includedDrawerLayout.lSupport.lnAnalytics.setOnClickListener {
             startActivity(
                 FragmentPresenterActivity.getIntent(

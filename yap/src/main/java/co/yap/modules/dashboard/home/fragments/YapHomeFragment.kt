@@ -488,6 +488,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             Observer { isHomeFragmentVisible ->
                 if (isHomeFragmentVisible) {
                     viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
+                    if(viewModel.parentViewModel?.isFromSideMenu == true){
+                        launchActivity<WidgetActivity>(requestCode = RequestCodes.REQUEST_EDIT_WIDGET) {
+                            putExtra(
+                                ExtraKeys.EDIT_WIDGET.name,
+                                WidgetItemList(viewModel.widgetList)
+                            )
+                        }
+                        viewModel.parentViewModel?.isFromSideMenu = false
+                    }
                 } else {
                     tourStep?.let {
                         if (it.isShowing) {
