@@ -1,31 +1,29 @@
 package co.yap.modules.dashboard.widgets.landing
 
 import android.app.Application
-import android.util.Log
 import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.widgets.main.WidgetViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
-import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.SingleLiveEvent
 
 class WidgetLandingViewModel(application: Application) :
     BaseViewModel<IWidgetLanding.State>(application = application),
     IWidgetLanding.ViewModel {
     private val customerRepository: CustomersRepository = CustomersRepository
-    override val widgetAdapter: ObservableField<WidgetAdapter>? = ObservableField()
     override val widgetAdapter: ObservableField<WidgetAdapter> = ObservableField()
     override var widgetDataList: MutableList<WidgetData> = mutableListOf()
-     override val apiSuccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val state: IWidgetLanding.State = WidgetLandingState()
+    override val apiSuccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IWidgetLanding.State = WidgetLandingState()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
+
     var parentViewModel: WidgetViewModel? = null
 
     override fun filterWidgetDataList() {
@@ -67,29 +65,30 @@ class WidgetLandingViewModel(application: Application) :
         widgetDataList = widgetDataList.sortedByDescending { it.status }.toMutableList()
     }
 
-    fun getWidgetShuffledList(){
+    fun getWidgetShuffledList(): List<WidgetData> {
         val tempWidgetList = widgetDataList.filter { it.isShuffled == true || it.status == true }
         tempWidgetList.forEachIndexed { index, widgetData ->
-            if( widgetData.status == true){
+            if (widgetData.status == true) {
                 widgetData.shuffleIndex = index + 1
-            }else{
+            } else {
                 widgetData.shuffleIndex = -1
             }
         }
+        return tempWidgetList
     }
 
     override fun requestWidgetUpdation() {
-        val widgetData = WidgetData(id = 8, status = false, shuffleIndex = 0)
-        var list: MutableList<WidgetData>? = mutableListOf()
-        list?.add(widgetData)
         launch {
             state.loading = true
-            when (val response = list?.let { customerRepository.updateDashboardWidget(it) }) {
-                is RetroApiResponse.Success -> {
-                    apiSuccessEvent.value = true
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
+            if(getWidgetShuffledList().isNotEmpty()) {
+                when (val response =
+                    customerRepository.updateDashboardWidget(getWidgetShuffledList())) {
+                    is RetroApiResponse.Success -> {
+                        apiSuccessEvent.value = true
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                    }
                 }
             }
         }

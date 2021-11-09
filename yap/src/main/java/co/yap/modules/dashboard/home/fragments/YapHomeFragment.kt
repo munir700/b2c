@@ -882,7 +882,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 View.GONE
                         }
                         Constants.CHANGE_WIDGET -> {
-
+                            viewModel.requestDashboardWidget()
                         }
                     }
                 }

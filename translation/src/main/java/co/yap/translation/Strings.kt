@@ -2329,6 +2329,10 @@ object Strings {
         "screen_edit_widget_heading_text"
     const val screen_edit_widget_hidden_text =
         "screen_edit_widget_hidden_text"
+    const val screen_edit_widget_active_text =
+        "screen_edit_widget_active_text"
+    const val screen_edit_widget_swipe_to_hide =
+        "screen_edit_widget_swipe_to_hide"
     const val screen_dashboard_widget_edit_hide_bottom_sheet_title =
         "screen_dashboard_widget_edit_hide_bottom_sheet_title"
     const val screen_dashboard_widget_edit_hide_bottom_sheet_button_title =

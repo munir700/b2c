@@ -11,7 +11,7 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
     </data>
 
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_62sdp"
             android:layout_gravity="end|center_vertical"
-            android:background="@color/colorSecondaryMagenta"
+            android:background="@color/colorPrimary"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -32,17 +32,14 @@
                 android:id="@+id/tvDelete"
                 style="@style/Micro"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_gravity="end"
-                android:background="@color/colorPrimary"
-                android:drawableTop="@drawable/ic_delete_item"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:drawableTop="@drawable/ic_hide_widget"
                 android:drawablePadding="@dimen/_2sdp"
                 android:drawableTint="@color/white"
                 android:gravity="center"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_normal"
                 android:paddingEnd="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_normal"
                 android:textColor="@color/white"
                 app:text="@{Strings.screen_send_money_home_display_text_hide}"
                 tools:text="@string/screen_send_money_home_display_text_hide" />
@@ -65,12 +62,12 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/bg_round_purple_enabled"
                 android:contentDescription="@string/empty_string"
+                android:padding="@dimen/_8sdp"
+                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"
                 app:drawableResource="@{@drawable/bg_round_purple_enabled}"
                 app:imageUrlWidget="@{viewModel.item.icon}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:padding="@dimen/_8sdp"
-                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvWidgetName"
@@ -97,11 +94,11 @@
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/empty_string"
                 android:src="@{viewModel.item.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
+                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/ivWidget"
-                tools:src="@drawable/ic_icon_menu"
-                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"/>
+                tools:src="@drawable/ic_icon_menu" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>

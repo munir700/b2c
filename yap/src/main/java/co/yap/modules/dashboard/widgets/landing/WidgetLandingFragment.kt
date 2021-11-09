@@ -74,6 +74,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
                         intent.putExtra("ACTION", Constants.HIDE_WIDGET)
                         activity?.setResult(RESULT_OK, intent)
                         activity?.finish()
+
                     }
                     R.id.tvCancel -> {
                         widgetBottomSheet.dismiss()
