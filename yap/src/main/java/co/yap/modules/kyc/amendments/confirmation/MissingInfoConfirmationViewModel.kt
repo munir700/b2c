@@ -1,9 +1,7 @@
-package co.yap.modules.kyc.amendments.confirmation.ui
+package co.yap.modules.kyc.amendments.confirmation
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.kyc.amendments.confirmation.interfaces.IMissingInfoConfirmation
-import co.yap.modules.kyc.amendments.confirmation.states.MissingInfoConfirmationState
 import co.yap.yapcore.BaseViewModel
 
 class MissingInfoConfirmationViewModel(application: Application) :

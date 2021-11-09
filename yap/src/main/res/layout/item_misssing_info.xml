@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.kyc.amendments.missinginfo.ui.MissingInfoItemViewModel" />
+            type="co.yap.modules.kyc.amendments.missinginfo.MissingInfoItemViewModel" />
     </data>
 
 

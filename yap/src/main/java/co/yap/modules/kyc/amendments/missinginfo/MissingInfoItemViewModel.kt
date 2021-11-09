@@ -1,4 +1,4 @@
-package co.yap.modules.kyc.amendments.missinginfo.ui
+package co.yap.modules.kyc.amendments.missinginfo
 
 import android.os.Bundle
 import android.view.View

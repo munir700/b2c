@@ -1,7 +1,6 @@
-package co.yap.modules.kyc.amendments.confirmation.states
+package co.yap.modules.kyc.amendments.confirmation
 
 import androidx.databinding.ObservableField
-import co.yap.modules.kyc.amendments.confirmation.interfaces.IMissingInfoConfirmation
 import co.yap.yapcore.BaseState
 
 class MissingInfoConfirmationState() : BaseState(), IMissingInfoConfirmation.State {

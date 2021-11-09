@@ -1,11 +1,8 @@
-package co.yap.modules.kyc.amendments.missinginfo.ui
+package co.yap.modules.kyc.amendments.missinginfo
 
 import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.kyc.amendments.missinginfo.adapters.MissingInfoAdapter
-import co.yap.modules.kyc.amendments.missinginfo.interfaces.IMissingInfo
-import co.yap.modules.kyc.amendments.missinginfo.states.MissingInfoState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.GetMissingInfoListRequest
 import co.yap.networking.interfaces.IRepositoryHolder

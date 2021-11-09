@@ -1,16 +1,12 @@
-package co.yap.modules.kyc.amendments.missinginfo.ui
+package co.yap.modules.kyc.amendments.missinginfo
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMissinginfoBinding
-import co.yap.modules.kyc.amendments.missinginfo.adapters.MissingInfoAdapter
-import co.yap.modules.kyc.amendments.missinginfo.interfaces.IMissingInfo
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.managers.SessionManager

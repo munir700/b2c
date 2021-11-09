@@ -1,11 +1,8 @@
-package co.yap.modules.kyc.amendments.missinginfo.interfaces
+package co.yap.modules.kyc.amendments.missinginfo
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.more.yapforyou.adapters.AchievementGoalAdaptor
-import co.yap.modules.kyc.amendments.missinginfo.adapters.MissingInfoAdapter
 import co.yap.yapcore.IBase
-import java.util.*
 import kotlin.collections.ArrayList
 
 interface IMissingInfo {

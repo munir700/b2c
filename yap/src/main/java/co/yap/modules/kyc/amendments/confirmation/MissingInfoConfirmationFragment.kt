@@ -1,4 +1,4 @@
-package co.yap.modules.kyc.amendments.confirmation.ui
+package co.yap.modules.kyc.amendments.confirmation
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.kyc.amendments.confirmation.interfaces.IMissingInfoConfirmation
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 

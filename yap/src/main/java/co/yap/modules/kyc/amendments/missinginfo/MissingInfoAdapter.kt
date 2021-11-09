@@ -1,10 +1,9 @@
-package co.yap.modules.kyc.amendments.missinginfo.adapters
+package co.yap.modules.kyc.amendments.missinginfo
 
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.BR
-import co.yap.modules.kyc.amendments.missinginfo.ui.MissingInfoItemViewModel
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 

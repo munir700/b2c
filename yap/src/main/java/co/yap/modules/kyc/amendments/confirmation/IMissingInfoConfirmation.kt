@@ -1,4 +1,4 @@
-package co.yap.modules.kyc.amendments.confirmation.interfaces
+package co.yap.modules.kyc.amendments.confirmation
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
