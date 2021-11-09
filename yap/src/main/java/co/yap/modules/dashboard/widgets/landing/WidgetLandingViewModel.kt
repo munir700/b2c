@@ -6,6 +6,7 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.widgets.main.WidgetViewModel
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 
 class WidgetLandingViewModel(application: Application) :
     BaseViewModel<IWidgetLanding.State>(application = application),
