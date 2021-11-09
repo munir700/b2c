@@ -127,6 +127,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
+    const val URL_GET_MISSING_INFO = "customers/api/missing-info"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -465,4 +466,18 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = {
             api.stopRankingMsgRequest()
         })
+
+    override suspend fun getMissingInfoList(request: GetMissingInfoListRequest): RetroApiResponse<MissingInfoResponse> {
+        //executeSafely(call = { API.getMissingInfoList(request) })
+        val data = ArrayList<String>()
+        data.add("ID Number")
+        data.add("First Name")
+        data.add("Middle Name")
+        data.add("Date of Birth")
+        data.add("ID Number")
+        data.add("First Name")
+        data.add("Middle Name")
+        data.add("Date of Birth")
+        return RetroApiResponse.Success(200, MissingInfoResponse(data))
+    }
 }
