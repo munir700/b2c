@@ -3,7 +3,7 @@ package co.yap.modules.kyc.amendments.confirmation.ui
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.amendments.confirmation.interfaces.IMissingInfoConfirmation
@@ -16,7 +16,7 @@ class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirma
     override fun getLayoutId() = R.layout.fragment_missinginfo_confirmation
 
     override val viewModel: IMissingInfoConfirmation.ViewModel
-        get() = ViewModelProviders.of(this).get(MissingInfoConfirmationViewModel::class.java)
+        get() = ViewModelProvider(this).get(MissingInfoConfirmationViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

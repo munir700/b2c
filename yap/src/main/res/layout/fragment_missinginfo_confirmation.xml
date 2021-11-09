@@ -31,7 +31,7 @@
             app:lottie_fileName="missing_info_success_lottie.json"
             app:lottie_loop="false" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAllSet"
             style="@style/Regular"
             android:layout_width="0dp"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/screen_missing_info_confirmation_display_all_set" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDescription"
             style="@style/ASmall"
             android:layout_width="0dp"
