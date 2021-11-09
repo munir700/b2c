@@ -10,7 +10,7 @@ data class WidgetData(
 	@SerializedName("name") val name: String,
 	@SerializedName("icon") var icon: String? = null,
 	@SerializedName("status") var status: Boolean? = false,
-	@SerializedName("shuffleIndex") val shuffleIndex: Int? = -1,
+	@SerializedName("shuffleIndex") var shuffleIndex: Int? = -1,
 	@Transient var isPinned: Boolean? = false,
-	var clickId: Long? = System.currentTimeMillis()
+	@Transient var isShuffled: Boolean? = false
 ): Parcelable
