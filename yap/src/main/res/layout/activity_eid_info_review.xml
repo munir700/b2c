@@ -55,6 +55,19 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/ivEditEID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/edit_selector"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvEIdHeading"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvEIdHeading" />
+
+
+                <ImageView
                     android:id="@+id/ivEditFirstName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,7 +76,6 @@
                     android:background="@drawable/edit_selector"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvFirstName"
-                    app:layout_constraintLeft_toRightOf="@+id/tvFirstName"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvFirstName" />
 
@@ -76,7 +88,6 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvMiddleName"
-                    app:layout_constraintLeft_toRightOf="@+id/tvMiddleName"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvMiddleName" />
 
@@ -89,9 +100,20 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvLastName"
-                    app:layout_constraintLeft_toRightOf="@+id/tvLastName"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvLastName" />
+
+                <ImageView
+                    android:id="@+id/ivEditNationality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/edit_selector"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvNationality"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvNationality" />
 
 
                 <TextView
@@ -126,9 +148,9 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/cvCard"
-                    app:layout_constraintTop_toBottomOf="@+id/cvCard"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tvEIdHeading"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEIdHeading"
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_first_name_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_first_name_heading" />
 
@@ -168,18 +190,26 @@
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_nationality_heading}"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_nationality_heading" />
 
-
-                <TextView
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/tvNationality"
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.nationalityValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.nationality}"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:backgroundTint="@drawable/edit_text_bg_selector"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:lineSpacingExtra="-5dp"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:paddingTop="-5dp"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.nationality}"
+                    android:theme="@style/Theme.EditText.Primary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvNationalityHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading"
-                    tools:text="Canadian" />
+                    tools:text="Nationality" />
 
 
                 <TextView
@@ -214,9 +244,7 @@
                     app:layout_constraintStart_toStartOf="@+id/tvDOB"
                     app:layout_constraintTop_toBottomOf="@+id/tvDOB"
                     app:text="@{Strings.screen_b2c_eid_info_review_display_text_gender_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_gender_heading"
-
-                    />
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_gender_heading" />
 
 
                 <TextView
@@ -281,14 +309,49 @@
                     app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
                     tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid" />
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvEIdHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_eid_number"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvCard">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tvEidNumber"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:lineSpacingExtra="-5dp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:paddingTop="-5dp"
+                        android:singleLine="true"
+                        android:text="@{viewModel.state.citizenNumber}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tvEIdHeading"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEIdHeading"
+                        tools:text="Emirates ID" />
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+
+                <EditText
                     android:id="@+id/tvFirstName"
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/margin_medium_large"
-                    android:backgroundTint="@drawable/edit_text_bg_selector"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:lineSpacingExtra="-5dp"
@@ -296,16 +359,20 @@
                     android:paddingTop="-5dp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
+                    android:theme="@style/Theme.EditText.Primary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvFirstNameHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading"
+                    tools:layout_editor_absoluteX="13dp"
                     tools:text="Nada Hassan" />
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <EditText
                     android:id="@+id/tvMiddleName"
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:backgroundTint="@drawable/edit_text_bg_selector"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
@@ -314,18 +381,20 @@
                     android:paddingTop="-5dp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.middleName}"
+                    android:theme="@style/Theme.EditText.Primary"
                     android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.GONE}"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvMiddleNameHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvMiddleNameHeading"
                     tools:text="Noor" />
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <EditText
                     android:id="@+id/tvLastName"
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:backgroundTint="@drawable/edit_text_bg_selector"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
@@ -334,8 +403,11 @@
                     android:paddingTop="-5dp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
+                    android:theme="@style/Theme.EditText.Primary"
                     android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvLastNameHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvLastNameHeading"
                     tools:text="Hassan" />
 

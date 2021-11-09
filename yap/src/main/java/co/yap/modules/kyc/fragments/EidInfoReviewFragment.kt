@@ -57,10 +57,24 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.ivEditFirstName, R.id.tvFirstName -> {
-                    ivEditFirstName.isEnabled = false
+                R.id.ivEditEID, R.id.tvEidNumber -> {
+                    ivEditEID.isEnabled = false
+                    ivEditFirstName.isEnabled = true
                     ivEditMiddleName.isEnabled = true
                     ivEditLastName.isEnabled = true
+                    ivEditNationality.isEnabled = true
+                    manageFocus(tvEidNumber, ivEditEID)
+                    trackEventWithScreenName(
+                        FirebaseEvent.EDIT_FIELD,
+                        bundleOf("field_name" to "eid_number")
+                    )
+                }
+                R.id.ivEditFirstName, R.id.tvFirstName -> {
+                    ivEditFirstName.isEnabled = false
+                    ivEditEID.isEnabled = true
+                    ivEditMiddleName.isEnabled = true
+                    ivEditLastName.isEnabled = true
+                    ivEditNationality.isEnabled = true
                     manageFocus(tvFirstName, ivEditFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
@@ -72,6 +86,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     ivEditMiddleName.isEnabled = false
                     ivEditFirstName.isEnabled = true
                     ivEditLastName.isEnabled = true
+                    ivEditEID.isEnabled = true
+                    ivEditNationality.isEnabled = true
                     manageFocus(tvMiddleName, ivEditMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
@@ -81,12 +97,27 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                 R.id.ivEditLastName, R.id.tvLastName -> {
                     ivEditLastName.isEnabled = false
+                    ivEditEID.isEnabled = true
                     ivEditMiddleName.isEnabled = true
                     ivEditFirstName.isEnabled = true
+                    ivEditNationality.isEnabled = true
                     manageFocus(tvLastName, ivEditLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
+                    )
+                }
+
+                R.id.ivEditNationality, R.id.tvNationality -> {
+                    ivEditNationality.isEnabled = false
+                    ivEditEID.isEnabled = true
+                    ivEditMiddleName.isEnabled = true
+                    ivEditFirstName.isEnabled = true
+                    ivEditLastName.isEnabled = true
+                    manageFocus(tvNationality, ivEditNationality)
+                    trackEventWithScreenName(
+                        FirebaseEvent.EDIT_FIELD,
+                        bundleOf("field_name" to "nationality")
                     )
                 }
 
