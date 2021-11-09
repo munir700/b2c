@@ -32,7 +32,6 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                     SessionManager.user?.currentCustomer?.firstName
                 )
         }
-        viewModel.getMissingInfoItems()
     }
 
     private val onClickView = Observer<Int> {

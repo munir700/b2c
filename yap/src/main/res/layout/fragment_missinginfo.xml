@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/bg_bubbles" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/Regular"
             android:layout_width="0dp"
@@ -48,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivBubbles"
             tools:text="@string/screen_missing_info_title" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDescription"
             style="@style/ASmall"
             android:layout_width="0dp"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/ASmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             tools:ignore="MissingConstraints"
             tools:text="@string/screen_missing_info_button_get_started" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDoItLater"
             style="@style/ASmall"
             android:layout_width="wrap_content"

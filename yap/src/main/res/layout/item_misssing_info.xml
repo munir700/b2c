@@ -10,7 +10,7 @@
     </data>
 
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
         style="@style/AMicro"
         android:layout_width="match_parent"

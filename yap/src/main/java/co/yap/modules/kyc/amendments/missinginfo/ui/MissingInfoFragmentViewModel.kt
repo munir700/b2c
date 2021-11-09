@@ -22,6 +22,11 @@ class MissingInfoFragmentViewModel(application: Application) :
     override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
     override val missingInfoItems: MutableLiveData<ArrayList<String>> = MutableLiveData()
 
+    override fun onCreate() {
+        super.onCreate()
+        getMissingInfoItems()
+    }
+
     override fun getMissingInfoItems() {
         launch {
             state.loading = true
