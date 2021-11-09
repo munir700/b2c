@@ -2298,4 +2298,9 @@ object Strings {
     const val screen_missing_info_title = "screen_missing_info_title"
     const val screen_missing_info_description = "screen_missing_info_description"
     const val screen_missing_info_review_required = "screen_missing_info_review_required"
+
+    // KYC Amendments/ Missing Info Confirmation Screen
+    const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
+    const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
+
 }
