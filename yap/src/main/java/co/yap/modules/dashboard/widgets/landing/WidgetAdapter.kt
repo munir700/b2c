@@ -8,6 +8,7 @@ import co.yap.BR
 import co.yap.databinding.ItemWidgetAddRemoveBodyBinding
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.widgets.advrecyclerview.draggable.DraggableItemAdapter
+import co.yap.widgets.advrecyclerview.draggable.ItemDraggableRange
 import co.yap.widgets.advrecyclerview.swipeable.SwipeableItemAdapter
 import co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants.*
 import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultAction
@@ -39,7 +40,8 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         setHasStableIds(true)
     }
 
-    override fun getItemId(position: Int) = datas[position].clickId!!
+    override fun getItemId(position: Int) = datas[position].id.toLong()
+    override fun getItemViewType(position: Int)=datas[position].id
     override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
@@ -59,34 +61,25 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
 
     override fun getViewModel(viewType: Int) = WidgetLandingItemViewModel()
     override fun getVariableId() = BR.viewModel
-    override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int):Boolean
-    {
-       val  dragHandleView =  holder.binding.image
-        val containerView = holder.binding.constraintLayout
-        val offsetX: Int = containerView.left + (containerView.translationX + 0.5f).toInt()
-        val offsetY: Int = containerView.top + (containerView.translationY + 0.5f).toInt()
-        return hitTest(dragHandleView, x - offsetX, y - offsetY)
+    override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
+        return if( datas[position].status == true){
+            editWidget
+        }else{
+            editWidget = false
+            false
+        }
     }
-    fun hitTest( v:View,  x:Int,  y:Int):Boolean {
-        val tx = (v.translationX + 0.5f).toInt()
-        val ty = (v.translationY + 0.5f).toInt()
-        val left = v.left + tx
-        val right = v.right + tx
-        val top = v.top + ty
-        val bottom = v.bottom + ty
 
-        return (x in left..right && y >= top && y <= bottom)
-
+    override fun onGetItemDraggableRange(holder: ViewHolder, position: Int):ItemDraggableRange{
+        return ItemDraggableRange(0,datas.count { it.status  == true }-1)
     }
-    override fun onGetItemDraggableRange(holder: ViewHolder, position: Int): Nothing? = null
     override fun onMoveItem(fromPosition: Int, toPosition: Int) {
         if (fromPosition == toPosition) {
             return
         }
-        Collections.swap(datas, fromPosition, toPosition)
-//        val item: MultiCurrencyWallet =
-//            datas.removeAt(fromPosition)
-//        datas.add(toPosition, item)
+//        Collections.swap(datas, fromPosition, toPosition)
+        val item = datas.removeAt(fromPosition)
+        datas.add(toPosition, item)
     }
 
     override fun onCheckCanDrop(draggingPosition: Int, dropPosition: Int) = true
@@ -108,7 +101,11 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         return if (onCheckCanStartDrag(holder, position, x, y)) {
             REACTION_CAN_NOT_SWIPE_BOTH_H
         } else {
-            REACTION_CAN_SWIPE_LEFT
+            if(datas[position].status == true){
+                REACTION_CAN_SWIPE_LEFT
+            }else{
+                REACTION_CAN_NOT_SWIPE_UP
+            }
         }
     }
 
@@ -158,10 +155,22 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
 
         init {
             binding.tvDelete.setOnClickListener {
+                mAdapter?.oldSwipePosition = RecyclerView.NO_POSITION
                 mAdapter?.mEventListener?.onUnderSwipeableViewButtonClicked(
                     itemView,
                     adapterPosition
                 )
+            }
+            binding.imageDragDropAdd.setOnLongClickListener {
+                if(mAdapter?.datas?.get(adapterPosition)?.status == true){
+                    mAdapter?.editWidget = true
+                }
+                true
+            }
+            binding.imageDragDropAdd.setOnClickListener {
+                if(mAdapter?.datas?.get(adapterPosition)?.status == false){
+                    mAdapter?.mEventListener?.onAddedButtonClick( itemView, position = adapterPosition)
+                }
             }
         }
     }
@@ -235,5 +244,6 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     interface EventListener {
         fun onItemPinned(position: Int, isPinned: Boolean)
         fun onUnderSwipeableViewButtonClicked(v: View?, position: Int)
+        fun onAddedButtonClick(v: View?, position: Int)
     }
 }

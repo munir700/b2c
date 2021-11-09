@@ -13,6 +13,7 @@ class IWidgetLanding {
         var widgetDataList: MutableList<WidgetData>
         fun filterWidgetDataList()
         fun handlePressOnView(id: Int)
+        fun changeStatus( position:Int, status:Boolean)
     }
 
     interface State : IBase.State {
