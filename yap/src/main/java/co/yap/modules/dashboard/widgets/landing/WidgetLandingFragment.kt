@@ -25,7 +25,9 @@ import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardMan
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.bottomsheet_edit_widget.BottomSheetEditWidget
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.dimen
@@ -72,7 +74,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     private fun openBottomSheet() {
-        var onBottomSheetButtonClick: View.OnClickListener? = null
+        var onBottomSheetButtonClick: View.OnClickListener?
         var widgetBottomSheet = BottomSheetEditWidget(BottomSheetConfiguration())
         activity?.supportFragmentManager.let { fragmentManager ->
             onBottomSheetButtonClick = View.OnClickListener { view ->
@@ -118,7 +120,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.widgetDataList.addAll(viewModel.parentViewModel!!.widgetDataList)
         mAdapter = WidgetAdapter(mutableListOf(), null)
-        viewModel.widgetAdapter?.set(mAdapter)
+        viewModel.widgetAdapter.set(mAdapter)
         viewModel.filterWidgetDataList()
         initDragDropAdapter()
         viewModel.apiSuccessEvent.observe(this, apiSuccessObserver)
@@ -141,9 +143,9 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
                 mWrappedAdapter = mRecyclerViewSwipeManager?.createWrappedAdapter(it)
             }
             mRecyclerViewSwipeManager?.onItemSwipeEventListener = this@WidgetLandingFragment
-//            setInitiateOnLongPress(true)
-//            setInitiateOnMove(true)
-//            setLongPressTimeout(250)
+            setInitiateOnLongPress(true)
+//            setInitiateOnMove(false)
+            setLongPressTimeout(1000)
             dragEdgeScrollSpeed = 1.0f
             setDraggingItemShadowDrawable(
                 ContextCompat.getDrawable(
@@ -182,36 +184,22 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemPinned(position: Int, isPinned: Boolean) {
-
     }
 
     override fun onUnderSwipeableViewButtonClicked(v: View?, position: Int) {
-        Log.v("", "")
-        /*confirm(
-            message = getString(screen_multi_currency_wallet_display_text_delete_message),
-            title = getString(screen_multi_currency_wallet_display_text_delete_header)
-        )*/
-        viewModel.changeStatus( position = position, status = false)
-//        mAdapter.removeAt(position)
+        viewModel.changeStatus( positionFrom = position, positionTo = 0, status = false, isDragDrop = false)
     }
 
     override fun onAddedButtonClick(v: View?, position: Int) {
-        viewModel.changeStatus( position = position, status = true)
+        viewModel.changeStatus( positionFrom = position, positionTo = 0, status = true, isDragDrop = false)
     }
 
-    private fun onClick(id: Int) {
-        when (id) {
-//            R.id.tvEdit -> {
-//                viewModel.state.editWallet.value = !viewModel.state.editWallet.value!!
-//                mAdpter.editWallet = viewModel.state.editWallet.value!!
-//                tvEdit?.text = if (mAdpter.editWallet) getString(
-//                    screen_multi_currency_wallet_display_text_close_wallet
-//                ) else getString(screen_multi_currency_wallet_display_text_edit_wallet)
-//            }
-        }
+    override fun onDragDropFinished( positionFrom: Int, positionTo: Int) {
+        viewModel.changeStatus( positionFrom = positionFrom, positionTo = positionTo, status = true, isDragDrop = true)
     }
 
     override fun onItemDragStarted(position: Int) {
+        Log.i("onItemDragStarted","onItemDragStarted")
 
     }
 
@@ -222,6 +210,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
+        Log.i("onItemDragFinished","false")
         mAdapter.editWidget = false
     }
 
@@ -229,11 +218,9 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemSwipeStarted(position: Int) {
-        Log.d("", "")
     }
 
     override fun onItemSwipeFinished(position: Int, result: Int, afterSwipeReaction: Int) {
-        Log.d("", "")
     }
 
     override fun onPause() {
@@ -267,7 +254,16 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     private val apiSuccessObserver = Observer<Boolean> {
-        setResultData()
+        if( it){
+            setResultData()
+        }else{
+            activity?.finish()
+        }
+    }
+
+    override fun onBackPressed(): Boolean {
+        viewModel.requestWidgetUpdation()
+        return true
     }
 
     private fun setResultData() {

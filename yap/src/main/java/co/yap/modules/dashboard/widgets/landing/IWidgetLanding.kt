@@ -17,7 +17,7 @@ class IWidgetLanding {
         fun filterWidgetDataList()
         fun requestWidgetUpdation()
         fun handlePressOnView(id: Int)
-        fun changeStatus( position:Int, status:Boolean)
+        fun changeStatus( positionFrom: Int, positionTo: Int, status: Boolean, isDragDrop: Boolean)
     }
 
     interface State : IBase.State {

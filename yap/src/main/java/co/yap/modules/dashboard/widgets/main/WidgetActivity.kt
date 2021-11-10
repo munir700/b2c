@@ -11,6 +11,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), INavigator,
@@ -52,5 +53,11 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), INavigator,
         }
     }
 
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.widget_nav_host_fragment)
+        if (!BackPressImpl(fragment).onBackPressed()) {
+            super.onBackPressed()
+        }
+    }
 
 }

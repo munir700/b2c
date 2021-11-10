@@ -39,26 +39,31 @@ class WidgetLandingViewModel(application: Application) :
         widgetAdapter.get()?.setData(widgetDataList)
     }
 
-    override fun changeStatus(position: Int, status: Boolean) {
-        val widgetData = widgetDataList[position]
+    override fun changeStatus( positionFrom: Int, positionTo: Int, status: Boolean, isDragDrop: Boolean) {
+        val widgetData = widgetDataList[positionFrom]
         widgetData.status = status
         widgetData.isPinned = false
         widgetData.isShuffled = true
-        widgetDataList.removeAt(position)
+        when( isDragDrop){
+            false->{
+                widgetDataList.removeAt(positionFrom)
+            }
+        }
         when (status) { //status true mean it is add to dashboard widget bar section and false mean it is added to hidden section
             true -> {
-                widgetDataList.add(widgetDataList.count {
-                    it.status == true
-                }, widgetData)
+                when(isDragDrop){
+                    false->{
+                        widgetDataList.add(widgetDataList.count {
+                            it.status == true
+                        }, widgetData)
+                    }
+                }
             }
             else -> {
                 widgetDataList.add(widgetDataList.size, widgetData)
             }
         }
         widgetAdapter.get()?.setData(widgetDataList)
-
-
-        getWidgetShuffledList()
     }
 
     fun sortList() {
@@ -66,21 +71,28 @@ class WidgetLandingViewModel(application: Application) :
     }
 
     fun getWidgetShuffledList(): List<WidgetData> {
-        val tempWidgetList = widgetDataList.filter { it.isShuffled == true || it.status == true }
-        tempWidgetList.forEachIndexed { index, widgetData ->
-            if (widgetData.status == true) {
-                widgetData.shuffleIndex = index + 1
-            } else {
-                widgetData.shuffleIndex = -1
-            }
+        val count  = widgetDataList.count {
+            it.isShuffled == true
         }
-        return tempWidgetList
+        return if( count > 0){
+            val tempWidgetList = widgetDataList.filter { it.isShuffled == true || it.status == true }
+            tempWidgetList.forEachIndexed { index, widgetData ->
+                if (widgetData.status == true) {
+                    widgetData.shuffleIndex = index + 1
+                } else {
+                    widgetData.shuffleIndex = -1
+                }
+            }
+            tempWidgetList
+        }else{
+            emptyList()
+        }
     }
 
     override fun requestWidgetUpdation() {
         launch {
-            state.loading = true
             if(getWidgetShuffledList().isNotEmpty()) {
+                state.loading = true
                 when (val response =
                     customerRepository.updateDashboardWidget(getWidgetShuffledList())) {
                     is RetroApiResponse.Success -> {
@@ -90,6 +102,8 @@ class WidgetLandingViewModel(application: Application) :
                         state.loading = false
                     }
                 }
+            }else{
+                apiSuccessEvent.value = false
             }
         }
     }

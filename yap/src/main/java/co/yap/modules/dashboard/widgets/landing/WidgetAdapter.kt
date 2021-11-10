@@ -16,7 +16,6 @@ import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultActionDefault
 import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultActionMoveToSwipedDirection
 import co.yap.widgets.advrecyclerview.utils.AbstractDraggableSwipeableItemViewHolder
 import co.yap.yapcore.BaseRVAdapter
-import java.util.*
 
 class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?) :
     BaseRVAdapter<WidgetData, WidgetLandingItemViewModel, WidgetAdapter.ViewHolder>(
@@ -24,7 +23,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         navigation
     ), DraggableItemAdapter<WidgetAdapter.ViewHolder>,
     SwipeableItemAdapter<WidgetAdapter.ViewHolder> {
-    var editWidget: Boolean = true
+    var editWidget: Boolean = false
         set(value) {
             field = value
             if (oldSwipePosition != RecyclerView.NO_POSITION) {
@@ -41,7 +40,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     }
 
     override fun getItemId(position: Int) = datas[position].id.toLong()
-    override fun getItemViewType(position: Int)=datas[position].id
+    override fun getItemViewType(position: Int) = datas[position].id
     override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
@@ -62,17 +61,18 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     override fun getViewModel(viewType: Int) = WidgetLandingItemViewModel()
     override fun getVariableId() = BR.viewModel
     override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
-        return if( datas[position].status == true){
+        return if (datas[position].status == true) {
             editWidget
-        }else{
+        } else {
             editWidget = false
             false
         }
     }
 
-    override fun onGetItemDraggableRange(holder: ViewHolder, position: Int):ItemDraggableRange{
-        return ItemDraggableRange(0,datas.count { it.status  == true }-1)
+    override fun onGetItemDraggableRange(holder: ViewHolder, position: Int): ItemDraggableRange {
+        return ItemDraggableRange(0, datas.count { it.status == true } - 1)
     }
+
     override fun onMoveItem(fromPosition: Int, toPosition: Int) {
         if (fromPosition == toPosition) {
             return
@@ -89,6 +89,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
+        mEventListener?.onDragDropFinished( fromPosition, toPosition)
         notifyDataSetChanged()
     }
 
@@ -162,17 +163,14 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
                 )
             }
             binding.imageDragDropAdd.setOnLongClickListener {
-                if (mAdapter?.datas?.get(adapterPosition)?.status == true) {
+                if(mAdapter?.datas?.get(adapterPosition)?.status == true){
                     mAdapter?.editWidget = true
                 }
                 true
             }
             binding.imageDragDropAdd.setOnClickListener {
-                if (mAdapter?.datas?.get(adapterPosition)?.status == false) {
-                    mAdapter?.mEventListener?.onAddedButtonClick(
-                        itemView,
-                        position = adapterPosition
-                    )
+                if(mAdapter?.datas?.get(adapterPosition)?.status == false){
+                    mAdapter?.mEventListener?.onAddedButtonClick( itemView, position = adapterPosition)
                 }
             }
         }
@@ -248,5 +246,6 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         fun onItemPinned(position: Int, isPinned: Boolean)
         fun onUnderSwipeableViewButtonClicked(v: View?, position: Int)
         fun onAddedButtonClick(v: View?, position: Int)
+        fun onDragDropFinished( positionFrom: Int, positionTo: Int)
     }
 }
