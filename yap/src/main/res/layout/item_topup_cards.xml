@@ -4,6 +4,7 @@
 
     <data>
 
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.cardslisting.list.TopUpItemViewModel" />
