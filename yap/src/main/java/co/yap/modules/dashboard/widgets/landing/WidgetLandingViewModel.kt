@@ -35,7 +35,7 @@ class WidgetLandingViewModel(application: Application) :
         val index = widgetDataList.count {
             it.status == true
         }
-        widgetDataList.add(index, WidgetData(id = 2000, name = "Heading"))
+        widgetDataList.add(index, WidgetData(id = 2000, name = "Hidden"))
         widgetAdapter.get()?.setData(widgetDataList)
     }
 

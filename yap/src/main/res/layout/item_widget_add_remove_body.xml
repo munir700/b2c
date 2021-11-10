@@ -13,16 +13,18 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/_60sdp">
 
         <FrameLayout
             android:id="@+id/flSwipeable"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_62sdp"
+            android:layout_height="match_parent"
             android:layout_gravity="end|center_vertical"
             android:background="@color/colorPrimary"
             android:visibility="gone"
@@ -48,10 +50,9 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_62sdp"
+            android:layout_height="match_parent"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/margin_medium"
             android:paddingEnd="@dimen/margin_medium"
             tools:visibility="invisible">
 
@@ -62,7 +63,9 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/bg_round_purple_enabled"
                 android:contentDescription="@string/empty_string"
-                android:padding="@dimen/_8sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"
                 app:drawableResource="@{@drawable/bg_round_purple_enabled}"
                 app:imageUrlWidget="@{viewModel.item.icon}"
@@ -75,12 +78,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_medium"
+                 android:layout_marginEnd="@dimen/margin_normal"
                 android:layout_weight="1"
                 android:singleLine="true"
                 android:text="@{viewModel.item.name}"
-                android:textColor="@color/colorMidnightExpress"
+                android:textColor="@{viewModel.item.id != 2000 ?@color/colorMidnightExpress:@color/colorPrimary}"
                 app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
                 app:layout_constraintEnd_toStartOf="@+id/image"
                 app:layout_constraintStart_toEndOf="@+id/ivWidget"

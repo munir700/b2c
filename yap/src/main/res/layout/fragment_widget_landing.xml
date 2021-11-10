@@ -80,8 +80,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/margin_medium"
                     android:paddingTop="@dimen/margin_normal"
-                    android:paddingEnd="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_normal">
+                    android:paddingEnd="@dimen/margin_medium" >
 
                     <TextView
                         android:id="@+id/tvActive"

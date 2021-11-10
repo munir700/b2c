@@ -162,14 +162,17 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
                 )
             }
             binding.imageDragDropAdd.setOnLongClickListener {
-                if(mAdapter?.datas?.get(adapterPosition)?.status == true){
+                if (mAdapter?.datas?.get(adapterPosition)?.status == true) {
                     mAdapter?.editWidget = true
                 }
                 true
             }
             binding.imageDragDropAdd.setOnClickListener {
-                if(mAdapter?.datas?.get(adapterPosition)?.status == false){
-                    mAdapter?.mEventListener?.onAddedButtonClick( itemView, position = adapterPosition)
+                if (mAdapter?.datas?.get(adapterPosition)?.status == false) {
+                    mAdapter?.mEventListener?.onAddedButtonClick(
+                        itemView,
+                        position = adapterPosition
+                    )
                 }
             }
         }
