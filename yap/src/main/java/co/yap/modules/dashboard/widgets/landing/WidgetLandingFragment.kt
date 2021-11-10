@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.widgets.landing
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
 import android.util.Log
@@ -23,9 +24,10 @@ import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.BaseBindingFragment
- import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.bottomsheet_edit_widget.BottomSheetEditWidget
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_widget_landing.*
 
@@ -38,6 +40,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     private var mRecyclerViewSwipeManager: RecyclerViewSwipeManager? = null
     private var mRecyclerViewTouchActionGuardManager: RecyclerViewTouchActionGuardManager? = null
     private lateinit var mAdapter: WidgetAdapter
+    var shardPrefs: SharedPreferenceManager? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -51,13 +54,18 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
         viewModel.parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(WidgetViewModel::class.java) }
         handleClick()
+        shardPrefs = SharedPreferenceManager.getInstance(requireContext())
     }
 
     private fun handleClick() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.switchWidget -> {
-                    openBottomSheet()
+                    if (switchWidget.isChecked) {
+                        openBottomSheet()
+                    } else {
+                        shardPrefs?.save(Constants.WIDGET_HIDDEN_STATUS, false)
+                    }
                 }
             }
         })
@@ -74,7 +82,10 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
                         intent.putExtra("ACTION", Constants.HIDE_WIDGET)
                         activity?.setResult(RESULT_OK, intent)
                         activity?.finish()
-
+                        shardPrefs?.save(
+                            Constants.WIDGET_HIDDEN_STATUS,
+                            true
+                        )
                     }
                     R.id.tvCancel -> {
                         widgetBottomSheet.dismiss()
@@ -111,7 +122,9 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
         viewModel.filterWidgetDataList()
         initDragDropAdapter()
         viewModel.apiSuccessEvent.observe(this, apiSuccessObserver)
-
+        shardPrefs?.let { pref ->
+            switchWidget.isChecked = pref.getValueBoolien(Constants.WIDGET_HIDDEN_STATUS, false)
+        }
     }
 
     private fun initDragDropAdapter() {
