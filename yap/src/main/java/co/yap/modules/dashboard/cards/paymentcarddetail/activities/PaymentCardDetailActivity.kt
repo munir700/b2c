@@ -121,6 +121,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
             viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
+            viewModel.cardTransactionRequest.debitSearch = it.cardType == "DEBIT"
             viewModel.requestAccountTransactions()
         })
 
@@ -197,7 +198,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         when (it) {
             R.id.llAddFunds -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_ADD_FUNDS)
-                trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                 viewModel.card.value?.let { card ->
                     launchActivity<AddFundsActivity>(
                         requestCode = Constants.REQUEST_ADD_REMOVE_FUNDS,

@@ -590,14 +590,6 @@ object Utils {
         )
     }
 
-    fun getBody(context: Context): String {
-        return Translator.getString(
-            context,
-            Strings.common_yap_share_content,
-            getAdjustURL()
-        )
-    }
-
     fun getGeneralInvitationBody(context: Context): String {
         return Translator.getString(
             context,

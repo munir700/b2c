@@ -69,14 +69,15 @@ object Constants {
     //CardAnalytics constants
     const val CATEGORY_AVERAGE_AMOUNT_VALUE: Int = 7
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
+    const val QR_CODE_SCREEN: Int = 9
 
     const val URL_YAP_WEBSITE = "https://www.yap.com/"
-    const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
+    const val URL_TERMS_CONDITION = "https://www.yap.com/yap-legal/"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
-    const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
-    const val URL_INSTAGRAM = "https://www.instagram.com/yapbanking"
-    const val URL_FACEBOOK = "https://www.facebook.com/yapbanking"
-    const val URL_TWITTER = "https://twitter.com/yapbanking"
+    const val URL_FEES_AND_PRICING_PLAN = "https://www.yap.com/fees"
+    const val URL_INSTAGRAM = "https://www.instagram.com/yap"
+    const val URL_FACEBOOK = "https://www.facebook.com/YAP/"
+    const val URL_TWITTER = "https://twitter.com/yap"
 
 
     //HTML Key
@@ -210,5 +211,11 @@ object Constants {
     const val PRIME_CARD_PLAN = "PRIME_CARD_PLAN"
     const val METAL_CARD_PLAN = "METAL_CARD_PLAN"
 
-
+    // Transaction Details
+    const val UPDATED_CATEGORY = "UPDATED_CATEGORY"
+    const val PRE_SELECTED_CATEGORY = "PRE_SELECTED_CATEGORY"
+    const val FEEDBACK_LOCATION = "FEEDBACK_LOCATION"
+    const val FEEDBACK_TITLE = "FEEDBACK_TITLE"
+    const val TRANSACTION_COUNT = "TRANSACTION_COUNT"
+    const val TOTAL_TRANSACTION = "TOTAL_TRANSACTION"
 }

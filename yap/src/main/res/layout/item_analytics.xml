@@ -10,8 +10,10 @@
             type="co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
+
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
-        <import type="co.yap.yapcore.managers.SessionManager"/>
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,10 +39,10 @@
                 app:fullName="@{viewModel.analyticsItem.title==null?` `:viewModel.analyticsItem.title}"
                 app:imageUrl="@{viewModel.analyticsItem.logoUrl == null ? ` ` : viewModel.analyticsItem.logoUrl}"
                 app:isBackground="@{true}"
-                app:showFirstInitials="@{true}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:position="@{viewModel.position}" />
+                app:position="@{viewModel.position}"
+                app:showFirstInitials="@{true}" />
 
             <LinearLayout
                 android:id="@+id/content"
@@ -50,10 +52,10 @@
                 android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/lyAnalyticsImage"
+                app:layout_constraintBottom_toBottomOf="@id/lyAnalyticsImage"
                 app:layout_constraintEnd_toStartOf="@+id/tvAmount"
-                app:layout_constraintStart_toEndOf="@+id/lyAnalyticsImage"
-                app:layout_constraintTop_toTopOf="@+id/lyAnalyticsImage">
+                app:layout_constraintStart_toEndOf="@id/lyAnalyticsImage"
+                app:layout_constraintTop_toTopOf="@id/lyAnalyticsImage">
 
                 <TextView
                     android:id="@+id/tvName"
@@ -61,12 +63,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/text_size_h2"
                     android:ellipsize="end"
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
                     android:lines="1"
                     android:text="@{viewModel.analyticsItem.title}"
+                    android:textSize="@dimen/text_size_h2"
                     tools:text="Shopping" />
 
                 <TextView
@@ -88,8 +90,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="@dimen/text_size_h2"
                 android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.analyticsItem.totalSpending,true,SessionManager.INSTANCE.defaultCurrency,true)}"
+                android:textSize="@dimen/text_size_h2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/content"
                 tools:text="AED 600.30" />
@@ -98,8 +100,8 @@
                 android:id="@+id/tvSpendingPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_h2"
                 android:text="@{Utils.INSTANCE.getTwoDecimalPlaces(viewModel.analyticsItem.totalSpendingInPercentage)+`%`}"
+                android:textSize="@dimen/text_size_h2"
                 app:layout_constraintBottom_toBottomOf="@+id/content"
                 app:layout_constraintEnd_toEndOf="@+id/tvAmount"
                 tools:text="42%" />
@@ -111,7 +113,7 @@
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="@id/tvAmount"
                 app:layout_constraintStart_toStartOf="@+id/content"
-                app:layout_constraintTop_toBottomOf="@+id/lyAnalyticsImage" />
+                app:layout_constraintTop_toBottomOf="@+id/tvSpendingPercentage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

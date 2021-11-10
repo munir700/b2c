@@ -8,8 +8,8 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
@@ -36,8 +36,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
     override fun getLayoutId(): Int = R.layout.fragment_success
 
-    override val viewModel: ISuccess.ViewModel
-        get() = ViewModelProviders.of(this).get(SuccessViewModel::class.java)
+    override val viewModel: SuccessViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

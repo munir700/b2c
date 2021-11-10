@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail.composer
 
+import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
@@ -12,11 +13,11 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun label(forTag: TransactionDetailItem): String {
         return when (forTag) {
             TransactionDetailItem.CARD_NUMBER -> "Card"
-            TransactionDetailItem.TRANSFER_AMOUNT -> if (isInternationalPOS(transaction)) "Spent amount" else "Transfer amount"
+            TransactionDetailItem.TRANSFER_AMOUNT -> if (transaction.isNonAEDTransaction()) "Spent amount" else "Transfer amount"
             TransactionDetailItem.EXCHANGE_RATE -> "Exchange rate"
             TransactionDetailItem.SENDER -> "Sender"
             TransactionDetailItem.RECEIVER -> "Receiver"
-            TransactionDetailItem.SENT_RECEIVED -> "Amount"
+            TransactionDetailItem.SENT_RECEIVED -> if (transaction.isEcomPosTransaction()) "Spent in AED" else "Amount"
             TransactionDetailItem.FEES -> "Fee"
             TransactionDetailItem.VAT -> "VAT"
             TransactionDetailItem.TOTAL -> "Total amount"
@@ -29,7 +30,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         return when (forTag) {
             TransactionDetailItem.CARD_NUMBER -> {
                 transaction.maskedCardNo?.split(" ")?.lastOrNull().let { maskCardNo ->
-                    "*${maskCardNo}"
+                    "*${maskCardNo?.takeLast(4)}"
                 }
             }
             TransactionDetailItem.TRANSFER_AMOUNT -> {
@@ -38,9 +39,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
             TransactionDetailItem.EXCHANGE_RATE -> {
                 if (transaction.isNonAEDTransaction()) "${transaction.currency} 1.00 = AED ${
-                    getExchangeRateForInternationalPOS(
-                        transaction
-                    )
+                getExchangeRateForInternationalPOS(
+                    transaction
+                )
                 }" else "${transaction.currency} 1.00 = AED ${transaction.fxRate}"
             }
             TransactionDetailItem.SENDER, TransactionDetailItem.RECEIVER -> {
@@ -75,12 +76,12 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun isShowItem(tag: TransactionDetailItem): Boolean {
         return when (tag) {
             TransactionDetailItem.CARD_NUMBER -> {
-                transaction.status == TransactionStatus.CANCELLED.name || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode) || isInternationalPOS(
-                    transaction
-                )
+                transaction.maskedCardNo?.let {
+                    true
+                } ?: false
             }
-            TransactionDetailItem.TRANSFER_AMOUNT, TransactionDetailItem.EXCHANGE_RATE -> {
-                isInternationalPOS(transaction) || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
+            TransactionDetailItem.TRANSFER_AMOUNT -> {
+                transaction.isNonAEDTransaction() || (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
             }
             TransactionDetailItem.SENDER -> {
                 transaction.getProductType() == TransactionProductType.IS_SEND_MONEY && transaction.txnType == TxnType.CREDIT.type
@@ -88,7 +89,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             TransactionDetailItem.RECEIVER -> {
                 transaction.getProductType() == TransactionProductType.IS_SEND_MONEY && transaction.txnType == TxnType.DEBIT.type
             }
-            TransactionDetailItem.SENT_RECEIVED, TransactionDetailItem.FEES, TransactionDetailItem.VAT -> {
+            TransactionDetailItem.SENT_RECEIVED -> {
                 true
             }
             TransactionDetailItem.TOTAL -> {
@@ -99,6 +100,12 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
             TransactionDetailItem.REMARKS -> {
                 !transaction.remarks.isNullOrEmpty()
+            }
+            TransactionDetailItem.FEES, TransactionDetailItem.VAT ->
+                return !(transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode
+                        || transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
+            TransactionDetailItem.EXCHANGE_RATE -> {
+                (transaction.productCode == TransactionProductCode.SWIFT.pCode || transaction.productCode == TransactionProductCode.RMT.pCode)
             }
         }
     }
@@ -117,9 +124,11 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: 0.00)
                 }
-                it.isNonAEDTransaction() -> {
+                /*it.isNonAEDTransaction() -> {
                     it.cardHolderBillingAmount ?: 0.00
-                }
+                }*/
+                it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ATM_DEPOSIT.pCode || it.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode || it.productCode == TransactionProductCode.ECOM.pCode ->
+                    (it.cardHolderBillingTotalAmount ?: 0.00)
                 else -> it.amount ?: 0.00
             }
         }
@@ -127,7 +136,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
 
     private fun fee(forTransaction: Transaction): String {
         return when {
-            transaction.isNonAEDTransaction() -> {
+            transaction.isNonAEDTransaction() || transaction.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode -> {
                 forTransaction.markupFees.toString()
                     .toFormattedCurrency(true, SessionManager.getDefaultCurrency(), true)
             }
@@ -148,7 +157,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
                     (it.settlementAmount ?: 0.00).plus(totalFee)
                 }
-                it.isNonAEDTransaction() -> {
+                it.isNonAEDTransaction() || it.productCode == TransactionProductCode.REFUND_MASTER_CARD.pCode || it.productCode == TransactionProductCode.POS_PURCHASE.pCode || it.productCode == TransactionProductCode.ECOM.pCode -> {
                     (it.cardHolderBillingTotalAmount ?: 0.00)
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount ?: 0.00 else it.amount
@@ -203,7 +212,10 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_image_brown_background
                 TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode -> R.drawable.ic_image_light_blue_background
                 TransactionProductCode.CARD_REORDER.pCode -> R.drawable.ic_image_light_red_background
-                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ECOM.pCode -> R.drawable.ic_image_light_blue_background
+                //TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode,TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode, TransactionProductCode.ECOM.pCode -> R.drawable.ic_image_light_blue_background
+                TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode,
+                TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.FUND_WITHDRAWL.pCode -> R.drawable.ic_image_light_blue_background
+                TransactionProductCode.ECOM.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.image_map
                 else -> R.drawable.ic_image_light_blue_background
             })
         } ?: return -1
@@ -265,8 +277,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                     }
                     TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                     TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                    TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName
-                        ?: ""
+                    //TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName ?: ""
                     TransactionProductCode.ATM_DEPOSIT.pCode -> "Cash deposit"
                     TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                         if (transaction.category.equals(
@@ -323,17 +334,68 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 (transaction.productCode == TransactionProductCode.ECOM.pCode)
     }
 
-    fun isTransactionNotCompleted(): Boolean {
-        return transaction.isTransactionInProgress() || transaction.isTransactionRejected()
-    }
+    fun isTransactionNotCompleted(): Boolean =
+        transaction.isTransactionInProgress() || transaction.isTransactionRejected()
 
-    fun isShowReceiptSection(): Boolean {
-        return (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
+
+    fun isShowReceiptSection(): Boolean =
+        (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode) ||
                 (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
                 (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+
+
+    fun isAtmTransaction(): Boolean =
+        (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
+
+    fun isYTYTransaction(): Boolean =
+        transaction.productCode == TransactionProductCode.Y2Y_TRANSFER.pCode
+
+    fun showTransactionCategory(): Boolean =
+        (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode)
+
+    fun isCategoryGeneral(): Boolean =
+        (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                && transaction.tapixCategory == null || transaction.tapixCategory?.isGeneral == true
+
+    fun getCategoryDescription(): String {
+        return when {
+            transaction.tapixCategory == null || isCategoryGeneral() -> {
+                "Check back later to see the category updated "
+            }
+            else -> {
+                "Tap to change category"
+            }
+        }
     }
 
-    fun isAtmTransaction(): Boolean {
-        return (transaction.purposeCode == TransactionProductCode.ATM_DEPOSIT.pCode) || (transaction.purposeCode == TransactionProductCode.ATM_WITHDRAWL.pCode)
-    }
+
+    fun showFeedbackOption(): Boolean =
+        (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) ||
+                (transaction.productCode == TransactionProductCode.ECOM.pCode) ||
+                (transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) ||
+                (transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
+
+
+    fun getTapixCategory(): TapixCategory? = if (isCategoryGeneral()) TapixCategory(
+        id = 0,
+        categoryName = "General",
+        categoryIcon = "",
+        analyticIcon = ""
+    ) else transaction.tapixCategory
+
+    fun isDeclinedTransaction(): Boolean = transaction.category.equals(
+        "DECLINE_FEE",
+        true
+    )
+
+    fun isMApVisible(): Boolean? = transaction.latitude?.let { lat ->
+        transaction.longitude?.let { long ->
+            (lat != 0.0 && long != 0.0) &&
+                    (transaction.productCode == TransactionProductCode.ECOM.pCode ||
+                            transaction.productCode == TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode ||
+                            transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode ||
+                            transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
+                            transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode)
+        } ?: false
+    } ?: false
 }

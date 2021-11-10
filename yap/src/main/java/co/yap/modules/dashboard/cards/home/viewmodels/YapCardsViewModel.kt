@@ -313,6 +313,7 @@ class YapCardsViewModel(application: Application) :
         }
     }
 
+
     override fun removeCard(card: Card?) {
         val cardExist = cards.value?.find { cardRemoved ->
             cardRemoved.cardSerialNumber == card?.cardSerialNumber

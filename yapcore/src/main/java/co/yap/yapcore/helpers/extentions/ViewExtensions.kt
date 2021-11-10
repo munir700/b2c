@@ -15,6 +15,10 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import co.yap.widgets.CoreCircularImageView
+import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.ImageBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
@@ -54,6 +58,37 @@ fun ChipGroup.generateChipViews(@LayoutRes itemView: Int, list: List<String>) {
         chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
         chip.text = categoryName
         this.addView(chip)
+    }
+}
+
+fun CoreCircularImageView?.setCircularDrawable(
+    title: String,
+    url: String,
+    position: Int,
+    showBackground: Boolean = true,
+    showInitials: Boolean = true,
+    type : String = "merchant-category-id"
+) {
+    this?.let { image ->
+        if (type == "merchant-category-id") {
+            ImageBinding.loadCategoryAvatar(
+                image,
+                url,
+                title,
+                position,
+                showBackground,
+                showInitials
+            )
+        } else {
+            ImageBinding.loadAnalyticsAvatar(
+                image,
+                url,
+                title,
+                position,
+                false,
+                showInitials
+            )
+        }
     }
 }
 

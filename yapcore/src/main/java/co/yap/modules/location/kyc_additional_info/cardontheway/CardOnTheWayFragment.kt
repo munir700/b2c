@@ -10,14 +10,16 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import androidx.core.animation.addListener
-import androidx.databinding.library.baseAdapters.BR
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.widgets.AnimatingProgressBar
 import co.yap.widgets.video.ExoPlayerCallBack
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.leanplum.KYCEvents
@@ -35,8 +37,7 @@ class CardOnTheWayFragment : LocationChildFragment<ICardOnTheWay.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_on_the_way
 
-    override val viewModel: CardOnTheWayViewModel
-        get() = ViewModelProviders.of(this).get(CardOnTheWayViewModel::class.java)
+    override val viewModel: CardOnTheWayViewModel by viewModels()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -46,6 +47,7 @@ class CardOnTheWayFragment : LocationChildFragment<ICardOnTheWay.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        trackAdjustPlatformEvent(AdjustEvents.KYC_END.type)
         setObservers()
     }
 

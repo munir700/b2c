@@ -22,7 +22,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 
-class CoreCircularImageView :AppCompatImageView {
+class CoreCircularImageView : AppCompatImageView {
 
     private val mDrawableRect = RectF()
     private val mBorderRect = RectF()
@@ -50,7 +50,6 @@ class CoreCircularImageView :AppCompatImageView {
     private var mSetupPending: Boolean = false
     private var mBorderOverlay: Boolean = false
     private var isDisableCircularTransformation: Boolean = false
-
         set(disableCircularTransformation) {
             if (isDisableCircularTransformation == disableCircularTransformation) {
                 return
@@ -72,6 +71,18 @@ class CoreCircularImageView :AppCompatImageView {
             invalidate()
         }
 
+    var cropImage: Boolean? = true
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    /*  var backgroundColor: Int? = true
+          set(value) {
+              field = value
+              invalidate()
+          }*/
+
     private var circleBackgroundColor: Int
         get() = mCircleBackgroundColor
         set(@ColorInt circleBackgroundColor) {
@@ -83,6 +94,7 @@ class CoreCircularImageView :AppCompatImageView {
             mCircleBackgroundPaint.color = circleBackgroundColor
             invalidate()
         }
+
 
     var borderWidth: Int
         get() = mBorderWidth
@@ -112,16 +124,30 @@ class CoreCircularImageView :AppCompatImageView {
     }
 
     @JvmOverloads
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int = 0) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int = 0) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.CoreCircularImageView, defStyle, 0)
+        val a =
+            context.obtainStyledAttributes(attrs, R.styleable.CoreCircularImageView, defStyle, 0)
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CoreCircularImageView_civ_border_width, DEFAULT_BORDER_WIDTH)
-        mBorderColor = a.getColor(R.styleable.CoreCircularImageView_civ_border_color, DEFAULT_BORDER_COLOR)
-        mBorderOverlay = a.getBoolean(R.styleable.CoreCircularImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY)
+        mBorderWidth = a.getDimensionPixelSize(
+            R.styleable.CoreCircularImageView_civ_border_width,
+            DEFAULT_BORDER_WIDTH
+        )
+        mBorderColor =
+            a.getColor(R.styleable.CoreCircularImageView_civ_border_color, DEFAULT_BORDER_COLOR)
+        mBorderOverlay = a.getBoolean(
+            R.styleable.CoreCircularImageView_civ_border_overlay,
+            DEFAULT_BORDER_OVERLAY
+        )
         mCircleBackgroundColor =
-            a.getColor(R.styleable.CoreCircularImageView_civ_circle_background_color, DEFAULT_CIRCLE_BACKGROUND_COLOR)
-
+            a.getColor(
+                R.styleable.CoreCircularImageView_civ_circle_background_color,
+                DEFAULT_CIRCLE_BACKGROUND_COLOR
+            )
         a.recycle()
 
         init()
@@ -168,12 +194,29 @@ class CoreCircularImageView :AppCompatImageView {
         }
 
         if (mCircleBackgroundColor != Color.TRANSPARENT) {
-            canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mCircleBackgroundPaint)
+            canvas.drawCircle(
+                mDrawableRect.centerX(),
+                mDrawableRect.centerY(),
+                mDrawableRadius,
+                mCircleBackgroundPaint
+            )
         }
-        canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
+        canvas.drawCircle(
+            mDrawableRect.centerX(),
+            mDrawableRect.centerY(),
+            mDrawableRadius,
+            mBitmapPaint
+        )
+
         if (mBorderWidth > 0) {
-            canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
+            canvas.drawCircle(
+                mBorderRect.centerX(),
+                mBorderRect.centerY(),
+                mBorderRadius,
+                mBorderPaint
+            )
         }
+
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -192,7 +235,7 @@ class CoreCircularImageView :AppCompatImageView {
     }
 
     fun setCircleBackgroundColorResource(@ColorRes circleBackgroundRes: Int) {
-        circleBackgroundColor = ContextCompat.getColor(context,circleBackgroundRes)
+        circleBackgroundColor = ContextCompat.getColor(context, circleBackgroundRes)
     }
 
     override fun setImageBitmap(bm: Bitmap) {
@@ -246,9 +289,17 @@ class CoreCircularImageView :AppCompatImageView {
             val bitmap: Bitmap
 
             if (drawable is ColorDrawable) {
-                bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG)
+                bitmap = Bitmap.createBitmap(
+                    COLORDRAWABLE_DIMENSION,
+                    COLORDRAWABLE_DIMENSION,
+                    BITMAP_CONFIG
+                )
             } else {
-                bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, BITMAP_CONFIG)
+                bitmap = Bitmap.createBitmap(
+                    drawable.intrinsicWidth,
+                    drawable.intrinsicHeight,
+                    BITMAP_CONFIG
+                )
             }
 
             val canvas = Canvas(bitmap)
@@ -298,20 +349,27 @@ class CoreCircularImageView :AppCompatImageView {
 
         mCircleBackgroundPaint.style = Paint.Style.FILL
         mCircleBackgroundPaint.isAntiAlias = true
-        mCircleBackgroundPaint.color = mCircleBackgroundColor
+        mCircleBackgroundPaint.color =  mCircleBackgroundColor
 
         mBitmapHeight = mBitmap!!.height
         mBitmapWidth = mBitmap!!.width
 
         mBorderRect.set(calculateBounds())
-        mBorderRadius =
-            Math.min((mBorderRect.height() - mBorderWidth) / 2.0f, (mBorderRect.width() - mBorderWidth) / 2.0f)
+        mBorderRadius = Math.min(
+            (mBorderRect.height() - mBorderWidth) / 2.0f,
+            (mBorderRect.width() - mBorderWidth) / 2.0f
+        )
+
 
         mDrawableRect.set(mBorderRect)
         if (!mBorderOverlay && mBorderWidth > 0) {
             mDrawableRect.inset(mBorderWidth - 1.0f, mBorderWidth - 1.0f)
         }
-        mDrawableRadius = Math.min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f)
+        mDrawableRadius = if (cropImage == true) {
+            Math.min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f)
+        } else {
+            Math.min(mDrawableRect.height() / 1.3f, mDrawableRect.width() / 1.8f)
+        }
 
         applyColorFilter()
         updateShaderMatrix()
@@ -346,7 +404,10 @@ class CoreCircularImageView :AppCompatImageView {
         }
 
         mShaderMatrix.setScale(scale, scale)
-        mShaderMatrix.postTranslate((dx + 0.5f).toInt() + mDrawableRect.left, (dy + 0.5f).toInt() + mDrawableRect.top)
+        mShaderMatrix.postTranslate(
+            (dx + 0.5f).toInt() + mDrawableRect.left,
+            (dy + 0.5f).toInt() + mDrawableRect.top
+        )
 
         mBitmapShader!!.setLocalMatrix(mShaderMatrix)
     }

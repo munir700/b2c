@@ -26,5 +26,6 @@ interface ICardStatments {
         var nextMonth: Boolean?
         var previousMonth: Boolean?
         var householdAccountUUID: String?
+        var statementType:ObservableField<String>
     }
 }

@@ -21,11 +21,11 @@ class QRCodeViewModel(application: Application) :
         populateState()
     }
 
-    private fun populateState() {
+    override fun populateState() {
         SessionManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()
-            it.currentCustomer.getPicture().let { picture ->
-                state.profilePictureUrl = picture
+            it.currentCustomer.getPicture()?.let { picture ->
+                state.profilePictureUrl.set(picture)
             }
         }
     }

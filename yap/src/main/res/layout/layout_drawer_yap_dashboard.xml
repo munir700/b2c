@@ -358,6 +358,26 @@
 
             </LinearLayout>
 
+            <!-- ScanQR -->
+            <LinearLayout
+                android:id="@+id/layoutScanQR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/margin_medium_large"
+                android:paddingEnd="0dp"
+                android:paddingBottom="@dimen/margin_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutStatements">
+
+                <include
+                    android:id="@+id/lScanQR"
+                    layout="@layout/layout_item_icon_text"
+                    app:icon="@{@drawable/ic_qr_code_icon_nav}"
+                    app:title='@{" My QR code"}'  />
+
+            </LinearLayout>
+
             <View
                 android:id="@+id/sep2"
                 android:layout_width="match_parent"
@@ -365,7 +385,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:background="@color/greyLight"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutStatements" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutScanQR" />
 
             <!-- Support -->
             <LinearLayout

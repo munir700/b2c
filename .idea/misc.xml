@@ -5,6 +5,44 @@
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="billpayments/src/main/res/drawable/icon_biller_type_utility_creditcard.xml" value="0.165625" />
+        <entry key="household/src/main/res/layout/fragment_house_hold_more.xml" value="0.19791666666666666" />
+        <entry key="multicurrency/src/main/res/layout/item_wallet_v2.xml" value="0.29791666666666666" />
+        <entry key="sendmoney/src/main/res/layout/layout_y2y_funds_transfer.xml" value="0.2833333333333333" />
+        <entry key="yap/src/main/res/drawable/material_shadow_z3.xml" value="0.24722222222222223" />
+        <entry key="yap/src/main/res/layout/activity_additional_info.xml" value="0.29791666666666666" />
+        <entry key="yap/src/main/res/layout/activity_eid_info_review.xml" value="0.27897435897435896" />
+        <entry key="yap/src/main/res/layout/content_fragment_yap_home.xml" value="0.2101851851851852" />
+        <entry key="yap/src/main/res/layout/fragment_achievement_goal_details.xml" value="0.29791666666666666" />
+        <entry key="yap/src/main/res/layout/fragment_additional_info_employment.xml" value="0.2833333333333333" />
+        <entry key="yap/src/main/res/layout/fragment_additional_info_question.xml" value="0.2833333333333333" />
+        <entry key="yap/src/main/res/layout/fragment_card_analytics_details.xml" value="0.2101851851851852" />
+        <entry key="yap/src/main/res/layout/fragment_information_error.xml" value="0.234375" />
+        <entry key="yap/src/main/res/layout/fragment_invite_friend.xml" value="0.29791666666666666" />
+        <entry key="yap/src/main/res/layout/fragment_missinginfo.xml" value="0.2064814814814815" />
+        <entry key="yap/src/main/res/layout/fragment_select_document.xml" value="0.29791666666666666" />
+        <entry key="yap/src/main/res/layout/fragment_yap_home.xml" value="0.2833333333333333" />
+        <entry key="yap/src/main/res/layout/item_dashboard_notification_status.xml" value="0.29333333333333333" />
+        <entry key="yap/src/main/res/layout/item_notification_v2.xml" value="0.2074074074074074" />
+        <entry key="yap/src/main/res/layout/item_widget_add_remove_body.xml" value="0.2833333333333333" />
+        <entry key="yap/src/main/res/layout/layout_category_transaction.xml" value="0.29791666666666666" />
+        <entry key="yap/src/main/res/layout/layout_change_pin.xml" value="0.29791666666666666" />
+        <entry key="yapcore/src/main/res/drawable/ic_dashboard_delivery.xml" value="0.25555555555555554" />
+        <entry key="yapcore/src/main/res/layout/activity_location.xml" value="0.14947916666666666" />
+        <entry key="yapcore/src/main/res/layout/fragment_employment_questionnaire.xml" value="0.20277777777777778" />
+        <entry key="yapcore/src/main/res/layout/fragment_employment_status_selection.xml" value="0.20277777777777778" />
+        <entry key="yapcore/src/main/res/layout/fragment_place_of_birth_selection.xml" value="0.2833333333333333" />
+        <entry key="yapcore/src/main/res/layout/location_selection_fragment.xml" value="0.2833333333333333" />
+        <entry key="yapcore/src/main/res/layouts/emloymentinfo/layout/layout_question_type_countries.xml" value="0.2833333333333333" />
+        <entry key="yapcore/src/main/res/layouts/emloymentinfo/layout/layout_question_type_edit_text.xml" value="0.2833333333333333" />
+        <entry key="yapcore/src/main/res/layouts/emloymentinfo/layout/layout_question_type_edit_text_with_amount.xml" value="0.2833333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.store.cardplans.fragments
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -16,10 +15,10 @@ import co.yap.databinding.FragmentCardPlansBinding
 import co.yap.modules.dashboard.store.cardplans.CardPlans
 import co.yap.modules.dashboard.store.cardplans.interfaces.ICardPlans
 import co.yap.modules.dashboard.store.cardplans.viewmodels.CardPlansViewModel
-import co.yap.repositories.InviteFriendRepository
+import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.Utils.getBody
+import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,16 +62,13 @@ class CardPlansFragment : CardPlansBaseFragment<ICardPlans.ViewModel>(), ICardPl
 
     private val onClickObserver = Observer<Int> { id ->
         when (id) {
-            R.id.ivShare -> shareInfo()
+            R.id.ivShare -> requireContext().share(
+                getString(
+                    Strings.common_yap_share_content,
+                    Utils.getAdjustURL()
+                ), title = "Share"
+            )
         }
-    }
-
-    private fun shareInfo() {
-        InviteFriendRepository().inviteAFriend()
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext()))
-        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun clickOnCardPlan(data: Any) {

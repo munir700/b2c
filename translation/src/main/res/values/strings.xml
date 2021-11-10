@@ -78,7 +78,7 @@
     <string name="common_display_text_no_country_found">No country found</string>
     <string name="common_yap_share_content">Hey! I\'ve started using the UAE\'s newest banking app – YAP. Transform how you manage your money and join me in the banking revolution.\n\nDownload YAP here:\n\n%1$s</string>
     <string name="common_display_text_percentage">%</string>
-
+    <string name="common_display_one_variables">%1s</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -400,7 +400,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_spare_card_display_button_block_alert_top_up">Top up</string>
     <string name="screen_add_spare_card_display_button_block_alert_skip">Skip for now</string>
 
-    <string name="screen_add_spare_card_display_text_fee">One time fee of AED %1$s</string>
+    <string name="screen_add_spare_card_display_text_fee">Subscribe to a virtual card for %1$s/year and create a customizable card and shop online safely and securely.</string>
     <string name="screen_add_virtual_spare_card_edit_name_label">Name your virtual card</string>
     <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
     <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
@@ -507,6 +507,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <!--   Card Statement screen-->
     <string name="screen_card_statement_display_text_view">View</string>
     <string name="screen_card_statement_display_text_title">Card statements</string>
+    <string name="screen_card_statement_display_button_text_email">Email it to me</string>
+    <string name="screen_card_statement_display_email_sent_success">Success! \nA statement copy has been sent to your email.</string>
 
     <!--   Yap More-->
     <string name="screen_more_display_text_bank_details">Account details</string>
@@ -700,6 +702,14 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_transaction_details_display_sheet_sub_heading">Take a photo or upload your receipt</string>
     <string name="screen_transaction_details_display_sheet_text_upload_from_files">Upload from files</string>
     <string name="screen_transaction_details_display_receipt_item">Receipt %1s</string>
+    <string name="screen_transaction_details_display_feedback_label">Improve logo or location?</string>
+    <string name="screen_transaction_feedback_improvement_label">Select the components that require improvement?</string>
+    <string name="screen_transaction_feedback_additional_detail_label">Add any additional details (optional):</string>
+
+    <string name="screen_transaction_details_category_label">Tap to change category</string>
+    <string name="screen_transaction_details_total_purchases">Total transactions</string>
+    <string name="screen_transaction_details_rating_label">How was your experience with %1s?</string>
+    <string name="screen_transaction_details_rating_tap_to_rate">Tap to rate</string>
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
@@ -1444,6 +1454,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_transaction_details_single_added_receipt_label">%1s receipt added</string>
     <string name="screen_transaction_details_added_receipt_label">%1s receipts added</string>
     <string name="screen_transaction_details_receipt_success_label">Your receipt has been added!</string>
+    <string name="screen_transaction_details_feedback_success_label">Thanks for your feedback! \nWe will use it to improve future transactions from this merchant. </string>
+    <string name="screen_transaction_details_declined">Declined </string>
 
     <!-- Live Chat Strings-->
     <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>

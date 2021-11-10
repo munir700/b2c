@@ -18,6 +18,8 @@ public interface ICamera {
 
         void setInstructions(String inst);
 
+        void setOverlayInstructions(String overlayInstructions);
+
         void onCaptureProcessCompleted(String filename);
     }
 
@@ -33,6 +35,8 @@ public interface ICamera {
         //void setTitle(String title);
 //
         void setInstructions(String inst);
+
+        void setOverlayInstructions(String overlayInstructions);
 //
 //        void processFrame(Mat frame);
 //

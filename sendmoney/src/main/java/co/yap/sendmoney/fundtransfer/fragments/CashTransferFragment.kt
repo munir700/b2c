@@ -176,8 +176,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 trackEventWithScreenName(FirebaseEvent.CLICK_CONFIRM_TRANSFER)
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = SessionManager.getDefaultCurrency()
-                viewModel.parentViewModel?.transferData?.value?.destinationCurrency = SessionManager.getDefaultCurrency()
+                viewModel.parentViewModel?.transferData?.value?.sourceCurrency =
+                    SessionManager.getDefaultCurrency()
+                viewModel.parentViewModel?.transferData?.value?.destinationCurrency =
+                    SessionManager.getDefaultCurrency()
                 viewModel.parentViewModel?.transferData?.value?.transferAmount =
                     viewModel.state.amount
                 val action =
@@ -213,8 +215,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun moveToConfirmationScreen() {
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
-        viewModel.parentViewModel?.transferData?.value?.sourceCurrency = SessionManager.getDefaultCurrency()
-        viewModel.parentViewModel?.transferData?.value?.destinationCurrency = SessionManager.getDefaultCurrency()
+        viewModel.parentViewModel?.transferData?.value?.sourceCurrency =
+            SessionManager.getDefaultCurrency()
+        viewModel.parentViewModel?.transferData?.value?.destinationCurrency =
+            SessionManager.getDefaultCurrency()
         viewModel.parentViewModel?.transferData?.value?.feeAmount =
             if (viewModel.shouldFeeApply()) viewModel.feeAmount else "0.0"
         viewModel.parentViewModel?.transferData?.value?.vat =
@@ -241,7 +245,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         val availableBalance =
             SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            (availableBalance > viewModel.getTotalAmountWithFee())
+            (availableBalance >= viewModel.getTotalAmountWithFee())
         } else
             false
     }
@@ -394,7 +398,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         }
     }
 
-   private fun getBindings(): FragmentCashTransferBinding {
+    private fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }
 }
