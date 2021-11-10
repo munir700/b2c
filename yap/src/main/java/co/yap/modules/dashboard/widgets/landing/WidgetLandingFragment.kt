@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -22,9 +21,9 @@ import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
 import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
-import co.yap.yapcore.BaseBindingFragment
- import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.bottomsheet_edit_widget.BottomSheetEditWidget
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_widget_landing.*
@@ -64,7 +63,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     private fun openBottomSheet() {
-        var onBottomSheetButtonClick: View.OnClickListener? = null
+        var onBottomSheetButtonClick: View.OnClickListener?
         var widgetBottomSheet = BottomSheetEditWidget(BottomSheetConfiguration())
         activity?.supportFragmentManager.let { fragmentManager ->
             onBottomSheetButtonClick = View.OnClickListener { view ->
@@ -107,7 +106,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.widgetDataList.addAll(viewModel.parentViewModel!!.widgetDataList)
         mAdapter = WidgetAdapter(mutableListOf(), null)
-        viewModel.widgetAdapter?.set(mAdapter)
+        viewModel.widgetAdapter.set(mAdapter)
         viewModel.filterWidgetDataList()
         initDragDropAdapter()
         viewModel.apiSuccessEvent.observe(this, apiSuccessObserver)
@@ -173,29 +172,11 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onUnderSwipeableViewButtonClicked(v: View?, position: Int) {
-        Log.v("", "")
-        /*confirm(
-            message = getString(screen_multi_currency_wallet_display_text_delete_message),
-            title = getString(screen_multi_currency_wallet_display_text_delete_header)
-        )*/
-        viewModel.changeStatus( position = position, status = false)
-//        mAdapter.removeAt(position)
+        viewModel.changeStatus(position = position, status = false)
     }
 
     override fun onAddedButtonClick(v: View?, position: Int) {
-        viewModel.changeStatus( position = position, status = true)
-    }
-
-    private fun onClick(id: Int) {
-        when (id) {
-//            R.id.tvEdit -> {
-//                viewModel.state.editWallet.value = !viewModel.state.editWallet.value!!
-//                mAdpter.editWallet = viewModel.state.editWallet.value!!
-//                tvEdit?.text = if (mAdpter.editWallet) getString(
-//                    screen_multi_currency_wallet_display_text_close_wallet
-//                ) else getString(screen_multi_currency_wallet_display_text_edit_wallet)
-//            }
-        }
+        viewModel.changeStatus(position = position, status = true)
     }
 
     override fun onItemDragStarted(position: Int) {
@@ -216,11 +197,9 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemSwipeStarted(position: Int) {
-        Log.d("", "")
     }
 
     override fun onItemSwipeFinished(position: Int, result: Int, afterSwipeReaction: Int) {
-        Log.d("", "")
     }
 
     override fun onPause() {
@@ -254,7 +233,11 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     private val apiSuccessObserver = Observer<Boolean> {
-        setResultData()
+        if( it){
+            setResultData()
+        }else{
+            activity?.finish()
+        }
     }
 
     private fun setResultData() {

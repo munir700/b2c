@@ -376,7 +376,7 @@
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/ic_manage_widget}"
                     app:tint="@{@color/greyDark}"
-                    app:title='@{"Manage Widget"}' />
+                    app:title='@{"Manage widgets"}' />
 
             </LinearLayout>
 

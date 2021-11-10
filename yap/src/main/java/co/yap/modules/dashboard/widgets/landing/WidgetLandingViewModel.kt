@@ -56,9 +56,6 @@ class WidgetLandingViewModel(application: Application) :
             }
         }
         widgetAdapter.get()?.setData(widgetDataList)
-
-
-        getWidgetShuffledList()
     }
 
     fun sortList() {
@@ -66,21 +63,28 @@ class WidgetLandingViewModel(application: Application) :
     }
 
     fun getWidgetShuffledList(): List<WidgetData> {
-        val tempWidgetList = widgetDataList.filter { it.isShuffled == true || it.status == true }
-        tempWidgetList.forEachIndexed { index, widgetData ->
-            if (widgetData.status == true) {
-                widgetData.shuffleIndex = index + 1
-            } else {
-                widgetData.shuffleIndex = -1
-            }
+        val count  = widgetDataList.count {
+            it.isShuffled == true
         }
-        return tempWidgetList
+        return if( count > 0){
+            val tempWidgetList = widgetDataList.filter { it.isShuffled == true || it.status == true }
+            tempWidgetList.forEachIndexed { index, widgetData ->
+                if (widgetData.status == true) {
+                    widgetData.shuffleIndex = index + 1
+                } else {
+                    widgetData.shuffleIndex = -1
+                }
+            }
+            tempWidgetList
+        }else{
+            emptyList()
+        }
     }
 
     override fun requestWidgetUpdation() {
         launch {
-            state.loading = true
             if(getWidgetShuffledList().isNotEmpty()) {
+                state.loading = true
                 when (val response =
                     customerRepository.updateDashboardWidget(getWidgetShuffledList())) {
                     is RetroApiResponse.Success -> {
@@ -90,6 +94,8 @@ class WidgetLandingViewModel(application: Application) :
                         state.loading = false
                     }
                 }
+            }else{
+                apiSuccessEvent.value = false
             }
         }
     }
