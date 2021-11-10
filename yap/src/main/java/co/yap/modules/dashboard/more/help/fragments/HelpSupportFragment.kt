@@ -115,6 +115,10 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         super.onResume()
         if (activity is YapDashboardActivity)
             (activity as YapDashboardActivity).showHideBottomBar(false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         UXCam.occludeSensitiveScreen(false)
     }
 
