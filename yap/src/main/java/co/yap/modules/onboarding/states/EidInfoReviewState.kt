@@ -5,6 +5,7 @@ import androidx.databinding.ObservableBoolean
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
+import java.util.*
 
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
 
@@ -116,6 +117,8 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
 
     override var isShowMiddleName: ObservableBoolean = ObservableBoolean(false)
     override var isShowLastName: ObservableBoolean = ObservableBoolean(false)
+    override var dobCalendar: Calendar = Calendar.getInstance()
+    override var expiryCalendar: Calendar = Calendar.getInstance()
 
     private fun validate() {
         valid = firstName.isNotBlank()

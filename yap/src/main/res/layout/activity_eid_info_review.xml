@@ -32,8 +32,8 @@
                 android:id="@+id/tbBtnBack"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="match_parent"
-                android:clickable="true"
                 android:layout_gravity="start|center_vertical"
+                android:clickable="true"
                 android:contentDescription="@string/empty_string"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -75,9 +75,9 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/edit_selector"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvFirstName"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvFirstNameHeading"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvFirstName" />
+                    app:layout_constraintTop_toTopOf="@+id/tvFirstNameHeading" />
 
                 <ImageView
                     android:id="@+id/ivEditMiddleName"
@@ -87,9 +87,9 @@
                     android:background="@drawable/edit_selector"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvMiddleName"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMiddleNameHeading"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvMiddleName" />
+                    app:layout_constraintTop_toTopOf="@+id/tvMiddleNameHeading" />
 
                 <ImageView
                     android:id="@+id/ivEditLastName"
@@ -99,9 +99,9 @@
                     android:background="@drawable/edit_selector"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvLastName"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLastNameHeading"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvLastName" />
+                    app:layout_constraintTop_toTopOf="@+id/tvLastNameHeading" />
 
                 <ImageView
                     android:id="@+id/ivEditNationality"
@@ -110,10 +110,46 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/edit_selector"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvNationality"
+                    android:visibility="@{viewModel.state.nationality.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvNationalityHeading"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvNationality" />
+                    app:layout_constraintTop_toTopOf="@+id/tvNationalityHeading" />
+
+                <ImageView
+                    android:id="@+id/ivEditDob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/edit_selector"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:visibility="@{viewModel.state.dateOfBirth.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvDOBHeading"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvDOBHeading" />
+
+                <ImageView
+                    android:id="@+id/ivEditGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/edit_selector"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:visibility="@{viewModel.state.gender.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvGenderHeading"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvGenderHeading" />
+
+                <ImageView
+                    android:id="@+id/ivEditExpiry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/edit_selector"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:visibility="@{viewModel.state.expiryDate.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvExpiryDateHeading"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvExpiryDateHeading" />
 
 
                 <TextView
@@ -143,144 +179,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                     tools:text="@string/screen_b2c_eid_info_review_display_text_edit_sub_title" />
 
-                <TextView
-                    android:id="@+id/tvFirstNameHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintStart_toStartOf="@+id/tvEIdHeading"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEIdHeading"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_first_name_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_first_name_heading" />
-
-
-                <TextView
-                    android:id="@+id/tvMiddleNameHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:visibility="@{viewModel.state.isShowMiddleName ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintStart_toStartOf="@+id/tvFirstName"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFirstName"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_middle_name_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_middle_name_heading" />
-
-                <TextView
-                    android:id="@+id/tvLastNameHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintStart_toStartOf="@+id/tvMiddleName"
-                    app:layout_constraintTop_toBottomOf="@+id/tvMiddleName"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_last_name_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_last_name_heading" />
-
-                <TextView
-                    android:id="@+id/tvNationalityHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintStart_toStartOf="@+id/tvLastName"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLastName"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_nationality_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_nationality_heading" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/tvNationality"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/margin_medium_large"
-                    android:backgroundTint="@drawable/edit_text_bg_selector"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:lineSpacingExtra="-5dp"
-                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:paddingTop="-5dp"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.nationality}"
-                    android:theme="@style/Theme.EditText.Primary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tvNationalityHeading"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading"
-                    tools:text="Nationality" />
-
-
-                <TextView
-                    android:id="@+id/tvDOBHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/tvNationality"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNationality"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_dob_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_dob_heading" />
-
-                <TextView
-                    android:id="@+id/tvDOB"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.dateOfBirthValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.dateOfBirth}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading"
-                    tools:text="01/01/1979" />
-
-                <TextView
-                    android:id="@+id/tvGenderHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/tvDOB"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDOB"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_gender_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_gender_heading" />
-
-
-                <TextView
-                    android:id="@+id/tvGender"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.genderValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.gender}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvGenderHeading"
-                    tools:text="Female" />
-
-                <TextView
-                    android:id="@+id/tvExpiryDateHeading"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintStart_toStartOf="@+id/tvGender"
-                    app:layout_constraintTop_toBottomOf="@+id/tvGender"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_expiry_date_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_expiry_date_heading" />
-
-                <TextView
-                    android:id="@+id/tvExpiryDate"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.expiryDateValid ? @drawable/path : @drawable/ic_error}"
-                    android:text="@{viewModel.state.expiryDate}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvExpiryDateHeading"
-                    tools:text="01/01/2019" />
 
                 <TextView
                     android:id="@+id/tvError"
@@ -291,7 +189,7 @@
                     android:layout_marginEnd="@dimen/margin_medium_large"
                     android:textColor="@color/error"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/tvExpiryDate"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExpiryDateHeading"
                     app:text="@{Strings.screen_b2c_eid_info_review_display_expired_eid_text}"
                     tools:text="@string/screen_b2c_eid_info_review_display_expired_eid_text" />
 
@@ -327,89 +225,260 @@
                         android:id="@+id/tvEidNumber"
                         style="@style/Large"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789-"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="number"
+                        android:lineSpacingExtra="-5dp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:paddingTop="-5dp"
                         android:paddingEnd="@dimen/_30sdp"
                         android:paddingRight="@dimen/_30sdp"
+                        android:singleLine="true"
+                        android:text="@{viewModel.state.citizenNumber}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        tools:text="Emirates ID" />
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvFirstNameHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_first_name_heading"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEIdHeading">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tvFirstName"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:lineSpacingExtra="-5dp"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:paddingTop="-5dp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
                         android:singleLine="true"
-                        android:text="@{viewModel.state.citizenNumber}"
+                        android:text="@={viewModel.state.firstName}"
                         android:theme="@style/Theme.EditText.Primary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/tvEIdHeading"
-                        app:layout_constraintTop_toBottomOf="@+id/tvEIdHeading"
-                        tools:text="Emirates ID" />
+                        tools:layout_editor_absoluteX="13dp"
+                        tools:text="Nada Hassan" />
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvMiddleNameHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_middle_name_heading"
+                    android:visibility="@{viewModel.state.isShowMiddleName ? View.VISIBLE : View.GONE}"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tvMiddleName"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:lineSpacingExtra="-5dp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:paddingTop="-5dp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:singleLine="true"
+                        android:text="@={viewModel.state.middleName}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.GONE}"
+                        tools:text="Noor" />
+
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvLastNameHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_last_name_heading"
+                    android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMiddleNameHeading">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tvLastName"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:lineSpacingExtra="-5dp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:paddingTop="-5dp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:singleLine="true"
+                        android:text="@={viewModel.state.lastName}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
+                        tools:text="Hassan" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
 
-                <EditText
-                    android:id="@+id/tvFirstName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvNationalityHeading"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:lineSpacingExtra="-5dp"
-                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:paddingTop="-5dp"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.firstName}"
-                    android:theme="@style/Theme.EditText.Primary"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_nationality_heading"
+                    app:hintTextAppearance="@style/LabelTextStyl"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tvFirstNameHeading"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading"
-                    tools:layout_editor_absoluteX="13dp"
-                    tools:text="Nada Hassan" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLastNameHeading">
 
-                <EditText
-                    android:id="@+id/tvMiddleName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:backgroundTint="@drawable/edit_text_bg_selector"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:lineSpacingExtra="-5dp"
-                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:paddingTop="-5dp"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.middleName}"
-                    android:theme="@style/Theme.EditText.Primary"
-                    android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tvMiddleNameHeading"
-                    app:layout_constraintTop_toBottomOf="@+id/tvMiddleNameHeading"
-                    tools:text="Noor" />
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tvNationality"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:lineSpacingExtra="-5dp"
+                        android:maxLength="@integer/eid_nationality_length"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:paddingTop="-5dp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:singleLine="true"
+                        android:text="@={viewModel.state.nationality}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        tools:text="Nationality" />
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
-                <EditText
-                    android:id="@+id/tvLastName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvDOBHeading"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:backgroundTint="@drawable/edit_text_bg_selector"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:lineSpacingExtra="-5dp"
-                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:paddingTop="-5dp"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.lastName}"
-                    android:theme="@style/Theme.EditText.Primary"
-                    android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_dob_heading"
+                    app:hintTextAppearance="@style/LabelTextStyl"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tvLastNameHeading"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLastNameHeading"
-                    tools:text="Hassan" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tvDOB"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:lineSpacingExtra="-5dp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:paddingTop="-5dp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:singleLine="true"
+                        android:text="@{viewModel.state.dateOfBirth}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        app:editable="@{false}"
+                        tools:text="01/01/1979" />
+
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvGenderHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_gender_heading"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tvGender"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:lineSpacingExtra="-5dp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:paddingTop="-5dp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:singleLine="true"
+                        android:text="@{viewModel.state.gender}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        app:editable="@{false}"
+                        tools:text="Female" />
+
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvExpiryDateHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_expiry_date_heading"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGenderHeading">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tvExpiryDate"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:lineSpacingExtra="-5dp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        android:paddingTop="-5dp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:singleLine="true"
+                        android:text="@{viewModel.state.expiryDate}"
+                        android:theme="@style/Theme.EditText.Primary"
+                        app:editable="@{false}"
+                        tools:text="01/01/2019" />
+
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvCard"
@@ -418,17 +487,14 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_normal"
-                    app:cardBackgroundColor="@color/colorPrimary"
+                    app:cardBackgroundColor="@color/primary_purple_diffused"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintTop_toBottomOf="@+id/tvDetailsVerify">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_medium"
-                        android:paddingTop="@dimen/margin_large"
-                        android:paddingEnd="@dimen/margin_medium"
-                        android:paddingBottom="@dimen/margin_large">
+                        android:padding="@dimen/margin_normal">
 
                         <FrameLayout
                             android:id="@+id/ivProfile"
@@ -457,8 +523,9 @@
                             style="@style/ALarge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_medium_large"
-                            android:textColor="@color/white"
+                            android:layout_marginStart="@dimen/_20sdp"
+                            android:textColor="@color/colorPrimary"
+                            app:layout_constraintBottom_toTopOf="@+id/tvHeading"
                             app:layout_constraintLeft_toRightOf="@+id/ivProfile"
                             app:layout_constraintTop_toTopOf="parent"
                             app:text="@{Strings.screen_b2c_eid_info_review_display_text_emirates_id_heading}"
@@ -470,26 +537,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:visibility="@{viewModel.state.citizenNumber.trim().equals(``) ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="@+id/tvEid"
                             app:layout_constraintTop_toBottomOf="@+id/tvEid"
                             app:text="@{Strings.screen_b2c_eid_info_review_display_text_emirates_id_sub_heading}"
                             tools:text="@string/screen_b2c_eid_info_review_display_text_emirates_id_sub_heading"
                             tools:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/tvCitizenNumber"
-                            style="@style/Regular"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/small"
-                            android:text="@{viewModel.state.citizenNumber}"
-                            android:textColor="@color/white"
-                            android:visibility="@{viewModel.state.citizenNumber.trim().equals(``) ? View.GONE : View.VISIBLE}"
-                            app:layout_constraintStart_toStartOf="@+id/tvEid"
-                            app:layout_constraintTop_toBottomOf="@+id/tvEid"
-                            tools:text="784 1969 3030703 6"
-
-                            />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>

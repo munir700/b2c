@@ -220,8 +220,8 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_b2c_eid_info_review_display_text_gender_female">Female</string>
     <string name="screen_b2c_eid_info_review_display_text_gender_unknown"> </string>
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
-    <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
-    <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_button_title_confirm">Submit</string>
+    <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan your ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
