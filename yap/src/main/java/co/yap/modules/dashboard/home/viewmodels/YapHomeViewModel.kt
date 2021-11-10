@@ -367,7 +367,9 @@ class YapHomeViewModel(application: Application) :
         launch {
             when (val response = customerRepository.getDashboardWidget()) {
                 is RetroApiResponse.Success -> {
-                    dashboardWidgetList.postValue(getFilteredList(response.data.widgetList))
+                    response.data.data?.let {
+                        dashboardWidgetList.postValue(getFilteredList(it))
+                    }
                 }
                 is RetroApiResponse.Error -> {
 
@@ -376,9 +378,9 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
-    private fun getFilteredList(widgetList: MutableList<WidgetData>) =  widgetList.run {
-            this.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList().also {
-                it.add(WidgetData(id = -1, name = "Edit"))
-            }
+    private fun getFilteredList(widgetList: MutableList<WidgetData>) = widgetList.run {
+        this.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList().also {
+            it.add(WidgetData(id = -1, name = "Edit"))
+        }
     }
 }

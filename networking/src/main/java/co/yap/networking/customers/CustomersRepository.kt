@@ -3,7 +3,7 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.models.dashboardwidget.DashboardWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -16,6 +16,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
@@ -468,7 +469,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.stopRankingMsgRequest()
         })
 
-    override suspend fun getDashboardWidget(): RetroApiResponse<DashboardWidgetResponse> =
+    override suspend fun getDashboardWidget(): RetroApiResponse<BaseListResponse<WidgetData>> =
         executeSafely(call = {
             api.getDashboardWidget()
         })
