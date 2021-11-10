@@ -20,6 +20,7 @@ interface IEidInfoReview {
         var citizenNumber: String
         var caption: String
         var fullNameValid: Boolean
+        var citizenNumberValid: Boolean
         var nationalityValid: Boolean
         var dateOfBirthValid: Boolean
         var genderValid: Boolean
