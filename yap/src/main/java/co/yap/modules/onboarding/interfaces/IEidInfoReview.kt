@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import java.util.*
 
 interface IEidInfoReview {
 
@@ -58,5 +59,6 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
+        fun isDateOfBirthValid(dob: Date, success : (Boolean) -> Unit)
     }
 }

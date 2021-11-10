@@ -10,6 +10,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.ValidateEIDResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
@@ -20,6 +21,7 @@ import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.Response
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -127,6 +129,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
+    const val URL_VALIDATE_EID = "customers/api/sanction-countries-configuration"
+
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -242,7 +246,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
-    override suspend fun detectCardData(fileFront: MultipartBody.Part, fileBack: MultipartBody.Part) =
+    override suspend fun detectCardData(
+        fileFront: MultipartBody.Part,
+        fileBack: MultipartBody.Part
+    ) =
         executeSafely(call = { api.uploadIdCard(fileFront, fileBack) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
@@ -464,5 +471,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
             api.stopRankingMsgRequest()
+        })
+
+    override suspend fun checkEIDAgeAndSenctionCountries(): RetroApiResponse<ValidateEIDResponse> =
+        executeSafely(call = {
+            api.checkEIDAgeAndSenctionCountries()
         })
 }

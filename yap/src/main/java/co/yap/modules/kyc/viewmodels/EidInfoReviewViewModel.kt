@@ -4,7 +4,6 @@ import android.app.Application
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -18,6 +17,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
@@ -31,6 +31,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
@@ -46,6 +47,22 @@ class EidInfoReviewViewModel(application: Application) :
     override var sanctionedNationality: String = ""
     override var errorTitle: String = ""
     override var errorBody: String = ""
+    override fun isDateOfBirthValid(dob: Date, success: (Boolean) -> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.checkEIDAgeAndSenctionCountries()) {
+
+                is RetroApiResponse.Success -> {
+                    val data = response.data
+                    success.invoke(getAge(dob).equals(11))
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
+
+    }
+
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
 
@@ -76,13 +93,23 @@ class EidInfoReviewViewModel(application: Application) :
                     )
                     clickEvent.setValue(eventErrorExpiredEid)
                 }
-                !it.isDateOfBirthValid -> {
-                    updateLabels(
-                        title = getString(Strings.screen_kyc_information_error_display_text_title_under_age),
-                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
-                    )
-                    clickEvent.setValue(eventErrorUnderAge)
-                    trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
+                it.dateOfBirth != null -> {
+                    isDateOfBirthValid(it.dateOfBirth){ isinValid ->
+                        if (isinValid){
+                            updateLabels(
+                                title = getString(Strings.screen_kyc_information_error_display_text_title_under_age),
+                                body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
+                            )
+                            clickEvent.setValue(eventErrorUnderAge)
+                            trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
+                        }
+                        else{
+                            performUploadDocumentsRequest(false) {
+                            }
+                        }
+
+                    }
+
                 }
                 it.nationality.equals("USA", true) || it.isoCountryCode2Digit.equals(
                     "US",
