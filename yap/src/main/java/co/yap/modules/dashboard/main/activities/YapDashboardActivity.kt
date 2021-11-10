@@ -91,13 +91,19 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        logEvent()
         mNavigator = (applicationContext as NavigatorProvider).provideNavigator()
         SessionManager.getCountriesFromServer { _, _ -> }
         setupPager()
         addObservers()
         addListeners()
-        setupNewYapButtons()
-        logEvent()
+        getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
+            launch {
+//                if (hasFlag) {
+                    setupNewYapButtons(hasFlag)
+//                }
+            }
+        }
         lifecycleScope.launch {
             delay(100)
             mNavigator?.handleDeepLinkFlow(
@@ -112,68 +118,75 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP)
     }
 
-    private fun setupNewYapButtons() {
-        actionMenu = FloatingActionMenu.Builder(this)
-            .setStartAngle(0)
-            .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
-            .setAnimationHandler(SlideInAnimationHandler())
-            .addSubActionView(
-                getString(Strings.common_send_money),
-                R.drawable.ic_send_money,
-                R.layout.component_yap_menu_sub_button,
-                this, 1
-            ).addSubActionView(
+    private fun setupNewYapButtons(hasBillPaymentEnable: Boolean) {
+        val builder = FloatingActionMenu.Builder(this)
+
+        // actionMenu = FloatingActionMenu.Builder(this)
+        builder.setStartAngle(0)
+        builder.setEndAngle(-180)
+        builder.setRadius(dimen(R.dimen._69sdp))
+        builder.setAnimationHandler(SlideInAnimationHandler())
+        builder.addSubActionView(
+            getString(Strings.common_send_money),
+            R.drawable.ic_send_money,
+            R.layout.component_yap_menu_sub_button,
+            this, 1
+        )
+        if (hasBillPaymentEnable) {
+            builder.addSubActionView(
                 getString(Strings.common_pay_bills),
                 R.drawable.ic_bill,
                 R.layout.component_yap_menu_sub_button,
                 this, 2
-            ).addSubActionView(
-                getString(Strings.common_add_money),
-                R.drawable.ic_add_sign_white,
-                R.layout.component_yap_menu_sub_button,
-                this, 3
             )
-            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
-            .setTxtYapIt(getViewBinding().txtYapIt)
-            .setStateChangeListener(object :
-                FloatingActionMenu.MenuStateChangeListener {
-                override fun onMenuOpened(menu: FloatingActionMenu) {
-                    trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
-                    overLayButtonVisibility(View.GONE)
-                    getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
-                        launch {
-                            if (hasFlag) {
-                                actionMenu?.subActionItems?.get(1)?.view?.visibility = View.VISIBLE
-                            } else {
-                                actionMenu?.subActionItems?.get(1)?.view?.visibility =
-                                    View.INVISIBLE
-                            }
-                        }
+        }
+        builder.addSubActionView(
+            getString(Strings.common_add_money),
+            R.drawable.ic_add_sign_white,
+            R.layout.component_yap_menu_sub_button,
+            this, 3
+        )
+        builder.attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+        builder.setTxtYapIt(getViewBinding().txtYapIt)
+        builder.setStateChangeListener(object :
+            FloatingActionMenu.MenuStateChangeListener {
+            override fun onMenuOpened(menu: FloatingActionMenu) {
+                trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
+                overLayButtonVisibility(View.GONE)
+//                    getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
+//                        launch {
+//                            if (hasFlag) {
+//                                actionMenu?.subActionItems?.get(1)?.view?.visibility = View.VISIBLE
+//                            } else {
+//                                actionMenu?.subActionItems?.get(1)?.view?.visibility =
+//                                    View.INVISIBLE
+//                            }
+//                        }
+//                    }
+            }
+
+            override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
+                lifecycleScope.launch {
+                    delay(300)
+                    overLayButtonVisibility(View.VISIBLE)
+                }
+                when (subActionButtonId) {
+                    1 -> {
+                        trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
+                        launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                    }
+
+                    2 -> {
+                        launchActivity<BillPaymentsHomeActivity>(type = FeatureSet.BILL_PAYMENT)
+                    }
+
+                    3 -> {
+                        launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                     }
                 }
-
-                override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    lifecycleScope.launch {
-                        delay(300)
-                        overLayButtonVisibility(View.VISIBLE)
-                    }
-                    when (subActionButtonId) {
-                        1 -> {
-                            trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
-                            launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
-                        }
-
-                        2 -> {
-                            launchActivity<BillPaymentsHomeActivity>()
-                        }
-
-                        3 -> {
-                            launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
-                        }
-                    }
-                }
-            })
-            .build()
+            }
+        })
+        actionMenu = builder.build()
 
     }
 
