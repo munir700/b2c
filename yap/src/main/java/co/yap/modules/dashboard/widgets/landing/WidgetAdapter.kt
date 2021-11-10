@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.widgets.landing
 
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
@@ -61,12 +63,22 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     override fun getViewModel(viewType: Int) = WidgetLandingItemViewModel()
     override fun getVariableId() = BR.viewModel
     override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
-        return if (datas[position].status == true) {
-            editWidget
-        } else {
-            editWidget = false
-            false
-        }
+
+        val constraintLayout: LinearLayoutCompat = holder.binding.constraintLayout
+        val imageView: AppCompatImageView = holder.binding.imageDragDropAdd
+        val offsetX:Int = constraintLayout.left + (constraintLayout.translationX + 0.5f).toInt()
+        val offsetY:Int = constraintLayout.top + (constraintLayout.translationY + 0.5f).toInt()
+        return hitTest( imageView, x - offsetX, y - offsetY)
+    }
+
+    fun hitTest(v: View, x: Int, y: Int): Boolean {
+        val tx = (v.translationX + 0.5f).toInt()
+        val ty = (v.translationY + 0.5f).toInt()
+        val left = v.left + tx
+        val right = v.right + tx
+        val top = v.top + ty
+        val bottom = v.bottom + ty
+        return x in left..right && y >= top && y <= bottom
     }
 
     override fun onGetItemDraggableRange(holder: ViewHolder, position: Int): ItemDraggableRange {
@@ -162,12 +174,12 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
                     adapterPosition
                 )
             }
-            binding.imageDragDropAdd.setOnLongClickListener {
-                if(mAdapter?.datas?.get(adapterPosition)?.status == true){
-                    mAdapter?.editWidget = true
-                }
-                true
-            }
+//            binding.imageDragDropAdd.setOnLongClickListener {
+//                if(mAdapter?.datas?.get(adapterPosition)?.status == true){
+//                    mAdapter?.editWidget = true
+//                }
+//                true
+//            }
             binding.imageDragDropAdd.setOnClickListener {
                 if(mAdapter?.datas?.get(adapterPosition)?.status == false){
                     mAdapter?.mEventListener?.onAddedButtonClick( itemView, position = adapterPosition)

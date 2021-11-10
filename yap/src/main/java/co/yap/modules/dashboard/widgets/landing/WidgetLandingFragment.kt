@@ -184,8 +184,6 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemDragStarted(position: Int) {
-        Log.i("onItemDragStarted","onItemDragStarted")
-
     }
 
     override fun onItemDragPositionChanged(
@@ -195,8 +193,6 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
-        Log.i("onItemDragFinished","false")
-        mAdapter.editWidget = false
     }
 
     override fun onItemDragMoveDistanceUpdated(offsetX: Int, offsetY: Int) {
