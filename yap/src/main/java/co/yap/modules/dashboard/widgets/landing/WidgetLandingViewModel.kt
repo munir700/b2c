@@ -35,21 +35,29 @@ class WidgetLandingViewModel(application: Application) :
         val index = widgetDataList.count {
             it.status == true
         }
-        widgetDataList.add(index, WidgetData(id = 2000, name = "Heading"))
+        widgetDataList.add(index, WidgetData(id = 2000, name = "Hidden"))
         widgetAdapter.get()?.setData(widgetDataList)
     }
 
-    override fun changeStatus(position: Int, status: Boolean) {
-        val widgetData = widgetDataList[position]
+    override fun changeStatus( positionFrom: Int, positionTo: Int, status: Boolean, isDragDrop: Boolean) {
+        val widgetData = widgetDataList[positionFrom]
         widgetData.status = status
         widgetData.isPinned = false
         widgetData.isShuffled = true
-        widgetDataList.removeAt(position)
+        when( isDragDrop){
+            false->{
+                widgetDataList.removeAt(positionFrom)
+            }
+        }
         when (status) { //status true mean it is add to dashboard widget bar section and false mean it is added to hidden section
             true -> {
-                widgetDataList.add(widgetDataList.count {
-                    it.status == true
-                }, widgetData)
+                when(isDragDrop){
+                    false->{
+                        widgetDataList.add(widgetDataList.count {
+                            it.status == true
+                        }, widgetData)
+                    }
+                }
             }
             else -> {
                 widgetDataList.add(widgetDataList.size, widgetData)

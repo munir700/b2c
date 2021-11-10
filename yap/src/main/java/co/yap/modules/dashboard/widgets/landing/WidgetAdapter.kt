@@ -23,7 +23,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         navigation
     ), DraggableItemAdapter<WidgetAdapter.ViewHolder>,
     SwipeableItemAdapter<WidgetAdapter.ViewHolder> {
-    var editWidget: Boolean = true
+    var editWidget: Boolean = false
         set(value) {
             field = value
             if (oldSwipePosition != RecyclerView.NO_POSITION) {
@@ -89,6 +89,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
+        mEventListener?.onDragDropFinished( fromPosition, toPosition)
         notifyDataSetChanged()
     }
 
@@ -101,9 +102,9 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         return if (onCheckCanStartDrag(holder, position, x, y)) {
             REACTION_CAN_NOT_SWIPE_BOTH_H
         } else {
-            if (datas[position].status == true) {
+            if(datas[position].status == true){
                 REACTION_CAN_SWIPE_LEFT
-            } else {
+            }else{
                 REACTION_CAN_NOT_SWIPE_UP
             }
         }
@@ -162,17 +163,14 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
                 )
             }
             binding.imageDragDropAdd.setOnLongClickListener {
-                if (mAdapter?.datas?.get(adapterPosition)?.status == true) {
-                    mAdapter.editWidget = true
+                if(mAdapter?.datas?.get(adapterPosition)?.status == true){
+                    mAdapter?.editWidget = true
                 }
                 true
             }
             binding.imageDragDropAdd.setOnClickListener {
-                if (mAdapter?.datas?.get(adapterPosition)?.status == false) {
-                    mAdapter.mEventListener?.onAddedButtonClick(
-                        itemView,
-                        position = adapterPosition
-                    )
+                if(mAdapter?.datas?.get(adapterPosition)?.status == false){
+                    mAdapter?.mEventListener?.onAddedButtonClick( itemView, position = adapterPosition)
                 }
             }
         }
@@ -248,5 +246,6 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         fun onItemPinned(position: Int, isPinned: Boolean)
         fun onUnderSwipeableViewButtonClicked(v: View?, position: Int)
         fun onAddedButtonClick(v: View?, position: Int)
+        fun onDragDropFinished( positionFrom: Int, positionTo: Int)
     }
 }

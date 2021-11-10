@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -127,9 +128,9 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
                 mWrappedAdapter = mRecyclerViewSwipeManager?.createWrappedAdapter(it)
             }
             mRecyclerViewSwipeManager?.onItemSwipeEventListener = this@WidgetLandingFragment
-//            setInitiateOnLongPress(true)
-//            setInitiateOnMove(true)
-//            setLongPressTimeout(250)
+            setInitiateOnLongPress(true)
+//            setInitiateOnMove(false)
+            setLongPressTimeout(1000)
             dragEdgeScrollSpeed = 1.0f
             setDraggingItemShadowDrawable(
                 ContextCompat.getDrawable(
@@ -168,18 +169,22 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemPinned(position: Int, isPinned: Boolean) {
-
     }
 
     override fun onUnderSwipeableViewButtonClicked(v: View?, position: Int) {
-        viewModel.changeStatus(position = position, status = false)
+        viewModel.changeStatus( positionFrom = position, positionTo = 0, status = false, isDragDrop = false)
     }
 
     override fun onAddedButtonClick(v: View?, position: Int) {
-        viewModel.changeStatus(position = position, status = true)
+        viewModel.changeStatus( positionFrom = position, positionTo = 0, status = true, isDragDrop = false)
+    }
+
+    override fun onDragDropFinished( positionFrom: Int, positionTo: Int) {
+        viewModel.changeStatus( positionFrom = positionFrom, positionTo = positionTo, status = true, isDragDrop = true)
     }
 
     override fun onItemDragStarted(position: Int) {
+        Log.i("onItemDragStarted","onItemDragStarted")
 
     }
 
@@ -190,6 +195,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
+        Log.i("onItemDragFinished","false")
         mAdapter.editWidget = false
     }
 
@@ -238,6 +244,11 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
         }else{
             activity?.finish()
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        viewModel.requestWidgetUpdation()
+        return true
     }
 
     private fun setResultData() {

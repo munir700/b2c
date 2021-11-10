@@ -379,7 +379,7 @@ class YapHomeViewModel(application: Application) :
     }
 
     private fun getFilteredList(widgetList: MutableList<WidgetData>) =  widgetList.run {
-            this.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList().also {
+            this.filter { it.status == true}.toMutableList().also {
                 it.add(WidgetData(id = -1, name = "Edit"))
             }
     }
