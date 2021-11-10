@@ -6,6 +6,7 @@ import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoRes
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
@@ -14,6 +15,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -29,7 +31,6 @@ interface CustomersRetroService {
     // In onboarding send verification email to verify uer
     @POST(CustomersRepository.URL_SEND_VERIFICATION_EMAIL)
     suspend fun sendVerificationEmail(@Body sendVerificationEmailRequest: SendVerificationEmailRequest): Response<OtpValidationResponse>
-
 
     // Get user account(s) Info
     @GET(CustomersRepository.URL_ACCOUNT_INFO)
@@ -298,4 +299,28 @@ interface CustomersRetroService {
 
     @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
     suspend fun stopRankingMsgRequest(): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_UPDATE_PROFILE_FSS)
+    suspend fun updateCardName(@Body cardNameRequest: CardNameRequest): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_BILL_PROVIDERS)
+    suspend fun getBillProviders(): Response<BillProviderResponse>
+
+    @GET(CustomersRepository.URL_BILLER_CATALOGS)
+    suspend fun getBillerCatalogs(@Path("category-id") categoryId: String): Response<BillerCatalogResponse>
+
+    @GET(CustomersRepository.URL_BILLER_INPUTS_DETAILS)
+    suspend fun getBillerInputsDetails(@Path("biller-id") billerId: String): Response<BillerDetailResponse>
+
+    @POST(CustomersRepository.URL_ADD_BILLER)
+    suspend fun addBiller(@Body addBillerInformationRequest: AddBillerInformationRequest): Response<BillAddedResponse>
+
+    @GET(CustomersRepository.URL_GET_ADDED_BILLS)
+    suspend fun getAddedBills(): Response<BillResponse>
+
+    @DELETE(CustomersRepository.URL_DELETE_BILL)
+    suspend fun deleteBill(@Path("id") id: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_EDIT_BILLER)
+    suspend fun editBiller(@Body editBillerRequest: EditBillerRequest): Response<ApiResponse>
 }

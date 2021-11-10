@@ -177,7 +177,7 @@ class TransactionsListingAdapter(
                     setY2YUserImage(transaction, itemTransactionListBinding, position)
                 } else if (TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == it || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == it) {
                     setVirtualCardIcon(transaction, itemTransactionListBinding)
-                } else if (TransactionProductCode.ECOM.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
+                } else if (TransactionProductCode.ECOM.pCode == it || TransactionProductCode.BILL_PAYMENTS.pCode == it || TransactionProductCode.POS_PURCHASE.pCode == it) {
                     setCategoryIcon(transaction, itemTransactionListBinding, position)
                 } else {
                     if (txnIconResId != -1) {

@@ -275,7 +275,8 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("app:srcCompat")
     fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
-        imageView.setImageResource(resource)
+        if (resource > 0)
+            imageView.setImageResource(resource)
     }
 
     @JvmStatic
@@ -624,6 +625,7 @@ object ImageBinding {
                         imageView.setImageDrawable(resImg)
                         if (isBackground) setCategoryDrawable(imageView, position)
                     }
+
                     override fun onLoadCleared(placeholder: Drawable?) {
                     }
                 })
