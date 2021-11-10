@@ -9,10 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMissinginfoBinding
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.amendments.missinginfo.adapters.MissingInfoAdapter
 import co.yap.modules.kyc.amendments.missinginfo.interfaces.IMissingInfo
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.SessionManager
 
 class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMissingInfo.View {
@@ -37,6 +41,15 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
     private val onClickView = Observer<Int> {
         when (it) {
             R.id.btnGetStarted -> {
+                if (viewModel.missingInfoMap.value?.get("eidInfo")?.isNotEmpty() == true) {
+                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                        putExtra(
+                            Constants.name,
+                            SessionManager.user?.currentCustomer?.firstName.toString()
+                        )
+                        putExtra(Constants.data, false)
+                    }
+                }
             }
             R.id.tvDoItLater -> {
             }
