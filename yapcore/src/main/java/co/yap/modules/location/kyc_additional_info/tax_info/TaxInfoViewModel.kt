@@ -203,7 +203,7 @@ class TaxInfoViewModel(application: Application) :
         for (taxInfo: TaxModel in taxInfoList) {
             taxList.add(
                 TaxInfoDetailRequest(
-                    country = taxInfo.selectedCountry?.getName() ?: "",
+                    country = taxInfo.selectedCountry?.getName()?.trim() ?: "",
                     tinAvailable = taxInfo.selectedOption.get().equals("Yes"),
                     reasonInCaseNoTin = if (taxInfo.selectedOption.get()
                             .equals("Yes")

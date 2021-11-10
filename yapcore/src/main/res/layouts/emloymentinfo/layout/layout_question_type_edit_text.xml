@@ -45,7 +45,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
                 tools:text="Tell us the name of your company?" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <co.yap.widgets.AlphaNumericEditText
                 android:id="@+id/etQuestionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
