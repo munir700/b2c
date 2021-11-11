@@ -66,10 +66,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 R.id.ivEditEID, R.id.tvEidNumber -> {
                     disableImageView(ivEditEID)
                     manageFocus(tvEidNumber, ivEditEID)
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "eid_number")
-                    )
                 }
                 R.id.ivEditFirstName, R.id.tvFirstName -> {
                     disableImageView(ivEditFirstName)
@@ -101,32 +97,17 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 R.id.ivEditNationality, R.id.tvNationality -> {
                     disableImageView(ivEditNationality)
                     manageFocus(tvNationality, ivEditNationality)
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "nationality")
-                    )
                 }
 
                 R.id.ivEditDob, R.id.tvDOB -> {
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "date_of_birth")
-                    )
                     showDateOfBirthPicker(viewModel.state.dobCalendar)
                 }
 
                 R.id.ivEditGender, R.id.tvGender -> {
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "gender")
-                    )
+
                 }
 
                 R.id.ivEditExpiry, R.id.tvExpiryDate -> {
-                    trackEventWithScreenName(
-                        FirebaseEvent.EDIT_FIELD,
-                        bundleOf("field_name" to "expiry")
-                    )
                     showExpiryDatePicker(viewModel.state.expiryCalendar)
                 }
 
