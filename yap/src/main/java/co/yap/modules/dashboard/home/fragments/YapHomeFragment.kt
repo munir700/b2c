@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -99,6 +101,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
     private lateinit var skeleton: Skeleton
     private var tourStep: TourSetup? = null
+    var shardPrefs: SharedPreferenceManager? = null
 
     override val viewModel: YapHomeViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -112,6 +115,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
         parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
+        shardPrefs = SharedPreferenceManager.getInstance(requireContext())
     }
 
     private fun startFlowForSetPin(card: Card?) {
@@ -133,6 +137,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setAvailableBalance(viewModel.state.availableBalance)
         categoryBarSetup()
         viewModel.requestDashboardWidget()
+        setWidigetVisibility()
+
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -876,14 +882,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
             RequestCodes.REQUEST_EDIT_WIDGET -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    when (data?.getIntExtra("ACTION", -1)) {
-                        Constants.HIDE_WIDGET -> {
-                            getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
-                                View.GONE
-                        }
-                        Constants.CHANGE_WIDGET -> {
-                            viewModel.requestDashboardWidget()
-                        }
+                    if(data?.getBooleanExtra("HIDE_WIDGET",false) == true){
+                        setWidigetVisibility()
+                    }
+                    if(data?.getBooleanExtra("ACTION",false) == true){
+                        viewModel.requestDashboardWidget()
                     }
                 }
             }
@@ -1106,5 +1109,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
         viewModel.requestCategoryBarData()
+    }
+    private fun setWidigetVisibility(){
+        shardPrefs?.let { pref ->
+            getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
+                if (pref.getValueBoolien(Constants.WIDGET_HIDDEN_STATUS, false)) {
+                    GONE
+                } else {
+                    VISIBLE
+                }
+        }
     }
 }

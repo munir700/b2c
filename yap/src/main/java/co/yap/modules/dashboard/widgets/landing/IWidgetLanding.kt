@@ -21,5 +21,6 @@ class IWidgetLanding {
     }
 
     interface State : IBase.State {
+        var isVisibilityChange:ObservableField<Boolean>
     }
 }
