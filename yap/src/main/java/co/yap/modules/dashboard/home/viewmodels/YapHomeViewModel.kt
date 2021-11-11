@@ -368,8 +368,9 @@ class YapHomeViewModel(application: Application) :
         launch {
             when (val response = customerRepository.getDashboardWidget()) {
                 is RetroApiResponse.Success -> {
-                    widgetList = response.data.widgetList
-                    dashboardWidgetList.postValue(getFilteredList(widgetList.toMutableList()))
+                    response.data.data?.let {
+                        dashboardWidgetList.postValue(getFilteredList(it))
+                    }
                 }
                 is RetroApiResponse.Error -> {
 

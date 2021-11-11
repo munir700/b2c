@@ -259,6 +259,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (isSuccess) {
                 checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
+                viewModel.state.isCardStatusActivated.set(Constants.USER_STATUS_CARD_ACTIVATED == SessionManager.user?.notificationStatuses)
+                if(viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true){
+                    getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility = View.VISIBLE
+                }else{
+                    getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility = View.GONE
+                }
             }
         })
         getBindings().toolbarLayout.ivSearch.setOnLongClickListener {
