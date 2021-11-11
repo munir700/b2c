@@ -48,6 +48,7 @@ project.ext {
             gson                     : 'com.google.code.gson:gson:2.8.5',
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",
             rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
+            datePicker               : "com.wdullaer:materialdatetimepicker:4.2.3",
 
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
@@ -206,7 +207,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.facebook],
             [configuration: "implementation", dependency: libraries.playservicesAuth],
             [configuration: "implementation", dependency: libraries.playservicesAuthPhone],
-            [configuration: "implementation", dependency: libraries.lotieAnimation]
+            [configuration: "implementation", dependency: libraries.lotieAnimation],
+            [configuration: "implementation", dependency: libraries.datePicker]
 
     ]
 

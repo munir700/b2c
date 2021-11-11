@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import java.util.*
 
 interface IEidInfoReview {
 
@@ -19,6 +20,7 @@ interface IEidInfoReview {
         var citizenNumber: String
         var caption: String
         var fullNameValid: Boolean
+        var citizenNumberValid: Boolean
         var nationalityValid: Boolean
         var dateOfBirthValid: Boolean
         var genderValid: Boolean
@@ -26,6 +28,8 @@ interface IEidInfoReview {
         var valid: Boolean
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
+        var dobCalendar: Calendar
+        var expiryCalendar: Calendar
     }
 
     interface View : IBase.View<ViewModel> {

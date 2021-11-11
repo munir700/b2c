@@ -4,7 +4,6 @@ import android.app.Application
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -31,6 +30,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
@@ -374,6 +374,12 @@ class EidInfoReviewViewModel(application: Application) :
                     }
                 }
             }
+            state.dobCalendar = Calendar.getInstance().apply {
+                time = it.dateOfBirth
+            }
+            state.expiryCalendar = Calendar.getInstance().apply {
+                time = it.expirationDate
+            }
         }
     }
 
@@ -413,6 +419,7 @@ class EidInfoReviewViewModel(application: Application) :
         state.citizenNumber = ""
         state.caption = ""
         state.valid = false
+        state.citizenNumberValid = false
         state.fullNameValid = false
         state.nationalityValid = false
         state.dateOfBirthValid = false
