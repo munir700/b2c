@@ -882,13 +882,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
             RequestCodes.REQUEST_EDIT_WIDGET -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    when (data?.getIntExtra("ACTION", -1)) {
-                        Constants.HIDE_WIDGET -> {
-                            setWidigetVisibility()
-                        }
-                        Constants.CHANGE_WIDGET -> {
-                            viewModel.requestDashboardWidget()
-                        }
+                    if(data?.getBooleanExtra("HIDE_WIDGET",false) == true){
+                        setWidigetVisibility()
+                    }
+                    if(data?.getBooleanExtra("ACTION",false) == true){
+                        viewModel.requestDashboardWidget()
                     }
                 }
             }

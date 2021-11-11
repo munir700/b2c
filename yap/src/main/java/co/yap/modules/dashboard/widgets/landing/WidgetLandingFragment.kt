@@ -25,9 +25,7 @@ import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardMan
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
-import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.bottomsheet_edit_widget.BottomSheetEditWidget
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.dimen
@@ -67,6 +65,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
                         openBottomSheet()
                     } else {
                         shardPrefs?.save(Constants.WIDGET_HIDDEN_STATUS, false)
+                        viewModel.state.isVisibilityChange.set(true)
                     }
                 }
             }
@@ -80,14 +79,12 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
             onBottomSheetButtonClick = View.OnClickListener { view ->
                 when (view.id) {
                     R.id.btnHide -> {
-                        val intent = Intent()
-                        intent.putExtra("ACTION", Constants.HIDE_WIDGET)
-                        activity?.setResult(RESULT_OK, intent)
-                        activity?.finish()
+                        viewModel.state.isVisibilityChange.set(true)
                         shardPrefs?.save(
                             Constants.WIDGET_HIDDEN_STATUS,
                             true
                         )
+                        setResultData()
                     }
                     R.id.tvCancel -> {
                         widgetBottomSheet.dismiss()
@@ -254,11 +251,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     private val apiSuccessObserver = Observer<Boolean> {
-        if( it){
-            setResultData()
-        }else{
-            activity?.finish()
-        }
+        setResultData()
     }
 
     override fun onBackPressed(): Boolean {
@@ -268,7 +261,8 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
 
     private fun setResultData() {
         val intent = Intent()
-        intent.putExtra("ACTION", Constants.CHANGE_WIDGET)
+        intent.putExtra("ACTION", viewModel.getWidgetShuffledList().isNotEmpty())
+        intent.putExtra("HIDE_WIDGET", viewModel.state.isVisibilityChange.get())
         activity?.setResult(RESULT_OK, intent)
         activity?.finish()
     }
