@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
@@ -28,7 +28,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     IFragmentHolder {
 
     override val viewModel: IDocumentsDashboard.ViewModel
-        get() = ViewModelProviders.of(this).get(DocumentsDashboardViewModel::class.java)
+        get() = ViewModelProvider(this).get(DocumentsDashboardViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this, R.id.kyc_host_fragment)
@@ -41,6 +41,8 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         super.onCreate(savedInstanceState)
         //this should be only first time
         viewModel.name.value = intent.getValue(Constants.name, ExtraType.STRING.name) as? String
+        viewModel.amendmentMap =
+            intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as HashMap<String?, List<String>?>
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
         viewModel.gotoInformationErrorFragment?.value = intent?.getBooleanExtra("GO_ERROR", false)

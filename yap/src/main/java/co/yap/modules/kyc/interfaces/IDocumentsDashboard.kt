@@ -16,6 +16,7 @@ interface IDocumentsDashboard {
     interface ViewModel : IBase.ViewModel<State> {
         var identity: Identity?
         var paths: ArrayList<String>
+        var amendmentMap: HashMap<String?, List<String>?>?
         var name: MutableLiveData<String>
         var skipFirstScreen: MutableLiveData<Boolean>
         var finishKyc: MutableLiveData<DocumentsResponse>

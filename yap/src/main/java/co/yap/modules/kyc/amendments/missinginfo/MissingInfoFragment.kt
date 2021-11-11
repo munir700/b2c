@@ -1,17 +1,13 @@
-package co.yap.modules.kyc.amendments.missinginfo.ui
+package co.yap.modules.kyc.amendments.missinginfo
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMissinginfoBinding
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
-import co.yap.modules.kyc.amendments.missinginfo.adapters.MissingInfoAdapter
-import co.yap.modules.kyc.amendments.missinginfo.interfaces.IMissingInfo
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
@@ -28,14 +24,12 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.adapter.set(MissingInfoAdapter(mutableListOf(),null))
+        viewModel.adapter.set(MissingInfoAdapter(mutableListOf(), null))
         viewModel.onClickEvent.observe(viewLifecycleOwner, onClickView)
-        SessionManager.getAccountInfo {
-            getDataBindingView<FragmentMissinginfoBinding>().tvTitle.text =
-                getString(Strings.screen_missing_info_title).format(
-                    SessionManager.user?.currentCustomer?.firstName
-                )
-        }
+        getDataBindingView<FragmentMissinginfoBinding>().tvTitle.text =
+            getString(Strings.screen_missing_info_title).format(
+                SessionManager.user?.currentCustomer?.firstName
+            )
     }
 
     private val onClickView = Observer<Int> {
@@ -48,6 +42,10 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                             SessionManager.user?.currentCustomer?.firstName.toString()
                         )
                         putExtra(Constants.data, false)
+                        putExtra(
+                            Constants.KYC_AMENDMENT_MAP,
+                            viewModel.missingInfoMap.value
+                        )
                     }
                 }
             }

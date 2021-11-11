@@ -17,6 +17,7 @@ class DocumentsDashboardViewModel(application: Application) :
     override val state: DocumentsDashboardState = DocumentsDashboardState()
     override var identity: Identity? = null
     override var paths: ArrayList<String> = arrayListOf()
+    override var amendmentMap: HashMap<String?, List<String>?>? = null
     override var name: MutableLiveData<String> = MutableLiveData("")
     override var skipFirstScreen: MutableLiveData<Boolean> = MutableLiveData(false)
     override var clickEvent: SingleClickEvent = SingleClickEvent()

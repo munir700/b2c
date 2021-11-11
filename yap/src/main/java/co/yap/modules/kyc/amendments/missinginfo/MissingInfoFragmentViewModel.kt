@@ -17,7 +17,7 @@ class MissingInfoFragmentViewModel(application: Application) :
     override val state: IMissingInfo.State = MissingInfoState()
     override val repository: CustomersRepository = CustomersRepository
     override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
-    override val missingInfoMap: MutableLiveData<MutableMap<String?, List<String>?>> =
+    override val missingInfoMap: MutableLiveData<HashMap<String?, List<String>?>> =
         MutableLiveData()
 
     override fun onCreate() {
@@ -31,7 +31,7 @@ class MissingInfoFragmentViewModel(application: Application) :
             when (val response = repository.getMissingInfoList(GetMissingInfoListRequest(""))) {
                 is RetroApiResponse.Success -> {
                     val list = arrayListOf<String>()
-                    val map: MutableMap<String?, List<String>?> = mutableMapOf()
+                    val map: HashMap<String?, List<String>?> = hashMapOf()
                     response.data.amendmentFields.forEach {
                         list.addAll(it.amendments)
                         map[it.sectionName] = it.amendments

@@ -52,6 +52,9 @@
             app:destination="@id/informationErrorFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_eidInfoReviewFragment_to_missingInfoConfirmationFragment"
+            app:destination="@id/missingInfoConfirmationFragment" />
     </fragment>
 
     <fragment
@@ -82,5 +85,10 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/missingInfoConfirmationFragment"
+        android:name="co.yap.modules.kyc.amendments.confirmation.MissingInfoConfirmationFragment"
+        android:label="MissingInfoConfirmationFragment"
+        tools:layout="@layout/fragment_missinginfo_confirmation" />
 
 </navigation>
