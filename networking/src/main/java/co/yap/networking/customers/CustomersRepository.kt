@@ -23,8 +23,6 @@ import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Response
-import okhttp3.Response
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -484,8 +482,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
-        api.updateCardName(cardNameRequest)
-    })
+            api.updateCardName(cardNameRequest)
+        })
 
     override suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse> =
         executeSafely(call = {
