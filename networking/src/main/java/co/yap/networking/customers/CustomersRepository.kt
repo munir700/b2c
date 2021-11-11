@@ -11,7 +11,7 @@ import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.documents.ValidateEIDResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
@@ -511,7 +511,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.editBiller(editBillerRequest)
         })
 
-    override suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ValidateEIDResponse>> =
+    override suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>> =
         executeSafely(call = {
             api.getEIDConfigurations()
         })

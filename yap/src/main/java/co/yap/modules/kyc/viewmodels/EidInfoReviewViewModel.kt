@@ -9,7 +9,7 @@ import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
-import co.yap.networking.customers.responsedtos.documents.ValidateEIDResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
@@ -20,6 +20,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
@@ -452,14 +453,13 @@ class EidInfoReviewViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         val data = configurationEIDResponse.data.data
                         state.isDateOfBirthValid.set(
-                            16 >= data?.ageLimit ?: 18
+                            getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
                         )
                         val countryName = data?.country2DigitIsoCode?.let { str ->
                             str.split(",").map { it -> it.trim() }.find {
                                 it.equals("US")
                             }
                         }
-//                        getAge(dateOfBirth)
                         state.isCountryUS =
                             identity.isoCountryCode2Digit.contains(
                                 countryName ?: "US"
@@ -475,7 +475,7 @@ class EidInfoReviewViewModel(application: Application) :
 
     }
 
-    override fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ValidateEIDResponse>>?) -> Unit) {
+    override fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val senctionedCountriesList = launchAsync {

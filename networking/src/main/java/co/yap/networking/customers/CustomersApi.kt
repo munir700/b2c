@@ -8,7 +8,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesRe
 import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
-import co.yap.networking.customers.responsedtos.documents.ValidateEIDResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
@@ -19,7 +19,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
-import retrofit2.Response
 import retrofit2.http.Body
 
 interface CustomersApi {
@@ -133,5 +132,5 @@ interface CustomersApi {
     suspend fun getAddedBills(): RetroApiResponse<BillResponse>
     suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
     suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse>
-    suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ValidateEIDResponse>>
+    suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>>
 }

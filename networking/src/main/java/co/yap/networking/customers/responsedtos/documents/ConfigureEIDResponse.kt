@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ValidateEIDResponse(
+data class ConfigureEIDResponse(
     @SerializedName("ageLimit")
     var ageLimit: Int? = 0,
     @SerializedName("country2DigitIsoCode")
