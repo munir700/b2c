@@ -63,12 +63,15 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     override fun getViewModel(viewType: Int) = WidgetLandingItemViewModel()
     override fun getVariableId() = BR.viewModel
     override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
-
-        val constraintLayout: LinearLayoutCompat = holder.binding.constraintLayout
-        val imageView: AppCompatImageView = holder.binding.imageDragDropAdd
-        val offsetX:Int = constraintLayout.left + (constraintLayout.translationX + 0.5f).toInt()
-        val offsetY:Int = constraintLayout.top + (constraintLayout.translationY + 0.5f).toInt()
-        return hitTest( imageView, x - offsetX, y - offsetY)
+        return if(datas[position].status == true){
+            val constraintLayout: LinearLayoutCompat = holder.binding.constraintLayout
+            val imageView: AppCompatImageView = holder.binding.imageDragDropAdd
+            val offsetX:Int = constraintLayout.left + (constraintLayout.translationX + 0.5f).toInt()
+            val offsetY:Int = constraintLayout.top + (constraintLayout.translationY + 0.5f).toInt()
+            hitTest( imageView, x - offsetX, y - offsetY)
+        }else{
+            false
+        }
     }
 
     fun hitTest(v: View, x: Int, y: Int): Boolean {
