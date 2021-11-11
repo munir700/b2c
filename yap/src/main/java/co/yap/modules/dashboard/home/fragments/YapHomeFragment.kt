@@ -136,7 +136,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
         categoryBarSetup()
-        viewModel.requestDashboardWidget()
         setWidigetVisibility()
 
     }
