@@ -1425,4 +1425,17 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
     <!--    Samsung Pay end-->
 
+    <!-- KYC Amendments/ Missing Info Screen start -->
+    <string name="screen_missing_info_button_get_started">Get started</string>
+    <string name="screen_missing_info_button_do_it_later">Do it later</string>
+    <string name="screen_missing_info_title">Hey %1s,</string>
+    <string name="screen_missing_info_description">Looks like there are some errors with the details you provided during onboarding. Please review the below list and make the updates where applicable to get your YAP account activated.</string>
+    <string name="screen_missing_info_review_required">Review required for:</string>
+    <!-- KYC Amendments/ Missing Info Screen End -->
+
+    <!-- KYC Amendments/ Missing Info Confirmation Screen start -->
+    <string name="screen_missing_info_confirmation_button_done">Done</string>
+    <string name="screen_missing_info_confirmation_display_all_set">You\’re all set!</string>
+    <!-- KYC Amendments/ Missing Info Confirmation Screen end -->
+
 </resources>
