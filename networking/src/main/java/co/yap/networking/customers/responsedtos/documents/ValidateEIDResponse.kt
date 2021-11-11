@@ -14,7 +14,7 @@ data class ValidateEIDResponse(
     @Parcelize
     data class Data(
         @SerializedName("ageLimit")
-        var ageLimit: String? = null,
+        var ageLimit: Int? = 0,
         @SerializedName("country2DigitIsoCode")
         var country2DigitIsoCode: String? = null
     ) : Parcelable

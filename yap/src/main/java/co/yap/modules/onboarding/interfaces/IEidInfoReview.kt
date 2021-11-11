@@ -59,6 +59,6 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
-        fun isDateOfBirthValid(dob: Date, success : (Boolean) -> Unit)
+        fun isDateOfBirthValid(dob: Date, success : (Boolean,Int) -> Unit)
     }
 }

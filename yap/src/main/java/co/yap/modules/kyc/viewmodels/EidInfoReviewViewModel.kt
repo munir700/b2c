@@ -47,21 +47,6 @@ class EidInfoReviewViewModel(application: Application) :
     override var sanctionedNationality: String = ""
     override var errorTitle: String = ""
     override var errorBody: String = ""
-    override fun isDateOfBirthValid(dob: Date, success: (Boolean) -> Unit) {
-        launch {
-            state.loading = true
-            when (val response = repository.checkEIDAgeAndSenctionCountries()) {
-
-                is RetroApiResponse.Success -> {
-                    val data = response.data
-                    success.invoke(getAge(dob).equals(11))
-                }
-                is RetroApiResponse.Error -> {
-                }
-            }
-        }
-
-    }
 
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
@@ -94,16 +79,17 @@ class EidInfoReviewViewModel(application: Application) :
                     clickEvent.setValue(eventErrorExpiredEid)
                 }
                 it.dateOfBirth != null -> {
-                    isDateOfBirthValid(it.dateOfBirth){ isinValid ->
-                        if (isinValid){
+                    isDateOfBirthValid(it.dateOfBirth) { isValid, ageLimit ->
+                        if (!isValid) {
                             updateLabels(
-                                title = getString(Strings.screen_kyc_information_error_display_text_title_under_age),
+                                title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
+                                    ageLimit
+                                ),
                                 body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
                             )
                             clickEvent.setValue(eventErrorUnderAge)
                             trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
-                        }
-                        else{
+                        } else {
                             performUploadDocumentsRequest(false) {
                             }
                         }
@@ -454,5 +440,22 @@ class EidInfoReviewViewModel(application: Application) :
         return value?.let {
             return (end in start..it.length)
         } ?: false
+    }
+
+    override fun isDateOfBirthValid(dob: Date, success: (Boolean, Int) -> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.checkEIDAgeAndSenctionCountries()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    val data = response.data.data
+                    success.invoke(getAge(dob) >= data?.ageLimit ?: 18, data?.ageLimit ?: 18)
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                }
+            }
+        }
+
     }
 }
