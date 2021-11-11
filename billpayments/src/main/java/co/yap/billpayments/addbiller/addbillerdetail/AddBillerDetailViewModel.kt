@@ -152,7 +152,7 @@ class AddBillerDetailViewModel(application: Application) :
         return AddBillerInformationRequest(
             billerID = billerInformation?.billerID ?: "",
             skuId = billerInformation?.skuId ?: "",
-            billNickName = state.nickNameValue.get() ?: "",
+            billNickName = state.nickNameValue.get()?.trim() ?: "",
             inputsData = inputsData
         )
     }
