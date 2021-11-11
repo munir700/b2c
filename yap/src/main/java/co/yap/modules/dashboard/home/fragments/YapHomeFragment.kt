@@ -260,10 +260,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
                 viewModel.state.isCardStatusActivated.set(Constants.USER_STATUS_CARD_ACTIVATED == SessionManager.user?.notificationStatuses)
-                if(viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true){
-                    getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility = View.VISIBLE
-                }else{
-                    getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility = View.GONE
+                if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true) {
+                    setWidigetVisibility()
+                } else {
+                    getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
+                        View.GONE
                 }
             }
         })
@@ -499,8 +500,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             Observer { isHomeFragmentVisible ->
                 if (isHomeFragmentVisible) {
                     viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
-                    if(viewModel.parentViewModel?.isFromSideMenu == true){
-                        if(viewModel.widgetList.isNotEmpty()) {
+                    if (viewModel.parentViewModel?.isFromSideMenu == true) {
+                        if (viewModel.widgetList.isNotEmpty()) {
                             startActivityForResult(
                                 WidgetActivity.newIntent(
                                     context = requireContext(),
@@ -890,10 +891,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
             RequestCodes.REQUEST_EDIT_WIDGET -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    if(data?.getBooleanExtra("HIDE_WIDGET",false) == true){
+                    if (data?.getBooleanExtra("HIDE_WIDGET", false) == true) {
                         setWidigetVisibility()
                     }
-                    if(data?.getBooleanExtra("ACTION",false) == true){
+                    if (data?.getBooleanExtra("ACTION", false) == true) {
                         viewModel.requestDashboardWidget()
                     }
                 }
@@ -1118,7 +1119,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
         viewModel.requestCategoryBarData()
     }
-    private fun setWidigetVisibility(){
+
+    private fun setWidigetVisibility() {
         shardPrefs?.let { pref ->
             getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
                 if (pref.getValueBoolien(Constants.WIDGET_HIDDEN_STATUS, false)) {

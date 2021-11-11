@@ -1,6 +1,5 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.models.dashboardwidget.DashboardWidgetResponse
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
@@ -125,4 +124,4 @@ interface CustomersApi {
     suspend fun getDashboardWidget(): RetroApiResponse<BaseListResponse<WidgetData>>
     suspend fun updateDashboardWidget(list: List<WidgetData>): RetroApiResponse<UpdateWidgetResponse>
 }
-}
+
