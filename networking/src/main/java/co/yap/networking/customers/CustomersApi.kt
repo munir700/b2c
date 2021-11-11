@@ -5,6 +5,7 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ValidateEIDResponse
@@ -14,6 +15,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -120,5 +122,15 @@ interface CustomersApi {
     suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse>
     suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
+   suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse>
+
+    //Bill payments feature apis
+    suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse>
+    suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse>
+    suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse>
+    suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<BillAddedResponse>
+    suspend fun getAddedBills(): RetroApiResponse<BillResponse>
+    suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
+    suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse>
     suspend fun checkEIDAgeAndSenctionCountries(): RetroApiResponse<ValidateEIDResponse>
 }

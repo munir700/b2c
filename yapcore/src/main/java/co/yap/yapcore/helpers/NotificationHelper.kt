@@ -64,6 +64,7 @@ object NotificationHelper {
         }
         if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
                     || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
+                    || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
                     || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
                     || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
                     || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name

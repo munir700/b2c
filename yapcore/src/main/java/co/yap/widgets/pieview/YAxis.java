@@ -1,8 +1,6 @@
 package co.yap.widgets.pieview;
-
 import android.graphics.Color;
 import android.graphics.Paint;
-
 
 /**
  * Class representing the y-axis labels settings and its entries. Only use the setter methods to
@@ -13,7 +11,7 @@ import android.graphics.Paint;
  * setting data for the
  * chart.
  *
- * @author Mirza Adil
+ * @author Philipp Jahoda
  */
 public class YAxis extends AxisBase {
 
@@ -71,6 +69,11 @@ public class YAxis extends AxisBase {
      * the position of the y-labels relative to the chart
      */
     private YAxisLabelPosition mPosition = YAxisLabelPosition.OUTSIDE_CHART;
+
+    /**
+     * the horizontal offset of the y-label
+     */
+    private float mXLabelOffset = 0.0f;
 
     /**
      * enum for the position of the y-labels relative to the chart
@@ -171,6 +174,22 @@ public class YAxis extends AxisBase {
      */
     public void setPosition(YAxisLabelPosition pos) {
         mPosition = pos;
+    }
+
+    /**
+     * returns the horizontal offset of the y-label
+     */
+    public float getLabelXOffset() {
+        return mXLabelOffset;
+    }
+
+    /**
+     * sets the horizontal offset of the y-label
+     *
+     * @param xOffset
+     */
+    public void setLabelXOffset(float xOffset) {
+        mXLabelOffset = xOffset;
     }
 
     /**
@@ -309,7 +328,7 @@ public class YAxis extends AxisBase {
      * @param width
      */
     public void setZeroLineWidth(float width) {
-        this.mZeroLineWidth = UtilsPieView.convertDpToPixel(width);
+        this.mZeroLineWidth = Utils.convertDpToPixel(width);
     }
 
     /**
@@ -323,16 +342,16 @@ public class YAxis extends AxisBase {
         p.setTextSize(mTextSize);
 
         String label = getLongestLabel();
-        float width = (float) UtilsPieView.calcTextWidth(p, label) + getXOffset() * 2f;
+        float width = (float) Utils.calcTextWidth(p, label) + getXOffset() * 2f;
 
         float minWidth = getMinWidth();
         float maxWidth = getMaxWidth();
 
         if (minWidth > 0.f)
-            minWidth = UtilsPieView.convertDpToPixel(minWidth);
+            minWidth = Utils.convertDpToPixel(minWidth);
 
         if (maxWidth > 0.f && maxWidth != Float.POSITIVE_INFINITY)
-            maxWidth = UtilsPieView.convertDpToPixel(maxWidth);
+            maxWidth = Utils.convertDpToPixel(maxWidth);
 
         width = Math.max(minWidth, Math.min(width, maxWidth > 0.0 ? maxWidth : width));
 
@@ -350,7 +369,7 @@ public class YAxis extends AxisBase {
         p.setTextSize(mTextSize);
 
         String label = getLongestLabel();
-        return (float) UtilsPieView.calcTextHeight(p, label) + getYOffset() * 2f;
+        return (float) Utils.calcTextHeight(p, label) + getYOffset() * 2f;
     }
 
     /**
@@ -404,6 +423,20 @@ public class YAxis extends AxisBase {
 
         float min = dataMin;
         float max = dataMax;
+
+        // Make sure max is greater than min
+        // Discussion: https://github.com/danielgindi/Charts/pull/3650#discussion_r221409991
+        if (min > max) {
+            if (mCustomAxisMax && mCustomAxisMin) {
+                float t = min;
+                min = max;
+                max = t;
+            } else if (mCustomAxisMax) {
+                min = max < 0f ? max * 1.5f : max * 0.5f;
+            } else if (mCustomAxisMin) {
+                max = min < 0f ? min * 0.5f : min * 1.5f;
+            }
+        }
 
         float range = Math.abs(max - min);
 

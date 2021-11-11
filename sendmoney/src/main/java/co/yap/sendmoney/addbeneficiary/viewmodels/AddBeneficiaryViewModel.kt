@@ -54,6 +54,7 @@ class AddBeneficiaryViewModel(application: Application) :
                 state.countryCode = Utils.getCountryCodeFormString(str)
             }
             state.currency = it.getCurrency()?.code ?: ""
+            state.addressMandatory = it.addressMandatory
         }
     }
     override fun handlePressOnAddDomestic(id: Int) {
@@ -139,6 +140,9 @@ class AddBeneficiaryViewModel(application: Application) :
             parentViewModel?.selectedResidenceCountry?.isoCountryCode2Digit
         parentViewModel?.beneficiary?.value?.countryOfResidenceName =
             parentViewModel?.selectedResidenceCountry?.getName()
+
+        parentViewModel?.beneficiary?.value?.beneficiaryAddress =
+            state.beneficiaryAddress
     }
 
     override fun addCashPickupBeneficiary() {

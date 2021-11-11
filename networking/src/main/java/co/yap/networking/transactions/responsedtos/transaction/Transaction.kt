@@ -202,3 +202,4 @@ data class TapixCategory(
     val isGeneral: Boolean get() = categoryName.equals("General")
     val description: String get() = if (isGeneral) "Check back later to see the category updated " else "Tap to change category"
 }
+
