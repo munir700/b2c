@@ -44,6 +44,8 @@
             android:layout_centerVertical="true"
             android:clickable="true"
             android:contentDescription="@string/empty_string"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
             android:focusable="true"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:enabled="@{false}"
