@@ -495,12 +495,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 if (isHomeFragmentVisible) {
                     viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
                     if(viewModel.parentViewModel?.isFromSideMenu == true){
-                        startActivityForResult(
-                            WidgetActivity.newIntent(
-                                context = requireContext(),
-                                widgetList = WidgetItemList(viewModel.widgetList)
-                            ), RequestCodes.REQUEST_EDIT_WIDGET
-                        )
+                        if(viewModel.widgetList.isNotEmpty()) {
+                            startActivityForResult(
+                                WidgetActivity.newIntent(
+                                    context = requireContext(),
+                                    widgetList = WidgetItemList(viewModel.widgetList)
+                                ), RequestCodes.REQUEST_EDIT_WIDGET
+                            )
+                        }
                         viewModel.parentViewModel?.isFromSideMenu = false
                     }
                 } else {
