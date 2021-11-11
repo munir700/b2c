@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -25,13 +26,18 @@ import co.yap.widgets.Status
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
+import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
+import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
 import java.io.File
+import java.util.*
 
 
 class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
@@ -57,10 +63,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
+                R.id.ivEditEID, R.id.tvEidNumber -> {
+                    disableImageView(ivEditEID)
+                    manageFocus(tvEidNumber, ivEditEID)
+                }
                 R.id.ivEditFirstName, R.id.tvFirstName -> {
-                    ivEditFirstName.isEnabled = false
-                    ivEditMiddleName.isEnabled = true
-                    ivEditLastName.isEnabled = true
+                    disableImageView(ivEditFirstName)
                     manageFocus(tvFirstName, ivEditFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
@@ -69,9 +77,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 R.id.ivEditMiddleName, R.id.tvMiddleName -> {
-                    ivEditMiddleName.isEnabled = false
-                    ivEditFirstName.isEnabled = true
-                    ivEditLastName.isEnabled = true
+                    disableImageView(ivEditMiddleName)
                     manageFocus(tvMiddleName, ivEditMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
@@ -80,14 +86,29 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 R.id.ivEditLastName, R.id.tvLastName -> {
-                    ivEditLastName.isEnabled = false
-                    ivEditMiddleName.isEnabled = true
-                    ivEditFirstName.isEnabled = true
+                    disableImageView(ivEditLastName)
                     manageFocus(tvLastName, ivEditLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
                     )
+                }
+
+                R.id.ivEditNationality, R.id.tvNationality -> {
+                    disableImageView(ivEditNationality)
+                    manageFocus(tvNationality, ivEditNationality)
+                }
+
+                R.id.ivEditDob, R.id.tvDOB -> {
+                    showDateOfBirthPicker(viewModel.state.dobCalendar)
+                }
+
+                R.id.ivEditGender, R.id.tvGender -> {
+
+                }
+
+                R.id.ivEditExpiry, R.id.tvExpiryDate -> {
+                    showExpiryDatePicker(viewModel.state.expiryCalendar)
                 }
 
                 viewModel.eventErrorInvalidEid -> showInvalidEidScreen()
@@ -127,42 +148,100 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
 //                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.CONFIRM_ID.event))
                     SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
-                        if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
-                        } else {
-                            showToast("Accounts info failed")
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
-                        }
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(true)
+                            } else {
+                                showToast("Accounts info failed")
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(true)
+                            }
 
-                    })
+                        })
                 }
                 viewModel.eventEidUpdate -> {
                     SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
-                        if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                        } else {
-                            showToast("Accounts info failed")
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                        }
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            } else {
+                                showToast("Accounts info failed")
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            }
 
-                    })
+                        })
                 }
                 viewModel.eventCitizenNumberIssue, viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber(
                     "Sorry, that didn’t work. Please try again"
                 )
             }
         })
-        viewModel.eidStateLiveData.observe(this, Observer {
+        viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer {
             if (it.status == Status.ERROR) {
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
+    }
+
+    private fun disableImageView(view: View) {
+        val list = listOf<View>(
+            ivEditEID,
+            ivEditFirstName,
+            ivEditMiddleName,
+            ivEditLastName,
+            ivEditNationality,
+            ivEditDob,
+            ivEditGender,
+            ivEditExpiry
+        )
+        list.map {
+            it.isEnabled = it != view
+        }
+    }
+
+    private fun showDateOfBirthPicker(calendar: Calendar) {
+        val dpd =
+            DatePickerDialog.newInstance({ view, year, monthOfYear, dayOfMonth ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, monthOfYear)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                viewModel.state.dateOfBirth = dateToString(
+                    calendar.time, DEFAULT_DATE_FORMAT,
+                    TIME_ZONE_Default
+                )
+            }, calendar)
+        dpd.maxDate = Calendar.getInstance()
+        dpd.version = DatePickerDialog.Version.VERSION_2
+        childFragmentManager.run {
+            dpd.accentColor = requireContext().getColor(R.color.colorPrimary)
+            dpd.show(this, "")
+        }
+    }
+
+    private fun showExpiryDatePicker(calendar: Calendar) {
+        val dpd =
+            DatePickerDialog.newInstance({ view, year, monthOfYear, dayOfMonth ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, monthOfYear)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                viewModel.state.expiryDate = dateToString(
+                    calendar.time, DEFAULT_DATE_FORMAT,
+                    TIME_ZONE_Default
+                )
+            }, calendar)
+        dpd.minDate = Calendar.getInstance()
+        dpd.version = DatePickerDialog.Version.VERSION_2
+        childFragmentManager.run {
+            dpd.accentColor = requireContext().getColor(R.color.colorPrimary)
+            dpd.show(this, "")
+        }
     }
 
     private fun invalidCitizenNumber(title: String) {

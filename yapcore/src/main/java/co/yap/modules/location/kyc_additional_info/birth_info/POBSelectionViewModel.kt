@@ -100,8 +100,8 @@ class POBSelectionViewModel(application: Application) :
             state.loading = true
             when (val response = repository.saveBirthInfo(
                 BirthInfoRequest(
-                    countryOfBirth = state.selectedCountry.get()?.getName() ?: "",
-                    cityOfBirth = state.cityOfBirth,
+                    countryOfBirth = state.selectedCountry.get()?.getName()?.trim() ?: "",
+                    cityOfBirth = state.cityOfBirth.trim(),
                     isDualNationality = state.isDualNational.get(),
                     dualNationality = state.selectedSecondCountry.get()?.isoCountryCode2Digit ?: ""
                 )
