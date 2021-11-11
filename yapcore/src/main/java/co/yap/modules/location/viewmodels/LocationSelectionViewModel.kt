@@ -151,9 +151,9 @@ class LocationSelectionViewModel(application: Application) :
 
 
     fun getUserAddress(): Address? {
-        address?.address1 = state.addressTitle.get()
-        address?.address2 = state.addressSubtitle.get()
-        address?.city = state.city.get()
+        address?.address1 = state.addressTitle.get()?.trim()?:""
+        address?.address2 = state.addressSubtitle.get()?.trim()?:""
+        address?.city = state.city.get()?.trim()?:""
         address?.cityIATA3Code = if (state.iata3Code.get().isNullOrEmpty())
             cities.value?.firstOrNull { it.name.equals(state.city.get(), true) }?.iata3Code
         else state.iata3Code.get()

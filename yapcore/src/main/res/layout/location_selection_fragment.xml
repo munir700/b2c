@@ -172,6 +172,7 @@
                     android:inputType="textPersonName"
                     android:maxLength="100"
                     android:maxLines="1"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                     android:paddingBottom="@dimen/_10sdp"
                     android:singleLine="true"
@@ -206,7 +207,7 @@
                     tools:text="@string/screen_meeting_location_input_text_landmark_title" />
                 <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
 
-                <EditText
+                <co.yap.widgets.AlphaNumericEditText
                     android:id="@+id/etLandMarkField"
                     style="@style/ALarge"
                     android:layout_width="match_parent"
@@ -217,6 +218,7 @@
                     android:drawablePadding="@dimen/margin_extra_small"
                     android:inputType="textPersonName"
                     android:maxLength="100"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                     android:text="@={viewModel.state.addressSubtitle}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="@color/grey"
