@@ -16,6 +16,8 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseResponse
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
@@ -326,5 +328,5 @@ interface CustomersRetroService {
     suspend fun editBiller(@Body editBillerRequest: EditBillerRequest): Response<ApiResponse>
 
     @GET(CustomersRepository.URL_VALIDATE_EID)
-    suspend fun checkEIDAgeAndSenctionCountries(): Response<ValidateEIDResponse>
+    suspend fun getEIDConfigurations(): Response<BaseResponse<ValidateEIDResponse>>
 }

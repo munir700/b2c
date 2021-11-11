@@ -14,6 +14,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -132,5 +133,5 @@ interface CustomersApi {
     suspend fun getAddedBills(): RetroApiResponse<BillResponse>
     suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
     suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse>
-    suspend fun checkEIDAgeAndSenctionCountries(): RetroApiResponse<ValidateEIDResponse>
+    suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ValidateEIDResponse>>
 }
