@@ -136,7 +136,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
         categoryBarSetup()
-        setWidigetVisibility()
+        viewModel.requestDashboardWidget()
 
     }
 
@@ -531,6 +531,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
         viewModel.dashboardWidgetList.observe(viewLifecycleOwner, Observer { list ->
+            setWidigetVisibility()
             (getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.adapter as DashboardWidgetAdapter).setList(
                 list
             )
