@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.requestdtos.GetMissingInfoListRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -28,7 +27,8 @@ class MissingInfoFragmentViewModel(application: Application) :
     override fun getMissingInfoItems() {
         launch {
             state.loading = true
-            when (val response = repository.getMissingInfoList(GetMissingInfoListRequest(""))) {
+            when (val response =
+                repository.getMissingInfoList("dd5354ad-64ad-4942-9377-ede268884ea3")) {
                 is RetroApiResponse.Success -> {
                     val list = arrayListOf<String>()
                     val map: HashMap<String?, List<String>?> = hashMapOf()

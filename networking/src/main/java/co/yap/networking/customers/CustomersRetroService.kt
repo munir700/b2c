@@ -300,6 +300,6 @@ interface CustomersRetroService {
     suspend fun stopRankingMsgRequest(): Response<ApiResponse>
 
     // Get Missing Info
-    @GET(CustomersRepository.URL_GET_MISSING_INFO)
-    suspend fun getMissingInfoList(@Body request: GetMissingInfoListRequest): Response<MissingInfoResponse>
+    @GET(CustomersRepository.URL_GET_AMENDMENT_FIELDS)
+    suspend fun getMissingInfoList(@Query("accountUuid") accountUuid: String): Response<MissingInfoResponse>
 }

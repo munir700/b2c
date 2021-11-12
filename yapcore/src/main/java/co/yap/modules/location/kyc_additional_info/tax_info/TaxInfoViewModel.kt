@@ -12,10 +12,12 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class TaxInfoViewModel(application: Application) :
     LocationChildViewModel<ITaxInfo.State>(application),
@@ -238,6 +240,17 @@ class TaxInfoViewModel(application: Application) :
                     }
                 }
             }
+        }
+    }
+
+    override fun canSkipFragment() = when {
+        SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name || parentViewModel?.amendmentMap?.get(
+            "taxInfo"
+        ).isNullOrEmpty() -> {
+            true
+        }
+        else -> {
+            false
         }
     }
 }

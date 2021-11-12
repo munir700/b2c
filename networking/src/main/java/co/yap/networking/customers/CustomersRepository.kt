@@ -127,7 +127,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
-    const val URL_GET_MISSING_INFO = "customers/api/missing-info"
+    const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -467,11 +467,36 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.stopRankingMsgRequest()
         })
 
-    override suspend fun getMissingInfoList(request: GetMissingInfoListRequest): RetroApiResponse<MissingInfoResponse> {
-        //executeSafely(call = { API.getMissingInfoList(request) })
+    override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<MissingInfoResponse> {
+        //return executeSafely(call = { api.getMissingInfoList(accountUuid) })
         val missingFields = ArrayList<AmendmentFields>()
-        missingFields.add(AmendmentFields("eidInfo", listOf("firstName", "lastName", "BirthCountry")))
-        missingFields.add(AmendmentFields("taxInfo", listOf("country", "reasonInCaseNoTin", "tinNumber")))
-        return RetroApiResponse.Success(200, MissingInfoResponse(customerId = 1, accountUuid = "123456", amendmentFields = missingFields.toList()))
+        /*missingFields.add(
+            AmendmentFields(
+                "eidInfo",
+                listOf("firstName", "lastName", "BirthCountry")
+            )
+        )*/
+        /*missingFields.add(
+            AmendmentFields(
+                "pobInfo",
+                listOf("country", "reasonInCaseNoTin", "tinNumber")
+            )
+        )*/
+        /*missingFields.add(
+            AmendmentFields(
+                "taxInfo",
+                listOf("country", "reasonInCaseNoTin", "tinNumber")
+            )
+        )*/
+        missingFields.add(
+            AmendmentFields(
+                "employmentInfo",
+                listOf("country", "reasonInCaseNoTin", "tinNumber")
+            )
+        )
+        return RetroApiResponse.Success(
+            200,
+            MissingInfoResponse(amendmentFields = missingFields)
+        )
     }
 }

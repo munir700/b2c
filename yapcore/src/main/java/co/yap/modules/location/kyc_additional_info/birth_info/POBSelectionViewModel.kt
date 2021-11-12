@@ -11,6 +11,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -118,4 +119,16 @@ class POBSelectionViewModel(application: Application) :
             }
         }
     }
+
+    override fun canSkipFragment() =
+        when {
+            SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name || SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name || parentViewModel?.amendmentMap?.get(
+                "pobInfo"
+            ).isNullOrEmpty() -> {
+                true
+            }
+            else -> {
+                false
+            }
+        }
 }

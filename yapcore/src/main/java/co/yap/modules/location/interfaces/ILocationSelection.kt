@@ -34,6 +34,7 @@ interface ILocationSelection {
         fun getCities()
         fun requestOrderCard(address: Address?, success: () -> Unit)
         val placesAdapter: PlacesAutoCompleteAdapter
+        fun canSkipFragment(): Boolean
     }
 
     interface State : IBase.State {

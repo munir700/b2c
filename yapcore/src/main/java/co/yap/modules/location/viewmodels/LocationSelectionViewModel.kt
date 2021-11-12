@@ -18,9 +18,11 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class LocationSelectionViewModel(application: Application) :
     LocationSelectionBaseViewModel<ILocationSelection.State>(application),
@@ -149,6 +151,14 @@ class LocationSelectionViewModel(application: Application) :
         }
     }
 
+    override fun canSkipFragment() = when {
+        SessionManager.user?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name || SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name || SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name || parentViewModel?.amendmentMap != null -> {
+            true
+        }
+        else -> {
+            false
+        }
+    }
 
     fun getUserAddress(): Address? {
         address?.address1 = state.addressTitle.get()?.trim()?:""

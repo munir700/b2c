@@ -21,6 +21,8 @@ class LocationViewModel(application: Application) :
     override var address: Address? = null
     override var isOnBoarding: Boolean = false
     override var countries: ArrayList<Country> = ArrayList()
+    override var amendmentMap: HashMap<String?, List<String>?>? = null
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }

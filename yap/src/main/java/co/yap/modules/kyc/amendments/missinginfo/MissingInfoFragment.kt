@@ -8,6 +8,8 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMissinginfoBinding
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
@@ -47,6 +49,17 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                             viewModel.missingInfoMap.value
                         )
                     }
+                } else {
+                    startActivity(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = SessionManager.userAddress ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                            onBoarding = true,
+                            map = viewModel.missingInfoMap.value
+                        )
+                    )
                 }
             }
             R.id.tvDoItLater -> {

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.modules.location.interfaces.ILocation
 import co.yap.modules.location.viewmodels.LocationViewModel
 import co.yap.networking.cards.responsedtos.Address
@@ -12,6 +12,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
@@ -32,13 +33,15 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
             address: Address,
             headingTitle: String = "",
             subHeadingTitle: String = "",
-            onBoarding: Boolean = false
+            onBoarding: Boolean = false,
+            map: HashMap<String?, List<String>?>? = null
         ): Intent {
             val intent = Intent(context, LocationSelectionActivity::class.java)
             intent.putExtra(HEADING, headingTitle)
             intent.putExtra(SUB_HEADING, subHeadingTitle)
             intent.putExtra(ADDRESS, address)
             intent.putExtra(IS_ON_BOARDING, onBoarding)
+            intent.putExtra(Constants.KYC_AMENDMENT_MAP, map)
             return intent
         }
     }
@@ -48,7 +51,7 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
     override fun getLayoutId(): Int = R.layout.activity_location
 
     override val viewModel: ILocation.ViewModel
-        get() = ViewModelProviders.of(this).get(LocationViewModel::class.java)
+        get() = ViewModelProvider(this).get(LocationViewModel::class.java)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +96,9 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
         //sub heeading
         val subHeading = intent?.getValue(SUB_HEADING, ExtraType.STRING.name) as? String
         subHeading?.let { viewModel.subHeading = subHeading }
+        // kyc amendments
+        viewModel.amendmentMap =
+            intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as HashMap<String?, List<String>?>
     }
 
     override val navigator: IBaseNavigator
