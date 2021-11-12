@@ -738,6 +738,7 @@
     <declare-styleable name="AlphaNumericEditText">
         <attr name="showDrawableWhenTextIsEmpty" format="boolean" />
         <attr name="popupContentText" format="string" />
+        <attr name="disableEmoji" format="boolean" />
     </declare-styleable>
 
 </resources>

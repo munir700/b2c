@@ -5,15 +5,14 @@ import android.content.res.TypedArray
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.MotionEvent
-import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.PopupWindow
-import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatEditText
 import co.yap.widgets.popupwindow.Popup
@@ -36,6 +35,7 @@ class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
     private var onDrawableClickListener: OnDrawableClickListener? = null
     private var defaultClickListener: OnDrawableClickListener? = null
     var popupTextValue: String? = ""
+    private var disableEmoji: Boolean = false
     private val textWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
 
@@ -149,6 +149,10 @@ class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
             R.styleable.AlphaNumericEditText_showDrawableWhenTextIsEmpty,
             isDrawableShownWhenTextIsEmpty
         )
+        disableEmoji = obtainStyledAttributes.getBoolean(
+            R.styleable.AlphaNumericEditText_disableEmoji,
+            false
+        )
         popupTextValue = resources.getText(
             obtainStyledAttributes
                 .getResourceId(
@@ -159,6 +163,7 @@ class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
         obtainStyledAttributes.recycle()
         hasDrawable(isDrawableShownWhenTextIsEmpty)
         defaultClickListener = defaultClickListenerAdapter
+        if(disableEmoji) filters = arrayOf<InputFilter>(EmojiExcludeFilter())
     }
 
     fun hasDrawable(value: Boolean) {
@@ -312,5 +317,24 @@ class AlphaNumericEditText(context: Context, attrs: AttributeSet) :
         RIGHT,
         TOP,
         BOTTOM
+    }
+
+    private class EmojiExcludeFilter : InputFilter {
+        override fun filter(
+            source: CharSequence,
+            start: Int,
+            end: Int,
+            dest: Spanned,
+            dstart: Int,
+            dend: Int
+        ): CharSequence? {
+            for (i in start until end) {
+                val type = Character.getType(source[i])
+                if (type == Character.SURROGATE.toInt() || type == Character.OTHER_SYMBOL.toInt()) {
+                    return ""
+                }
+            }
+            return null
+        }
     }
 }
