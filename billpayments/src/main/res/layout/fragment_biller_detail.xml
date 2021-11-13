@@ -93,12 +93,13 @@
                     android:layout_height="wrap_content"
                     android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_bill_detail_field_label)}"
                     android:importantForAutofill="no"
-                    android:inputType="textCapSentences"
+                    android:inputType="textCapSentences|textEmailAddress"
                     android:maxLength="@integer/bill_payments_bill_nickname_length"
                     android:singleLine="true"
                     android:text="@={viewModel.state.nickNameValue}"
                     android:textColorHint="@color/colorPrimaryDarkFadedLight"
                     android:theme="@style/Theme.EditText.Primary"
+                    app:disableEmoji="true"
                     tools:hint="Email" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
