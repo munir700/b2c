@@ -22,9 +22,11 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.widgets.Status
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
@@ -55,6 +57,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun addObservers() {
+        if (!viewModel.parentViewModel?.state?.nationality?.get()
+                .isNullOrEmpty()
+        ) viewModel.clickEvent.setValue(viewModel.eventNext)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivEditFirstName, R.id.tvFirstName -> {
@@ -129,12 +134,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
+                            navigateToConfirmNameFragment()
                         } else {
                             showToast("Accounts info failed")
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
+                            navigateToConfirmNameFragment()
+
                         }
 
                     })
@@ -158,11 +162,29 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 )
             }
         })
-        viewModel.eidStateLiveData.observe(this, Observer {
+        viewModel.eidStateLiveData.observe(this, Observer
+        {
             if (it.status == Status.ERROR) {
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
+
+    }
+
+    private fun navigateToConfirmNameFragment() {
+        viewModel.parentViewModel?.state?.let { state ->
+            state.middleName.set(viewModel.state.middleName)
+            state.firstName.set(viewModel.state.firstName)
+            state.lastName.set(viewModel.state.lastName)
+            state.nationality.set(viewModel.state.nationality)
+            SharedPreferenceManager.getInstance(requireContext())
+                .save(Constants.KYC_FIRST_NAME, state.firstName.get() ?: "")
+            SharedPreferenceManager.getInstance(requireContext())
+                .save(Constants.KYC_LAST_NAME, state.lastName.get() ?: "")
+            SharedPreferenceManager.getInstance(requireContext())
+                .save(Constants.KYC_MIDDLE_NAME, state.middleName.get() ?: "")
+            navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
+        }
     }
 
     private fun invalidCitizenNumber(title: String) {
