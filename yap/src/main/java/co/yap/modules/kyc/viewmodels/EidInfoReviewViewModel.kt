@@ -58,6 +58,7 @@ class EidInfoReviewViewModel(application: Application) :
         super.onCreate()
         // getSectionedCountriesList()
         parentViewModel?.identity?.let {
+            requestAllAPIs(it)
             populateState(it)
         }
     }
@@ -351,7 +352,6 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun populateState(identity: Identity?) {
         identity?.let {
-            requestAllAPIs(it)
             splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = it.nationality
