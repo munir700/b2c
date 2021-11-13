@@ -10,6 +10,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.viewmodels.DocumentsDashboardViewModel
+import co.yap.networking.customers.responsedtos.Section
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
@@ -42,7 +43,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         //this should be only first time
         viewModel.name.value = intent.getValue(Constants.name, ExtraType.STRING.name) as? String
         viewModel.amendmentMap =
-            intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as HashMap<String?, List<String>?>
+            intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as? HashMap<Section?, List<String>?>
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
         viewModel.gotoInformationErrorFragment?.value = intent?.getBooleanExtra("GO_ERROR", false)

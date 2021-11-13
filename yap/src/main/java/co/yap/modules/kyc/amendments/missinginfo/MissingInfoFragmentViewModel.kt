@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.Section
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.managers.SessionManager
 
 class MissingInfoFragmentViewModel(application: Application) :
     BaseViewModel<IMissingInfo.State>(application), IMissingInfo.ViewModel,
@@ -16,7 +18,7 @@ class MissingInfoFragmentViewModel(application: Application) :
     override val state: IMissingInfo.State = MissingInfoState()
     override val repository: CustomersRepository = CustomersRepository
     override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
-    override val missingInfoMap: MutableLiveData<HashMap<String?, List<String>?>> =
+    override val missingInfoMap: MutableLiveData<HashMap<Section?, List<String>?>> =
         MutableLiveData()
 
     override fun onCreate() {
@@ -28,10 +30,10 @@ class MissingInfoFragmentViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.getMissingInfoList("dd5354ad-64ad-4942-9377-ede268884ea3")) {
+                repository.getMissingInfoList(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
                     val list = arrayListOf<String>()
-                    val map: HashMap<String?, List<String>?> = hashMapOf()
+                    val map: HashMap<Section?, List<String>?> = hashMapOf()
                     response.data.amendmentFields.forEach {
                         list.addAll(it.amendments)
                         map[it.sectionName] = it.amendments

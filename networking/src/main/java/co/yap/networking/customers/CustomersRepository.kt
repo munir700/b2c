@@ -472,26 +472,26 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         val missingFields = ArrayList<AmendmentFields>()
         /*missingFields.add(
             AmendmentFields(
-                "eidInfo",
+                Section.eidInfo,
                 listOf("firstName", "lastName", "BirthCountry")
-            )
-        )*/
-        /*missingFields.add(
-            AmendmentFields(
-                "pobInfo",
-                listOf("country", "reasonInCaseNoTin", "tinNumber")
-            )
-        )*/
-        /*missingFields.add(
-            AmendmentFields(
-                "taxInfo",
-                listOf("country", "reasonInCaseNoTin", "tinNumber")
             )
         )*/
         missingFields.add(
             AmendmentFields(
-                "employmentInfo",
-                listOf("country", "reasonInCaseNoTin", "tinNumber")
+                Section.BIRTH_INFO,
+                listOf("countryOfBirth", "cityOfBirth", "isDualNationality", "nationalityId")
+            )
+        )
+        missingFields.add(
+            AmendmentFields(
+                Section.TAX_INFO,
+                listOf("country", "secondCountry", "tinNumber", "secondTinNumber")
+            )
+        )
+        missingFields.add(
+            AmendmentFields(
+                Section.EMPLOYMENT_INFO,
+                listOf("employmentStatus", "employerName", "monthlySalary")
             )
         )
         return RetroApiResponse.Success(

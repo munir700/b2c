@@ -2,6 +2,7 @@ package co.yap.modules.kyc.amendments.confirmation
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.Section
 import co.yap.yapcore.IBase
 
 interface IMissingInfoConfirmation {
@@ -14,6 +15,6 @@ interface IMissingInfoConfirmation {
 
     interface State : IBase.State {
         val subTitle: ObservableField<String>
-        var missingInfoMap: HashMap<String?, List<String>?>?
+        var missingInfoMap: HashMap<Section?, List<String>?>?
     }
 }

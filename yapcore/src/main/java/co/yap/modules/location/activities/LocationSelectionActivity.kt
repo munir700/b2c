@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.modules.location.interfaces.ILocation
 import co.yap.modules.location.viewmodels.LocationViewModel
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.responsedtos.Section
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
@@ -34,7 +35,7 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
             headingTitle: String = "",
             subHeadingTitle: String = "",
             onBoarding: Boolean = false,
-            map: HashMap<String?, List<String>?>? = null
+            map: HashMap<Section?, List<String>?>? = null
         ): Intent {
             val intent = Intent(context, LocationSelectionActivity::class.java)
             intent.putExtra(HEADING, headingTitle)
@@ -98,7 +99,7 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
         subHeading?.let { viewModel.subHeading = subHeading }
         // kyc amendments
         viewModel.amendmentMap =
-            intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as HashMap<String?, List<String>?>
+            intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as? HashMap<Section?, List<String>?>
     }
 
     override val navigator: IBaseNavigator

@@ -10,6 +10,7 @@ import co.yap.databinding.FragmentMissinginfoBinding
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.responsedtos.Section
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
@@ -37,7 +38,7 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
     private val onClickView = Observer<Int> {
         when (it) {
             R.id.btnGetStarted -> {
-                if (viewModel.missingInfoMap.value?.get("eidInfo")?.isNotEmpty() == true) {
+                if (viewModel.missingInfoMap.value?.get(Section.EID_INFO)?.isNotEmpty() == true) {
                     launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                         putExtra(
                             Constants.name,

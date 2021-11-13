@@ -5,6 +5,7 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.ILocation
 import co.yap.modules.location.states.LocationState
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.responsedtos.Section
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
@@ -21,7 +22,7 @@ class LocationViewModel(application: Application) :
     override var address: Address? = null
     override var isOnBoarding: Boolean = false
     override var countries: ArrayList<Country> = ArrayList()
-    override var amendmentMap: HashMap<String?, List<String>?>? = null
+    override var amendmentMap: HashMap<Section?, List<String>?>? = null
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

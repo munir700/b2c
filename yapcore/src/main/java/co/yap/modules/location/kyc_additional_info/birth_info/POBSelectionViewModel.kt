@@ -7,6 +7,7 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.BirthInfoRequest
+import co.yap.networking.customers.responsedtos.Section
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.Dispatcher
@@ -123,7 +124,7 @@ class POBSelectionViewModel(application: Application) :
     override fun canSkipFragment() =
         when {
             SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name || SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name || parentViewModel?.amendmentMap?.get(
-                "pobInfo"
+                Section.BIRTH_INFO
             ).isNullOrEmpty() -> {
                 true
             }

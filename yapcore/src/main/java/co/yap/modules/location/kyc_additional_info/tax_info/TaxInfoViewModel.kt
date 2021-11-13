@@ -8,6 +8,7 @@ import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.TaxInfoDetailRequest
 import co.yap.networking.customers.requestdtos.TaxInfoRequest
+import co.yap.networking.customers.responsedtos.Section
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.R
@@ -245,7 +246,7 @@ class TaxInfoViewModel(application: Application) :
 
     override fun canSkipFragment() = when {
         SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name || parentViewModel?.amendmentMap?.get(
-            "taxInfo"
+            Section.TAX_INFO
         ).isNullOrEmpty() -> {
             true
         }

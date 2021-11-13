@@ -18,10 +18,12 @@ import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.Status
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -197,8 +199,15 @@ class PhoneVerificationSignInFragment :
                                     )
 
                                 } else {
-                                    trackEvent(SignInEvents.SIGN_IN.type)
-                                    findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                                    // launching missing info screen
+                                    if (SessionManager.user?.amendmentStatus == Status.SUBMIT_TO_CUSTOMER) {
+                                        startFragment(
+                                            fragmentName = MissingInfoFragment::class.java.name
+                                        )
+                                    } else {
+                                        trackEvent(SignInEvents.SIGN_IN.type)
+                                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                                    }
                                 }
                             } else {
                                 startFragment(
