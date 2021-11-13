@@ -28,8 +28,6 @@ interface IDocumentsDashboard {
         fun handlePressOnView(id: Int)
         var clickEvent: SingleClickEvent
         var gotoInformationErrorFragment: MutableLiveData<Boolean>?
-        var showProgressBar: MutableLiveData<Boolean>
-        var accountStatus: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel>

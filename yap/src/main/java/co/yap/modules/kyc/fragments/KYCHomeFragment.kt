@@ -14,7 +14,6 @@ import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.translation.Strings
-import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
@@ -45,13 +44,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
-                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
-                    } else {
-                        viewModel.requestDocumentsInformation{
-                            navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
-                        }
-                    }
+                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
                 R.id.tvSkip -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_SKIP_EID)
@@ -65,12 +58,12 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
                 findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-            } else if (viewModel.parentViewModel?.showProgressBar?.value == false) {
+            } else if (viewModel.parentViewModel?.gotoInformationErrorFragment?.value == true) {
                 navigateToInformationErrorFragment()
             } else {
                 viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
             }
-        } ?: if (viewModel.parentViewModel?.showProgressBar?.value == false) {
+        } ?: if (viewModel.parentViewModel?.gotoInformationErrorFragment?.value == true) {
             navigateToInformationErrorFragment()
         }
     }

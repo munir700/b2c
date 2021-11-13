@@ -11,18 +11,19 @@ import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Response
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -131,6 +132,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
     const val URL_UPDATE_PROFILE_FSS = "customers/api/update-profile-on-fss"
+    const val URL_VALIDATE_EID = "customers/api/sanction-countries-configuration"
 
 
     const val URL_BILL_PROVIDERS = "customers/api/billpayment/biller-categories"
@@ -252,7 +254,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
-    override suspend fun detectCardData(fileFront: MultipartBody.Part, fileBack: MultipartBody.Part) =
+    override suspend fun detectCardData(
+        fileFront: MultipartBody.Part,
+        fileBack: MultipartBody.Part
+    ) =
         executeSafely(call = { api.uploadIdCard(fileFront, fileBack) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
@@ -478,8 +483,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
-        api.updateCardName(cardNameRequest)
-    })
+            api.updateCardName(cardNameRequest)
+        })
 
     override suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse> =
         executeSafely(call = {
@@ -504,5 +509,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
             api.editBiller(editBillerRequest)
+        })
+
+    override suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>> =
+        executeSafely(call = {
+            api.getEIDConfigurations()
         })
 }

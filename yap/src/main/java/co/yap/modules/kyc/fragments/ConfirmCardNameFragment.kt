@@ -26,7 +26,7 @@ class ConfirmCardNameFragment : KYCChildFragment<IConfirmCardName.ViewModel>(),
 
 
     private fun setObservers() {
-        viewModel.parentViewModel?.showProgressBar?.value = true
+//        viewModel.parentViewModel?.showProgressBar?.value = true
         viewModel.clickEvent.observe(this, onClickObserver)
     }
 
@@ -47,7 +47,7 @@ class ConfirmCardNameFragment : KYCChildFragment<IConfirmCardName.ViewModel>(),
                 }
             }
             R.id.tvEditCardName -> {
-                navigate(R.id.action_confirmCardNameFragment_to_editCardNameFragment)
+//                navigate(R.id.action_confirmCardNameFragment_to_editCardNameFragment)
             }
         }
     }
