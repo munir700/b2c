@@ -219,7 +219,7 @@ class PayBillViewModel(application: Application) :
     override fun getPayBillRequest(billModel: ViewBillModel?, billAmount: String): PayBillRequest {
         return PayBillRequest(
             billerId = billModel?.billerID ?: "",
-            notes = state.noteValue.get() ?: "",
+            notes = state.noteValue.get()?.trim() ?: "",
             skuId = billModel?.skuId ?: "",
             billAmount = state.amount,
             customerBillUuid = billModel?.uuid ?: "",
