@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
-import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseListItemViewModel
 
 class MissingInfoItemViewModel :
@@ -22,7 +21,8 @@ class MissingInfoItemViewModel :
 
     }
 
-    override fun layoutRes() = R.layout.item_misssing_info
+    override fun layoutRes() = R.layout.item_missing_info
+
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
     }

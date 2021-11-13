@@ -30,53 +30,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/bg_bubbles" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle"
-            style="@style/Regular"
+
+        <ScrollView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_title)}"
-            android:textColor="?attr/colorPrimaryDark"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivBubbles"
-            tools:text="@string/screen_missing_info_title" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDescription"
-            style="@style/ASmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:gravity="center"
-            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_description)}"
-            android:textColor="@color/greyDark"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="@string/screen_missing_info_description" />
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/purple_card"
-            android:orientation="vertical"
-            android:padding="@dimen/_20sdp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescription">
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/btnGetStarted"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivBubbles">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -84,29 +47,66 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTitle"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_title)}"
+                    android:textColor="?attr/colorPrimaryDark"
+                    tools:text="@string/screen_missing_info_title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDescription"
                     style="@style/ASmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_review_required)}"
-                    android:textColor="?attr/colorPrimaryAttr"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                    tools:text="@string/screen_missing_info_review_required" />
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:gravity="center"
+                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_description)}"
+                    android:textColor="@color/greyDark"
+                    tools:text="@string/screen_missing_info_description" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/missingItemsRecyclerView"
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:adapter="@{viewModel.adapter}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_misssing_info" />
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_margin="@dimen/_20sdp"
+                    android:background="@drawable/purple_card"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_20sdp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/ASmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="@{Translator.INSTANCE.getString(context,Strings.screen_missing_info_review_required)}"
+                        android:textColor="?attr/colorPrimaryAttr"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                        tools:text="@string/screen_missing_info_review_required" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/missingItemsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:adapter="@{viewModel.adapter}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_missing_info" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+        </ScrollView>
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnGetStarted"
