@@ -30,6 +30,7 @@ class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirma
     private fun initArguments() {
         arguments?.let { bundle ->
             viewModel.state.subTitle.set(bundle.getString(Constants.CONFIRMATION_DESCRIPTION))
+            viewModel.state.missingInfoMap = bundle.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         }
     }
 

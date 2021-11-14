@@ -14,7 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -23,6 +23,7 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.widgets.Status
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -47,7 +48,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun getLayoutId(): Int = R.layout.activity_eid_info_review
 
     override val viewModel: EidInfoReviewViewModel
-        get() = ViewModelProviders.of(this).get(EidInfoReviewViewModel::class.java)
+        get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -104,7 +105,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 R.id.ivEditGender, R.id.tvGender -> {
-
                 }
 
                 R.id.ivEditExpiry, R.id.tvExpiryDate -> {
@@ -167,6 +167,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     SessionManager.onAccountInfoSuccess.observe(
                         viewLifecycleOwner,
                         Observer { isSuccess ->
+                            if (viewModel.parentViewModel?.amendmentMap != null) {
+                                navigateToAmendmentSuccess()
+                            }
                             if (isSuccess) {
                                 viewModel.parentViewModel?.finishKyc?.value =
                                     DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
@@ -188,6 +191,19 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
+    }
+
+    private fun navigateToAmendmentSuccess() {
+        val bundle = Bundle()
+        bundle.putString(
+            Constants.CONFIRMATION_DESCRIPTION,
+            getString(R.string.common_display_text_y2y_general_share)
+        )
+        bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
+        navigate(
+            R.id.action_eidInfoReviewFragment_to_missingInfoConfirmationFragment,
+            bundle
+        )
     }
 
     private fun disableImageView(view: View) {

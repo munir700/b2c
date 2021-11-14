@@ -138,6 +138,7 @@ object Constants {
     val EXTRA = "_bundle_extras"
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"
+    const val KYC_AMENDMENT_MAP = "kyc_amendment_map"
 
     // SharedPreference  Keys
 

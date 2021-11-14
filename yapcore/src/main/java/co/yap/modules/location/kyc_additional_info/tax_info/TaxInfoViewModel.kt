@@ -8,14 +8,17 @@ import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.TaxInfoDetailRequest
 import co.yap.networking.customers.requestdtos.TaxInfoRequest
+import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class TaxInfoViewModel(application: Application) :
     LocationChildViewModel<ITaxInfo.State>(application),
@@ -240,4 +243,9 @@ class TaxInfoViewModel(application: Application) :
             }
         }
     }
+
+    override fun canSkipFragment() =
+        SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
+                || parentViewModel?.amendmentMap?.contains(AmendmentSection.TAX_INFO.name) == false
+
 }

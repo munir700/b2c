@@ -16,9 +16,11 @@ import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
@@ -105,10 +107,18 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     }
 
     private fun navigateToDashboard() {
-        if (SessionManager.user?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+        if (SessionManager.user?.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-        else
+        } else if (AmendmentStatus.valueOf(
+                SessionManager.user?.amendmentStatus ?: ""
+            ) == AmendmentStatus.SUBMIT_TO_CUSTOMER
+        ) {
+            startFragment(
+                fragmentName = MissingInfoFragment::class.java.name
+            )
+        } else {
             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        }
 
         activity?.finish()
     }

@@ -15,6 +15,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
@@ -127,7 +128,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
-    const val URL_GET_MISSING_INFO = "customers/api/missing-info"
+    const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -243,7 +244,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
-    override suspend fun detectCardData(fileFront: MultipartBody.Part, fileBack: MultipartBody.Part) =
+    override suspend fun detectCardData(
+        fileFront: MultipartBody.Part,
+        fileBack: MultipartBody.Part
+    ) =
         executeSafely(call = { api.uploadIdCard(fileFront, fileBack) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
@@ -467,17 +471,35 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.stopRankingMsgRequest()
         })
 
-    override suspend fun getMissingInfoList(request: GetMissingInfoListRequest): RetroApiResponse<MissingInfoResponse> {
-        //executeSafely(call = { API.getMissingInfoList(request) })
-        val data = ArrayList<String>()
-        data.add("ID Number")
-        data.add("First Name")
-        data.add("Middle Name")
-        data.add("Date of Birth")
-        data.add("ID Number")
-        data.add("First Name")
-        data.add("Middle Name")
-        data.add("Date of Birth")
-        return RetroApiResponse.Success(200, MissingInfoResponse(data))
+    override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
+        //return  executeSafely(call = {  api.getMissingInfoList(accountUuid) })
+        val missingFields = ArrayList<AmendmentFields>()
+        missingFields.add(
+            AmendmentFields(
+                AmendmentSection.EID_INFO.value,
+                mutableListOf("firstName", "lastName", "BirthCountry")
+            )
+        )
+        missingFields.add(
+            AmendmentFields(
+                AmendmentSection.BIRTH_INFO.value,
+                mutableListOf("countryOfBirth", "cityOfBirth", "isDualNationality", "nationalityId")
+            )
+        )
+        missingFields.add(
+            AmendmentFields(
+                AmendmentSection.TAX_INFO.value,
+                mutableListOf("country", "secondCountry", "tinNumber", "secondTinNumber")
+            )
+        )
+        missingFields.add(
+            AmendmentFields(
+                AmendmentSection.EMPLOYMENT_INFO.value,
+                mutableListOf("employmentStatus", "employerName", "monthlySalary")
+            )
+        )
+        val response: BaseListResponse<AmendmentFields> = BaseListResponse()
+        response.data = missingFields
+        return RetroApiResponse.Success(200, response)
     }
 }

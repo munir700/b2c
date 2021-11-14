@@ -26,6 +26,8 @@ interface ILocation {
         val clickEvent: SingleClickEvent
         var selectedCountry: Country?
         var countries: ArrayList<Country>
+        // Will be used for KYC Amendment
+        var amendmentMap: HashMap<String?, List<String>?>?
     }
 
     interface View : IBase.View<ViewModel>{

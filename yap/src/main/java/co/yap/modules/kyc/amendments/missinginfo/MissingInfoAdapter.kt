@@ -8,10 +8,17 @@ import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 
 class MissingInfoAdapter(val listItems: MutableList<String>, navigation: NavController?) :
-    BaseRVAdapter<String, MissingInfoItemViewModel, MissingInfoAdapter.ViewHolder>(
+    BaseRVAdapter<String, MissingInfoItemViewModel, BaseViewHolder<String, MissingInfoItemViewModel>>(
         listItems,
         navigation
     ) {
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
     override fun getLayoutId(viewType: Int): Int = getViewModel().layoutRes()
     override fun getViewHolder(
@@ -19,19 +26,9 @@ class MissingInfoAdapter(val listItems: MutableList<String>, navigation: NavCont
         viewModel: MissingInfoItemViewModel,
         mDataBinding: ViewDataBinding,
         viewType: Int
-    ): ViewHolder = ViewHolder(
-        view,
-        viewModel,
-        mDataBinding
-    )
+    ) = BaseViewHolder(view, viewModel, mDataBinding)
 
     override fun getViewModel(): MissingInfoItemViewModel = MissingInfoItemViewModel()
 
     override fun getVariableId(): Int = BR.viewModel
-    class ViewHolder(
-        view: View,
-        viewModel: MissingInfoItemViewModel,
-        mDataBinding: ViewDataBinding
-    ) :
-        BaseViewHolder<String, MissingInfoItemViewModel>(view, viewModel, mDataBinding)
 }

@@ -7,10 +7,12 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.BirthInfoRequest
+import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -118,4 +120,9 @@ class POBSelectionViewModel(application: Application) :
             }
         }
     }
+
+    override fun canSkipFragment() =
+        SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                || parentViewModel?.amendmentMap?.contains(AmendmentSection.BIRTH_INFO.name) == false
+
 }
