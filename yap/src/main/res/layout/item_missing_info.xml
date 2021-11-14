@@ -12,13 +12,13 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
-        style="@style/AMicro"
+        style="@style/Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="1"
         android:paddingTop="@dimen/_3sdp"
         android:paddingBottom="@dimen/_3sdp"
-        android:text='@{viewModel.textForItem}'
-        android:textColor="?attr/colorPrimaryDark"
-        tools:text="Missing Info Item." />
+        android:text="@{viewModel.item.toString()}"
+        android:textColor="@color/colorPrimaryDark"
+        tools:text="1. Monthly salary" />
 </layout>

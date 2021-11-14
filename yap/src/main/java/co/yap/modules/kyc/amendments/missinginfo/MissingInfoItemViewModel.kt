@@ -8,14 +8,14 @@ import co.yap.yapcore.BaseListItemViewModel
 
 class MissingInfoItemViewModel :
     BaseListItemViewModel<String>() {
-    private lateinit var mItem: String
-    private var position: Int = 0
+     private lateinit var mItem: String
+     private var position: Int = 0
     override fun setItem(item: String, position: Int) {
-        mItem = item
         this.position = position
+        mItem = item
     }
 
-    override fun getItem() = mItem
+    override fun getItem() = "$position. $mItem"
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
 
@@ -26,10 +26,4 @@ class MissingInfoItemViewModel :
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
     }
-
-    fun onDeleteClick(view: View) {
-    }
-
-    fun getTextForItem() = "$position. $mItem"
-
 }

@@ -15,6 +15,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
@@ -243,7 +244,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
-    override suspend fun detectCardData(fileFront: MultipartBody.Part, fileBack: MultipartBody.Part) =
+    override suspend fun detectCardData(
+        fileFront: MultipartBody.Part,
+        fileBack: MultipartBody.Part
+    ) =
         executeSafely(call = { api.uploadIdCard(fileFront, fileBack) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
@@ -467,36 +471,35 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.stopRankingMsgRequest()
         })
 
-    override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<MissingInfoResponse> {
-        //return executeSafely(call = { api.getMissingInfoList(accountUuid) })
+    override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
+        //return  executeSafely(call = {  api.getMissingInfoList(accountUuid) })
         val missingFields = ArrayList<AmendmentFields>()
-        /*missingFields.add(
-            AmendmentFields(
-                Section.eidInfo,
-                listOf("firstName", "lastName", "BirthCountry")
-            )
-        )*/
         missingFields.add(
             AmendmentFields(
-                Section.BIRTH_INFO,
-                listOf("countryOfBirth", "cityOfBirth", "isDualNationality", "nationalityId")
+                AmendmentSection.EID_INFO.value,
+                mutableListOf("firstName", "lastName", "BirthCountry")
             )
         )
         missingFields.add(
             AmendmentFields(
-                Section.TAX_INFO,
-                listOf("country", "secondCountry", "tinNumber", "secondTinNumber")
+                AmendmentSection.BIRTH_INFO.value,
+                mutableListOf("countryOfBirth", "cityOfBirth", "isDualNationality", "nationalityId")
             )
         )
         missingFields.add(
             AmendmentFields(
-                Section.EMPLOYMENT_INFO,
-                listOf("employmentStatus", "employerName", "monthlySalary")
+                AmendmentSection.TAX_INFO.value,
+                mutableListOf("country", "secondCountry", "tinNumber", "secondTinNumber")
             )
         )
-        return RetroApiResponse.Success(
-            200,
-            MissingInfoResponse(amendmentFields = missingFields)
+        missingFields.add(
+            AmendmentFields(
+                AmendmentSection.EMPLOYMENT_INFO.value,
+                mutableListOf("employmentStatus", "employerName", "monthlySalary")
+            )
         )
+        val response: BaseListResponse<AmendmentFields> = BaseListResponse()
+        response.data = missingFields
+        return RetroApiResponse.Success(200, response)
     }
 }

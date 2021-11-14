@@ -14,6 +14,8 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -301,5 +303,5 @@ interface CustomersRetroService {
 
     // Get Missing Info
     @GET(CustomersRepository.URL_GET_AMENDMENT_FIELDS)
-    suspend fun getMissingInfoList(@Query("accountUuid") accountUuid: String): Response<MissingInfoResponse>
+    suspend fun getMissingInfoList(@Query("accountUuid") accountUuid: String): Response<BaseListResponse<AmendmentFields>>
 }

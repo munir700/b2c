@@ -151,19 +151,17 @@ class LocationSelectionViewModel(application: Application) :
         }
     }
 
-    override fun canSkipFragment() = when {
-        SessionManager.user?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name || SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name || SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name || parentViewModel?.amendmentMap != null -> {
-            true
-        }
-        else -> {
-            false
-        }
-    }
+    override fun canSkipFragment() =
+        SessionManager.user?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name
+                || SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                || SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
+                || parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+
 
     fun getUserAddress(): Address? {
-        address?.address1 = state.addressTitle.get()?.trim()?:""
-        address?.address2 = state.addressSubtitle.get()?.trim()?:""
-        address?.city = state.city.get()?.trim()?:""
+        address?.address1 = state.addressTitle.get()?.trim() ?: ""
+        address?.address2 = state.addressSubtitle.get()?.trim() ?: ""
+        address?.city = state.city.get()?.trim() ?: ""
         address?.cityIATA3Code = if (state.iata3Code.get().isNullOrEmpty())
             cities.value?.firstOrNull { it.name.equals(state.city.get(), true) }?.iata3Code
         else state.iata3Code.get()

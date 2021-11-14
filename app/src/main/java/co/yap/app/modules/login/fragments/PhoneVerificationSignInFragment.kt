@@ -23,8 +23,8 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.networking.customers.responsedtos.Status
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -200,7 +200,10 @@ class PhoneVerificationSignInFragment :
 
                                 } else {
                                     // launching missing info screen
-                                    if (SessionManager.user?.amendmentStatus == Status.SUBMIT_TO_CUSTOMER) {
+                                    if (AmendmentStatus.valueOf(
+                                            this.amendmentStatus ?: ""
+                                        ) == AmendmentStatus.SUBMIT_TO_CUSTOMER
+                                    ){
                                         startFragment(
                                             fragmentName = MissingInfoFragment::class.java.name
                                         )

@@ -2,6 +2,7 @@ package co.yap.networking.customers.responsedtos
 
 import android.os.Parcelable
 import co.yap.networking.customers.responsedtos.sendmoney.Currency
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -82,9 +83,9 @@ class AccountInfo(
     @SerializedName("isWaiting")
     var isWaiting: Boolean = false,
     @SerializedName("amendmentStatus")
-    var amendmentStatus: Status = Status.RECEIVED_FROM_CUSTOMER
+    var amendmentStatus: String? = null
 
-) : Parcelable
+) :ApiResponse(), Parcelable
 
 enum class Status(val value: String) {
     @SerializedName("SUBMIT_TO_ADMIN")

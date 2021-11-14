@@ -2,7 +2,6 @@ package co.yap.modules.kyc.interfaces
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.kyc.activities.DocumentsResponse
-import co.yap.networking.customers.responsedtos.Section
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -18,7 +17,7 @@ interface IDocumentsDashboard {
         var identity: Identity?
         var paths: ArrayList<String>
         // Will be used for KYC Amandment
-        var amendmentMap: HashMap<Section?, List<String>?>?
+        var amendmentMap: HashMap<String?, List<String>?>?
         var name: MutableLiveData<String>
         var skipFirstScreen: MutableLiveData<Boolean>
         var finishKyc: MutableLiveData<DocumentsResponse>

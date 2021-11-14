@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
-import co.yap.networking.customers.responsedtos.Section
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 
@@ -31,7 +30,7 @@ class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirma
     private fun initArguments() {
         arguments?.let { bundle ->
             viewModel.state.subTitle.set(bundle.getString(Constants.CONFIRMATION_DESCRIPTION))
-            viewModel.state.missingInfoMap = bundle.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<Section?, List<String>?>
+            viewModel.state.missingInfoMap = bundle.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         }
     }
 
