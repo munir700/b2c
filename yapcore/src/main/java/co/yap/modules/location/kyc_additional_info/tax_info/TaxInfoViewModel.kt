@@ -246,6 +246,6 @@ class TaxInfoViewModel(application: Application) :
 
     override fun canSkipFragment() =
         SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
-                || parentViewModel?.amendmentMap?.contains(AmendmentSection.TAX_INFO.name) == false
+                || parentViewModel?.amendmentMap?.contains(AmendmentSection.TAX_INFO.value) == false
 
 }
