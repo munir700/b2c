@@ -221,8 +221,6 @@ object Constants {
     const val DEFAULT_MODE = 2
 
     //Widget bar
-    const val HIDE_WIDGET = 0
-    const val CHANGE_WIDGET = 1
     const val WIDGET_HIDDEN_STATUS = "WIDGET_HIDDEN_STATUS"
 
 }

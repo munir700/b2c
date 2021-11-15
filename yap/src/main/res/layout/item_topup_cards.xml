@@ -4,7 +4,6 @@
 
     <data>
 
-
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.cardslisting.list.TopUpItemViewModel" />
@@ -12,8 +11,6 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
-
-
 
     </data>
 

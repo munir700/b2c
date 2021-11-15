@@ -124,4 +124,3 @@ interface CustomersApi {
     suspend fun getDashboardWidget(): RetroApiResponse<BaseListResponse<WidgetData>>
     suspend fun updateDashboardWidget(list: List<WidgetData>): RetroApiResponse<UpdateWidgetResponse>
 }
-
