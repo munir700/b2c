@@ -66,7 +66,7 @@
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_8sdp"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"
+                android:visibility="@{viewModel.item.id != 10000 ? View.VISIBLE: View.GONE}"
                 app:drawableResource="@{@drawable/bg_round_purple_enabled}"
                 app:imageUrlWidget="@{viewModel.item.icon}"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -83,7 +83,7 @@
                 android:layout_weight="1"
                 android:singleLine="true"
                 android:text="@{viewModel.item.name}"
-                android:textColor="@{viewModel.item.id != 2000 ?@color/colorMidnightExpress:@color/colorPrimary}"
+                android:textColor="@{viewModel.item.id != 10000 ?@color/colorMidnightExpress:@color/colorPrimary}"
                 app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
                 app:layout_constraintEnd_toStartOf="@+id/image"
                 app:layout_constraintStart_toEndOf="@+id/ivWidget"
@@ -91,13 +91,13 @@
                 tools:text="@string/screen_dashboard_widget_edit_hide_text" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageDragDropAdd"
+                android:id="@+id/ivDragDropAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/empty_string"
                 android:src="@{viewModel.item.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
-                android:visibility="@{viewModel.item.id != 2000 ? View.VISIBLE: View.GONE}"
+                android:visibility="@{viewModel.item.id != 10000 ? View.VISIBLE: View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/ivWidget"

@@ -32,50 +32,65 @@ class WidgetLandingViewModel(application: Application) :
             it.isShuffled = false
         }
         sortList()
-        val index = widgetDataList.count {
-            it.status == true
-        }
-        widgetDataList.add(index, WidgetData(id = 2000, name = "Hidden"))
+        widgetDataList.add(
+            getCountOfStatusFromWidgetDataList(),
+            WidgetData(id = 10000, name = "Hidden")
+        )
         widgetAdapter.get()?.setData(widgetDataList)
     }
 
-    override fun changeStatus( positionFrom: Int, positionTo: Int, status: Boolean, isDragDrop: Boolean) {
+    /**
+     * This method will change the status and isShuffled which will update the item list
+     */
+    override fun changeStatus(
+        positionFrom: Int,
+        positionTo: Int,
+        status: Boolean,
+        isDragDrop: Boolean
+    ) {
         val widgetData = widgetDataList[positionFrom]
         widgetData.status = status
         widgetData.isPinned = false
         widgetData.isShuffled = true
-        when( isDragDrop){
-            false->{
+        when (isDragDrop) { //isDragDrop true mean user have drag and drop item only in widget bar section so we did not wanted to remove this item in list because it will be handle in onMoveItem method of widgetAdapter
+            false -> {
                 widgetDataList.removeAt(positionFrom)
             }
         }
         when (status) { //status true mean it is add to dashboard widget bar section and false mean it is added to hidden section
             true -> {
-                when(isDragDrop){
-                    false->{
-                        widgetDataList.add(widgetDataList.count {
-                            it.status == true
-                        }, widgetData)
+                when (isDragDrop) {//isDragDrop true mean user have drag and drop item only in widget bar section so we did not wanted to remove this item in list because it will be handle in onMoveItem method of widgetAdapter
+                    false -> {
+                        widgetDataList.add(positionTo, widgetData)
                     }
                 }
             }
             else -> {
-                widgetDataList.add(widgetDataList.size, widgetData)
+                widgetDataList.add(positionTo, widgetData)
             }
         }
         widgetAdapter.get()?.setData(widgetDataList)
     }
 
-    fun sortList() {
-        widgetDataList = widgetDataList.sortedByDescending { it.status }.toMutableList()
+    /**
+     * This will return the total count of widget added in widget bar section
+     */
+    override fun getCountOfStatusFromWidgetDataList(): Int {
+        return widgetDataList.count {
+            it.status == true
+        }
     }
 
-    fun getWidgetShuffledList(): List<WidgetData> {
-        val count  = widgetDataList.count {
+    /**
+     * This method will calculate how many item in the list is shuffled and will update the shuffledIndex with its position in the list in widget section and in hidden section shuffle index will be -1
+     */
+    override fun getWidgetShuffledList(): List<WidgetData> {
+        val count = widgetDataList.count {
             it.isShuffled == true
         }
-        return if( count > 0){
-            val tempWidgetList = widgetDataList.filter { it.isShuffled == true || it.status == true }
+        return if (count > 0) {
+            val tempWidgetList =
+                widgetDataList.filter { it.isShuffled == true || it.status == true }
             tempWidgetList.forEachIndexed { index, widgetData ->
                 if (widgetData.status == true) {
                     widgetData.shuffleIndex = index + 1
@@ -84,14 +99,14 @@ class WidgetLandingViewModel(application: Application) :
                 }
             }
             tempWidgetList
-        }else{
+        } else {
             emptyList()
         }
     }
 
     override fun requestWidgetUpdation() {
         launch {
-            if(getWidgetShuffledList().isNotEmpty()) {
+            if (getWidgetShuffledList().isNotEmpty()) {
                 state.loading = true
                 when (val response =
                     customerRepository.updateDashboardWidget(getWidgetShuffledList())) {
@@ -102,9 +117,16 @@ class WidgetLandingViewModel(application: Application) :
                         state.loading = false
                     }
                 }
-            }else{
+            } else {
                 apiSuccessEvent.value = false
             }
         }
+    }
+
+    /**
+     * This method will sort the widgetDatalist by it status and status value true will be shown first
+     */
+    private fun sortList() {
+        widgetDataList = widgetDataList.sortedByDescending { it.status }.toMutableList()
     }
 }

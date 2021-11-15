@@ -34,6 +34,8 @@ class BottomSheetEditWidget(
                 false
             )
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        dialog?.setCancelable( false)
+        dialog?.setCanceledOnTouchOutside( false)
         return viewDataBinding.root
     }
 

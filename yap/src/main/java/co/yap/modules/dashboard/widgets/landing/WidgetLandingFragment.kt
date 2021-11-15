@@ -2,10 +2,8 @@ package co.yap.modules.dashboard.widgets.landing
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -23,9 +21,9 @@ import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
 import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.bottomsheet_edit_widget.BottomSheetEditWidget
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.dimen
@@ -116,14 +114,18 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.widgetDataList.addAll(viewModel.parentViewModel!!.widgetDataList)
-        mAdapter = WidgetAdapter(mutableListOf(), null)
-        viewModel.widgetAdapter.set(mAdapter)
-        viewModel.filterWidgetDataList()
+        initRecycleView()
         initDragDropAdapter()
         viewModel.apiSuccessEvent.observe(this, apiSuccessObserver)
         shardPrefs?.let { pref ->
             switchWidget.isChecked = pref.getValueBoolien(Constants.WIDGET_HIDDEN_STATUS, false)
         }
+    }
+
+    private fun initRecycleView() {
+        mAdapter = WidgetAdapter(mutableListOf(), null)
+        viewModel.widgetAdapter.set(mAdapter)
+        viewModel.filterWidgetDataList()
     }
 
     private fun initDragDropAdapter() {
@@ -184,16 +186,23 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onUnderSwipeableViewButtonClicked(v: View?, position: Int) {
-        viewModel.changeStatus( positionFrom = position, positionTo = 0, status = false, isDragDrop = false)
+        viewModel.changeStatus(
+            positionFrom = position,
+            positionTo = viewModel.widgetDataList.size - 1,
+            status = false,
+            isDragDrop = false
+        )
     }
 
     override fun onAddedButtonClick(v: View?, position: Int) {
-        viewModel.changeStatus( positionFrom = position, positionTo = 0, status = true, isDragDrop = false)
+        viewModel.changeStatus(
+            positionFrom = position,
+            positionTo = viewModel.getCountOfStatusFromWidgetDataList(),
+            status = true,
+            isDragDrop = false
+        )
     }
 
-    override fun onDragDropFinished( positionFrom: Int, positionTo: Int) {
-        viewModel.changeStatus( positionFrom = positionFrom, positionTo = positionTo, status = true, isDragDrop = true)
-    }
 
     override fun onItemDragStarted(position: Int) {
     }
@@ -205,6 +214,12 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
+        viewModel.changeStatus(
+            positionFrom = fromPosition,
+            positionTo = toPosition,
+            status = true,
+            isDragDrop = true
+        )
     }
 
     override fun onItemDragMoveDistanceUpdated(offsetX: Int, offsetY: Int) {

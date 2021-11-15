@@ -46,7 +46,6 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-//        holder.binding.ivArrow.setImageResource(if (editWidget) R.drawable.ic_hamburger else R.drawable.ic_back_arrow_left)
         // set swiping properties
         holder.maxLeftSwipeAmount = -0.2f
         holder.maxRightSwipeAmount = 0f
@@ -65,7 +64,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
         return if(datas[position].status == true){
             val constraintLayout: LinearLayoutCompat = holder.binding.constraintLayout
-            val imageView: AppCompatImageView = holder.binding.imageDragDropAdd
+            val imageView: AppCompatImageView = holder.binding.ivDragDropAdd
             val offsetX:Int = constraintLayout.left + (constraintLayout.translationX + 0.5f).toInt()
             val offsetY:Int = constraintLayout.top + (constraintLayout.translationY + 0.5f).toInt()
             hitTest( imageView, x - offsetX, y - offsetY)
@@ -104,7 +103,6 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
-        mEventListener?.onDragDropFinished( fromPosition, toPosition)
         notifyDataSetChanged()
     }
 
@@ -177,13 +175,7 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
                     adapterPosition
                 )
             }
-//            binding.imageDragDropAdd.setOnLongClickListener {
-//                if(mAdapter?.datas?.get(adapterPosition)?.status == true){
-//                    mAdapter?.editWidget = true
-//                }
-//                true
-//            }
-            binding.imageDragDropAdd.setOnClickListener {
+            binding.ivDragDropAdd.setOnClickListener {
                 if(mAdapter?.datas?.get(adapterPosition)?.status == false){
                     mAdapter?.mEventListener?.onAddedButtonClick( itemView, position = adapterPosition)
                 }
@@ -261,6 +253,5 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
         fun onItemPinned(position: Int, isPinned: Boolean)
         fun onUnderSwipeableViewButtonClicked(v: View?, position: Int)
         fun onAddedButtonClick(v: View?, position: Int)
-        fun onDragDropFinished( positionFrom: Int, positionTo: Int)
     }
 }

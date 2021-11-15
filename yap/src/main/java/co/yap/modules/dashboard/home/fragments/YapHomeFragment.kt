@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -41,14 +42,18 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
+import co.yap.modules.dashboard.transaction.totalpurchases.TotalPurchaseFragment
+import co.yap.modules.dashboard.widgets.landing.WidgetLandingFragment
 import co.yap.modules.dashboard.widgets.main.WidgetActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
@@ -62,6 +67,7 @@ import co.yap.widgets.Status
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.SingleClickEvent
@@ -220,12 +226,36 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.imgWidget -> {
-                    startActivityForResult(
-                        WidgetActivity.newIntent(
-                            context = requireContext(),
-                            widgetList = WidgetItemList(viewModel.widgetList)
-                        ), RequestCodes.REQUEST_EDIT_WIDGET
-                    )
+                    if (data is WidgetData) {
+                        when (data.name) {
+                            "Add money" -> {
+                                launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
+                            }
+                            "Send money" -> {
+                                launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                            }
+                            "QR code" -> {
+                                QRCodeFragment {}.let { fragment ->
+                                    if (isAdded) fragment.show(
+                                        requireActivity().supportFragmentManager,
+                                        ""
+                                    )
+                                }
+                            }
+                            "Bills" -> {
+                            }
+                            "Offers" -> {
+                            }
+                            "Edit" -> {
+                                startActivityForResult(
+                                    WidgetActivity.newIntent(
+                                        context = requireContext(),
+                                        widgetList = WidgetItemList(viewModel.widgetList)
+                                    ), RequestCodes.REQUEST_EDIT_WIDGET
+                                )
+                            }
+                        }
+                    }
                 }
                 else -> {
                     viewModel.clickEvent.setPayload(

@@ -47,7 +47,9 @@ class WidgetActivity : BaseBindingActivity<IWidget.ViewModel>(), INavigator,
         intent?.let {
             if (it.hasExtra(EDIT_WIDGET)) {
                 it.getParcelableExtra<WidgetItemList>(EDIT_WIDGET).let { widgetList ->
-                    viewModel.widgetDataList.addAll(widgetList.widgetData)
+                    widgetList?.let { list ->
+                        viewModel.widgetDataList.addAll(list.widgetData)
+                    }
                 }
             }
         }

@@ -17,10 +17,12 @@ class IWidgetLanding {
         fun filterWidgetDataList()
         fun requestWidgetUpdation()
         fun handlePressOnView(id: Int)
-        fun changeStatus( positionFrom: Int, positionTo: Int, status: Boolean, isDragDrop: Boolean)
+        fun changeStatus(positionFrom: Int, positionTo: Int, status: Boolean, isDragDrop: Boolean)
+        fun getCountOfStatusFromWidgetDataList(): Int
+        fun getWidgetShuffledList(): List<WidgetData>
     }
 
     interface State : IBase.State {
-        var isVisibilityChange:ObservableField<Boolean>
+        var isVisibilityChange: ObservableField<Boolean>
     }
 }
