@@ -123,6 +123,6 @@ class POBSelectionViewModel(application: Application) :
 
     override fun canSkipFragment() =
         SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
-                || parentViewModel?.amendmentMap?.contains(AmendmentSection.BIRTH_INFO.name) == false
+                || parentViewModel?.amendmentMap?.contains(AmendmentSection.BIRTH_INFO.value) == false
 
 }
