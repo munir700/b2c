@@ -4,19 +4,23 @@ import android.app.Application
 import android.view.View
 import android.widget.CheckedTextView
 import co.yap.modules.location.viewmodels.LocationChildViewModel
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EmploymentStatusSelectionViewModel(application: Application) :
     LocationChildViewModel<IEmploymentStatusSelection.State>(application),
-    IEmploymentStatusSelection.ViewModel {
+    IEmploymentStatusSelection.ViewModel, IRepositoryHolder<CustomersRepository> {
     override val state: EmploymentStatusSelectionState =
         EmploymentStatusSelectionState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var employmentStatusAdapter: EmploymentStatusAdapter =
         EmploymentStatusAdapter(getEmploymentStatusList())
-    override var lastItemCheckedPosition = -1;
+    override var lastItemCheckedPosition = -1
+    override val repository: CustomersRepository = CustomersRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -89,6 +93,19 @@ class EmploymentStatusSelectionViewModel(application: Application) :
                     employmentStatusAdapter.notifyItemChanged(pos)
                     lastItemCheckedPosition = -1
                     state.enableNextButton.set(false)
+                }
+            }
+        }
+    }
+
+    //BY UMAR
+    override fun getAmendmentsEmploymentInfo() {
+        launch {
+            when (val response = repository.getAmendmentsEmploymentInfo()) {
+                is RetroApiResponse.Success -> {
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
                 }
             }
         }
