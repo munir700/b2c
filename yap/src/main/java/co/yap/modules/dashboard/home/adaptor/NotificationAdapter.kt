@@ -9,6 +9,7 @@ import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.databinding.ViewNotificationsBinding
+import co.yap.yapcore.helpers.Utils
 
 class NotificationAdapter(
     val context: Context,
@@ -16,6 +17,8 @@ class NotificationAdapter(
     val clickListener: NotificationItemClickListener
 ) :
     BaseBindingRecyclerAdapter<HomeNotification, NotificationAdapter.ViewHolder>(listItems) {
+
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 88, 15)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
         return ViewHolder(binding as ViewNotificationsBinding)
@@ -31,6 +34,10 @@ class NotificationAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(notification: HomeNotification) {
+            val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams
+            params.width = dimensions[0]
+            binding.cvNotification.layoutParams = params
+
 
             binding.tvTitle.text = notification.title
 
@@ -38,8 +45,8 @@ class NotificationAdapter(
 
 //            binding.ivNotification
             binding.tvDescription.text = notification.description
-            if (notification.title?.isBlank() == true) {
-                binding.tvTitle.visibility = View.INVISIBLE
+            if (notification.title.isNullOrBlank()) {
+                binding.tvTitle.visibility = View.GONE
             } else {
                 binding.tvTitle.visibility = View.VISIBLE
             }

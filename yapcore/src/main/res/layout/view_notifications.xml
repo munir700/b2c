@@ -14,9 +14,8 @@
         android:id="@+id/cvNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_normal_large"
         android:layout_marginTop="@dimen/margin_normal"
-        android:layout_marginEnd="@dimen/margin_normal_large"
+        android:layout_marginEnd="@dimen/_5sdp"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="true"
@@ -24,7 +23,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/_90sdp"
             android:background="@color/purpleLightCard"
             android:padding="@dimen/_6sdp">
 
@@ -37,7 +36,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="false"/>
+                app:lottie_loop="true"
+                app:lottie_repeatCount="1"/>
 
             <ImageView
                 android:id="@+id/ivCross"
@@ -52,14 +52,12 @@
                 android:id="@+id/tvTitle"
                 style="@style/AMicro"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_small"
-                android:lines="1"
-                app:layout_constraintEnd_toStartOf="@+id/ivCross"
-                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintBottom_toTopOf="@+id/tvDescription"
                 app:layout_constraintStart_toEndOf="@+id/lottie"
-                app:layout_constraintTop_toTopOf="@+id/ivCross"
+                app:layout_constraintTop_toTopOf="@+id/lottie"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="YAP service notice." />
 
             <co.yap.widgets.AutoResizeTextView
@@ -69,10 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_extra_small"
-                android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/_2sdp"
-                android:maxLines="5"
-                android:paddingBottom="@dimen/margin_small"
+                app:layout_constraintBottom_toBottomOf="@+id/lottie"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/lottie"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"

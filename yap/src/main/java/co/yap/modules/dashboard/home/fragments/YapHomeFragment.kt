@@ -531,18 +531,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    private fun clearNotification() {
-        mAdapter?.removeAllItems()
-    }
-
     override fun onCloseClick(notification: HomeNotification, position: Int) {
         super.onCloseClick(notification, position)
-        AnimationUtils.slideView(
-            getDataBindingView<FragmentDashboardHomeBinding>().clMain.rvNotificationList,
-            getDataBindingView<FragmentDashboardHomeBinding>().clMain.rvNotificationList.measuredHeight,
-            0
-        )
-        clearNotification()
+        mAdapter?.removeItemAt(position)
     }
 
     private fun showTransactionsAndGraph() {
