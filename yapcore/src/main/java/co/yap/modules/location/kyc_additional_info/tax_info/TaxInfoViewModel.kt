@@ -248,4 +248,16 @@ class TaxInfoViewModel(application: Application) :
         SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
                 || parentViewModel?.amendmentMap?.contains(AmendmentSection.TAX_INFO.name) == false
 
+    //BY UMAR
+    override fun getAmendmentsTaxInfo() {
+        launch {
+            when (val response = repository.getAmendmentsTaxInfo()) {
+                is RetroApiResponse.Success -> {
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
 }
