@@ -19,7 +19,7 @@ class CardStatementsViewModel(application: Application) :
 
     private val transactionRepository: TransactionsRepository = TransactionsRepository
     override val state: CardStatementsState = CardStatementsState()
-    override lateinit var card: Card
+    override var card: Card? = null
     override val adapter: ObservableField<CardStatementsAdaptor> = ObservableField()
     private val currentCalendar = Calendar.getInstance()
     private val creationCalender = Calendar.getInstance()
