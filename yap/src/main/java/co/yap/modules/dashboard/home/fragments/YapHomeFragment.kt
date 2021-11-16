@@ -227,7 +227,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun setObservers() {
         SessionManager.onAccountInfoSuccess.observe(viewLifecycleOwner, Observer { isSuccess ->
             if (isSuccess) {
-                checkUserStatus()
+                //TODO("In onResume method of YapDashBoardActivity getAccountInfo method is already calling.This changed required complete testing of notification section on dashboard")
+//                checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             }
         })
