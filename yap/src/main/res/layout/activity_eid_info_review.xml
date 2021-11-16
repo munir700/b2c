@@ -293,9 +293,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="0123456789-"
-                        android:drawableEnd="@drawable/ic_edit"
-                        android:drawableRight="@drawable/ic_edit"
                         android:inputType="number"
+                        android:maxLength="@integer/eid_length"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:text="@{viewModel.state.citizenNumber}"
                         android:theme="@style/Theme.EditText.Primary"
@@ -303,7 +303,8 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:validateMinLength="@{3}"
+                        app:validateMaxLength="@{30}"
+                        app:validateMinLength="@{1}"
                         tools:text="Emirates ID" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -327,12 +328,14 @@
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_edit"
-                        android:drawableRight="@drawable/ic_edit"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:text="@={viewModel.state.firstName}"
                         android:theme="@style/Theme.EditText.Primary"
+                        app:compoundDrawableHeight="@dimen/margin_medium_large"
+                        app:compoundDrawableWidth="@dimen/margin_medium_large"
+                        app:drawableEndVector="@drawable/ic_edit"
+                        app:onDrawableClickListener="@{viewModel.drawableClickListener}"
                         app:validateType='@{"firstname"}'
                         tools:text="Nada Hassan" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -352,22 +355,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading">
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvMiddleName"
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_edit"
-                        android:drawableRight="@drawable/ic_edit"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:lineSpacingExtra="-5dp"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                        android:paddingTop="-5dp"
                         android:singleLine="true"
                         android:text="@={viewModel.state.middleName}"
                         android:theme="@style/Theme.EditText.Primary"
                         android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.GONE}"
+                        app:compoundDrawableHeight="@dimen/margin_medium_large"
+                        app:compoundDrawableWidth="@dimen/margin_medium_large"
+                        app:drawableEndVector="@drawable/ic_edit"
+                        app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateMaxLength="@{30}"
                         tools:text="Noor" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -387,18 +389,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvMiddleNameHeading">
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvLastName"
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_edit"
-                        android:drawableRight="@drawable/ic_edit"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:lineSpacingExtra="-5dp"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                        android:paddingTop="-5dp"
                         android:singleLine="true"
                         android:text="@={viewModel.state.lastName}"
                         android:theme="@style/Theme.EditText.Primary"
@@ -407,6 +403,7 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateType='@{"lastname"}'
                         tools:text="Hassan" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -430,14 +427,8 @@
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_edit"
-                        android:drawableRight="@drawable/ic_edit"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:lineSpacingExtra="-5dp"
                         android:maxLength="@integer/eid_nationality_length"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                        android:paddingTop="-5dp"
                         android:singleLine="true"
                         android:text="@={viewModel.state.nationality}"
                         android:theme="@style/Theme.EditText.Primary"
@@ -445,6 +436,8 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateMaxLength="@{30}"
+                        app:validateMinLength="@{3}"
                         tools:text="Nationality" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -462,18 +455,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading">
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvDOB"
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_edit"
-                        android:drawableRight="@drawable/ic_edit"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:lineSpacingExtra="-5dp"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                        android:paddingTop="-5dp"
                         android:singleLine="true"
                         android:text="@{viewModel.state.dateOfBirth}"
                         android:theme="@style/Theme.EditText.Primary"
@@ -482,6 +469,7 @@
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateMinLength="@{1}"
                         tools:text="01/01/1979" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -500,13 +488,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading">
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvGender"
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_edit"
-                        android:drawableRight="@drawable/ic_edit"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:text="@{viewModel.state.gender}"
@@ -516,6 +502,7 @@
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateMinLength="@{1}"
                         tools:text="Female" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -534,13 +521,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvGenderHeading">
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvExpiryDate"
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_edit"
-                        android:drawableRight="@drawable/ic_edit"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:text="@{viewModel.state.expiryDate}"
@@ -550,6 +535,7 @@
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateMinLength="@{1}"
                         tools:text="01/01/2019" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>

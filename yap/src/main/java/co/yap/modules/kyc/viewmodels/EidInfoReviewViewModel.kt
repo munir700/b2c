@@ -2,6 +2,7 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
@@ -440,9 +441,9 @@ class EidInfoReviewViewModel(application: Application) :
         } ?: false
     }
 
-    val drawableClickListener = object :OnDrawableClickListener{
-        override fun onClick(target: DrawablePosition) {
-
+    override val drawableClickListener = object : OnDrawableClickListener {
+        override fun onClick(view : View, target: DrawablePosition) {
+            clickEvent.setValue(view.id)
         }
     }
 }

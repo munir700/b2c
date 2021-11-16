@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.validation.Validator
@@ -63,6 +64,7 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
+        val drawableClickListener : OnDrawableClickListener
 //        var validator: Validator?
     }
 }

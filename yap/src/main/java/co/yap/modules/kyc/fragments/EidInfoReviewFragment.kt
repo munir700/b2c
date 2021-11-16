@@ -24,6 +24,7 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.widgets.Status
+import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -55,7 +56,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<ActivityEidInfoReviewBinding>().lifecycleOwner = this
-        viewModel.validator = Validator(getDataBindingView<ActivityEidInfoReviewBinding>())// Validator()
+        viewModel.validator = Validator(getDataBindingView<ActivityEidInfoReviewBinding>())
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,50 +73,58 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.ivEditEID, R.id.tvEidNumber -> {
-                    disableImageView(ivEditEID)
-                    manageFocus(tvEidNumber, ivEditEID)
+                R.id.tvEidNumber -> {
+                    disableEndDrawable(tvEidNumber)
+                    //disableImageView(ivEditEID)
+                    //manageFocus(tvEidNumber, ivEditEID)
                 }
-                R.id.ivEditFirstName, R.id.tvFirstName -> {
-                    disableImageView(ivEditFirstName)
-                    manageFocus(tvFirstName, ivEditFirstName)
+                R.id.tvFirstName -> {
+                    disableEndDrawable(tvFirstName)
+                    //disableImageView(ivEditFirstName)
+                    //manageFocus(tvFirstName, ivEditFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "first_name")
                     )
                 }
 
-                R.id.ivEditMiddleName, R.id.tvMiddleName -> {
-                    disableImageView(ivEditMiddleName)
-                    manageFocus(tvMiddleName, ivEditMiddleName)
+                R.id.tvMiddleName -> {
+                    disableEndDrawable(tvMiddleName)
+                    //disableImageView(ivEditMiddleName)
+                    //manageFocus(tvMiddleName, ivEditMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "middle_name")
                     )
                 }
 
-                R.id.ivEditLastName, R.id.tvLastName -> {
-                    disableImageView(ivEditLastName)
-                    manageFocus(tvLastName, ivEditLastName)
+                R.id.tvLastName -> {
+                    disableEndDrawable(tvLastName)
+                    //disableImageView(ivEditLastName)
+                    //manageFocus(tvLastName, ivEditLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
                     )
                 }
 
-                R.id.ivEditNationality, R.id.tvNationality -> {
-                    disableImageView(ivEditNationality)
-                    manageFocus(tvNationality, ivEditNationality)
+                R.id.tvNationality -> {
+                    disableEndDrawable(tvNationality)
+                    //disableImageView(ivEditNationality)
+                    //manageFocus(tvNationality, ivEditNationality)
                 }
 
-                R.id.ivEditDob, R.id.tvDOB -> {
+                R.id.tvDOB -> {
+                    disableEndDrawable(tvDOB)
                     showDateOfBirthPicker(viewModel.state.dobCalendar)
                 }
 
-                R.id.ivEditGender, R.id.tvGender -> {
+                R.id.tvGender -> {
+                    disableEndDrawable(tvGender)
                 }
 
-                R.id.ivEditExpiry, R.id.tvExpiryDate -> {
+                R.id.tvExpiryDate -> {
+                    disableEndDrawable(tvExpiryDate)
                     showExpiryDatePicker(viewModel.state.expiryCalendar)
                 }
 
@@ -214,19 +223,21 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         )
     }
 
-    private fun disableImageView(view: View) {
-        val list = listOf<View>(
-            ivEditEID,
-            ivEditFirstName,
-            ivEditMiddleName,
-            ivEditLastName,
-            ivEditNationality,
-            ivEditDob,
-            ivEditGender,
-            ivEditExpiry
+    private fun disableEndDrawable(view: EditTextRichDrawable) {
+        val list = listOf<EditTextRichDrawable>(
+            tvEidNumber,
+            tvFirstName,
+            tvMiddleName,
+            tvLastName,
+            tvNationality,
+            tvDOB,
+            tvGender,
+            tvExpiryDate
         )
-        list.map {
-            it.isEnabled = it != view
+        list.forEach {
+            it.setDrawableEndVectorId(
+                if(view.id == it.id) R.drawable.ic_edit_disable else R.drawable.ic_edit
+            )
         }
     }
 

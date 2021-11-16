@@ -1,7 +1,7 @@
 package co.yap.widgets.edittext
 
-import co.yap.widgets.edittext.DrawablePosition
+import android.view.View
 
 interface OnDrawableClickListener {
-    fun onClick(target: DrawablePosition)
+    fun onClick(view: View, target: DrawablePosition)
 }

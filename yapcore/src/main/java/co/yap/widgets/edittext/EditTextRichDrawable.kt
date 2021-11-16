@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.databinding.BindingAdapter
@@ -12,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlin.math.abs
 
 @Keep
-open class EditTextRichDrawable : TextInputEditText, DrawableEnriched {
+open class   EditTextRichDrawable : TextInputEditText, DrawableEnriched {
 
     private var mRichDrawableHelper: RichDrawableHelper? = null
     private var onDrawableClickListener: OnDrawableClickListener? = null
@@ -26,7 +27,7 @@ open class EditTextRichDrawable : TextInputEditText, DrawableEnriched {
 
     private val defaultClickListenerAdapter: OnDrawableClickListener =
         object : OnDrawableClickListener {
-            override fun onClick(target: DrawablePosition) {
+            override fun onClick(view : View, target: DrawablePosition) {
                 when (target) {
                     DrawablePosition.BOTTOM -> {
 
@@ -176,8 +177,8 @@ open class EditTextRichDrawable : TextInputEditText, DrawableEnriched {
     private fun setupDrawableBottomClick(bounds: Rect?, event: MotionEvent) {
         val extraClickingArea = 13
         if (abs((width - paddingLeft - paddingRight) / 2 + paddingLeft - positionX) <= bounds!!.width() / 2 + extraClickingArea) {
-            onDrawableClickListener?.onClick(DrawablePosition.BOTTOM)
-            defaultClickListener?.onClick(DrawablePosition.BOTTOM)
+            onDrawableClickListener?.onClick(this, DrawablePosition.BOTTOM)
+            defaultClickListener?.onClick(this, DrawablePosition.BOTTOM)
             event.action = MotionEvent.ACTION_CANCEL
         }
     }
@@ -185,8 +186,8 @@ open class EditTextRichDrawable : TextInputEditText, DrawableEnriched {
     private fun setupDrawableTopClick(bounds: Rect?, event: MotionEvent) {
         val extraClickingArea = 13
         if (abs((width - paddingLeft - paddingRight) / 2 + paddingLeft - positionX) <= bounds!!.width() / 2 + extraClickingArea) {
-            onDrawableClickListener?.onClick(DrawablePosition.TOP)
-            defaultClickListener?.onClick(DrawablePosition.TOP)
+            onDrawableClickListener?.onClick(this, DrawablePosition.TOP)
+            defaultClickListener?.onClick(this, DrawablePosition.TOP)
             event.action = MotionEvent.ACTION_CANCEL
         }
     }
@@ -215,8 +216,8 @@ open class EditTextRichDrawable : TextInputEditText, DrawableEnriched {
         }
 
         if (bounds.contains(xClickPosition, yClickPosition) && onDrawableClickListener != null) {
-            onDrawableClickListener?.onClick(DrawablePosition.LEFT)
-            defaultClickListener?.onClick(DrawablePosition.LEFT)
+            onDrawableClickListener?.onClick(this, DrawablePosition.LEFT)
+            defaultClickListener?.onClick(this, DrawablePosition.LEFT)
             event.action = MotionEvent.ACTION_CANCEL
 
         }
@@ -245,8 +246,8 @@ open class EditTextRichDrawable : TextInputEditText, DrawableEnriched {
                 yClickPosition
             ) && (onDrawableClickListener != null || defaultClickListener != null)
         ) {
-            onDrawableClickListener?.onClick(DrawablePosition.RIGHT)
-            defaultClickListener?.onClick(DrawablePosition.RIGHT)
+            onDrawableClickListener?.onClick(this, DrawablePosition.RIGHT)
+            defaultClickListener?.onClick(this, DrawablePosition.RIGHT)
             event.action = MotionEvent.ACTION_CANCEL
         }
     }
