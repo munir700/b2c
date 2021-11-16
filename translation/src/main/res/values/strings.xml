@@ -266,6 +266,7 @@ Due to all the excitement of our official launch, we are gradually activating as
 
     <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Thanks %1$s! Verify your details are exactly as per your Emirates Id. You can edit the name fields incase we got it wrong!</string>
     <string name="screen_b2c_eid_info_review_display_text_eid_number">Emirates ID number</string>
+    <string name="screen_b2c_eid_info_review_display_text_select_gender">Select your Gender</string>
 
 
     <!--    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>-->

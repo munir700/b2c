@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -65,6 +66,7 @@ interface IEidInfoReview {
         var errorTitle: String
         var errorBody: String
         val drawableClickListener : OnDrawableClickListener
+        fun getGenderOptions(): ArrayList<BottomSheetItem>
 //        var validator: Validator?
     }
 }

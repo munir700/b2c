@@ -14,6 +14,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.State
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.DrawablePosition
 import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.SingleClickEvent
@@ -442,8 +443,27 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override val drawableClickListener = object : OnDrawableClickListener {
-        override fun onClick(view : View, target: DrawablePosition) {
+        override fun onClick(view: View, target: DrawablePosition) {
             clickEvent.setValue(view.id)
         }
+    }
+
+    override fun getGenderOptions(): ArrayList<BottomSheetItem> {
+        val list = arrayListOf<BottomSheetItem>()
+        list.add(
+            BottomSheetItem(
+                icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)) R.drawable.ic_tick else -1,
+                title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male),
+                tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
+            )
+        )
+        list.add(
+            BottomSheetItem(
+                icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)) R.drawable.ic_tick else -1,
+                title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female),
+                tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
+            )
+        )
+        return list
     }
 }

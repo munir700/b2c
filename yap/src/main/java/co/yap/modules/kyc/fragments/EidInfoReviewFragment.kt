@@ -23,18 +23,23 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
+import co.yap.translation.Strings
 import co.yap.widgets.Status
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -121,6 +126,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                 R.id.tvGender -> {
                     disableEndDrawable(tvGender)
+                    requireActivity().launchSheet(
+                        itemClickListener = genderItemListener,
+                        itemsList = viewModel.getGenderOptions(),
+                        heading = getString(Strings.screen_b2c_eid_info_review_display_text_select_gender)
+                    )
                 }
 
                 R.id.tvExpiryDate -> {
@@ -236,7 +246,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         )
         list.forEach {
             it.setDrawableEndVectorId(
-                if(view.id == it.id) R.drawable.ic_edit_disable else R.drawable.ic_edit
+                if (view.id == it.id) R.drawable.ic_edit_disable else R.drawable.ic_edit
             )
         }
     }
@@ -419,5 +429,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             File(filePath).deleteRecursively()
         }
         super.onDestroy()
+    }
+
+    private val genderItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+                viewModel.state.gender = (data as BottomSheetItem).tag ?: ""
+        }
     }
 }
