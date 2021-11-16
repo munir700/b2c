@@ -125,7 +125,6 @@ class POBSelectionViewModel(application: Application) :
         SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
                 || parentViewModel?.amendmentMap?.contains(AmendmentSection.BIRTH_INFO.name) == false
 
-    //BY UMAR
     override fun getAmendmentsBirthInfo() {
         launch {
             when (val response = repository.getAmendmentsBirthInfo()) {
