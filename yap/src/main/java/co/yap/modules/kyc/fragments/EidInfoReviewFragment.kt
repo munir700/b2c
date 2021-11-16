@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityEidInfoReviewBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
@@ -32,6 +33,7 @@ import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -49,6 +51,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getDataBindingView<ActivityEidInfoReviewBinding>().lifecycleOwner = this
+        viewModel.validator = Validator(getDataBindingView<ActivityEidInfoReviewBinding>())// Validator()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

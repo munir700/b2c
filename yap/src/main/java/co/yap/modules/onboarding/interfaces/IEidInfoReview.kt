@@ -4,6 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.validation.Validator
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.util.*
 
@@ -62,5 +63,6 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
+//        var validator: Validator?
     }
 }

@@ -13,11 +13,15 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.State
+import co.yap.widgets.edittext.DrawablePosition
+import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -34,8 +38,8 @@ import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
-    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository> {
-
+    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator {
+    override var validator: Validator? = Validator(null)
     override val repository: CustomersRepository
         get() = CustomersRepository
 
@@ -434,5 +438,11 @@ class EidInfoReviewViewModel(application: Application) :
         return value?.let {
             return (end in start..it.length)
         } ?: false
+    }
+
+    val drawableClickListener = object :OnDrawableClickListener{
+        override fun onClick(target: DrawablePosition) {
+
+        }
     }
 }
