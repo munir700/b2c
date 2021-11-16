@@ -1,10 +1,8 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.BirthInfoAmendment.BirthInfoAmendmentResponse
-import co.yap.networking.customers.EmploymentAmendment.EmploymentInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.EmploymentAmendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
-import co.yap.networking.customers.responsedtos.TaxInfoAmendment.TaxInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
@@ -232,12 +230,6 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
-    //BY UMAR
-    @GET(CustomersRepository.URL_AMENDMENTS_TAX_INFO)
-    suspend fun getAmendmentsTaxInfo(): Response<TaxInfoAmendmentResponse>
-
-    @GET(CustomersRepository.URL_AMENDMENTS_Birth_INFO)
-    suspend fun getAmendmentsBirthInfo(): Response<BirthInfoAmendmentResponse>
 
     @GET(CustomersRepository.URL_AMENDMENTS_Employment_INFO)
     suspend fun getAmendmentsEmploymentInfo(): Response<EmploymentInfoAmendmentResponse>

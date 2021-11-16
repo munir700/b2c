@@ -98,7 +98,6 @@ class EmploymentStatusSelectionViewModel(application: Application) :
         }
     }
 
-    //BY UMAR
     override fun getAmendmentsEmploymentInfo() {
         launch {
             when (val response = repository.getAmendmentsEmploymentInfo()) {

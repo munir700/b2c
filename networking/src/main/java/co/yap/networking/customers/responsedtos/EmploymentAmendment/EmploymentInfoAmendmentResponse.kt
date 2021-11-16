@@ -1,8 +1,8 @@
-package co.yap.networking.customers.EmploymentAmendment
+package co.yap.networking.customers.responsedtos.EmploymentAmendment
 
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
-//BY UMAR
+
 data class EmploymentInfoAmendmentResponse(
     @SerializedName("errors")
     val errors: String? = null,
