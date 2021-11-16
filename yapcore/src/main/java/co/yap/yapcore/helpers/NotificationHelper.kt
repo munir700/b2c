@@ -59,7 +59,8 @@ object NotificationHelper {
                         context,
                         Strings.screen_help_support_display_text_title
                     ),
-                    fileName = "bell.json"
+                    //fileName = "bell.json"
+                fileName = R.raw.bell
                 )
             )
         }
@@ -92,7 +93,7 @@ object NotificationHelper {
                         context,
                         Strings.screen_b2c_kyc_home_display_text_screen_title
                     ),
-                    fileName = "bill.json"
+                    fileName = R.raw.bell_paper
                 )
             )
         }
@@ -116,7 +117,7 @@ object NotificationHelper {
                         context,
                         Strings.dashboard_timeline_set_pin_stage_action_title
                     ) + " now",
-                    fileName = "lock.json"
+                    fileName = R.raw.lock
                 )
             )
         }
@@ -142,7 +143,7 @@ object NotificationHelper {
                         context,
                         Strings.screen_b2c_eid_info_review_button_title_scan_eid
                     ),
-                    fileName = "bill.json"
+                    fileName = R.raw.bell_paper
                 )
             )
         }
@@ -160,7 +161,7 @@ object NotificationHelper {
                             context,
                             Strings.screen_help_support_display_text_call_us
                         ),
-                        fileName = "bell.json"
+                        fileName = R.raw.bell
                     )
                 )
             }
@@ -198,7 +199,7 @@ object NotificationHelper {
                     context,
                     Strings.screen_help_support_display_text_title
                 ),
-                fileName = "bell.json"
+                fileName = R.raw.bell
             )
         )
 
@@ -222,7 +223,7 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_kyc_home_display_text_screen_title
-                )
+                ),fileName = R.raw.bell_paper
             )
         )
         list.add(
@@ -263,7 +264,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_eid_info_review_button_title_scan_eid
-                )
+                ),
+                fileName = R.raw.bell_paper
             )
         )
 
@@ -281,7 +283,7 @@ object NotificationHelper {
                     context,
                     Strings.screen_help_support_display_text_call_us
                 ),
-                fileName = "bell.json"
+                fileName = R.raw.bell
             )
         )
 
