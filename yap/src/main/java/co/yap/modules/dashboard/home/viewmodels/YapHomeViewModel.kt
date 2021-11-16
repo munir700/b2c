@@ -8,6 +8,8 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
@@ -38,6 +40,7 @@ class YapHomeViewModel(application: Application) :
     override val state: YapHomeState = YapHomeState()
     override var txnFilters: TransactionFilters = TransactionFilters()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    private val customerRepository: CustomersRepository = CustomersRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
     override var isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -45,6 +48,7 @@ class YapHomeViewModel(application: Application) :
     override var isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
     override var MAX_CLOSING_BALANCE: Double = 0.0
     override var monthData: List<MonthData>? = ArrayList()
+    override var dashboardWidgetList: MutableLiveData<List<WidgetData>> = MutableLiveData()
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
@@ -356,6 +360,27 @@ class YapHomeViewModel(application: Application) :
 
                 }
             }
+        }
+    }
+
+    override fun requestDashboardWidget() {
+        launch {
+            when (val response = customerRepository.getDashboardWidget()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        dashboardWidgetList.postValue(getFilteredList(it))
+                    }
+                }
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
+
+    private fun getFilteredList(widgetList: MutableList<WidgetData>) = widgetList.run {
+        this.filter { it.status == true && it.shuffleIndex != 0 }.toMutableList().also {
+            it.add(WidgetData(id = -1, name = "Edit"))
         }
     }
 }
