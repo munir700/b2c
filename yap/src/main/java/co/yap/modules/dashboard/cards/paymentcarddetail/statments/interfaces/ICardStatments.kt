@@ -12,7 +12,7 @@ interface ICardStatments {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        var card: Card
+        var card: Card?
         fun loadStatements(serialNumber: String)
         fun loadStatementsFromDashBoard()
         val adapter: ObservableField<CardStatementsAdaptor>

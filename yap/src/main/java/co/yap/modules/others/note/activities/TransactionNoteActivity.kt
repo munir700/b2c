@@ -40,15 +40,15 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
     }
 
     private fun getNoteValue(): String {
-        return intent.getStringExtra(Constants.KEY_NOTE_VALUE)
+        return intent.getStringExtra(Constants.KEY_NOTE_VALUE)?:""
     }
 
     private fun getTxnType(): String {
-        return intent.getStringExtra(Constants.TXN_TYPE)
+        return intent.getStringExtra(Constants.TXN_TYPE)?:""
     }
 
     private fun getTransactionId(): String {
-        return intent.getStringExtra(Constants.TRANSACTION_ID)
+        return intent.getStringExtra(Constants.TRANSACTION_ID)?:""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

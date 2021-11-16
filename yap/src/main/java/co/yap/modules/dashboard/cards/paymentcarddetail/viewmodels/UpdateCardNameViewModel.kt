@@ -18,7 +18,7 @@ class UpdateCardNameViewModel(application: Application) :
     override val state: UpdateCardNameState = UpdateCardNameState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     private val cardsRepository: CardsRepository = CardsRepository
-    override lateinit var card: Card
+    override var card: Card? = null
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -28,7 +28,7 @@ class UpdateCardNameViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                cardsRepository.updateCardName(state.cardName, card.cardSerialNumber)) {
+                cardsRepository.updateCardName(state.cardName, card?.cardSerialNumber ?: "")) {
                 is RetroApiResponse.Success -> {
                     Handler().postDelayed({
                         clickEvent.setValue(EVENT_UPDATE_CARD_NAME)
