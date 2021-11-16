@@ -58,7 +58,21 @@ class EidInfoReviewViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getSectionedCountriesList()
+        mockDataForScreen()
         parentViewModel?.identity?.let { populateState(it) }
+    }
+
+    private fun mockDataForScreen() {
+        val identity = Identity()
+        identity.citizenNumber = "784198653158182"
+        identity.expirationDate =
+            DateUtils.stringToDate("230628", "yyMMdd")
+        identity.dateOfBirth =
+            DateUtils.stringToDate("860319", "yyMMdd")
+        identity.gender = Gender.Male
+        identity.nationality = "Indian"
+        identity.givenName = "Hiral Jayendrakumar Joshi Jayendrakumar Vasudev Joshi"
+        parentViewModel?.identity = identity
     }
 
     override fun handlePressOnView(id: Int) {
