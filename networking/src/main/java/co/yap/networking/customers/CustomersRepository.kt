@@ -3,8 +3,11 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
+import co.yap.networking.customers.BirthInfoAmendment.BirthInfoAmendmentResponse
+import co.yap.networking.customers.EmploymentAmendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.TaxInfoAmendment.TaxInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
@@ -97,6 +100,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
     const val URL_BIRTH_INFO = "customers/api/customer-birth-info"
     const val URL_TAX_INFO = "customers/api/tax-information"
+    const val URL_AMENDMENTS_TAX_INFO = "customers/api/tax-information"
+    const val URL_AMENDMENTS_Birth_INFO = "customers/api/customer-birth-info"
+    const val URL_AMENDMENTS_Employment_INFO = "customers/api/employment-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
     const val URL_GET_QR_CONTACT = "customers/api/customers-info"
@@ -364,6 +370,16 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
+
+    //BY UMAR
+    override suspend fun getAmendmentsTaxInfo(): RetroApiResponse<TaxInfoAmendmentResponse> =
+        executeSafely(call = { api.getAmendmentsTaxInfo() })
+
+    override suspend fun getAmendmentsBirthInfo(): RetroApiResponse<BirthInfoAmendmentResponse> =
+        executeSafely(call = { api.getAmendmentsBirthInfo() })
+
+    override suspend fun getAmendmentsEmploymentInfo(): RetroApiResponse<EmploymentInfoAmendmentResponse> =
+        executeSafely(call = { api.getAmendmentsEmploymentInfo() })
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
         executeSafely(call = { api.getAllCurrencies() })
