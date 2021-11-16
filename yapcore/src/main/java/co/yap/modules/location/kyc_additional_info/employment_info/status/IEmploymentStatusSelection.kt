@@ -15,7 +15,6 @@ interface IEmploymentStatusSelection {
         fun handleOnPressNext(id: Int)
         var employmentStatusAdapter: EmploymentStatusAdapter
         var lastItemCheckedPosition: Int
-        fun getAmendmentsEmploymentInfo()
     }
 
     interface State : IBase.State {

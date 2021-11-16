@@ -97,17 +97,4 @@ class EmploymentStatusSelectionViewModel(application: Application) :
             }
         }
     }
-
-    //BY UMAR
-    override fun getAmendmentsEmploymentInfo() {
-        launch {
-            when (val response = repository.getAmendmentsEmploymentInfo()) {
-                is RetroApiResponse.Success -> {
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }
 }

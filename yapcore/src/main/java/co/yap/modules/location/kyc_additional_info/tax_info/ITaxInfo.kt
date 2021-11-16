@@ -31,8 +31,7 @@ interface ITaxInfo {
         var reasonsList: ArrayList<String>
         var options: ArrayList<String>
         var taxInfoAdaptor: TaxInfoAdaptor
-        fun canSkipFragment() : Boolean
-        //BY UMAR
+        fun canSkipFragment(): Boolean
         fun getAmendmentsTaxInfo()
 
     }
