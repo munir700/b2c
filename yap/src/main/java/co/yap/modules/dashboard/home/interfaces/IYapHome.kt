@@ -36,6 +36,7 @@ interface IYapHome {
         var monthData: List<MonthData>?
         var dashboardWidgetList: MutableLiveData<List<WidgetData>>
         var widgetList: List<WidgetData>
+        fun isWidgetVisible()
         fun loadMore()
         fun filterTransactions()
         fun requestAccountTransactions()

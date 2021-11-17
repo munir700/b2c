@@ -368,6 +368,7 @@
                 android:paddingStart="@dimen/margin_medium_large"
                 android:paddingEnd="0dp"
                 android:paddingBottom="@dimen/margin_small"
+                android:visibility="@{viewModel.state.manageWidgetVisibility?View.VISIBLE:View.GONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutStatements">
 

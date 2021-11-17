@@ -6,13 +6,13 @@ import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.maskAccountNumber
@@ -148,4 +148,8 @@ class YapDashBoardViewModel(application: Application) :
         }
     }
 
+    fun isWidgetVisible() {
+        state.manageWidgetVisibility.set(
+            (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) && (Constants.USER_STATUS_CARD_ACTIVATED == SessionManager.user?.notificationStatuses))
+    }
 }

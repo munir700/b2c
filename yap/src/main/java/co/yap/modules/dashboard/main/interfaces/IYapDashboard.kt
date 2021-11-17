@@ -21,6 +21,8 @@ interface IYapDashboard {
         var userNameImage: ObservableField<String>
         var appVersion: ObservableField<String>
         var isFounder: ObservableField<Boolean>
+        var manageWidgetVisibility : ObservableField<Boolean>
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {

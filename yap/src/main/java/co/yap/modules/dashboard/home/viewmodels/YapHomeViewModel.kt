@@ -385,4 +385,7 @@ class YapHomeViewModel(application: Application) :
                 it.add(WidgetData(id = -1, name = "Edit"))
             }
     }
+    override fun isWidgetVisible(){
+        parentViewModel?.isWidgetVisible()
+    }
 }

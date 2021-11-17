@@ -1119,6 +1119,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun setWidgetVisibility() {
+        //viewModel.isWidgetVisible()
+        parentViewModel?.isWidgetVisible()
         if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true) {
             shardPrefs?.let { pref ->
                 getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
