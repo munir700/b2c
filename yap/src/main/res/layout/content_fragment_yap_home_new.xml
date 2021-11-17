@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                />
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:id="@+id/rlTransactionHeader"

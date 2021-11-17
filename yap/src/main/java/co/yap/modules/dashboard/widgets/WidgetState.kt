@@ -1,8 +1,8 @@
-package co.yap.modules.dashboard.widgets.landing
+package co.yap.modules.dashboard.widgets
 
 import androidx.databinding.ObservableField
 import co.yap.yapcore.BaseState
 
-class WidgetLandingState : BaseState(), IWidgetLanding.State {
+class WidgetState : BaseState(), IWidget.State {
     override var isVisibilityChange: ObservableField<Boolean> = ObservableField(false)
 }

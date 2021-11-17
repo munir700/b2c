@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.widgets.landing.WidgetLandingItemViewModel" />
+            type="co.yap.modules.dashboard.widgets.WidgetItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
 

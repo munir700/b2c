@@ -1,18 +1,18 @@
-package co.yap.modules.dashboard.widgets.landing
+package co.yap.modules.dashboard.widgets
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.widgets.main.WidgetViewModel
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.SpacesItemDecoration
@@ -27,10 +27,11 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.dimen
-import kotlinx.android.synthetic.main.fragment_widget_landing.*
+import kotlinx.android.synthetic.main.fragment_widget.*
 
-class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
-    IWidgetLanding.View,
+
+class WidgetFragment : BaseBindingFragment<IWidget.ViewModel>(),
+    IWidget.View,
     RecyclerViewDragDropManager.OnItemDragEventListener,
     RecyclerViewSwipeManager.OnItemSwipeEventListener, WidgetAdapter.EventListener {
     private var mWrappedAdapter: RecyclerView.Adapter<*>? = null
@@ -42,15 +43,12 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_widget_landing
+    override fun getLayoutId(): Int = R.layout.fragment_widget
 
-    override val viewModel: WidgetLandingViewModel by viewModels()
+    override val viewModel: WidgetViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.parentViewModel =
-            activity?.let { ViewModelProviders.of(it).get(WidgetViewModel::class.java) }
         handleClick()
         shardPrefs = SharedPreferenceManager.getInstance(requireContext())
     }
@@ -113,12 +111,35 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.widgetDataList.addAll(viewModel.parentViewModel!!.widgetDataList)
+        getDataFromArguments()
         initRecycleView()
         initDragDropAdapter()
         viewModel.apiSuccessEvent.observe(this, apiSuccessObserver)
         shardPrefs?.let { pref ->
             switchWidget.isChecked = pref.getValueBoolien(Constants.WIDGET_HIDDEN_STATUS, false)
+        }
+
+        val callback = object : OnBackPressedCallback(
+            true
+            /** true means that the callback is enabled */
+        ) {
+            override fun handleOnBackPressed() {
+                viewModel.requestWidgetUpdation()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    private fun getDataFromArguments() {
+        arguments?.let {
+            it.containsKey(Constants.WIDGET_LIST).let { isExist ->
+                if (isExist) {
+                    it.getParcelableArrayList<WidgetData>(Constants.WIDGET_LIST)?.let { list ->
+                        viewModel.widgetDataList.addAll(list)
+                    }
+                }
+            }
         }
     }
 
@@ -141,7 +162,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
             mWrappedAdapter?.let {
                 mWrappedAdapter = mRecyclerViewSwipeManager?.createWrappedAdapter(it)
             }
-            mRecyclerViewSwipeManager?.onItemSwipeEventListener = this@WidgetLandingFragment
+            mRecyclerViewSwipeManager?.onItemSwipeEventListener = this@WidgetFragment
             setInitiateOnLongPress(true)
 //            setInitiateOnMove(false)
             setLongPressTimeout(1000)
@@ -156,7 +177,7 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
             draggingItemAlpha = 1f
             isCheckCanDropEnabled = false
 //            draggingItemRotation = 15.0f
-            onItemDragEventListener = this@WidgetLandingFragment
+            onItemDragEventListener = this@WidgetFragment
 //            itemSettleBackIntoPlaceAnimationDuration = 2000
             itemMoveMode = RecyclerViewDragDropManager.ITEM_MOVE_MODE_DEFAULT
         }
@@ -265,10 +286,10 @@ class WidgetLandingFragment : BaseBindingFragment<IWidgetLanding.ViewModel>(),
         setResultData()
     }
 
-    override fun onBackPressed(): Boolean {
-        viewModel.requestWidgetUpdation()
-        return true
-    }
+//    override fun onBackPressed(): Boolean {
+//        viewModel.requestWidgetUpdation()
+//        return true
+//    }
 
     private fun setResultData() {
         val intent = Intent()

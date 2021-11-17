@@ -30,5 +30,4 @@ object RequestCodes {
     const val REQUEST_STORAGE_PERMISSION: Int = 10026
     const val REQUEST_NOTIFICATION_SETTINGS: Int = 10027
     const val REQUEST_PAYMENT_CARD_DETAIL : Int = 10028
-    const val REQUEST_EDIT_WIDGET : Int = 10029
 }

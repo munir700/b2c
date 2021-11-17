@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.widgets.landing
+package co.yap.modules.dashboard.widgets
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
@@ -20,7 +20,7 @@ import co.yap.widgets.advrecyclerview.utils.AbstractDraggableSwipeableItemViewHo
 import co.yap.yapcore.BaseRVAdapter
 
 class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?) :
-    BaseRVAdapter<WidgetData, WidgetLandingItemViewModel, WidgetAdapter.ViewHolder>(
+    BaseRVAdapter<WidgetData, WidgetItemViewModel, WidgetAdapter.ViewHolder>(
         mValue,
         navigation
     ), DraggableItemAdapter<WidgetAdapter.ViewHolder>,
@@ -54,12 +54,12 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
 
     override fun getViewHolder(
         view: View,
-        viewModelLanding: WidgetLandingItemViewModel,
+        viewModelItem: WidgetItemViewModel,
         mDataBinding: ViewDataBinding,
         viewType: Int
-    ) = ViewHolder(this, view, viewModelLanding, mDataBinding)
+    ) = ViewHolder(this, view, viewModelItem, mDataBinding)
 
-    override fun getViewModel(viewType: Int) = WidgetLandingItemViewModel()
+    override fun getViewModel(viewType: Int) = WidgetItemViewModel()
     override fun getVariableId() = BR.viewModel
     override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
         return if(datas[position].status == true){
@@ -156,12 +156,12 @@ class WidgetAdapter(mValue: MutableList<WidgetData>, navigation: NavController?)
     class ViewHolder(
         mAdapter: WidgetAdapter?,
         view: View,
-        viewModelLanding: WidgetLandingItemViewModel,
+        viewModelItem: WidgetItemViewModel,
         mDataBinding: ViewDataBinding
     ) :
-        AbstractDraggableSwipeableItemViewHolder<WidgetData, WidgetLandingItemViewModel>(
+        AbstractDraggableSwipeableItemViewHolder<WidgetData, WidgetItemViewModel>(
             view,
-            viewModelLanding,
+            viewModelItem,
             mDataBinding
         ) {
         var binding = mDataBinding as ItemWidgetAddRemoveBodyBinding

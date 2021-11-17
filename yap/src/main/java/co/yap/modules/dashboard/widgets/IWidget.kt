@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.widgets.landing
+package co.yap.modules.dashboard.widgets
 
 import androidx.databinding.ObservableField
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
@@ -6,7 +6,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
-class IWidgetLanding {
+class IWidget {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent

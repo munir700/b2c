@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,7 +34,6 @@ import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.dashboard.home.models.WidgetItemList
 import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
@@ -42,9 +42,7 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
-import co.yap.modules.dashboard.transaction.totalpurchases.TotalPurchaseFragment
-import co.yap.modules.dashboard.widgets.landing.WidgetLandingFragment
-import co.yap.modules.dashboard.widgets.main.WidgetActivity
+import co.yap.modules.dashboard.widgets.WidgetFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -74,6 +72,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
+import co.yap.yapcore.constants.Constants.WIDGET_LIST
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
@@ -243,16 +242,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 }
                             }
                             "Bills" -> {
+                                view.context.toast( "Coming Soon", Toast.LENGTH_SHORT)
                             }
                             "Offers" -> {
+                                view.context.toast( "Coming Soon", Toast.LENGTH_SHORT)
                             }
                             "Edit" -> {
-                                startActivityForResult(
-                                    WidgetActivity.newIntent(
-                                        context = requireContext(),
-                                        widgetList = WidgetItemList(viewModel.widgetList)
-                                    ), RequestCodes.REQUEST_EDIT_WIDGET
-                                )
+                                startWidgetFragment()
                             }
                         }
                     }
@@ -290,12 +286,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
                 viewModel.state.isCardStatusActivated.set(Constants.USER_STATUS_CARD_ACTIVATED == SessionManager.user?.notificationStatuses)
-                if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true) {
-                    setWidigetVisibility()
-                } else {
-                    getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
-                        View.GONE
-                }
+                setWidgetVisibility()
             }
         })
         getBindings().toolbarLayout.ivSearch.setOnLongClickListener {
@@ -532,12 +523,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
                     if (viewModel.parentViewModel?.isFromSideMenu == true) {
                         if (viewModel.widgetList.isNotEmpty()) {
-                            startActivityForResult(
-                                WidgetActivity.newIntent(
-                                    context = requireContext(),
-                                    widgetList = WidgetItemList(viewModel.widgetList)
-                                ), RequestCodes.REQUEST_EDIT_WIDGET
-                            )
+                            startWidgetFragment()
                         }
                         viewModel.parentViewModel?.isFromSideMenu = false
                     }
@@ -568,7 +554,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
         })
         viewModel.dashboardWidgetList.observe(viewLifecycleOwner, Observer { list ->
-            setWidigetVisibility()
+            setWidgetVisibility()
             (getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.adapter as DashboardWidgetAdapter).setList(
                 list
             )
@@ -919,16 +905,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
                 }
             }
-            RequestCodes.REQUEST_EDIT_WIDGET -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data?.getBooleanExtra("HIDE_WIDGET", false) == true) {
-                        setWidigetVisibility()
-                    }
-                    if (data?.getBooleanExtra("ACTION", false) == true) {
-                        viewModel.requestDashboardWidget()
-                    }
-                }
-            }
         }
     }
 
@@ -1150,14 +1126,35 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.requestCategoryBarData()
     }
 
-    private fun setWidigetVisibility() {
-        shardPrefs?.let { pref ->
+    private fun setWidgetVisibility() {
+        if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true) {
+            shardPrefs?.let { pref ->
+                getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
+                    if (pref.getValueBoolien(Constants.WIDGET_HIDDEN_STATUS, false)) {
+                        GONE
+                    } else {
+                        VISIBLE
+                    }
+            }
+        } else {
             getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
-                if (pref.getValueBoolien(Constants.WIDGET_HIDDEN_STATUS, false)) {
-                    GONE
-                } else {
-                    VISIBLE
+                View.GONE
+        }
+    }
+
+    private fun startWidgetFragment(){
+        startFragmentForResult<WidgetFragment>(fragmentName = WidgetFragment::class.java.name,
+            bundle = bundleOf(
+                WIDGET_LIST to viewModel.widgetList
+            ), showToolBar = false) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                if (data?.getBooleanExtra("HIDE_WIDGET", false) == true) {
+                    setWidgetVisibility()
                 }
+                if (data?.getBooleanExtra("ACTION", false) == true) {
+                    viewModel.requestDashboardWidget()
+                }
+            }
         }
     }
 }

@@ -222,5 +222,6 @@ object Constants {
 
     //Widget bar
     const val WIDGET_HIDDEN_STATUS = "WIDGET_HIDDEN_STATUS"
+    const val WIDGET_LIST = "WIDGET_LIST"
 
 }

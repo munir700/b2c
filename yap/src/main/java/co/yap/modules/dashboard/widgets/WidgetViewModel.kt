@@ -1,8 +1,7 @@
-package co.yap.modules.dashboard.widgets.landing
+package co.yap.modules.dashboard.widgets
 
 import android.app.Application
 import androidx.databinding.ObservableField
-import co.yap.modules.dashboard.widgets.main.WidgetViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.models.RetroApiResponse
@@ -10,21 +9,19 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
-class WidgetLandingViewModel(application: Application) :
-    BaseViewModel<IWidgetLanding.State>(application = application),
-    IWidgetLanding.ViewModel {
+class WidgetViewModel(application: Application) :
+    BaseViewModel<IWidget.State>(application = application),
+    IWidget.ViewModel {
     private val customerRepository: CustomersRepository = CustomersRepository
     override val widgetAdapter: ObservableField<WidgetAdapter> = ObservableField()
     override var widgetDataList: MutableList<WidgetData> = mutableListOf()
     override val apiSuccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: IWidgetLanding.State = WidgetLandingState()
+    override val state: IWidget.State = WidgetState()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
-    var parentViewModel: WidgetViewModel? = null
 
     override fun filterWidgetDataList() {
         widgetDataList.forEach {
@@ -95,7 +92,7 @@ class WidgetLandingViewModel(application: Application) :
                 if (widgetData.status == true) {
                     widgetData.shuffleIndex = index + 1
                 } else {
-                    widgetData.shuffleIndex = -1
+                    widgetData.shuffleIndex = 0
                 }
             }
             tempWidgetList
