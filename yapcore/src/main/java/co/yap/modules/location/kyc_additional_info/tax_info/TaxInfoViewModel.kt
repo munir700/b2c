@@ -252,6 +252,8 @@ class TaxInfoViewModel(application: Application) :
         launch {
             when (val response = repository.getAmendmentsTaxInfo()) {
                 is RetroApiResponse.Success -> {
+
+//                    response.data.data?.isAmendment
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

@@ -17,7 +17,10 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.NotificationsRepository
+import co.yap.networking.notification.responsedtos.NotificationSettings
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -367,7 +370,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
-    override suspend fun getAmendmentsTaxInfo(): RetroApiResponse<TaxInfoAmendmentResponse> =
+    override suspend fun getAmendmentsTaxInfo(): RetroApiResponse<BaseResponse<TaxInfoAmendmentResponse>> =
         executeSafely(call = { api.getAmendmentsTaxInfo() })
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
