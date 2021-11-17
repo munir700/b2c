@@ -40,7 +40,7 @@ import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
-    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator {
+    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,Validator.ValidationListener  {
     override var validator: Validator? = Validator(null)
     override val repository: CustomersRepository
         get() = CustomersRepository
@@ -59,6 +59,7 @@ class EidInfoReviewViewModel(application: Application) :
         super.onCreate()
         getSectionedCountriesList()
         mockDataForScreen()
+        validator?.setValidationListener(this)
         parentViewModel?.identity?.let { populateState(it) }
     }
 
@@ -400,6 +401,7 @@ class EidInfoReviewViewModel(application: Application) :
             state.expiryCalendar = Calendar.getInstance().apply {
                 time = it.expirationDate
             }
+            validator?.toValidate()
         }
     }
 
@@ -479,5 +481,14 @@ class EidInfoReviewViewModel(application: Application) :
             )
         )
         return list
+    }
+
+    override fun onValidationSuccess(validator: Validator) {
+        super.onValidationSuccess(validator)
+        state.valid = validator.isValidate.value == true
+    }
+
+    override fun onValidationError(validator: Validator) {
+        super.onValidationError(validator)
     }
 }

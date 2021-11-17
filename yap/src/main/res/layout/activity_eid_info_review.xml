@@ -278,14 +278,15 @@
 
                 <co.yap.widgets.CollapsedColoredHintTextInputLayout
                     android:id="@+id/tvEIdHeading"
-                    style="@style/Yap.App.Widget.TextInputLayout"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_eid_number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cvCard">
+                    app:layout_constraintTop_toBottomOf="@+id/cvCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
 
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvEidNumber"
@@ -294,6 +295,7 @@
                         android:layout_height="wrap_content"
                         android:digits="0123456789-"
                         android:inputType="number"
+                        android:imeOptions="actionNext"
                         android:maxLength="@integer/eid_length"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
@@ -331,6 +333,7 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:text="@={viewModel.state.firstName}"
+                        android:imeOptions="actionNext"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
@@ -362,6 +365,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:text="@={viewModel.state.middleName}"
                         android:theme="@style/Theme.EditText.Primary"
                         android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.GONE}"
@@ -396,6 +400,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:text="@={viewModel.state.lastName}"
                         android:theme="@style/Theme.EditText.Primary"
                         android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
@@ -427,6 +432,7 @@
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
                         android:maxLength="@integer/eid_nationality_length"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
@@ -551,7 +557,7 @@
                     android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     app:btn_size="small"
-                    app:enableCoreButton="@{viewModel.validator.isValidate}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

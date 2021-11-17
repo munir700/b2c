@@ -80,13 +80,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             when (it) {
                 R.id.tvEidNumber -> {
                     disableEndDrawable(tvEidNumber)
-                    //disableImageView(ivEditEID)
-                    //manageFocus(tvEidNumber, ivEditEID)
+                    manageFocus(tvEidNumber)
                 }
                 R.id.tvFirstName -> {
                     disableEndDrawable(tvFirstName)
-                    //disableImageView(ivEditFirstName)
-                    //manageFocus(tvFirstName, ivEditFirstName)
+                    manageFocus(tvFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "first_name")
@@ -95,8 +93,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                 R.id.tvMiddleName -> {
                     disableEndDrawable(tvMiddleName)
-                    //disableImageView(ivEditMiddleName)
-                    //manageFocus(tvMiddleName, ivEditMiddleName)
+                    manageFocus(tvMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "middle_name")
@@ -105,8 +102,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                 R.id.tvLastName -> {
                     disableEndDrawable(tvLastName)
-                    //disableImageView(ivEditLastName)
-                    //manageFocus(tvLastName, ivEditLastName)
+                    manageFocus(tvLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
@@ -115,8 +111,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                 R.id.tvNationality -> {
                     disableEndDrawable(tvNationality)
-                    //disableImageView(ivEditNationality)
-                    //manageFocus(tvNationality, ivEditNationality)
+                    manageFocus(tvNationality)
                 }
 
                 R.id.tvDOB -> {
@@ -233,7 +228,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         )
     }
 
-    private fun disableEndDrawable(view: EditTextRichDrawable) {
+    private fun disableEndDrawable(view: EditTextRichDrawable?) {
         val list = listOf<EditTextRichDrawable>(
             tvEidNumber,
             tvFirstName,
@@ -246,7 +241,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         )
         list.forEach {
             it.setDrawableEndVectorId(
-                if (view.id == it.id) R.drawable.ic_edit_disable else R.drawable.ic_edit
+                if (view?.id == it.id) R.drawable.ic_edit_disable else R.drawable.ic_edit
             )
         }
     }
@@ -305,8 +300,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun manageFocus(
-        editText: EditText,
-        ivEditName: ImageView
+        editText: EditText
     ) {
         if (!editText.isFocused) {
             editText.isFocusable = true
@@ -321,24 +315,19 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             )
         }
 
-        editText.setOnFocusChangeListener { v, hasFocus ->
+        editText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                ivEditName.isEnabled = true
-                editText.isFocusable = false
-                editText.isFocusableInTouchMode = false
+                disableEndDrawable(null)
             }
         }
 
-        editText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action === KeyEvent.ACTION_DOWN || keyEvent.action === KeyEvent.KEYCODE_ENTER
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE
             ) {
-                ivEditName.isEnabled = true
-                editText.isFocusable = false
-                editText.isFocusableInTouchMode = false
+                disableEndDrawable(null)
             }
             false
-        })
-
+        }
 
     }
 
