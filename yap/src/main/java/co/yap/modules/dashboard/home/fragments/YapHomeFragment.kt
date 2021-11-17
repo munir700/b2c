@@ -239,7 +239,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun setObservers() {
         SessionManager.onAccountInfoSuccess.observe(viewLifecycleOwner, Observer { isSuccess ->
             if (isSuccess) {
-                checkUserStatus()
+                //TODO("In onResume method of YapDashBoardActivity getAccountInfo method is already calling.This changed required complete testing of notification section on dashboard")
+//                checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
                 viewModel.state.isCardStatusActivated.set(Constants.USER_STATUS_CARD_ACTIVATED == SessionManager.user?.notificationStatuses)
                 if(viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true){
@@ -550,18 +551,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    private fun clearNotification() {
-        mAdapter?.removeAllItems()
-    }
-
     override fun onCloseClick(notification: HomeNotification, position: Int) {
         super.onCloseClick(notification, position)
-        AnimationUtils.slideView(
-            getDataBindingView<FragmentDashboardHomeBinding>().clMain.rvNotificationList,
-            getDataBindingView<FragmentDashboardHomeBinding>().clMain.rvNotificationList.measuredHeight,
-            0
-        )
-        clearNotification()
+        mAdapter?.removeItemAt(position)
     }
 
     private fun showTransactionsAndGraph() {
