@@ -1444,4 +1444,14 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
     <!--    Samsung Pay end-->
 
+    <!--Dashboard Widgets and Edit Screen-->
+    <string name="screen_dashboard_widget_edit_hide_text">Hide widgets from dashboard</string>
+    <string name="screen_edit_widget_heading_text">Edit dashboard widgets</string>
+    <string name="screen_edit_widget_hidden_text">Hidden</string>
+    <string name="screen_edit_widget_active_text">Active</string>
+    <string name="screen_edit_widget_swipe_to_hide">Swipe to hide</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_title">Widgets are Hidden</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_button_title">Hide Widgets</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_content">You have chosen to hide the quick link widgets from your dashboard. To turn these back on, go to the dashboard menu in the top right and click on Quick Access Widgets.</string>
+
 </resources>

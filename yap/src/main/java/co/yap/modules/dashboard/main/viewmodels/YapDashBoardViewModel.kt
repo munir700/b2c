@@ -38,7 +38,7 @@ class YapDashBoardViewModel(application: Application) :
     override var isUnverifiedScreenNotVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isShowHomeTour: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isKycCompelted: MutableLiveData<Boolean> = MutableLiveData(false)
-
+    override var isFromSideMenu: Boolean = false
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
     }
