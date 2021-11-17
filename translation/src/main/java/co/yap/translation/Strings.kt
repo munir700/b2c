@@ -937,6 +937,11 @@ object Strings {
         "screen_more_detail_display_text_account"
     const val screen_more_detail_display_text_copied_to_clipboard: String =
         "screen_more_detail_display_text_copied_to_clipboard"
+    const val screen_more_atm_cdm: String = "screen_more_atm_cdm"
+    const val screen_more_invite_a_friend: String = "screen_more_invite_a_friend"
+    const val screen_more_help_and_support: String = "screen_more_help_and_support"
+    const val screen_more_subscription: String = "screen_more_subscription"
+    const val screen_more_gifts: String = "screen_more_gifts"
 
     //Help & Suppor
     const val screen_help_support_display_text_title: String =

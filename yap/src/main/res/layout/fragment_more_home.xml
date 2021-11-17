@@ -47,8 +47,8 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
-            android:tint="@color/colorPrimary"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:tint="@color/colorPrimary"
             app:layout_constraintEnd_toStartOf="@+id/imgSettings"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_notification_icon" />
@@ -155,82 +155,20 @@
             app:text="@{Strings.screen_more_display_text_bank_details}"
             tools:text="@string/screen_more_display_text_bank_details" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/yapForYou"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal_large"
-            android:layout_marginTop="@dimen/_19sdp"
-            android:layout_marginEnd="@dimen/margin_normal_large"
-            android:elevation="@dimen/_5sdp"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:outlineSpotShadowColor="@color/greyDark"
-            app:cardCornerRadius="@dimen/_8sdp"
-            app:cardElevation="@dimen/_5sdp"
-            app:cardUseCompatPadding="false"
-            app:layout_constraintTop_toBottomOf="@+id/btnBankDetails">
-
-            <LinearLayout
-                android:id="@+id/llYapForYou"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_90sdp"
-                android:background="@drawable/cornor_edges_grey_less_radius"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/_12sdp"
-                android:paddingTop="@dimen/_20sdp"
-                android:paddingEnd="@dimen/_8sdp"
-                android:paddingBottom="@dimen/_20sdp">
-
-                <ImageView
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:src="@drawable/ic_yap_for_you" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        style="@style/Title3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/screen_yap_for_you_display_text_title"
-                        android:textSize="@dimen/_15sdp"
-                        app:text="@{Strings.screen_yap_for_you_display_text_title}" />
-
-                    <TextView
-                        style="@style/MicroGrey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                        android:text="@string/screen_yap_for_you_display_text_sub_title"
-                        app:text="@{Strings.screen_yap_for_you_display_text_sub_title}" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerOptions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/margin_normal_large"
             android:dividerHeight="2dp"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/yapForYou"
-            app:spanCount="2"
-            tools:itemCount="5"
+            app:layout_constraintTop_toBottomOf="@+id/btnBankDetails"
+            app:spanCount="3"
+            tools:itemCount="6"
             tools:listitem="@layout/item_yap_more" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

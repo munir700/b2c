@@ -505,6 +505,11 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_more_detail_display_text_bank">Bank</string>
     <string name="screen_more_detail_display_text_account">Account</string>
     <string name="screen_more_detail_display_text_copied_to_clipboard">Copied to clipboard</string>
+    <string name="screen_more_atm_cdm">ATM &amp; CDM</string>
+    <string name="screen_more_invite_a_friend">Invite a friend</string>
+    <string name="screen_more_help_and_support">Help and support</string>
+    <string name="screen_more_subscription">Subscriptions</string>
+    <string name="screen_more_gifts">Gifts</string>
 
 
     <!--   Profile Settings screen-->
