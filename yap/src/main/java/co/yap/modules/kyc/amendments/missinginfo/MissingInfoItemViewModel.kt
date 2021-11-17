@@ -8,14 +8,15 @@ import co.yap.yapcore.BaseListItemViewModel
 
 class MissingInfoItemViewModel :
     BaseListItemViewModel<String>() {
-     private lateinit var mItem: String
-     private var position: Int = 0
+    private lateinit var mItem: String
+    private var position: Int = 0
     override fun setItem(item: String, position: Int) {
         this.position = position
         mItem = item
+        notifyChange()
     }
 
-    override fun getItem() = "$position. $mItem"
+    override fun getItem() = "${position + 1}. $mItem"
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
 
