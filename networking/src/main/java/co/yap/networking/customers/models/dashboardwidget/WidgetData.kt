@@ -11,7 +11,7 @@ data class WidgetData(
 	@SerializedName("name") val name: String,
 	@SerializedName("icon") var icon: String? = null,
 	@SerializedName("status") var status: Boolean? = false,
-	@SerializedName("shuffleIndex") var shuffleIndex: Int? = -1,
+	@SerializedName("shuffleIndex") var shuffleIndex: Int? = 0,
 	@Transient var isPinned: Boolean? = false,
 	@Transient var isShuffled: Boolean? = false
 ):ApiResponse(),Parcelable
