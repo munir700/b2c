@@ -239,7 +239,7 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender.mrz.toString(),
                         nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo = it.citizenNumber,
+                        identityNo =it.citizenNumber,
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )

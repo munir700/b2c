@@ -19,8 +19,8 @@ class ConfirmCardNameFragment : KYCChildFragment<IConfirmCardName.ViewModel>(),
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_onboarding_confirm_card_name
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setObservers()
     }
 
