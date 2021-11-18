@@ -452,7 +452,7 @@ class EidInfoReviewViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         val data = configurationEIDResponse.data.data
                         state.isDateOfBirthValid.set(
-                            19 >= data?.ageLimit ?: 18
+                            getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
                         )
                         val countryName = data?.country2DigitIsoCode?.let { str ->
                             str.split(",").map { it -> it.trim() }.find {
