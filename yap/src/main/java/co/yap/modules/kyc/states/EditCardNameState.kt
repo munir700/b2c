@@ -9,5 +9,5 @@ class EditCardNameState : BaseState(), IEditCardName.State {
     override var fullName: ObservableField<String> = ObservableField()
     override var date: ObservableField<String> = ObservableField()
     override var CardPrefix: ObservableField<String> =
-        ObservableField(SessionManager.card.value?.cardSerialNumber?.substring(0, 3) ?: "")
+        ObservableField(SessionManager.card.value?.cardSerialNumber?.substring(0, 4) ?: "")
 }
