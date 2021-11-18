@@ -97,11 +97,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 }
                 super.onBackPressed()
             } else {
-                if (SessionManager.user?.notificationStatuses == NotificationStatus.CAPTURED_EID.name) {
-                    if (!BackPressImpl(fragment).onBackPressed()) {
-                        super.onBackPressed()
-                    }
-                } else {
+                if (!BackPressImpl(fragment).onBackPressed()) {
                     viewModel.paths.forEach { filePath ->
                         File(filePath).deleteRecursively()
                     }

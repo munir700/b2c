@@ -183,7 +183,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 .save(Constants.KYC_LAST_NAME, state.lastName.get() ?: "")
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_MIDDLE_NAME, state.middleName.get() ?: "")
-            navigate(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment)
+            navigateBack(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,inclusive = true)
         }
     }
 
