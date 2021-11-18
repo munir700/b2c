@@ -148,8 +148,7 @@ class YapDashBoardViewModel(application: Application) :
         }
     }
 
-    fun isWidgetVisible() {
-        state.manageWidgetVisibility.set(
-            (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) && (Constants.USER_STATUS_CARD_ACTIVATED == SessionManager.user?.notificationStatuses))
+    fun isWidgetVisible(isVisible :Boolean) {
+        state.manageWidgetVisibility.set(isVisible)
     }
 }

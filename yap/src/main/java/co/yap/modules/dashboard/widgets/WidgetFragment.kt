@@ -286,11 +286,6 @@ class WidgetFragment : BaseBindingFragment<IWidget.ViewModel>(),
         setResultData()
     }
 
-//    override fun onBackPressed(): Boolean {
-//        viewModel.requestWidgetUpdation()
-//        return true
-//    }
-
     private fun setResultData() {
         val intent = Intent()
         intent.putExtra("ACTION", viewModel.getWidgetShuffledList().isNotEmpty())

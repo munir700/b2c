@@ -242,10 +242,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 }
                             }
                             "Bills" -> {
-                                view.context.toast( "Coming Soon", Toast.LENGTH_SHORT)
+                                view.context.toast("Coming Soon", Toast.LENGTH_SHORT)
                             }
                             "Offers" -> {
-                                view.context.toast( "Coming Soon", Toast.LENGTH_SHORT)
+                                view.context.toast("Coming Soon", Toast.LENGTH_SHORT)
                             }
                             "Edit" -> {
                                 startWidgetFragment()
@@ -1119,9 +1119,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun setWidgetVisibility() {
-        //viewModel.isWidgetVisible()
-        parentViewModel?.isWidgetVisible()
         if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true) {
+            parentViewModel?.isWidgetVisible(true)
             shardPrefs?.let { pref ->
                 getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
                     if (pref.getValueBoolien(Constants.WIDGET_HIDDEN_STATUS, false)) {
@@ -1131,16 +1130,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
             }
         } else {
+            parentViewModel?.isWidgetVisible(false)
             getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
-                View.GONE
+                GONE
         }
     }
 
-    private fun startWidgetFragment(){
-        startFragmentForResult<WidgetFragment>(fragmentName = WidgetFragment::class.java.name,
+    private fun startWidgetFragment() {
+        startFragmentForResult<WidgetFragment>(
+            fragmentName = WidgetFragment::class.java.name,
             bundle = bundleOf(
                 WIDGET_LIST to viewModel.widgetList
-            ), showToolBar = false) { resultCode, data ->
+            ), showToolBar = false
+        ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 if (data?.getBooleanExtra("HIDE_WIDGET", false) == true) {
                     setWidgetVisibility()
