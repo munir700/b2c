@@ -356,10 +356,8 @@ class EidInfoReviewViewModel(application: Application) :
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = it.nationality
             state.nationalityValid =
-                state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
-            state.dateOfBirth =
-                DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
-            state.dateOfBirthValid = it.isDateOfBirthValid
+                state.nationality.isNotBlank() && !state.isCountryUS
+            state.dateOfBirth =DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate =
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
@@ -423,10 +421,11 @@ class EidInfoReviewViewModel(application: Application) :
         state.valid = false
         state.fullNameValid = false
         state.nationalityValid = false
-        state.dateOfBirthValid = false
+        state.isDateOfBirthValid.set(false)
         state.genderValid = false
         state.expiryDateValid = true
         state.expiryDate = ""
+        state.isCountryUS = false
         //state.isShowMiddleName = false
         //state.isShowLastName = false
     }
@@ -453,7 +452,7 @@ class EidInfoReviewViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         val data = configurationEIDResponse.data.data
                         state.isDateOfBirthValid.set(
-                            getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
+                            19 >= data?.ageLimit ?: 18
                         )
                         val countryName = data?.country2DigitIsoCode?.let { str ->
                             str.split(",").map { it -> it.trim() }.find {
