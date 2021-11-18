@@ -284,6 +284,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_eid_number"
+                    app:hintTextAppearance="@style/LabelTextStyl"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cvCard">
@@ -323,8 +324,8 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
-                    android:hint="@string/screen_b2c_eid_info_review_display_text_first_name_heading"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    android:hint="@string/screen_b2c_eid_info_review_display_text_first_name_heading"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEIdHeading">
@@ -347,8 +348,8 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:validateEmpty="@{true}"
                         app:previousValue='@{"Hiral"}'
+                        app:validateEmpty="@{true}"
                         app:validateType='@{"firstname"}'
                         tools:text="Nada Hassan" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -371,6 +372,7 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvMiddleName"
                         style="@style/Large"
+                        android:tag="tvMiddleName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
@@ -383,8 +385,9 @@
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
+                        app:highlightAmendmentField="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:validateEmpty="@{true}"
                         app:validateMaxLength="@{30}"
                         tools:text="Noor" />
 
@@ -408,6 +411,7 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvLastName"
                         style="@style/Large"
+                        android:tag="tvLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
@@ -420,6 +424,8 @@
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
+                        app:highlightAmendmentField="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
                         tools:text="Hassan" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -442,6 +448,7 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvNationality"
                         style="@style/Large"
+                        android:tag="tvNationality"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
@@ -453,6 +460,8 @@
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
+                        app:highlightAmendmentField="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
                         app:validateEmpty="@{true}"
                         app:validateMaxLength="@{30}"
@@ -477,6 +486,7 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvDOB"
                         style="@style/Large"
+                        android:tag="tvDOB"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
@@ -487,6 +497,8 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
+                        app:highlightAmendmentField="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
                         app:validateEmpty="@{true}"
                         tools:text="01/01/1979" />
@@ -510,6 +522,7 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvGender"
                         style="@style/Large"
+                        android:tag="tvGender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
@@ -520,6 +533,8 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
+                        app:highlightAmendmentField="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
                         app:validateEmpty="@{true}"
                         tools:text="Female" />
@@ -543,6 +558,7 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvExpiryDate"
                         style="@style/Large"
+                        android:tag="tvExpiryDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
@@ -553,6 +569,8 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
+                        app:highlightAmendmentField="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
                         app:validateEmpty="@{true}"
                         tools:text="01/01/2019" />

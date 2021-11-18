@@ -1467,4 +1467,9 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_missing_info_confirmation_display_all_set">You\’re all set!</string>
     <!-- KYC Amendments/ Missing Info Confirmation Screen end -->
 
+    <!-- KYC Amendments Start -->
+    <string name="kyc_incorrect_field">Looks like this is incorrect</string>
+    <!-- KYC Amendments End -->
+
+
 </resources>

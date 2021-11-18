@@ -1525,6 +1525,9 @@ object Strings {
     const val custom_view_funds_transfer_display_text_reference_number_heading: String =
         "custom_view_funds_transfer_display_text_reference_number_heading"
 
+    // KYC Amendment Strings
+    const val kyc_incorrect_field = "kyc_incorrect_field"
+
 
     //House hold screen
 
