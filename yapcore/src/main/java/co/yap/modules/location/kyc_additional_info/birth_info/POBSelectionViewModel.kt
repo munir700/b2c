@@ -35,6 +35,7 @@ class POBSelectionViewModel(application: Application) :
         super.onCreate()
         getAllCountries()
         state.isDualNational.set(false)
+        getAmendmentsBirthInfo()
     }
 
     override fun onResume() {
@@ -133,7 +134,7 @@ class POBSelectionViewModel(application: Application) :
                     state.cityOfBirth = response?.data?.cityOfBirth!!
 //                    state.selectedSecondCountry.set(response?.data?.selectedSecondCountry)
 //                    state.eidNationality.set(response?.data?.eidNationality)
-                    state.isDualNational.set(response?.data?.isDualNational!!)
+//                    state.isDualNational.set(response?.data?.isDualNational!!)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
