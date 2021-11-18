@@ -72,7 +72,7 @@ class EidInfoReviewViewModel(application: Application) :
             DateUtils.stringToDate("860319", "yyMMdd")
         identity.gender = Gender.Male
         identity.nationality = "Indian"
-        identity.givenName = "Hiral Jayendrakumar Joshi Jayendrakumar Vasudev Joshi"
+        identity.givenName = "Hiral Joshi"
         parentViewModel?.identity = identity
     }
 
@@ -490,5 +490,6 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun onValidationError(validator: Validator) {
         super.onValidationError(validator)
+        state.valid = validator.isValidate.value == false
     }
 }

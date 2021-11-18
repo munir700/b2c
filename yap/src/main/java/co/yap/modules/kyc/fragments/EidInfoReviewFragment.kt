@@ -5,13 +5,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +25,6 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
@@ -38,7 +33,6 @@ import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
-import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
@@ -49,7 +43,8 @@ import java.io.File
 import java.util.*
 
 
-class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
+class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View,
+    View.OnFocusChangeListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -58,10 +53,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val map : HashMap<String?, List<String>?> = hashMapOf()
+        map["eidInfo"] = listOf<String>("tvFirstName")
+        viewModel.parentViewModel?.amendmentMap = map
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<ActivityEidInfoReviewBinding>().lifecycleOwner = this
-        viewModel.validator = Validator(getDataBindingView<ActivityEidInfoReviewBinding>())
+        viewModel.validator?.targetViewBinding = getDataBindingView<ActivityEidInfoReviewBinding>()
+        viewModel.validator?.toValidate()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,7 +75,16 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
         }
+        addFocusListeners()
         addObservers()
+    }
+
+    private fun addFocusListeners() {
+        tvEidNumber.onFocusChangeListener = this
+        tvFirstName.onFocusChangeListener = this
+        tvMiddleName.onFocusChangeListener = this
+        tvLastName.onFocusChangeListener = this
+        tvNationality.onFocusChangeListener = this
     }
 
     private fun addObservers() {
@@ -115,12 +127,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 R.id.tvDOB -> {
-                    disableEndDrawable(tvDOB)
                     showDateOfBirthPicker(viewModel.state.dobCalendar)
                 }
 
                 R.id.tvGender -> {
-                    disableEndDrawable(tvGender)
                     requireActivity().launchSheet(
                         itemClickListener = genderItemListener,
                         itemsList = viewModel.getGenderOptions(),
@@ -129,7 +139,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 R.id.tvExpiryDate -> {
-                    disableEndDrawable(tvExpiryDate)
                     showExpiryDatePicker(viewModel.state.expiryCalendar)
                 }
 
@@ -234,10 +243,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             tvFirstName,
             tvMiddleName,
             tvLastName,
-            tvNationality,
-            tvDOB,
-            tvGender,
-            tvExpiryDate
+            tvNationality
         )
         list.forEach {
             it.setDrawableEndVectorId(
@@ -300,7 +306,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun manageFocus(
-        editText: EditText
+        editText: EditTextRichDrawable
     ) {
         if (!editText.isFocused) {
             editText.isFocusable = true
@@ -315,11 +321,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             )
         }
 
-        editText.setOnFocusChangeListener { _, hasFocus ->
+        /*editText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 disableEndDrawable(null)
+            } else {
+                disableEndDrawable(editText)
             }
-        }
+        }*/
 
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE
@@ -422,7 +430,15 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     private val genderItemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-                viewModel.state.gender = (data as BottomSheetItem).tag ?: ""
+            viewModel.state.gender = (data as BottomSheetItem).tag ?: ""
+        }
+    }
+
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        if (!hasFocus) {
+            disableEndDrawable(null)
+        } else {
+            disableEndDrawable(v as EditTextRichDrawable?)
         }
     }
 }

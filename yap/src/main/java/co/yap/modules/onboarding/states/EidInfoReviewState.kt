@@ -14,7 +14,6 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.citizenNumber)
-            validate()
         }
 
     @get:Bindable
@@ -29,7 +28,6 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)
-            validate()
         }
 
     @get:Bindable
@@ -51,7 +49,6 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.nationality)
-            validate()
         }
 
     @get:Bindable
@@ -128,9 +125,5 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var isShowLastName: ObservableBoolean = ObservableBoolean(false)
     override var dobCalendar: Calendar = Calendar.getInstance()
     override var expiryCalendar: Calendar = Calendar.getInstance()
-
-    private fun validate() {
-        valid = citizenNumber.isNotBlank() && firstName.isNotBlank() && nationality.isNotBlank()
-    }
 
 }

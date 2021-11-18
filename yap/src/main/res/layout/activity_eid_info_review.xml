@@ -278,15 +278,15 @@
 
                 <co.yap.widgets.CollapsedColoredHintTextInputLayout
                     android:id="@+id/tvEIdHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_eid_number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cvCard"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    app:layout_constraintTop_toBottomOf="@+id/cvCard">
 
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvEidNumber"
@@ -294,17 +294,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:digits="0123456789-"
-                        android:inputType="number"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
                         android:maxLength="@integer/eid_length"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:tag="tvEidNumber"
                         android:text="@{viewModel.state.citizenNumber}"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
+                        app:highlightAmendmentField="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateEmpty="@{true}"
                         app:validateMaxLength="@{30}"
                         app:validateMinLength="@{1}"
                         tools:text="Emirates ID" />
@@ -330,15 +334,21 @@
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:tag="tvFirstName"
                         android:text="@={viewModel.state.firstName}"
-                        android:imeOptions="actionNext"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
+                        app:highlightAmendmentField="@{true}"
+                        app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateEmpty="@{true}"
+                        app:previousValue='@{"Hiral"}'
                         app:validateType='@{"firstname"}'
                         tools:text="Nada Hassan" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -363,9 +373,10 @@
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
-                        android:imeOptions="actionNext"
                         android:text="@={viewModel.state.middleName}"
                         android:theme="@style/Theme.EditText.Primary"
                         android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.GONE}"
@@ -373,6 +384,7 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateEmpty="@{true}"
                         app:validateMaxLength="@{30}"
                         tools:text="Noor" />
 
@@ -398,9 +410,10 @@
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
-                        android:imeOptions="actionNext"
                         android:text="@={viewModel.state.lastName}"
                         android:theme="@style/Theme.EditText.Primary"
                         android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
@@ -408,7 +421,6 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:validateType='@{"lastname"}'
                         tools:text="Hassan" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -442,6 +454,7 @@
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:validateEmpty="@{true}"
                         app:validateMaxLength="@{30}"
                         app:validateMinLength="@{3}"
                         tools:text="Nationality" />
@@ -475,7 +488,7 @@
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:validateMinLength="@{1}"
+                        app:validateEmpty="@{true}"
                         tools:text="01/01/1979" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -508,7 +521,7 @@
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:validateMinLength="@{1}"
+                        app:validateEmpty="@{true}"
                         tools:text="Female" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -541,7 +554,7 @@
                         app:drawableEndVector="@drawable/ic_edit"
                         app:editable="@{false}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:validateMinLength="@{1}"
+                        app:validateEmpty="@{true}"
                         tools:text="01/01/2019" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -557,7 +570,7 @@
                     android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     app:btn_size="small"
-                    app:enableCoreButton="@{viewModel.state.valid}"
+                    app:enableCoreButton="@{viewModel.validator.isValidate}"
                     app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

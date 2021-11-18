@@ -53,8 +53,19 @@ class Validator(val target: ViewDataBinding?) {
             before: Int,
             count: Int
         ) {
-            if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) isValidate.value =
-                validate()
+            if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) {
+                isValidate.value =
+                    when (validate()) {
+                        true -> {
+                            validationListener?.onValidationSuccess(this@Validator)
+                            true
+                        }
+                        false -> {
+                            validationListener?.onValidationError(this@Validator)
+                            false
+                        }
+                    }
+            }
         }
 
         override fun afterTextChanged(s: Editable) {}
