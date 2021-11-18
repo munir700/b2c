@@ -57,9 +57,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun addObservers() {
-        if (!viewModel.parentViewModel?.state?.nationality?.get()
-                .isNullOrEmpty()
-        ) viewModel.clickEvent.setValue(viewModel.eventNext)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivEditFirstName, R.id.tvFirstName -> {
@@ -183,7 +180,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 .save(Constants.KYC_LAST_NAME, state.lastName.get() ?: "")
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_MIDDLE_NAME, state.middleName.get() ?: "")
-            navigateBack(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,inclusive = true)
+            navigateWithPopup(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,R.id.eidInfoReviewFragment)
         }
     }
 
