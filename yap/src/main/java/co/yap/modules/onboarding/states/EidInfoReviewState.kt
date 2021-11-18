@@ -87,13 +87,6 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         }
 
     @get:Bindable
-    override var dateOfBirthValid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.dateOfBirthValid)
-        }
-
-    @get:Bindable
     override var genderValid: Boolean = false
         set(value) {
             field = value
