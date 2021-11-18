@@ -147,6 +147,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         response.data.data?.customerDocuments?.get(0)?.documentInformation
                     val data = response.data?.data
                     data?.let { data ->
+                        parentViewModel?.state?.identityNo?.set(parentViewModel?.document?.identityNo)
                         parentViewModel?.state?.firstName?.set(data.firstName)
                         parentViewModel?.state?.lastName?.set(data.lastName)
                         parentViewModel?.state?.nationality?.set(data.nationality)

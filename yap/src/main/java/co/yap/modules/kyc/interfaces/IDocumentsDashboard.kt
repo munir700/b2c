@@ -16,6 +16,7 @@ interface IDocumentsDashboard {
         var middleName: ObservableField<String>
         var lastName: ObservableField<String>
         var nationality: ObservableField<String>
+        var identityNo: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

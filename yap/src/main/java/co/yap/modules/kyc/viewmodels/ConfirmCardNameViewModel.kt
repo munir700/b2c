@@ -30,16 +30,17 @@ class ConfirmCardNameViewModel(application: Application) :
             state.loading = true
             when (val response = repository.updateCardName(
                 CardNameRequest(
-                    customerIDNumber = parentViewModel?.identity?.citizenNumber,
+                    customerIDNumber = parentViewModel?.state?.identityNo?.get(),
                     customerNationality = SessionManager.user?.currentCustomer?.nationality,
                     customerIDFirstName = parentViewModel?.state?.firstName?.get(),
                     customerIDLastName = parentViewModel?.state?.lastName?.get(),
-                    customerIDMiddleName = parentViewModel?.state?.middleName?.get()
+                    customerIDMiddleName = parentViewModel?.state?.middleName?.get(),
+                    displayCardName = state.fullName.get(),
+                    cardSerialNumber = SessionManager.card.value?.cardSerialNumber
                 )
             )) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-
                     success(true)
                 }
                 is RetroApiResponse.Error -> {

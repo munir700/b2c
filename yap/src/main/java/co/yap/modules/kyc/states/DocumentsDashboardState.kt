@@ -25,4 +25,5 @@ class DocumentsDashboardState : BaseState(), IDocumentsDashboard.State {
     override var middleName: ObservableField<String> = ObservableField()
     override var lastName: ObservableField<String> = ObservableField()
     override var nationality: ObservableField<String> = ObservableField()
+    override var identityNo: ObservableField<String> = ObservableField()
 }
