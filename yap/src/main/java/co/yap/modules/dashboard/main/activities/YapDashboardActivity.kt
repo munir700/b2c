@@ -63,7 +63,10 @@ import co.yap.yapcore.flagsmith.getFeatureFlagClient
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.leanplum.SignInEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
+import com.adjust.sdk.Adjust.trackEvent
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
@@ -114,6 +117,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun logEvent() {
+        trackEvent(SignInEvents.SIGN_IN_DASHBOARD.type)
         val logger: AppEventsLogger = AppEventsLogger.newLogger(this)
         logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP)
     }
