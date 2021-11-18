@@ -25,7 +25,6 @@ interface IEidInfoReview {
         var caption: String
         var fullNameValid: Boolean
         var nationalityValid: Boolean
-        var dateOfBirthValid: Boolean
         var genderValid: Boolean
         var expiryDateValid: Boolean
         var valid: Boolean
