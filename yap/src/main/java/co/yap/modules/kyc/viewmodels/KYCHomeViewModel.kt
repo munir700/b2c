@@ -137,4 +137,31 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             }
         }
     }
+
+    override fun requestDocumentsInformation(success: () -> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
+                is RetroApiResponse.Success -> {
+                    parentViewModel?.document =
+                        response.data.data?.customerDocuments?.get(0)?.documentInformation
+                    val data = response.data?.data
+                    data?.let { data ->
+                        parentViewModel?.state?.identityNo?.set(parentViewModel?.document?.identityNo)
+                        parentViewModel?.state?.firstName?.set(data.firstName)
+                        parentViewModel?.state?.lastName?.set(data.lastName)
+                        parentViewModel?.state?.nationality?.set(data.nationality)
+                        success.invoke()
+                    }
+                    state.loading = false
+                }
+
+                is RetroApiResponse.Error -> {
+                    if (response.error.statusCode == 400 || response.error.actualCode == "1073")
+                        state.loading = false
+                }
+            }
+        }
+    }
+
 }

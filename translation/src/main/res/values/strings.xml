@@ -185,7 +185,7 @@
     <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the %1$s</string>
     <!--    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>-->
     <string name="screen_kyc_information_error_display_text_explanation_from_usa">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
-    <string name="screen_kyc_information_error_display_text_title_under_age">Looks like you\'re under 21!</string>
+    <string name="screen_kyc_information_error_display_text_title_under_age">Looks like you\'re under %1$s!</string>
     <string name="screen_kyc_information_error_display_text_title_sanctioned_country">We\'re sorry :(</string>
     <string name="screen_kyc_information_error_text_description_sanctioned_country">Unfortunately, we\'re unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account.</string>
     <string name="screen_kyc_information_error_display_text_title_from_us">Looks like you\'re from the United States</string>
@@ -1441,6 +1441,7 @@
     <string name="screen_edit_card_name_text_heading">Type your full name</string>
     <string name="screen_edit_card_name_display_heading">What name would you like on your card?</string>
     <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_count_text">%1s\/26</string>
     <string name="screen_edit_card_name_display_description">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
 
 

@@ -16,6 +16,7 @@ interface IDocumentsDashboard {
         var middleName: ObservableField<String>
         var lastName: ObservableField<String>
         var nationality: ObservableField<String>
+        var identityNo: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -28,6 +29,8 @@ interface IDocumentsDashboard {
         fun handlePressOnView(id: Int)
         var clickEvent: SingleClickEvent
         var gotoInformationErrorFragment: MutableLiveData<Boolean>?
+        var showProgressBar: MutableLiveData<Boolean>
+        var accountStatus: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel>

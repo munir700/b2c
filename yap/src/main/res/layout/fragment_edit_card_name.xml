@@ -84,6 +84,7 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
+                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:maxLength="26"
                 android:singleLine="true"
                 android:text="@={viewModel.state.fullName}"

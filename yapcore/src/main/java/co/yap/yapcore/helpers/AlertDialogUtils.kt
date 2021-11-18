@@ -311,7 +311,7 @@ fun Context.infoDialog(
     messageView.text = message
     dialogTitle.text = title
     val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
-    dialogLayout.findViewById<AppCompatTextView>(R.id.btnNext).visibility = View.GONE
+    dialogLayout.findViewById<View>(R.id.btnNext).visibility = View.GONE
     btnClose.text = buttonText
     btnClose.setOnClickListener {
         callback.invoke()

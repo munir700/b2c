@@ -1,6 +1,7 @@
 package co.yap.yapcore
 
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.AnimBuilder
 import androidx.navigation.NavDirections
@@ -83,4 +84,28 @@ abstract class BaseNavFragment : Fragment() {
 
     private fun anim(animBuilder: AnimBuilder.() -> Unit): AnimBuilder =
         AnimBuilder().apply(animBuilder)
+
+    fun navigateWithPopup(
+        @IdRes destinationId: Int,
+        @IdRes popupTo: Int,
+        extras: Bundle? = Bundle(),
+        enableAnimation: Boolean = true
+    ) {
+        navigate(
+            destinationId,
+            extras,
+            navOptions = navOptions {
+                popUpTo(popupTo) {
+                    inclusive = true
+                }
+                if (enableAnimation) {
+                    anim {
+                        enter = R.anim.slide_in_right
+                        exit = R.anim.slide_out_left
+                        popEnter = R.anim.slide_in_left
+                        popExit = R.anim.slide_out_right
+                    }
+                }
+            })
+    }
 }

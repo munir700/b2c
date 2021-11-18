@@ -16,10 +16,6 @@ class EditCardNameViewModel(application: Application) :
     override val state: IEditCardName.State = EditCardNameState()
     override val repository: CustomersRepository get() = CustomersRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override fun onCreate() {
-        super.onCreate()
-        state.date.set(SessionManager.card.value?.expiryDate)
-    }
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -30,7 +26,7 @@ class EditCardNameViewModel(application: Application) :
             state.loading = true
             when (val response = repository.updateCardName(
                 CardNameRequest(
-                    customerIDNumber = parentViewModel?.identity?.citizenNumber,
+                    customerIDNumber = parentViewModel?.state?.identityNo?.get(),
                     customerNationality = SessionManager.user?.currentCustomer?.nationality,
                     customerIDFirstName = parentViewModel?.state?.firstName?.get(),
                     customerIDLastName = parentViewModel?.state?.lastName?.get(),

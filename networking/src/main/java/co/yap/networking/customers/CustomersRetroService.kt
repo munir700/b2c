@@ -10,11 +10,13 @@ import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
@@ -323,4 +325,7 @@ interface CustomersRetroService {
 
     @PUT(CustomersRepository.URL_EDIT_BILLER)
     suspend fun editBiller(@Body editBillerRequest: EditBillerRequest): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_VALIDATE_EID)
+    suspend fun getEIDConfigurations(): Response<BaseResponse<ConfigureEIDResponse>>
 }
