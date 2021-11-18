@@ -9,8 +9,8 @@ import android.view.View
 import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import co.yap.widgets.CoreButton
@@ -311,6 +311,7 @@ fun Context.infoDialog(
     messageView.text = message
     dialogTitle.text = title
     val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
+    dialogLayout.findViewById<AppCompatTextView>(R.id.btnNext).visibility = View.GONE
     btnClose.text = buttonText
     btnClose.setOnClickListener {
         callback.invoke()
@@ -359,6 +360,7 @@ fun Context.beneficiaryInfoDialog(
     dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
     dialogLayout.show()
 }
+
 fun Context.successDialog(
     title: String = "",
     message: String,
