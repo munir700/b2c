@@ -17,6 +17,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
@@ -367,8 +368,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
-    override suspend fun getAmendmentsBirthInfo(): RetroApiResponse<BirthInfoAmendmentResponse> =
-        executeSafely(call = { api.getAmendmentsBirthInfo() })
+    override suspend fun getAmendmentsBirthInfo(accountUuid: String): RetroApiResponse<BaseResponse<BirthInfoAmendmentResponse>> =
+        executeSafely(call = { api.getAmendmentsBirthInfo(accountUuid) })
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
         executeSafely(call = { api.getAllCurrencies() })
@@ -477,6 +478,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         })
 
     override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
-        return  executeSafely(call = {  api.getMissingInfoList(accountUuid) })
+        return executeSafely(call = { api.getMissingInfoList(accountUuid) })
     }
 }

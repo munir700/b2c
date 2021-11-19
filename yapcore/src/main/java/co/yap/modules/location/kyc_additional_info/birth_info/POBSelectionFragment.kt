@@ -46,6 +46,11 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.state.dualNationalityOption.observe(this, Observer {
+            getDataBindingView<FragmentPlaceOfBirthSelectionBinding>().optionsSpinner.setSelection(
+                it
+            )
+        })
     }
 
     private val clickObserver = Observer<Int> {

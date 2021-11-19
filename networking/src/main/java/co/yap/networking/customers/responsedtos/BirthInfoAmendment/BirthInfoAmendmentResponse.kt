@@ -17,8 +17,12 @@ data class BirthInfoAmendmentResponse(
     val customerColor: String? = null,
     @SerializedName("customerId")
     val customerId: String? = null,
+    @SerializedName("customerSignature")
+    val customerSignature: String? = null,
     @SerializedName("dob")
     val dob: String? = null,
+    @SerializedName("dualNationality")
+    val dualNationality: String? = null,
     @SerializedName("email")
     val email: String? = null,
     @SerializedName("firstName")
@@ -29,6 +33,10 @@ data class BirthInfoAmendmentResponse(
     val gender: String? = null,
     @SerializedName("homeCountry")
     val homeCountry: String? = null,
+    @SerializedName("isAmendment")
+    val isAmendment: Boolean? = null,
+    @SerializedName("isDualNationality")
+    val isDualNationality: Boolean? = null,
     @SerializedName("isEmailVerified")
     val isEmailVerified: Boolean? = null,
     @SerializedName("isMobileNoVerified")
@@ -41,8 +49,12 @@ data class BirthInfoAmendmentResponse(
     val nationality: String? = null,
     @SerializedName("nationalityId")
     val nationalityId: String? = null,
+    @SerializedName("passportNo")
+    val passportNo: Any? = null,
     @SerializedName("profilePictureName")
     val profilePictureName: String? = null,
+    @SerializedName("pushNotificationEnabled")
+    val pushNotificationEnabled: Boolean? = null,
     @SerializedName("status")
     val status: String? = null,
     @SerializedName("usNationalForTax")

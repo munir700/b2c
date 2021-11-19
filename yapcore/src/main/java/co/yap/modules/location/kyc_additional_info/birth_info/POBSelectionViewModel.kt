@@ -35,7 +35,6 @@ class POBSelectionViewModel(application: Application) :
         super.onCreate()
         getAllCountries()
         state.isDualNational.set(false)
-        getAmendmentsBirthInfo()
     }
 
     override fun onResume() {
@@ -71,6 +70,7 @@ class POBSelectionViewModel(application: Application) :
                             populateSpinnerData.value =
                                 parentViewModel?.countries?.filter { it.isoCountryCode2Digit != SessionManager.homeCountry2Digit } as ArrayList<Country>
                             state.viewState.value = false
+                            getAmendmentsBirthInfo()
                         }
 
                         is RetroApiResponse.Error -> {
@@ -104,7 +104,7 @@ class POBSelectionViewModel(application: Application) :
             when (val response = repository.saveBirthInfo(
                 BirthInfoRequest(
                     countryOfBirth = state.selectedCountry.get()?.getName()?.trim() ?: "",
-                    cityOfBirth = state.cityOfBirth.trim(),
+                    cityOfBirth = state.cityOfBirth.get() ?: "",
                     isDualNationality = state.isDualNational.get(),
                     dualNationality = state.selectedSecondCountry.get()?.isoCountryCode2Digit ?: ""
                 )
@@ -128,13 +128,26 @@ class POBSelectionViewModel(application: Application) :
 
     override fun getAmendmentsBirthInfo() {
         launch {
-            when (val response = repository.getAmendmentsBirthInfo()) {
+            when (val response =
+                repository.getAmendmentsBirthInfo(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
-//                    state.selectedCountry.set(response?.data?.selectedCountry)
-                    state.cityOfBirth = response?.data?.cityOfBirth!!
-//                    state.selectedSecondCountry.set(response?.data?.selectedSecondCountry)
-//                    state.eidNationality.set(response?.data?.eidNationality)
-//                    state.isDualNational.set(response?.data?.isDualNational!!)
+
+                    val selectedCountry: Country? =
+                        parentViewModel?.countries?.find { it.isoCountryCode2Digit == response.data.data?.countryOfBirth ?: "" }
+                        state.selectedCountry.set(selectedCountry)
+
+                    state.cityOfBirth.set(response.data.data?.cityOfBirth ?: "")
+                    state.isDualNational.set(response.data.data?.isDualNationality ?: true)
+                    if (!state.isDualNational.get()) {
+                        state.selectedSecondCountry.set(null)
+                        state.validate()
+                    } else {
+                        state.dualNationalityOption.value = 1
+                        val selectedSecondCountry: Country? =
+                            parentViewModel?.countries?.find { it.isoCountryCode2Digit == response.data.data?.homeCountry ?: "" }
+                        state.selectedSecondCountry.set(selectedSecondCountry)
+                        state.validate()
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
