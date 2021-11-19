@@ -47,7 +47,7 @@ class ForgotCardPinActivity : BaseBindingActivity<IForgotCardPin.ViewModel>(), I
     }
 
     fun getCardSerialNumber(): String {
-        return intent.getStringExtra(Constants.CARD_SERIAL_NUMBER)
+        return intent.getStringExtra(Constants.CARD_SERIAL_NUMBER) ?: ""
     }
 
     override fun onBackPressed() {

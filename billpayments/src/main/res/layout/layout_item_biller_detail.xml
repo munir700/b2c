@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailItemViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Translator" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+            android:id="@+id/tvInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:hint="@{viewModel.addBillerDetailInputFieldModel.lable}"
+            app:hintTextAppearance="@style/LabelTextStyl"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorChangePin="@{viewModel.addBillerDetailInputFieldModel.value}">
+
+            <co.yap.widgets.AlphaNumericEditText
+                android:id="@+id/etUserInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_support"
+                android:drawableRight="@drawable/ic_support"
+                android:hint="@{viewModel.addBillerDetailInputFieldModel.lable}"
+                android:importantForAutofill="no"
+                android:inputType="@{viewModel.addBillerDetailInputFieldModel.inputType}"
+                android:maxLength="@{viewModel.addBillerDetailInputFieldModel.maxLength}"
+                android:singleLine="true"
+                android:text="@={viewModel.addBillerDetailInputFieldModel.value}"
+                android:textColorHint="@color/colorPrimaryDarkFadedLight"
+                android:theme="@style/Theme.EditText.Primary"
+                app:isDrawableShownWhenTextIsEmpty="true"
+                app:popupTextValue="@{viewModel.addBillerDetailInputFieldModel.description}"
+                tools:hint="Email" />
+
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+        <!--        <androidx.appcompat.widget.AppCompatImageView-->
+        <!--            android:id="@+id/ivInfo"-->
+        <!--            android:layout_width="@dimen/_22sdp"-->
+        <!--            android:layout_height="@dimen/_22sdp"-->
+        <!--            android:layout_marginTop="@dimen/margin_small"-->
+        <!--            android:backgroundTint="?attr/colorPrimaryAttr"-->
+        <!--            android:onClick="@{(v)->viewModel.onViewClicked(v)}"-->
+        <!--            android:visibility="@{viewModel.addBillerDetailInputFieldModel.description.isEmpty() ? View.GONE : View.VISIBLE}"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:srcCompat="@drawable/ic_support" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

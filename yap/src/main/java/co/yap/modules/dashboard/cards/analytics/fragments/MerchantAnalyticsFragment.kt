@@ -43,14 +43,15 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                 getAdaptor().setList(txnAnalytics)
             })
 
-        /*viewModel.parentViewModel?.selectedItemPositionParent?.observe(
+        viewModel.parentViewModel?.selectedItemPositionParent?.observe(
             this,
             Observer { selectedPosition ->
                 val view = getBinding().recycler.layoutManager?.findViewByPosition(selectedPosition)
                 getBinding().recycler.removeOnScrollListener(onScrollListener)
                 getBinding().recycler.addOnScrollListener(onScrollListener)
                 getBinding().recycler.smoothScrollToPosition(selectedPosition)
-            })*/
+
+            })
     }
 
     private fun initAdaptor() {

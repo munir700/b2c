@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -1101,5 +1102,12 @@ object UIBinder {
             }
         }
 
+    }
+
+    @BindingAdapter("strikeThroughText")
+    @JvmStatic
+    fun AppCompatTextView.strikeThroughText(isStrikeThrough: Boolean) {
+        this.paintFlags =
+            if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
     }
 }

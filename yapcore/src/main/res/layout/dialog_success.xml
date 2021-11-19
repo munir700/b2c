@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_round"
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingVertical="@dimen/margin_extra_large">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivTopIcon"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/_4sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_item_selected" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDialogTitle"
+            style="@style/Title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="0.5sp"
+            android:textColor="@color/colorDarkGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivTopIcon"
+            tools:text="@string/screen_bill_detail_success_dialog_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMessage"
+            style="@style/SmallGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:gravity="center"
+            android:lineSpacingExtra="3sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDialogTitle"
+            tools:text="@string/screen_bill_detail_success_dialog_button_description" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnPay"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginBottom="@dimen/margin_normal"
+            app:btn_enable="true"
+            app:btn_size="medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMessage"
+            tools:text="Next" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBottomButton"
+            style="@style/Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:gravity="center"
+            android:lineSpacingExtra="3sp"
+            android:textColor="?attr/colorPrimaryAttr"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnPay"
+            tools:text="@string/screen_bill_detail_success_dialog_button_description" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

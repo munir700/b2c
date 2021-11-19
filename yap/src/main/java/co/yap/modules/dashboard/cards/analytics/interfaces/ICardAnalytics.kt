@@ -8,7 +8,6 @@ import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.google.android.material.imageview.ShapeableImageView
 
 interface ICardAnalytics {
     interface View : IBase.View<ViewModel> {

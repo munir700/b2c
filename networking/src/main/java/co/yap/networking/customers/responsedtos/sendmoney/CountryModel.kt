@@ -31,6 +31,8 @@ data class Country(
     var signUpAllowed: Boolean? = false,
     @SerializedName("ibanMandatory")
     var ibanMandatory: Boolean? = false,
+    @SerializedName("addressMandatory")
+    var addressMandatory: Boolean? = false,
     @SerializedName("edit")
     var edit: Boolean? = false,
     @SerializedName("currencyList")
