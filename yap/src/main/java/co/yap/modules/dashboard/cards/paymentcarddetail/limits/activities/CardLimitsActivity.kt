@@ -35,7 +35,7 @@ class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        val card: Card = intent.getParcelableExtra(key)
+        val card: Card? = intent.getParcelableExtra(key)
         viewModel.state.card.set(card)
     }
 

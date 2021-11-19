@@ -592,11 +592,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     getRecycleViewAdaptor().getDataForPosition(
                         groupPosition ?: 0
                     ).transaction[childPosition ?: 0].transactionNote =
-                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.transactionNote
                     getRecycleViewAdaptor().getDataForPosition(
                         groupPosition ?: 0
                     ).transaction[childPosition ?: 0].transactionNoteDate =
-                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.transactionNoteDate
                     getRecycleViewAdaptor().notifyItemChanged(
                         groupPosition ?: 0,
                         getRecycleViewAdaptor().getDataForPosition(

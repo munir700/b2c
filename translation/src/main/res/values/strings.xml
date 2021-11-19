@@ -50,6 +50,8 @@
     <string name="common_yap_share_content">Hey! I\'ve started using the UAE\'s newest banking app – YAP. Transform how you manage your money and join me in the banking revolution.\n\nDownload YAP here:\n\n%1$s</string>
     <string name="common_display_text_percentage">%</string>
     <string name="common_display_one_variables">%1s</string>
+    <string name="common_display_text_available_balance_error_without_fee">Uh oh! You’ll need to have a minimum balance of %1s to proceed with this payment. </string>
+
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -130,11 +132,16 @@
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
     <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
-    <string name="screen_onboarding_congratulations_display_text_delay_detail_text">
-Due to all the excitement of our official launch, we are gradually activating as many accounts as possible to keep the app running smoothly. In the meantime, until your account is ready to be fully activated you’ll be placed in a queue.
-
-</string>
+    <string name="screen_onboarding_congratulations_display_text_delay_detail_text">Due to all the excitement of our official launch, we are gradually activating as many accounts as possible to keep the app running smoothly. In the meantime, until your account is ready to be fully activated you’ll be placed in a queue.</string>
     <string name="screen_onboarding_congratulations_button_queue_up">Queue up!</string>
+
+    <!--    OnBoarding confirm card name screen-->
+    <string name="screen_onboarding_confirm_card_name_display_text_title">What name would you like on your card?</string>
+    <string name="screen_onboarding_confirm_card_name_display_text_sub_title">Please keep this as close to your real name.</string>
+    <string name="screen_onboarding_confirm_card_name_display_sub_text">Is it?</string>
+    <string name="screen_onboarding_confirm_card_name_display_name_length_text">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
+    <string name="screen_onboarding_confirm_card_name_edit_full_name_text">I’d like to edit my name</string>
+    <string name="screen_onboarding_confirm_card_name_btn_name_fine_text">This is fine!</string>
 
     <!-- System permission screen -->
     <string name="screen_system_permission_text_title">Use Touch ID to log in to your account?</string>
@@ -178,7 +185,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the %1$s</string>
     <!--    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>-->
     <string name="screen_kyc_information_error_display_text_explanation_from_usa">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
-    <string name="screen_kyc_information_error_display_text_title_under_age">Looks like you\'re under 21!</string>
+    <string name="screen_kyc_information_error_display_text_title_under_age">Looks like you\'re under %1$s!</string>
     <string name="screen_kyc_information_error_display_text_title_sanctioned_country">We\'re sorry :(</string>
     <string name="screen_kyc_information_error_text_description_sanctioned_country">Unfortunately, we\'re unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account.</string>
     <string name="screen_kyc_information_error_display_text_title_from_us">Looks like you\'re from the United States</string>
@@ -746,11 +753,15 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_add_beneficiary_detail_input_text_nick_name_hint">Add nickname</string>
     <string name="screen_add_beneficiary_detail_input_text_first_name_hint">Add first name</string>
     <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add last name</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_hint">Add the full address</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_character_limit_helper_text">Number of characters</string>
+    <string name="screen_add_beneficiary_detail_input_text_beneficiary_address_alert_text">The address must include a street name, city, province and postal code. </string>
 
     <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_last_name">Last name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_phone">Phone number (optional)</string>
+    <string name="screen_add_beneficiary_detail_display_text_beneficiary_address">Beneficiary address</string>
     <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
     <string name="screen_sdd_beneficiary_display_confirm_iban">Confirm IBAN</string>
     <string name="screen_add_beneficiary_display_help_content">Your IBAN is a sequence of 23 characters and can be found in the top right menu on your dashboard</string>
@@ -879,6 +890,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_card_analytics_display_tab_title_merchant">Merchant</string>
     <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s</string>
     <string name="screen_card_analytics_tool_bar_title">Analytics</string>
+    <string name="screen_card_analytics_ntry">Nothing to report yet</string>
 
     <!--    Edit -->
 
@@ -1416,12 +1428,143 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
-    ERROR_INVALID_CARDINPUT
+<!--    ERROR_INVALID_CARDINPUT-->
     <!--    Samsung Pay start-->
     <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
     <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
     <string name="screen_cards_display_text_error_framework_internal">The error occurred in payment framework while processing the request. Please contact support for more information.</string>
     <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
     <!--    Samsung Pay end-->
+
+
+<!--    Edit Card Name -->
+    <string name="screen_edit_card_name_text_heading">Type your full name</string>
+    <string name="screen_edit_card_name_display_heading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
+    <string name="screen_edit_card_name_count_text">%1s\/26</string>
+    <string name="screen_edit_card_name_display_description">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
+
+
+    <!--    Bill Payment-->
+    <string name="screen_bill_payment_text_title">Pay bills</string>
+    <string name="screen_bill_payment_sub_heading_set_up_or_make_a_bill_payment">Set up or make a bill payment</string>
+    <string name="screen_bill_payment_button_description_my_bills">My bills</string>
+    <string name="screen_bill_payment_button_description_analytics">Analytics</string>
+    <string name="screen_bill_payment_button_description_add_a_bill">Add a bill</string>
+    <string name="screen_bill_payment_bill_due_section_title">Bill payments due</string>
+    <string name="screen_bill_payment_bill_due_button_pay_all">Pay All</string>
+    <string name="screen_bill_payment_bill_total_due_label">Total due</string>
+    <string name="screen_bill_payment_due_bills_swipe_button_title">Pay Now</string>
+
+
+    <!--    Biller Screen-->
+    <string name="screen_bill_payment_sub_heading_which_bank_is_your_card_issued_by">Which bank is your card issued by?</string>
+    <string name="screen_bill_payment_sub_heading_choose_from_the_list_below">Choose%1sfrom the list below</string>
+    <string name="screen_bill_payment_text_title_add_a_credit_card">Add a credit card</string>
+    <string name="screen_bill_payment_text_title_add_a_provider">Add a %1s provider</string>
+
+    <!--    My Bills Screen-->
+    <string name="screen_my_bills_toolbar_text_title">My Bills</string>
+    <string name="screen_my_bills_text_title_you_have_n_bills_registered">You have %1s bills registered</string>
+    <string name="screen_my_bills_text_title_you_have_one_bill_registered">You have 1 bill registered</string>
+    <string name="screen_my_bills_btn_text_pay">Pay %1s %2s</string>
+    <string name="screen_my_bills_text_title_on_selection">Select the bill you want to pay</string>
+    <string name="screen_my_bills_text_title_bottom_sheet">Sort by</string>
+    <string name="screen_my_bills_text_title_no_bills">You have no bills registered yet</string>
+
+
+    <!--    Add Bill Screen-->
+    <string name="screen_add_bill_toolbar_title">Add a Bill Provider</string>
+    <string name="screen_add_bill_description_text">Find bill providers by choosing any category below and set up one-time or recurring payments</string>
+
+    <!-- Bill Detail Screen -->
+    <string name="screen_bill_detail_success_dialog_title">%1s Bill has been added successfully</string>
+    <string name="screen_bill_detail_success_dialog_button_text">Yes, pay now</string>
+    <string name="screen_bill_detail_success_dialog_button_description">Pay your %1s bill now?</string>
+    <string name="screen_bill_detail_success_dialog_button_text_do_it_later">No, I\'ll do it later</string>
+    <string name="screen_bill_detail_field_label">Enter nickname</string>
+
+
+    <!-- Add Biller Detail Screen-->
+    <string name="screen_biller_detail_title_text_credit_card">Enter your credit card details</string>
+    <string name="screen_biller_detail_title_text_enter_you_account_details">Enter your account details</string>
+
+    <!-- Bill Account Detail Screen -->
+    <string name="screen_bill_account_detail_toolbar_title">Account details</string>
+    <string name="screen_bill_account_detail_text_bill_status_paid">This bill is paid</string>
+    <string name="screen_bill_account_detail_text_bill_status_over_due">This bill is over due</string>
+    <string name="screen_bill_account_detail_text_bill_status_due">This bill is due</string>
+    <string name="screen_bill_account_detail_text_last_payment">Last payment</string>
+    <string name="screen_bill_account_detail_text_total_payment">Total payment</string>
+    <string name="screen_bill_account_detail_text_highest_month">Highest month</string>
+    <string name="screen_bill_account_detail_text_lowest_month">Lowest month</string>
+    <string name="screen_bill_account_detail_button_text">Pay Now</string>
+    <string name="screen_bill_payment_prepaid_bills_airtime_button_title">Airtime</string>
+    <string name="screen_bill_payment_prepaid_bills_data_button_title">Data</string>
+    <string name="screen_bill_account_detail_text_no_bills_paid_yet">No bills paid yet</string>
+
+    <!-- Edit Bill Screen-->
+    <string name="screen_edit_bill_title_text">Edit your account details</string>
+    <string name="screen_edit_bill_button_text">Edit</string>
+    <string name="screen_edit_bill_bottom_button_text">Delete this bill</string>
+    <string name="screen_edit_bill_dialog_title">Are you sure you want to delete this bill?</string>
+    <string name="screen_edit_bill_dialog_description">You will loose all the data stored of past bill payments.</string>
+    <string name="screen_edit_bill_switch_text_this_an_auto_payment">This an auto-payment.</string>
+    <string name="screen_edit_bill_switch_text_bill_reminder">Set up a bill reminder</string>
+    <string name="screen_edit_bill_field_label">Enter nickname</string>
+
+
+    <!--Pay Bill-->
+    <string name="screen_pay_bill_text_title">Pay bill</string>
+    <string name="screen_pay_bill_input_text_note_hint">Type a note here (Optional)</string>
+    <string name="screen_pay_bill_pay_button_text">Pay bill</string>
+    <string name="screen_pay_bill_auto_payment_day_text">Day</string>
+    <string name="screen_pay_bill_auto_payment_day_week">Week</string>
+    <string name="screen_pay_bill_auto_payment_day_month">Month</string>
+    <string name="screen_pay_bill_select_week_day_text">Select day in week</string>
+    <string name="screen_pay_bill_select_month_day_text">Select day in month</string>
+    <string name="screen_pay_bill_selection_text">Make this an auto-payment</string>
+    <string name="screen_pay_bill_selection_remind_text">Remind me in advance by</string>
+    <string name="screen_pay_bill_payment_type_text">Pay every</string>
+    <string name="screen_pay_bill_payment_every_day_text">Day</string>
+    <string name="screen_pay_bill_payment_every_week_text">Week</string>
+    <string name="screen_pay_bill_payment_every_month_text">Month</string>
+    <string name="screen_pay_bill_payment_reminder_every_days_text">3 days</string>
+    <string name="screen_pay_bill_payment_reminder_every_week_text">1 week</string>
+    <string name="screen_pay_bill_payment_reminder_every_weeks_text">2 weeks</string>
+    <string name="screen_pay_all_bill_in_progress_title_text">Paying your bills...</string>
+
+    <!--Pay Bill Success-->
+    <string name="screen_pay_bill_success_toolbar_title">Transfer successful!</string>
+    <string name="screen_pay_bill_success_you_have_paid">You have paid</string>
+    <string name="screen_pay_bill_success_button_text">Back to bill payments</string>
+    <string name="screen_pay_bill_success_button_back_to_dashboard_text">Back to dashboard</string>
+
+    <!--Single Decline Screen-->
+    <string name="screen_single_decline_top_message">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
+    <string name="screen_single_decline_toolbar_text_decline">Transfer declined</string>
+    <string name="screen_single_decline_toolbar_text_dont_worry">Don’t worry you were not charged anything \nTotal amount attempted to pay.</string>
+    <string name="screen_single_decline_toolbar_text_total_amount_attempted_to_pay">Total amount attempted to pay</string>
+    <string name="screen_single_decline_button_text_back_to_bill_payments">Back to bill payments</string>
+
+    <!-- Pay All Screen-->
+    <string name="screen_pay_all_success_toolbar_title">Transfer successful!</string>
+    <string name="screen_pay_all_success_toolbar_title_transfer_status">Transfer status</string>
+    <string name="screen_pay_all_success_toolbar_title_transfer_unsuccessful">Transfer unsuccessful</string>
+    <string name="screen_pay_all_success_title_all_paid">Your bills are all paid!</string>
+    <string name="screen_pay_all_success_title_partial_paid">Some of your bills did not go through.</string>
+    <string name="screen_pay_all_success_title_all_decline">Sorry, we were unable to process your bill payment this time. Please try again later.</string>
+    <string name="screen_pay_all_success_text_paid_status">Total paid</string>
+    <string name="screen_pay_all_success_text_decline_status">Total amount attempted to pay</string>
+    <string name="screen_pay_all_success_button_text">Back to bill payments</string>
+
+
+    <!-- Pay All Screen-->
+    <string name="screen_pay_all_toolbar_title">Pay all bills</string>
+    <string name="screen_pay_all_text_total_payment_for">Total Payment of</string>
+    <string name="screen_pay_all_text_button">Pay bills</string>
+
+    <!-- Bill Category Screen-->
+    <string name="screen_bill_category_title_coming_soon">Coming soon</string>
 
 </resources>

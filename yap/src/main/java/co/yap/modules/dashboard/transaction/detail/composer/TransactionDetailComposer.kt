@@ -36,10 +36,7 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 categoryType = transactionDetailFactory?.isCategoryGeneral(),
                 categoryDescription = transactionDetailFactory?.getCategoryDescription(),
                 tapixCategory = transactionDetailFactory?.getTapixCategory(),
-                showFeedBack = transactionDetailFactory?.showFeedbackOption(),
-                isYTYTransfer = transactionDetailFactory?.isYTYTransaction(),
-                isDeclinedTransaction = transactionDetailFactory?.isDeclinedTransaction(),
-                isMApVisible = transactionDetailFactory?.isMApVisible()
+                showFeedBack = transactionDetailFactory?.showFeedbackOption()
             )
         } ?: return null
     }

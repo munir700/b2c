@@ -31,7 +31,7 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
             viewModel.state.statementType.set("EMAIL_ME_ACCOUNT")
             viewModel.loadStatementsFromDashBoard()
         } else {
-            viewModel.loadStatements(viewModel.card.cardSerialNumber)
+            viewModel.card?.cardSerialNumber?.let { viewModel.loadStatements(it) }
             viewModel.state.statementType.set("EMAIL_ME_CARD")
         }
         viewModel.adapter.set(CardStatementsAdaptor(mutableListOf()))
@@ -55,7 +55,7 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
                     (data as CardStatement).also {
                         it.statementType = viewModel.state.statementType.get()
                         it.sendEmail = true
-                        it.cardType = viewModel.card.cardType
+                        it.cardType = viewModel.card?.cardType
                     }
                 )
             )

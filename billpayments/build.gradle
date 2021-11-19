@@ -1,0 +1,24 @@
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Test dependencies
+    project.testDependencies.each {
+        add(it.configuration, it.dependency)
+    }
+
+    //shared dependencies to all modules
+    project.commonDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+
+    // billpayments specific dependencies
+    project.billpaymentsDependencies.each {
+        add(it.configuration, it.dependency)
+    }
+
+    if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
+        project.kaptBindingDependencies.each {
+            add(it.configuration, it.dependency)
+        }
+    }
+}

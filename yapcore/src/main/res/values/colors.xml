@@ -17,12 +17,13 @@
     <color name="colorPressedBtnState">#272262</color>
     <color name="colorPrimaryDarkIcons">#272262</color>
     <color name="grey">#c9c8d8</color>
+    <color name="palegrey">#c9c8d8</color>
     <color name="red">#d32f2f</color>
     <color name="greyDark">#9391b1</color>
     <color name="greyDarkOpacity16">#299391B1</color>
     <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
-    <color name="darkSlateBlue">#802F2067</color>
+    <color name="darkSlateBlueFaded">#802F2067</color>
     <color name="darkBlue">#9890b9</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
@@ -51,7 +52,9 @@
     <color name="colorSecondaryMagenta">#F44774</color>
 
     <color name="colorMidnightExpress">#1e1c37</color>
-
+    <color name="colorDarkSlateBlue">#2f2067</color>
+    <color name="colorBlueyPurple">#6334b6</color>
+    <color name="colorPurpleMain">#5e35b1</color>
     <!--    Backgorunds Colors-->
 
     <color name="bg_round_light_red">#28f44774</color>
@@ -63,11 +66,14 @@
     <color name="bg_round_light_secondary_blue">#29478DF4</color>
     <color name="bg_round_light_primary">#295E35B1</color>
 
+
+    <color name="bg_with_hint_of_blue">#0D5e35b1</color>
     <color name="semiBack">#30000000</color>
     <color name="semiBlack">#A6000000</color>
     <color name="dialog_title">#4b4b4b</color>
     <color name="itemBackground">#fafafa</color>
     <color name="textGreyDark">#979797</color>
+    <color name="colorHeatherTwo">#9790b7</color>
 
     <color name="colorLightGreyGradient">#eff2f9</color>
     <color name="colorDarkGreyGradient">#DAE0F0</color>
@@ -155,4 +161,5 @@
     <color name="stepview_selected_number">#25448a</color>
     <color name="stepview_mark">@color/stepview_selected_number</color>
     <color name="teal_green">#44d389</color>
+    <color name="colorPurple">#712ce2</color>
 </resources>

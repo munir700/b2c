@@ -15,10 +15,11 @@
         android:padding="@dimen/margin_medium">
 
         <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flowLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:constraint_referenced_ids="tbBtnInfo,tvDialogTitle,tvMessage,btnClose"
+            app:constraint_referenced_ids="tbBtnInfo,tvDialogTitle,tvMessage"
             app:flow_verticalGap="@dimen/margin_medium"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,14 +56,35 @@
             android:text="@string/screen_employment_information_dialog_display_text_subheading"
             tools:text="@string/screen_employment_information_dialog_display_text_subheading" />
 
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnNext"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/screen_yap_house_hold_user_info_button_next"
+            android:visibility="visible"
+            app:enableCoreButton="@{true}"
+            app:btn_enable="true"
+            app:layout_constraintTop_toBottomOf="@+id/flowLay"
+            app:btn_size="small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+           />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btnClose"
             style="@style/Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp"
+            android:padding="@dimen/margin_normal"
             android:text="@string/screen_employment_information_dialog_button_text_close"
-            android:textColor="?attr/colorPrimaryAttr" />
+            android:textColor="?attr/colorPrimaryAttr"
+            tools:textColor="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@+id/btnNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

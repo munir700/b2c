@@ -2,6 +2,7 @@ package co.yap.sendmoney.editbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -15,13 +16,21 @@ import co.yap.yapcore.managers.SessionManager
 class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBeneficiary.State {
     override var rightButtonText: ObservableField<String> = ObservableField("Cancel")
 
-
+    @get:Bindable
+    override var beneficiaryAddress: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryAddress)
+            beneficiary?.beneficiaryAddress = field
+            validate()
+        }
     @get:Bindable
     override var country: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.country)
         }
+
     @get:Bindable
     override var transferType: String? = ""
         set(value) {
@@ -29,6 +38,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.transferType)
             // beneficiary?.beneficiaryType = field
         }
+
     @get:Bindable
     override var currency: String? = SessionManager.getDefaultCurrency()
         set(value) {
@@ -36,6 +46,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.currency)
             beneficiary?.currency = field
         }
+
     @get:Bindable
     override var nickName: String? = null
         set(value) {
@@ -45,7 +56,6 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             validate()
         }
 
-
     @get:Bindable
     override var firstName: String? = null
         set(value) {
@@ -54,6 +64,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             beneficiary?.firstName = field
         }
 
+
     @get:Bindable
     override var lastName: String? = null
         set(value) {
@@ -61,6 +72,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.lastName)
             beneficiary?.lastName = field
         }
+
     @get:Bindable
     override var phoneNumber: String? = null
         set(value) {
@@ -68,6 +80,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.phoneNumber)
             beneficiary?.mobileNo = field?.replace(" ", "")
         }
+
     @get:Bindable
     override var accountNumber: String? = null
         set(value) {
@@ -75,6 +88,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.accountNumber)
             //beneficiary?.accountNo = field
         }
+
     @get:Bindable
     override var swiftCode: String? = null
         set(value) {
@@ -82,24 +96,28 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.swiftCode)
             //beneficiary?.swiftCode = field
         }
+
     @get:Bindable
     override var countryBankRequirementFieldCode: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.countryBankRequirementFieldCode)
         }
+
     @get:Bindable
     override var needOverView: Boolean? = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.needOverView)
         }
+
     @get:Bindable
     override var needIban: Boolean? = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.needIban)
         }
+
     @get:Bindable
     override var showIban: Boolean? = false
         set(value) {
@@ -114,6 +132,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.beneficiary)
             updateAllFields(beneficiary)
         }
+
     @get:Bindable
     override var countryCode: String? = null
         set(value) {
@@ -145,6 +164,9 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             it.country?.let {
                 country = it
                 countryCode = it
+            }
+            it.beneficiaryAddress.let {
+                beneficiaryAddress = it
             }
             it.lastName?.let { lastName = it }
             it.title?.let { nickName = it }
@@ -181,9 +203,10 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             SendMoneyBeneficiaryType.SWIFT.type, SendMoneyBeneficiaryType.RMT.type -> {
                 !nickName.isNullOrBlank() && selectedCountryOfResidence != null
             }
-            else -> !nickName.isNullOrBlank()
+            else -> !nickName.isNullOrBlank() && !beneficiaryAddress.isNullOrBlank()
         }
 
     }
 
+    override var showAddressField: ObservableBoolean = ObservableBoolean(false)
 }
