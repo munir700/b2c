@@ -55,9 +55,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val map : HashMap<String?, List<String>?> = hashMapOf()
-        map["eidInfo"] = listOf<String>("tvFirstName")
-        viewModel.parentViewModel?.amendmentMap = map
+        /*val map : HashMap<String?, List<String>?> = hashMapOf()
+        map["eidInfo"] = listOf<String>("dob", "")
+        viewModel.parentViewModel?.amendmentMap = map*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

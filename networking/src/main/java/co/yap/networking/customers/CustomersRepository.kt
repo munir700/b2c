@@ -9,6 +9,7 @@ import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoRes
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -129,6 +130,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
     const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
+    const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -472,6 +474,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         })
 
     override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
-        return  executeSafely(call = {  api.getMissingInfoList(accountUuid) })
+        return executeSafely(call = { api.getMissingInfoList(accountUuid) })
+    }
+
+    override suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<EIDDocumentsResponse> {
+        return executeSafely(call = { api.getCustomerKYCData(accountUuid) })
     }
 }

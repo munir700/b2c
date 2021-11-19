@@ -126,4 +126,60 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var dobCalendar: Calendar = Calendar.getInstance()
     override var expiryCalendar: Calendar = Calendar.getInstance()
 
+    @get:Bindable
+    override var previousFirstName: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousFirstName)
+        }
+
+    @get:Bindable
+    override var previousMiddleName: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousMiddleName)
+        }
+
+    @get:Bindable
+    override var previousLastName: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousLastName)
+        }
+
+    @get:Bindable
+    override var previousNationality: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousNationality)
+        }
+
+    @get:Bindable
+    override var previousDateOfBirth: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousDateOfBirth)
+        }
+
+    @get:Bindable
+    override var previousGender: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousGender)
+        }
+
+    @get:Bindable
+    override var previousExpiryDate: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousExpiryDate)
+        }
+
+    @get:Bindable
+    override var previousCitizenNumber: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousCitizenNumber)
+        }
+
 }

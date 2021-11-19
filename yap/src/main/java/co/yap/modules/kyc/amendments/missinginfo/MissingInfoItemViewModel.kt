@@ -16,7 +16,7 @@ class MissingInfoItemViewModel :
         notifyChange()
     }
 
-    override fun getItem() = "${position + 1}. $mItem"
+    override fun getItem() = "${position + 1}. ${KycAmendmentFieldsMappingHelper.getValueForKey(mItem)}"
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
 

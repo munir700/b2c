@@ -309,6 +309,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:previousValue="@{viewModel.state.previousCitizenNumber}"
                         app:validateEmpty="@{true}"
                         app:validateMaxLength="@{30}"
                         app:validateMinLength="@{1}"
@@ -324,8 +325,8 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
-                    app:hintTextAppearance="@style/LabelTextStyl"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_first_name_heading"
+                    app:hintTextAppearance="@style/LabelTextStyl"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEIdHeading">
@@ -348,7 +349,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:previousValue='@{"Hiral"}'
+                        app:previousValue="@{viewModel.state.previousFirstName}"
                         app:validateEmpty="@{true}"
                         app:validateType='@{"firstname"}'
                         tools:text="Nada Hassan" />
@@ -372,13 +373,13 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvMiddleName"
                         style="@style/Large"
-                        android:tag="tvMiddleName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:tag="tvMiddleName"
                         android:text="@={viewModel.state.middleName}"
                         android:theme="@style/Theme.EditText.Primary"
                         android:visibility="@{viewModel.state.isShowMiddleName? View.VISIBLE : View.GONE}"
@@ -388,6 +389,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:previousValue="@{viewModel.state.previousMiddleName}"
                         app:validateMaxLength="@{30}"
                         tools:text="Noor" />
 
@@ -411,13 +413,13 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvLastName"
                         style="@style/Large"
-                        android:tag="tvLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:tag="tvLastName"
                         android:text="@={viewModel.state.lastName}"
                         android:theme="@style/Theme.EditText.Primary"
                         android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
@@ -427,6 +429,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:previousValue="@{viewModel.state.previousLastName}"
                         tools:text="Hassan" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -448,13 +451,13 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvNationality"
                         style="@style/Large"
-                        android:tag="tvNationality"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
                         android:maxLength="@integer/eid_nationality_length"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:tag="tvNationality"
                         android:text="@={viewModel.state.nationality}"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
@@ -463,6 +466,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:previousValue="@{viewModel.state.previousNationality}"
                         app:validateEmpty="@{true}"
                         app:validateMaxLength="@{30}"
                         app:validateMinLength="@{3}"
@@ -486,11 +490,11 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvDOB"
                         style="@style/Large"
-                        android:tag="tvDOB"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:tag="dob"
                         android:text="@{viewModel.state.dateOfBirth}"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
@@ -500,6 +504,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:previousValue="@{viewModel.state.previousDateOfBirth}"
                         app:validateEmpty="@{true}"
                         tools:text="01/01/1979" />
 
@@ -522,11 +527,11 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvGender"
                         style="@style/Large"
-                        android:tag="tvGender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:tag="tvGender"
                         android:text="@{viewModel.state.gender}"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
@@ -536,6 +541,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:previousValue="@{viewModel.state.previousGender}"
                         app:validateEmpty="@{true}"
                         tools:text="Female" />
 
@@ -558,11 +564,11 @@
                     <co.yap.widgets.edittext.EditTextRichDrawable
                         android:id="@+id/tvExpiryDate"
                         style="@style/Large"
-                        android:tag="tvExpiryDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
+                        android:tag="tvExpiryDate"
                         android:text="@{viewModel.state.expiryDate}"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
@@ -572,6 +578,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
+                        app:previousValue="@{viewModel.state.previousExpiryDate}"
                         app:validateEmpty="@{true}"
                         tools:text="01/01/2019" />
 

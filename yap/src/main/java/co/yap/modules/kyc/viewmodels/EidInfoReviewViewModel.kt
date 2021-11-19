@@ -32,6 +32,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import kotlinx.coroutines.delay
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -40,7 +41,8 @@ import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
-    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,Validator.ValidationListener  {
+    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
+    Validator.ValidationListener {
     override var validator: Validator? = Validator(null)
     override val repository: CustomersRepository
         get() = CustomersRepository
@@ -59,6 +61,10 @@ class EidInfoReviewViewModel(application: Application) :
         super.onCreate()
         getSectionedCountriesList()
         mockDataForScreen()
+        mockServerDataForKYC()
+        if (parentViewModel?.amendmentMap != null) {
+            getKYCDataFromServer()
+        }
         validator?.setValidationListener(this)
         parentViewModel?.identity?.let { populateState(it) }
     }
@@ -74,6 +80,35 @@ class EidInfoReviewViewModel(application: Application) :
         identity.nationality = "Indian"
         identity.givenName = "Hiral Joshi"
         parentViewModel?.identity = identity
+    }
+
+    private fun mockServerDataForKYC() {
+        launch {
+            delay(1500)
+            state.previousFirstName = "Hiral"
+            state.previousMiddleName = ""
+            state.previousLastName = "Joshi"
+            state.previousNationality = "Indian"
+            state.previousDateOfBirth = DateUtils.dateToString(
+                DateUtils.stringToDate("1986-03-19", "yyyy-MM-dd"), "dd/MM/yyyy",
+                DateUtils.TIME_ZONE_Default
+            )
+            val gender = "M"
+            state.previousGender = if (gender.equals(
+                    "M",
+                    true
+                )
+            ) getString(Strings.screen_b2c_eid_info_review_display_text_gender_male) else getString(
+                Strings.screen_b2c_eid_info_review_display_text_gender_female
+            )
+            state.previousExpiryDate = DateUtils.dateToString(
+                DateUtils.stringToDate("2021-12-15", "yyyy-MM-dd"), "dd/MM/yyyy",
+                DateUtils.TIME_ZONE_Default
+            )
+            state.previousCitizenNumber = "784198653158182"
+            delay(500)
+            validator?.toValidate()
+        }
     }
 
     override fun handlePressOnView(id: Int) {
@@ -233,6 +268,45 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+    private fun getKYCDataFromServer() {
+        launch {
+            when (val response = repository.getCustomerKYCData(SessionManager.user?.uuid ?: "")) {
+                is RetroApiResponse.Success -> {
+                    /*state.previousFirstName = response.data.data?.firstName
+                    state.previousMiddleName = response.data.data?.lastName
+                    state.previousLastName = response.data.data?.lastName*/
+                    splitLastNamesForPrepopulateData(response.data.data?.fullName ?: "")
+                    state.previousNationality = response.data.data?.nationality
+                    response.data.data?.dob?.let {
+                        state.previousDateOfBirth = DateUtils.dateToString(
+                            DateUtils.stringToDate(it, "yyyy-MM-dd"), "dd/MM/yyyy",
+                            DateUtils.TIME_ZONE_Default
+                        )
+                    }
+                    state.previousGender = if (response.data.data?.gender.equals(
+                            "M",
+                            true
+                        )
+                    ) getString(Strings.screen_b2c_eid_info_review_display_text_gender_male) else getString(
+                        Strings.screen_b2c_eid_info_review_display_text_gender_female
+                    )
+                    response.data.data?.dateExpiry?.let {
+                        state.previousExpiryDate = DateUtils.dateToString(
+                            DateUtils.stringToDate(it, "yyyy-MM-dd"), "dd/MM/yyyy",
+                            DateUtils.TIME_ZONE_Default
+                        )
+                    }
+                    state.previousCitizenNumber = response.data.data?.identityNo
+                    delay(500)
+                    validator?.toValidate()
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
     fun performUploadDocumentsRequest(
         fromInformationErrorFragment: Boolean,
         success: (message: String) -> Unit
@@ -329,6 +403,29 @@ class EidInfoReviewViewModel(application: Application) :
                 state.firstName
             }
         })
+    }
+
+    private fun splitLastNamesForPrepopulateData(lastNames: String) {
+        val parts = lastNames.trim().split(" ")
+        state.previousFirstName = parts[0]
+        when {
+            parts.size == 2 -> {
+                state.previousLastName = parts[1]
+            }
+            parts.size > 2 -> {
+                state.previousLastName = ""
+                state.previousMiddleName = parts[1]
+                var x = 2
+                while (x < parts.size) {
+                    if (state.previousLastName?.isEmpty() == true) {
+                        state.previousLastName = parts[x]
+                    } else {
+                        state.previousLastName = state.previousLastName + " " + parts[x]
+                    }
+                    x++
+                }
+            }
+        }
     }
 
     private fun splitLastNames(lastNames: String) {

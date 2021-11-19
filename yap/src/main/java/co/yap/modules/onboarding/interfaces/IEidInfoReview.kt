@@ -33,6 +33,16 @@ interface IEidInfoReview {
         var isShowLastName: ObservableBoolean
         var dobCalendar: Calendar
         var expiryCalendar: Calendar
+
+        // Previous Data
+        var previousFirstName: String?
+        var previousMiddleName: String?
+        var previousLastName: String?
+        var previousNationality: String?
+        var previousDateOfBirth: String?
+        var previousGender: String?
+        var previousExpiryDate: String?
+        var previousCitizenNumber: String?
     }
 
     interface View : IBase.View<ViewModel> {
