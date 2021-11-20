@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputFilter.LengthFilter
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -30,6 +31,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.DateUtils.dateToString
+import co.yap.yapcore.helpers.EidFilter
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
@@ -55,9 +57,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*val map : HashMap<String?, List<String>?> = hashMapOf()
-        map["eidInfo"] = listOf<String>("dob", "")
-        viewModel.parentViewModel?.amendmentMap = map*/
+        // TODO Remove onCreate Method for Mocking
+        val map : HashMap<String?, List<String>?> = hashMapOf()
+        map["eidInfo"] = listOf<String>("IDNumber", "")
+        viewModel.parentViewModel?.amendmentMap = map
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,6 +68,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         getDataBindingView<ActivityEidInfoReviewBinding>().lifecycleOwner = this
         viewModel.validator?.targetViewBinding = getDataBindingView<ActivityEidInfoReviewBinding>()
         viewModel.validator?.toValidate()
+        getDataBindingView<ActivityEidInfoReviewBinding>().tvEidNumber.filters =
+            arrayOf(
+                LengthFilter(18),
+                EidFilter(intArrayOf(3, 8, 16), '-')
+            )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

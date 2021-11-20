@@ -18,7 +18,7 @@ class MissingInfoFragmentViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
     override val missingInfoMap: MutableLiveData<HashMap<String?, List<String>?>> =
-        MutableLiveData()
+        MutableLiveData(hashMapOf())
 
     override fun onCreate() {
         super.onCreate()

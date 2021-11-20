@@ -25,7 +25,8 @@ class ErrorHighlightAmendmentFieldRule(
             it.values.toList().forEach { it ->
                 it?.forEach {
                     if (view?.tag == it && previousValue != null && view.text.toString()
-                            .trim() == previousValue
+                            .trim().isNotBlank() && view.text.toString()
+                            .trim().replace("-", "") == previousValue
                     ) {
                         return false
                     }

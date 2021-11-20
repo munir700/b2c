@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
@@ -34,29 +35,39 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
     private val onClickView = Observer<Int> {
         when (it) {
             R.id.btnGetStarted -> {
-                if (viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true) {
-                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,type = FeatureSet.UPDATE_EID) {
-                        putExtra(
-                            Constants.name,
-                            SessionManager.user?.currentCustomer?.firstName.toString()
-                        )
-                        putExtra(Constants.data, true)
-                        putExtra(
-                            Constants.KYC_AMENDMENT_MAP,
-                            viewModel.missingInfoMap.value
+                when {
+                    viewModel.missingInfoMap.value?.isEmpty() == true -> {
+                        launchActivity<YapDashboardActivity>()
+                        requireActivity().finish()
+                    }
+                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true -> {
+                        launchActivity<DocumentsDashboardActivity>(
+                            requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                            type = FeatureSet.UPDATE_EID
+                        ) {
+                            putExtra(
+                                Constants.name,
+                                SessionManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(Constants.data, false) // TODO make is true for real and false for mocking
+                            putExtra(
+                                Constants.KYC_AMENDMENT_MAP,
+                                viewModel.missingInfoMap.value
+                            )
+                        }
+                    }
+                    else -> {
+                        startActivity(
+                            LocationSelectionActivity.newIntent(
+                                context = requireContext(),
+                                address = SessionManager.userAddress ?: Address(),
+                                headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                                subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                                onBoarding = true,
+                                missingInfoMap = viewModel.missingInfoMap.value
+                            )
                         )
                     }
-                } else {
-                    startActivity(
-                        LocationSelectionActivity.newIntent(
-                            context = requireContext(),
-                            address = SessionManager.userAddress ?: Address(),
-                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
-                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
-                            onBoarding = true,
-                            missingInfoMap = viewModel.missingInfoMap.value
-                        )
-                    )
                 }
             }
             R.id.tvDoItLater -> {

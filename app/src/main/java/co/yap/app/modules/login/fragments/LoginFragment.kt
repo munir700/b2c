@@ -93,7 +93,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
         // TODO Remove
-        /*tvSignUp.setOnClick {
+        tvSignUp.setOnClick {
             launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                 putExtra(
                     Constants.name,
@@ -101,7 +101,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 )
                 putExtra(Constants.data, false)
             }
-        }*/
+        }
     }
 
     override fun onDestroy() {

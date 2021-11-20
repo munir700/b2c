@@ -60,9 +60,10 @@ class EidInfoReviewViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getSectionedCountriesList()
+        // TODO Remove mocking
         mockDataForScreen()
         mockServerDataForKYC()
-        if (parentViewModel?.amendmentMap != null) {
+        if (!parentViewModel?.amendmentMap.isNullOrEmpty()) {
             getKYCDataFromServer()
         }
         validator?.setValidationListener(this)
@@ -84,7 +85,8 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun mockServerDataForKYC() {
         launch {
-            delay(1500)
+            delay(3000)
+            state.previousCitizenNumber = "784198653158182"
             state.previousFirstName = "Hiral"
             state.previousMiddleName = ""
             state.previousLastName = "Joshi"
@@ -102,10 +104,9 @@ class EidInfoReviewViewModel(application: Application) :
                 Strings.screen_b2c_eid_info_review_display_text_gender_female
             )
             state.previousExpiryDate = DateUtils.dateToString(
-                DateUtils.stringToDate("2021-12-15", "yyyy-MM-dd"), "dd/MM/yyyy",
+                DateUtils.stringToDate("2023-06-28", "yyyy-MM-dd"), "dd/MM/yyyy",
                 DateUtils.TIME_ZONE_Default
             )
-            state.previousCitizenNumber = "784198653158182"
             delay(500)
             validator?.toValidate()
         }
@@ -270,8 +271,10 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun getKYCDataFromServer() {
         launch {
+            state.loading = true
             when (val response = repository.getCustomerKYCData(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
+                    state.loading = false
                     /*state.previousFirstName = response.data.data?.firstName
                     state.previousMiddleName = response.data.data?.lastName
                     state.previousLastName = response.data.data?.lastName*/
@@ -301,6 +304,7 @@ class EidInfoReviewViewModel(application: Application) :
                     validator?.toValidate()
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                 }
             }
