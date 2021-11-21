@@ -19,6 +19,10 @@ class EidFilter(val dashes: IntArray, val characterToReplace: Char) : InputFilte
         dstart: Int,
         dend: Int
     ): CharSequence? {
+        // Remove Manual Entry of "-" from keyboard
+        if(source.toString().trim() == "-") {
+            return source.toString().subSequence(0, end - 1)
+        }
         if (dest != null && dest.toString().trim { it <= ' ' }.length > maxLength) {
             return null
         }
