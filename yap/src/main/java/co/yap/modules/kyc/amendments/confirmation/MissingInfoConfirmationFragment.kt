@@ -1,5 +1,7 @@
 package co.yap.modules.kyc.amendments.confirmation
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -30,15 +32,24 @@ class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirma
     private fun initArguments() {
         arguments?.let { bundle ->
             viewModel.state.subTitle.set(bundle.getString(Constants.CONFIRMATION_DESCRIPTION))
-            viewModel.state.missingInfoMap = bundle.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
+            viewModel.state.missingInfoMap =
+                bundle.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         }
     }
 
     private val onClickView = Observer<Int> {
         when (it) {
             R.id.btnDone -> {
+                setIntentResult()
             }
         }
+    }
+
+    private fun setIntentResult() {
+        val intent = Intent()
+        intent.putExtra(Constants.KYC_AMENDMENT_SUCCESS, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 
     override fun onDestroyView() {

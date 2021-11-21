@@ -44,7 +44,6 @@ import kotlinx.android.synthetic.main.activity_eid_info_review.*
 import java.io.File
 import java.util.*
 
-
 class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View,
     View.OnFocusChangeListener {
 
@@ -55,14 +54,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // TODO Remove onCreate Method for Mocking
-        val map : HashMap<String?, List<String>?> = hashMapOf()
-        map["eidInfo"] = listOf<String>("IDNumber", "")
-        viewModel.parentViewModel?.amendmentMap = map
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<ActivityEidInfoReviewBinding>().lifecycleOwner = this
@@ -70,7 +61,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         viewModel.validator?.toValidate()
         getDataBindingView<ActivityEidInfoReviewBinding>().tvEidNumber.filters =
             arrayOf(
-                LengthFilter(18),
+                LengthFilter(resources.getInteger(R.integer.eid_length)),
                 EidFilter(intArrayOf(3, 8, 16), '-')
             )
     }
@@ -206,12 +197,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     SessionManager.onAccountInfoSuccess.observe(
                         viewLifecycleOwner,
                         Observer { isSuccess ->
-                            if (viewModel.parentViewModel?.amendmentMap != null) {
-                                navigateToAmendmentSuccess()
-                            }
                             if (isSuccess) {
-                                viewModel.parentViewModel?.finishKyc?.value =
-                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                if (!viewModel.parentViewModel?.amendmentMap.isNullOrEmpty()) {
+                                    navigateToAmendmentSuccess()
+                                } else {
+                                    viewModel.parentViewModel?.finishKyc?.value =
+                                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                }
                             } else {
                                 showToast("Accounts info failed")
                                 viewModel.parentViewModel?.finishKyc?.value =

@@ -311,8 +311,7 @@
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
                         app:previousValue="@{viewModel.state.previousCitizenNumber}"
                         app:validateEmpty="@{true}"
-                        app:validateMaxLength="@{30}"
-                        app:validateMinLength="@{1}"
+                        app:validateMinLength="@{@integer/eid_length}"
                         tools:text="Emirates ID" />
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
