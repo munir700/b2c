@@ -67,7 +67,8 @@ interface CustomersRetroService {
         @Part("dob") dob: RequestBody,
         @Part("fullName") fullName: RequestBody,
         @Part("gender") gender: RequestBody,
-        @Part("identityNo") identityNo: RequestBody
+        @Part("identityNo") identityNo: RequestBody,
+        @Part("isAmendment") isAmendment: RequestBody
     ): Response<ApiResponse>
 
     // Get Documents

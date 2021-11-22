@@ -212,6 +212,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                     identityNo = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         identityNo
+                    ),
+                    isAmendment = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        if (isAmendment) "true" else "false"
                     )
                 )
             })

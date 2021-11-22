@@ -332,7 +332,8 @@ class EidInfoReviewViewModel(application: Application) :
                         nationality = it.isoCountryCode3Digit.toUpperCase(),
                         identityNo = it.citizenNumber,
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
-                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
+                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
+                        isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
                     )
 
                     state.loading = true
