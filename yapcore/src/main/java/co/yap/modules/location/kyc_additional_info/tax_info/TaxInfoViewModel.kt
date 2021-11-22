@@ -254,39 +254,71 @@ class TaxInfoViewModel(application: Application) :
             when (val response = repository.getAmendmentsTaxInfo(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
 
-//                    response.data.data?.isAmendment
-                    state.toast = response.data.data?.taxInformationDetails?.get(0)?.country ?: ""
+                    var taxCountriesList = response.data.data?.taxInformationDetails
 
-//                    if (response.data.data?.taxInformationDetails != null) {
-//                        var sizeOftaxInformationDetails =
-//                            response.data.data.taxInformationDetails.size
-//                        for (i in 0..sizeOftaxInformationDetails) {
+                    if (taxCountriesList != null) {
+                        for (i in 0 until taxCountriesList!!.size) {
+
+//                            if (!taxCountriesList.get(i)?.country.equals("United Arab Emirates")) {
+//                                taxInfoList.add(
+//                                    TaxModel(
+//                                        countries = parentViewModel?.countries ?: arrayListOf(),
+//                                        reasons = reasonsList,
+//                                        options = options,
+//                                        canAddMore = ObservableField(false),
+//                                        taxRowNumber = ObservableField(false),
+//                                        taxRowTitle = ObservableField(rowTitles[i]),
+//                                        selectedCountry = parentViewModel?.countries?.find {
+//                                            it.getName()
+//                                                .equals(taxCountriesList.get(i)?.country ?: "")
+//                                        }
+//                                    )
+//                                )
+//                                taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
+//                            }
+
+//                            if (!taxCountriesList.get(i)?.country.equals("United Arab Emirates")) {
+//                                taxInfoList.add(
+//                                    TaxModel(
+//                                        countries = parentViewModel?.countries ?: arrayListOf(),
+//                                        reasons = reasonsList,
+//                                        options = options,
+//                                        canAddMore = ObservableField(false),
+//                                        taxRowNumber = ObservableField(false),
+//                                        taxRowTitle = ObservableField(rowTitles[i]),
+//                                        selectedCountry = parentViewModel?.countries?.find {
+//                                            it.getName()
+//                                                .equals(taxCountriesList.get(i)?.country ?: "")
+//                                        },
+//                                        tinNumber = ObservableField("3987874"),
+//                                        selectedOption = ObservableField("Yes")
 //
-//                        }
-//
-//                        createModel(
-//                            reasonsList,
-//                            options,
-//                            ObservableField(rowTitles[taxInfoList.size])
-//                        )
-//                        createModel(
-//                            reasonsList,
-//                            options,
-//                            ObservableField(rowTitles[taxInfoList.size])
-//                        )
-//                        //  state.valid.set(isTaxInfoValid(taxInfoList))
-////                        taxInfoList.add(
-////                            TaxModel(
-////                                countries = parentViewModel?.countries ?: arrayListOf(),
-////                                reasons = reasonsList,
-////                                options = options,
-////                                canAddMore = ObservableField(taxInfoList.size in 0..1),
-////                                taxRowNumber = ObservableField(taxInfoList.isNotEmpty()),
-////                                taxRowTitle = title,
-////                                selectedCountry = if (taxInfoList.size in 0..0) parentViewModel?.countries?.first { country -> country.isoCountryCode2Digit == "AE" } else null
-////                            )
-////                        )
-//                    }
+//                                    )
+//                                )
+//                                taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
+//                            }
+
+
+
+                        }
+                    }
+
+                        taxInfoList.add(
+                            TaxModel(
+                                countries = parentViewModel?.countries ?: arrayListOf(),
+                                reasons = reasonsList,
+                                options = options,
+                                canAddMore = ObservableField(false),
+                                taxRowNumber = ObservableField(false),
+                                taxRowTitle = ObservableField(rowTitles[0]),
+                                selectedCountry = parentViewModel?.countries?.get(2),
+                                tinNumber = ObservableField("3987874"),
+                                selectedOption = ObservableField("Yes")
+
+                            )
+                        )
+                        taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
+
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
