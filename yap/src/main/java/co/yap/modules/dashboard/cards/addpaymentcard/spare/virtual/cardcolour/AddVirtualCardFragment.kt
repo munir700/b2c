@@ -5,8 +5,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddVirtualCardBinding
@@ -130,6 +132,11 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
                 navigate(action)
             }
         }
+    }
+
+    fun navigateToLanding(){
+        val action =  AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToSpareCardLandingFragment("AddVirtualCardFragment")
+        findNavController().navigate(action)
     }
 
     override fun removeObservers() {

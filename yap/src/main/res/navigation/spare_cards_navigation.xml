@@ -11,6 +11,10 @@
         android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.SpareCardLandingFragment"
         android:label="@string/screen_spare_card_landing_display_text_title"
         tools:layout="@layout/fragment_spare_card_landing">
+        <argument
+            android:name="landedFrom"
+            android:defaultValue=" "
+            app:argType="string" />
 
         <action
             android:id="@+id/action_spareCardLandingFragment_to_benefitsFragment"
@@ -26,6 +30,9 @@
         <action
             android:id="@+id/action_spareCardLandingFragment_to_addVirtualCardFragment"
             app:destination="@id/addVirtualCardFragment" />
+        <action
+            android:id="@+id/action_spareCardLandingFragment_to_addVirtualCardNameFragment"
+            app:destination="@id/addVirtualCardNameFragment" />
 
     </fragment>
 
@@ -79,6 +86,17 @@
             app:exitAnim="@anim/slide_out_to_bottom"
             app:popEnterAnim="@anim/slide_in_from_bottom"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_addSpareCardFragment_to_spareCardLandingFragment"
+            app:destination="@+id/spareCardLandingFragment"
+            app:popUpTo="@id/spareCardLandingFragment"
+            app:popUpToInclusive="true">
+            <argument
+                android:name="landedFrom"
+                android:defaultValue=" "
+                app:argType="string" />
+        </action>
+
 
     </fragment>
 
@@ -165,6 +183,17 @@
         <action
             android:id="@+id/action_addVirtualCardFragment_to_addVirtualCardNameFragment"
             app:destination="@id/addVirtualCardNameFragment" />
+        <action
+            android:id="@+id/action_addVirtualCardFragment_to_spareCardLandingFragment"
+            app:destination="@+id/spareCardLandingFragment"
+            app:popUpTo="@id/spareCardLandingFragment"
+            app:popUpToInclusive="true">
+            <argument
+                android:name="landedFrom"
+                android:defaultValue=" "
+                app:argType="string" />
+        </action>
+
     </fragment>
 
     <fragment
@@ -175,7 +204,16 @@
         <action
             android:id="@+id/action_addVirtualCardNameFragment_to_addSpareCardFragment"
             app:destination="@+id/addSpareCardFragment" />
-
+        <action
+            android:id="@+id/action_addVirtualCardNameFragment_to_spareCardLandingFragment"
+            app:destination="@+id/spareCardLandingFragment"
+            app:popUpTo="@id/spareCardLandingFragment"
+            app:popUpToInclusive="true">
+            <argument
+                android:name="landedFrom"
+                android:defaultValue=" "
+                app:argType="string" />
+        </action>
     </fragment>
 
 </navigation>

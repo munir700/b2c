@@ -72,7 +72,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tvSpareCardTile"
                     app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"
-                    app:text="@{Strings.screen_spare_card_landing_display_text_description}"
+                    android:text="@{String.format(@string/screen_spare_card_landing_display_text_description,viewModel.state.virtualCardFee)}"
                     tools:text="@string/screen_spare_card_landing_display_text_description" />
 
                 <TextView
