@@ -144,7 +144,7 @@ class POBSelectionViewModel(application: Application) :
                     } else {
                         state.dualNationalityOption.value = 1
                         val selectedSecondCountry: Country? =
-                            parentViewModel?.countries?.find { it.isoCountryCode2Digit == response.data.data?.homeCountry ?: "" }
+                            parentViewModel?.countries?.find { it.isoCountryCode2Digit == response.data.data?.dualNationality ?: "" }
                         state.selectedSecondCountry.set(selectedSecondCountry)
                         state.validate()
                     }
