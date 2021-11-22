@@ -38,7 +38,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:lottie_autoPlay="false"
                     app:lottie_fileName="card_stack.json"
-                    app:lottie_loop="false"/>
+                    app:lottie_loop="false" />
 
                 <ImageView
                     android:id="@+id/ivVirtualCard"
@@ -69,12 +69,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_normal"
+                    android:text="@{String.format(@string/screen_spare_card_landing_display_text_description,viewModel.state.virtualCardFee)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tvSpareCardTile"
                     app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"
                     app:text="@{Strings.screen_spare_card_landing_display_text_description}"
-                    tools:text="@string/screen_spare_card_landing_display_text_description"
-                    android:text="@{String.format(@string/screen_spare_card_landing_display_text_description,viewModel.state.virtualCardFee)}"/>
+                    tools:text="@string/screen_spare_card_landing_display_text_description" />
 
                 <TextView
                     android:id="@+id/tvSpareCardFee"
