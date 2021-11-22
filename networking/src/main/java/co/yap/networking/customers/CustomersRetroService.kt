@@ -233,7 +233,7 @@ interface CustomersRetroService {
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
     @GET(CustomersRepository.URL_AMENDMENTS_TAX_INFO)
-    suspend fun getAmendmentsTaxInfo(): Response<BaseResponse<TaxInfoAmendmentResponse>>
+    suspend fun getAmendmentsTaxInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<TaxInfoAmendmentResponse>>
 
     @GET(CustomersRepository.URL_GET_ALL_CURRENCIES)
     suspend fun getAllCurrencies(): Response<CurrenciesResponse>

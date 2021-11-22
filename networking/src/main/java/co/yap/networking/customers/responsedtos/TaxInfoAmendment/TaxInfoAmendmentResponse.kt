@@ -22,6 +22,8 @@ data class TaxInfoAmendmentResponse(
         @SerializedName("reasonInCaseNoTin")
         val reasonInCaseNoTin: String? = null,
         @SerializedName("tinAvailable")
-        val tinAvailable: Boolean? = null
+        val tinAvailable: Boolean? = null,
+        @SerializedName("tinNumber")
+        val tinNumber: Any? = null
     )
 }

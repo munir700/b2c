@@ -234,6 +234,7 @@ class TaxInfoViewModel(application: Application) :
                                 addOIndex = false
                             ) as ArrayList<Country>
                         )
+                        getAmendmentsTaxInfo()
                     }
 
                     is RetroApiResponse.Error -> {
@@ -250,10 +251,42 @@ class TaxInfoViewModel(application: Application) :
 
     override fun getAmendmentsTaxInfo() {
         launch {
-            when (val response = repository.getAmendmentsTaxInfo()) {
+            when (val response = repository.getAmendmentsTaxInfo(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
 
 //                    response.data.data?.isAmendment
+                    state.toast = response.data.data?.taxInformationDetails?.get(0)?.country ?: ""
+
+//                    if (response.data.data?.taxInformationDetails != null) {
+//                        var sizeOftaxInformationDetails =
+//                            response.data.data.taxInformationDetails.size
+//                        for (i in 0..sizeOftaxInformationDetails) {
+//
+//                        }
+//
+//                        createModel(
+//                            reasonsList,
+//                            options,
+//                            ObservableField(rowTitles[taxInfoList.size])
+//                        )
+//                        createModel(
+//                            reasonsList,
+//                            options,
+//                            ObservableField(rowTitles[taxInfoList.size])
+//                        )
+//                        //  state.valid.set(isTaxInfoValid(taxInfoList))
+////                        taxInfoList.add(
+////                            TaxModel(
+////                                countries = parentViewModel?.countries ?: arrayListOf(),
+////                                reasons = reasonsList,
+////                                options = options,
+////                                canAddMore = ObservableField(taxInfoList.size in 0..1),
+////                                taxRowNumber = ObservableField(taxInfoList.isNotEmpty()),
+////                                taxRowTitle = title,
+////                                selectedCountry = if (taxInfoList.size in 0..0) parentViewModel?.countries?.first { country -> country.isoCountryCode2Digit == "AE" } else null
+////                            )
+////                        )
+//                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

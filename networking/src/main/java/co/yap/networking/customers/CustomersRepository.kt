@@ -370,8 +370,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
-    override suspend fun getAmendmentsTaxInfo(): RetroApiResponse<BaseResponse<TaxInfoAmendmentResponse>> =
-        executeSafely(call = { api.getAmendmentsTaxInfo() })
+    override suspend fun getAmendmentsTaxInfo(accountUuid: String): RetroApiResponse<BaseResponse<TaxInfoAmendmentResponse>> =
+        executeSafely(call = { api.getAmendmentsTaxInfo(accountUuid) })
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
         executeSafely(call = { api.getAllCurrencies() })
