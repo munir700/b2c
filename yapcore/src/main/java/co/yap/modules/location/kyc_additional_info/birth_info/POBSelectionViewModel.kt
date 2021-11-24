@@ -70,7 +70,7 @@ class POBSelectionViewModel(application: Application) :
                             populateSpinnerData.value =
                                 parentViewModel?.countries?.filter { it.isoCountryCode2Digit != SessionManager.homeCountry2Digit } as ArrayList<Country>
                             state.viewState.value = false
-                            getAmendmentsBirthInfo()
+                            if (isFromAmendment()) getAmendmentsBirthInfo()
                         }
 
                         is RetroApiResponse.Error -> {
@@ -134,7 +134,7 @@ class POBSelectionViewModel(application: Application) :
 
                     val selectedCountry: Country? =
                         parentViewModel?.countries?.find { it.isoCountryCode2Digit == response.data.data?.countryOfBirth ?: "" }
-                        state.selectedCountry.set(selectedCountry)
+                    state.selectedCountry.set(selectedCountry)
 
                     state.cityOfBirth.set(response.data.data?.cityOfBirth ?: "")
                     state.isDualNational.set(response.data.data?.isDualNationality ?: true)
@@ -155,4 +155,6 @@ class POBSelectionViewModel(application: Application) :
             }
         }
     }
+    //check if Amendment exist or not
+    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }

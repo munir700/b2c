@@ -29,7 +29,7 @@ interface IPOBSelection {
         val dualNationalityQuestionOptions: ArrayList<String>
         fun canSkipFragment(): Boolean
         fun getAmendmentsBirthInfo()
-
+        fun isFromAmendment(): Boolean
     }
 
     interface State : IBase.State {
