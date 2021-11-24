@@ -1,4 +1,4 @@
-package co.yap.networking.customers.responsedtos.TaxInfoAmendment
+package co.yap.networking.customers.responsedtos.taxInfoAmendment
 
 
 import co.yap.networking.models.ApiResponse

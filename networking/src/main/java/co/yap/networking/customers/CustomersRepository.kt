@@ -5,7 +5,7 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
-import co.yap.networking.customers.responsedtos.TaxInfoAmendment.TaxInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.taxInfoAmendment.TaxInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
@@ -19,8 +19,6 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.notification.NotificationsRepository
-import co.yap.networking.notification.responsedtos.NotificationSettings
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
