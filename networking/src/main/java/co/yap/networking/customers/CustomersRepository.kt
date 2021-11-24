@@ -477,34 +477,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         })
 
     override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
-        //return  executeSafely(call = {  api.getMissingInfoList(accountUuid) })
-        val missingFields = ArrayList<AmendmentFields>()
-        missingFields.add(
-            AmendmentFields(
-                AmendmentSection.EID_INFO.value,
-                mutableListOf("firstName", "lastName", "BirthCountry")
-            )
-        )
-        missingFields.add(
-            AmendmentFields(
-                AmendmentSection.BIRTH_INFO.value,
-                mutableListOf("countryOfBirth", "cityOfBirth", "isDualNationality", "nationalityId")
-            )
-        )
-        missingFields.add(
-            AmendmentFields(
-                AmendmentSection.TAX_INFO.value,
-                mutableListOf("country", "secondCountry", "tinNumber", "secondTinNumber")
-            )
-        )
-        missingFields.add(
-            AmendmentFields(
-                AmendmentSection.EMPLOYMENT_INFO.value,
-                mutableListOf("employmentStatus", "employerName", "monthlySalary")
-            )
-        )
-        val response: BaseListResponse<AmendmentFields> = BaseListResponse()
-        response.data = missingFields
-        return RetroApiResponse.Success(200, response)
+        return  executeSafely(call = {  api.getMissingInfoList(accountUuid) })
     }
 }

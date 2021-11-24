@@ -152,7 +152,7 @@ class LocationSelectionViewModel(application: Application) :
     }
 
     override fun canSkipFragment() =
-        SessionManager.user?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name
+        parentViewModel?.isOnBoarding == true && SessionManager.user?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name
                 || SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
                 || SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
                 || parentViewModel?.amendmentMap?.isNullOrEmpty() == false

@@ -56,7 +56,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel.parentViewModel?.isOnBoarding == true && viewModel.canSkipFragment()) {
+        if (viewModel.canSkipFragment()) {
             skipLocationSelectionFragment()
         } else {
             setObservers()
@@ -64,6 +64,9 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if(viewModel.canSkipFragment()) {
+            return
+        }
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
             when (SessionManager.user?.notificationStatuses) {
