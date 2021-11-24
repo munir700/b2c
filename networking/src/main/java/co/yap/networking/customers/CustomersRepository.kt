@@ -3,6 +3,7 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
+import co.yap.networking.customers.responsedtos.birthInfoAmendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -17,6 +18,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
@@ -98,6 +100,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
     const val URL_BIRTH_INFO = "customers/api/customer-birth-info"
     const val URL_TAX_INFO = "customers/api/tax-information"
+    const val URL_AMENDMENTS_Birth_INFO = "customers/api/customer-birth-info"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
     const val URL_GET_QR_CONTACT = "customers/api/customers-info"
@@ -370,6 +373,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
+
+    override suspend fun getAmendmentsBirthInfo(accountUuid: String): RetroApiResponse<BaseResponse<BirthInfoAmendmentResponse>> =
+        executeSafely(call = { api.getAmendmentsBirthInfo(accountUuid) })
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
         executeSafely(call = { api.getAllCurrencies() })
