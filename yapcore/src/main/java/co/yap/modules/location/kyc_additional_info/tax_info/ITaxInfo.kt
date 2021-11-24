@@ -33,7 +33,7 @@ interface ITaxInfo {
         var taxInfoAdaptor: TaxInfoAdaptor
         fun canSkipFragment(): Boolean
         fun getAmendmentsTaxInfo()
-
+        fun isFromAmendment(): Boolean
     }
 
     interface State : IBase.State {
