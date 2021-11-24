@@ -1,4 +1,4 @@
-package co.yap.networking.customers.responsedtos.birthInfoamendment
+package co.yap.networking.customers.responsedtos.birthinfoamendment
 
 
 import co.yap.networking.models.ApiResponse

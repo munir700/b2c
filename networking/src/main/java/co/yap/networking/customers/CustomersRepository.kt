@@ -3,7 +3,7 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.responsedtos.birthInfoamendment.BirthInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
