@@ -2,7 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
-import co.yap.networking.customers.responsedtos.birthInfoAmendment.BirthInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.birthInfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
