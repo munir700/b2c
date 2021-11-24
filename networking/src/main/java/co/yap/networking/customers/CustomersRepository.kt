@@ -3,20 +3,20 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
-import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
-import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
+import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
+import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
@@ -494,7 +494,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         })
 
     override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
-        return  executeSafely(call = {  api.getMissingInfoList(accountUuid) })
+        return executeSafely(call = { api.getMissingInfoList(accountUuid) })
     }
 
     override suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<EIDDocumentsResponse> {
