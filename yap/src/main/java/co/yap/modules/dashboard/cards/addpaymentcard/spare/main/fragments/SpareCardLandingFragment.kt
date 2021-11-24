@@ -96,10 +96,14 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
             when (it) {
                 R.id.addSpareCard -> {
                     args?.let { arg->
-                        when (arg.landedFrom){
-                            "AddVirtualCardFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
-                            "AddVirtualCardNameFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardNameFragment())
-                            "AddSpareCardFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(cardType = "",isFromBlockCard = false))
+                        if(arg.landedFrom.isNotEmpty()){
+                            when (arg.landedFrom){
+                                "AddVirtualCardFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
+                                "AddVirtualCardNameFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardNameFragment())
+                                "AddSpareCardFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(cardType = "",isFromBlockCard = false))
+                            }
+                        }else{
+                            setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
                         }
                     }?:setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
                      //gotoAddVirtualCardScreen()
