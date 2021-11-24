@@ -1527,6 +1527,8 @@ object Strings {
 
     // KYC Amendment Strings
     const val kyc_incorrect_field = "kyc_incorrect_field"
+    const val eid_info_review_screen_select_nationality: String =
+        "eid_info_review_screen_select_nationality"
 
 
     //House hold screen

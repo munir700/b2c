@@ -49,7 +49,6 @@ project.ext {
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",
             rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
             datePicker               : "com.wdullaer:materialdatetimepicker:4.2.3",
-            fragmentExtensions       : "androidx.fragment:fragment-ktx:1.3.0-alpha04",
 
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
@@ -209,8 +208,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.playservicesAuth],
             [configuration: "implementation", dependency: libraries.playservicesAuthPhone],
             [configuration: "implementation", dependency: libraries.lotieAnimation],
-            [configuration: "implementation", dependency: libraries.datePicker],
-            [configuration: "implementation", dependency: libraries.fragmentExtensions]
+            [configuration: "implementation", dependency: libraries.datePicker]
 
     ]
 

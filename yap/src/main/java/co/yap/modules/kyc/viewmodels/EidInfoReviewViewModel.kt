@@ -3,8 +3,10 @@ package co.yap.modules.kyc.viewmodels
 import android.app.Application
 import android.text.TextUtils
 import android.view.View
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.countryutils.country.Country
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -17,6 +19,7 @@ import co.yap.widgets.State
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.DrawablePosition
 import co.yap.widgets.edittext.OnDrawableClickListener
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
@@ -56,13 +59,17 @@ class EidInfoReviewViewModel(application: Application) :
     override var errorBody: String = ""
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
+    override var countries: ArrayList<Country> = ArrayList()
+    override var populateNationalitySpinnerData: MutableLiveData<ArrayList<Country>> =
+        MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
+        getAllCountries()
         getSectionedCountriesList()
         // TODO Remove mocking
-        mockDataForScreen()
-        mockServerDataForKYC()
+        //mockDataForScreen()
+        //mockServerDataForKYC()
         if (!parentViewModel?.amendmentMap.isNullOrEmpty()) {
             getKYCDataFromServer()
         }
@@ -80,6 +87,8 @@ class EidInfoReviewViewModel(application: Application) :
         identity.gender = Gender.Male
         identity.nationality = "Indian"
         identity.givenName = "Hiral Joshi"
+        identity.isoCountryCode2Digit = "IN"
+        identity.isoCountryCode3Digit = "IND"
         parentViewModel?.identity = identity
     }
 
@@ -269,15 +278,32 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+    override fun getAllCountries() {
+        launch(Dispatcher.Background) {
+            val response = repository.getAllCountries()
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        populateNationalitySpinnerData.value =
+                            Utils.parseCountryList(response.data.data, addOIndex = false)
+                        countries =
+                            populateNationalitySpinnerData.value as ArrayList<Country>
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
+                    }
+                }
+            }
+        }
+    }
+
     private fun getKYCDataFromServer() {
         launch {
             state.loading = true
             when (val response = repository.getCustomerKYCData(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    /*state.previousFirstName = response.data.data?.firstName
-                    state.previousMiddleName = response.data.data?.lastName
-                    state.previousLastName = response.data.data?.lastName*/
                     splitLastNamesForPrepopulateData(response.data.data?.fullName ?: "")
                     state.previousNationality = response.data.data?.nationality
                     response.data.data?.dob?.let {
@@ -325,12 +351,17 @@ class EidInfoReviewViewModel(application: Application) :
                         firstName = state.firstName,
                         middleName = if (state.middleName.isNotBlank()) state.middleName else null,
                         lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                        dateExpiry = it.expirationDate,
-                        dob = it.dateOfBirth,
+                        //dateExpiry = it.expirationDate,
+                        dateExpiry = state.expiryCalendar.time,
+                        //dob = it.dateOfBirth,
+                        dob = state.dobCalendar.time,
                         fullName = getFullName(),
-                        gender = it.gender.mrz.toString(),
-                        nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo = it.citizenNumber,
+                        //gender = it.gender.mrz.toString(),
+                        gender = if(state.gender == Gender.Male.name) Gender.Male.mrz.toString() else Gender.Female.mrz.toString(),
+                        //nationality = it.isoCountryCode3Digit.toUpperCase(),
+                        nationality = state.nationality.get()?.isoCountryCode3Digit ?: "",
+                        //identityNo = it.citizenNumber,
+                        identityNo = state.citizenNumber.replace("-", ""),
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
                         isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
@@ -469,9 +500,9 @@ class EidInfoReviewViewModel(application: Application) :
         identity?.let {
             splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
-            state.nationality = it.nationality
+            state.nationality.set(countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit })
             state.nationalityValid =
-                state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
+                state.nationality.get() != null && !state.nationality.equals("USA")
             state.dateOfBirth =
                 DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
             state.dateOfBirthValid = it.isDateOfBirthValid
@@ -537,7 +568,7 @@ class EidInfoReviewViewModel(application: Application) :
         state.firstName = ""
         state.middleName = ""
         state.lastName = ""
-        state.nationality = ""
+        //state.nationality = ObservableField()
         state.dateOfBirth = ""
         state.gender = ""
         state.citizenNumber = ""

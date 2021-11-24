@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.countryutils.country.Country
 import co.yap.databinding.ActivityEidInfoReviewBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
@@ -33,6 +34,7 @@ import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.EidFilter
 import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -83,7 +85,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         tvFirstName.onFocusChangeListener = this
         tvMiddleName.onFocusChangeListener = this
         tvLastName.onFocusChangeListener = this
-        tvNationality.onFocusChangeListener = this
     }
 
     private fun addObservers() {
@@ -121,8 +122,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 R.id.tvNationality -> {
-                    disableEndDrawable(tvNationality)
-                    manageFocus(tvNationality)
+                    launchBottomSheet(
+                        itemClickListener = selectCountryItemClickListener,
+                        label = getString(Strings.screen_place_of_birth_display_text_select_country),
+                        viewType = Constants.VIEW_WITH_FLAG,
+                        countriesList = viewModel.countries
+                    )
                 }
 
                 R.id.tvDOB -> {
@@ -242,8 +247,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             tvEidNumber,
             tvFirstName,
             tvMiddleName,
-            tvLastName,
-            tvNationality
+            tvLastName
         )
         list.forEach {
             it.setDrawableEndVectorId(
@@ -438,7 +442,15 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         if (!hasFocus) {
             disableEndDrawable(null)
         } else {
-            disableEndDrawable(v as EditTextRichDrawable?)
+            val editText = v as EditTextRichDrawable?
+            disableEndDrawable(editText)
+            editText?.setSelection(editText.length())
+        }
+    }
+
+    private val selectCountryItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.state.nationality.set(data as Country)
         }
     }
 }

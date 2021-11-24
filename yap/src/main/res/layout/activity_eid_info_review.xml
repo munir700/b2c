@@ -457,11 +457,12 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:tag="Nationality"
-                        android:text="@={viewModel.state.nationality}"
+                        android:text='@{viewModel.state.nationality != null ? viewModel.state.nationality.name : ""}'
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
                         app:drawableEndVector="@drawable/ic_edit"
+                        app:editable="@{false}"
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"

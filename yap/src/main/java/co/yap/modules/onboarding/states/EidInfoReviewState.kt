@@ -2,6 +2,8 @@ package co.yap.modules.onboarding.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import co.yap.countryutils.country.Country
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
@@ -42,13 +44,6 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.lastName)
-        }
-
-    @get:Bindable
-    override var nationality: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.nationality)
         }
 
     @get:Bindable
@@ -125,6 +120,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var isShowLastName: ObservableBoolean = ObservableBoolean(false)
     override var dobCalendar: Calendar = Calendar.getInstance()
     override var expiryCalendar: Calendar = Calendar.getInstance()
+    override var nationality: ObservableField<Country?> = ObservableField()
 
     @get:Bindable
     override var previousFirstName: String? = null
@@ -174,7 +170,6 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             field = value
             notifyPropertyChanged(BR.previousExpiryDate)
         }
-
     @get:Bindable
     override var previousCitizenNumber: String? = null
         set(value) {
