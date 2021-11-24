@@ -155,7 +155,9 @@ class TaxInfoViewModel(application: Application) :
                     taxInfoList.size in 0..1
                 ),
                 //CONDITION PERFORMED on the bases of Amendment data
-                taxRowNumber = if (isFromAmendment()) ObservableField(false) else ObservableField(taxInfoList.isNotEmpty()) ,
+                taxRowNumber = if (isFromAmendment()) ObservableField(false) else ObservableField(
+                    taxInfoList.isNotEmpty()
+                ),
                 taxRowTitle = title,
                 selectedCountry = if (taxInfoList.size in 0..0) parentViewModel?.countries?.first { country -> country.isoCountryCode2Digit == "AE" } else null
             )
@@ -238,9 +240,8 @@ class TaxInfoViewModel(application: Application) :
                                 addOIndex = false
                             ) as ArrayList<Country>
                         )
-                        getAmendmentsTaxInfo()
+                        if (isFromAmendment()) getAmendmentsTaxInfo()
                     }
-
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message
                     }
@@ -323,7 +324,8 @@ class TaxInfoViewModel(application: Application) :
             }
         }
     }
-//check if Amendment exist or not
+
+    //check if Amendment exist or not
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 
 }
