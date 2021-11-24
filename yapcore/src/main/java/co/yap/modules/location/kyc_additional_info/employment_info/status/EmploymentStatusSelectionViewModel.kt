@@ -6,7 +6,6 @@ import android.widget.CheckedTextView
 import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -98,15 +97,6 @@ class EmploymentStatusSelectionViewModel(application: Application) :
         }
     }
 
-    override fun getAmendmentsEmploymentInfo() {
-        launch {
-            when (val response = repository.getAmendmentsEmploymentInfo()) {
-                is RetroApiResponse.Success -> {
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }
+    override fun canSkipFragment() =
+        parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }

@@ -1,6 +1,6 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.responsedtos.EmploymentAmendment.EmploymentInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -121,6 +121,6 @@ interface CustomersApi {
     suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
     suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>>
-    suspend fun getAmendmentsEmploymentInfo(): RetroApiResponse<EmploymentInfoAmendmentResponse>
+    suspend fun getAmendmentsEmploymentInfo(accountUuid: String): RetroApiResponse<EmploymentInfoAmendmentResponse>
 
 }

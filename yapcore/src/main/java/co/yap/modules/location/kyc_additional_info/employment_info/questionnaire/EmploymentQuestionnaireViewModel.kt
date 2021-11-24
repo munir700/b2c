@@ -3,6 +3,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.questionnair
 import android.app.Application
 import android.view.View
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.filterSelectedIsoCodes
@@ -31,6 +32,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
@@ -46,9 +48,18 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
+    override var employmentStatusValue: MutableLiveData<co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus> =
+        MutableLiveData()
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        if (hasAmendmentMap()) {
+            getAmendmentsEmploymentInfo()
+        }
     }
 
     override fun onResume() {
@@ -67,8 +78,12 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         }
     }
 
-    override fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields> {
-        val questionnairesComposer: ComplianceQuestionsItemsComposer = KYCComplianceComposer()
+    override fun questionnaires(
+        forStatus: EmploymentStatus,
+        defaultValue: co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus?
+    ): ArrayList<QuestionUiFields> {
+        val questionnairesComposer: ComplianceQuestionsItemsComposer =
+            KYCComplianceComposer(defaultValue)
         return questionnairesComposer.compose(forStatus)
     }
 
@@ -315,7 +330,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     expectedMonthlyCredit = getDataForPosition(2).getAnswer()
                 )
             }
-            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED,EmploymentStatus.SELF_EMPLOYED -> {
+            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
@@ -352,5 +367,28 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun getDataForPosition(position: Int): QuestionUiFields {
         return questionsList[position]
+    }
+
+    override fun hasAmendmentMap() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+
+    override fun getAmendmentsEmploymentInfo() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.getAmendmentsEmploymentInfo(SessionManager.user?.uuid ?: "")) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    response.data.data?.let {
+                        employmentStatus = EmploymentStatus.valueOf(it.status ?: "")
+                        isDataRequiredFromApi(employmentStatus)
+                        employmentStatusValue.value = it
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
     }
 }

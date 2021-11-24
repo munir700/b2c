@@ -1,6 +1,5 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.responsedtos.EmploymentAmendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -10,6 +9,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesRe
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
@@ -109,7 +109,10 @@ interface CustomersRetroService {
 
     @Multipart
     @POST(CustomersRepository.URL_DETECT)
-    suspend fun uploadIdCard(@Part fileFront: MultipartBody.Part, @Part fileBack: MultipartBody.Part): Response<KycResponse>
+    suspend fun uploadIdCard(
+        @Part fileFront: MultipartBody.Part,
+        @Part fileBack: MultipartBody.Part
+    ): Response<KycResponse>
 
     @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
     suspend fun getY2YBeneficiaries(@Body contacts: List<Contact>): Response<Y2YBeneficiariesResponse>
@@ -232,7 +235,7 @@ interface CustomersRetroService {
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
     @GET(CustomersRepository.URL_AMENDMENTS_Employment_INFO)
-    suspend fun getAmendmentsEmploymentInfo(): Response<EmploymentInfoAmendmentResponse>
+    suspend fun getAmendmentsEmploymentInfo(@Query("accountUuid") accountUuid: String): Response<EmploymentInfoAmendmentResponse>
 
     @GET(CustomersRepository.URL_GET_ALL_CURRENCIES)
     suspend fun getAllCurrencies(): Response<CurrenciesResponse>

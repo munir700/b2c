@@ -3,7 +3,7 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.responsedtos.EmploymentAmendment.EmploymentInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -367,8 +367,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
-    override suspend fun getAmendmentsEmploymentInfo(): RetroApiResponse<EmploymentInfoAmendmentResponse> =
-        executeSafely(call = { api.getAmendmentsEmploymentInfo() })
+    override suspend fun getAmendmentsEmploymentInfo(accountUuid: String): RetroApiResponse<EmploymentInfoAmendmentResponse> =
+        executeSafely(call = { api.getAmendmentsEmploymentInfo(accountUuid) })
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
         executeSafely(call = { api.getAllCurrencies() })

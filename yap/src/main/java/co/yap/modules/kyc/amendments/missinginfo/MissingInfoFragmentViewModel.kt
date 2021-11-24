@@ -31,14 +31,16 @@ class MissingInfoFragmentViewModel(application: Application) :
             when (val response =
                 repository.getMissingInfoList(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
-                    val list:MutableList<String> = mutableListOf()
+                    val list: MutableList<String> = mutableListOf()
                     val map = HashMap<String?, List<String>?>()
                     response.data.data?.forEach {
-                        if(it.amendments?.isNotEmpty()==true) {
+                        if (it.amendments?.isNotEmpty() == true) {
                             map[it.sectionName] = it.amendments
-                            list.addAll(it.amendments?: emptyList())
+                            list.addAll(it.amendments ?: emptyList())
                         }
                     }
+                    //map.remove("eidInfo")
+                    //map.remove("taxInfo")
                     missingInfoMap.value = map
                     adapter.get()?.setData(list)
                     state.loading = false

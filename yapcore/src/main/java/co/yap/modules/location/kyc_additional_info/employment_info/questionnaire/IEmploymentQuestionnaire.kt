@@ -1,6 +1,7 @@
 package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.EmploymentType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
@@ -28,8 +29,13 @@ interface IEmploymentQuestionnaire {
         var employmentStatus: EmploymentStatus
         val selectedBusinessCountries: ObservableField<ArrayList<String>>
         var questionsList: ArrayList<QuestionUiFields>
+        var employmentStatusValue: MutableLiveData<co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus>
         fun handleOnPressView(id: Int)
-        fun questionnaires(forStatus: EmploymentStatus):ArrayList<QuestionUiFields>
+        fun questionnaires(
+            forStatus: EmploymentStatus,
+            defaultValue: co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus?
+        ): ArrayList<QuestionUiFields>
+
         fun employmentTypes(): MutableList<EmploymentType>
         fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
         fun setBusinessCountries(
@@ -55,8 +61,10 @@ interface IEmploymentQuestionnaire {
         fun getEmploymentInfoRequest(
             status: EmploymentStatus
         ): EmploymentInfoRequest
-        fun getDataForPosition(position:Int):QuestionUiFields
 
+        fun getDataForPosition(position: Int): QuestionUiFields
+        fun hasAmendmentMap(): Boolean
+        fun getAmendmentsEmploymentInfo()
     }
 
     interface State : IBase.State {
