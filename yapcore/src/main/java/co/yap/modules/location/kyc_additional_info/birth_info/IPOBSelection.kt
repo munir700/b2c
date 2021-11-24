@@ -28,7 +28,6 @@ interface IPOBSelection {
         val dualNatioanlitySpinnerItemClickListener: OnItemClickListener
         val dualNationalityQuestionOptions: ArrayList<String>
         fun canSkipFragment(): Boolean
-        fun getAmendmentsBirthInfo()
     }
 
     interface State : IBase.State {

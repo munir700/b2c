@@ -3,6 +3,7 @@ package co.yap.networking.customers
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
@@ -112,10 +113,7 @@ interface CustomersRetroService {
 
     @Multipart
     @POST(CustomersRepository.URL_DETECT)
-    suspend fun uploadIdCard(
-        @Part fileFront: MultipartBody.Part,
-        @Part fileBack: MultipartBody.Part
-    ): Response<KycResponse>
+    suspend fun uploadIdCard(@Part fileFront: MultipartBody.Part, @Part fileBack: MultipartBody.Part): Response<KycResponse>
 
     @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
     suspend fun getY2YBeneficiaries(@Body contacts: List<Contact>): Response<Y2YBeneficiariesResponse>
@@ -239,6 +237,9 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_AMENDMENTS_Birth_INFO)
     suspend fun getAmendmentsBirthInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<BirthInfoAmendmentResponse>>
+
+    @GET(CustomersRepository.URL_AMENDMENTS_TAX_INFO)
+    suspend fun getAmendmentsTaxInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<TaxInfoAmendmentResponse>>
 
     @GET(CustomersRepository.URL_GET_ALL_CURRENCIES)
     suspend fun getAllCurrencies(): Response<CurrenciesResponse>

@@ -36,7 +36,9 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         itemTaxInfoBinding.executePendingBindings()
 
         //Disable TIN for UAE
-        itemTaxInfoBinding.optionsSpinner.setSelection(if (position == 0) taxModel.options.indexOfFirst { it == "No" } else 0)
+        itemTaxInfoBinding.optionsSpinner.setSelection(if (position == 0) taxModel.options.indexOfFirst { it == "No" } else if (taxModel.selectedOption.get()
+                .equals("Yes")
+        ) taxModel.options.indexOfFirst { it == "Yes" } else 0)
         itemTaxInfoBinding.optionsSpinner.background =
             if (position == 0) itemTaxInfoBinding.reasonsSpinner.context.getDrawable(R.drawable.bg_spinner_empty) else itemTaxInfoBinding.reasonsSpinner.context.getDrawable(
                 R.drawable.bg_spinner

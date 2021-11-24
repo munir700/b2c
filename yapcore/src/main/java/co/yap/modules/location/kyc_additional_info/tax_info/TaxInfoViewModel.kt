@@ -150,8 +150,12 @@ class TaxInfoViewModel(application: Application) :
                 countries = parentViewModel?.countries ?: arrayListOf(),
                 reasons = reasons,
                 options = options,
-                canAddMore = ObservableField(taxInfoList.size in 0..1),
-                taxRowNumber = ObservableField(taxInfoList.isNotEmpty()),
+                //CONDITION PERFORMED on the bases of Amendment data
+                canAddMore = if (isFromAmendment()) ObservableField(false) else ObservableField(
+                    taxInfoList.size in 0..1
+                ),
+                //CONDITION PERFORMED on the bases of Amendment data
+                taxRowNumber = if (isFromAmendment()) ObservableField(false) else ObservableField(taxInfoList.isNotEmpty()) ,
                 taxRowTitle = title,
                 selectedCountry = if (taxInfoList.size in 0..0) parentViewModel?.countries?.first { country -> country.isoCountryCode2Digit == "AE" } else null
             )
@@ -234,6 +238,7 @@ class TaxInfoViewModel(application: Application) :
                                 addOIndex = false
                             ) as ArrayList<Country>
                         )
+                        getAmendmentsTaxInfo()
                     }
 
                     is RetroApiResponse.Error -> {
@@ -247,5 +252,78 @@ class TaxInfoViewModel(application: Application) :
     override fun canSkipFragment() =
         SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
                 || parentViewModel?.amendmentMap?.contains(AmendmentSection.TAX_INFO.value) == false
+
+    //Fetch data from api for Amendment data
+    override fun getAmendmentsTaxInfo() {
+        launch {
+            when (val response = repository.getAmendmentsTaxInfo(SessionManager.user?.uuid ?: "")) {
+                is RetroApiResponse.Success -> {
+
+                    var taxCountriesList = response.data.data?.taxInformationDetails
+
+                    if (taxCountriesList != null) {
+                        for (i in 0 until taxCountriesList!!.size) {
+                            //set Amendment data into views
+
+                            if (!taxCountriesList.get(i)?.country.equals("United Arab Emirates")) {
+                                taxInfoList.add(
+                                    TaxModel(
+                                        countries = parentViewModel?.countries ?: arrayListOf(),
+                                        reasons = reasonsList,
+                                        options = options,
+                                        canAddMore = ObservableField(false),
+                                        taxRowNumber = ObservableField(false),
+                                        taxRowTitle = ObservableField(rowTitles[i]),
+                                        selectedCountry = parentViewModel?.countries?.find {
+                                            it.getName()
+                                                .equals(taxCountriesList.get(i)?.country ?: "")
+                                        }
+                                    )
+                                )
+                                taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
+                            }
+
+                        }
+                    }
+// TODO REMOVE MOCK DATA
+
+//                    taxInfoList.add(
+//                        TaxModel(
+//                            countries = parentViewModel?.countries ?: arrayListOf(),
+//                            reasons = reasonsList,
+//                            options = options,
+//                            canAddMore = ObservableField(false),
+//                            taxRowNumber = ObservableField(false),
+//                            taxRowTitle = ObservableField(rowTitles[1]),
+//                            selectedCountry = parentViewModel?.countries?.get(2),
+//                            tinNumber = ObservableField("3987874"),
+//                            selectedOption = ObservableField("Yes")
+//
+//                        )
+//                    )
+//                    taxInfoList.add(
+//                        TaxModel(
+//                            countries = parentViewModel?.countries ?: arrayListOf(),
+//                            reasons = reasonsList,
+//                            options = options,
+//                            canAddMore = ObservableField(false),
+//                            taxRowNumber = ObservableField(false),
+//                            taxRowTitle = ObservableField(rowTitles[2]),
+//                            selectedCountry = parentViewModel?.countries?.get(3),
+//                            selectedOption = ObservableField("No")
+//
+//                        )
+//                    )
+//                    taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+//check if Amendment exist or not
+    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 
 }

@@ -6,6 +6,7 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
@@ -101,6 +102,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_BIRTH_INFO = "customers/api/customer-birth-info"
     const val URL_TAX_INFO = "customers/api/tax-information"
     const val URL_AMENDMENTS_Birth_INFO = "customers/api/customer-birth-info"
+    const val URL_AMENDMENTS_TAX_INFO = "customers/api/tax-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
     const val URL_GET_QR_CONTACT = "customers/api/customers-info"
@@ -376,6 +378,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getAmendmentsBirthInfo(accountUuid: String): RetroApiResponse<BaseResponse<BirthInfoAmendmentResponse>> =
         executeSafely(call = { api.getAmendmentsBirthInfo(accountUuid) })
+
+    override suspend fun getAmendmentsTaxInfo(accountUuid: String): RetroApiResponse<BaseResponse<TaxInfoAmendmentResponse>> =
+        executeSafely(call = { api.getAmendmentsTaxInfo(accountUuid) })
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
         executeSafely(call = { api.getAllCurrencies() })
