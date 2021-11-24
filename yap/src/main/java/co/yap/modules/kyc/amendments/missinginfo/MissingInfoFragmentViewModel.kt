@@ -39,6 +39,9 @@ class MissingInfoFragmentViewModel(application: Application) :
                             list.addAll(it.amendments ?: emptyList())
                         }
                     }
+                    /*map.remove("eidInfo")
+                    map.remove("birthInfo")
+                    map.remove("taxInfo")*/
                     missingInfoMap.value = map
                     adapter.get()?.setData(list)
                     state.loading = false

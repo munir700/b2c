@@ -13,6 +13,8 @@ object KycAmendmentFieldsMappingHelper {
         map["Nationality"] = "Nationality"
         map["IDExpireyDateNumber"] = "EID expiry"
         map["Gender"] = "Gender"
+        map["FrontImage"] = "Front side of EID"
+        map["BackImage"] = "Back side of EID"
 
         // POB
         map["CountryofBirth"] = "Birth country"
@@ -34,6 +36,7 @@ object KycAmendmentFieldsMappingHelper {
         map["CompanyName"] = "Company name"
         map["IndustrySegment"] = "Industry segment"
         map["CompanyNameListWhereCompanyDoesBusiness"] = "Company business list"
+        map["Country2"] = "Second country"
     }
 
     fun getValueForKey(key: String): String {
