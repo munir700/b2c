@@ -4,6 +4,7 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
@@ -103,6 +104,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_TAX_INFO = "customers/api/tax-information"
     const val URL_AMENDMENTS_Birth_INFO = "customers/api/customer-birth-info"
     const val URL_AMENDMENTS_TAX_INFO = "customers/api/tax-information"
+    const val URL_AMENDMENTS_Employment_INFO = "customers/api/employment-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
     const val URL_GET_QR_CONTACT = "customers/api/customers-info"
@@ -382,6 +384,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getAmendmentsTaxInfo(accountUuid: String): RetroApiResponse<BaseResponse<TaxInfoAmendmentResponse>> =
         executeSafely(call = { api.getAmendmentsTaxInfo(accountUuid) })
 
+    override suspend fun getAmendmentsEmploymentInfo(accountUuid: String): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>> =
+        executeSafely(call = { api.getAmendmentsEmploymentInfo(accountUuid) })
+
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
         executeSafely(call = { api.getAllCurrencies() })
 
@@ -489,7 +494,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         })
 
     override suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>> {
-        return executeSafely(call = { api.getMissingInfoList(accountUuid) })
+        return  executeSafely(call = {  api.getMissingInfoList(accountUuid) })
     }
 
     override suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<EIDDocumentsResponse> {

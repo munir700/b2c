@@ -6,11 +6,12 @@ import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.skeletonlayout.views
@@ -31,22 +32,31 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_employment_questionnaire
     override val viewModel: EmploymentQuestionnaireViewModel
-        get() = ViewModelProviders.of(this).get(EmploymentQuestionnaireViewModel::class.java)
+        get() = ViewModelProvider(this).get(EmploymentQuestionnaireViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
-        viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
-        viewModel.isDataRequiredFromApi(forStatus = viewModel.employmentStatus)
+        if (!viewModel.hasAmendmentMap()) {
+            viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
+            viewModel.isDataRequiredFromApi(forStatus = viewModel.employmentStatus)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initQuestionViews()
+        if (!viewModel.hasAmendmentMap()) {
+            initQuestionViews()
+        }
     }
 
     private fun initQuestionViews() {
-        viewModel.questionsList.addAll(viewModel.questionnaires(viewModel.employmentStatus))
+        viewModel.questionsList.addAll(
+            viewModel.questionnaires(
+                viewModel.employmentStatus,
+                viewModel.employmentStatusValue.value
+            )
+        )
         val questionItemViewHolders = QuestionItemViewHolders(viewModel)
         viewModel.questionsList.forEachIndexed { position, questionUiField ->
             val questionView: View?
@@ -78,6 +88,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         }
     }
 
+    private val employmentStatusLoadedObserver =
+        Observer<EmploymentInfoAmendmentResponse> {
+            initQuestionViews()
+        }
+
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.rvQuestionItemListener.onItemClick(view, data, pos)
@@ -96,7 +111,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                                 onBusinessCountriesSelection(data as ArrayList<String>)
                                 viewModel.validate()
                             }
-                        },configuration = BottomSheetConfiguration(
+                        }, configuration = BottomSheetConfiguration(
                             heading = "Add all the countries your company does business with:",
                             showSearch = true,
                             showHeaderSeparator = true
@@ -150,10 +165,12 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.employmentStatusValue.observe(this, employmentStatusLoadedObserver)
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
+        viewModel.employmentStatusValue.removeObserver(employmentStatusLoadedObserver)
     }
 
     override fun onDestroy() {

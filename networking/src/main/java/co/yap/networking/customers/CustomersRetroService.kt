@@ -12,6 +12,7 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeRespons
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
@@ -240,6 +241,9 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_AMENDMENTS_TAX_INFO)
     suspend fun getAmendmentsTaxInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<TaxInfoAmendmentResponse>>
+
+    @GET(CustomersRepository.URL_AMENDMENTS_Employment_INFO)
+    suspend fun getAmendmentsEmploymentInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<EmploymentInfoAmendmentResponse>>
 
     @GET(CustomersRepository.URL_GET_ALL_CURRENCIES)
     suspend fun getAllCurrencies(): Response<CurrenciesResponse>
