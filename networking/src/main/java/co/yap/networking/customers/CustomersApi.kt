@@ -2,7 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
-import co.yap.networking.customers.responsedtos.taxInfoAmendment.TaxInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.taxInfoamendment.TaxInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
