@@ -120,5 +120,6 @@ interface CustomersApi {
     suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
     suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>>
+    suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<ApiResponse>
 
 }

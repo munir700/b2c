@@ -559,6 +559,7 @@
         <item name="colorControlNormal">@color/greyLight</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 
     <style name="Theme.EditText.GreySoft" parent="CoreAppTheme">
@@ -716,6 +717,39 @@
     <style name="ShapeAppearance.App.CircleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="hintTextAppearance">@style/Yap.Widget.App.TextInputLayout.TextAppearance.Hint
+        </item>
+        <item name="hintTextColor">@color/greyDark</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="errorTextAppearance">@style/Yap.Widget.App.TextInputLayout.TextAppearance.Error
+        </item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="errorEnabled">false</item>
+    </style>
+
+    <style name="Yap.Widget.App.TextInputLayout.TextAppearance.Hint" parent="TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+    </style>
+
+    <style name="Yap.Widget.App.TextInputLayout.TextAppearance.Error" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/error</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+
     </style>
 
 </resources>

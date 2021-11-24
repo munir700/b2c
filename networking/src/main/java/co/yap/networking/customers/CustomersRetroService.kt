@@ -8,6 +8,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesR
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -15,7 +16,6 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
-import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -67,7 +67,8 @@ interface CustomersRetroService {
         @Part("dob") dob: RequestBody,
         @Part("fullName") fullName: RequestBody,
         @Part("gender") gender: RequestBody,
-        @Part("identityNo") identityNo: RequestBody
+        @Part("identityNo") identityNo: RequestBody,
+        @Part("isAmendment") isAmendment: RequestBody
     ): Response<ApiResponse>
 
     // Get Documents
@@ -109,7 +110,10 @@ interface CustomersRetroService {
 
     @Multipart
     @POST(CustomersRepository.URL_DETECT)
-    suspend fun uploadIdCard(@Part fileFront: MultipartBody.Part, @Part fileBack: MultipartBody.Part): Response<KycResponse>
+    suspend fun uploadIdCard(
+        @Part fileFront: MultipartBody.Part,
+        @Part fileBack: MultipartBody.Part
+    ): Response<KycResponse>
 
     @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
     suspend fun getY2YBeneficiaries(@Body contacts: List<Contact>): Response<Y2YBeneficiariesResponse>
@@ -304,4 +308,8 @@ interface CustomersRetroService {
     // Get Missing Info
     @GET(CustomersRepository.URL_GET_AMENDMENT_FIELDS)
     suspend fun getMissingInfoList(@Query("accountUuid") accountUuid: String): Response<BaseListResponse<AmendmentFields>>
+
+    //Get Customer KYC Data
+    @GET(CustomersRepository.URL_GET_CUSTOMER_KYC_DOCUMENTS)
+    suspend fun getCustomerKYCData(@Query("accountUuid") accountUuid: String): Response<EIDDocumentsResponse>
 }

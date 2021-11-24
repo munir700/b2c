@@ -2,8 +2,11 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import android.view.View
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.countryutils.country.Country
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -13,11 +16,17 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.State
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.edittext.DrawablePosition
+import co.yap.widgets.edittext.OnDrawableClickListener
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -26,6 +35,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import kotlinx.coroutines.delay
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -34,8 +44,9 @@ import java.util.*
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
-    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository> {
-
+    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
+    Validator.ValidationListener {
+    override var validator: Validator? = Validator(null)
     override val repository: CustomersRepository
         get() = CustomersRepository
 
@@ -48,11 +59,66 @@ class EidInfoReviewViewModel(application: Application) :
     override var errorBody: String = ""
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
+    override var countries: ArrayList<Country> = ArrayList()
+    override var populateNationalitySpinnerData: MutableLiveData<ArrayList<Country>> =
+        MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
+        getAllCountries()
         getSectionedCountriesList()
+        // TODO Remove mocking
+        //mockDataForScreen()
+        //mockServerDataForKYC()
+        if (!parentViewModel?.amendmentMap.isNullOrEmpty()) {
+            getKYCDataFromServer()
+        }
+        validator?.setValidationListener(this)
         parentViewModel?.identity?.let { populateState(it) }
+    }
+
+    private fun mockDataForScreen() {
+        val identity = Identity()
+        identity.citizenNumber = "784198653158182"
+        identity.expirationDate =
+            DateUtils.stringToDate("230628", "yyMMdd")
+        identity.dateOfBirth =
+            DateUtils.stringToDate("860319", "yyMMdd")
+        identity.gender = Gender.Male
+        identity.nationality = "Indian"
+        identity.givenName = "Hiral Joshi"
+        identity.isoCountryCode2Digit = "IN"
+        identity.isoCountryCode3Digit = "IND"
+        parentViewModel?.identity = identity
+    }
+
+    private fun mockServerDataForKYC() {
+        launch {
+            delay(3000)
+            state.previousCitizenNumber = "784198653158182"
+            state.previousFirstName = "Hiral"
+            state.previousMiddleName = ""
+            state.previousLastName = "Joshi"
+            state.previousNationality = "Indian"
+            state.previousDateOfBirth = DateUtils.dateToString(
+                DateUtils.stringToDate("1986-03-19", "yyyy-MM-dd"), "dd/MM/yyyy",
+                DateUtils.TIME_ZONE_Default
+            )
+            val gender = "M"
+            state.previousGender = if (gender.equals(
+                    "M",
+                    true
+                )
+            ) getString(Strings.screen_b2c_eid_info_review_display_text_gender_male) else getString(
+                Strings.screen_b2c_eid_info_review_display_text_gender_female
+            )
+            state.previousExpiryDate = DateUtils.dateToString(
+                DateUtils.stringToDate("2023-06-28", "yyyy-MM-dd"), "dd/MM/yyyy",
+                DateUtils.TIME_ZONE_Default
+            )
+            delay(500)
+            validator?.toValidate()
+        }
     }
 
     override fun handlePressOnView(id: Int) {
@@ -212,6 +278,65 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
+    override fun getAllCountries() {
+        launch(Dispatcher.Background) {
+            val response = repository.getAllCountries()
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        populateNationalitySpinnerData.value =
+                            Utils.parseCountryList(response.data.data, addOIndex = false)
+                        countries =
+                            populateNationalitySpinnerData.value as ArrayList<Country>
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getKYCDataFromServer() {
+        launch {
+            state.loading = true
+            when (val response = repository.getCustomerKYCData(SessionManager.user?.uuid ?: "")) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    splitLastNamesForPrepopulateData(response.data.data?.fullName ?: "")
+                    state.previousNationality = response.data.data?.nationality
+                    response.data.data?.dob?.let {
+                        state.previousDateOfBirth = DateUtils.dateToString(
+                            DateUtils.stringToDate(it, "yyyy-MM-dd"), "dd/MM/yyyy",
+                            DateUtils.TIME_ZONE_Default
+                        )
+                    }
+                    state.previousGender = if (response.data.data?.gender.equals(
+                            "M",
+                            true
+                        )
+                    ) getString(Strings.screen_b2c_eid_info_review_display_text_gender_male) else getString(
+                        Strings.screen_b2c_eid_info_review_display_text_gender_female
+                    )
+                    response.data.data?.dateExpiry?.let {
+                        state.previousExpiryDate = DateUtils.dateToString(
+                            DateUtils.stringToDate(it, "yyyy-MM-dd"), "dd/MM/yyyy",
+                            DateUtils.TIME_ZONE_Default
+                        )
+                    }
+                    state.previousCitizenNumber = response.data.data?.identityNo
+                    delay(500)
+                    validator?.toValidate()
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
     fun performUploadDocumentsRequest(
         fromInformationErrorFragment: Boolean,
         success: (message: String) -> Unit
@@ -226,14 +351,20 @@ class EidInfoReviewViewModel(application: Application) :
                         firstName = state.firstName,
                         middleName = if (state.middleName.isNotBlank()) state.middleName else null,
                         lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                        dateExpiry = it.expirationDate,
-                        dob = it.dateOfBirth,
+                        //dateExpiry = it.expirationDate,
+                        dateExpiry = state.expiryCalendar.time,
+                        //dob = it.dateOfBirth,
+                        dob = state.dobCalendar.time,
                         fullName = getFullName(),
-                        gender = it.gender.mrz.toString(),
-                        nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo = it.citizenNumber,
+                        //gender = it.gender.mrz.toString(),
+                        gender = if(state.gender == Gender.Male.name) Gender.Male.mrz.toString() else Gender.Female.mrz.toString(),
+                        //nationality = it.isoCountryCode3Digit.toUpperCase(),
+                        nationality = state.nationality.get()?.isoCountryCode3Digit ?: "",
+                        //identityNo = it.citizenNumber,
+                        identityNo = state.citizenNumber.replace("-", ""),
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
-                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
+                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
+                        isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
                     )
 
                     state.loading = true
@@ -310,6 +441,29 @@ class EidInfoReviewViewModel(application: Application) :
         })
     }
 
+    private fun splitLastNamesForPrepopulateData(lastNames: String) {
+        val parts = lastNames.trim().split(" ")
+        state.previousFirstName = parts[0]
+        when {
+            parts.size == 2 -> {
+                state.previousLastName = parts[1]
+            }
+            parts.size > 2 -> {
+                state.previousLastName = ""
+                state.previousMiddleName = parts[1]
+                var x = 2
+                while (x < parts.size) {
+                    if (state.previousLastName?.isEmpty() == true) {
+                        state.previousLastName = parts[x]
+                    } else {
+                        state.previousLastName = state.previousLastName + " " + parts[x]
+                    }
+                    x++
+                }
+            }
+        }
+    }
+
     private fun splitLastNames(lastNames: String) {
         val parts = lastNames.trim().split(" ")
         state.firstName = parts[0]
@@ -346,9 +500,9 @@ class EidInfoReviewViewModel(application: Application) :
         identity?.let {
             splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
-            state.nationality = it.nationality
+            state.nationality.set(countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit })
             state.nationalityValid =
-                state.nationality.isNotBlank() && !state.nationality.equals("USA", true)
+                state.nationality.get() != null && !state.nationality.equals("USA")
             state.dateOfBirth =
                 DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
             state.dateOfBirthValid = it.isDateOfBirthValid
@@ -380,6 +534,7 @@ class EidInfoReviewViewModel(application: Application) :
             state.expiryCalendar = Calendar.getInstance().apply {
                 time = it.expirationDate
             }
+            validator?.toValidate()
         }
     }
 
@@ -413,7 +568,7 @@ class EidInfoReviewViewModel(application: Application) :
         state.firstName = ""
         state.middleName = ""
         state.lastName = ""
-        state.nationality = ""
+        //state.nationality = ObservableField()
         state.dateOfBirth = ""
         state.gender = ""
         state.citizenNumber = ""
@@ -434,5 +589,40 @@ class EidInfoReviewViewModel(application: Application) :
         return value?.let {
             return (end in start..it.length)
         } ?: false
+    }
+
+    override val drawableClickListener = object : OnDrawableClickListener {
+        override fun onClick(view: View, target: DrawablePosition) {
+            clickEvent.setValue(view.id)
+        }
+    }
+
+    override fun getGenderOptions(): ArrayList<BottomSheetItem> {
+        val list = arrayListOf<BottomSheetItem>()
+        list.add(
+            BottomSheetItem(
+                icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)) R.drawable.ic_tick else -1,
+                title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male),
+                tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
+            )
+        )
+        list.add(
+            BottomSheetItem(
+                icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)) R.drawable.ic_tick else -1,
+                title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female),
+                tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
+            )
+        )
+        return list
+    }
+
+    override fun onValidationSuccess(validator: Validator) {
+        super.onValidationSuccess(validator)
+        state.valid = validator.isValidate.value == true
+    }
+
+    override fun onValidationError(validator: Validator) {
+        super.onValidationError(validator)
+        state.valid = validator.isValidate.value == false
     }
 }

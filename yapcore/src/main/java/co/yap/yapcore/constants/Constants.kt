@@ -139,6 +139,7 @@ object Constants {
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"
     const val KYC_AMENDMENT_MAP = "kyc_amendment_map"
+    const val KYC_AMENDMENT_SUCCESS = "kyc_amendment_success"
 
     // SharedPreference  Keys
 

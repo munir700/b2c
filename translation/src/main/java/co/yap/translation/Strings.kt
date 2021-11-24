@@ -382,6 +382,8 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_edit_sub_title"
     const val screen_b2c_eid_info_review_display_text_eid_number: String =
         "screen_b2c_eid_info_review_display_text_eid_number"
+    const val screen_b2c_eid_info_review_display_text_select_gender: String =
+        "screen_b2c_eid_info_review_display_text_select_gender"
 
     // KYC SDK
     const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String =
@@ -1522,6 +1524,11 @@ object Strings {
     //Screen funds transfer information custom view
     const val custom_view_funds_transfer_display_text_reference_number_heading: String =
         "custom_view_funds_transfer_display_text_reference_number_heading"
+
+    // KYC Amendment Strings
+    const val kyc_incorrect_field = "kyc_incorrect_field"
+    const val eid_info_review_screen_select_nationality: String =
+        "eid_info_review_screen_select_nationality"
 
 
     //House hold screen

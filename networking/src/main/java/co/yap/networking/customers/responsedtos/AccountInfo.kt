@@ -86,17 +86,3 @@ class AccountInfo(
     var amendmentStatus: String? = null
 
 ) :ApiResponse(), Parcelable
-
-enum class Status(val value: String) {
-    @SerializedName("SUBMIT_TO_ADMIN")
-    SUBMIT_TO_ADMIN("SUBMIT_TO_ADMIN"),
-
-    @SerializedName("SUBMIT_TO_CUSTOMER")
-    SUBMIT_TO_CUSTOMER("SUBMIT_TO_CUSTOMER"),
-
-    @SerializedName("SUBMIT_TO_BANK")
-    SUBMIT_TO_BANK("SUBMIT_TO_BANK"),
-
-    @SerializedName("RECEIVED_FROM_CUSTOMER")
-    RECEIVED_FROM_CUSTOMER("RECEIVED_FROM_CUSTOMER")
-}

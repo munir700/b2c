@@ -1,9 +1,14 @@
 package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.countryutils.country.Country
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.validation.Validator
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.util.*
 
@@ -13,7 +18,7 @@ interface IEidInfoReview {
         var firstName: String
         var middleName: String
         var lastName: String
-        var nationality: String
+        var nationality: ObservableField<Country?>
         var dateOfBirth: String
         var gender: String
         var expiryDate: String
@@ -30,6 +35,16 @@ interface IEidInfoReview {
         var isShowLastName: ObservableBoolean
         var dobCalendar: Calendar
         var expiryCalendar: Calendar
+
+        // Previous Data
+        var previousFirstName: String?
+        var previousMiddleName: String?
+        var previousLastName: String?
+        var previousNationality: String?
+        var previousDateOfBirth: String?
+        var previousGender: String?
+        var previousExpiryDate: String?
+        var previousCitizenNumber: String?
     }
 
     interface View : IBase.View<ViewModel> {
@@ -62,5 +77,11 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
+        val drawableClickListener : OnDrawableClickListener
+        fun getGenderOptions(): ArrayList<BottomSheetItem>
+        var countries: ArrayList<Country>
+        fun getAllCountries()
+        var populateNationalitySpinnerData: MutableLiveData<ArrayList<Country>>
+//        var validator: Validator?
     }
 }

@@ -5,24 +5,26 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
+import android.text.InputFilter.LengthFilter
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.countryutils.country.Country
+import co.yap.databinding.ActivityEidInfoReviewBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
+import co.yap.translation.Strings
 import co.yap.widgets.Status
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -30,8 +32,12 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.DateUtils.dateToString
+import co.yap.yapcore.helpers.EidFilter
 import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
+import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -40,8 +46,8 @@ import kotlinx.android.synthetic.main.activity_eid_info_review.*
 import java.io.File
 import java.util.*
 
-
-class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
+class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View,
+    View.OnFocusChangeListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -49,6 +55,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override val viewModel: EidInfoReviewViewModel
         get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getDataBindingView<ActivityEidInfoReviewBinding>().lifecycleOwner = this
+        viewModel.validator?.targetViewBinding = getDataBindingView<ActivityEidInfoReviewBinding>()
+        viewModel.validator?.toValidate()
+        getDataBindingView<ActivityEidInfoReviewBinding>().tvEidNumber.filters =
+            arrayOf(
+                LengthFilter(resources.getInteger(R.integer.eid_length)),
+                EidFilter(intArrayOf(3, 8, 16), '-')
+            )
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -58,56 +76,73 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
         }
+        addFocusListeners()
         addObservers()
+    }
+
+    private fun addFocusListeners() {
+        tvEidNumber.onFocusChangeListener = this
+        tvFirstName.onFocusChangeListener = this
+        tvMiddleName.onFocusChangeListener = this
+        tvLastName.onFocusChangeListener = this
     }
 
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.ivEditEID, R.id.tvEidNumber -> {
-                    disableImageView(ivEditEID)
-                    manageFocus(tvEidNumber, ivEditEID)
+                R.id.tvEidNumber -> {
+                    disableEndDrawable(tvEidNumber)
+                    manageFocus(tvEidNumber)
                 }
-                R.id.ivEditFirstName, R.id.tvFirstName -> {
-                    disableImageView(ivEditFirstName)
-                    manageFocus(tvFirstName, ivEditFirstName)
+                R.id.tvFirstName -> {
+                    disableEndDrawable(tvFirstName)
+                    manageFocus(tvFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "first_name")
                     )
                 }
 
-                R.id.ivEditMiddleName, R.id.tvMiddleName -> {
-                    disableImageView(ivEditMiddleName)
-                    manageFocus(tvMiddleName, ivEditMiddleName)
+                R.id.tvMiddleName -> {
+                    disableEndDrawable(tvMiddleName)
+                    manageFocus(tvMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "middle_name")
                     )
                 }
 
-                R.id.ivEditLastName, R.id.tvLastName -> {
-                    disableImageView(ivEditLastName)
-                    manageFocus(tvLastName, ivEditLastName)
+                R.id.tvLastName -> {
+                    disableEndDrawable(tvLastName)
+                    manageFocus(tvLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
                     )
                 }
 
-                R.id.ivEditNationality, R.id.tvNationality -> {
-                    disableImageView(ivEditNationality)
-                    manageFocus(tvNationality, ivEditNationality)
+                R.id.tvNationality -> {
+                    launchBottomSheet(
+                        itemClickListener = selectCountryItemClickListener,
+                        label = getString(Strings.screen_place_of_birth_display_text_select_country),
+                        viewType = Constants.VIEW_WITH_FLAG,
+                        countriesList = viewModel.countries
+                    )
                 }
 
-                R.id.ivEditDob, R.id.tvDOB -> {
+                R.id.tvDOB -> {
                     showDateOfBirthPicker(viewModel.state.dobCalendar)
                 }
 
-                R.id.ivEditGender, R.id.tvGender -> {
+                R.id.tvGender -> {
+                    requireActivity().launchSheet(
+                        itemClickListener = genderItemListener,
+                        itemsList = viewModel.getGenderOptions(),
+                        heading = getString(Strings.screen_b2c_eid_info_review_display_text_select_gender)
+                    )
                 }
 
-                R.id.ivEditExpiry, R.id.tvExpiryDate -> {
+                R.id.tvExpiryDate -> {
                     showExpiryDatePicker(viewModel.state.expiryCalendar)
                 }
 
@@ -167,12 +202,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     SessionManager.onAccountInfoSuccess.observe(
                         viewLifecycleOwner,
                         Observer { isSuccess ->
-                            if (viewModel.parentViewModel?.amendmentMap != null) {
-                                navigateToAmendmentSuccess()
-                            }
                             if (isSuccess) {
-                                viewModel.parentViewModel?.finishKyc?.value =
-                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                if (!viewModel.parentViewModel?.amendmentMap.isNullOrEmpty()) {
+                                    navigateToAmendmentSuccess()
+                                } else {
+                                    viewModel.parentViewModel?.finishKyc?.value =
+                                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                }
                             } else {
                                 showToast("Accounts info failed")
                                 viewModel.parentViewModel?.finishKyc?.value =
@@ -206,19 +242,17 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         )
     }
 
-    private fun disableImageView(view: View) {
-        val list = listOf<View>(
-            ivEditEID,
-            ivEditFirstName,
-            ivEditMiddleName,
-            ivEditLastName,
-            ivEditNationality,
-            ivEditDob,
-            ivEditGender,
-            ivEditExpiry
+    private fun disableEndDrawable(view: EditTextRichDrawable?) {
+        val list = listOf<EditTextRichDrawable>(
+            tvEidNumber,
+            tvFirstName,
+            tvMiddleName,
+            tvLastName
         )
-        list.map {
-            it.isEnabled = it != view
+        list.forEach {
+            it.setDrawableEndVectorId(
+                if (view?.id == it.id) R.drawable.ic_edit_disable else R.drawable.ic_edit
+            )
         }
     }
 
@@ -276,8 +310,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun manageFocus(
-        editText: EditText,
-        ivEditName: ImageView
+        editText: EditTextRichDrawable
     ) {
         if (!editText.isFocused) {
             editText.isFocusable = true
@@ -292,24 +325,21 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             )
         }
 
-        editText.setOnFocusChangeListener { v, hasFocus ->
+        /*editText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                ivEditName.isEnabled = true
-                editText.isFocusable = false
-                editText.isFocusableInTouchMode = false
+                disableEndDrawable(null)
+            } else {
+                disableEndDrawable(editText)
             }
-        }
+        }*/
 
-        editText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action === KeyEvent.ACTION_DOWN || keyEvent.action === KeyEvent.KEYCODE_ENTER
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE
             ) {
-                ivEditName.isEnabled = true
-                editText.isFocusable = false
-                editText.isFocusableInTouchMode = false
+                disableEndDrawable(null)
             }
             false
-        })
-
+        }
 
     }
 
@@ -400,5 +430,27 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             File(filePath).deleteRecursively()
         }
         super.onDestroy()
+    }
+
+    private val genderItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.state.gender = (data as BottomSheetItem).tag ?: ""
+        }
+    }
+
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        if (!hasFocus) {
+            disableEndDrawable(null)
+        } else {
+            val editText = v as EditTextRichDrawable?
+            disableEndDrawable(editText)
+            editText?.setSelection(editText.length())
+        }
+    }
+
+    private val selectCountryItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.state.nationality.set(data as Country)
+        }
     }
 }
