@@ -1,6 +1,6 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.responsedtos.BirthInfoAmendment.BirthInfoAmendmentResponse
+import co.yap.networking.customers.responsedtos.birthInfoAmendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
