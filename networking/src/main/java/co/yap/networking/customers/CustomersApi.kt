@@ -5,6 +5,7 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.birthInfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
@@ -13,6 +14,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
@@ -43,7 +45,11 @@ interface CustomersApi {
 
     suspend fun changeVerifiedEmail(email: String): RetroApiResponse<ApiResponse>
     suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse>
-    suspend fun detectCardData(fileFront: MultipartBody.Part, fileBack: MultipartBody.Part): RetroApiResponse<ApiResponse>
+    suspend fun detectCardData(
+        fileFront: MultipartBody.Part,
+        fileBack: MultipartBody.Part
+    ): RetroApiResponse<ApiResponse>
+
     suspend fun getY2YBeneficiaries(contacts: List<Contact>): RetroApiResponse<Y2YBeneficiariesResponse>
     suspend fun getRecentY2YBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
     suspend fun getTopUpBeneficiaries(): RetroApiResponse<TopUpBeneficiariesResponse>
