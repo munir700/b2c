@@ -16,6 +16,7 @@ import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
@@ -48,7 +49,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
-    override var employmentStatusValue: MutableLiveData<co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus> =
+    override var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse> =
         MutableLiveData()
 
     override fun handleOnPressView(id: Int) {
@@ -80,11 +81,11 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun questionnaires(
         forStatus: EmploymentStatus,
-        defaultValue: co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus?
+        defaultValue: EmploymentInfoAmendmentResponse?
     ): ArrayList<QuestionUiFields> {
         val questionnairesComposer: ComplianceQuestionsItemsComposer =
-            KYCComplianceComposer(defaultValue)
-        return questionnairesComposer.compose(forStatus)
+            KYCComplianceComposer()
+        return questionnairesComposer.compose(forStatus, defaultValue)
     }
 
     override fun employmentTypes(): MutableList<EmploymentType> {

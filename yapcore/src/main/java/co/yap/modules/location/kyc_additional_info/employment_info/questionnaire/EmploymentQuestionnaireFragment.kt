@@ -11,6 +11,7 @@ import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.skeletonlayout.views
@@ -88,7 +89,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     }
 
     private val employmentStatusLoadedObserver =
-        Observer<co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus> {
+        Observer<EmploymentInfoAmendmentResponse> {
             initQuestionViews()
         }
 

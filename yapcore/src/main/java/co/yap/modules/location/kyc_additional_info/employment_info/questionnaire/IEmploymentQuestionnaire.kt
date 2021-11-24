@@ -7,6 +7,7 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -29,11 +30,11 @@ interface IEmploymentQuestionnaire {
         var employmentStatus: EmploymentStatus
         val selectedBusinessCountries: ObservableField<ArrayList<String>>
         var questionsList: ArrayList<QuestionUiFields>
-        var employmentStatusValue: MutableLiveData<co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus>
+        var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse>
         fun handleOnPressView(id: Int)
         fun questionnaires(
             forStatus: EmploymentStatus,
-            defaultValue: co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus?
+            defaultValue: EmploymentInfoAmendmentResponse?
         ): ArrayList<QuestionUiFields>
 
         fun employmentTypes(): MutableList<EmploymentType>

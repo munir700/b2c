@@ -16,6 +16,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -235,7 +236,7 @@ interface CustomersRetroService {
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
     @GET(CustomersRepository.URL_AMENDMENTS_Employment_INFO)
-    suspend fun getAmendmentsEmploymentInfo(@Query("accountUuid") accountUuid: String): Response<EmploymentInfoAmendmentResponse>
+    suspend fun getAmendmentsEmploymentInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<EmploymentInfoAmendmentResponse>>
 
     @GET(CustomersRepository.URL_GET_ALL_CURRENCIES)
     suspend fun getAllCurrencies(): Response<CurrenciesResponse>

@@ -4,18 +4,25 @@ import androidx.databinding.ObservableField
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.Question
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.enums.EmploymentStatus.*
 
 
 interface ComplianceQuestionsItemsComposer {
-    fun compose(employmentStatus: EmploymentStatus): ArrayList<QuestionUiFields>
+    fun compose(
+        employmentStatus: EmploymentStatus,
+        status: EmploymentInfoAmendmentResponse?
+    ): ArrayList<QuestionUiFields>
 }
 
-class KYCComplianceComposer(val status: co.yap.networking.customers.responsedtos.employment_amendment.EmploymentStatus?) :
+class KYCComplianceComposer :
     ComplianceQuestionsItemsComposer {
-    override fun compose(employmentStatus: EmploymentStatus): ArrayList<QuestionUiFields> {
+    override fun compose(
+        employmentStatus: EmploymentStatus,
+        status: EmploymentInfoAmendmentResponse?
+    ): ArrayList<QuestionUiFields> {
         return when (employmentStatus) {
             EMPLOYED -> arrayListOf(
                 QuestionUiFields(
