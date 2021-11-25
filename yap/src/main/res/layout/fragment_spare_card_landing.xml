@@ -7,6 +7,10 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel" />
@@ -69,7 +73,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_normal"
-                    android:text="@{String.format(@string/screen_spare_card_landing_display_text_description,viewModel.state.virtualCardFee)}"
+                    android:text="@{String.format(@string/screen_spare_card_landing_display_text_description,CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.virtualCardFee,false,SessionManager.INSTANCE.defaultCurrency,false))}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tvSpareCardTile"
                     app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"
