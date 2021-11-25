@@ -48,6 +48,11 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
         }
     }
 
+    fun navigateToLanding(){
+        val action =  AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToSpareCardLandingFragment("AddVirtualCardNameFragment")
+        findNavController().navigate(action)
+    }
+
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
         viewModel.state.cardName.removeObserver(nameObserver)
