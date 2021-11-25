@@ -380,7 +380,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     response.data.data?.let {
-                        employmentStatus = EmploymentStatus.valueOf(it.status ?: "")
+                        employmentStatus = EmploymentStatus.valueOf(it.employmentStatus ?: "")
                         isDataRequiredFromApi(employmentStatus)
                         employmentStatusValue.value = it
                     }
