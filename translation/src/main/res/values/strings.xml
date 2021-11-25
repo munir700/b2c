@@ -51,6 +51,7 @@
     <string name="common_display_text_percentage">%</string>
     <string name="common_display_one_variables">%1s</string>
     <string name="common_display_text_available_balance_error_without_fee">Uh oh! You’ll need to have a minimum balance of %1s to proceed with this payment. </string>
+    <string name="common_display_text_back">Back</string>
 
 
     <!-- Home Screen -->
@@ -1421,6 +1422,8 @@
 
     <!--    Employee information screen-->
     <string name="screen_employee_information_display_bottom_sheet_text_heading">Add all the countries your company does business with:</string>
+    <string name="screen_employee_information_additional_information_dialog_title">Additional documents \nwill be required.</string>
+    <string name="screen_employee_information_additional_information_dialog_text">Since you\’re self-employed we will need to ask you to provide additional documentation after you recieve your YAP card.</string>
 
     <!-- KYC Employment Information Questionnaire screen -->
     <string name="screen_employment_questionnaire_display_text_heading">Employment Information</string>
