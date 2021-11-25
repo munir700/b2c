@@ -63,6 +63,7 @@ interface IEmploymentQuestionnaire {
         ): EmploymentInfoRequest
 
         fun getDataForPosition(position: Int): QuestionUiFields
+        fun selfEmploymentTypes(): MutableList<EmploymentType>
 
     }
 

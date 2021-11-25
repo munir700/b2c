@@ -2326,6 +2326,8 @@ object Strings {
         "screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you"
     const val screen_employment_questionnaire_display_text__bottom_sheet_title_segments =
         "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
+    const val screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment =
+        "screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment"
 
     //Edit Card Name Screen
     const val screen_edit_card_name_text_heading: String = "screen_edit_card_name_text_heading"

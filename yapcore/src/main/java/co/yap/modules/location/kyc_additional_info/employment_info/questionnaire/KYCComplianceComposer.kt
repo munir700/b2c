@@ -55,6 +55,15 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                 ),
                 QuestionUiFields(
                     question = Question(
+                        questionTitle = "Type of self-employment:",
+                        placeholder = "Select Type",
+                        questionType = QuestionType.DROP_DOWN_FIELD,
+                        answer = ObservableField()
+                    ),
+                    key = EmploymentQuestionIdentifier.SELF_EMPLOYMENT
+                ),
+                QuestionUiFields(
+                    question = Question(
                         questionTitle = "Add an industry segment:",
                         placeholder = "Select industry segment",
                         questionType = QuestionType.DROP_DOWN_FIELD,

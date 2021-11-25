@@ -115,6 +115,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                     when ((data as QuestionUiFields).key) {
                         EmploymentQuestionIdentifier.EMPLOYMENT_TYPE -> openEmploymentTypeBottomSheet()
                         EmploymentQuestionIdentifier.INDUSTRY_SEGMENT -> openSegmentsBottomSheet()
+                        EmploymentQuestionIdentifier.SELF_EMPLOYMENT -> openSelfEmploymentTypeBottomSheet()
                         else -> {
                         }
                     }
@@ -148,6 +149,15 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_segments)),
             viewType = Constants.VIEW_FIXED_HEIGHT,
             listData = viewModel.parseSegments(viewModel.industrySegmentsList)
+        )
+    }
+
+    private fun openSelfEmploymentTypeBottomSheet() {
+        launchBottomSheetSegment(
+            viewModel.employmentTypeItemClickListener,
+            configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment)),
+            viewType = Constants.VIEW_WITHOUT_FLAG,
+            listData = viewModel.parseEmploymentTypes(viewModel.selfEmploymentTypes())
         )
     }
 

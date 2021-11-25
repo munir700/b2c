@@ -80,6 +80,14 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             ), object : TypeToken<List<EmploymentType>>() {}.type
         )
     }
+    override fun selfEmploymentTypes(): MutableList<EmploymentType> {
+        val gson = GsonBuilder().create()
+        return gson.fromJson<MutableList<EmploymentType>>(
+            context.getJsonDataFromAsset(
+                "jsons/self_employment_type.json"
+            ), object : TypeToken<List<EmploymentType>>() {}.type
+        )
+    }
 
     override fun parseEmploymentTypes(employmentTypes: MutableList<EmploymentType>): MutableList<CoreBottomSheetData> {
         employmentTypes.forEach {
