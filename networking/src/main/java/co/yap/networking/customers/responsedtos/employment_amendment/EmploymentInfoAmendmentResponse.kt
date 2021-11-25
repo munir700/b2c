@@ -8,11 +8,21 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class EmploymentInfoAmendmentResponse(
     @SerializedName("employmentStatus")
-    val status: String? = null,
+    val employmentStatus: String? = null,
     @SerializedName("employerName")
     val employerName: String? = null,
     @SerializedName("monthlySalary")
     val monthlySalary: String? = null,
     @SerializedName("expectedMonthlyCredit")
-    val expectedMonthlyCredit: String? = null
+    val expectedMonthlyCredit: String? = null,
+    @SerializedName("businessCountries")
+    val businessCountries: List<String>? = null,
+    @SerializedName("companyName")
+    val companyName: String? = null,
+    @SerializedName("industrySubSegmentCode")
+    val industrySubSegmentCode: String? = null,
+    @SerializedName("employmentType")
+    val employmentType: String? = null,
+    @SerializedName("sponsor")
+    val sponsor: String? = null
 ) : ApiResponse(), Parcelable

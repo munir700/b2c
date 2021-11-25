@@ -8,7 +8,6 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.validation.Validator
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.util.*
 
@@ -77,11 +76,13 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
-        val drawableClickListener : OnDrawableClickListener
+        val drawableClickListener: OnDrawableClickListener
         fun getGenderOptions(): ArrayList<BottomSheetItem>
         var countries: ArrayList<Country>
         fun getAllCountries()
         var populateNationalitySpinnerData: MutableLiveData<ArrayList<Country>>
+        fun getKYCDataFromServer()
+        fun isFromAmendment(): Boolean
 //        var validator: Validator?
     }
 }

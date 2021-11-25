@@ -70,7 +70,7 @@ class EidInfoReviewViewModel(application: Application) :
         // TODO Remove mocking
         //mockDataForScreen()
         //mockServerDataForKYC()
-        if (!parentViewModel?.amendmentMap.isNullOrEmpty()) {
+        if (isFromAmendment()) {
             getKYCDataFromServer()
         }
         validator?.setValidationListener(this)
@@ -298,7 +298,7 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun getKYCDataFromServer() {
+     override fun getKYCDataFromServer() {
         launch {
             state.loading = true
             when (val response = repository.getCustomerKYCData(SessionManager.user?.uuid ?: "")) {
@@ -625,4 +625,6 @@ class EidInfoReviewViewModel(application: Application) :
         super.onValidationError(validator)
         state.valid = validator.isValidate.value == false
     }
+
+    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }
