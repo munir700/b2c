@@ -11,6 +11,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.ButtonType
 
 interface IEmploymentQuestionnaire {
 
@@ -18,7 +19,12 @@ interface IEmploymentQuestionnaire {
         fun addObservers()
         fun removeObservers()
         fun getBinding(): FragmentEmploymentQuestionnaireBinding
-        fun showInfoDialog(title: String, message: String)
+        fun showInfoDialog(
+            title: String,
+            message: String,
+            buttonTypes: ArrayList<ButtonType>,
+            cb: (view: android.view.View) -> Unit
+        )
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -29,7 +35,7 @@ interface IEmploymentQuestionnaire {
         val selectedBusinessCountries: ObservableField<ArrayList<String>>
         var questionsList: ArrayList<QuestionUiFields>
         fun handleOnPressView(id: Int)
-        fun questionnaires(forStatus: EmploymentStatus):ArrayList<QuestionUiFields>
+        fun questionnaires(forStatus: EmploymentStatus): ArrayList<QuestionUiFields>
         fun employmentTypes(): MutableList<EmploymentType>
         fun getSelectedStateCountries(countries: ArrayList<Country>): List<Country>
         fun setBusinessCountries(
@@ -55,7 +61,8 @@ interface IEmploymentQuestionnaire {
         fun getEmploymentInfoRequest(
             status: EmploymentStatus
         ): EmploymentInfoRequest
-        fun getDataForPosition(position:Int):QuestionUiFields
+
+        fun getDataForPosition(position: Int): QuestionUiFields
 
     }
 

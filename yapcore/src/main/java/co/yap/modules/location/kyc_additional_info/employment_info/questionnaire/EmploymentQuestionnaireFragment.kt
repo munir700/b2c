@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.ButtonType
 import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
@@ -42,8 +43,10 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initQuestionViews()
+        showAdditionalInfoDialog()
     }
+
+
 
     private fun initQuestionViews() {
         viewModel.questionsList.addAll(viewModel.questionnaires(viewModel.employmentStatus))
@@ -84,7 +87,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             when (view.id) {
                 R.id.ivSupport -> {
                     viewModel.onInfoClick(data as QuestionUiFields) { title, message ->
-                        showInfoDialog(title, message)
+                        showInfoDialog(title, message, arrayListOf(ButtonType.CLOSE)) {}
                     }
                 }
 
@@ -96,8 +99,8 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                                 onBusinessCountriesSelection(data as ArrayList<String>)
                                 viewModel.validate()
                             }
-                        },configuration = BottomSheetConfiguration(
-                            heading = "Add all the countries your company does business with:",
+                        }, configuration = BottomSheetConfiguration(
+                            getString(Strings.screen_employee_information_display_bottom_sheet_text_heading),
                             showSearch = true,
                             showHeaderSeparator = true
                         ),
@@ -165,11 +168,17 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         viewDataBinding as FragmentEmploymentQuestionnaireBinding
 
 
-    override fun showInfoDialog(title: String, message: String) {
+    override fun showInfoDialog(
+        title: String,
+        message: String,
+        buttonTypes: ArrayList<ButtonType>,
+        cb: (view: View) -> Unit
+    ) {
         requireContext().infoDialog(
             title = title,
             message = message,
-            buttonText = getString(Strings.screen_employment_information_dialog_button_text_close)
+            buttonType = buttonTypes,
+            callback = cb
         )
     }
 
@@ -184,5 +193,21 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         viewModel.parentViewModel?.countries?.unSelectAllCountries(
             viewModel.selectedBusinessCountries.get() ?: arrayListOf()
         )
+    }
+    private fun showAdditionalInfoDialog() {
+        if (viewModel.employmentStatus == EmploymentStatus.SELF_EMPLOYED) showInfoDialog(
+            getString(Strings.screen_employee_information_additional_information_dialog_title),
+            getString(Strings.screen_employee_information_additional_information_dialog_text),
+            arrayListOf(ButtonType.CONTINUE, ButtonType.BACK)
+        ) {
+            when (it.id) {
+                R.id.btnNext -> {
+                    initQuestionViews()
+                }
+                R.id.btnClose -> {
+                    requireActivity().onBackPressed()
+                }
+            }
+        }
     }
 }
