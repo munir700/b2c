@@ -1,4 +1,4 @@
-package co.yap.modules.kyc.amendments.confirmation
+package co.yap.modules.location.fragments.confirmation
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData

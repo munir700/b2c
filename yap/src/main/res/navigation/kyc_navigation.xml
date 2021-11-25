@@ -87,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/missingInfoConfirmationFragment"
-        android:name="co.yap.modules.kyc.amendments.confirmation.MissingInfoConfirmationFragment"
+        android:name="co.yap.modules.location.fragments.confirmation.MissingInfoConfirmationFragment"
         android:label="MissingInfoConfirmationFragment"
         tools:layout="@layout/fragment_missinginfo_confirmation" />
 

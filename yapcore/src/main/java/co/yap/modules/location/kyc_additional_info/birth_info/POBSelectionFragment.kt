@@ -63,7 +63,11 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                 } else {
                     viewModel.saveDOBInfo {
                         trackEventWithScreenName(FirebaseEvent.BIRTH_LOCATION_SUBMIT)
-                        navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
+                        if (viewModel.isFromAmendment()) {
+                            navigateToAmendmentSuccess()
+                        } else {
+                            navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
+                        }
                     }
                 }
             }
@@ -127,5 +131,18 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    private fun navigateToAmendmentSuccess() {
+        val bundle = Bundle()
+        bundle.putString(
+            Constants.CONFIRMATION_DESCRIPTION,
+            getString(R.string.common_display_text_y2y_general_share)
+        )
+        bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
+        navigate(
+            R.id.action_POBSelectionFragment_to_missingInfoConfirmationFragment,
+            bundle
+        )
     }
 }

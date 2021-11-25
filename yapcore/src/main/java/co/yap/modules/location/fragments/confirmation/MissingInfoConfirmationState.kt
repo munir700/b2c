@@ -1,4 +1,4 @@
-package co.yap.modules.kyc.amendments.confirmation
+package co.yap.modules.location.fragments.confirmation
 
 import androidx.databinding.ObservableField
 import co.yap.yapcore.BaseState
