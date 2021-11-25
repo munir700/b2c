@@ -32,6 +32,8 @@ import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
@@ -39,7 +41,8 @@ import com.google.gson.reflect.TypeToken
 
 class EmploymentQuestionnaireViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaire.State>(application),
-    IEmploymentQuestionnaire.ViewModel, IRepositoryHolder<CustomersRepository> {
+    IEmploymentQuestionnaire.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
+    Validator.ValidationListener {
     override val repository: CustomersRepository = CustomersRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IEmploymentQuestionnaire.State = EmploymentQuestionnaireState()
@@ -51,6 +54,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
     override var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse> =
         MutableLiveData()
+    override var validator: Validator? = Validator(null)
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -58,6 +62,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        validator?.setValidationListener(this)
         if (hasAmendmentMap()) {
             getAmendmentsEmploymentInfo()
         }
@@ -391,5 +396,15 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun onValidationSuccess(validator: Validator) {
+        super.onValidationSuccess(validator)
+        state.valid.set(validator.isValidate.value == true)
+    }
+
+    override fun onValidationError(validator: Validator) {
+        super.onValidationError(validator)
+        state.valid.set(validator.isValidate.value == false)
     }
 }

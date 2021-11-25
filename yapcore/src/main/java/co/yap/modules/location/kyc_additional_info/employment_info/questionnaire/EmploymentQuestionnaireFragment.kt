@@ -48,6 +48,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         if (!viewModel.hasAmendmentMap()) {
             initQuestionViews()
         }
+        getDataBindingView<FragmentEmploymentQuestionnaireBinding>().lifecycleOwner = this
     }
 
     private fun initQuestionViews() {
@@ -75,6 +76,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             )
             if (questionView != null)
                 getBinding().llQuestions.addView(questionView)
+        }
+        getBinding().llQuestions.post {
+            viewModel.validator?.targetViewBinding =
+                getDataBindingView<FragmentEmploymentQuestionnaireBinding>()
+            viewModel.validator?.toValidate()
         }
     }
 

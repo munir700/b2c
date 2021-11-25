@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers.validation.rule
 import androidx.annotation.Keep
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import com.google.android.material.textfield.TextInputEditText
 
@@ -25,8 +26,8 @@ class ErrorHighlightAmendmentFieldRule(
             it.values.toList().forEach { it ->
                 it?.forEach {
                     if (view?.tag == it && previousValue != null && view.text.toString()
-                            .trim().isNotBlank() && view.text.toString()
-                            .trim().replace("-", "") == previousValue
+                            .isNotBlank() && view.text.toString()
+                            .replace("-", "") == previousValue
                     ) {
                         return false
                     }
@@ -41,11 +42,21 @@ class ErrorHighlightAmendmentFieldRule(
         EditTextHandler.getTextInputLayout(view)?.apply {
             error = ""
         }
+        if (errorEnabled) {
+            view?.apply {
+                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            }
+        }
     }
 
     override fun onValidationFailed(view: TextInputEditText?) {
         EditTextHandler.getTextInputLayout(view)?.apply {
             error = Translator.getString(context, Strings.kyc_incorrect_field)
+        }
+        if (errorEnabled) {
+            view?.apply {
+                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0)
+            }
         }
     }
 }
