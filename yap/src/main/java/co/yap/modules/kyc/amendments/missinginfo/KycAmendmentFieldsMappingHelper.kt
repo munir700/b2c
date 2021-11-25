@@ -25,8 +25,9 @@ object KycAmendmentFieldsMappingHelper {
 
         // TAX
         map["CountryofTaxResidence"] = "Tax residence country"
-        map["TINNumber"] = "TIN number"
+        map["TINNumber1"] = "TIN number 1"
         map["SecondCountryofTaxResidence"] = "Second residence country"
+        map["TINNumber2"] = "TIN number 2"
 
         // EMPLOYMENT
         map["EmploymentStatus"] = "Employment status"

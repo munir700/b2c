@@ -7,7 +7,9 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 class QuestionnaireItemViewModel(
     val questionUiFields: QuestionUiFields,
     val position: Int,
-    val onItemClickListener: OnItemClickListener?
+    val onItemClickListener: OnItemClickListener?,
+    val amendmentMap: HashMap<String?, List<String>?>?,
+    val fieldTag: String?
 ) {
 
     fun onViewClicked(view: View) {

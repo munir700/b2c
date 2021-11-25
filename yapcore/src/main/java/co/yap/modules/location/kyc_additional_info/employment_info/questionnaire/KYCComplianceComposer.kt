@@ -30,7 +30,8 @@ class KYCComplianceComposer :
                         questionTitle = "Tell us where you work?",
                         placeholder = "Employer name",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
-                        answer = ObservableField(status?.employerName ?: "")
+                        answer = ObservableField(status?.employerName ?: ""),
+                        tag = "EmploymentName"
                     )
                 ),
                 QuestionUiFields(
@@ -38,7 +39,8 @@ class KYCComplianceComposer :
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.monthlySalary ?: "")
+                        answer = ObservableField(status?.monthlySalary ?: ""),
+                        tag = "MonthlySalary"
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
@@ -46,7 +48,8 @@ class KYCComplianceComposer :
                         questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.expectedMonthlyCredit ?: "")
+                        answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        tag = "CashDeposit"
                     ),
                     key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
@@ -58,7 +61,8 @@ class KYCComplianceComposer :
                         questionTitle = "Tell us the name of your company?",
                         placeholder = "Company name",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
-                        answer = ObservableField(status?.companyName ?: "")
+                        answer = ObservableField(status?.companyName ?: ""),
+                        tag = "CompanyName"
                     )
                 ),
                 QuestionUiFields(
@@ -66,7 +70,8 @@ class KYCComplianceComposer :
                         questionTitle = "Add an industry segment:",
                         placeholder = "Select industry segment",
                         questionType = QuestionType.DROP_DOWN_FIELD,
-                        answer = ObservableField()
+                        answer = ObservableField(),
+                        tag = "IndustrySegment"
                     ),
                     key = EmploymentQuestionIdentifier.INDUSTRY_SEGMENT
                 ), QuestionUiFields(
@@ -74,7 +79,8 @@ class KYCComplianceComposer :
                         questionTitle = "Add all the countries your company does business with",
                         placeholder = "Search countries",
                         questionType = QuestionType.COUNTRIES_FIELD,
-                        answer = ObservableField()
+                        answer = ObservableField(),
+                        tag = "CompanyNameListWhereCompanyDoesBusiness"
                     )
                 ),
                 QuestionUiFields(
@@ -82,7 +88,8 @@ class KYCComplianceComposer :
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.monthlySalary ?: "")
+                        answer = ObservableField(status?.monthlySalary ?: ""),
+                        tag = "MonthlySalary"
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
@@ -90,7 +97,8 @@ class KYCComplianceComposer :
                         questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.expectedMonthlyCredit ?: "")
+                        answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        tag = "CashDeposit"
                     ),
                     key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
@@ -102,7 +110,8 @@ class KYCComplianceComposer :
                         questionTitle = "Which of the following statements describes you best?",
                         placeholder = "Select from list",
                         questionType = QuestionType.DROP_DOWN_FIELD,
-                        answer = ObservableField()
+                        answer = ObservableField(),
+                        tag = ""
                     ), key = EmploymentQuestionIdentifier.EMPLOYMENT_TYPE
                 ),
                 QuestionUiFields(
@@ -110,7 +119,8 @@ class KYCComplianceComposer :
                         questionTitle = "Please enter the name of your sponsor",
                         placeholder = "Enter here",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
-                        answer = ObservableField(status?.sponsor ?: "")
+                        answer = ObservableField(status?.sponsor ?: ""),
+                        tag = ""
                     )
                 ),
                 QuestionUiFields(
@@ -118,7 +128,8 @@ class KYCComplianceComposer :
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.monthlySalary ?: "")
+                        answer = ObservableField(status?.monthlySalary ?: ""),
+                        tag = "MonthlySalary"
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
@@ -126,7 +137,8 @@ class KYCComplianceComposer :
                         questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField(status?.expectedMonthlyCredit ?: "")
+                        answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        tag = "CashDeposit"
                     ), key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
             )
