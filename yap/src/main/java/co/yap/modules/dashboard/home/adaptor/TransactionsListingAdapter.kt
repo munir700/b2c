@@ -16,7 +16,6 @@ import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
@@ -34,7 +33,7 @@ class TransactionsListingAdapter(
     var analyticsItemTitle: String? = null
     var analyticsItemImgUrl: String? = null
     var categoryColour: String? = null
-    var analyticType: String = Constants.MERCHANT_TYPE
+    var analyticType: String = "merchant-name"
     override fun getLayoutIdForViewType(viewType: Int): Int {
         return if (adapterType == TransactionAdapterType.TRANSACTION) R.layout.item_transaction_list else R.layout.item_analytics_transaction_list
     }
@@ -48,7 +47,7 @@ class TransactionsListingAdapter(
                 list[position],
                 analyticsItemPosition,
                 analyticsItemTitle,
-                analyticsItemImgUrl, adapterType,categoryColour,analyticType
+                analyticsItemImgUrl, adapterType, categoryColour, analyticType
             )
     }
 
@@ -79,7 +78,8 @@ class TransactionsListingAdapter(
                     transaction,
                     position,
                     analyticsItemTitle,
-                    analyticsItemImgUrl
+                    analyticsItemImgUrl,
+                    analyticType
                 )
             itemAnalyticsTransactionListBinding.dividerBottom.visibility =
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) View.VISIBLE else View.GONE
@@ -186,7 +186,8 @@ class TransactionsListingAdapter(
                 itemTransactionListBinding.tvForeignCurrency.text = getString(
                     context,
                     R.string.common_display_one_variables,
-                    transaction.amount?.toString()?.toFormattedCurrency(currency = transaction.currency.toString())?:"0.0"
+                    transaction.amount?.toString()
+                        ?.toFormattedCurrency(currency = transaction.currency.toString()) ?: "0.0"
                 )
             }
         }
