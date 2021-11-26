@@ -1,4 +1,4 @@
-package co.yap.modules.kyc.amendments.confirmation
+package co.yap.modules.location.fragments.confirmation
 
 import android.app.Activity
 import android.content.Intent
@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import co.yap.BR
-import co.yap.R
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.R
+import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 
 class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirmation.ViewModel>(),

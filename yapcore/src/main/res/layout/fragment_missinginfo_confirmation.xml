@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.kyc.amendments.confirmation.MissingInfoConfirmationViewModel" />
+            type="co.yap.modules.location.fragments.confirmation.MissingInfoConfirmationViewModel" />
 
         <import type="co.yap.translation.Strings" />
 

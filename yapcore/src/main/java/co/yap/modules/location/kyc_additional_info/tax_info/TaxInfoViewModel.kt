@@ -191,7 +191,8 @@ class TaxInfoViewModel(application: Application) :
                 TaxInfoRequest(
                     usNationalForTax = !(state.isAgreed.get() ?: false),
                     submit = isSubmit,
-                    taxInfoDetails = getTaxDetails(taxInfoList)
+                    taxInfoDetails = getTaxDetails(taxInfoList),
+                    isAmendment = isFromAmendment()
                 )
             )) {
                 is RetroApiResponse.Success -> {

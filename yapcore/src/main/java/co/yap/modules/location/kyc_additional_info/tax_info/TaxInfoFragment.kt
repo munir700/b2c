@@ -87,9 +87,14 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
             R.id.nextButton -> {
                 viewModel.saveInfoDetails(true) {
                     trackEventWithScreenName(FirebaseEvent.TAX_RESIDENCE_SUBMIT)
-                    navigate(
-                        R.id.action_taxInfoFragment_to_employmentStatusSelectionFragment
-                    )
+                    if (viewModel.isFromAmendment()) {
+                        navigateToAmendmentSuccess()
+                    } else {
+                        navigate(
+                            R.id.action_taxInfoFragment_to_employmentStatusSelectionFragment
+                        )
+                    }
+
                 }
             }
         }
@@ -120,5 +125,17 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+    private fun navigateToAmendmentSuccess() {
+        val bundle = Bundle()
+        bundle.putString(
+            Constants.CONFIRMATION_DESCRIPTION,
+            getString(R.string.common_display_text_y2y_general_share)
+        )
+        bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
+        navigate(
+            R.id.action_taxInfoFragment_to_missingInfoConfirmationFragment,
+            bundle
+        )
     }
 }
