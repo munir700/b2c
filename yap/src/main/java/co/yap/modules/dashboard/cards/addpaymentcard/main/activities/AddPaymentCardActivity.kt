@@ -69,13 +69,12 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
                 fragment?.let { navFragment ->
                     navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
                         when(fragment){
-                            is AddVirtualCardFragment ->{
+                            is AddVirtualCardFragment ->
                                 fragment.navigateToLanding()
-                            }is AddVirtualCardNameFragment ->{
+                            is AddVirtualCardNameFragment ->
                                 fragment.navigateToLanding()
-                            }is AddSpareCardFragment ->{
+                            is AddSpareCardFragment ->
                                 fragment.navigateToLanding()
-                            }
                         }
                     }
                 }

@@ -39,20 +39,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getVirtualCardFee()
-        viewModel.parentViewModel?.getVirtualCardDesigns {
-            if (!viewModel.parentViewModel?.virtualCardDesignsList.isNullOrEmpty()) {
-                addSpareCard.enableButton(true)
-                viewModel.parentViewModel?.selectedVirtualCard =
-                    viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()
-                viewModel.state.cardImageUrl =
-                    viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage
-                        ?: ""
-                lav_cards.progress = 0f
-                lav_cards.playAnimation()
-            } else {
-                addSpareCard.enableButton(false)
-            }
-        }
+        setDefaultStates()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -149,6 +136,27 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     }
     private fun setNavigation(action : NavDirections){
         navigate(action)
+    }
+
+    private fun setDefaultStates(){
+        args?.let { arg->
+            if(arg.landedFrom.isEmpty()) {
+                viewModel.parentViewModel?.getVirtualCardDesigns {
+                    if (!viewModel.parentViewModel?.virtualCardDesignsList.isNullOrEmpty()) {
+                        addSpareCard.enableButton(true)
+                        viewModel.parentViewModel?.selectedVirtualCard =
+                            viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()
+                        viewModel.state.cardImageUrl =
+                            viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage
+                                ?: ""
+                        lav_cards.progress = 0f
+                        lav_cards.playAnimation()
+                    } else {
+                        addSpareCard.enableButton(false)
+                    }
+                }
+            }
+        }
     }
 
     override fun removeObservers() {
