@@ -43,7 +43,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showAdditionalInfoDialog()
+        if (viewModel.employmentStatus == EmploymentStatus.SELF_EMPLOYED) showAdditionalInfoDialog() else initQuestionViews()
     }
 
 
@@ -205,7 +205,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         )
     }
     private fun showAdditionalInfoDialog() {
-        if (viewModel.employmentStatus == EmploymentStatus.SELF_EMPLOYED) showInfoDialog(
+         showInfoDialog(
             getString(Strings.screen_employee_information_additional_information_dialog_title),
             getString(Strings.screen_employee_information_additional_information_dialog_text),
             arrayListOf(ButtonType.CONTINUE, ButtonType.BACK)
