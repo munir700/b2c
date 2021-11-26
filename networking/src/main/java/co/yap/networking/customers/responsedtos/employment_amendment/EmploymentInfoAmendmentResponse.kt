@@ -20,7 +20,7 @@ data class EmploymentInfoAmendmentResponse(
     @SerializedName("companyName")
     val companyName: String? = null,
     @SerializedName("industrySubSegmentCode")
-    val industrySubSegmentCode: String? = null,
+    val industrySubSegmentCode: List<String>? = null,
     @SerializedName("employmentType")
     val employmentType: String? = null,
     @SerializedName("sponsor")

@@ -28,7 +28,7 @@
                 android:dividerPadding="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@{viewModel.questionUiFields.question.questionTitle}"
-                app:hintTextAppearance="@style/SmallGrey"
+                style="@style/Yap.App.Widget.TextInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -70,7 +70,7 @@
 
                 <co.yap.widgets.edittext.EditTextRichDrawable
                     android:id="@+id/etQuestionEditText"
-                    style="@style/Large"
+                    style="@style/ARegular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
@@ -90,7 +90,7 @@
                     app:enableError="@{true}"
                     app:highlightAmendmentField="@{true}"
                     app:missingFieldMap="@{viewModel.amendmentMap}"
-                    app:previousValue="@{viewModel.questionUiFields.question.answer}"
+                    app:previousValue="@{viewModel.questionUiFields.question.previousValue}"
                     app:validateEmpty="@{true}"
                     tools:text="Tell us the name of your company?" />
 

@@ -385,8 +385,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.getAmendmentsTaxInfo(accountUuid) })
 
     override suspend fun getAmendmentsEmploymentInfo(accountUuid: String): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>> {
-        //return executeSafely(call = { api.getAmendmentsEmploymentInfo(accountUuid) })
-        val empRes = EmploymentInfoAmendmentResponse(
+        return executeSafely(call = { api.getAmendmentsEmploymentInfo(accountUuid) })
+        /*val empRes = EmploymentInfoAmendmentResponse(
             businessCountries = listOf("AF", "AX"),
             companyName = "Apple",
             employmentStatus = "Self-Employed",
@@ -404,7 +404,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         val response = BaseResponse<EmploymentInfoAmendmentResponse>()
         response.data = empRes
         //response.data = empOtherRes
-        return RetroApiResponse.Success(200, response)
+        return RetroApiResponse.Success(200, response)*/
     }
 
     override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =

@@ -49,7 +49,7 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                             putExtra(
                                 Constants.data,
                                 true
-                            ) // TODO make is true for real and false for mocking
+                            )
                             putExtra(
                                 Constants.KYC_AMENDMENT_MAP,
                                 viewModel.missingInfoMap.value

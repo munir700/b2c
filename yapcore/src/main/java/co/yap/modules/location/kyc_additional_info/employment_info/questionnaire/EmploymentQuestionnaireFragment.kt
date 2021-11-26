@@ -80,6 +80,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         getBinding().llQuestions.post {
             viewModel.validator?.targetViewBinding =
                 getDataBindingView<FragmentEmploymentQuestionnaireBinding>()
+            viewModel.validate()
             viewModel.validator?.toValidate()
         }
     }

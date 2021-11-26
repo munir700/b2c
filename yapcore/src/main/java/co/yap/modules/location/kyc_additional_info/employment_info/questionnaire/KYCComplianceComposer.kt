@@ -31,6 +31,7 @@ class KYCComplianceComposer :
                         placeholder = "Employer name",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
                         answer = ObservableField(status?.employerName ?: ""),
+                        previousValue = status?.employerName ?: "",
                         tag = "EmploymentName"
                     )
                 ),
@@ -40,6 +41,7 @@ class KYCComplianceComposer :
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.monthlySalary ?: ""),
+                        previousValue = status?.monthlySalary ?: "",
                         tag = "MonthlySalary"
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
@@ -49,6 +51,7 @@ class KYCComplianceComposer :
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        previousValue = status?.expectedMonthlyCredit ?: "",
                         tag = "CashDeposit"
                     ),
                     key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
@@ -62,6 +65,7 @@ class KYCComplianceComposer :
                         placeholder = "Company name",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
                         answer = ObservableField(status?.companyName ?: ""),
+                        previousValue = status?.companyName ?: "",
                         tag = "CompanyName"
                     )
                 ),
@@ -71,6 +75,7 @@ class KYCComplianceComposer :
                         placeholder = "Select industry segment",
                         questionType = QuestionType.DROP_DOWN_FIELD,
                         answer = ObservableField(),
+                        previousValue = "",
                         tag = "IndustrySegment"
                     ),
                     key = EmploymentQuestionIdentifier.INDUSTRY_SEGMENT
@@ -80,6 +85,7 @@ class KYCComplianceComposer :
                         placeholder = "Search countries",
                         questionType = QuestionType.COUNTRIES_FIELD,
                         answer = ObservableField(),
+                        previousValue = "",
                         tag = "CompanyNameListWhereCompanyDoesBusiness"
                     )
                 ),
@@ -89,6 +95,7 @@ class KYCComplianceComposer :
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.monthlySalary ?: ""),
+                        previousValue = status?.monthlySalary ?: "",
                         tag = "MonthlySalary"
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
@@ -98,6 +105,7 @@ class KYCComplianceComposer :
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        previousValue = status?.expectedMonthlyCredit ?: "",
                         tag = "CashDeposit"
                     ),
                     key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
@@ -111,6 +119,7 @@ class KYCComplianceComposer :
                         placeholder = "Select from list",
                         questionType = QuestionType.DROP_DOWN_FIELD,
                         answer = ObservableField(),
+                        previousValue = "",
                         tag = ""
                     ), key = EmploymentQuestionIdentifier.EMPLOYMENT_TYPE
                 ),
@@ -120,6 +129,7 @@ class KYCComplianceComposer :
                         placeholder = "Enter here",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
                         answer = ObservableField(status?.sponsor ?: ""),
+                        previousValue = status?.sponsor ?: "",
                         tag = ""
                     )
                 ),
@@ -129,6 +139,7 @@ class KYCComplianceComposer :
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.monthlySalary ?: ""),
+                        previousValue = status?.monthlySalary ?: "",
                         tag = "MonthlySalary"
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
@@ -138,6 +149,7 @@ class KYCComplianceComposer :
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.expectedMonthlyCredit ?: ""),
+                        previousValue = status?.expectedMonthlyCredit ?: "",
                         tag = "CashDeposit"
                     ), key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )

@@ -232,9 +232,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     }
 
     fun validate() {
-        var isValid = false
+        var isFormValid = true
         questionsList.forEach {
-            isValid = when (it.question.questionType) {
+            val isValid = when (it.question.questionType) {
                 QuestionType.COUNTRIES_FIELD -> {
                     it.question.multipleAnswers.get()
                         ?.isNotEmpty() == true
@@ -246,15 +246,39 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     if (employmentStatus == EmploymentStatus.OTHER) {
                         !it.question.answer.get().isNullOrBlank()
                     } else {
-
+                        var hasError = false
                         val salaryAmount =
                             questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
                                 ?.getAnswer()
+                        val previousSalary =
+                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                                ?.question?.previousValue
                         val depositAmount =
                             questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
                                 ?.getAnswer()
+                        val previousDepositAmount =
+                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                                ?.question?.previousValue
 
-                        !it.question.answer.get().isNullOrBlank()
+                        // Marking Error/Success
+                        if (salaryAmount?.isNotBlank() == true && salaryAmount == previousSalary) {
+                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                                ?.containsError?.set(true)
+                            hasError = true
+                        } else {
+                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                                ?.containsError?.set(false)
+                        }
+                        // Marking Error/Success
+                        if (depositAmount?.isNotBlank() == true && depositAmount == previousDepositAmount) {
+                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                                ?.containsError?.set(true)
+                            hasError = true
+                        } else {
+                            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                                ?.containsError?.set(false)
+                        }
+                        if(hasError) false else !it.question.answer.get().isNullOrBlank()
                                 && salaryAmount?.parseToDouble() ?: 0.0 > 0 &&
                                 salaryAmount.parseToDouble() > depositAmount.parseToDouble()
                     }
@@ -263,13 +287,15 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     !it.question.answer.get().isNullOrBlank()
                 }
             }
-
             if (!isValid) {
-                state.valid.set(isValid)
+                //state.valid.set(isValid)
+                isFormValid = false
+                validator?.isValidate?.value = isValid
                 return
             }
         }
-        state.valid.set(isValid)
+        //state.valid.set(isValid)
+        validator?.isValidate?.value = isFormValid
     }
 
 
@@ -386,6 +412,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     state.loading = false
                     response.data.data?.let {
                         employmentStatus = EmploymentStatus.valueOf(it.employmentStatus ?: "")
+                        //employmentStatus = EmploymentStatus.SALARIED_AND_SELF_EMPLOYED
                         isDataRequiredFromApi(employmentStatus)
                         employmentStatusValue.value = it
                     }
@@ -400,11 +427,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun onValidationSuccess(validator: Validator) {
         super.onValidationSuccess(validator)
-        state.valid.set(validator.isValidate.value == true)
-    }
-
-    override fun onValidationError(validator: Validator) {
-        super.onValidationError(validator)
-        state.valid.set(validator.isValidate.value == false)
+        validate()
     }
 }
