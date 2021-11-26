@@ -46,12 +46,13 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
-                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
-                    } else {
+                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.CAPTURED_EID.name) {
                         viewModel.requestDocumentsInformation{
                             navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
                         }
+                    } else {
+                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
+
                     }
                 }
                 R.id.tvSkip -> {

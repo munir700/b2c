@@ -310,18 +310,23 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
+                    TypeOfSelfEmployment= selfEmploymentTypes().first {
+                        it.employmentType == getDataForPosition(
+                            1
+                        ).getAnswer().trim()
+                    }.employmentTypeCode,
                     industrySegmentCodes = listOf(
                         industrySegmentsList.first {
                             it.segment == getDataForPosition(
-                                1
+                                2
                             ).getAnswer()
                         }.segmentCode ?: ""
                     ),
                     businessCountries = parentViewModel?.countries?.filterSelectedIsoCodes(
-                        getDataForPosition(2).question.multipleAnswers.get() ?: arrayListOf()
+                        getDataForPosition(3).question.multipleAnswers.get() ?: arrayListOf()
                     ),
-                    monthlySalary = getDataForPosition(3).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(4).getAnswer()
+                    monthlySalary = getDataForPosition(4).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(5).getAnswer()
                 )
             }
             EmploymentStatus.OTHER -> {
