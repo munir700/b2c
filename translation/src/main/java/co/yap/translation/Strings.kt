@@ -2246,6 +2246,8 @@ object Strings {
         "common_display_text_founder"
     const val screen_additional_info_label_text_question_hint: String =
         "screen_additional_info_label_text_question_hint"
+    const val screen_dashboard_notification_tap_to_open =
+        "screen_dashboard_notification_tap_to_open"
 
     const val screen_additional_info_label_text_additional_info: String =
         "screen_additional_info_label_text_additional_info"
@@ -2345,7 +2347,4 @@ object Strings {
     const val screen_dashboard_widget_edit_hide_bottom_sheet_content =
         "screen_dashboard_widget_edit_hide_bottom_sheet_content"
 
-    //Dashboard notifications
-    const val screen_dashboard_notification_tap_to_open =
-        "screen_dashboard_notification_tap_to_open"
 }

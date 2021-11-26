@@ -1093,6 +1093,7 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_notification_listing_display_text_toolbar_title">Notifications</string>
     <string name="screen_notification_listing_display_text_delete_alert_title">Delete</string>
     <string name="screen_notification_listing_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
+    <string name="screen_dashboard_notification_tap_to_open">Tap to open</string>
 
     <!--    Notification settings screen-->
     <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
@@ -1459,6 +1460,4 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_dashboard_widget_edit_hide_bottom_sheet_button_title">Hide Widgets</string>
     <string name="screen_dashboard_widget_edit_hide_bottom_sheet_content">You have chosen to hide the quick link widgets from your dashboard. To turn these back on, go to the dashboard menu in the top right and click on Quick Access Widgets.</string>
 
-    <!--Dashboard notifications-->
-    <string name="screen_dashboard_notification_tap_to_open">Tap to open</string>
 </resources>
