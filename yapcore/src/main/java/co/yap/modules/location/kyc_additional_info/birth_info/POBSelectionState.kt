@@ -19,7 +19,6 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
             validate()
         }
 
-
     override var selectedCountry: ObservableField<Country?> = ObservableField()
     override var selectedSecondCountry: ObservableField<Country?> = ObservableField()
     override var valid: ObservableField<Boolean> = ObservableField(false)

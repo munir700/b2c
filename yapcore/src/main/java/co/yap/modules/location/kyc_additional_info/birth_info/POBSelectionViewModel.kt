@@ -106,7 +106,8 @@ class POBSelectionViewModel(application: Application) :
                     countryOfBirth = state.selectedCountry.get()?.getName()?.trim() ?: "",
                     cityOfBirth = state.cityOfBirth.get() ?: "",
                     isDualNationality = state.isDualNational.get(),
-                    dualNationality = state.selectedSecondCountry.get()?.isoCountryCode2Digit ?: ""
+                    dualNationality = state.selectedSecondCountry.get()?.isoCountryCode2Digit ?: "",
+                    isAmendment = isFromAmendment()
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -155,6 +156,7 @@ class POBSelectionViewModel(application: Application) :
             }
         }
     }
+
     //check if Amendment exist or not
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }
