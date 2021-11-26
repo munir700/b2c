@@ -310,11 +310,11 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
-                    TypeOfSelfEmployment= selfEmploymentTypes().first {
+                    TypeOfSelfEmployment= selfEmploymentTypes().find {
                         it.employmentType == getDataForPosition(
                             1
                         ).getAnswer().trim()
-                    }.employmentTypeCode,
+                    }?.employmentTypeCode,
                     industrySegmentCodes = listOf(
                         industrySegmentsList.first {
                             it.segment == getDataForPosition(
