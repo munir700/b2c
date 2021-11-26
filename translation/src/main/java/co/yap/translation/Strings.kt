@@ -2344,4 +2344,8 @@ object Strings {
         "screen_dashboard_widget_edit_hide_bottom_sheet_button_title"
     const val screen_dashboard_widget_edit_hide_bottom_sheet_content =
         "screen_dashboard_widget_edit_hide_bottom_sheet_content"
+
+    //Dashboard notifications
+    const val screen_dashboard_notification_tap_to_open =
+        "screen_dashboard_notification_tap_to_open"
 }

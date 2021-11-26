@@ -1459,4 +1459,6 @@ Due to all the excitement of our official launch, we are gradually activating as
     <string name="screen_dashboard_widget_edit_hide_bottom_sheet_button_title">Hide Widgets</string>
     <string name="screen_dashboard_widget_edit_hide_bottom_sheet_content">You have chosen to hide the quick link widgets from your dashboard. To turn these back on, go to the dashboard menu in the top right and click on Quick Access Widgets.</string>
 
+    <!--Dashboard notifications-->
+    <string name="screen_dashboard_notification_tap_to_open">Tap to open</string>
 </resources>

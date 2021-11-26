@@ -51,7 +51,7 @@ class NotificationAdapter(
                 binding.tvTitle.visibility = View.VISIBLE
             }
 
-            binding.cvNotification.setOnClickListener {
+            binding.tvTapToOpen.setOnClickListener {
                 clickListener.onClick(listItems[adapterPosition], adapterPosition)
             }
 
