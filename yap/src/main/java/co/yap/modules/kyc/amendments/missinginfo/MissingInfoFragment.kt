@@ -41,7 +41,24 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                         goToDashboard()
                     }
                     viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true -> {
-                        launchActivityForActivityResult<DocumentsDashboardActivity> {
+                        // TODO Improve this for callback
+                        val intent = Intent(context, DocumentsDashboardActivity::class.java).apply {
+                            putExtra(
+                                Constants.name,
+                                SessionManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(
+                                Constants.data,
+                                true
+                            )
+                            putExtra(
+                                Constants.KYC_AMENDMENT_MAP,
+                                viewModel.missingInfoMap.value
+                            )
+                        }
+                        startActivityForResult(intent, 1001)
+
+                        /*launchActivityForActivityResult<DocumentsDashboardActivity> {
                             putExtra(
                                 Constants.name,
                                 SessionManager.user?.currentCustomer?.firstName.toString()
@@ -54,7 +71,7 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                                 Constants.KYC_AMENDMENT_MAP,
                                 viewModel.missingInfoMap.value
                             )
-                        }
+                        }*/
                     }
                     else -> {
                         startActivityForResult(
