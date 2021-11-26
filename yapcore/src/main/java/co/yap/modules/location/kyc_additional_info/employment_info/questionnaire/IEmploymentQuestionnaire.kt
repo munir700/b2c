@@ -19,12 +19,12 @@ interface IEmploymentQuestionnaire {
         fun addObservers()
         fun removeObservers()
         fun getBinding(): FragmentEmploymentQuestionnaireBinding
-        fun showInfoDialog(
+      /*  fun showInfoDialog(
             title: String,
             message: String,
             buttonTypes: ArrayList<ButtonType>,
             cb: (view: android.view.View) -> Unit
-        )
+        )*/
     }
 
     interface ViewModel : IBase.ViewModel<State> {

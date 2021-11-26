@@ -21,8 +21,10 @@ import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.helpers.ButtonType
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
+import co.yap.yapcore.helpers.extentions.showInfoDialog
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.utils.UIUtils.hideKeyboard
@@ -37,16 +39,14 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
-        viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
+        viewModel.employmentStatus = arguments?.get(ExtraKeys.EMPLOYMENT_STATUS.name) as EmploymentStatus
         viewModel.isDataRequiredFromApi(forStatus = viewModel.employmentStatus)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (viewModel.employmentStatus == EmploymentStatus.SELF_EMPLOYED) showAdditionalInfoDialog() else initQuestionViews()
+         initQuestionViews()
     }
-
-
 
     private fun initQuestionViews() {
         viewModel.questionsList.addAll(viewModel.questionnaires(viewModel.employmentStatus))
@@ -87,7 +87,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             when (view.id) {
                 R.id.ivSupport -> {
                     viewModel.onInfoClick(data as QuestionUiFields) { title, message ->
-                        showInfoDialog(title, message, arrayListOf(ButtonType.CLOSE)) {}
+                        requireContext().showInfoDialog(title, message, arrayListOf(ButtonType.CLOSE)) {}
                     }
                 }
 
@@ -178,7 +178,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         viewDataBinding as FragmentEmploymentQuestionnaireBinding
 
 
-    override fun showInfoDialog(
+  /*  override fun showInfoDialog(
         title: String,
         message: String,
         buttonTypes: ArrayList<ButtonType>,
@@ -190,7 +190,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             buttonType = buttonTypes,
             callback = cb
         )
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()
@@ -204,20 +204,5 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             viewModel.selectedBusinessCountries.get() ?: arrayListOf()
         )
     }
-    private fun showAdditionalInfoDialog() {
-         showInfoDialog(
-            getString(Strings.screen_employee_information_additional_information_dialog_title),
-            getString(Strings.screen_employee_information_additional_information_dialog_text),
-            arrayListOf(ButtonType.CONTINUE, ButtonType.BACK)
-        ) {
-            when (it.id) {
-                R.id.btnNext -> {
-                    initQuestionViews()
-                }
-                R.id.btnClose -> {
-                    requireActivity().onBackPressed()
-                }
-            }
-        }
-    }
+
 }

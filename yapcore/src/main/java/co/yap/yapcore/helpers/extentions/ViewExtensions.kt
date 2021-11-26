@@ -4,13 +4,16 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.ScrollView
 import androidx.annotation.LayoutRes
 import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.ButtonType
 import co.yap.yapcore.helpers.ImageBinding
+import co.yap.yapcore.helpers.infoDialog
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
@@ -88,4 +91,18 @@ fun ImageView?.hasBitmap(): Boolean {
     return this?.let {
         this.drawable != null && (this.drawable is BitmapDrawable)
     } ?: false
+}
+
+fun Context.showInfoDialog(
+    title: String,
+    message: String,
+    buttonTypes: ArrayList<ButtonType>,
+    cb: (view: View) -> Unit
+) {
+    infoDialog(
+        title = title,
+        message = message,
+        buttonType = buttonTypes,
+        callback = cb
+    )
 }
