@@ -10,8 +10,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.extentions.createTempFile
-import co.yap.yapcore.helpers.spannables.url
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import java.io.File
@@ -89,7 +89,14 @@ class PDFViewModel(application: Application) :
                         fileUrl = cardStatement?.statementURL ?: "",
                         month = cardStatement?.month ?: "",
                         year = cardStatement?.year ?: "",
-                        statementType = cardStatement?.statementType ?: ""
+                        statementType = cardStatement?.statementType ?: "",
+                        cardType = when (cardStatement?.cardType) {
+                            CardType.DEBIT.name -> {
+                                if (cardStatement.statementType == "EMAIL_ME_ACCOUNT") "" else CardType.DEBIT.name
+                            }
+                            CardType.PREPAID.name -> "VIRTUAL"
+                            else -> ""
+                        }
                     )
                 )) {
                 is RetroApiResponse.Success -> {

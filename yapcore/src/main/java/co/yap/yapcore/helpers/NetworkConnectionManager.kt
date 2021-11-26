@@ -2,9 +2,11 @@ package co.yap.yapcore.helpers
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import androidx.databinding.ObservableBoolean
 import java.util.*
 import kotlin.collections.ArrayList
@@ -47,13 +49,9 @@ object NetworkConnectionManager {
     }
 
     fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        if (connectivityManager!=null){
-          if (connectivityManager.activeNetworkInfo!=null){
-              return connectivityManager.activeNetworkInfo.isConnected
-          }
-        }
-        return false
+        val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+        return capabilities?.hasCapability(NET_CAPABILITY_INTERNET) == true
     }
 
     fun subscribe(listener: OnNetworkStateChangeListener) {

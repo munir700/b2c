@@ -1,6 +1,7 @@
 package co.yap.yapcore.leanplum
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,9 @@ import com.leanplum.callbacks.VariablesChangedCallback
 import java.text.SimpleDateFormat
 
 fun Fragment.trackEvent(eventName: String, value: String = "") {
+    fireEventWithAttribute(eventName, value)
+}
+fun Activity.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 

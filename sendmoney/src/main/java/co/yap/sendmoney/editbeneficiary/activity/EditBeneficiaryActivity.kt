@@ -24,6 +24,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.IS_IBAN_NEEDED
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
+import co.yap.yapcore.constants.Constants.SHOW_ADDRESS_IN_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -60,6 +61,12 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     updateAccountTitle(bundleData)
                     viewModel.state.beneficiary =
                         bundleData.getParcelable(Beneficiary::class.java.name)
+                    viewModel.state.showAddressField.set(
+                        bundleData.getBoolean(
+                            SHOW_ADDRESS_IN_BENEFICIARY,
+                            false
+                        )
+                    )
                     if (viewModel.state.beneficiary.isRMTAndSWIFT()) {
                         viewModel.getAllCountries(beneficiary = viewModel.state.beneficiary) { countries ->
                         }
@@ -174,7 +181,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     private val onBeneficiaryCreatedSuccessObserver = Observer<Boolean> {
         if (it) {
-            Utils.confirmationDialog(this,
+            Utils.confirmationDialog(
+                this,
                 Translator.getString(
                     this,
                     R.string.screen_add_beneficiary_detail_display_text_alert_title

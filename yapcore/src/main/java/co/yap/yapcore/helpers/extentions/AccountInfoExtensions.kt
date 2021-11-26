@@ -204,6 +204,7 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.SEND_MONEY,
                 FeatureSet.YAP_TO_YAP,
                 FeatureSet.TOP_UP,
+                FeatureSet.BILL_PAYMENT,
                 FeatureSet.DEBIT_CARD_DETAIL,
                 FeatureSet.ANALYTICS
 

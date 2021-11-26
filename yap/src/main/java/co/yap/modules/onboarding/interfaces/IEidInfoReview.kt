@@ -2,8 +2,13 @@ package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.models.BaseResponse
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 
 interface IEidInfoReview {
@@ -20,12 +25,14 @@ interface IEidInfoReview {
         var caption: String
         var fullNameValid: Boolean
         var nationalityValid: Boolean
-        var dateOfBirthValid: Boolean
         var genderValid: Boolean
         var expiryDateValid: Boolean
         var valid: Boolean
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
+        var isDateOfBirthValid : ObservableBoolean
+        var AgeLimit : Int?
+        var isCountryUS : Boolean
     }
 
     interface View : IBase.View<ViewModel> {
@@ -58,5 +65,7 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
+        fun requestAllAPIs(identity: Identity)
+        fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit)
     }
 }

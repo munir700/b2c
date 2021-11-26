@@ -15,5 +15,7 @@ data class CardStatement(
     @Transient
     var sendEmail: Boolean? = false,
     @Transient
-    var statementType: String? = ""
+    var statementType: String? = "",
+    @Transient
+    var cardType: String? = ""
 ) : Parcelable

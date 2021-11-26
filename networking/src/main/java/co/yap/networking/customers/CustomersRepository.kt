@@ -9,16 +9,20 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -132,6 +136,15 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
     const val URL_DASHBOARD_WIDGETS = "customers/api/getWidgets"
     const val URL_DASHBOARD_WIDGETS_UPDATE = "customers/api/updateWidgets"
+    const val URL_UPDATE_PROFILE_FSS = "customers/api/update-profile-on-fss"
+    const val URL_VALIDATE_EID = "customers/api/sanction-countries-configuration"
+    const val URL_BILL_PROVIDERS = "customers/api/billpayment/biller-categories"
+    const val URL_BILLER_CATALOGS = "customers/api/billpayment/biller-catalogs/{category-id}"
+    const val URL_BILLER_INPUTS_DETAILS = "customers/api/billpayment/biller-details/{biller-id}"
+    const val URL_ADD_BILLER = "customers/api/billpayment/add-biller"
+    const val URL_GET_ADDED_BILLS = "customers/api/billpayment/all-added-billers"
+    const val URL_DELETE_BILL = "customers/api/billpayment/delete-biller/{id}"
+    const val URL_EDIT_BILLER = "/customers/api/billpayment/edit-biller"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -149,7 +162,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse> =
         executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })
-
 
     override suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse> =
         executeSafely(call = { api.getAccountInfo() })
@@ -230,13 +242,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validatePhoneNumber(countryCode, mobileNumber) })
 
-
     override suspend fun changeMobileNumber(
         countryCode: String,
         mobileNumber: String
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeMobileNumber(countryCode, mobileNumber) })
-
 
     override suspend fun validateEmail(email: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validateEmail(email) })
@@ -247,8 +257,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
-    override suspend fun detectCardData(file: MultipartBody.Part) =
-        executeSafely(call = { api.uploadIdCard(file) })
+    override suspend fun detectCardData(
+        fileFront: MultipartBody.Part,
+        fileBack: MultipartBody.Part
+    ) =
+        executeSafely(call = { api.uploadIdCard(fileFront, fileBack) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
         executeSafely(call = { api.getY2YBeneficiaries(contacts) })
@@ -479,5 +492,40 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun updateDashboardWidget(list: List<WidgetData>): RetroApiResponse<UpdateWidgetResponse> =
         executeSafely(call = {
             api.updateDashboardWidget(list)
+        })
+
+    override suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.updateCardName(cardNameRequest)
+        })
+
+    override suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse> =
+        executeSafely(call = {
+            api.getBillProviders()
+        })
+
+    override suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse> =
+        executeSafely(call = { api.getBillerCatalogs(categoryId) })
+
+    override suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse> =
+        executeSafely(call = { api.getBillerInputsDetails(billerId) })
+
+    override suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<BillAddedResponse> =
+        executeSafely(call = { api.addBiller(billerInformation) })
+
+    override suspend fun getAddedBills(): RetroApiResponse<BillResponse> =
+        executeSafely(call = { api.getAddedBills() })
+
+    override suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.deleteBill(id) })
+
+    override suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.editBiller(editBillerRequest)
+        })
+
+    override suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>> =
+        executeSafely(call = {
+            api.getEIDConfigurations()
         })
 }

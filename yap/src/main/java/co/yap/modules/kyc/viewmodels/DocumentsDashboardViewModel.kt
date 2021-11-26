@@ -8,6 +8,9 @@ import co.yap.modules.kyc.states.DocumentsDashboardState
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.models.Identity
 
 class DocumentsDashboardViewModel(application: Application) :
@@ -21,10 +24,30 @@ class DocumentsDashboardViewModel(application: Application) :
     override var skipFirstScreen: MutableLiveData<Boolean> = MutableLiveData(false)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var gotoInformationErrorFragment: MutableLiveData<Boolean>? = MutableLiveData(false)
+    override var showProgressBar: MutableLiveData<Boolean> = MutableLiveData()
     override var finishKyc: MutableLiveData<DocumentsResponse> = MutableLiveData()
+    override var accountStatus: MutableLiveData<String> = MutableLiveData()
 
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =
         null
+
+    override fun onCreate() {
+        super.onCreate()
+        accountStatus.value = SessionManager.user?.notificationStatuses
+        state.middleName.set(
+            SharedPreferenceManager.getInstance(context)
+                .getValueString(Constants.KYC_MIDDLE_NAME)
+        )
+        state.firstName.set(
+            SharedPreferenceManager.getInstance(context)
+                .getValueString(Constants.KYC_FIRST_NAME)
+        )
+        state.lastName.set(
+            SharedPreferenceManager.getInstance(context)
+                .getValueString(Constants.KYC_LAST_NAME)
+        )
+        state.nationality.set(SessionManager.user?.currentCustomer?.nationality)
+    }
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

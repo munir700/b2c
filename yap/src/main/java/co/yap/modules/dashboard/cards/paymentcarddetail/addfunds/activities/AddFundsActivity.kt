@@ -9,11 +9,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.animation.addListener
 import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityAddFundsBinding
@@ -42,8 +42,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_add_funds
-    override val viewModel: AddFundsViewModel
-        get() = ViewModelProviders.of(this).get(AddFundsViewModel::class.java)
+    override val viewModel: AddFundsViewModel by viewModels()
 
     companion object {
         const val CARD = "card"

@@ -6,10 +6,12 @@ import co.yap.modules.dashboard.yapit.topup.topupamount.states.TopUpCardSuccessS
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.adjust.AdjustEvents
 
 
 class TopUpCardSuccessViewModel(application: Application) :
@@ -31,9 +33,10 @@ class TopUpCardSuccessViewModel(application: Application) :
             getString(Strings.screen_topup_success_display_text_success_transaction_message).format(
                 state.currencyType,
                 state.amount.toFormattedCurrency(showCurrency = false,
-                    currency = SessionManager.getDefaultCurrency())
+                    currency = SessionManager.getDefaultCurrency()
+                )
             )
-
+        trackAdjustPlatformEvent(AdjustEvents.TOP_UP_END.type)
     }
 
     fun getAccountBalanceRequest() {

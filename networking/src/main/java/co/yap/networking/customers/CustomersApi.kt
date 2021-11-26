@@ -7,15 +7,19 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -45,7 +49,7 @@ interface CustomersApi {
 
     suspend fun changeVerifiedEmail(email: String): RetroApiResponse<ApiResponse>
     suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse>
-    suspend fun detectCardData(file: MultipartBody.Part): RetroApiResponse<ApiResponse>
+    suspend fun detectCardData(fileFront: MultipartBody.Part, fileBack: MultipartBody.Part): RetroApiResponse<ApiResponse>
     suspend fun getY2YBeneficiaries(contacts: List<Contact>): RetroApiResponse<Y2YBeneficiariesResponse>
     suspend fun getRecentY2YBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
     suspend fun getTopUpBeneficiaries(): RetroApiResponse<TopUpBeneficiariesResponse>
@@ -123,4 +127,15 @@ interface CustomersApi {
     suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
     suspend fun getDashboardWidget(): RetroApiResponse<BaseListResponse<WidgetData>>
     suspend fun updateDashboardWidget(list: List<WidgetData>): RetroApiResponse<UpdateWidgetResponse>
+   suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse>
+
+    //Bill payments feature apis
+    suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse>
+    suspend fun getBillerCatalogs(categoryId: String): RetroApiResponse<BillerCatalogResponse>
+    suspend fun getBillerInputDetails(billerId: String): RetroApiResponse<BillerDetailResponse>
+    suspend fun addBiller(billerInformation: AddBillerInformationRequest): RetroApiResponse<BillAddedResponse>
+    suspend fun getAddedBills(): RetroApiResponse<BillResponse>
+    suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
+    suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse>
+    suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>>
 }

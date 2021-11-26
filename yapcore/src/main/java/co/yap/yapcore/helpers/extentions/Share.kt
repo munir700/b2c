@@ -123,10 +123,11 @@ fun Context.sendEmail(
  */
 fun Context.makeCall(number: String?): Boolean {
     return try {
-        Intent(ACTION_DIAL, Uri.parse("tel:$number")).also {
-            it.resolveActivity(packageManager)?.run {
-                startActivity(it)
-            }
+        val intent = Intent(ACTION_DIAL).apply {
+            data = Uri.parse("tel:$$number")
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
         }
         true
     } catch (e: Exception) {
@@ -147,7 +148,7 @@ fun Context.isWhatsAppInstalled(): Boolean {
 }
 
 fun Context.openWhatsApp() {
-    val contact = "+971 4 365 3789" // use country code with your phone number
+    val contact = "+971 600 551214" // use country code with your phone number
     val url =
         "https://api.whatsapp.com/send?phone=$contact"
     val i = Intent(ACTION_VIEW)
@@ -285,4 +286,10 @@ inline fun FragmentActivity.openFilePicker(
         e.printStackTrace()
     }
 
+}
+
+fun Context.openDialer(number: String) {
+    val intent = Intent(Intent.ACTION_DIAL)
+    intent.data = Uri.parse("tel:${number}")
+    startActivity(intent)
 }

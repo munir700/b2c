@@ -6,11 +6,10 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
-
 /**
  * Superclass of all render classes for the different data types (line, bar, ...).
  *
- * @author Mirza Adil
+ * @author Philipp Jahoda
  */
 public abstract class DataRenderer extends Renderer {
 
@@ -49,10 +48,10 @@ public abstract class DataRenderer extends Renderer {
         mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mValuePaint.setColor(Color.rgb(63, 63, 63));
         mValuePaint.setTextAlign(Align.CENTER);
-        mValuePaint.setTextSize(UtilsPieView.convertDpToPixel(9f));
+        mValuePaint.setTextSize(Utils.convertDpToPixel(9f));
 
         mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mHighlightPaint.setStyle(Style.STROKE);
+        mHighlightPaint.setStyle(Paint.Style.STROKE);
         mHighlightPaint.setStrokeWidth(2f);
         mHighlightPaint.setColor(Color.rgb(255, 187, 115));
     }
@@ -127,13 +126,19 @@ public abstract class DataRenderer extends Renderer {
     /**
      * Draws the value of the given entry by using the provided IValueFormatter.
      *
-     * @param c         canvas
-     * @param valueText label to draw
-     * @param x         position
-     * @param y         position
+     * @param c            canvas
+     * @param formatter    formatter for custom value-formatting
+     * @param value        the value to be drawn
+     * @param entry        the entry the value belongs to
+     * @param dataSetIndex the index of the DataSet the drawn Entry belongs to
+     * @param x            position
+     * @param y            position
      * @param color
      */
-    public abstract void drawValue(Canvas c, String valueText, float x, float y, int color);
+    public void drawValue(Canvas c, IValueFormatter formatter, float value, Entry entry, int dataSetIndex, float x, float y, int color) {
+        mValuePaint.setColor(color);
+        c.drawText(formatter.getFormattedValue(value, entry, dataSetIndex, mViewPortHandler), x, y, mValuePaint);
+    }
 
     /**
      * Draws any kind of additional information (e.g. line-circles).

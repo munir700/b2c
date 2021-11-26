@@ -2,7 +2,7 @@ package co.yap.widgets.pieview;
 
 
 /**
- * @author Mirza Adil
+ * Created by Philipp Jahoda on 09/06/16.
  */
 public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 

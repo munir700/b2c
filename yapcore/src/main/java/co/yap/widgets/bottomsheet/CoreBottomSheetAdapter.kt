@@ -59,6 +59,9 @@ open class CoreBottomSheetAdapter(
             is BottomSheetWithFlagViewHolder -> {
                 holder.onBind(list[position], position, onItemClickListener)
             }
+            is BottomSheetWithNoSeparatorViewHolder -> {
+                holder.onBind(list[position], position, onItemClickListener)
+            }
             is BottomSheetCardDetailViewHolder -> {
                 holder.onBind(list[position], position, onItemClickListener)
             }

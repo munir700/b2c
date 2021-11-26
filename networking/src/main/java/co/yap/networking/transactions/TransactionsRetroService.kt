@@ -1,9 +1,15 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
+import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
+import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsResponse
 import co.yap.networking.transactions.responsedtos.categorybar.CategoryBarResponse
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
@@ -284,4 +290,30 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_DASHBOARD_CATEGORY_BAR)
     suspend fun getCategoryBarData(): Response<CategoryBarResponse>
+
+    @POST(TransactionsRepository.URL_PAY_BILL)
+    suspend fun payBill(@Body payBillRequest: PayBillRequest): Response<ApiResponse>
+
+    @GET(TransactionsRepository.URL_CUSTOMER_BILL_HISTORY)
+    suspend fun fetchCustomerBillHistory(@Path("customerBillUuid") customerBillUuid: String): Response<BillAccountHistoryResponse>
+
+    //Get analytics for bill payments name
+    @GET(TransactionsRepository.URL_GET_BILL_PAYMENTS_ANALYTICS)
+    suspend fun getBPAnalytics(
+        @Path("date") date: String?
+    ): Response<BPAnalyticsResponseDTO>
+
+    //Get analytics for bill payments name
+    @GET(TransactionsRepository.URL_GET_BILL_CATEGORY_HISTORY)
+    suspend fun getBPCategoryHistory(
+        @Path("month") month: String?,
+        @Path("categoryId") categoryId: String?
+    ): Response<BPAnalyticsDetailsDTO>
+
+    //Get analytics for bill payments line chart
+    @GET(TransactionsRepository.URL_CUSTOMER_BILL_HISTORY_LINE_CHART)
+    suspend fun getBPLineChartHistory(@Path("customerBillUuid") customerBillUuid: String): Response<BaseListResponse<BillLineChartHistory>>
+
+    @POST(TransactionsRepository.URL_PAY_ALL_BILL)
+    suspend fun payAllBills(@Body payBillRequest: ArrayList<PayAllRequest>): Response<PayAllBillsResponse>
 }

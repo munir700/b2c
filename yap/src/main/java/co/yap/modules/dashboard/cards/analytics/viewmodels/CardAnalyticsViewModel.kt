@@ -211,6 +211,7 @@ class CardAnalyticsViewModel(application: Application) :
             url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
             position = state.selectedItemPosition.get(),
             type = Constants.CATEGORY_TYPE,
-            showBackground = false)
+            showBackground = false
+        )
     }
 }
