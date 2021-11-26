@@ -31,6 +31,7 @@ interface IEmploymentQuestionnaire {
         val selectedBusinessCountries: ObservableField<ArrayList<String>>
         var questionsList: ArrayList<QuestionUiFields>
         var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse>
+        var businessCountriesLiveData: MutableLiveData<ArrayList<String>>
         fun handleOnPressView(id: Int)
         fun questionnaires(
             forStatus: EmploymentStatus,
@@ -52,8 +53,8 @@ interface IEmploymentQuestionnaire {
             callBack: (title: String, message: String) -> Unit
         )
 
-        fun getCountriesAndSegments()
-        fun isDataRequiredFromApi(forStatus: EmploymentStatus)
+        fun getCountriesAndSegments(businessCountries: ArrayList<String>?,segmentCode: String?)
+        fun isDataRequiredFromApi(forStatus: EmploymentStatus,businessCountries: ArrayList<String>?, segmentCode: String?)
         fun saveEmploymentInfo(
             employmentInfoRequest: EmploymentInfoRequest,
             success: () -> Unit
@@ -66,6 +67,7 @@ interface IEmploymentQuestionnaire {
         fun getDataForPosition(position: Int): QuestionUiFields
         fun hasAmendmentMap(): Boolean
         fun getAmendmentsEmploymentInfo()
+        fun isFromAmendment(): Boolean
     }
 
     interface State : IBase.State {

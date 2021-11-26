@@ -51,6 +51,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
     override var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse> =
         MutableLiveData()
+    override var businessCountriesLiveData: MutableLiveData<ArrayList<String>> =
+        MutableLiveData()
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -71,9 +73,15 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         }
     }
 
-    override fun isDataRequiredFromApi(forStatus: EmploymentStatus) {
+    override fun isDataRequiredFromApi(
+        forStatus: EmploymentStatus, businessCountries: ArrayList<String>?,
+        segmentCode: String?
+    ) {
         when (forStatus) {
-            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> getCountriesAndSegments()
+            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> getCountriesAndSegments(
+                businessCountries,
+                segmentCode
+            )
             else -> {
             }
         }
@@ -268,7 +276,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     }
 
 
-    override fun getCountriesAndSegments() {
+    override fun getCountriesAndSegments(
+        businessCountries: ArrayList<String>?,
+        segmentCode: String?
+    ) {
         fetchParallelAPIResponses { countriesResponse, segmentsResponse ->
             launch(Dispatcher.Main) {
                 when (countriesResponse) {
@@ -277,6 +288,17 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             countriesResponse.data.data,
                             addOIndex = false
                         ) as ArrayList<Country>
+                        var businessCountriesList: ArrayList<String> = ArrayList()
+                        if (isFromAmendment() && businessCountries != null) {
+                            for (i in 0 until businessCountries.size) {
+                                var businessCountry = parentViewModel?.countries?.filter {
+                                    it.isoCountryCode2Digit.equals(businessCountries.get(i))
+                                }?.get(0)?.getName() ?: ""
+                                businessCountriesList.add(businessCountry)
+                            }
+                            selectedQuestionItemPosition = 2
+                            businessCountriesLiveData.value = businessCountriesList
+                        }
                     }
                     is RetroApiResponse.Error -> {
                         showDialogWithCancel(countriesResponse.error.message)
@@ -287,6 +309,16 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         industrySegmentsList.clear()
                         industrySegmentsList.addAll(segmentsResponse.data.segments)
+
+                        if (isFromAmendment() && segmentCode != null) {
+                            var industrySegment = industrySegmentsList.first {
+                                it.segmentCode == segmentCode
+                            }
+                            val objQuestion = getDataForPosition(1)
+                            objQuestion.question.answer.set(industrySegment?.segment)
+                            questionsList[1] = objQuestion
+                            validate()
+                        }
                     }
                     is RetroApiResponse.Error -> {
                         showDialogWithCancel(segmentsResponse.error.message)
@@ -328,7 +360,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     employmentStatus = status.name,
                     employerName = getDataForPosition(0).getAnswer(),
                     monthlySalary = getDataForPosition(1).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(2).getAnswer()
+                    expectedMonthlyCredit = getDataForPosition(2).getAnswer(),
+                    isAmendment = isFromAmendment()
                 )
             }
             EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
@@ -346,7 +379,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         getDataForPosition(2).question.multipleAnswers.get() ?: arrayListOf()
                     ),
                     monthlySalary = getDataForPosition(3).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(4).getAnswer()
+                    expectedMonthlyCredit = getDataForPosition(4).getAnswer(),
+                    isAmendment = isFromAmendment()
                 )
             }
             EmploymentStatus.OTHER -> {
@@ -359,7 +393,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     }.employmentTypeCode,
                     sponsorName = getDataForPosition(1).getAnswer(),
                     monthlySalary = getDataForPosition(2).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(3).getAnswer()
+                    expectedMonthlyCredit = getDataForPosition(3).getAnswer(),
+                    isAmendment = isFromAmendment()
                 )
             }
             EmploymentStatus.NONE -> TODO()
@@ -379,10 +414,28 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 repository.getAmendmentsEmploymentInfo(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    response.data.data?.let {
-                        employmentStatus = EmploymentStatus.valueOf(it.employmentStatus ?: "")
-                        isDataRequiredFromApi(employmentStatus)
-                        employmentStatusValue.value = it
+                    response.data.data?.let { res ->
+                        employmentStatus = EmploymentStatus.valueOf(res.employmentStatus ?: "")
+                        employmentStatusValue.value = res
+
+                        if (employmentStatus == EmploymentStatus.SALARIED_AND_SELF_EMPLOYED || employmentStatus == EmploymentStatus.SELF_EMPLOYED
+                        ) {
+                            isDataRequiredFromApi(
+                                employmentStatus,
+                                res.businessCountries,
+                                res.industrySubSegmentCode?.get(0) ?: ""
+                            )
+                        } else if (employmentStatus == EmploymentStatus.OTHER) {
+                            selectedQuestionItemPosition = 0
+                            val objQuestion = getDataForPosition(selectedQuestionItemPosition)
+                            objQuestion.question.answer.set(employmentTypes().first {
+                                it.employmentTypeCode == res.employmentType
+                            }.employmentType)
+                            questionsList[selectedQuestionItemPosition] = objQuestion
+                            validate()
+                        } else {
+                            isDataRequiredFromApi(employmentStatus, null, null)
+                        }
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -392,4 +445,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
         }
     }
+
+    //check if Amendment exist or not
+    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }
