@@ -49,7 +49,11 @@ class CardLimitViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.configAllowAtm(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
+                repository.configAllowAtm(
+                    CardLimitConfigRequest(
+                        state.card.get()?.cardSerialNumber ?: ""
+                    )
+                )) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
@@ -77,7 +81,11 @@ class CardLimitViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.configOnlineBanking(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
+                repository.configOnlineBanking(
+                    CardLimitConfigRequest(
+                        state.card.get()?.cardSerialNumber ?: ""
+                    )
+                )) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
@@ -105,7 +113,11 @@ class CardLimitViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.configRetailPayment(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
+                repository.configRetailPayment(
+                    CardLimitConfigRequest(
+                        state.card.get()?.cardSerialNumber ?: ""
+                    )
+                )) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
@@ -134,7 +146,11 @@ class CardLimitViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.configAbroadPayment(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
+                repository.configAbroadPayment(
+                    CardLimitConfigRequest(
+                        state.card.get()?.cardSerialNumber ?: ""
+                    )
+                )) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message

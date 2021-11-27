@@ -12,7 +12,9 @@ import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.State
@@ -24,6 +26,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
@@ -57,6 +60,7 @@ class EidInfoReviewViewModel(application: Application) :
     override var sanctionedNationality: String = ""
     override var errorTitle: String = ""
     override var errorBody: String = ""
+
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
     override var countries: ArrayList<Country> = ArrayList()
@@ -66,7 +70,6 @@ class EidInfoReviewViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
-        getSectionedCountriesList()
         // TODO Remove mocking
         //mockDataForScreen()
         //mockServerDataForKYC()
@@ -74,7 +77,10 @@ class EidInfoReviewViewModel(application: Application) :
             getKYCDataFromServer()
         }
         validator?.setValidationListener(this)
-        parentViewModel?.identity?.let { populateState(it) }
+        parentViewModel?.identity?.let {
+            requestAllAPIs(it)
+            populateState(it)
+        }
     }
 
     private fun mockDataForScreen() {
@@ -142,18 +148,18 @@ class EidInfoReviewViewModel(application: Application) :
                     )
                     clickEvent.setValue(eventErrorExpiredEid)
                 }
-                !it.isDateOfBirthValid -> {
+                !state.isDateOfBirthValid.get() -> {
                     updateLabels(
-                        title = getString(Strings.screen_kyc_information_error_display_text_title_under_age),
+                        title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
+                            state.AgeLimit
+                        ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
                     )
                     clickEvent.setValue(eventErrorUnderAge)
                     trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
+
                 }
-                it.nationality.equals("USA", true) || it.isoCountryCode2Digit.equals(
-                    "US",
-                    true
-                ) -> {
+                state.isCountryUS -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_from_us),
                         body = getString(Strings.screen_kyc_information_error_text_description_from_us)
@@ -265,7 +271,7 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun getSectionedCountriesList() {
+/*    private fun getSectionedCountriesList() {
         launch {
             when (val response = repository.getSectionedCountries()) {
                 is RetroApiResponse.Success -> {
@@ -276,7 +282,7 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
         }
-    }
+    }*/
 
     override fun getAllCountries() {
         launch(Dispatcher.Background) {
@@ -502,10 +508,9 @@ class EidInfoReviewViewModel(application: Application) :
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality.set(countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit })
             state.nationalityValid =
-                state.nationality.get() != null && !state.nationality.equals("USA")
+                state.nationality.get() != null && !state.isCountryUS
             state.dateOfBirth =
                 DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
-            state.dateOfBirthValid = it.isDateOfBirthValid
             state.expiryDate =
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
@@ -517,6 +522,7 @@ class EidInfoReviewViewModel(application: Application) :
                 clickEvent.setValue(eventCitizenNumberIssue)
             } else {
                 state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
+                parentViewModel?.state?.identityNo?.set(it.citizenNumber)
             }
             state.gender = it.gender.run {
                 when {
@@ -577,10 +583,11 @@ class EidInfoReviewViewModel(application: Application) :
         state.citizenNumberValid = false
         state.fullNameValid = false
         state.nationalityValid = false
-        state.dateOfBirthValid = false
+        state.isDateOfBirthValid.set(false)
         state.genderValid = false
         state.expiryDateValid = true
         state.expiryDate = ""
+        state.isCountryUS = false
         //state.isShowMiddleName = false
         //state.isShowLastName = false
     }
@@ -589,6 +596,58 @@ class EidInfoReviewViewModel(application: Application) :
         return value?.let {
             return (end in start..it.length)
         } ?: false
+    }
+
+    override fun requestAllAPIs(identity: Identity) {
+        requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
+            launch(Dispatcher.Main) {
+                state.viewState.postValue(false)
+                when (senctionedCountryResponse) {
+                    is RetroApiResponse.Success -> {
+                        sectionedCountries = senctionedCountryResponse.data
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast = senctionedCountryResponse.error.message
+                    }
+                }
+                when (configurationEIDResponse) {
+                    is RetroApiResponse.Success -> {
+                        val data = configurationEIDResponse.data.data
+                        state.isDateOfBirthValid.set(
+                            getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
+                        )
+                        val countryName = data?.country2DigitIsoCode?.let { str ->
+                            str.split(",").map { it -> it.trim() }.find {
+                                it.equals("US")
+                            }
+                        }
+                        state.isCountryUS =
+                            identity.isoCountryCode2Digit.contains(
+                                countryName ?: "US"
+                            )
+                        state.AgeLimit = data?.ageLimit
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast = configurationEIDResponse.error.message
+                    }
+                }
+            }
+        }
+
+    }
+
+    override fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val senctionedCountriesList = launchAsync {
+                repository.getSectionedCountries()
+            }
+
+            val eidConfigurationResponse = launchAsync {
+                repository.getEIDConfigurations()
+            }
+            responses(senctionedCountriesList.await(), eidConfigurationResponse.await())
+        }
     }
 
     override val drawableClickListener = object : OnDrawableClickListener {

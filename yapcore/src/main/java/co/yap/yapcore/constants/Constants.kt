@@ -133,11 +133,13 @@ object Constants {
     const val data = "payLoad"
     const val result = "result"
     const val skipped = "skipped"
+    const val status = "status"
     val FRAGMENT_CLASS = "fragment_class"
     val SHOW_TOOLBAR = "_show_toolbar"
     val EXTRA = "_bundle_extras"
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"
+    const val SHOW_ADDRESS_IN_BENEFICIARY = "SHOW_ADDRESS_IN_BENEFICIARY"
     const val KYC_AMENDMENT_MAP = "kyc_amendment_map"
     const val KYC_AMENDMENT_SUCCESS = "kyc_amendment_success"
 
@@ -212,6 +214,13 @@ object Constants {
     const val FEEDBACK_TITLE = "FEEDBACK_TITLE"
     const val TRANSACTION_COUNT = "TRANSACTION_COUNT"
     const val TOTAL_TRANSACTION = "TOTAL_TRANSACTION"
+
+
+    //KYC Details
+    const val KYC_FIRST_NAME = "KYC_FIRST_NAME"
+    const val KYC_LAST_NAME = "KYC_LAST_NAME"
+    const val KYC_MIDDLE_NAME = "KYC_MIDDLE_NAME"
+    const val NATIONALITY = "NATIONALITY"
     // KYC Amendments
     const val CONFIRMATION_DESCRIPTION = "CONFIRMATION_DESCRIPTION"
 }

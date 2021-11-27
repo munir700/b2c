@@ -18,6 +18,7 @@ interface IKYCHome {
         fun handlePressOnSkipButton(id: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
         fun requestDocuments()
+        fun requestDocumentsInformation(success: () -> Unit)
     }
 
     interface View : IBase.View<ViewModel>

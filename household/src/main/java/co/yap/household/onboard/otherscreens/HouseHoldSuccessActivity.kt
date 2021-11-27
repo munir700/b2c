@@ -27,10 +27,12 @@ class HouseHoldSuccessActivity : DefaultActivity() {
         setMessage()
         btnCompleteVerification.setOnClickListener {
             startActivity(
-                OnBoardingHouseHoldActivity.getIntent(
-                    this,
-                    intent.getBundleExtra(BUNDLE_DATA)
-                )
+                intent.getBundleExtra(BUNDLE_DATA)?.let { it1 ->
+                    OnBoardingHouseHoldActivity.getIntent(
+                        this,
+                        it1
+                    )
+                }
             )
         }
     }

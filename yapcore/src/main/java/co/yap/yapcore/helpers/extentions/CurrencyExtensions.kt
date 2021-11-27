@@ -141,10 +141,10 @@ fun String?.maskAccountNumber(): String {
     } ?: ""
 }
 
-fun String?.getAvailableBalanceWithFormat(): SpannableString {
+fun String?.getAvailableBalanceWithFormat(showCurrency: Boolean = false): SpannableString {
     return this?.trim()?.let { balance ->
         try {
-            SpannableString(balance.toFormattedCurrency(showCurrency = false)).let { formattedBalance ->
+            SpannableString(balance.toFormattedCurrency(showCurrency = showCurrency)).let { formattedBalance ->
                 if (formattedBalance.isNotEmpty() && formattedBalance.contains(".")) {
                     formattedBalance.split(".").let { spllitedBalance ->
                         formattedBalance.setSpan(

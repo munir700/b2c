@@ -3,10 +3,16 @@ package co.yap.networking.transactions
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
+import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
+import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
+import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
+import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsResponse
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -85,6 +91,18 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/category/update-transaction-category"
     const val URL_SEND_EMAIL =
         "/transactions/api/email-me"
+
+    // Bill payment
+    const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
+    const val URL_CUSTOMER_BILL_HISTORY =
+        "/transactions/api/billpayment/fetch-customer-bill-history/{customerBillUuid}"
+    const val URL_GET_BILL_PAYMENTS_ANALYTICS =
+        "/transactions/api/billpayment/fetch-bill-history-chart/{date}"
+    const val URL_GET_BILL_CATEGORY_HISTORY =
+        "/transactions/api/billpayment/fetch-category-bill-history/{month}/{categoryId}"
+    const val URL_PAY_ALL_BILL = "/transactions/api/billpayment/pay-all-bill"
+    const val URL_CUSTOMER_BILL_HISTORY_LINE_CHART =
+        "/transactions/api/billpayment/fetch-bill-history/{customerBillUuid}"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -353,5 +371,37 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.requestSendEmail(sendEmailRequestModel)
         })
 
+    override suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.payBill(payBillRequest)
+        })
+
+    override suspend fun fetchCustomerBillHistory(customerBillUuid: String): RetroApiResponse<BillAccountHistoryResponse> =
+        executeSafely(call = {
+            api.fetchCustomerBillHistory(customerBillUuid)
+        })
+
+    override suspend fun getBPAnalytics(date: String?): RetroApiResponse<BPAnalyticsResponseDTO> =
+        executeSafely(call = {
+            api.getBPAnalytics(date)
+        })
+
+    override suspend fun getBPCategoryHistory(
+        month: String?,
+        categoryId: String?
+    ): RetroApiResponse<BPAnalyticsDetailsDTO> =
+        executeSafely(call = {
+            api.getBPCategoryHistory(month, categoryId)
+        })
+
+    override suspend fun payAllBills(payAllBillsRequest: ArrayList<PayAllRequest>): RetroApiResponse<PayAllBillsResponse> =
+        executeSafely(call = {
+            api.payAllBills(payAllBillsRequest)
+        })
+
+    override suspend fun getBPLineChartHistory(customerBillUuid: String): RetroApiResponse<BaseListResponse<BillLineChartHistory>> =
+        executeSafely(call = {
+            api.getBPLineChartHistory(customerBillUuid)
+        })
 }
 

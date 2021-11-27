@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kyc_navigation"
-    app:startDestination="@id/eidInfoReviewFragment">
+    app:startDestination="@id/KYCHomeFragment">
 
     <fragment
         android:id="@+id/KYCHomeFragment"
@@ -18,6 +18,9 @@
             app:destination="@id/informationErrorFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_KYCHomeFragment_to_confirmCardNameFragment"
+            app:destination="@id/confirmCardNameFragment" />
     </fragment>
 
     <fragment
@@ -53,6 +56,9 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
         <action
+            android:id="@+id/action_eidInfoReviewFragment_to_confirmCardNameFragment"
+            app:destination="@id/confirmCardNameFragment" />
+        <action
             android:id="@+id/action_eidInfoReviewFragment_to_missingInfoConfirmationFragment"
             app:destination="@id/missingInfoConfirmationFragment" />
     </fragment>
@@ -84,6 +90,20 @@
             android:name="placesPhotoId"
             android:defaultValue=" "
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCardNameFragment"
+        android:name="co.yap.modules.kyc.fragments.EditCardNameFragment"
+        android:label="EditCardNameFragment"
+        tools:layout="@layout/fragment_edit_card_name"/>
+    <fragment
+        android:id="@+id/confirmCardNameFragment"
+        android:name="co.yap.modules.kyc.fragments.ConfirmCardNameFragment"
+        tools:layout="@layout/fragment_onboarding_confirm_card_name"
+        >
+        <action
+            android:id="@+id/action_confirmCardNameFragment_to_editCardNameFragment"
+            app:destination="@id/editCardNameFragment" />
     </fragment>
     <fragment
         android:id="@+id/missingInfoConfirmationFragment"

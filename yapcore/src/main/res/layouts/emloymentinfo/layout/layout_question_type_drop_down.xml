@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:textColor="@color/darkSlateBlue"
+                android:textColor="@color/darkSlateBlueFaded"
                 android:lineHeight="@dimen/_16sdp"
                 android:text="@{viewModel.questionUiFields.question.questionTitle}"
                 app:layout_constraintStart_toStartOf="parent"
