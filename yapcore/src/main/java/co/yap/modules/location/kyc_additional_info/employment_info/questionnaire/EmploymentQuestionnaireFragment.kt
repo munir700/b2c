@@ -39,7 +39,9 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         addObservers()
         if (!viewModel.hasAmendmentMap()) {
             viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
-            viewModel.isDataRequiredFromApi(forStatus = viewModel.employmentStatus)
+            viewModel.isDataRequiredFromApi(
+                forStatus = viewModel.employmentStatus
+            )
         }
     }
 
@@ -81,8 +83,16 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnSubmit -> {
-                viewModel.saveEmploymentInfo(viewModel.getEmploymentInfoRequest(viewModel.employmentStatus)) {
-                    navigate(R.id.action_employmentQuestionnaireFragment_to_cardOnTheWayFragment)
+                viewModel.saveEmploymentInfo(
+                    viewModel.getEmploymentInfoRequest(
+                        viewModel.employmentStatus
+                    )
+                ) {
+                    if (viewModel.isFromAmendment()) {
+                        navigateToAmendmentSuccess()
+                    } else {
+                        navigate(R.id.action_employmentQuestionnaireFragment_to_cardOnTheWayFragment)
+                    }
                 }
             }
         }
@@ -91,6 +101,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     private val employmentStatusLoadedObserver =
         Observer<EmploymentInfoAmendmentResponse> {
             initQuestionViews()
+        }
+
+    private val businessCountriesLiveDataObserver =
+        Observer<ArrayList<String>> {
+            onBusinessCountriesSelection(it)
         }
 
     val listener = object : OnItemClickListener {
@@ -166,11 +181,13 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.employmentStatusValue.observe(this, employmentStatusLoadedObserver)
+        viewModel.businessCountriesLiveData.observe(this, businessCountriesLiveDataObserver)
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
         viewModel.employmentStatusValue.removeObserver(employmentStatusLoadedObserver)
+        viewModel.businessCountriesLiveData.removeObserver(businessCountriesLiveDataObserver)
     }
 
     override fun onDestroy() {
@@ -180,7 +197,6 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     override fun getBinding(): FragmentEmploymentQuestionnaireBinding =
         viewDataBinding as FragmentEmploymentQuestionnaireBinding
-
 
     override fun showInfoDialog(title: String, message: String) {
         requireContext().infoDialog(

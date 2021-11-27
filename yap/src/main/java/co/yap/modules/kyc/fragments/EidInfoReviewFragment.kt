@@ -187,8 +187,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         viewLifecycleOwner,
                         Observer { isSuccess ->
                             if (isSuccess) {
-                                viewModel.parentViewModel?.finishKyc?.value =
-                                    DocumentsResponse(true)
+                                if (viewModel.isFromAmendment()) {
+                                    navigateToAmendmentSuccess()
+                                } else {
+                                    viewModel.parentViewModel?.finishKyc?.value =
+                                        DocumentsResponse(true)
+                                }
                             } else {
                                 showToast("Accounts info failed")
                                 viewModel.parentViewModel?.finishKyc?.value =
@@ -203,7 +207,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         viewLifecycleOwner,
                         Observer { isSuccess ->
                             if (isSuccess) {
-                                if (!viewModel.parentViewModel?.amendmentMap.isNullOrEmpty()) {
+                                if (viewModel.isFromAmendment()) {
                                     navigateToAmendmentSuccess()
                                 } else {
                                     viewModel.parentViewModel?.finishKyc?.value =
