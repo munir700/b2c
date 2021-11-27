@@ -434,7 +434,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             questionsList[selectedQuestionItemPosition] = objQuestion
                             validate()
                         } else {
-                            isDataRequiredFromApi(employmentStatus, null, null)
+                            isDataRequiredFromApi(employmentStatus)
                         }
                     }
                 }

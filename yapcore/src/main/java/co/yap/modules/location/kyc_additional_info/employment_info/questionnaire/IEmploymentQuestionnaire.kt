@@ -53,8 +53,8 @@ interface IEmploymentQuestionnaire {
             callBack: (title: String, message: String) -> Unit
         )
 
-        fun getCountriesAndSegments(businessCountries: ArrayList<String>?,segmentCode: String?)
-        fun isDataRequiredFromApi(forStatus: EmploymentStatus,businessCountries: ArrayList<String>?, segmentCode: String?)
+        fun getCountriesAndSegments(businessCountries: ArrayList<String>? = null,segmentCode: String? = null)
+        fun isDataRequiredFromApi(forStatus: EmploymentStatus,businessCountries: ArrayList<String>? = null, segmentCode: String? = null)
         fun saveEmploymentInfo(
             employmentInfoRequest: EmploymentInfoRequest,
             success: () -> Unit

@@ -40,9 +40,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         if (!viewModel.hasAmendmentMap()) {
             viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
             viewModel.isDataRequiredFromApi(
-                forStatus = viewModel.employmentStatus,
-                businessCountries = null,
-                segmentCode = null
+                forStatus = viewModel.employmentStatus
             )
         }
     }
