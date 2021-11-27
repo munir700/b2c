@@ -16,8 +16,8 @@ import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.launchActivityForActivityResult
 import co.yap.yapcore.managers.SessionManager
 
 class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMissingInfo.View {
@@ -41,8 +41,7 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                         goToDashboard()
                     }
                     viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true -> {
-                        // TODO Improve this for callback
-                        val intent = Intent(context, DocumentsDashboardActivity::class.java).apply {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                             putExtra(
                                 Constants.name,
                                 SessionManager.user?.currentCustomer?.firstName.toString()
@@ -56,22 +55,6 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                                 viewModel.missingInfoMap.value
                             )
                         }
-                        startActivityForResult(intent, 1001)
-
-                        /*launchActivityForActivityResult<DocumentsDashboardActivity> {
-                            putExtra(
-                                Constants.name,
-                                SessionManager.user?.currentCustomer?.firstName.toString()
-                            )
-                            putExtra(
-                                Constants.data,
-                                true
-                            ) // TODO make is true for real and false for mocking
-                            putExtra(
-                                Constants.KYC_AMENDMENT_MAP,
-                                viewModel.missingInfoMap.value
-                            )
-                        }*/
                     }
                     else -> {
                         startActivityForResult(
