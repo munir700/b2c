@@ -297,13 +297,11 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
 
             if (!isValid) {
-                //state.valid.set(isValid)
                 isFormValid = false
                 validator?.isValidate?.value = isValid
                 return
             }
         }
-        //state.valid.set(isValid)
         validator?.isValidate?.value = isFormValid
     }
 
