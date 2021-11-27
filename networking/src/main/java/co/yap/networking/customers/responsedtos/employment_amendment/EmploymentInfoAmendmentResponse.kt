@@ -16,13 +16,15 @@ data class EmploymentInfoAmendmentResponse(
     @SerializedName("expectedMonthlyCredit")
     val expectedMonthlyCredit: String? = null,
     @SerializedName("businessCountries")
-    val businessCountries: List<String>? = null,
+    val businessCountries: ArrayList<String>? = null,
     @SerializedName("companyName")
     val companyName: String? = null,
     @SerializedName("industrySubSegmentCode")
     val industrySubSegmentCode: List<String>? = null,
     @SerializedName("employmentType")
     val employmentType: String? = null,
-    @SerializedName("sponsor")
-    val sponsor: String? = null
+    @SerializedName("sponsorName")
+    val sponsorName: String? = null,
+    @SerializedName("isAmendment")
+    val isAmendment: Boolean? = null
 ) : ApiResponse(), Parcelable

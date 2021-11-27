@@ -128,8 +128,7 @@ class KYCComplianceComposer :
                         questionTitle = "Please enter the name of your sponsor",
                         placeholder = "Enter here",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
-                        answer = ObservableField(status?.sponsor ?: ""),
-                        previousValue = status?.sponsor ?: "",
+                        answer = ObservableField(status?.sponsorName ?: ""),
                         tag = ""
                     )
                 ),

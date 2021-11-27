@@ -16,8 +16,8 @@ import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.launchActivityForActivityResult
 import co.yap.yapcore.managers.SessionManager
 
 class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMissingInfo.View {
@@ -41,7 +41,7 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                         goToDashboard()
                     }
                     viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true -> {
-                        launchActivityForActivityResult<DocumentsDashboardActivity> {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                             putExtra(
                                 Constants.name,
                                 SessionManager.user?.currentCustomer?.firstName.toString()
