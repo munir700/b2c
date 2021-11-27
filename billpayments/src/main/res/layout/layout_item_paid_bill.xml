@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.dashboard.analytics.detail.adapter.BPAnalyticsDetailsItemViewModel" />
+
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <variable
+            name="dateTime"
+            type="String" />
+
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lyTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:onClick="@{viewModel::onViewClicked}"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_medium">
+
+        <FrameLayout
+            android:id="@+id/flImageLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_12sdp"
+                app:fullName="@{viewModel.bill.billerName}"
+                app:imageUrl="@{viewModel.bill.logo}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{viewModel.position}"
+                tools:src="@drawable/icon_biller_type_telecom" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvTransactionName"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:singleLine="true"
+            android:text="@{viewModel.bill.billerName == null ? `N/A` :viewModel.bill.billerName}"
+            android:textColor="@color/colorMidnightExpress"
+            app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
+            app:layout_constraintStart_toEndOf="@+id/flImageLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="AmazonAmazon    Aasdasda  asd asd asd asd asdasd" />
+
+        <TextView
+            android:id="@+id/tvTransactionAmount"
+            style="@style/Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:gravity="end"
+            android:text="@{'-'+CurrencyExtensionsKt.toFormattedCurrency(viewModel.bill.billAmount,false,SessionManager.INSTANCE.defaultCurrency,true)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/tvTransactionTimeAndCategory"
+            style="@style/ASmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:alpha="0.5"
+            android:text="@{dateTime}"
+            app:layout_constraintEnd_toEndOf="@+id/tvTransactionName"
+            app:layout_constraintStart_toEndOf="@+id/flImageLayout"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
+            tools:text="- 21.00 \u2022 jun 01" />
+
+        <TextView
+            android:id="@+id/tvCurrency"
+            style="@style/SmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@{SessionManager.INSTANCE.defaultCurrency}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
+            tools:text="AED" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

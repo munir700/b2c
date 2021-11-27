@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.addbiller.billers.BillersViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvScreenTitle"
+            style="@style/ATitle3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{viewModel.state.screenTitle}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Which bank is your card issued by?" />
+
+        <include
+            android:id="@+id/includedSearchView"
+            layout="@layout/layout_bill_payment_search"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:visibility="@{viewModel.state.showSearchView ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@id/multiStateView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvScreenTitle"
+            app:viewModel="@{viewModel}" />
+
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/includedSearchView"
+            app:msv_emptyView="@layout/layout_empty_view_no_results"
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:msv_viewState="loading">
+
+            <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
+                android:id="@+id/rvBillerList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_extra_small"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:recycleViewAdapter="@{viewModel.adapter}"
+                app:rvAdapter="@{viewModel.adapter}"
+                app:shimmerLayoutId="@layout/layout_item_biller_shimmer"
+                tools:listitem="@layout/layout_item_biller" />
+        </co.yap.widgets.MultiStateView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

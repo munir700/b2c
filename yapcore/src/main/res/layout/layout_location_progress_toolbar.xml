@@ -35,22 +35,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back" />
-
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tbBtnCheck"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:clickable="true"
             android:contentDescription="@string/empty_string"
             android:focusable="true"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
             app:enabled="@{false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
             app:srcCompat="@drawable/ic_tick" />
-
         <co.yap.widgets.AnimatingProgressBar
             android:id="@+id/tbProgressBar"
             style="@style/YAPProgressBar"

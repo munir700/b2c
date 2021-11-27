@@ -143,7 +143,6 @@
     </style>
 
 
-
     <style name="Micro" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -161,7 +160,7 @@
 
     <style name="RegularPrimary" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
-         <item name="android:textStyle">normal</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
@@ -699,6 +698,10 @@
         <item name="sv_animationType">Line</item>
     </style>
 
+    <style name="BottomSheetProgressBarColor">
+        <item name="colorAccent">@color/colorPrimary</item> <!-- Whatever color you want-->
+    </style>
+
     <style name="ChipsTheme" parent="@style/Widget.MaterialComponents.Chip.Choice">
         <item name="chipIconVisible">false</item>
         <item name="closeIconVisible">false</item>
@@ -714,9 +717,15 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
-    <style name="ShapeAppearance.App.CircleImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
+    <style name="RadioButtonStyle" parent="@android:style/Widget.CompoundButton">
+        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="LabelTextStylInComingSoon" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="Yap.App.Widget.TextInputLayout" parent="Widget.Design.TextInputLayout">

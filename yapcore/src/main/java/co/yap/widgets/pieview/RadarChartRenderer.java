@@ -214,7 +214,6 @@ public class RadarChartRenderer extends LineRadarRenderer {
         MPPointF.recycleInstance(pIcon);
     }
 
-    @Override
     public void drawValue(Canvas c, String valueText, float x, float y, int color) {
         mValuePaint.setColor(color);
         c.drawText(valueText, x, y, mValuePaint);

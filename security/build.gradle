@@ -26,4 +26,9 @@ android {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    if (JavaVersion.current().ordinal() >= JavaVersion.VERSION_1_9.ordinal()) {
+        project.kaptBindingDependencies.each {
+            add(it.configuration, it.dependency)
+        }
+    }
 }

@@ -6,8 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.widgets.edittext.OnDrawableClickListener
+import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.models.BaseResponse
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.util.*
 
@@ -26,7 +31,7 @@ interface IEidInfoReview {
         var fullNameValid: Boolean
         var citizenNumberValid: Boolean
         var nationalityValid: Boolean
-        var dateOfBirthValid: Boolean
+//        var dateOfBirthValid: Boolean
         var genderValid: Boolean
         var expiryDateValid: Boolean
         var valid: Boolean
@@ -44,6 +49,9 @@ interface IEidInfoReview {
         var previousGender: String?
         var previousExpiryDate: String?
         var previousCitizenNumber: String?
+        var isDateOfBirthValid : ObservableBoolean
+        var AgeLimit : Int?
+        var isCountryUS : Boolean
     }
 
     interface View : IBase.View<ViewModel> {
@@ -76,6 +84,8 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
+        fun requestAllAPIs(identity: Identity)
+        fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit)
         val drawableClickListener: OnDrawableClickListener
         fun getGenderOptions(): ArrayList<BottomSheetItem>
         var countries: ArrayList<Country>
