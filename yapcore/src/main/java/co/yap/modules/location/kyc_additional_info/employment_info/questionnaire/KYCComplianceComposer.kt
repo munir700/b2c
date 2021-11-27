@@ -129,6 +129,7 @@ class KYCComplianceComposer :
                         placeholder = "Enter here",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
                         answer = ObservableField(status?.sponsorName ?: ""),
+                        previousValue = status?.sponsorName ?: "",
                         tag = ""
                     )
                 ),
