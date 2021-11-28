@@ -93,7 +93,7 @@
                 app:compoundDrawableWidth="@dimen/margin_medium_large"
                 app:highlightAmendmentField="@{true}"
                 app:missingFieldMap="@{viewModel.amendmentMap}"
-                app:previousValue="@{viewModel.questionUiFields.question.answer}"
+                app:previousValue="@{viewModel.questionUiFields.question.previousValue}"
                 app:validateEmpty="@{true}"
                 app:editable="@{false}"
                 tools:text="Select from list" />

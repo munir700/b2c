@@ -38,6 +38,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.delay
 
 class EmploymentQuestionnaireViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaire.State>(application),
@@ -233,7 +234,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
 
             if (!isValid) {
-                state.valid.set(isValid)
+                validator?.isValidate?.value = isValid
                 return
             }
         }
@@ -243,7 +244,29 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         val salaryAmount =
             questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
                 ?.getAnswer()
-        state.valid.set(isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble())
+        val previousSalary =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }?.question?.previousValue
+        val previousDepositAmount =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                ?.question?.previousValue
+        if (salaryAmount?.isNotBlank() == true && salaryAmount == previousSalary?.get()) {
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                ?.containsError?.set(true)
+            isValid = false
+        } else {
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                ?.containsError?.set(false)
+        }
+        if (depositAmount?.isNotBlank() == true && depositAmount == previousDepositAmount?.get()) {
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                ?.containsError?.set(true)
+            isValid = false
+        } else {
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                ?.containsError?.set(false)
+        }
+        validator?.isValidate?.value =
+            isValid && state.ruleValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble()
     }
 
     private fun fetchParallelAPIResponses(
@@ -370,8 +393,11 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                                 it.segmentCode == segmentCode
                             }
                             val objQuestion = getDataForPosition(1)
-                            objQuestion.question.answer.set(industrySegment?.segment)
-                            questionsList[1] = objQuestion
+                            objQuestion.question.answer.set(industrySegment.segment)
+                            objQuestion.question.previousValue.set(industrySegment.segment ?: "")
+                            // Adding Delayed Validations
+                            delay(500)
+                            validator?.toValidate()
                             validate()
                         }
                     }
@@ -503,7 +529,13 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun onValidationSuccess(validator: Validator) {
         super.onValidationSuccess(validator)
+        state.ruleValid = true
         validate()
+    }
+
+    override fun onValidationError(validator: Validator) {
+        super.onValidationError(validator)
+        state.ruleValid = false
     }
 
     //check if Amendment exist or not

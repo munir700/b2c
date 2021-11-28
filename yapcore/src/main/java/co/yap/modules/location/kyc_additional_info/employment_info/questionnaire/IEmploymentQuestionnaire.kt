@@ -53,8 +53,17 @@ interface IEmploymentQuestionnaire {
             callBack: (title: String, message: String) -> Unit
         )
 
-        fun getCountriesAndSegments(businessCountries: ArrayList<String>? = null,segmentCode: String? = null)
-        fun isDataRequiredFromApi(forStatus: EmploymentStatus,businessCountries: ArrayList<String>? = null, segmentCode: String? = null)
+        fun getCountriesAndSegments(
+            businessCountries: ArrayList<String>? = null,
+            segmentCode: String? = null
+        )
+
+        fun isDataRequiredFromApi(
+            forStatus: EmploymentStatus,
+            businessCountries: ArrayList<String>? = null,
+            segmentCode: String? = null
+        )
+
         fun saveEmploymentInfo(
             employmentInfoRequest: EmploymentInfoRequest,
             success: () -> Unit
@@ -71,7 +80,7 @@ interface IEmploymentQuestionnaire {
     }
 
     interface State : IBase.State {
-        var valid: ObservableField<Boolean>
+        var ruleValid: Boolean
     }
 
 }
