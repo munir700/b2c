@@ -185,6 +185,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         val objQuestion = getDataForPosition(position)
         objQuestion.question.multipleAnswers.get()?.clear()
         objQuestion.question.multipleAnswers.get()?.addAll(countries)
+        // Only adding previous answers when its empty
+        if (objQuestion.question.multiplePreviousAnswers.get()?.isEmpty() == true) {
+            objQuestion.question.multiplePreviousAnswers.get()?.addAll(countries)
+        }
         questionsList[position] = objQuestion
         selectedBusinessCountries.get()?.clear()
         selectedBusinessCountries.get()?.addAll(countries)
@@ -195,7 +199,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             View.GONE else rvCountries.visibility = View.VISIBLE
 
         rvCountries.smoothScrollToPosition(rvCountries.adapter?.itemCount ?: 0)
-
+        validator?.toValidate()
+        validate()
     }
 
     val employmentTypeItemClickListener = object : OnItemClickListener {
@@ -225,8 +230,34 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         var isValid = false
         questionsList.forEach {
             isValid = when (it.question.questionType) {
-                QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.get()
-                    ?.isNotEmpty() == true
+                QuestionType.COUNTRIES_FIELD -> {
+                    var hasCountryError = true
+                    if (it.question.multiplePreviousAnswers.get()?.isNotEmpty() == true) {
+                        it.question.multiplePreviousAnswers.get()?.let { previousAnswersList ->
+                            if (previousAnswersList.size == it.question.multipleAnswers.get()?.size) {
+                                previousAnswersList.forEach { country ->
+                                    if (it.question.multipleAnswers.get()
+                                            ?.firstOrNull { it == country } == null
+                                    ) {
+                                        hasCountryError = false
+                                        return@let
+                                    }
+                                }
+                            } else {
+                                hasCountryError = false
+                                it.containsError.set(false)
+                            }
+                        }
+                    } else {
+                        hasCountryError = false
+                        it.containsError.set(false)
+                    }
+                    if (hasCountryError) {
+                        it.containsError.set(true)
+                        false
+                    } else it.question.multipleAnswers.get()
+                        ?.isNotEmpty() == true
+                }
                 QuestionType.EDIT_TEXT_FIELD -> {
                     StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
                 }
@@ -235,7 +266,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
             if (!isValid) {
                 validator?.isValidate?.value = isValid
-                return
             }
         }
         val depositAmount =
@@ -370,7 +400,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         if (isFromAmendment() && businessCountries != null) {
                             for (i in 0 until businessCountries.size) {
                                 var businessCountry = parentViewModel?.countries?.filter {
-                                    it.isoCountryCode2Digit.equals(businessCountries.get(i))
+                                    it.isoCountryCode2Digit.equals(businessCountries[i])
                                 }?.get(0)?.getName() ?: ""
                                 businessCountriesList.add(businessCountry)
                             }
