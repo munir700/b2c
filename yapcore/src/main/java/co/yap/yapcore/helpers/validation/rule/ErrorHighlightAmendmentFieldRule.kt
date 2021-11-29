@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers.validation.rule
 
+import android.view.View
 import androidx.annotation.Keep
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -22,6 +23,9 @@ class ErrorHighlightAmendmentFieldRule(
     errorEnabled
 ) {
     override fun isValid(view: TextInputEditText?): Boolean {
+        if (view?.visibility == View.GONE || view?.visibility == View.INVISIBLE) {
+            return true
+        }
         missingFieldMap?.let { it ->
             it.values.toList().forEach { it ->
                 it?.forEach {

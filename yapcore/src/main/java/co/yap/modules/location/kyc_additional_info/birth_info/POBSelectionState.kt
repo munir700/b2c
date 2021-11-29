@@ -25,6 +25,10 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
     override var isDualNational: ObservableBoolean = ObservableBoolean()
     override var eidNationality: ObservableField<String> = ObservableField()
     override var dualNationalityOption: MutableLiveData<Int> = MutableLiveData(0)
+    override var previousSelectedCountry: ObservableField<String?> = ObservableField()
+    override var previousCityOfBirth: ObservableField<String?> = ObservableField()
+    override var previousEidNationality: ObservableField<String?> = ObservableField()
+    override var previousSelectedSecondCountry: ObservableField<String?> = ObservableField()
 
     override fun validate() {
         valid.set(
