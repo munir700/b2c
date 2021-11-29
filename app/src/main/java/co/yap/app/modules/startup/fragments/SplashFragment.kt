@@ -35,6 +35,11 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         animatorSet = AnimatorSet()
+        viewModel.state.downTime.observe(viewLifecycleOwner, Observer {
+            requireActivity().alert(message = it.downTimeMessage ?: "", cancelable = false) {
+                requireActivity().finish()
+            }
+        })
         viewModel.splashComplete.observe(this, Observer {
             if (it) viewModel.getAppUpdate()
         })

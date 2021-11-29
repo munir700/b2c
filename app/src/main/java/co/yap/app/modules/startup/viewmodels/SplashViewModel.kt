@@ -8,6 +8,9 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AppUpdate
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.messages.MessagesApi
+import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.responsedtos.DownTime
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleLiveEvent
 
@@ -18,6 +21,7 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
     override val state: SplashState = SplashState()
 
     override val repository: AuthRepository = AuthRepository
+    private val messagesApi: MessagesApi = MessagesRepository
     private val customersRepository: CustomersRepository = CustomersRepository
 
     override val splashComplete: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -25,7 +29,29 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
 
     override fun onCreate() {
         super.onCreate()
-        loadCookies()
+        getDownTime()
+//        loadCookies()
+    }
+
+    /**
+     *  APi will return @see [DownTime] object if partner bank or processor is down
+     *  Show alert to user if backend, partner bank or processor is down
+     * */
+    private fun getDownTime() {
+        launch {
+            when (val response = messagesApi.getDownTime()) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data?.isDown == true) {
+                        state.downTime.value = response.data.data
+                    } else {
+                        loadCookies()
+                    }
+
+                }
+                is RetroApiResponse.Error -> state.toast =
+                    if (response.error.statusCode == 504) "" else response.error.message
+            }
+        }
     }
 
     private fun loadCookies() {
@@ -53,7 +79,7 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
                     appUpdate.value = null
                 }
                 is RetroApiResponse.Error -> {
-                  showToast(response.error.message)
+                    showToast(response.error.message)
                 }
             }
         }
