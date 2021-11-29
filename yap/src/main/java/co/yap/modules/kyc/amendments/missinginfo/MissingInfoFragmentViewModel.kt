@@ -40,8 +40,8 @@ class MissingInfoFragmentViewModel(application: Application) :
                         }
                     }
                     map.remove("eidInfo")
-                    /*map.remove("birthInfo")
-                    map.remove("taxInfo")*/
+                    map.remove("birthInfo")
+                    map.remove("taxInfo")
                     missingInfoMap.value = map
                     adapter.get()?.setData(list)
                     state.loading = false

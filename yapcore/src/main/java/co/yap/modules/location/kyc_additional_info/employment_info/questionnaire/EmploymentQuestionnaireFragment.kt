@@ -82,8 +82,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         getBinding().llQuestions.post {
             viewModel.validator?.targetViewBinding =
                 getDataBindingView<FragmentEmploymentQuestionnaireBinding>()
-            viewModel.validate()
-            viewModel.validator?.toValidate()
+            viewModel.validateForm()
         }
     }
 
@@ -131,7 +130,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                         itemClickListener = object : OnItemClickListener {
                             override fun onItemClick(view: View, data: Any, pos: Int) {
                                 onBusinessCountriesSelection(data as ArrayList<String>)
-                                viewModel.validate()
+                                viewModel.validateForm()
                             }
                         }, configuration = BottomSheetConfiguration(
                             heading = "Add all the countries your company does business with:",

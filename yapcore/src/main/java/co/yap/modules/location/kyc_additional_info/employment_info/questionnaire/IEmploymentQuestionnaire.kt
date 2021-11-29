@@ -77,6 +77,7 @@ interface IEmploymentQuestionnaire {
         fun hasAmendmentMap(): Boolean
         fun getAmendmentsEmploymentInfo()
         fun isFromAmendment(): Boolean
+        fun validateForm()
     }
 
     interface State : IBase.State {

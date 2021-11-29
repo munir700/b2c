@@ -186,7 +186,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         objQuestion.question.multipleAnswers.get()?.clear()
         objQuestion.question.multipleAnswers.get()?.addAll(countries)
         // Only adding previous answers when its empty
-        if (objQuestion.question.multiplePreviousAnswers.get()?.isEmpty() == true) {
+        if (hasAmendmentMap() && objQuestion.question.multiplePreviousAnswers.get()?.isEmpty() == true) {
             objQuestion.question.multiplePreviousAnswers.get()?.addAll(countries)
         }
         questionsList[position] = objQuestion
@@ -199,8 +199,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             View.GONE else rvCountries.visibility = View.VISIBLE
 
         rvCountries.smoothScrollToPosition(rvCountries.adapter?.itemCount ?: 0)
-        validator?.toValidate()
-        validate()
+        validateForm()
     }
 
     val employmentTypeItemClickListener = object : OnItemClickListener {
@@ -213,7 +212,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             }
             objQuestion.question.answer.set(answerValue)
             questionsList[selectedQuestionItemPosition] = objQuestion
-            validate()
+            validateForm()
         }
     }
 
@@ -221,12 +220,20 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             selectedQuestionItemPosition = pos
             when (view.id) {
-                R.id.etAmount, R.id.etQuestionEditText -> validate()
+                R.id.etAmount, R.id.etQuestionEditText -> validateForm()
             }
         }
     }
 
-    fun validate() {
+    override fun validateForm() {
+        launch {
+            delay(500)
+            validator?.toValidate()
+            validate()
+        }
+    }
+
+    private fun validate() {
         var isValid = false
         questionsList.forEach {
             isValid = when (it.question.questionType) {
@@ -357,11 +364,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             }
                             val objQuestion = getDataForPosition(1)
                             objQuestion.question.answer.set(industrySegment.segment)
-                            objQuestion.question.previousValue.set(industrySegment.segment ?: "")
-                            // Adding Delayed Validations
-                            delay(500)
-                            validator?.toValidate()
-                            validate()
+                            objQuestion.question.previousValue.set(industrySegment.segment)
+                            validateForm()
                         }
                     }
                     is RetroApiResponse.Error -> {
@@ -476,7 +480,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                                 it.employmentTypeCode == res.employmentType
                             }.employmentType)
                             questionsList[selectedQuestionItemPosition] = objQuestion
-                            validate()
+                            validateForm()
                         } else {
                             isDataRequiredFromApi(employmentStatus)
                         }
