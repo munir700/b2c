@@ -332,14 +332,19 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             EmploymentStatus.OTHER -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
-                    employmentType = employmentTypes().first {
+                    employmentType = employmentTypes().find {
                         it.employmentType == getDataForPosition(
                             0
                         ).getAnswer().trim()
-                    }.employmentTypeCode,
+                    }?.employmentTypeCode,
                     sponsorName = getDataForPosition(1).getAnswer(),
                     monthlySalary = getDataForPosition(2).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(3).getAnswer()
+                    expectedMonthlyCredit = getDataForPosition(3).getAnswer(),
+                    employmentTypeValue = employmentTypes().find {
+                        it.employmentType == getDataForPosition(
+                            0
+                        ).getAnswer().trim()
+                    }?.employmentType
                 )
             }
             EmploymentStatus.NONE -> TODO()

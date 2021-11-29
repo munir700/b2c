@@ -22,5 +22,7 @@ data class EmploymentInfoRequest(
     @SerializedName("industrySubSegmentCode")
     val industrySegmentCodes: List<String>? = null,
     @SerializedName("typeOfSelfEmployment")
-    val typeOfSelfEmployment: String? = null
+    val typeOfSelfEmployment: String? = null,
+    @SerializedName("employmentTypeValue")
+    val employmentTypeValue: String? = null
 )
