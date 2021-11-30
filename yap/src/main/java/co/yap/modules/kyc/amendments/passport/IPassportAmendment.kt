@@ -7,6 +7,7 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import java.io.File
 import java.util.*
 
 class IPassportAmendment {
@@ -17,7 +18,7 @@ class IPassportAmendment {
         fun handlePressOnView(id: Int)
         val clickEvent: SingleClickEvent
         fun getUploadDocumentOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem>
-        fun  getDatePicker(currentCalendar: Calendar?,minCalendar: Calendar?=Calendar.getInstance(),maxCalendar: Calendar?=Calendar.getInstance(), selectedCalendar: (Calendar?) -> Unit): DatePickerDialog
+        fun  getDatePicker(currentCalendar: Calendar?, minCalendar: Calendar?=Calendar.getInstance(), maxCalendar: Calendar?=Calendar.getInstance(), callBack: DatePickerDialog.OnDateSetListener): DatePickerDialog
     }
 
     interface State : IBase.State {
@@ -26,5 +27,6 @@ class IPassportAmendment {
         var passportNumber:MutableLiveData<String>
         var issueDate:MutableLiveData<String>
         var expireDate:MutableLiveData<String>
+        var mFile:MutableLiveData<File?>
     }
 }

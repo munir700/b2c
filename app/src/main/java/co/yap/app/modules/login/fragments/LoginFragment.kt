@@ -16,6 +16,7 @@ import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.amendments.passportactivity.PassportActivity
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.widgets.setOnClick
@@ -92,6 +93,9 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 }
             }
         })
+        tvSignUp.setOnClick {
+            launchActivity<PassportActivity> {  }
+        }
     }
 
     override fun onDestroy() {

@@ -7,22 +7,27 @@ import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PhotoSelectionType
-import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.util.*
 
 class PassportAmendmentVM(application: Application) :
-    BaseViewModel<IPassportAmendment.State>(application), IPassportAmendment.ViewModel {
+    BaseViewModel<IPassportAmendment.State>(application), IPassportAmendment.ViewModel, IValidator {
     override val state = PassportAmendmentState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var validator: Validator? = Validator(null)
+
     override fun onCreate() {
         super.onCreate()
         state.issueDataCalender = Calendar.getInstance()
         state.expireDataCalender = Calendar.getInstance()
     }
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
+
     override fun getUploadDocumentOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem> {
         val list = arrayListOf<BottomSheetItem>()
         list.add(
@@ -54,21 +59,17 @@ class PassportAmendmentVM(application: Application) :
     }
 
 
-    override fun getDatePicker(currentCalendar: Calendar?,
-                               minCalendar: Calendar?,
-                               maxCalendar: Calendar?,
-                               selectedCalendar: (Calendar?) -> Unit): DatePickerDialog {
+    override fun getDatePicker(
+        currentCalendar: Calendar?,
+        minCalendar: Calendar?,
+        maxCalendar: Calendar?,
+        callBack: DatePickerDialog.OnDateSetListener
+    ): DatePickerDialog {
         val dpd =
-            DatePickerDialog.newInstance({ _, year, monthOfYear, dayOfMonth ->
-                currentCalendar?.set(Calendar.YEAR, year)
-                currentCalendar?.set(Calendar.MONTH, monthOfYear)
-                currentCalendar?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                selectedCalendar.invoke(currentCalendar)
-
-            }, currentCalendar)
-        dpd.maxDate = Calendar.getInstance()
-        dpd.minDate = Calendar.getInstance()
+            DatePickerDialog.newInstance(callBack, currentCalendar)
+        maxCalendar?.let { dpd.maxDate = maxCalendar }
+        minCalendar?.let { dpd.minDate = minCalendar }
         dpd.version = DatePickerDialog.Version.VERSION_2
-        return  dpd
+        return dpd
     }
 }

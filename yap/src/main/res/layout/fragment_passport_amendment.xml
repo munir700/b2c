@@ -78,12 +78,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="start"
+                        android:text="The picture page of your passport"
                         android:textColor="@color/colorPrimaryDark"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/ivCheck"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvEid"
-                        android:text="The picture page of your passport"
                         tools:text="The picture page of your passport" />
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -91,7 +91,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:foregroundGravity="center_vertical"
-                        android:src="@drawable/ic_share_reciept"
+                        android:src="@{viewModel.state.mFile!=null &amp;&amp; viewModel.state.mFile.exists()?@drawable/ic_tick_round:@drawable/ic_share_reciept}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -115,11 +115,13 @@
                     android:hint="Enter passport number"
                     android:imeOptions="actionDone"
                     android:inputType="number"
+                    android:maxLength="9"
                     android:singleLine="true"
                     android:text="@{viewModel.state.passportNumber}"
                     android:theme="@style/Theme.EditText.GreySoft"
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
-                    app:compoundDrawableWidth="@dimen/margin_medium_large" />
+                    app:compoundDrawableWidth="@dimen/margin_medium_large"
+                    app:validateEmpty="@{true}" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
@@ -136,9 +138,9 @@
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:clickable="true"
                     android:focusableInTouchMode="false"
                     android:hint="Select expiry date"
                     android:inputType="number"
@@ -149,7 +151,8 @@
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
                     app:compoundDrawableWidth="@dimen/margin_medium_large"
                     app:drawableEndVector="@drawable/ic_chevron_down"
-                    app:rtdrawableTint="@color/greyDark" />
+                    app:rtdrawableTint="@color/greyDark"
+                    app:validateEmpty="@{true}" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
@@ -166,9 +169,9 @@
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:clickable="true"
                     android:focusableInTouchMode="false"
                     android:hint="Select issue date"
                     android:inputType="number"
@@ -179,7 +182,8 @@
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
                     app:compoundDrawableWidth="@dimen/margin_medium_large"
                     app:drawableEndVector="@drawable/ic_chevron_down"
-                    app:rtdrawableTint="@color/greyDark" />
+                    app:rtdrawableTint="@color/greyDark"
+                    app:validateEmpty="@{true}" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <View
@@ -197,6 +201,7 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/screen_phone_number_button_send"
                 app:btn_size="medium"
+                app:enableCoreButton="@{viewModel.validator.isValidate &amp;&amp; viewModel.state.mFile!=null}"
                 tools:ignore="MissingConstraints" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>

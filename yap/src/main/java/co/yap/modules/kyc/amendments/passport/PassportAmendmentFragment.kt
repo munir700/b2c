@@ -16,6 +16,10 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
+import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
+import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.extentions.openAppSetting
@@ -23,7 +27,9 @@ import co.yap.yapcore.helpers.extentions.openFilePicker
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.io.File
+import java.util.*
 
 class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewModel>(),
     IPassportAmendment.View {
@@ -31,7 +37,7 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_passport_amendment
 
-    override val viewModel: IPassportAmendment.ViewModel
+    override val viewModel: PassportAmendmentVM
         get() = ViewModelProvider(this).get(PassportAmendmentVM::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,26 +54,52 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<FragmentPassportAmendmentBinding>().lifecycleOwner = this
+        viewModel.validator?.targetViewBinding =
+            getDataBindingView<FragmentPassportAmendmentBinding>()
         viewModel.clickEvent.observe(viewLifecycleOwner, onViewClickObserver)
     }
 
     private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.etIssueDate -> {
-                viewModel.getDatePicker(viewModel.state.issueDataCalender) { calender ->
-                    viewModel.state.issueDataCalender = calender
-                }.run {
-                    this.accentColor = requireContext().getColor(R.color.colorPrimary)
-                    this.show(childFragmentManager, "")
-                }
+
+                val dp = viewModel.getDatePicker(
+                    currentCalendar = viewModel.state.issueDataCalender, minCalendar = null,
+                    callBack = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                        viewModel.state.issueDataCalender?.set(Calendar.YEAR, year)
+                        viewModel.state.issueDataCalender?.set(Calendar.MONTH, monthOfYear)
+                        viewModel.state.issueDataCalender?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        viewModel.state.issueDate.value = DateUtils.dateToString(
+                            viewModel.state.issueDataCalender?.time,
+                            DEFAULT_DATE_FORMAT,
+                            TIME_ZONE_Default
+                        )
+
+                    })
+
+                dp.accentColor = requireContext().getColor(R.color.colorPrimary)
+                dp.show(childFragmentManager, "")
+
             }
             R.id.etExpireDate -> {
-                viewModel.getDatePicker(viewModel.state.issueDataCalender) { calender ->
-                    viewModel.state.expireDataCalender = calender
-                }.run {
-                    this.accentColor = requireContext().getColor(R.color.colorPrimary)
-                    this.show(childFragmentManager, "")
+                val expCalender = Calendar.getInstance().apply {
+                    this.add(Calendar.YEAR, 25)
                 }
+                val dp = viewModel.getDatePicker(
+                    currentCalendar = viewModel.state.expireDataCalender, maxCalendar = expCalender,
+                    callBack = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                        viewModel.state.expireDataCalender?.set(Calendar.YEAR, year)
+                        viewModel.state.expireDataCalender?.set(Calendar.MONTH, monthOfYear)
+                        viewModel.state.expireDataCalender?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        viewModel.state.expireDate.value = DateUtils.dateToString(
+                            viewModel.state.expireDataCalender?.time,
+                            DEFAULT_DATE_FORMAT,
+                            TIME_ZONE_Default
+                        )
+                    })
+
+                dp.accentColor = requireContext().getColor(R.color.colorPrimary)
+                dp.show(childFragmentManager, "")
 
             }
             R.id.btnNext -> {
@@ -101,6 +133,8 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
                     requireActivity().openFilePicker("File picker",
                         completionHandler = { _, dataUri ->
                             dataUri?.let { uriIntent ->
+                                viewModel.state.mFile.value =
+                                    FileUtils.getFile(requireContext(), uriIntent.data)
 //                                uploadDocumentAndMoveNext(
 //                                    FileUtils.getFile(requireContext(), uriIntent.data),
 //                                    currentPos ?: 0,
@@ -134,7 +168,7 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
         ) { resultCode, intent ->
             if (resultCode == Activity.RESULT_OK) {
                 intent?.let {
-                    val file: File? = it.extras?.get("file") as File
+                    viewModel.state.mFile.value = it.extras?.get("file") as File
 //                    uploadDocumentAndMoveNext(
 //                        file,
 //                        currentPos ?: 0,
