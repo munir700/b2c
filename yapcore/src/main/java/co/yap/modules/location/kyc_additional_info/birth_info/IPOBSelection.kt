@@ -2,7 +2,6 @@ package co.yap.modules.location.kyc_additional_info.birth_info
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.yapcore.IBase
@@ -30,6 +29,7 @@ interface IPOBSelection {
         fun canSkipFragment(): Boolean
         fun getAmendmentsBirthInfo()
         fun isFromAmendment(): Boolean
+        fun validateForm()
     }
 
     interface State : IBase.State {
@@ -40,6 +40,10 @@ interface IPOBSelection {
         var eidNationality: ObservableField<String>
         var isDualNational: ObservableBoolean
         var dualNationalityOption: MutableLiveData<Int>
+        var previousSelectedCountry: ObservableField<String?>
+        var previousCityOfBirth: ObservableField<String?>
+        var previousEidNationality: ObservableField<String?>
+        var previousSelectedSecondCountry: ObservableField<String?>
         fun validate()
     }
 }

@@ -50,6 +50,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         if (!viewModel.hasAmendmentMap()) {
             initQuestionViews()
         }
+        getDataBindingView<FragmentEmploymentQuestionnaireBinding>().lifecycleOwner = this
     }
 
     private fun initQuestionViews() {
@@ -77,6 +78,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             )
             if (questionView != null)
                 getBinding().llQuestions.addView(questionView)
+        }
+        getBinding().llQuestions.post {
+            viewModel.validator?.targetViewBinding =
+                getDataBindingView<FragmentEmploymentQuestionnaireBinding>()
+            viewModel.validateForm()
         }
     }
 
@@ -124,7 +130,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                         itemClickListener = object : OnItemClickListener {
                             override fun onItemClick(view: View, data: Any, pos: Int) {
                                 onBusinessCountriesSelection(data as ArrayList<String>)
-                                viewModel.validate()
+                                viewModel.validateForm()
                             }
                         }, configuration = BottomSheetConfiguration(
                             heading = "Add all the countries your company does business with:",
@@ -223,7 +229,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         val bundle = Bundle()
         bundle.putString(
             Constants.CONFIRMATION_DESCRIPTION,
-            getString(R.string.common_display_text_y2y_general_share)
+            getString(R.string.kyc_common_success_subtitle)
         )
         bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
         navigate(

@@ -2242,6 +2242,10 @@ object Strings {
         "common_display_text_founder"
     const val screen_additional_info_label_text_question_hint: String =
         "screen_additional_info_label_text_question_hint"
+    const val screen_home_amendment_title: String =
+        "screen_home_amendment_title"
+    const val screen_home_amendment_desc: String =
+        "screen_home_amendment_desc"
 
     const val screen_additional_info_label_text_additional_info: String =
         "screen_additional_info_label_text_additional_info"

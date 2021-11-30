@@ -1334,6 +1334,8 @@
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
     <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
     <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
+    <string name="screen_home_amendment_title">Missing information</string>
+    <string name="screen_home_amendment_desc">Looks like some of your information in your application wasn’t right.</string>
     <string name="screen_home_complete_verification_desc">Complete verification to activate your account.</string>
     <string name="screen_home_set_pin_desc">This 4-digit code is yours to keep. Please don\'t share it with anyone</string>
     <string name="screen_home_renewed_id_title">Renew ID</string>
@@ -1459,7 +1461,7 @@
     <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
-<!--    ERROR_INVALID_CARDINPUT-->
+    <!--    ERROR_INVALID_CARDINPUT-->
     <!--    Samsung Pay start-->
     <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
     <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
@@ -1468,7 +1470,7 @@
     <!--    Samsung Pay end-->
 
 
-<!--    Edit Card Name -->
+    <!--    Edit Card Name -->
     <string name="screen_edit_card_name_text_heading">Type your full name</string>
     <string name="screen_edit_card_name_display_heading">What name would you like on your card?</string>
     <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
@@ -1613,6 +1615,7 @@
     <!-- KYC Amendments Start -->
     <string name="kyc_incorrect_field">Looks like this is incorrect</string>
     <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
+    <string name="kyc_common_success_subtitle">Thanks for re-submitting your information. Your YAP card will be out for delivery shortly.</string>
     <!-- KYC Amendments End -->
 
 

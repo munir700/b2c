@@ -8,6 +8,8 @@ data class Question(
     val placeholder: String?,
     val questionType: QuestionType,
     val answer: ObservableField<String>,
+    var previousValue : ObservableField<String?>,
     val multipleAnswers: ObservableField<ArrayList<String>> = ObservableField(arrayListOf()),
+    var multiplePreviousAnswers: ObservableField<ArrayList<String>> = ObservableField(arrayListOf()),
     val tag: String?
 )
