@@ -1,6 +1,8 @@
 <resources>
 
     <!-- Common -->
+    <string name="permissions_rationale_ask_again">This app may not work correctly without the requested permissions. Open the app settings screen to modify app permissions.</string>
+    <string name="title_settings_dialog">Permissions Required</string>
     <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
     <string name="common_display_text_retry">Retry</string>
     <string name="common_empty_string"> </string>
@@ -274,6 +276,8 @@
     <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Thanks %1$s! Verify your details are exactly as per your Emirates Id. You can edit the name fields incase we got it wrong!</string>
     <string name="screen_b2c_eid_info_review_display_text_eid_number">Emirates ID number</string>
     <string name="screen_b2c_eid_info_review_display_text_select_gender">Select your Gender</string>
+
+    <string name="screen_b2c_passport_number_text">Passport number</string>
 
 
     <!--    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>-->

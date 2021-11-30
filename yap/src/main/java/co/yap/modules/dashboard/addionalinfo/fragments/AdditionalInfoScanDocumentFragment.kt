@@ -200,8 +200,7 @@ class AdditionalInfoScanDocumentFragment :
             ExifInterface.ORIENTATION_UNDEFINED
         )
 
-        var rotatedBitmap: Bitmap
-        rotatedBitmap = when (orientation) {
+        val rotatedBitmap: Bitmap = when (orientation) {
             ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90F)
             ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180F)
             ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270F)

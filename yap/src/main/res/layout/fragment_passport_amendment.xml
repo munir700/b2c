@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.amendments.passport.PassportAmendmentVM" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                style="@style/ATitle3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="Additional Information"
+                tools:text="Additional Information" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSubTitle"
+                style="@style/RegularGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="Tap on each one to view more information."
+                tools:text="Tap on each one to view more information." />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                app:cardBackgroundColor="@color/primary_purple_diffused"
+                app:cardCornerRadius="10dp"
+                app:contentPadding="@dimen/margin_medium">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvEid"
+                        style="@style/ALarge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="Passport"
+                        android:textColor="@color/colorPrimary"
+                        app:layout_constraintEnd_toStartOf="@+id/ivCheck"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Passport" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvDocumentDescription"
+                        style="@style/Small"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="The picture page of your passport"
+                        android:textColor="@color/colorPrimaryDark"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ivCheck"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEid"
+                        tools:text="The picture page of your passport" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivCheck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:foregroundGravity="center_vertical"
+                        android:src="@{viewModel.state.mFile!=null &amp;&amp; viewModel.state.mFile.exists()?@drawable/ic_tick_round:@drawable/ic_share_reciept}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/tilPassportNumber"
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:hint="@string/screen_b2c_passport_number_text">
+
+                <co.yap.widgets.edittext.EditTextRichDrawable
+                    android:id="@+id/etPassportNumber"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter passport number"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:singleLine="true"
+                    android:text="@{viewModel.state.passportNumber}"
+                    android:theme="@style/Theme.EditText.GreySoft"
+                    app:compoundDrawableHeight="@dimen/margin_medium_large"
+                    app:compoundDrawableWidth="@dimen/margin_medium_large"
+                    app:validateEmpty="@{true}" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/tilExpireDate"
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:hint="Expiry date">
+
+                <co.yap.widgets.edittext.EditTextRichDrawable
+                    android:id="@+id/etExpireDate"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Select expiry date"
+                    android:inputType="number"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:singleLine="true"
+                    android:text="@{viewModel.state.expireDate}"
+                    android:theme="@style/Theme.EditText.GreySoft"
+                    app:compoundDrawableHeight="@dimen/margin_medium_large"
+                    app:compoundDrawableWidth="@dimen/margin_medium_large"
+                    app:drawableEndVector="@drawable/ic_chevron_down"
+                    app:rtdrawableTint="@color/greyDark"
+                    app:validateEmpty="@{true}" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/tilIssueDate"
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:hint="Issue date">
+
+                <co.yap.widgets.edittext.EditTextRichDrawable
+                    android:id="@+id/etIssueDate"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Select issue date"
+                    android:inputType="number"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:singleLine="true"
+                    android:text="@{viewModel.state.issueDate}"
+                    android:theme="@style/Theme.EditText.GreySoft"
+                    app:compoundDrawableHeight="@dimen/margin_medium_large"
+                    app:compoundDrawableWidth="@dimen/margin_medium_large"
+                    app:drawableEndVector="@drawable/ic_chevron_down"
+                    app:rtdrawableTint="@color/greyDark"
+                    app:validateEmpty="@{true}" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnNext"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:text="@string/screen_phone_number_button_send"
+                app:btn_size="medium"
+                app:enableCoreButton="@{viewModel.validator.isValidate &amp;&amp; viewModel.state.mFile!=null}"
+                tools:ignore="MissingConstraints" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>
