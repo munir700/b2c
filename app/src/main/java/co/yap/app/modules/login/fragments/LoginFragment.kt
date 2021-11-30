@@ -93,9 +93,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 }
             }
         })
-        tvSignUp.setOnClick {
-            launchActivity<PassportActivity> {  }
-        }
     }
 
     override fun onDestroy() {

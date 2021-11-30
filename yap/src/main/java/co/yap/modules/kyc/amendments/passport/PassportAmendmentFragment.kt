@@ -36,7 +36,6 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
     private var permissionHelper: PermissionHelper? = null
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_passport_amendment
-
     override val viewModel: PassportAmendmentVM
         get() = ViewModelProvider(this).get(PassportAmendmentVM::class.java)
 
@@ -74,12 +73,10 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
                             DEFAULT_DATE_FORMAT,
                             TIME_ZONE_Default
                         )
-
                     })
 
                 dp.accentColor = requireContext().getColor(R.color.colorPrimary)
                 dp.show(childFragmentManager, "")
-
             }
             R.id.etExpireDate -> {
                 val expCalender = Calendar.getInstance().apply {
@@ -97,7 +94,6 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
                             TIME_ZONE_Default
                         )
                     })
-
                 dp.accentColor = requireContext().getColor(R.color.colorPrimary)
                 dp.show(childFragmentManager, "")
 

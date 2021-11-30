@@ -58,7 +58,6 @@ class PassportAmendmentVM(application: Application) :
         return list
     }
 
-
     override fun getDatePicker(
         currentCalendar: Calendar?,
         minCalendar: Calendar?,
