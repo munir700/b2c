@@ -85,8 +85,9 @@
                 android:onClick="@{viewModel::onViewClicked}"
                 android:padding="@dimen/margin_small"
                 android:singleLine="true"
+                android:hint="@{viewModel.questionUiFields.question.placeholder}"
                 android:tag="@{viewModel.questionUiFields.question.tag}"
-                android:text="@{viewModel.questionUiFields.question.answer.length()>0?viewModel.questionUiFields.question.answer:viewModel.questionUiFields.question.placeholder}"
+                android:text='@{viewModel.questionUiFields.question.answer.length()>0?viewModel.questionUiFields.question.answer:""}'
                 android:textColor="@color/colorPrimaryDark"
                 android:theme="@style/Theme.EditText.Primary"
                 app:compoundDrawableHeight="@dimen/margin_medium_large"
