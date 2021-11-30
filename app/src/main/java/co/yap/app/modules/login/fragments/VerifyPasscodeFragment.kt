@@ -331,7 +331,6 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private fun getCardAndTourInfo(accountInfo: AccountInfo?) {
         TourGuideManager.getTourGuides()
-        accountInfo?.amendmentStatus = AmendmentStatus.SUBMIT_TO_CUSTOMER.name
         SessionManager.getDebitCard { card ->
             SessionManager.updateCardBalance { }
             shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
@@ -381,10 +380,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     else {
                         SessionManager.sendFcmTokenToServer(requireContext()) {}
                         // launching missing info screen
-                        if (AmendmentStatus.valueOf(
-                                accountInfo?.amendmentStatus ?: ""
-                            ) == AmendmentStatus.SUBMIT_TO_CUSTOMER
-                                ) {
+                        if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == accountInfo?.amendmentStatus) {
                             startFragment(
                                 fragmentName = MissingInfoFragment::class.java.name
                             )
