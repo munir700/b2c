@@ -29,37 +29,38 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
 
     override fun onCreate() {
         super.onCreate()
-        getDownTime()
-//        loadCookies()
+        loadCookies()
     }
 
     /**
      *  APi will return @see [DownTime] object if partner bank or processor is down
      *  Show alert to user if backend, partner bank or processor is down
      * */
-    private fun getDownTime() {
+    private fun getDownTime(errorMessage: String) {
         launch {
             when (val response = messagesApi.getDownTime()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data?.isDown == true) {
                         state.downTime.value = response.data.data
                     } else {
-                        loadCookies()
+                        state.downTime.value = DownTime(errorMessage, false)
                     }
 
                 }
-                is RetroApiResponse.Error -> state.toast =
-                    if (response.error.statusCode == 504) "" else response.error.message
+                is RetroApiResponse.Error -> {
+                    state.downTime.value = DownTime(errorMessage, false)
+                }
             }
         }
     }
 
-    private fun loadCookies() {
+    fun loadCookies() {
         launch {
             when (val response = repository.getCSRFToken()) {
                 is RetroApiResponse.Success -> splashComplete.value = true
-                is RetroApiResponse.Error -> state.toast =
-                    if (response.error.statusCode == 504) "" else response.error.message
+                is RetroApiResponse.Error -> {
+                    getDownTime(if (response.error.statusCode == 504) "Sorry, that doesn't look right.Please try again in sometime." else response.error.message)
+                }
             }
         }
     }
