@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -26,6 +27,7 @@ import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
 class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.ViewModel>(),
@@ -130,6 +132,14 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                         }
                         NotificationAction.CARD_FEATURES_BLOCKED -> {
                             requireContext().makeCall(SessionManager.helpPhoneNumber)
+                        }
+                        NotificationAction.AMENDMENT -> {
+                            startFragment(
+                                fragmentName = MissingInfoFragment::class.java.name,
+                                bundle = Bundle().apply {
+                                    putBoolean(Constants.LAUNCHED_FROM_HOME, true)
+                                }
+                            )
                         }
                     }
                 }

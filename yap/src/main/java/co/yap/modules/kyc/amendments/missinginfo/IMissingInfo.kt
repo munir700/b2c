@@ -2,7 +2,6 @@ package co.yap.modules.kyc.amendments.missinginfo
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.yapcore.IBase
 
 interface IMissingInfo {
@@ -10,6 +9,7 @@ interface IMissingInfo {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
+        var isFromHome: Boolean
         val adapter: ObservableField<MissingInfoAdapter>
         val onClickEvent: MutableLiveData<Int>
         val missingInfoMap: MutableLiveData<HashMap<String?, List<String>?>>

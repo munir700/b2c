@@ -13,6 +13,7 @@ class MissingInfoFragmentViewModel(application: Application) :
     BaseViewModel<IMissingInfo.State>(application), IMissingInfo.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
+    override var isFromHome = false
     override val adapter = ObservableField<MissingInfoAdapter>()
     override val state: IMissingInfo.State = MissingInfoState()
     override val repository: CustomersRepository = CustomersRepository
@@ -39,9 +40,6 @@ class MissingInfoFragmentViewModel(application: Application) :
                             list.addAll(it.amendments ?: emptyList())
                         }
                     }
-                    map.remove("eidInfo")
-                    map.remove("birthInfo")
-                    map.remove("taxInfo")
                     missingInfoMap.value = map
                     adapter.get()?.setData(list)
                     state.loading = false

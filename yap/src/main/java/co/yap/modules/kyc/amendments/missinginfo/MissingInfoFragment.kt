@@ -27,6 +27,11 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
     override val viewModel: IMissingInfo.ViewModel
         get() = ViewModelProvider(this).get(MissingInfoFragmentViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.isFromHome = arguments?.getBoolean(Constants.LAUNCHED_FROM_HOME) == true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.adapter.set(MissingInfoAdapter(mutableListOf(), null))
@@ -72,6 +77,11 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                 }
             }
             R.id.tvDoItLater -> {
+                if (viewModel.isFromHome) {
+                    requireActivity().finish()
+                } else {
+                    goToDashboard()
+                }
             }
         }
     }
