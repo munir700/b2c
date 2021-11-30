@@ -14,18 +14,23 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import kotlinx.coroutines.delay
 
 class POBSelectionViewModel(application: Application) :
     LocationChildViewModel<IPOBSelection.State>(application),
-    IPOBSelection.ViewModel, IRepositoryHolder<CustomersRepository> {
+    IPOBSelection.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
+    Validator.ValidationListener {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IPOBSelection.State =
         POBSelectionState()
     override val dualNationalityQuestionOptions: ArrayList<String> = arrayListOf("No", "Yes")
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     override val repository: CustomersRepository = CustomersRepository
+    override var validator: Validator? = Validator(null)
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -33,6 +38,7 @@ class POBSelectionViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        validator?.setValidationListener(this)
         getAllCountries()
         state.isDualNational.set(false)
     }
@@ -51,6 +57,10 @@ class POBSelectionViewModel(application: Application) :
             state.eidNationality.set(
                 parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                     ?.getName() ?: "")
+            if (isFromAmendment()) {
+                state.previousEidNationality.set(parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
+                    ?.getName())
+            }
             populateSpinnerData.value =
                 parentViewModel?.countries?.filter { it.isoCountryCode2Digit != SessionManager.homeCountry2Digit } as ArrayList<Country>
         } else {
@@ -67,6 +77,10 @@ class POBSelectionViewModel(application: Application) :
                             state.eidNationality.set(
                                 parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
                                     ?.getName() ?: "")
+                            if (isFromAmendment()) {
+                                state.previousEidNationality.set(parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
+                                    ?.getName())
+                            }
                             populateSpinnerData.value =
                                 parentViewModel?.countries?.filter { it.isoCountryCode2Digit != SessionManager.homeCountry2Digit } as ArrayList<Country>
                             state.viewState.value = false
@@ -88,13 +102,26 @@ class POBSelectionViewModel(application: Application) :
             if (data is String) {
                 if (data.equals(dualNationalityQuestionOptions.get(0))) {
                     state.selectedSecondCountry.set(null)
+                    state.eidNationality.set(null)
+                    state.previousEidNationality.set(null)
+                    state.previousSelectedSecondCountry.set(null)
                     state.isDualNational.set(false)
-                    state.validate()
+                    validateForm()
                 } else {
                     state.isDualNational.set(true)
-                    state.validate()
+                    state.eidNationality.set(parentViewModel?.countries?.first { it.isoCountryCode2Digit == SessionManager.homeCountry2Digit }
+                        ?.getName())
+                    validateForm()
                 }
             }
+        }
+    }
+
+    override fun validateForm() {
+        launch {
+            delay(500)
+            state.validate()
+            validator?.toValidate()
         }
     }
 
@@ -125,7 +152,7 @@ class POBSelectionViewModel(application: Application) :
 
     override fun canSkipFragment() =
         SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
-                || parentViewModel?.amendmentMap?.contains(AmendmentSection.BIRTH_INFO.value) == false
+                || (isFromAmendment() && (parentViewModel?.amendmentMap?.contains(AmendmentSection.BIRTH_INFO.value) == false))
 
     override fun getAmendmentsBirthInfo() {
         launch {
@@ -136,19 +163,24 @@ class POBSelectionViewModel(application: Application) :
                     val selectedCountry: Country? =
                         parentViewModel?.countries?.find { it.isoCountryCode2Digit == response.data.data?.countryOfBirth ?: "" }
                     state.selectedCountry.set(selectedCountry)
+                    selectedCountry?.let {
+                        state.previousSelectedCountry.set(it.getName())
+                    }
 
                     state.cityOfBirth.set(response.data.data?.cityOfBirth ?: "")
+                    state.previousCityOfBirth.set(response.data.data?.cityOfBirth)
                     state.isDualNational.set(response.data.data?.isDualNationality ?: true)
                     if (!state.isDualNational.get()) {
                         state.selectedSecondCountry.set(null)
-                        state.validate()
+                        state.previousSelectedSecondCountry.set(null)
                     } else {
                         state.dualNationalityOption.value = 1
                         val selectedSecondCountry: Country? =
                             parentViewModel?.countries?.find { it.isoCountryCode2Digit == response.data.data?.dualNationality ?: "" }
                         state.selectedSecondCountry.set(selectedSecondCountry)
-                        state.validate()
+                        state.previousSelectedSecondCountry.set(selectedSecondCountry?.getName())
                     }
+                    validateForm()
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -159,4 +191,14 @@ class POBSelectionViewModel(application: Application) :
 
     //check if Amendment exist or not
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+
+    override fun onValidationError(validator: Validator) {
+        super.onValidationError(validator)
+        state.valid.set(false)
+    }
+
+    override fun onValidationSuccess(validator: Validator) {
+        super.onValidationSuccess(validator)
+        state.valid.set(true)
+    }
 }

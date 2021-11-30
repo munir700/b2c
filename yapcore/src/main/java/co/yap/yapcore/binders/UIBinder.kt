@@ -46,6 +46,7 @@ import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
 import co.yap.widgets.CorePaymentCard
 import co.yap.widgets.MaskTextWatcher
+import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
@@ -996,6 +997,42 @@ object UIBinder {
             if (!iso2DigitCode.isNullOrEmpty()) drawable else null,
             drawables[1],
             if (showDropDown) drawableDropDown else null,
+            drawables[3]
+        )
+    }
+
+    @BindingAdapter(requireAll = false, value = ["flagOnStartDrawable"])
+    @JvmStatic
+    fun setFlagOnDrawableStart(
+        editText: EditTextRichDrawable,
+        iso2DigitCode: String?
+    ) {
+        val drawables: Array<Drawable> =
+            editText.compoundDrawables
+        val drawableDropDown: Drawable? =
+            editText.context.getDrawable(
+                R.drawable.iv_drown_down
+            )
+        var drawable: Drawable? = null
+        iso2DigitCode?.let {
+            try {
+                drawable =
+                    editText.context.getDrawable(
+                        CurrencyUtils.getFlagDrawable(
+                            editText.context,
+                            it
+                        )
+                    )
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
+        }
+        drawable?.setBounds(0, 0, 70, 70)
+        drawableDropDown?.setBounds(0, 0, 123, 123)
+        editText.setCompoundDrawables(
+            if (!iso2DigitCode.isNullOrEmpty()) drawable else null,
+            drawables[1],
+            drawables[2],
             drawables[3]
         )
     }

@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -28,9 +28,21 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent">-->
 
-            <androidx.appcompat.widget.AppCompatTextView
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/tvTinNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:dividerPadding="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:hint="@{viewModel.questionUiFields.question.questionTitle}"
+                app:hintTextAppearance="@style/SmallGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+           <!-- <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTinNumber"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
@@ -58,11 +70,43 @@
                 android:drawableTint="@color/greyDark"
                 android:text="@{viewModel.questionUiFields.question.answer.length()>0?viewModel.questionUiFields.question.answer:viewModel.questionUiFields.question.placeholder}"
                 tools:text="Select from list" />
+                -->
 
-            <include
+            <co.yap.widgets.edittext.EditTextRichDrawable
+                android:id="@+id/tvDropDown"
+                style="@style/ARegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                app:drawableEndVector="@drawable/ic_chevron_down"
+                android:drawableTint="@color/greyDark"
+                android:onClick="@{viewModel::onViewClicked}"
+                android:padding="@dimen/margin_small"
+                android:singleLine="true"
+                android:hint="@{viewModel.questionUiFields.question.placeholder}"
+                android:tag="@{viewModel.questionUiFields.question.tag}"
+                android:text='@{viewModel.questionUiFields.question.answer.length()>0?viewModel.questionUiFields.question.answer:""}'
+                android:textColor="@color/colorPrimaryDark"
+                android:theme="@style/Theme.EditText.Primary"
+                app:compoundDrawableHeight="@dimen/margin_medium_large"
+                app:compoundDrawableWidth="@dimen/margin_medium_large"
+                app:highlightAmendmentField="@{true}"
+                app:missingFieldMap="@{viewModel.amendmentMap}"
+                app:previousValue="@{viewModel.questionUiFields.question.previousValue}"
+                app:validateEmpty="@{true}"
+                app:editable="@{false}"
+                tools:text="Select from list" />
+
+
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+           <!-- <include
                 layout="@layout/content_input_field_selector"
                 app:isFocus="@{viewModel.questionUiFields.isFocusInput}" />
 
         </LinearLayout>
+        -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
