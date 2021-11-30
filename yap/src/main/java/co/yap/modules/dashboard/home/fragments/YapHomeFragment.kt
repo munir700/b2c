@@ -682,11 +682,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
             NotificationAction.AMENDMENT -> {
                 startFragment(
-                    fragmentName = MissingInfoFragment::class.java.name,
-                    bundle = Bundle().apply {
-                        putBoolean(Constants.LAUNCHED_FROM_HOME, true)
-                    }
+                    fragmentName = MissingInfoFragment::class.java.name
                 )
+                requireActivity().finish()
             }
         }
     }

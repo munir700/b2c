@@ -142,7 +142,6 @@ object Constants {
     const val SHOW_ADDRESS_IN_BENEFICIARY = "SHOW_ADDRESS_IN_BENEFICIARY"
     const val KYC_AMENDMENT_MAP = "kyc_amendment_map"
     const val KYC_AMENDMENT_SUCCESS = "kyc_amendment_success"
-    const val LAUNCHED_FROM_HOME = "launched_from_home"
 
     // SharedPreference  Keys
 

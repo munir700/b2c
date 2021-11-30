@@ -1615,6 +1615,7 @@
     <!-- KYC Amendments Start -->
     <string name="kyc_incorrect_field">Looks like this is incorrect</string>
     <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
+    <string name="kyc_common_success_subtitle">Thanks for re-submitting your information. Your YAP card will be out for delivery shortly.</string>
     <!-- KYC Amendments End -->
 
 

@@ -9,7 +9,6 @@ interface IMissingInfo {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        var isFromHome: Boolean
         val adapter: ObservableField<MissingInfoAdapter>
         val onClickEvent: MutableLiveData<Int>
         val missingInfoMap: MutableLiveData<HashMap<String?, List<String>?>>
