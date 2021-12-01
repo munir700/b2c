@@ -23,7 +23,7 @@ interface ICardAnalytics {
         fun fetchCardMerchantAnalytics(currentMonth: String)
         fun handlePressOnView(id: Int)
         fun isDataAvailableForSelectedMonth(tab: Int): Boolean
-        var type: ObservableField<String>
+//      var type: ObservableField<String>
         fun setPieChartIcon(image: CoreCircularImageView)
     }
 

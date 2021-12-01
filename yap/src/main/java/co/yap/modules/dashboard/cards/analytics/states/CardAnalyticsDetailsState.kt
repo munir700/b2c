@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
 
 class CardAnalyticsDetailsState : BaseState(), ICardAnalyticsDetails.State {
     override var title: ObservableField<String> = ObservableField("Title")
@@ -15,7 +16,7 @@ class CardAnalyticsDetailsState : BaseState(), ICardAnalyticsDetails.State {
     override var currToLast: ObservableField<String> = ObservableField("0.0")
     override var ImageUrl: ObservableField<String> = ObservableField("Url")
     override var categoryColor: String = ""
-    override var analyticType: String = ""
+    override var analyticType: ObservableField<String> = ObservableField( Constants.MERCHANT_NAME)
 
     @get:Bindable
     override var position: Int = 0

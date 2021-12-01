@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.app.Application
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
@@ -34,7 +33,7 @@ class CardAnalyticsViewModel(application: Application) :
     override var currentDate: Date? = null
     private var listOfMonths: List<Date> = arrayListOf()
 
-    override var type: ObservableField<String> = ObservableField("merchant-category-id")
+//    override var type: ObservableField<String> = ObservableField("merchant-category-id")
 
     override fun onCreate() {
         super.onCreate()
@@ -210,7 +209,8 @@ class CardAnalyticsViewModel(application: Application) :
             title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
             url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
             position = state.selectedItemPosition.get(),
-            type = Constants.CATEGORY_TYPE,
-            showBackground = false)
+            type = Constants.MERCHANT_CATEGORY_ID,
+            showBackground = false
+        )
     }
 }

@@ -16,6 +16,7 @@ import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
@@ -33,7 +34,7 @@ class TransactionsListingAdapter(
     var analyticsItemTitle: String? = null
     var analyticsItemImgUrl: String? = null
     var categoryColour: String? = null
-    var analyticType: String = "merchant-name"
+    var analyticType: String = Constants.MERCHANT_NAME
     override fun getLayoutIdForViewType(viewType: Int): Int {
         return if (adapterType == TransactionAdapterType.TRANSACTION) R.layout.item_transaction_list else R.layout.item_analytics_transaction_list
     }
@@ -71,8 +72,15 @@ class TransactionsListingAdapter(
             analyticsItemImgUrl: String?,
             type: TransactionAdapterType,
             categoryColour: String?,
-            analyticType: String
+            analyticMainType: String
         ) {
+            var analyticType: String = Constants.MERCHANT_NAME
+            if( analyticMainType == Constants.MERCHANT_CATEGORY_ID && transaction.merchantLogo.isNullOrBlank()){
+                analyticType = Constants.MERCHANT_CATEGORY_ID
+            }else if( analyticMainType == Constants.TOTAL_PURCHASE){
+                analyticType = Constants.TOTAL_PURCHASE
+            }
+
             itemAnalyticsTransactionListBinding.viewModel =
                 ItemAnalyticsTransactionVM(
                     transaction,
@@ -86,8 +94,8 @@ class TransactionsListingAdapter(
             itemAnalyticsTransactionListBinding.tvCurrency.alpha =
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) 0.5f else 1f
             itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
-                analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: "",
-                analyticsItemImgUrl ?: transaction.merchantLogo ?: "",
+                transaction.merchantName ?: analyticsItemTitle ?: transaction.title ?: "",
+                 transaction.merchantLogo ?: analyticsItemImgUrl ?: "",
                 position, type = analyticType,
                 transaction = transaction,
                 categoryColor = categoryColour.toString()
