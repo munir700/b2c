@@ -2,11 +2,9 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
 
 class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(), ISpareCards.View,
     SpareCardsLandingAdapter.OnItemClickedListener {
-    val args : SpareCardLandingFragmentArgs? by navArgs()
+    val args: SpareCardLandingFragmentArgs? by navArgs()
     override fun onItemClick(benefitsModel: BenefitsModel) {}
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -82,18 +80,28 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.addSpareCard -> {
-                    args?.let { arg->
-                        if(arg.landedFrom.isNotEmpty()){
-                            when (arg.landedFrom){
-                                "AddVirtualCardFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
-                                "AddVirtualCardNameFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardNameFragment())
-                                "AddSpareCardFragment"->setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(cardType = "",isFromBlockCard = false))
+                    args?.let { arg ->
+                        if (arg.landedFrom.isNotEmpty()) {
+                            when (arg.landedFrom) {
+                                "AddVirtualCardFragment" -> navigateToAction(
+                                    SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment()
+                                )
+                                "AddVirtualCardNameFragment" -> navigateToAction(
+                                    SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardNameFragment()
+                                )
+                                "AddSpareCardFragment" -> navigateToAction(
+                                    SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+                                        cardType = "",
+                                        isFromBlockCard = false
+                                    )
+                                )
                             }
-                        }else{
-                            setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
+                        } else {
+                            navigateToAction(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
                         }
-                    }?:setNavigation(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
-                     //gotoAddVirtualCardScreen()
+                    }
+                        ?: navigateToAction(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
+                    //gotoAddVirtualCardScreen()
                 }
                 R.id.llAddVirtualCard -> {
                     gotoAddSpareVirtualCardConfirmScreen()
@@ -129,18 +137,9 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         })
     }
 
-    private fun gotoAddVirtualCardScreen() {
-        val action  =
-            SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment()
-        navigate(action)
-    }
-    private fun setNavigation(action : NavDirections){
-        navigate(action)
-    }
-
-    private fun setDefaultStates(){
-        args?.let { arg->
-            if(arg.landedFrom.isEmpty()) {
+    private fun setDefaultStates() {
+        args?.let { arg ->
+            if (arg.landedFrom.isEmpty()) {
                 viewModel.parentViewModel?.getVirtualCardDesigns {
                     if (!viewModel.parentViewModel?.virtualCardDesignsList.isNullOrEmpty()) {
                         addSpareCard.enableButton(true)

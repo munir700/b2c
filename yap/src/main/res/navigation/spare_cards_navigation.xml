@@ -97,6 +97,9 @@
                 app:argType="string" />
         </action>
 
+        <action
+            android:id="@+id/action_addSpareCardFragment_to_addvirtualcardnamefragment"
+            app:destination="@+id/addVirtualCardNameFragment" />
 
     </fragment>
 
@@ -215,5 +218,7 @@
                 app:argType="string" />
         </action>
     </fragment>
-
+    <action
+        android:id="@+id/action_addVirtualCardNameFragment_to_addVirtualCarFragment"
+        app:destination="@+id/addVirtualCardFragment" />
 </navigation>

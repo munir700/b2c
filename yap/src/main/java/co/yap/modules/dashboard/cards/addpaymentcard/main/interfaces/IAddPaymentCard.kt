@@ -22,6 +22,7 @@ interface IAddPaymentCard {
         var selectedVirtualCard: VirtualCardDesigns?
         var selectedCardName: ObservableField<String>
         var isFromBlockCard: ObservableField<Boolean>
+        var selectedVirtualCardPosition: ObservableField<Int>
     }
 
     interface View : IBase.View<ViewModel>

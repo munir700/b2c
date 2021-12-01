@@ -250,8 +250,4 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             activity?.finish()
         }
     }
-    fun navigateToLanding(){
-        val action =  AddSpareCardFragmentDirections.actionAddSpareCardFragmentToSpareCardLandingFragment("AddSpareCardFragment")
-        findNavController().navigate(action)
-    }
 }

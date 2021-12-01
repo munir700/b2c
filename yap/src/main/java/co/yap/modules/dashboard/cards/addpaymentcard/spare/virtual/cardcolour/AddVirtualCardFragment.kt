@@ -5,10 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddVirtualCardBinding
@@ -68,9 +66,20 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
                         }
                         getBindings().tabLayout.addOnTabSelectedListener(this@AddVirtualCardFragment)
                         viewModel.tabViews.get()?.add(view)
-                        viewModel.state.designCode?.value =
-                            viewModel.adapter.get()?.getDataList()?.get(0)?.designCode
+                        viewModel.parentViewModel?.selectedVirtualCardPosition?.get()
+                            ?.let { selectedPos ->
+                                viewModel.parentViewModel?.selectedVirtualCard =
+                                    viewModel.adapter.get()?.getDataList()?.get(selectedPos)
+                                viewModel.state.designCode?.value =
+                                    viewModel.adapter.get()?.getDataList()
+                                        ?.get(selectedPos)?.designCode
+                                onTabSelected(tabLayout.getTabAt(selectedPos))
+                                viewPager.post {
+                                    viewPager.setCurrentItem(selectedPos, true)
+                                }
+                            }
                         tab.customView = view
+
                     }).attach()
             })
         }
@@ -82,6 +91,7 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
                 viewModel.adapter.get()?.getDataList()?.get(it.position)
             viewModel.state.designCode?.value =
                 viewModel.adapter.get()?.getDataList()?.get(it.position)?.designCode
+            viewModel.parentViewModel?.selectedVirtualCardPosition?.set(it.position)
             viewModel.tabViews.get()?.get(it.position)?.borderWidth = 8f
             viewModel.tabViews.get()?.get(it.position)?.borderColorDirection =
                 CircleView.GradientDirection.TOP_TO_BOTTOM
@@ -132,11 +142,6 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
                 navigate(action)
             }
         }
-    }
-
-    fun navigateToLanding(){
-        val action =  AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToSpareCardLandingFragment("AddVirtualCardFragment")
-        findNavController().navigate(action)
     }
 
     override fun removeObservers() {

@@ -24,6 +24,7 @@ class AddPaymentCardViewModel(application: Application) :
     override var selectedVirtualCard: VirtualCardDesigns? = null
     override var selectedCardName = ObservableField("")
     override var isFromBlockCard: ObservableField<Boolean> = ObservableField(false)
+    override var selectedVirtualCardPosition: ObservableField<Int> = ObservableField(0)
 
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)

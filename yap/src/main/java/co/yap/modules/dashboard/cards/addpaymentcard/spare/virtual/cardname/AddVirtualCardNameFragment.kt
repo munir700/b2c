@@ -9,7 +9,6 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddVirtualCardNameBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour.AddVirtualCardFragmentDirections
 
 class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.ViewModel>(),
     IAddVirtualCardName.View {
@@ -26,6 +25,7 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setCardImage(getBindings().imgCard)
+        getBindings().etCardName.setText(viewModel.parentViewModel?.selectedCardName?.get())
     }
 
     override fun addObservers() {
@@ -46,11 +46,6 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
                 findNavController().navigate(R.id.action_addVirtualCardNameFragment_to_addSpareCardFragment)
             }
         }
-    }
-
-    fun navigateToLanding(){
-        val action =  AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToSpareCardLandingFragment("AddVirtualCardNameFragment")
-        findNavController().navigate(action)
     }
 
     override fun removeObservers() {
