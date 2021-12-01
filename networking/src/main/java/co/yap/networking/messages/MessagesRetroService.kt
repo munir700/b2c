@@ -3,6 +3,7 @@ package co.yap.networking.messages
 import co.yap.networking.messages.requestdtos.*
 import co.yap.networking.messages.responsedtos.*
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -22,7 +23,10 @@ interface MessagesRetroService {
 
     // Create otp request for change mobile number
     @POST(MessagesRepository.URL_CREATE_OTP_GENERIC_WITH_PHONE)
-    suspend fun createOtpGenericWithPhone(@Path("phone") phone: String, @Body createOtpGenericRequest: CreateOtpGenericRequest): Response<ApiResponse>
+    suspend fun createOtpGenericWithPhone(
+        @Path("phone") phone: String,
+        @Body createOtpGenericRequest: CreateOtpGenericRequest
+    ): Response<ApiResponse>
 
     // Verify otp request
     @PUT(MessagesRepository.URL_VERIFY_OTP_GENERIC)
@@ -46,4 +50,10 @@ interface MessagesRetroService {
 
     @GET(MessagesRepository.URL_FAQS)
     suspend fun getFaqs(): Response<FaqsResponse>
+
+    /**
+     *  APi will return @see [DownTime] object if partner bank or processor is down
+     * */
+    @GET(MessagesRepository.URL_GET_DOWNTIME)
+    suspend fun getDownTime(): Response<BaseResponse<DownTime>>
 }
