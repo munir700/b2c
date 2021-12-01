@@ -8,6 +8,7 @@ import com.digitify.identityscanner.base.State;
 
 public class CameraState extends State {
     private String title;
+    private String overlayInstructionsTitle;
     private String instructions;
     private String stepInstructions;
     private String submitButtonTitle;
@@ -21,6 +22,16 @@ public class CameraState extends State {
     public void setTitle(String title) {
         this.title = title;
         notifyPropertyChanged(BR.title);
+    }
+
+    @Bindable
+    public String getOverlayInstructionsTitle() {
+        return overlayInstructionsTitle;
+    }
+
+    public void setOverlayInstructionsTitle(String title) {
+        this.overlayInstructionsTitle = title;
+        notifyPropertyChanged(BR.overlayInstructionsTitle);
     }
 
     @Bindable

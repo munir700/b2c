@@ -27,5 +27,3 @@ data class TransactionDetail(
     val isDeclinedTransaction: Boolean? = false,
     val isMApVisible: Boolean? = false
 )
-
-

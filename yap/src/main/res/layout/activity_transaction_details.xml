@@ -65,19 +65,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-            <!--android:visibility="@{viewModel.state.transactionData.isMApVisible()?View.VISIBLE : View.GONE}"/>
-            this visibility check not handled here because fragmant dont support binding expression alternate solution is to handle it by adding additional one parent layout
-            -->
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_120sdp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
             <FrameLayout
                 android:id="@+id/flImageLayout"
                 android:layout_width="wrap_content"
@@ -141,7 +128,9 @@
                     style="@style/AMicroGrey"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
+                    android:maxLines="1"
                     android:text="@{viewModel.state.transactionData.locationValue}"
                     android:visibility="@{viewModel.state.transactionData.locationValue.empty || viewModel.state.transactionData.locationValue == null ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -161,7 +150,7 @@
                     android:maxLines="1"
                     android:text="@{viewModel.transaction != null?viewModel.state.transactionData.transferType : null}"
                     android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)==true || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
-                    android:visibility="@{viewModel.transaction != null? ((viewModel.state.transactionData.isAtmTransaction|| viewModel.state.transactionData.isYTYTransfer) ?View.VISIBLE : View.GONE) : View.VISIBLE}"
+                    android:visibility="@{viewModel.transaction != null? viewModel.state.transactionData.isAtmTransaction?View.VISIBLE : View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
@@ -176,7 +165,6 @@
                     android:layout_marginTop="@dimen/_2sdp"
                     android:contentDescription="@string/empty_string"
                     android:tint="@color/colorSecondaryOrange"
-                    android:visibility="@{viewModel.state.transactionData.showCategory?View.GONE :View.VISIBLE}"
                     app:alpha="@{viewModel.state.isTransactionInProcessOrRejected ? 0.5f : 1f}"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvTxnSubTitle"
@@ -209,9 +197,11 @@
                     style="@style/Large"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.transaction.txnType.equals(TxnType.DEBIT.type) ? `- `+CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.transactionData.totalAmount.toString(),false,SessionManager.INSTANCE.defaultCurrency,true) : `+ `+CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.transactionData.totalAmount.toString(),false,SessionManager.INSTANCE.defaultCurrency,true)}"
                     android:textColor="@{viewModel.state.isTransactionInProcessOrRejected ? @color/colorFaded: @color/colorPrimaryDark}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+
                     tools:text="2500" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -341,8 +331,9 @@
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clReceiptParent"
-                app:ratingViewModel="@{viewModel}" />
-            <!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
+                app:ratingViewModel="@{viewModel}"
+              />
+<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
 
             <include
                 android:id="@+id/parentTotalPurchase"
@@ -431,8 +422,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clDetail"
-                app:text="@{Strings.screen_transaction_details_display_feedback_label}" />
-            <!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
+                app:text="@{Strings.screen_transaction_details_display_feedback_label}"
+                />
+<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -7,7 +7,7 @@ package co.yap.widgets.pieview;
  * modify it. Do not access public variables directly. Be aware that not all
  * features the XLabels class provides are suitable for the RadarChart.
  *
- * @author Mirza Adil
+ * @author Faheem Riaz
  */
 public class XAxis extends AxisBase {
 

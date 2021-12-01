@@ -83,7 +83,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun parseEmploymentTypes(employmentTypes: MutableList<EmploymentType>): MutableList<CoreBottomSheetData> {
         employmentTypes.forEach {
-            it.subTitle = it.employmentType
+            it.subTitle = it.employmentType.trim()
         }
         return employmentTypes.toMutableList()
     }
@@ -215,8 +215,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
                 ?.getAnswer()
         state.valid.set(isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble())
-
-//        state.valid.set(isValid)
     }
 
     private fun fetchParallelAPIResponses(
@@ -224,7 +222,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
-//            coroutineScope {
             val deferredCountriesResponse = launchAsync {
                 repository.getAllCountries()
             }
@@ -235,7 +232,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 deferredCountriesResponse.await(),
                 deferredIndustrySegmentsResponse.await()
             )
-//            }
         }
     }
 
@@ -302,7 +298,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     expectedMonthlyCredit = getDataForPosition(2).getAnswer()
                 )
             }
-            EmploymentStatus.SELF_EMPLOYED, EmploymentStatus.SALARIED_AND_SELF_EMPLOYED -> {
+            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED,EmploymentStatus.SELF_EMPLOYED -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
@@ -326,7 +322,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                     employmentType = employmentTypes().first {
                         it.employmentType == getDataForPosition(
                             0
-                        ).getAnswer()
+                        ).getAnswer().trim()
                     }.employmentTypeCode,
                     sponsorName = getDataForPosition(1).getAnswer(),
                     monthlySalary = getDataForPosition(2).getAnswer(),

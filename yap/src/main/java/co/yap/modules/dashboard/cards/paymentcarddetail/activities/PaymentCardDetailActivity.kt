@@ -196,7 +196,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             R.id.llAddFunds -> {
                 addedRemovedFunds = true
                 trackEventWithScreenName(FirebaseEvent.CLICK_ADD_FUNDS)
-                trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                 viewModel.card.value?.let { card ->
                     launchActivity<AddFundsActivity>(
                         requestCode = Constants.REQUEST_ADD_REMOVE_FUNDS,
@@ -595,11 +594,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     getRecycleViewAdaptor().getDataForPosition(
                         groupPosition ?: 0
                     ).transaction[childPosition ?: 0].transactionNote =
-                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.transactionNote
                     getRecycleViewAdaptor().getDataForPosition(
                         groupPosition ?: 0
                     ).transaction[childPosition ?: 0].transactionNoteDate =
-                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.transactionNoteDate
                     getRecycleViewAdaptor().notifyItemChanged(
                         groupPosition ?: 0,
                         getRecycleViewAdaptor().getDataForPosition(

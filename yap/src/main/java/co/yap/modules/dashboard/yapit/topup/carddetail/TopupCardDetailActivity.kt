@@ -34,7 +34,7 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
         super.onCreate(savedInstanceState)
         setObservers()
         if (intent.hasExtra(key)) {
-            val card: Parcelable = intent.getParcelableExtra(key)
+            val card: Parcelable? = intent.getParcelableExtra(key)
             if (card is TopUpCard) {
                 viewModel.state.cardInfo.set(card)
                 viewModel.state.cardFormattedExpiry.set(DateUtils.convertTopUpDate(card.expiry))

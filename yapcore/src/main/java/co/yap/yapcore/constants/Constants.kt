@@ -69,12 +69,12 @@ object Constants {
     const val QR_CODE_SCREEN: Int = 9
 
     const val URL_YAP_WEBSITE = "https://www.yap.com/"
-    const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
+    const val URL_TERMS_CONDITION = "https://www.yap.com/yap-legal/"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
-    const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
-    const val URL_INSTAGRAM = "https://www.instagram.com/yapbanking"
-    const val URL_FACEBOOK = "https://www.facebook.com/yapbanking"
-    const val URL_TWITTER = "https://twitter.com/yapbanking"
+    const val URL_FEES_AND_PRICING_PLAN = "https://www.yap.com/fees"
+    const val URL_INSTAGRAM = "https://www.instagram.com/yap"
+    const val URL_FACEBOOK = "https://www.facebook.com/YAP/"
+    const val URL_TWITTER = "https://twitter.com/yap"
 
 
     //HTML Key
@@ -136,11 +136,13 @@ object Constants {
     const val data = "payLoad"
     const val result = "result"
     const val skipped = "skipped"
+    const val status = "status"
     val FRAGMENT_CLASS = "fragment_class"
     val SHOW_TOOLBAR = "_show_toolbar"
     val EXTRA = "_bundle_extras"
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"
+    const val SHOW_ADDRESS_IN_BENEFICIARY = "SHOW_ADDRESS_IN_BENEFICIARY"
 
     // SharedPreference  Keys
 
@@ -227,4 +229,9 @@ object Constants {
     const val WIDGET_HIDDEN_STATUS = "WIDGET_HIDDEN_STATUS"
     const val WIDGET_LIST = "WIDGET_LIST"
 
+    //KYC Details
+    const val KYC_FIRST_NAME = "KYC_FIRST_NAME"
+    const val KYC_LAST_NAME = "KYC_LAST_NAME"
+    const val KYC_MIDDLE_NAME = "KYC_MIDDLE_NAME"
+    const val NATIONALITY = "NATIONALITY"
 }

@@ -19,7 +19,8 @@ data class BuildConfigManager(
     var sslPin2: String?,
     var sslPin3: String?,
     var sslHost: String?,
-    var spayServiceId: String?
+    var spayServiceId: String?,
+    var flagSmithAPIKey: String?
 ) {
 
     fun isReleaseBuild(): Boolean = buildType == "release"

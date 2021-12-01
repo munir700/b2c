@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.paybill.main.PayBillMainViewModel" />
+
+        <import type="co.yap.billpayments.R" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_close}"
+            app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
+            app:rightTitleVisibility="@{false}"
+            app:titleString="@{viewModel.state.toolbarTitleString}"
+            app:titleVisibility="@{!viewModel.state.toolbarTitleString.isEmpty()}" />
+
+        <fragment
+            android:id="@+id/pay_bill_nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/pay_bill_navigation" />
+
+    </LinearLayout>
+</layout>

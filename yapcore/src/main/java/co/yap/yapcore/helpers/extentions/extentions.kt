@@ -2,12 +2,14 @@ package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.Parcelable
 import android.text.*
 import android.text.method.LinkMovementMethod
@@ -30,7 +32,6 @@ import co.yap.modules.qrcode.BarcodeFormat
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
 import java.io.IOException
@@ -114,7 +115,6 @@ fun RecyclerView.fixSwipeToRefresh(refreshLayout: SwipeRefreshLayout): RecyclerV
     }
 }
 
-
 class RecyclerViewSwipeToRefresh(private val refreshLayout: SwipeRefreshLayout) :
     RecyclerView.OnScrollListener() {
 
@@ -143,15 +143,9 @@ fun NavigationView?.navViewWidth(percent: Int) {
 }
 
 fun Context?.isNetworkAvailable(): Boolean {
-    return this?.let {
-        val connectivityManager =
-            it.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-        connectivityManager?.let {
-            connectivityManager.activeNetworkInfo?.let {
-                return connectivityManager.activeNetworkInfo.isConnected
-            } ?: false
-        } ?: false
-    } ?: false
+    val cm = this?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+    return capabilities?.hasCapability(NET_CAPABILITY_INTERNET) == true
 }
 
 fun TextView.makeLinks(
@@ -241,6 +235,14 @@ fun Context.generateQrCode(resourceKey: String): Drawable? {
     } catch (e: Exception) {
     }
     return drawable
+}
+
+fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
+    if (first.size != second.size) {
+        return false
+    }
+
+    return first.zip(second).all { (x, y) -> x == y }
 }
 
 fun Context?.getJsonDataFromAsset(fileName: String): String? {

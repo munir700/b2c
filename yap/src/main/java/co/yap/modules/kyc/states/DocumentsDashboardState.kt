@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.yapcore.BaseState
@@ -20,4 +21,9 @@ class DocumentsDashboardState : BaseState(), IDocumentsDashboard.State {
             field = value
             notifyPropertyChanged(BR.currentProgress)
         }
+    override var firstName: ObservableField<String> = ObservableField()
+    override var middleName: ObservableField<String> = ObservableField()
+    override var lastName: ObservableField<String> = ObservableField()
+    override var nationality: ObservableField<String> = ObservableField()
+    override var identityNo: ObservableField<String> = ObservableField()
 }

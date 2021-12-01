@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
-
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
     const val SIMPLE_DATE_FORMAT: String = "yyyy-MM-dd"
     val GMT: TimeZone = TimeZone.getTimeZone("GMT")
@@ -24,10 +23,11 @@ object DateUtils {
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "HH:mm"
     const val FORMAT_TIME_12H = "hh:mm a"
-    const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
+    const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17 AM
     const val FORMATE_MONTH_DAY = "MMM dd" // jan 01
     const val FORMATE_MONTH_COMPLETE = "MMMM" // january
     const val FORMAT_MONTH_DAY = "MMMM d"
+    const val FORMATE_DATE_MONTH_YEAR = "dd MMM yyyy" // 12 Jan 2012
     const val FORMAT_SHORT_MONTH_DAY = "MMM d" //jan 1
     const val FORMAT_COMPLETE_DATE = "EEE MMM dd HH:mm:ss Z yyyy" //Tue Sep 07 14:42:12 GMT+05:00 2021
     const val FORMAT_MONTH_YEAR_SHORT = "YYYY-MM"

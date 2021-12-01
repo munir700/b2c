@@ -62,17 +62,22 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
 
-            val file = File(result.document.files[1].croppedFile)
+            val fileFront = File(result.document.files[0].croppedFile)
+            val fileBack = File(result.document.files[1].croppedFile)
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
-            val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file!!)
-            val part =
-                MultipartBody.Part.createFormData("files", file.name, fileReqBody)
+            val fileFrontReqBody = RequestBody.create(MediaType.parse("image/*"), fileFront)
+            val partFront =
+                MultipartBody.Part.createFormData("files_f", fileFront.name, fileFrontReqBody)
+
+            val fileBackReqBody = RequestBody.create(MediaType.parse("image/*"), fileBack)
+            val partBack =
+                MultipartBody.Part.createFormData("files_b", fileBack.name, fileBackReqBody)
             launch {
                 state.loading = true
-                when (val response = repository.detectCardData(part)) {
+                when (val response = repository.detectCardData(partFront, partBack)) {
 
                     is RetroApiResponse.Success -> {
                         val data = response.data.data
@@ -81,7 +86,6 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             identity.nationality = data.nationality
                             identity.gender =
                                 if (data.sex.equals("M", true)) Gender.Male else Gender.Female
-                            identity.sirName = data.surname
                             identity.givenName = data.names
                             trackEventWithAttributes(
                                 SessionManager.user,
@@ -133,4 +137,31 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             }
         }
     }
+
+    override fun requestDocumentsInformation(success: () -> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
+                is RetroApiResponse.Success -> {
+                    parentViewModel?.document =
+                        response.data.data?.customerDocuments?.get(0)?.documentInformation
+                    val data = response.data?.data
+                    data?.let { data ->
+                        parentViewModel?.state?.identityNo?.set(parentViewModel?.document?.identityNo)
+                        parentViewModel?.state?.firstName?.set(data.firstName)
+                        parentViewModel?.state?.lastName?.set(data.lastName)
+                        parentViewModel?.state?.nationality?.set(data.nationality)
+                        success.invoke()
+                    }
+                    state.loading = false
+                }
+
+                is RetroApiResponse.Error -> {
+                    if (response.error.statusCode == 400 || response.error.actualCode == "1073")
+                        state.loading = false
+                }
+            }
+        }
+    }
+
 }
