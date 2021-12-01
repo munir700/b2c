@@ -8,13 +8,13 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.customers.CustomersRepository.updateFxRate
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.networking.customers.responsedtos.sendmoney.FxRateRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
+import co.yap.networking.transactions.responsedtos.categorybar.MonthData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -24,11 +24,13 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.PaymentCardStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import java.text.SimpleDateFormat
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -38,13 +40,17 @@ class YapHomeViewModel(application: Application) :
     override val state: YapHomeState = YapHomeState()
     override var txnFilters: TransactionFilters = TransactionFilters()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    private val customerRepository: CustomersRepository = CustomersRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
     override var isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
-    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     override var MAX_CLOSING_BALANCE: Double = 0.0
+    override var monthData: List<MonthData>? = ArrayList()
+    override var dashboardWidgetList: MutableLiveData<List<WidgetData>> = MutableLiveData()
+    override var widgetList: List<WidgetData> = ArrayList()
+    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
     init {
@@ -211,7 +217,12 @@ class YapHomeViewModel(application: Application) :
                 response.data.data.sort,
                 response.data.data.totalElements,
                 response.data.data.totalPages,
-                contentsList[0].creationDate.toString()
+                contentsList[0].creationDate.toString(),
+                monthYear = DateUtils.getMonthWithYear(
+                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                        contentsList[0].creationDate.toString()
+                    )
+                )
             )
             transactionModelData.add(transactionModel)
             MAX_CLOSING_BALANCE =
@@ -338,5 +349,40 @@ class YapHomeViewModel(application: Application) :
                 //     }
             }
         }
+    }
+
+    override fun requestCategoryBarData() {
+        launch {
+            when (val response = transactionsRepository.requestCategoryBarData()) {
+                is RetroApiResponse.Success -> {
+                    this.monthData = response.data.categoryBarData.monthData
+                }
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
+
+    override fun requestDashboardWidget() {
+        launch {
+            when (val response = customerRepository.getDashboardWidget()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        widgetList = it
+                        dashboardWidgetList.postValue(getFilteredList(it))
+                    }
+                }
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
+
+    private fun getFilteredList(widgetList: MutableList<WidgetData>) =  widgetList.run {
+            this.filter { it.status == true}.toMutableList().also {
+                it.add(WidgetData(id = -1, name = "Edit"))
+            }
     }
 }

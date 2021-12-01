@@ -58,7 +58,8 @@ object NotificationHelper {
                     btnTitle = "Open " + Translator.getString(
                         context,
                         Strings.screen_help_support_display_text_title
-                    )
+                    ),
+                    fileName = "bell.json"
                 )
             )
         }
@@ -91,7 +92,8 @@ object NotificationHelper {
                     btnTitle = Translator.getString(
                         context,
                         Strings.screen_b2c_kyc_home_display_text_screen_title
-                    )
+                    ),
+                    fileName = "bill.json"
                 )
             )
         }
@@ -114,7 +116,8 @@ object NotificationHelper {
                     btnTitle = Translator.getString(
                         context,
                         Strings.dashboard_timeline_set_pin_stage_action_title
-                    ) + " now"
+                    ) + " now",
+                    fileName = "lock.json"
                 )
             )
         }
@@ -139,7 +142,8 @@ object NotificationHelper {
                     btnTitle = Translator.getString(
                         context,
                         Strings.screen_b2c_eid_info_review_button_title_scan_eid
-                    )
+                    ),
+                    fileName = "bill.json"
                 )
             )
         }
@@ -156,7 +160,8 @@ object NotificationHelper {
                         btnTitle = Translator.getString(
                             context,
                             Strings.screen_help_support_display_text_call_us
-                        )
+                        ),
+                        fileName = "bell.json"
                     )
                 )
             }
@@ -193,7 +198,8 @@ object NotificationHelper {
                 btnTitle = "Open " + Translator.getString(
                     context,
                     Strings.screen_help_support_display_text_title
-                )
+                ),
+                fileName = "bell.json"
             )
         )
 
@@ -217,7 +223,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_kyc_home_display_text_screen_title
-                )
+                ),
+                fileName = "bill.json"
             )
         )
         list.add(
@@ -237,7 +244,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.dashboard_timeline_set_pin_stage_action_title
-                ) + " now"
+                ) + " now",
+                fileName = "lock.json"
             )
         )
         list.add(
@@ -258,7 +266,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_eid_info_review_button_title_scan_eid
-                )
+                ),
+                fileName = "bill.json"
             )
         )
 
@@ -275,7 +284,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_help_support_display_text_call_us
-                )
+                ),
+                fileName = "bell.json"
             )
         )
 

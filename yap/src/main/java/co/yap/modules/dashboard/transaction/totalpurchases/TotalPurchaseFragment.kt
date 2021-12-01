@@ -8,7 +8,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.setTransactionImage
+import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import kotlinx.android.synthetic.main.activity_total_purchase.*
 
 class TotalPurchaseFragment : BaseBindingFragment<ITotalPurchases.ViewModel>(),
@@ -33,9 +33,11 @@ class TotalPurchaseFragment : BaseBindingFragment<ITotalPurchases.ViewModel>(),
             viewModel.state.toolbarTitle = "$count transactions"
             val total = bundle.getDouble(Constants.TOTAL_TRANSACTION)
             viewModel.state.totalSpendings.set(total.toString())
-            viewModel.transaction.get().setTransactionImage(ivMerchantLogo)
+            viewModel.setMerchantImage(ivMerchantLogo)
+            viewModel.state.merchantName.set(viewModel.transactionMerchantName(txn))
         }
     }
+
 
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)

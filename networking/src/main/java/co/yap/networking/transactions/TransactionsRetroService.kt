@@ -10,6 +10,7 @@ import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHist
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsResponse
+import co.yap.networking.transactions.responsedtos.categorybar.CategoryBarResponse
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -270,6 +271,25 @@ interface TransactionsRetroService {
     suspend fun requestSendEmail(
         @Body sendEmailRequestModel: SendEmailRequest
     ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_TOTAL_TRANSACTION_PURCHASES_LIST)
+    suspend fun getTotalPurchasesList(
+        @Query("txnType")
+        txnType: String?,
+        @Query("beneficiaryId")
+        beneficiaryId: String? = null,
+        @Query("receiverCustomerId")
+        receiverCustomerId: String? = null,
+        @Query("senderCustomerId")
+        senderCustomerId: String? = null,
+        @Query("productCode")
+        productCode: String,
+        @Query("merchantName")
+        merchantName: String? = null
+    ): Response<TotalPurchasesTransactionResponse>
+
+    @GET(TransactionsRepository.URL_DASHBOARD_CATEGORY_BAR)
+    suspend fun getCategoryBarData(): Response<CategoryBarResponse>
 
     @POST(TransactionsRepository.URL_PAY_BILL)
     suspend fun payBill(@Body payBillRequest: PayBillRequest): Response<ApiResponse>

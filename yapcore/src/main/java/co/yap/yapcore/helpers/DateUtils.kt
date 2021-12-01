@@ -17,15 +17,20 @@ object DateUtils {
     const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm"//2015-11-28 10:17:18
     const val SERVER_DATE_FULL_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
     const val LEAN_PLUM_EVENT_FORMAT = "yyyy-MM-dd HH:mm:ss"//2015-11-28 10:17:18
-    const val FORMAT_MON_YEAR = "MMMM yyyy"
-    const val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"
+    const val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
+    const val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
+    const val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "HH:mm"
     const val FORMAT_TIME_12H = "hh:mm a"
     const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17 AM
-    const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
+    const val FORMATE_MONTH_DAY = "MMM dd" // jan 01
+    const val FORMATE_MONTH_COMPLETE = "MMMM" // january
+    const val FORMAT_MONTH_DAY = "MMMM d"
     const val FORMATE_DATE_MONTH_YEAR = "dd MMM yyyy" // 12 Jan 2012
     const val FORMAT_SHORT_MONTH_DAY = "MMM d" //jan 1
+    const val FORMAT_COMPLETE_DATE = "EEE MMM dd HH:mm:ss Z yyyy" //Tue Sep 07 14:42:12 GMT+05:00 2021
+    const val FORMAT_MONTH_YEAR_SHORT = "YYYY-MM"
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -290,6 +295,17 @@ object DateUtils {
         return "${startDay.replace("0", "")} - $endDay"
     }
 
+    fun getMonth(
+        currentDate: Date,
+        format: String = FORMATE_MONTH_COMPLETE
+    ): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.MONTH))
+        return dateToString(calendar.time, format, false)
+
+    }
+
     fun geMonthsBetweenTwoDates(startDate: String, endDate: String): List<Date> {
         val dates = ArrayList<Date>()
         val df1: DateFormat = SimpleDateFormat("yyyy-MM")
@@ -453,5 +469,16 @@ object DateUtils {
                 else -> dateToString(dateTime, outFormatter, outTimeZone)
             }
         } ?: reformatDate(date, inputFormatter, outFormatter, inputTimeZone, outTimeZone)
+    }
+    fun getMonthWithYear(
+        currentDate: Date,
+        format: String = FORMAT_MONTH_YEAR_SHORT
+    ): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.MONTH))
+        calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+         return dateToString(calendar.time, format, false)
+
     }
 }

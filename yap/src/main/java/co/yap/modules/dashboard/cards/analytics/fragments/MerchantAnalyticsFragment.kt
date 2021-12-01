@@ -85,7 +85,8 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                     totalSpending = selectedItem.totalSpending,
                     logoUrl = selectedItem.logoUrl,
                     totalSpendingInPercentage = selectedItem.totalSpendingInPercentage,
-                    categories = category
+                    categories = category,
+                    analyticType = Constants.MERCHANT_TYPE
                 ),
                 Constants.TRANSACTION_POSITION to pos
             )

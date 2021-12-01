@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHist
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsResponseDTO
 import co.yap.networking.transactions.responsedtos.payallbills.PayAllBillsResponse
+import co.yap.networking.transactions.responsedtos.categorybar.CategoryBarResponse
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
@@ -91,6 +92,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/category/update-transaction-category"
     const val URL_SEND_EMAIL =
         "/transactions/api/email-me"
+    const val URL_TOTAL_TRANSACTION_PURCHASES_LIST = "/transactions/api/total-transaction-purchases"
+    const val URL_DASHBOARD_CATEGORY_BAR = "/transactions/api/transaction/dashboard/category-bar"
 
     // Bill payment
     const val URL_PAY_BILL = "/transactions/api/billpayment/pay-bill"
@@ -351,6 +354,15 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 merchantName = totalPurchaseRequest.merchantName
             )
         })
+    override suspend fun getTotalPurchasesList(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesTransactionResponse> =
+        executeSafely(call = {api.getTotalPurchasesList(
+            txnType = totalPurchaseRequest.txnType,
+            beneficiaryId = totalPurchaseRequest.beneficiaryId,
+            receiverCustomerId = totalPurchaseRequest.receiverCustomerId,
+            senderCustomerId = totalPurchaseRequest.senderCustomerId,
+            productCode = totalPurchaseRequest.productCode,
+            merchantName = totalPurchaseRequest.merchantName
+        )})
 
     override suspend fun getAllTransactionCategories(): RetroApiResponse<TransactionCategoryResponse> =
         executeSafely(call = {
@@ -371,6 +383,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.requestSendEmail(sendEmailRequestModel)
         })
 
+    override suspend fun requestCategoryBarData(): RetroApiResponse<CategoryBarResponse> =
+        executeSafely(call = {
+            api.getCategoryBarData()
+        })
     override suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
             api.payBill(payBillRequest)

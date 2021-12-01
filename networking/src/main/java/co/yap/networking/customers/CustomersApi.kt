@@ -1,5 +1,7 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -14,6 +16,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
@@ -122,6 +125,8 @@ interface CustomersApi {
     suspend fun getIndustrySegments(): RetroApiResponse<IndustrySegmentsResponse>
     suspend fun saveEmploymentInfo(employmentInfoRequest: EmploymentInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
+    suspend fun getDashboardWidget(): RetroApiResponse<BaseListResponse<WidgetData>>
+    suspend fun updateDashboardWidget(list: List<WidgetData>): RetroApiResponse<UpdateWidgetResponse>
    suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse>
 
     //Bill payments feature apis

@@ -17,7 +17,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
+import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
 import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -31,7 +31,7 @@ class CardAnalyticsViewModel(application: Application) :
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    private var currentDate: Date? = Date()
+    override var currentDate: Date? = null
     private var listOfMonths: List<Date> = arrayListOf()
 
     override var type: ObservableField<String> = ObservableField("merchant-category-id")
@@ -50,6 +50,7 @@ class CardAnalyticsViewModel(application: Application) :
         )
         setSelectedDate(currentDate)
         state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
+        state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -197,8 +198,8 @@ class CardAnalyticsViewModel(application: Application) :
 
     private fun setSelectedDate(currentDate: Date?) {
         state.displayMonth =
-            currentDate?.let { DateUtils.getStartAndEndOfMonthAndDay(it) } ?: ""
-        state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MON_YEAR, false)
+            currentDate?.let { DateUtils.getMonth(it) } ?: ""
+        state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MONTH_YEAR, false)
         parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
         parentViewModel?.state?.currentSelectedDate =
             DateUtils.dateToString(currentDate, SIMPLE_DATE_FORMAT, false)
@@ -209,8 +210,8 @@ class CardAnalyticsViewModel(application: Application) :
             title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
             url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
             position = state.selectedItemPosition.get(),
-            type = type.get() ?: "merchant-name",
-            showBackground = (state.selectedTxnAnalyticsItem.get()?.logoUrl.isNullOrEmpty() || state.selectedTxnAnalyticsItem.get()?.logoUrl == " ")
+            type = Constants.CATEGORY_TYPE,
+            showBackground = false
         )
     }
 }

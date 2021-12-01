@@ -14,24 +14,30 @@
         android:id="@+id/cvNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/_5sdp"
         app:cardCornerRadius="8dp"
-        app:cardElevation="@dimen/_10sdp"
-        app:cardUseCompatPadding="true">
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="0dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/_90sdp"
+            android:background="@color/purpleLightCard"
             android:padding="@dimen/_6sdp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivNotification"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_margin="@dimen/margin_small"
-                android:contentDescription="@string/empty_string"
-                android:src="@drawable/ic_home_notification"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_repeatCount="1"/>
 
             <ImageView
                 android:id="@+id/ivCross"
@@ -39,7 +45,6 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_ico_close"
-                android:visibility="invisible"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,14 +52,12 @@
                 android:id="@+id/tvTitle"
                 style="@style/AMicro"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_extra_small"
-                android:lines="1"
-                app:layout_constraintEnd_toStartOf="@+id/ivCross"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@+id/ivNotification"
-                app:layout_constraintTop_toTopOf="@+id/ivCross"
+                app:layout_constraintBottom_toTopOf="@+id/tvDescription"
+                app:layout_constraintStart_toEndOf="@+id/lottie"
+                app:layout_constraintTop_toTopOf="@+id/lottie"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="YAP service notice." />
 
             <co.yap.widgets.AutoResizeTextView
@@ -64,11 +67,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_extra_small"
-                android:ellipsize="end"
-                android:lineSpacingExtra="0sp"
-                android:maxLines="5"
+                android:lineSpacingExtra="@dimen/_2sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/lottie"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ivNotification"
+                app:layout_constraintStart_toEndOf="@+id/lottie"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 tools:text="Some features may appeassad asdas  Y sadsada ar bloc you made too many incorrect OTP attempts. Call or chat with us now to get full access." />
         </androidx.constraintlayout.widget.ConstraintLayout>

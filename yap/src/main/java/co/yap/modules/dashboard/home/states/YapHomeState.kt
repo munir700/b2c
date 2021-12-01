@@ -12,7 +12,7 @@ import co.yap.yapcore.managers.SessionManager
 class YapHomeState : BaseState(), IYapHome.State {
 
     @get:Bindable
-    override var availableBalance: String? = SessionManager.cardBalance.value?.availableBalance
+    override var availableBalance: String? = "0.00"
         set(value) {
             field = value
             notifyPropertyChanged(BR.availableBalance)
@@ -22,4 +22,5 @@ class YapHomeState : BaseState(), IYapHome.State {
     override var showTxnShimmer: MutableLiveData<State> = MutableLiveData()
     override var isUserAccountActivated: ObservableField<Boolean> = ObservableField(true)
     override var isPartnerBankStatusActivated: ObservableField<Boolean> = ObservableField(false)
+    override var isCardStatusActivated: ObservableField<Boolean> = ObservableField(false)
 }

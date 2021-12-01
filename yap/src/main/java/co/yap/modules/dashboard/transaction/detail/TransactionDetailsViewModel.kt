@@ -339,7 +339,7 @@ class TransactionDetailsViewModel(application: Application) :
         )
         val cameraPosition: CameraPosition = CameraPosition.Builder()
             .target(location)
-            .zoom(10f).build()
+            .zoom(15f).build()
         gMap?.animateCamera(
             CameraUpdateFactory.newCameraPosition(cameraPosition)
         )

@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.ScrollView
 import androidx.annotation.LayoutRes
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.ImageBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -54,32 +56,50 @@ fun ChipGroup.generateChipViews(@LayoutRes itemView: Int, list: List<String>) {
 }
 
 fun CoreCircularImageView?.setCircularDrawable(
-    title: String,
-    url: String,
-    position: Int,
+    title: String = "",
+    url: String = "",
+    position: Int = 0,
     showBackground: Boolean = true,
     showInitials: Boolean = true,
-    type : String = "merchant-category-id"
+    type: String = "merchant-category-id",
+    transaction: Transaction? = null,
+    categoryColor: String = ""
 ) {
     this?.let { image ->
-        if (type == "merchant-category-id") {
-            ImageBinding.loadCategoryAvatar(
-                image,
-                url,
-                title,
-                position,
-                showBackground,
-                showInitials
-            )
-        } else {
-            ImageBinding.loadAnalyticsAvatar(
-                image,
-                url,
-                title,
-                position,
-                false,
-                showInitials
-            )
+        when (type) {
+            Constants.CATEGORY_TYPE -> {
+                ImageBinding.loadCategoryAvatar(
+                    image,
+                    url,
+                    title,
+                    position,
+                    showBackground,
+                    showInitials,
+                    categoryColor
+                )
+            }
+            Constants.MERCHANT_TYPE -> {
+                ImageBinding.loadAnalyticsAvatar(
+                    image,
+                    url,
+                    title,
+                    position,
+                    false,
+                    showInitials
+                )
+            }
+            else -> {
+                image.background = image.context.getDrawable(R.drawable.bg_round_purple_enabled)
+                transaction?.let { txns ->
+                    if (txns.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && txns.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
+                        txns.merchantLogo?.let { logo ->
+                            image.loadImage(logo)
+                        } ?: txns.setTransactionImage(image)
+                    } else {
+                        txns.setTransactionImage(image)
+                    }
+                }
+            }
         }
     }
 }
@@ -89,3 +109,4 @@ fun ImageView?.hasBitmap(): Boolean {
         this.drawable != null && (this.drawable is BitmapDrawable)
     } ?: false
 }
+

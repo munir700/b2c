@@ -16,7 +16,6 @@ import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
@@ -33,6 +32,8 @@ class TransactionsListingAdapter(
     var analyticsItemPosition: Int = 0
     var analyticsItemTitle: String? = null
     var analyticsItemImgUrl: String? = null
+    var categoryColour: String? = null
+    var analyticType: String = "merchant-name"
     override fun getLayoutIdForViewType(viewType: Int): Int {
         return if (adapterType == TransactionAdapterType.TRANSACTION) R.layout.item_transaction_list else R.layout.item_analytics_transaction_list
     }
@@ -46,7 +47,7 @@ class TransactionsListingAdapter(
                 list[position],
                 analyticsItemPosition,
                 analyticsItemTitle,
-                analyticsItemImgUrl, adapterType
+                analyticsItemImgUrl, adapterType, categoryColour, analyticType
             )
     }
 
@@ -68,14 +69,17 @@ class TransactionsListingAdapter(
             position: Int,
             analyticsItemTitle: String?,
             analyticsItemImgUrl: String?,
-            type: TransactionAdapterType
+            type: TransactionAdapterType,
+            categoryColour: String?,
+            analyticType: String
         ) {
             itemAnalyticsTransactionListBinding.viewModel =
                 ItemAnalyticsTransactionVM(
                     transaction,
                     position,
                     analyticsItemTitle,
-                    analyticsItemImgUrl
+                    analyticsItemImgUrl,
+                    analyticType
                 )
             itemAnalyticsTransactionListBinding.dividerBottom.visibility =
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) View.VISIBLE else View.GONE
@@ -84,9 +88,13 @@ class TransactionsListingAdapter(
             itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
                 analyticsItemTitle ?: transaction.merchantName ?: transaction.title ?: "",
                 analyticsItemImgUrl ?: transaction.merchantLogo ?: "",
-                position, type = Constants.MERCHANT_TYPE
-
+                position, type = analyticType,
+                transaction = transaction,
+                categoryColor = categoryColour.toString()
             )
+            itemAnalyticsTransactionListBinding.tvTransactionName.text =
+                transaction.merchantName ?: transaction.title ?: ""
+
             itemAnalyticsTransactionListBinding.tvTransactionTimeAndCategory.text =
                 getString(
                     itemAnalyticsTransactionListBinding.tvCurrency.context,
@@ -98,6 +106,22 @@ class TransactionsListingAdapter(
                         outFormatter = DateUtils.FORMAT_SHORT_MONTH_DAY
                     )
                 )
+            itemAnalyticsTransactionListBinding.tvTransactionTimeAndCategory.text =
+                    /*if (type == TransactionAdapterType.TOTAL_PURCHASE)*/ getString(
+                itemAnalyticsTransactionListBinding.tvCurrency.context,
+                R.string.screen_fragment_home_transaction_time_category,
+                transaction.getTransactionTime(TransactionAdapterType.TOTAL_PURCHASE),
+                DateUtils.reformatStringDate(
+                    date = transaction.creationDate ?: "",
+                    inputFormatter = DateUtils.SERVER_DATE_FORMAT,
+                    outFormatter = DateUtils.FORMAT_SHORT_MONTH_DAY
+                )
+            ) /*else getString(
+                    itemAnalyticsTransactionListBinding.tvCurrency.context,
+                    R.string.screen_fragment_home_transaction_time_category,
+                    transaction.getTransactionTime(TransactionAdapterType.ANALYTICS_DETAILS),
+                    transaction.getTransferType(TransactionAdapterType.ANALYTICS_DETAILS)
+                )*/
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
@@ -139,7 +163,11 @@ class TransactionsListingAdapter(
 
             itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
-                if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
+                if (transaction.getStatus().isEmpty()
+                    || transaction.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode
+                    || transaction.productCode == TransactionProductCode.ATM_DEPOSIT.pCode
+                    || transaction.category.equals("DECLINE_FEE", true)
+                ) View.GONE else View.VISIBLE
             //itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
             itemTransactionListBinding.tvCurrency.text = transaction.cardHolderBillingCurrency
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())
@@ -158,7 +186,8 @@ class TransactionsListingAdapter(
                 itemTransactionListBinding.tvForeignCurrency.text = getString(
                     context,
                     R.string.common_display_one_variables,
-                    transaction.amount?.toString()?.toFormattedCurrency(currency = transaction.currency.toString())?:"0.0"
+                    transaction.amount?.toString()
+                        ?.toFormattedCurrency(currency = transaction.currency.toString()) ?: "0.0"
                 )
             }
         }

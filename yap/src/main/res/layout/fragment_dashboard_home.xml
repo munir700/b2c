@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <co.yap.widgets.OnlyVerticalSwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:enabled="@{viewModel.state.isUserAccountActivated}"
+        android:orientation="vertical"
+        app:srcCompat="?attr/colorPrimaryAttr">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
+
+            <include
+                android:id="@+id/toolbarLayout"
+                layout="@layout/toolbaar_home_fragment"
+                app:homeViewModel="@{viewModel}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
+
+                <TextView
+                    android:id="@+id/tvCurrencyName"
+                    style="@style/Title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="AED "
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAvailableBalance"
+                    style="@style/Title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintStart_toEndOf="@+id/tvCurrencyName"
+                    app:layout_constraintTop_toTopOf="@+id/tvCurrencyName"
+                    tools:text="50,174.78" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBalanceTitle"
+                    style="@style/SmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_extra_small"
+                    app:layout_constraintStart_toStartOf="@+id/tvCurrencyName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCurrencyName"
+                    app:text="@{Strings.screen_fragment_yap_home_todays_balance}" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                android:id="@+id/lyInclude"
+                layout="@layout/content_fragment_yap_home_new"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutBalance"
+                app:viewModel="@{viewModel}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </co.yap.widgets.OnlyVerticalSwipeRefreshLayout>
+</layout>

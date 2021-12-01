@@ -1,5 +1,7 @@
 package co.yap.networking.customers
 
+import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -16,6 +18,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -301,6 +304,12 @@ interface CustomersRetroService {
 
     @PUT(CustomersRepository.URL_STOP_RANKING_MSG)
     suspend fun stopRankingMsgRequest(): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_DASHBOARD_WIDGETS)
+    suspend fun getDashboardWidget(): Response<BaseListResponse<WidgetData>>
+
+    @PUT(CustomersRepository.URL_DASHBOARD_WIDGETS_UPDATE)
+    suspend fun updateDashboardWidget(@Body dashboardWidgetBody: List<WidgetData>): Response<UpdateWidgetResponse>
 
     @POST(CustomersRepository.URL_UPDATE_PROFILE_FSS)
     suspend fun updateCardName(@Body cardNameRequest: CardNameRequest): Response<ApiResponse>

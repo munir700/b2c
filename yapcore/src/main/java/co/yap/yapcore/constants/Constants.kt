@@ -40,6 +40,9 @@ object Constants {
     const val MORE_LOCATE_ATM: Int = 2
     const val MORE_INVITE_FRIEND: Int = 3
     const val MORE_HELP_SUPPORT: Int = 4
+    const val MORE_YAP_FOR_YOU: Int = 14
+    const val MORE_GIFTS: Int = 15
+    const val MORE_SUBSCRIPTION: Int = 16
     const val EVENT_CREATE_CARD_PIN: Int = 13
 
     //Add Note flow constants
@@ -184,6 +187,7 @@ object Constants {
     const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
     const val TRANSACTION_POSITION = "Transaction_Item_Position"
     var MERCHANT_TYPE: String = "merchant-name"
+    var CATEGORY_TYPE: String = "mevrchant-category-id"
 
     //ATM/CDM
     const val LOCATION_TYPE = "ATM_OR_CDM"
@@ -195,6 +199,9 @@ object Constants {
     const val VIEW_WITH_FLAG = 2
     const val VIEW_FIXED_HEIGHT = 3
     const val VIEW_ITEM_WITHOUT_SEPARATOR = 4
+    const val VIEW_CARD_DETAIL_ITEM = 5
+    const val VIEW_ITEM_CARD_SUCCESSS = 6
+    const val VIEW_ITEM_ACCOUNT_DETAIL = 7
 
     //Yap Store
     const val ITEM_STORE_CARD_PLANS = 0
@@ -213,6 +220,14 @@ object Constants {
     const val TRANSACTION_COUNT = "TRANSACTION_COUNT"
     const val TOTAL_TRANSACTION = "TOTAL_TRANSACTION"
 
+    //category bar status
+    const val EXPAND_MODE = 0
+    const val COLLAPSE_MODE = 1
+    const val DEFAULT_MODE = 2
+
+    //Widget bar
+    const val WIDGET_HIDDEN_STATUS = "WIDGET_HIDDEN_STATUS"
+    const val WIDGET_LIST = "WIDGET_LIST"
 
     //KYC Details
     const val KYC_FIRST_NAME = "KYC_FIRST_NAME"

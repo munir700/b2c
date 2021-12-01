@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.main.activities
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -9,6 +10,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class CardAnalyticsActivity : BaseBindingActivity<ICardAnalyticsMain.ViewModel>(),
@@ -20,6 +23,12 @@ class CardAnalyticsActivity : BaseBindingActivity<ICardAnalyticsMain.ViewModel>(
 
     override val viewModel: ICardAnalyticsMain.ViewModel
         get() = ViewModelProviders.of(this).get(CardAnalyticsMainViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.state.selectedDate =
+            intent.getValue("CurrentMonth", ExtraType.STRING.name) as? String
+    }
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(

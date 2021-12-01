@@ -215,13 +215,13 @@ object UIBinder {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
+                        imageView.visibility = VISIBLE
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
-                            imageView.visibility = VISIBLE
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
-                            imageView.visibility = GONE
+                            imageView.setImageResource(R.drawable.iconsinformative)
                     } else
-                        imageView.visibility = GONE
+                        imageView.setImageResource(R.drawable.iconsinformative)
                 }
                 CardStatus.BLOCKED -> {
                     imageView.visibility = VISIBLE
@@ -239,8 +239,8 @@ object UIBinder {
                     imageView.visibility = VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_expired)
                 }
-
             }
+
     }
 
     // Card status message text
@@ -1101,7 +1101,6 @@ object UIBinder {
                 )
             }
         }
-
     }
 
     @BindingAdapter("strikeThroughText")
@@ -1110,4 +1109,24 @@ object UIBinder {
         this.paintFlags =
             if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
     }
+
+    // Card Balance visibility
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(constraintLayout: ConstraintLayout, card: Card) {
+        if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
+           constraintLayout.visibility = when (CardStatus.valueOf(card.status)) {
+                CardStatus.ACTIVE -> {
+                        if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
+                            && !card.pinCreated)
+                            GONE else VISIBLE
+                }
+                CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
+                     GONE
+                }
+               else -> GONE
+           }
+        }
+    }
+
 }

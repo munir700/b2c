@@ -38,7 +38,8 @@ data class HomeNotification(
     @SerializedName("imgResId")
     val imgResId: Int? = null,
     @Transient var isPinned: Boolean? = false,
-    @Transient var btnTitle: String? = ""
+    @Transient var btnTitle: String? = "",
+    @Transient var fileName: String? = ""
 ) : ApiResponse(), Parcelable {
     fun fullName() = when {
         "$firstName $lastName" == "null null" -> {

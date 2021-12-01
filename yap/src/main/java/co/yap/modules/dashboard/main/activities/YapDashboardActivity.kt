@@ -213,7 +213,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 positionOffsetPixels: Int
             ) {
             }
-
             override fun onPageSelected(position: Int) {
                 enableDrawerSwipe(position == 0)
                 when (position) {
@@ -444,6 +443,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
                 closeDrawer()
             }
+        }
+        getViewBinding().includedDrawerLayout.lManageWidget.lnAnalytics.setOnClickListener {
+                 viewModel.isFromSideMenu = true
+                viewModel.isYapHomeFragmentVisible.value = true
+                closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lSupport.lnAnalytics.setOnClickListener {
             startActivity(

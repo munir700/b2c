@@ -1,8 +1,9 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces
 
+import androidx.databinding.ObservableField
 import co.yap.networking.cards.responsedtos.VirtualCardDesigns
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.SingleClickEvent
 
 interface IAddPaymentCard {
 
@@ -12,13 +13,15 @@ interface IAddPaymentCard {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnBackButton()
+        fun handlePressOnButton(id: Int)
         fun getVirtualCardDesigns(success: () -> Unit)
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
+        val clickEvent: SingleClickEvent
         var physicalCardFee: String
         var virtualCardFee: String
         var virtualCardDesignsList: ArrayList<VirtualCardDesigns>
         var selectedVirtualCard: VirtualCardDesigns?
+        var selectedCardName: ObservableField<String>
+        var isFromBlockCard: ObservableField<Boolean>
     }
 
     interface View : IBase.View<ViewModel>
