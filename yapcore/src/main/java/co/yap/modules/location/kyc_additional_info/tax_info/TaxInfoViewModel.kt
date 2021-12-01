@@ -357,7 +357,7 @@ class TaxInfoViewModel(application: Application) :
     fun finalCheck(): Boolean {
         var valid = true
         taxInfoList.forEach {
-            if (it.isRuleValid == false || (it.selectedOption.equals("Yes") && (it.tinNumber.get()
+            if (it.isRuleValid == false || (it.selectedOption.get().equals("Yes") && (it.tinNumber.get()
                     .isNullOrBlank() || it.tinNumber.get().equals("")))
             ) {
                 valid = false
