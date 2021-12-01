@@ -37,6 +37,7 @@ interface ITaxInfo {
     }
 
     interface State : IBase.State {
+        var isRuleValid : Boolean
         var valid: ObservableField<Boolean>
         var onSuccess: ObservableField<Boolean>
         var isAgreed: ObservableField<Boolean>

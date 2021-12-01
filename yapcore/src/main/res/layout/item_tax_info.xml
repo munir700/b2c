@@ -26,65 +26,109 @@
         android:paddingStart="@dimen/margin_small"
         android:paddingEnd="@dimen/margin_small">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <!--        <androidx.appcompat.widget.AppCompatTextView-->
+        <!--            android:id="@+id/tvSelectCountry"-->
+        <!--            style="@style/ASmallGrey"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/margin_normal"-->
+        <!--            android:layout_marginTop="@dimen/margin_normal"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="@{viewModel.taxModel.taxRowTitle}"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:text="@{Strings.screen_tax_info_display_text_select_country}"-->
+        <!--            app:textColor="@{viewModel.taxModel.selectedCountry == null || viewModel.taxModel.selectedCountry.name.empty? true : false}"-->
+        <!--            tools:text="@string/screen_tax_info_display_text_select_country" />-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/ivCross"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginEnd="@dimen/margin_small"-->
+        <!--            android:onClick="@{v->viewModel.onViewClicked(v)}"-->
+        <!--            android:src="@drawable/ic_close"-->
+        <!--            android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"-->
+        <!--            tools:visibility="visible" />-->
+
+        <!--        <androidx.appcompat.widget.AppCompatTextView-->
+        <!--            android:id="@+id/bcountries"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="@dimen/_30sdp"-->
+        <!--            android:layout_gravity="center_vertical"-->
+        <!--            android:layout_marginStart="@dimen/margin_normal_large"-->
+        <!--            android:layout_marginEnd="@dimen/margin_small"-->
+        <!--            android:background="@{viewModel.position == 0 ? null : @drawable/bg_spinner}"-->
+        <!--            android:drawablePadding="@dimen/_6sdp"-->
+        <!--            android:ellipsize="end"-->
+        <!--            android:gravity="center|start"-->
+        <!--            android:onClick="@{v->viewModel.onViewClicked(v)}"-->
+        <!--            android:paddingStart="0dp"-->
+        <!--            android:paddingTop="@dimen/margin_extra_small"-->
+        <!--            android:singleLine="true"-->
+        <!--            android:text="@{viewModel.taxModel.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.taxModel.selectedCountry.name}"-->
+        <!--            android:textColor="@{viewModel.taxModel.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"-->
+        <!--            app:flagOnDrawableStart="@{viewModel.taxModel.selectedCountry == null ? null :  viewModel.taxModel.selectedCountry.isoCountryCode2Digit}"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"-->
+        <!--            app:showDropDown="@{false}"-->
+        <!--            tools:text="Select Country" />-->
+
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:layout_marginStart="@dimen/margin_normal"-->
+        <!--            android:layout_marginEnd="@dimen/margin_small"-->
+        <!--            android:background="@color/greyLight"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/bcountries"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/bcountries" />-->
+
+        <co.yap.widgets.CollapsedColoredHintTextInputLayout
             android:id="@+id/tvSelectCountry"
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
-            android:text="@{viewModel.taxModel.taxRowTitle}"
+            android:hint="@{viewModel.taxModel.taxRowTitle}"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:hintTextAppearance="@style/Small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:textColor="@{viewModel.taxModel.selectedCountry == null || viewModel.taxModel.selectedCountry.name.empty? true : false}"
-            app:text="@{Strings.screen_tax_info_display_text_select_country}"
-            tools:text="@string/screen_tax_info_display_text_select_country" />
+            tools:text="@string/screen_tax_info_display_text_select_country">
 
-        <ImageView
-            android:id="@+id/ivCross"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:onClick="@{v->viewModel.onViewClicked(v)}"
-            android:src="@drawable/ic_close"
-            android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"
-            tools:visibility="visible" />
+            <co.yap.widgets.edittext.EditTextRichDrawable
+                android:id="@+id/bcountries"
+                style="@style/ASmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/margin_small"
+                android:gravity="center|start"
+                android:hint="@string/screen_add_beneficiary_display_text_select_country"
+                android:onClick="@{v->viewModel.onViewClicked(v)}"
+                android:singleLine="true"
+                android:tag="@{viewModel.taxModel.tagOfCountry}"
+                android:text="@{viewModel.taxModel.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.taxModel.selectedCountry.name}"
+                android:textColor="@{viewModel.taxModel.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
+                android:theme="@style/Theme.EditText.Primary"
+                app:compoundDrawableHeight="@dimen/_26sdp"
+                app:compoundDrawableWidth="@dimen/_26sdp"
+                app:drawableEndVector="@drawable/iv_drown_down_grey"
+                app:editable="@{false}"
+                app:flagOnStartDrawable="@{viewModel.taxModel.selectedCountry == null ? null : viewModel.taxModel.selectedCountry.isoCountryCode2Digit}"
+                app:highlightAmendmentField="@{true}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
+                app:missingFieldMap="@{viewModel.amendmentMap}"
+                app:previousValue="@{viewModel.taxModel.previousCountry}"
+                />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/bcountries"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:ellipsize="end"
-            android:layout_marginStart="@dimen/margin_normal_large"
-            android:paddingStart="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@{viewModel.position == 0 ? null : @drawable/bg_spinner}"
-            android:drawablePadding="@dimen/_6sdp"
-            android:text="@{viewModel.taxModel.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.taxModel.selectedCountry.name}"
-            android:gravity="center|start"
-            android:onClick="@{v->viewModel.onViewClicked(v)}"
-            android:paddingTop="@dimen/margin_extra_small"
-            android:singleLine="true"
-            android:textColor="@{viewModel.taxModel.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:flagOnDrawableStart="@{viewModel.taxModel.selectedCountry == null ? null :  viewModel.taxModel.selectedCountry.isoCountryCode2Digit}"
-            app:showDropDown="@{false}"
-            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
-            tools:text="Select Country" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:background="@color/greyLight"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/bcountries"
-            app:layout_constraintTop_toBottomOf="@+id/bcountries"/>
+        </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvlabelOptions"
@@ -96,7 +140,7 @@
             android:gravity="center"
             android:text="@string/screen_place_of_birth_display_text_select_country"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bcountries"
+            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
             app:text="@{Strings.screen_tax_info_display_text_have_tin_number}"
             tools:text="@string/screen_tax_info_display_text_have_tin_number" />
 
@@ -108,6 +152,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:clickable="@{viewModel.amendmentMap == null ? true : false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvlabelOptions">
@@ -197,43 +242,85 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner_reasons">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <!--            <androidx.appcompat.widget.AppCompatTextView-->
+            <!--                android:id="@+id/tvTinNumber"-->
+            <!--                style="@style/ASmallGrey"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/margin_normal"-->
+            <!--                android:gravity="center"-->
+            <!--                android:text="@string/screen_place_of_birth_display_text_select_country"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"-->
+            <!--                app:text="@{Strings.screen_tax_info_display_text_heading_tin_number}"-->
+            <!--                tools:text="@string/screen_tax_info_display_text_heading_tin_number" />-->
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/etTinNumber"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="bottom"-->
+            <!--                android:layout_marginStart="@dimen/margin_small"-->
+            <!--                android:layout_marginTop="@dimen/_5sdp"-->
+            <!--                android:background="@null"-->
+            <!--                android:gravity="bottom"-->
+            <!--                android:imeOptions="actionDone"-->
+            <!--                android:inputType="number"-->
+            <!--                android:lines="1"-->
+            <!--                android:maxLength="20"-->
+            <!--                android:paddingStart="@dimen/_6sdp"-->
+            <!--                android:paddingTop="@dimen/margin_extra_small"-->
+            <!--                android:paddingEnd="@dimen/margin_extra_small"-->
+            <!--                android:paddingBottom="@dimen/margin_extra_small"-->
+            <!--                android:text="@={viewModel.taxModel.tinNumber}" />-->
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/tvTinNumber"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_small"
                 android:gravity="center"
-                android:text="@string/screen_place_of_birth_display_text_select_country"
+                android:hint="@string/screen_tax_info_display_text_heading_tin_number"
+                android:text="@string/screen_tax_info_display_text_heading_tin_number"
+                android:textSize="@dimen/text_size_h2"
+                app:hintTextAppearance="@style/ASmallGrey"
+                app:hintTextColor="@color/greyDark"
+                app:hintTextColorNormal="@color/greyDark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
-                app:text="@{Strings.screen_tax_info_display_text_heading_tin_number}"
-                tools:text="@string/screen_tax_info_display_text_heading_tin_number" />
+                tools:text="@string/screen_tax_info_display_text_heading_tin_number">
 
-            <EditText
-                android:id="@+id/etTinNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:background="@null"
-                android:gravity="bottom"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLength="20"
-                android:paddingStart="@dimen/_6sdp"
-                android:paddingTop="@dimen/margin_extra_small"
-                android:paddingEnd="@dimen/margin_extra_small"
-                android:paddingBottom="@dimen/margin_extra_small"
-                android:text="@={viewModel.taxModel.tinNumber}" />
+                <co.yap.widgets.edittext.EditTextRichDrawable
+                    android:id="@+id/etTinNumber"
+                    style="@style/ASmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="bottom"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:maxLength="50"
+                    android:singleLine="true"
+                    android:tag="@{viewModel.taxModel.tagOfTinNumber}"
+                    android:text="@={viewModel.taxModel.tinNumber}"
+                    android:theme="@style/Theme.EditText.Primary"
+                    app:highlightAmendmentField="@{true}"
+                    app:missingFieldMap="@{viewModel.amendmentMap}"
+                    app:previousValue="@{viewModel.taxModel.previousTinNumber}"
+                    app:validateEmpty="@{true}"
+                    tools:text="@string/screen_tax_info_display_text_heading_tin_number" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:background="@color/greyLight" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="1dp"-->
+            <!--                android:layout_marginStart="@dimen/margin_normal"-->
+            <!--                android:background="@color/greyLight" />-->
         </LinearLayout>
 
         <LinearLayout

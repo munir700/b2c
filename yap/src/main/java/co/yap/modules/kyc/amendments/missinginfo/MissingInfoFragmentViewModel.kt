@@ -36,12 +36,13 @@ class MissingInfoFragmentViewModel(application: Application) :
                     response.data.data?.forEach {
                         if (it.amendments?.isNotEmpty() == true) {
                             map[it.sectionName] = it.amendments
+
                             list.addAll(it.amendments ?: emptyList())
                         }
                     }
                     map.remove("eidInfo")
-                    /*map.remove("birthInfo")
-                    map.remove("taxInfo")*/
+                    map.remove("birthInfo")
+//                    map.remove("taxInfo")
                     missingInfoMap.value = map
                     adapter.get()?.setData(list)
                     state.loading = false

@@ -9,4 +9,5 @@ class TaxInfoState : BaseState(),
     override var valid: ObservableField<Boolean> = ObservableField(false)
     override var onSuccess: ObservableField<Boolean> = ObservableField(false)
     override var isAgreed: ObservableField<Boolean> = ObservableField(true)
+    override var isRuleValid = true
 }

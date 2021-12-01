@@ -7,6 +7,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 class TaxInfoItemViewModel(
     val taxModel: TaxModel,
     val position: Int,
+    val amendmentMap: HashMap<String?, List<String>?>?,
     val onItemClickListener: OnItemClickListener?
 ) {
     val spinnerItemClickListener = object : OnItemClickListener {
