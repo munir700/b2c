@@ -15,6 +15,7 @@ import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocumentImage
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
@@ -41,6 +42,9 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.state.amendmentMap =
+            arguments?.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         permissionHelper = PermissionHelper(
             this,
             arrayOf(

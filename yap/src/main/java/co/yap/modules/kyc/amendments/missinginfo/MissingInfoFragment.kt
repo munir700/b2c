@@ -4,12 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.amendments.passportactivity.PassportActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.AmendmentSection
@@ -50,6 +52,14 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                                 Constants.data,
                                 true
                             )
+                            putExtra(
+                                Constants.KYC_AMENDMENT_MAP,
+                                viewModel.missingInfoMap.value
+                            )
+                        }
+                    }
+                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.PASSPORT_INFO.value) == true -> {
+                        launchActivity<PassportActivity>(options = bundleOf(Constants.KYC_AMENDMENT_MAP to viewModel.missingInfoMap.value)) {
                             putExtra(
                                 Constants.KYC_AMENDMENT_MAP,
                                 viewModel.missingInfoMap.value

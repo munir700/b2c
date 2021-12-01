@@ -8,5 +8,6 @@ enum class AmendmentSection(val value: String?) {
     EID_INFO("eidInfo"),
     BIRTH_INFO("birthInfo"),
     TAX_INFO("taxInfo"),
-    EMPLOYMENT_INFO("empInfo")
+    EMPLOYMENT_INFO("empInfo"),
+    PASSPORT_INFO("passportInfo")
 }

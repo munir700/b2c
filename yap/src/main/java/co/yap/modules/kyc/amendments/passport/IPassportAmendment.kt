@@ -28,5 +28,6 @@ class IPassportAmendment {
         var issueDate:MutableLiveData<String>
         var expireDate:MutableLiveData<String>
         var mFile:MutableLiveData<File?>
+        var amendmentMap: HashMap<String?, List<String>?>?
     }
 }

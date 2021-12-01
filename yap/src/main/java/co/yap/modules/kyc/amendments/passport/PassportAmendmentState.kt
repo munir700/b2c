@@ -12,4 +12,5 @@ class PassportAmendmentState : BaseState(), IPassportAmendment.State {
     override var issueDate: MutableLiveData<String> = MutableLiveData("")
     override var expireDate: MutableLiveData<String> = MutableLiveData("")
     override var mFile: MutableLiveData<File?> = MutableLiveData(null)
+    override var amendmentMap: HashMap<String?, List<String>?>? = null
 }

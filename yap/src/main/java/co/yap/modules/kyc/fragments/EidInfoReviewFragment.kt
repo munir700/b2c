@@ -29,11 +29,11 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.EidFilter
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
@@ -203,17 +203,19 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
                 viewModel.eventEidUpdate -> {
                     SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(viewLifecycleOwner, Observer { isSuccess ->
-                        if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                        } else {
-                            showToast("Accounts info failed")
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                        }
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            } else {
+                                showToast("Accounts info failed")
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            }
 
-                    })
+                        })
                 }
                 viewModel.eventCitizenNumberIssue, viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber(
                     "Sorry, that didn’t work. Please try again"
@@ -240,7 +242,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 .save(Constants.KYC_LAST_NAME, state.lastName.get() ?: "")
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_MIDDLE_NAME, state.middleName.get() ?: "")
-            navigateWithPopup(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,R.id.eidInfoReviewFragment)
+            navigateWithPopup(
+                R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,
+                R.id.eidInfoReviewFragment
+            )
         }
     }
 
@@ -423,10 +428,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             data?.let {
                 it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
                     ?.let { it1 ->
-                    viewModel.onEIDScanningComplete(
-                        it1
-                    )
-                }
+                        viewModel.onEIDScanningComplete(
+                            it1
+                        )
+                    }
             }
         } else {
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
