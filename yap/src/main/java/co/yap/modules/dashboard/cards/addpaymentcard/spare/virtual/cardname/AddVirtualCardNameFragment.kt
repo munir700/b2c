@@ -25,6 +25,7 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setCardImage(getBindings().imgCard)
+        getBindings().etCardName.setText(viewModel.parentViewModel?.selectedCardName?.get())
     }
 
     override fun addObservers() {

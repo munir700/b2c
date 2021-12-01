@@ -250,14 +250,39 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
                 R.id.imgStatus -> {
-                    mNavigator.startVerifyPassCodePresenterActivity(
-                        requireActivity(),
-                        bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
-                    ) { resultCode, data ->
-                        if (resultCode == Activity.RESULT_OK) {
-                            if (card.status == CardStatus.ACTIVE.name) openCardDetailBottomSheet(
-                                card
-                            )
+                    when (card.status) {
+                        CardStatus.ACTIVE.name -> {
+                            if (card.cardType == CardType.DEBIT.type) {
+                                if (card.pinCreated) {
+                                    mNavigator.startVerifyPassCodePresenterActivity(
+                                        requireActivity(),
+                                        bundleOf(
+                                            Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(
+                                                Strings.screen_verify_passcode_button_verify
+                                            )
+                                        )
+                                    ) { resultCode, data ->
+                                        if (resultCode == Activity.RESULT_OK) {
+                                            if (card.status == CardStatus.ACTIVE.name) openCardDetailBottomSheet(
+                                                card
+                                            )
+                                        }
+                                    }
+
+                                } else openStatusScreen(
+                                    view,
+                                    pos
+                                )
+                            } else
+                                openDetailScreen(pos)
+                        }
+                        CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(
+                            pos
+                        )
+                        CardStatus.INACTIVE.name -> {
+                            card.deliveryStatus?.let {
+                                openStatusScreen(view, pos)
+                            } ?: openDetailScreen(pos)
                         }
                     }
                 }

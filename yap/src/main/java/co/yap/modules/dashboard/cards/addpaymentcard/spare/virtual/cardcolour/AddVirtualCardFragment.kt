@@ -68,9 +68,20 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
                         }
                         getBindings().tabLayout.addOnTabSelectedListener(this@AddVirtualCardFragment)
                         viewModel.tabViews.get()?.add(view)
-                        viewModel.state.designCode?.value =
-                            viewModel.adapter.get()?.getDataList()?.get(0)?.designCode
+                        viewModel.parentViewModel?.selectedVirtualCardPosition?.get()
+                            ?.let { selectedPos ->
+                                viewModel.parentViewModel?.selectedVirtualCard =
+                                    viewModel.adapter.get()?.getDataList()?.get(selectedPos)
+                                viewModel.state.designCode?.value =
+                                    viewModel.adapter.get()?.getDataList()
+                                        ?.get(selectedPos)?.designCode
+                                onTabSelected(tabLayout.getTabAt(selectedPos))
+                                viewPager.post {
+                                    viewPager.setCurrentItem(selectedPos, true)
+                                }
+                            }
                         tab.customView = view
+
                     }).attach()
             })
         }
@@ -82,6 +93,7 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
                 viewModel.adapter.get()?.getDataList()?.get(it.position)
             viewModel.state.designCode?.value =
                 viewModel.adapter.get()?.getDataList()?.get(it.position)?.designCode
+            viewModel.parentViewModel?.selectedVirtualCardPosition?.set(it.position)
             viewModel.tabViews.get()?.get(it.position)?.borderWidth = 8f
             viewModel.tabViews.get()?.get(it.position)?.borderColorDirection =
                 CircleView.GradientDirection.TOP_TO_BOTTOM
