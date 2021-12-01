@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--    <data>-->
+    <data>
 
-    <!--        <variable-->
-    <!--            name="viewModel"-->
-    <!--            type="co.yap.modules.yapnotification.models.Notification" />-->
-    <!--    </data>-->
+        <!--        <variable-->
+        <!--            name="viewModel"-->
+        <!--            type="co.yap.modules.yapnotification.models.Notification" />-->
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvNotification"
@@ -23,7 +26,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_90sdp"
+            android:layout_height="@dimen/_110sdp"
             android:background="@color/purpleLightCard"
             android:padding="@dimen/_6sdp">
 
@@ -37,7 +40,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_repeatCount="1"/>
+                app:lottie_repeatCount="1" />
 
             <ImageView
                 android:id="@+id/ivCross"
@@ -68,11 +71,28 @@
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_extra_small"
                 android:lineSpacingExtra="@dimen/_2sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/lottie"
+                app:layout_constraintBottom_toTopOf="@+id/tvTapToOpen"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/lottie"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Some features may appeassad asdas  Y sadsada ar bloc you made too many incorrect OTP attempts. Call or chat with us now to get full access." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTapToOpen"
+                style="@style/AMicro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/lottie"
+                app:layout_constraintStart_toEndOf="@+id/lottie"
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:text="@{Strings.screen_dashboard_notification_tap_to_open}"
+                tools:text="Tap to open" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
