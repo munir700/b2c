@@ -16,10 +16,11 @@ data class TaxModel(
 
     var tinNumber: ObservableField<String> = ObservableField(""),
 
-    var previousTinNumber: ObservableField<String>? = ObservableField(""),
-    var tagOfTinNumber: ObservableField<String>? = ObservableField(""),
-    var previousCountry: ObservableField<String>? = ObservableField(""),
-    var tagOfCountry: ObservableField<String>? = ObservableField(""),
+    @Transient var previousTinNumber: ObservableField<String>? = ObservableField(),
+    @Transient var tagOfTinNumber: ObservableField<String>? = ObservableField(),
+    @Transient var previousCountry: ObservableField<String>? = ObservableField(),
+    @Transient var tagOfCountry: ObservableField<String>? = ObservableField(),
+    @Transient var isRuleValid : Boolean? = true,
 
     val taxRowTitle: ObservableField<String> = ObservableField("Select country of tax residence"),
 

@@ -43,7 +43,7 @@
 
         <!--        <ImageView-->
         <!--            android:id="@+id/ivCross"-->
-        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_width="wrap_content"-->b
         <!--            android:layout_height="wrap_content"-->
         <!--            android:layout_marginEnd="@dimen/margin_small"-->
         <!--            android:onClick="@{v->viewModel.onViewClicked(v)}"-->
@@ -310,7 +310,6 @@
                     app:highlightAmendmentField="@{true}"
                     app:missingFieldMap="@{viewModel.amendmentMap}"
                     app:previousValue="@{viewModel.taxModel.previousTinNumber}"
-                    app:validateEmpty="@{true}"
                     tools:text="@string/screen_tax_info_display_text_heading_tin_number" />
 
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>

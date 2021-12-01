@@ -31,7 +31,6 @@ class TaxInfoViewModel(application: Application) :
         TaxInfoAdaptor(
             taxInfoList,
             amendmentMap = parentViewModel?.amendmentMap,
-            stateFromViewModel = state,
             listener = this
         )
     override val repository: CustomersRepository = CustomersRepository
@@ -42,6 +41,7 @@ class TaxInfoViewModel(application: Application) :
         "Select a second country of tax residence",
         "Select a third country of tax residence"
     )
+
 
     override
     fun onCreate() {
@@ -187,7 +187,8 @@ class TaxInfoViewModel(application: Application) :
             }
             if (!valid) break
         }
-        return state.isRuleValid && valid && state.isAgreed.get() == true
+        //return state.isRuleValid && valid && state.isAgreed.get() == true
+        return finalCheck() && valid && state.isAgreed.get() == true
     }
 
     override fun saveInfoDetails(isSubmit: Boolean, success: (pdfUrl: String?) -> Unit) {
@@ -307,7 +308,11 @@ class TaxInfoViewModel(application: Application) :
                             tinNumber = ObservableField("3987874"),
                             previousTinNumber = ObservableField("3987874"),
                             tagOfTinNumber = ObservableField("TINNumber1"),
-                            selectedOption = ObservableField("Yes")
+                            selectedOption = ObservableField("Yes"),
+                            previousCountry = ObservableField(
+                                parentViewModel?.countries?.get(2)?.getName() ?: ""
+                            ),
+                            tagOfCountry = ObservableField("CountryofTaxResidence")
                         )
                     )
                     taxInfoList.add(
@@ -319,7 +324,10 @@ class TaxInfoViewModel(application: Application) :
                             taxRowNumber = ObservableField(false),
                             taxRowTitle = ObservableField(rowTitles[2]),
                             selectedCountry = parentViewModel?.countries?.get(3),
-                            selectedOption = ObservableField("No"),
+                            tinNumber = ObservableField("3987874"),
+                            previousTinNumber = ObservableField("3987874"),
+                            tagOfTinNumber = ObservableField("TINNumber2"),
+                            selectedOption = ObservableField("Yes"),
                             previousCountry = ObservableField(
                                 parentViewModel?.countries?.get(3)?.getName() ?: ""
                             ),
@@ -339,8 +347,24 @@ class TaxInfoViewModel(application: Application) :
     //check if Amendment exist or not
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 
-    override fun onRuleValidationSuccess() {
-        state.valid.set(isTaxInfoValid(taxInfoList))
+    override fun onRuleValidationComplete(position: Int, isRuleValid: Boolean) {
+        if (position != 0) {
+            taxInfoList[position].isRuleValid = isRuleValid
+            state.valid.set(finalCheck())
+        }
+    }
+
+    fun finalCheck(): Boolean {
+        var valid = true
+        taxInfoList.forEach {
+            if (it.isRuleValid == false || (it.selectedOption.equals("Yes") && (it.tinNumber.get()
+                    .isNullOrBlank() || it.tinNumber.get().equals("")))
+            ) {
+                valid = false
+                return@forEach
+            }
+        }
+        return valid
     }
 
 }

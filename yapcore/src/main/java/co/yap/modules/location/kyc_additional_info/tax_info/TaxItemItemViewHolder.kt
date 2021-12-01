@@ -14,12 +14,12 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxItemItemViewHolder(
     private val itemTaxInfoBinding: ItemTaxInfoBinding,
-    private val stateFromViewModel: ITaxInfo.State?,
     private val listener: ITaxItemOnClickListenerInterface? = null
 ) :
     RecyclerView.ViewHolder(itemTaxInfoBinding.root), IValidator,
     Validator.ValidationListener {
     override var validator: Validator? = Validator(null)
+    var itemPosition = -1
 
     fun onBind(
         taxModel: TaxModel,
@@ -27,6 +27,7 @@ class TaxItemItemViewHolder(
         amendmentMap: HashMap<String?, List<String>?>?,
         onItemClickListener: OnItemClickListener?
     ) {
+        itemPosition = position
         itemTaxInfoBinding.viewModel =
             TaxInfoItemViewModel(
                 taxModel,
@@ -95,14 +96,12 @@ class TaxItemItemViewHolder(
 
     override fun onValidationError(validator: Validator) {
         super.onValidationError(validator)
-        stateFromViewModel?.isRuleValid = false
-        listener?.onRuleValidationSuccess()
+        listener?.onRuleValidationComplete(itemPosition, false)
     }
 
     override fun onValidationSuccess(validator: Validator) {
         super.onValidationSuccess(validator)
-        stateFromViewModel?.isRuleValid = true
-        listener?.onRuleValidationSuccess()
+        listener?.onRuleValidationComplete(itemPosition, true)
     }
 
 }
