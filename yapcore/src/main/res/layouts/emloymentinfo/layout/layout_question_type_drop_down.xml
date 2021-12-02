@@ -38,7 +38,7 @@
                 android:dividerPadding="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@{viewModel.questionUiFields.question.questionTitle}"
-                app:hintTextAppearance="@style/SmallGrey"
+                app:hintTextAppearance="@style/ASmallGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 

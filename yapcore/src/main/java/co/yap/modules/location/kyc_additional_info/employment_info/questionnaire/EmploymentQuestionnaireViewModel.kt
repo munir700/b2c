@@ -186,7 +186,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
         objQuestion.question.multipleAnswers.get()?.clear()
         objQuestion.question.multipleAnswers.get()?.addAll(countries)
         // Only adding previous answers when its empty
-        if (hasAmendmentMap() && objQuestion.question.multiplePreviousAnswers.get()?.isEmpty() == true) {
+        if (hasAmendmentMap() && objQuestion.question.multiplePreviousAnswers.get()
+                ?.isEmpty() == true
+        ) {
             objQuestion.question.multiplePreviousAnswers.get()?.addAll(countries)
         }
         questionsList[position] = objQuestion
@@ -239,7 +241,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             isValid = when (it.question.questionType) {
                 QuestionType.COUNTRIES_FIELD -> {
                     var hasCountryError = true
-                    if (it.question.multiplePreviousAnswers.get()?.isNotEmpty() == true) {
+                    if (it.question.multiplePreviousAnswers.get()?.isNotEmpty() == true && hasKeyInAmendmentMap(it.question.tag)) {
                         it.question.multiplePreviousAnswers.get()?.let { previousAnswersList ->
                             if (previousAnswersList.size == it.question.multipleAnswers.get()?.size) {
                                 previousAnswersList.forEach { country ->
@@ -275,35 +277,58 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 validator?.isValidate?.value = isValid
             }
         }
+
+        val depositQuestion =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
         val depositAmount =
-            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
-                ?.getAnswer()
-        val salaryAmount =
-            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
-                ?.getAnswer()
-        val previousSalary =
-            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }?.question?.previousValue
-        val previousDepositAmount =
-            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
-                ?.question?.previousValue
-        if (salaryAmount?.isNotBlank() == true && salaryAmount == previousSalary?.get()) {
-            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
-                ?.containsError?.set(true)
-            isValid = false
-        } else {
-            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
-                ?.containsError?.set(false)
+            depositQuestion?.getAnswer()
+        if (depositQuestion != null && hasKeyInAmendmentMap(depositQuestion.question.tag)) {
+            val previousDepositAmount =
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                    ?.question?.previousValue
+            if (depositAmount?.isNotBlank() == true && depositAmount == previousDepositAmount?.get()) {
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                    ?.containsError?.set(true)
+                isValid = false
+            } else {
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
+                    ?.containsError?.set(false)
+            }
         }
-        if (depositAmount?.isNotBlank() == true && depositAmount == previousDepositAmount?.get()) {
-            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
-                ?.containsError?.set(true)
-            isValid = false
-        } else {
-            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
-                ?.containsError?.set(false)
+
+        val salaryQuestion =
+            questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+        val salaryAmount = salaryQuestion?.getAnswer()
+        if (salaryQuestion != null && hasKeyInAmendmentMap(salaryQuestion.question.tag)) {
+            val previousSalary =
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }?.question?.previousValue
+            if (salaryAmount?.isNotBlank() == true && salaryAmount == previousSalary?.get()) {
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                    ?.containsError?.set(true)
+                isValid = false
+            } else {
+                questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
+                    ?.containsError?.set(false)
+            }
         }
+
         validator?.isValidate?.value =
             isValid && state.ruleValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble()
+    }
+
+    override fun hasKeyInAmendmentMap(key: String?): Boolean {
+        if (key != null && parentViewModel?.amendmentMap != null) {
+            parentViewModel?.amendmentMap?.let { it ->
+                it.values.toList().forEach { it ->
+                    it?.forEach {
+                        if (key == it) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+        return false
     }
 
     private fun fetchParallelAPIResponses(
