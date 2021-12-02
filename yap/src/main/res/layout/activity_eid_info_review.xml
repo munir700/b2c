@@ -495,7 +495,7 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:tag="DateofBirth"
-                        android:text="@{viewModel.state.dateOfBirth}"
+                        android:text='@{viewModel.state.dateOfBirth != null ? viewModel.state.dateOfBirth : "" }'
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"

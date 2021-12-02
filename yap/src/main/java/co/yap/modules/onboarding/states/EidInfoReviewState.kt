@@ -3,6 +3,7 @@ package co.yap.modules.onboarding.states
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.yapcore.BaseState
@@ -46,12 +47,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             notifyPropertyChanged(BR.lastName)
         }
 
-    @get:Bindable
-    override var dateOfBirth: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.dateOfBirth)
-        }
+    override var dateOfBirth: MutableLiveData<String> = MutableLiveData("")
 
     @get:Bindable
     override var gender: String = ""
@@ -113,7 +109,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     override var isShowLastName: ObservableBoolean = ObservableBoolean(false)
     override var dobCalendar: Calendar = Calendar.getInstance()
     override var expiryCalendar: Calendar = Calendar.getInstance()
-    override var nationality: ObservableField<Country?> = ObservableField()
+    override var nationality: MutableLiveData<Country?> = MutableLiveData(null)
 
     @get:Bindable
     override var previousFirstName: String? = null
@@ -163,6 +159,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             field = value
             notifyPropertyChanged(BR.previousExpiryDate)
         }
+
     @get:Bindable
     override var previousCitizenNumber: String? = null
         set(value) {
@@ -171,6 +168,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         }
 
     override var isDateOfBirthValid: ObservableBoolean = ObservableBoolean()
-    override var AgeLimit: Int? = 0
+    override var ageLimit: Int? = 0
     override var isCountryUS: Boolean = false
+    override var countryName: ObservableField<String> = ObservableField()
 }
