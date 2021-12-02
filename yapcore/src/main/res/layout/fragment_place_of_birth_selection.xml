@@ -205,7 +205,7 @@
                     android:dropDownHeight="@dimen/_50sdp"
                     android:gravity="bottom"
                     android:overScrollMode="never"
-                    android:clickable="@{viewModel.parentViewModel.amendmentMap == null ? true : false}"
+                    android:enabled="@{viewModel.parentViewModel.amendmentMap == null ? true : false}"
                     android:overlapAnchor="false"
                     android:paddingStart="0dp"
                     android:spinnerMode="dropdown"

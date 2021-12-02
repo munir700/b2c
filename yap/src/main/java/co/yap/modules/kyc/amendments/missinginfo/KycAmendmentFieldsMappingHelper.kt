@@ -38,6 +38,11 @@ object KycAmendmentFieldsMappingHelper {
         map["IndustrySegment"] = "Industry segment"
         map["CompanyNameListWhereCompanyDoesBusiness"] = "Company business list"
         map["Country2"] = "Second country"
+
+        // PASSPORT
+        map["passportNumber"] = "Passport Number"
+        map["passportIssueDate"] = "Passport issue date"
+        map["passportExpiryDate"] = "Passport expiry date"
     }
 
     fun getValueForKey(key: String): String {

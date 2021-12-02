@@ -29,11 +29,11 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.EidFilter
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.launchSheet
@@ -203,17 +203,19 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
                 viewModel.eventEidUpdate -> {
                     SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(viewLifecycleOwner, Observer { isSuccess ->
-                        if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                        } else {
-                            showToast("Accounts info failed")
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                        }
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            } else {
+                                showToast("Accounts info failed")
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            }
 
-                    })
+                        })
                 }
                 viewModel.eventCitizenNumberIssue, viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber(
                     "Sorry, that didn’t work. Please try again"
@@ -225,7 +227,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
-
+        viewModel.state.dateOfBirth.observe(viewLifecycleOwner, Observer {
+            viewModel.handleAgeValidation()
+        })
+        viewModel.state.nationality.observe(viewLifecycleOwner, Observer {
+            viewModel.handleIsUsValidation()
+        })
     }
 
     private fun navigateToConfirmNameFragment() {
@@ -233,14 +240,17 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             state.middleName.set(viewModel.state.middleName)
             state.firstName.set(viewModel.state.firstName)
             state.lastName.set(viewModel.state.lastName)
-            state.nationality.set(viewModel.state.nationality.get()?.isoCountryCode2Digit)
+            state.nationality.set(viewModel.state.nationality.value?.isoCountryCode2Digit)
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_FIRST_NAME, state.firstName.get() ?: "")
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_LAST_NAME, state.lastName.get() ?: "")
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_MIDDLE_NAME, state.middleName.get() ?: "")
-            navigateWithPopup(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,R.id.eidInfoReviewFragment)
+            navigateWithPopup(
+                R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,
+                R.id.eidInfoReviewFragment
+            )
         }
     }
 
@@ -277,7 +287,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                viewModel.state.dateOfBirth = dateToString(
+                viewModel.state.dateOfBirth.value = dateToString(
                     calendar.time, DEFAULT_DATE_FORMAT,
                     TIME_ZONE_Default
                 )
@@ -423,10 +433,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             data?.let {
                 it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
                     ?.let { it1 ->
-                    viewModel.onEIDScanningComplete(
-                        it1
-                    )
-                }
+                        viewModel.onEIDScanningComplete(
+                            it1
+                        )
+                    }
             }
         } else {
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
@@ -470,7 +480,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.state.nationality.set(data as Country)
+            viewModel.state.nationality.value = (data as Country)
         }
     }
 }

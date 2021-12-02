@@ -4,15 +4,14 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
-import co.yap.widgets.bottomsheet.BottomSheetItem
-import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.util.*
 
@@ -22,8 +21,8 @@ interface IEidInfoReview {
         var firstName: String
         var middleName: String
         var lastName: String
-        var nationality: ObservableField<Country?>
-        var dateOfBirth: String
+        var nationality: MutableLiveData<Country?>
+        var dateOfBirth: MutableLiveData<String>
         var gender: String
         var expiryDate: String
         var citizenNumber: String
@@ -31,7 +30,8 @@ interface IEidInfoReview {
         var fullNameValid: Boolean
         var citizenNumberValid: Boolean
         var nationalityValid: Boolean
-//        var dateOfBirthValid: Boolean
+
+        //        var dateOfBirthValid: Boolean
         var genderValid: Boolean
         var expiryDateValid: Boolean
         var valid: Boolean
@@ -49,9 +49,10 @@ interface IEidInfoReview {
         var previousGender: String?
         var previousExpiryDate: String?
         var previousCitizenNumber: String?
-        var isDateOfBirthValid : ObservableBoolean
-        var AgeLimit : Int?
-        var isCountryUS : Boolean
+        var isDateOfBirthValid: ObservableBoolean
+        var ageLimit: Int?
+        var isCountryUS: Boolean
+        var countryName: ObservableField<String>
     }
 
     interface View : IBase.View<ViewModel> {
@@ -84,7 +85,7 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
-        fun requestAllAPIs(identity: Identity)
+        fun requestAllAPIs()
         fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit)
         val drawableClickListener: OnDrawableClickListener
         fun getGenderOptions(): ArrayList<BottomSheetItem>
@@ -93,6 +94,7 @@ interface IEidInfoReview {
         var populateNationalitySpinnerData: MutableLiveData<ArrayList<Country>>
         fun getKYCDataFromServer()
         fun isFromAmendment(): Boolean
-//        var validator: Validator?
+        fun handleAgeValidation()
+        fun handleIsUsValidation()
     }
 }
