@@ -377,7 +377,7 @@ class TaxInfoViewModel(application: Application) :
             state.valid.set(finalCheck())
         }
     }
-
+//TODO Will be remove once done with final testing
 //    fun finalCheck(): Boolean {
 //        var valid = true
 //        taxInfoList.forEach {
