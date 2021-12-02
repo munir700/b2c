@@ -35,6 +35,7 @@ class MissingInfoFragmentViewModel(application: Application) :
                     response.data.data?.forEach {
                         if (it.amendments?.isNotEmpty() == true) {
                             map[it.sectionName] = it.amendments
+
                             list.addAll(it.amendments ?: emptyList())
                         }
                     }
