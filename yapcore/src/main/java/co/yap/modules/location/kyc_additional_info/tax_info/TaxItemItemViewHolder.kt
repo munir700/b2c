@@ -28,16 +28,18 @@ class TaxItemItemViewHolder(
         onItemClickListener: OnItemClickListener?
     ) {
         itemPosition = position
+        validator?.targetViewBinding = itemTaxInfoBinding
+        validator?.setValidationListener(this)
+
+
         itemTaxInfoBinding.viewModel =
             TaxInfoItemViewModel(
                 taxModel,
                 position,
                 amendmentMap,
-                onItemClickListener
+                onItemClickListener,
+                validator
             )
-
-        validator?.targetViewBinding = itemTaxInfoBinding
-        validator?.setValidationListener(this)
 
         itemTaxInfoBinding.etTinNumber.afterTextChanged {
             onItemClickListener?.onItemClick(itemTaxInfoBinding.etTinNumber, it, -1)
@@ -103,5 +105,4 @@ class TaxItemItemViewHolder(
         super.onValidationSuccess(validator)
         listener?.onRuleValidationComplete(itemPosition, true)
     }
-
 }

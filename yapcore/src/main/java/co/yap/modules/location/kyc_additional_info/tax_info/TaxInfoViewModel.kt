@@ -188,7 +188,7 @@ class TaxInfoViewModel(application: Application) :
             if (!valid) break
         }
         //return state.isRuleValid && valid && state.isAgreed.get() == true
-        return finalCheck() && valid && state.isAgreed.get() == true
+        return if (isFromAmendment()) finalCheck() && valid && state.isAgreed.get() == true else valid && state.isAgreed.get() == true
     }
 
     override fun saveInfoDetails(isSubmit: Boolean, success: (pdfUrl: String?) -> Unit) {
@@ -269,72 +269,96 @@ class TaxInfoViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
 
                     var taxCountriesList = response.data.data?.taxInformationDetails
+                    if (taxCountriesList != null) {
+                        for (i in 0 until taxCountriesList!!.size) {
+                            //set Amendment data into views
 
-//                    if (taxCountriesList != null) {
-//                        for (i in 0 until taxCountriesList!!.size) {
-//                            //set Amendment data into views
-//
-//                            if (!taxCountriesList.get(i)?.country.equals("United Arab Emirates")) {
-//                                taxInfoList.add(
-//                                    TaxModel(
-//                                        countries = parentViewModel?.countries ?: arrayListOf(),
-//                                        reasons = reasonsList,
-//                                        options = options,
-//                                        canAddMore = ObservableField(false),
-//                                        taxRowNumber = ObservableField(false),
-//                                        taxRowTitle = ObservableField(rowTitles[i]),
-//                                        selectedCountry = parentViewModel?.countries?.find {
-//                                            it.getName()
-//                                                .equals(taxCountriesList.get(i)?.country ?: "")
-//                                        }
-//                                    )
-//                                )
-//                                taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
-//                            }
-//
-//                        }
-//                    }
+                            if (!taxCountriesList.get(i)?.country.equals("United Arab Emirates")) {
+                                taxInfoList.add(
+                                    TaxModel(
+                                        countries = parentViewModel?.countries ?: arrayListOf(),
+                                        reasons = reasonsList,
+                                        options = options,
+                                        canAddMore = ObservableField(false),
+                                        taxRowNumber = ObservableField(false),
+                                        taxRowTitle = ObservableField(rowTitles[i]),
+                                        tinNumber = ObservableField(
+                                            taxCountriesList.get(i)?.tinNumber ?: ""
+                                        ),
+                                        selectedCountry = parentViewModel?.countries?.find {
+                                            it.getName()
+                                                .equals(taxCountriesList.get(i)?.country ?: "")
+                                        },
+                                        previousTinNumber = ObservableField(
+                                            taxCountriesList.get(i)?.tinNumber ?: ""
+                                        ),
+                                        previousCountry = ObservableField(
+                                            taxCountriesList.get(i)?.country ?: ""
+                                        ),
+                                        tagOfTinNumber = when (i) {
+                                            1 -> ObservableField("TINNumber1")
+                                            2 -> ObservableField(
+                                                "TINNumber2"
+                                            )
+                                            else -> ObservableField("")
+                                        },
+                                        tagOfCountry = when (i) {
+                                            1 -> ObservableField("CountryofTaxResidence")
+                                            2 -> ObservableField(
+                                                "SecondCountryofTaxResidence"
+                                            )
+                                            else -> ObservableField("")
+                                        },
+                                        selectedOption = if (taxCountriesList.get(i)?.tinNumber.equals(
+                                                ""
+                                            )
+                                        ) ObservableField("No") else ObservableField("Yes")
+                                    )
+                                )
+                                taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
+                            }
+                        }
+                    }
 // TODO REMOVE MOCK DATA
-
-                    taxInfoList.add(
-                        TaxModel(
-                            countries = parentViewModel?.countries ?: arrayListOf(),
-                            reasons = reasonsList,
-                            options = options,
-                            canAddMore = ObservableField(false),
-                            taxRowNumber = ObservableField(true),
-                            taxRowTitle = ObservableField(rowTitles[1]),
-                            selectedCountry = parentViewModel?.countries?.get(2),
-                            tinNumber = ObservableField("3987874"),
-                            previousTinNumber = ObservableField("3987874"),
-                            tagOfTinNumber = ObservableField("TINNumber1"),
-                            selectedOption = ObservableField("Yes"),
-                            previousCountry = ObservableField(
-                                parentViewModel?.countries?.get(2)?.getName() ?: ""
-                            ),
-                            tagOfCountry = ObservableField("CountryofTaxResidence")
-                        )
-                    )
-                    taxInfoList.add(
-                        TaxModel(
-                            countries = parentViewModel?.countries ?: arrayListOf(),
-                            reasons = reasonsList,
-                            options = options,
-                            canAddMore = ObservableField(false),
-                            taxRowNumber = ObservableField(false),
-                            taxRowTitle = ObservableField(rowTitles[2]),
-                            selectedCountry = parentViewModel?.countries?.get(3),
-                            tinNumber = ObservableField("3987874"),
-                            previousTinNumber = ObservableField("3987874"),
-                            tagOfTinNumber = ObservableField("TINNumber2"),
-                            selectedOption = ObservableField("Yes"),
-                            previousCountry = ObservableField(
-                                parentViewModel?.countries?.get(3)?.getName() ?: ""
-                            ),
-                            tagOfCountry = ObservableField("SecondCountryofTaxResidence")
-                        )
-                    )
-                    taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
+//                    taxInfoList.add(
+//                        TaxModel(
+//                            countries = parentViewModel?.countries ?: arrayListOf(),
+//                            reasons = reasonsList,
+//                            options = options,
+//                            canAddMore = ObservableField(false),
+//                            taxRowNumber = ObservableField(true),
+//                            taxRowTitle = ObservableField(rowTitles[1]),
+//                            selectedCountry = parentViewModel?.countries?.get(2),
+//                            tinNumber = ObservableField("3987874"),
+//                            previousTinNumber = ObservableField("3987874"),
+//                            tagOfTinNumber = ObservableField("TINNumber1"),
+//                            selectedOption = ObservableField("Yes"),
+//                            previousCountry = ObservableField(
+//                                parentViewModel?.countries?.get(2)?.getName() ?: ""
+//                            ),
+//                            tagOfCountry = ObservableField("CountryofTaxResidence")
+//                        )
+//                    )
+//                    taxInfoList.add(
+//                        TaxModel(
+//                            countries = parentViewModel?.countries ?: arrayListOf(),
+//                            reasons = reasonsList,
+//                            options = options,
+//                            canAddMore = ObservableField(false),
+//                            taxRowNumber = ObservableField(false),
+//                            taxRowTitle = ObservableField(rowTitles[2]),
+//                            selectedCountry = parentViewModel?.countries?.get(3),
+//                            tinNumber = ObservableField("3987874"),
+//                            previousTinNumber = ObservableField("3987874"),
+//                            tagOfTinNumber = ObservableField("TINNumber2"),
+//                            selectedOption = ObservableField("Yes"),
+//                            previousCountry = ObservableField(
+//                                parentViewModel?.countries?.get(3)?.getName() ?: ""
+//                            ),
+//                            tagOfCountry = ObservableField("SecondCountryofTaxResidence")
+//                        )
+//                    )
+//                    taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
 
                 }
                 is RetroApiResponse.Error -> {
@@ -348,17 +372,32 @@ class TaxInfoViewModel(application: Application) :
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 
     override fun onRuleValidationComplete(position: Int, isRuleValid: Boolean) {
-        if (position != 0) {
+        if (position != 0 && isFromAmendment()) {
             taxInfoList[position].isRuleValid = isRuleValid
             state.valid.set(finalCheck())
         }
     }
 
+//    fun finalCheck(): Boolean {
+//        var valid = true
+//        taxInfoList.forEach {
+//            if (it.isRuleValid == false || (it.selectedOption.get()
+//                    .equals("Yes") && (it.tinNumber.get()
+//                    .isNullOrBlank() || it.tinNumber.get().equals("")))
+//            ) {
+//                valid = false
+//                return@forEach
+//            }
+//        }
+//        return valid
+//    }
+
     fun finalCheck(): Boolean {
         var valid = true
         taxInfoList.forEach {
-            if (it.isRuleValid == false || (it.selectedOption.get().equals("Yes") && (it.tinNumber.get()
-                    .isNullOrBlank() || it.tinNumber.get().equals("")))
+            if ((it.previousCountry?.get() == it.selectedCountry?.getName()) || (it.selectedOption.get()
+                    .equals("Yes") && ((it.previousTinNumber?.get() == it.tinNumber?.get()) || (it.tinNumber?.get()
+                    .equals("")))) || (it.selectedCountry?.getName().equals(""))
             ) {
                 valid = false
                 return@forEach

@@ -41,17 +41,17 @@
         <!--            app:textColor="@{viewModel.taxModel.selectedCountry == null || viewModel.taxModel.selectedCountry.name.empty? true : false}"-->
         <!--            tools:text="@string/screen_tax_info_display_text_select_country" />-->
 
-        <!--        <ImageView-->
-        <!--            android:id="@+id/ivCross"-->
-        <!--            android:layout_width="wrap_content"-->b
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginEnd="@dimen/margin_small"-->
-        <!--            android:onClick="@{v->viewModel.onViewClicked(v)}"-->
-        <!--            android:src="@drawable/ic_close"-->
-        <!--            android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"-->
-        <!--            tools:visibility="visible" />-->
+                <ImageView
+                    android:id="@+id/ivCross"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:onClick="@{v->viewModel.onViewClicked(v)}"
+                    android:src="@drawable/ic_close"
+                    android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"
+                    tools:visibility="visible" />
 
         <!--        <androidx.appcompat.widget.AppCompatTextView-->
         <!--            android:id="@+id/bcountries"-->
@@ -293,6 +293,7 @@
                 <co.yap.widgets.edittext.EditTextRichDrawable
                     android:id="@+id/etTinNumber"
                     style="@style/ASmall"
+                    android:visibility="@{viewModel.taxModel.selectedOption.equals(`Yes`) ? View.VISIBLE : View.GONE}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
