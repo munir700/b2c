@@ -126,11 +126,12 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
         super.onDestroy()
         removeObservers()
     }
+
     private fun navigateToAmendmentSuccess() {
         val bundle = Bundle()
         bundle.putString(
             Constants.CONFIRMATION_DESCRIPTION,
-            getString(R.string.common_display_text_y2y_general_share)
+            getString(R.string.kyc_common_success_subtitle)
         )
         bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
         navigate(

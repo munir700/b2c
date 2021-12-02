@@ -12,7 +12,6 @@ import co.yap.yapcore.managers.SessionManager
 class MissingInfoFragmentViewModel(application: Application) :
     BaseViewModel<IMissingInfo.State>(application), IMissingInfo.ViewModel,
     IRepositoryHolder<CustomersRepository> {
-
     override val adapter = ObservableField<MissingInfoAdapter>()
     override val state: IMissingInfo.State = MissingInfoState()
     override val repository: CustomersRepository = CustomersRepository

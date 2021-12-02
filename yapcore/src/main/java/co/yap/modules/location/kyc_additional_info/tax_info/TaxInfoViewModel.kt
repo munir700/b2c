@@ -260,7 +260,7 @@ class TaxInfoViewModel(application: Application) :
 
     override fun canSkipFragment() =
         SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
-                || parentViewModel?.amendmentMap?.contains(AmendmentSection.TAX_INFO.value) == false
+                || (isFromAmendment() && parentViewModel?.amendmentMap?.contains(AmendmentSection.TAX_INFO.value) == false)
 
     //Fetch data from api for Amendment data
     override fun getAmendmentsTaxInfo() {

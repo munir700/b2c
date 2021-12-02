@@ -2,7 +2,6 @@ package co.yap.modules.kyc.amendments.missinginfo
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.yapcore.IBase
 
 interface IMissingInfo {

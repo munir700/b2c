@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_44sdp"
             android:gravity="center_vertical"
-            android:visibility="@{!viewModel.parentViewModel.skipFirstScreen||(SessionManager.INSTANCE.user.notificationStatuses.equals(`ON_BOARDED`)||SessionManager.INSTANCE.user.notificationStatuses.equals(`ADDITIONAL_COMPLIANCE_INFO_REQ`))? View.GONE:View.VISIBLE}">
+            android:visibility="@{!viewModel.parentViewModel.skipFirstScreen||(SessionManager.INSTANCE.user.notificationStatuses.equals(`ON_BOARDED`)||SessionManager.INSTANCE.user.notificationStatuses.equals(`ADDITIONAL_COMPLIANCE_INFO_REQ`)) || viewModel.parentViewModel.amendmentMap != null? View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:id="@+id/tbBtnBack"
@@ -301,7 +301,7 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:tag="IDNumber"
-                        android:text="@{viewModel.state.citizenNumber}"
+                        android:text="@={viewModel.state.citizenNumber}"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
@@ -495,7 +495,7 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:tag="DateofBirth"
-                        android:text="@{viewModel.state.dateOfBirth}"
+                        android:text='@{viewModel.state.dateOfBirth != null ? viewModel.state.dateOfBirth : "" }'
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"

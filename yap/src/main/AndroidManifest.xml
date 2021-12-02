@@ -232,5 +232,8 @@
         <activity
             android:name=".modules.dashboard.store.cardplans.activities.CardPlansActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.kyc.amendments.passportactivity.PassportActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

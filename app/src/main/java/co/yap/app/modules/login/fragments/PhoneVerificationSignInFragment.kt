@@ -217,10 +217,7 @@ class PhoneVerificationSignInFragment :
 
     private fun moveNext(amendmentStatus: String?) {
         // launching missing info screen
-        if (AmendmentStatus.valueOf(
-                amendmentStatus ?: ""
-            ) == AmendmentStatus.SUBMIT_TO_CUSTOMER
-        ) {
+        if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == amendmentStatus) {
             startFragment(
                 fragmentName = MissingInfoFragment::class.java.name
             )
