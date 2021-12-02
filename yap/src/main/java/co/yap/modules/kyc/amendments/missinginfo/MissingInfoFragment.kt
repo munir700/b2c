@@ -42,22 +42,22 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                     viewModel.missingInfoMap.value?.isEmpty() == true -> {
                         goToDashboard()
                     }
-                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true -> {
-                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                            putExtra(
-                                Constants.name,
-                                SessionManager.user?.currentCustomer?.firstName.toString()
-                            )
-                            putExtra(
-                                Constants.data,
-                                true
-                            )
-                            putExtra(
-                                Constants.KYC_AMENDMENT_MAP,
-                                viewModel.missingInfoMap.value
-                            )
-                        }
-                    }
+//                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true -> {
+//                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+//                            putExtra(
+//                                Constants.name,
+//                                SessionManager.user?.currentCustomer?.firstName.toString()
+//                            )
+//                            putExtra(
+//                                Constants.data,
+//                                true
+//                            )
+//                            putExtra(
+//                                Constants.KYC_AMENDMENT_MAP,
+//                                viewModel.missingInfoMap.value
+//                            )
+//                        }
+//                    }
                     viewModel.missingInfoMap.value?.containsKey(AmendmentSection.PASSPORT_INFO.value) == true -> {
                         launchActivity<PassportActivity>(options = bundleOf(Constants.KYC_AMENDMENT_MAP to viewModel.missingInfoMap.value)) {
                             putExtra(

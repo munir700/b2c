@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -39,6 +40,7 @@ class MissingInfoFragmentViewModel(application: Application) :
                             list.addAll(it.amendments ?: emptyList())
                         }
                     }
+                    map[AmendmentSection.PASSPORT_INFO.value] = mutableListOf()
                     missingInfoMap.value = map
                     adapter.get()?.setData(list)
                     state.loading = false

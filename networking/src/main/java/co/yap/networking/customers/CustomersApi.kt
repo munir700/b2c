@@ -132,6 +132,7 @@ interface CustomersApi {
     suspend fun getAmendmentsBirthInfo(accountUuid: String): RetroApiResponse<BaseResponse<BirthInfoAmendmentResponse>>
     suspend fun getAmendmentsTaxInfo(accountUuid: String): RetroApiResponse<BaseResponse<TaxInfoAmendmentResponse>>
     suspend fun getAmendmentsEmploymentInfo(accountUuid: String): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>
+    suspend fun uploadPassportAmendments(request: PassportRequest): RetroApiResponse<ApiResponse>
 
     //Bill payments feature apis
     suspend fun getBillProviders(): RetroApiResponse<BillProviderResponse>
