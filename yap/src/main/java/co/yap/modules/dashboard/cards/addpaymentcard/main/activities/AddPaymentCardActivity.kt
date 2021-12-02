@@ -59,6 +59,7 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
             R.id.tbBtnBack -> {
                 onBackPressed()
             }
+            //TODO(The solution of clicking on Info icon can be more optimized, Need to work on it more)
             R.id.ivInfo -> {
                 val fragment =
                     supportFragmentManager.findFragmentById(R.id.main_cards_nav_host_fragment)
@@ -66,22 +67,22 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
                     navFragment.childFragmentManager.primaryNavigationFragment?.let { fragment ->
                         when (fragment) {
                             is AddVirtualCardFragment ->
-                                fragment.navigateToAction(
+                                fragment.navigateToBack(
                                     AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToSpareCardLandingFragment(
                                         "AddVirtualCardFragment"
-                                    )
+                                    ),R.id.spareCardLandingFragment
                                 )
                             is AddVirtualCardNameFragment ->
-                                fragment.navigateToAction(
+                                fragment.navigateToBack(
                                     AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToSpareCardLandingFragment(
                                         "AddVirtualCardNameFragment"
-                                    )
+                                    ),R.id.spareCardLandingFragment
                                 )
                             is AddSpareCardFragment ->
-                                fragment.navigateToAction(
+                                fragment.navigateToBack(
                                     AddSpareCardFragmentDirections.actionAddSpareCardFragmentToSpareCardLandingFragment(
                                         "AddSpareCardFragment"
-                                    )
+                                    ),R.id.spareCardLandingFragment
                                 )
                         }
                     }
@@ -96,22 +97,23 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
             navFragment.childFragmentManager.primaryNavigationFragment?.let { fragment ->
                 when (fragment) {
                     is AddVirtualCardFragment ->
-                        fragment.navigateToAction(
+                        fragment.navigateToBack(
                             AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToSpareCardLandingFragment(
                                 "AddVirtualCardFragment"
-                            )
+                            ),R.id.spareCardLandingFragment
                         )
                     is AddVirtualCardNameFragment ->
-                        fragment.navigateToAction(AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToAddVirtualCarFragment())
+                        fragment.navigateToBack(AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToAddVirtualCarFragment(),R.id.addVirtualCardFragment)
                     is AddSpareCardFragment ->
-                        fragment.navigateToAction(AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddvirtualcardnamefragment())
+                        fragment.navigateToBack(AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddvirtualcardnamefragment(),R.id.addVirtualCardNameFragment)
                     else ->
                         if (!BackPressImpl(fragment).onBackPressed()) {
                             if (onBackPressCheck) {
                                 super.onBackPressed()
+                                this.finish()
                             }
                         }
-                }
+               }
             }
         }
 //        if (!onBackPressCheck) {

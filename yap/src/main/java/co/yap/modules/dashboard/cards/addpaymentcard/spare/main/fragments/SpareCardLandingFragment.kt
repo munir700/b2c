@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments
 
-
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -83,13 +82,13 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                     args?.let { arg ->
                         if (arg.landedFrom.isNotEmpty()) {
                             when (arg.landedFrom) {
-                                "AddVirtualCardFragment" -> navigateToAction(
+                                "AddVirtualCardFragment" -> navigateToNext(
                                     SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment()
                                 )
-                                "AddVirtualCardNameFragment" -> navigateToAction(
+                                "AddVirtualCardNameFragment" -> navigateToNext(
                                     SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardNameFragment()
                                 )
-                                "AddSpareCardFragment" -> navigateToAction(
+                                "AddSpareCardFragment" -> navigateToNext(
                                     SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
                                         cardType = "",
                                         isFromBlockCard = false
@@ -97,10 +96,10 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                                 )
                             }
                         } else {
-                            navigateToAction(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
+                            navigateToNext(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
                         }
                     }
-                        ?: navigateToAction(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
+                        ?: navigateToNext(SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment())
                     //gotoAddVirtualCardScreen()
                 }
                 R.id.llAddVirtualCard -> {
@@ -163,14 +162,9 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         viewModel.errorEvent.removeObservers(this)
     }
 
-    override fun onPause() {
+    override fun onDestroyView() {
         removeObservers()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        removeObservers()
-        super.onDestroy()
+        super.onDestroyView()
     }
 }
 

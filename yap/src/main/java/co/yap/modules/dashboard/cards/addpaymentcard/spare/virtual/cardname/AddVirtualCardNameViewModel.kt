@@ -19,6 +19,10 @@ class AddVirtualCardNameViewModel(application: Application) :
         super.onCreate()
         setToolBarTitle(getString(Strings.screen_add_virtual_spare_card_tool_bar_title_choose_name))
         toggleToolBarVisibility(View.VISIBLE)
+        if(parentViewModel?.selectedCardName?.get()?.isNotEmpty() == true){
+            state.cardName.set(parentViewModel?.selectedCardName?.get())
+            state.enabelCoreButton = true
+        }
     }
 
     override fun handlePressOnButton(id: Int) {

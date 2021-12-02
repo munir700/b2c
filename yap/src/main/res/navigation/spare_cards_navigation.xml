@@ -44,12 +44,10 @@
             android:name="cardType"
             android:defaultValue=" "
             app:argType="string" />
-
         <argument
             android:name="newDeliveryAddressTitle"
             android:defaultValue=" "
             app:argType="string" />
-
         <argument
             android:name="newDeliveryAddressSubTitle"
             android:defaultValue=" "
@@ -65,7 +63,8 @@
 
         <argument
             android:name="isFromBlockCard"
-            app:argType="boolean" />
+            app:argType="boolean"
+            android:defaultValue="false"/>
         <argument
             android:name="cardName"
             android:defaultValue=" "
@@ -188,9 +187,7 @@
             app:destination="@id/addVirtualCardNameFragment" />
         <action
             android:id="@+id/action_addVirtualCardFragment_to_spareCardLandingFragment"
-            app:destination="@+id/spareCardLandingFragment"
-            app:popUpTo="@id/spareCardLandingFragment"
-            app:popUpToInclusive="true">
+            app:destination="@+id/spareCardLandingFragment">
             <argument
                 android:name="landedFrom"
                 android:defaultValue=" "

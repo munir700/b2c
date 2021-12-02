@@ -1,14 +1,14 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardname
 
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import co.yap.databinding.FragmentAddVirtualCardNameBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IAddVirtualCardName {
     interface State : IBase.State {
-        var cardName: MutableLiveData<String>
+        var cardName: ObservableField<String>
         var enabelCoreButton: Boolean
     }
 

@@ -139,9 +139,7 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
     private val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnNext -> {
-                val action =
-                    AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToAddVirtualCardNameFragment()
-                navigate(action)
+                navigateToNext(AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToAddVirtualCardNameFragment())
             }
         }
     }
