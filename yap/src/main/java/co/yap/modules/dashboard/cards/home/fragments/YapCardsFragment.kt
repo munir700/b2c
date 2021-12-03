@@ -250,16 +250,42 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
                 R.id.imgStatus -> {
-                    mNavigator.startVerifyPassCodePresenterActivity(
-                        requireActivity(),
-                        bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
-                    ) { resultCode, data ->
-                        if (resultCode == Activity.RESULT_OK) {
-                            if (card.status == CardStatus.ACTIVE.name) openCardDetailBottomSheet(
-                                card
-                            )
+                    if (CardStatus.valueOf(card.status).name.isNotEmpty())
+                        when (CardStatus.valueOf(card.status)) {
+                            CardStatus.ACTIVE -> {
+                                if (card.cardType == CardType.DEBIT.type) {
+                                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
+                                        openStatusScreen(
+                                            view,
+                                            pos
+                                        )
+                                    } else
+                                       openCardDetailBottomSheet(card)
+                                } else
+                                    openCardDetailBottomSheet(card)
+                            }
+                            CardStatus.BLOCKED -> {
+                                openDetailScreen(
+                                    pos
+                                )
+                            }
+                            CardStatus.HOTLISTED -> {
+                                openDetailScreen(
+                                    pos
+                                )
+                            }
+                            CardStatus.INACTIVE -> {
+                                openStatusScreen(
+                                    view,
+                                    pos
+                                )
+                            }
+                            CardStatus.EXPIRED -> {
+                                openDetailScreen(
+                                    pos
+                                )
+                            }
                         }
-                    }
                 }
             }
         }
@@ -534,20 +560,31 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openCardDetailBottomSheet(card: Card) {
-        trackEventWithScreenName(if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == card.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
-        viewModel.getCardDetail(card.cardSerialNumber) {
-            launchBottomSheetSegment(
-                cardBottomSheetItemClickListener,
-                configuration = BottomSheetConfiguration(
-                    heading = Translator.getString(
-                        requireContext(),
-                        Strings.screen_cards_display_text_bottom_sheet_heading,
-                        card.cardName.toString()
-                    )
-                ),
-                viewType = Constants.VIEW_CARD_DETAIL_ITEM,
-                listData = viewModel.list
+        mNavigator.startVerifyPassCodePresenterActivity(
+            requireActivity(),
+            bundleOf(
+                Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(
+                    Strings.screen_verify_passcode_button_verify
+                )
             )
+        ) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                trackEventWithScreenName(if (co.yap.modules.others.helper.Constants.CARD_TYPE_DEBIT == card.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
+                viewModel.getCardDetail(card.cardSerialNumber) {
+                    launchBottomSheetSegment(
+                        cardBottomSheetItemClickListener,
+                        configuration = BottomSheetConfiguration(
+                            heading = Translator.getString(
+                                requireContext(),
+                                Strings.screen_cards_display_text_bottom_sheet_heading,
+                                card.cardName.toString()
+                            )
+                        ),
+                        viewType = Constants.VIEW_CARD_DETAIL_ITEM,
+                        listData = viewModel.list
+                    )
+                }
+            }
         }
     }
 

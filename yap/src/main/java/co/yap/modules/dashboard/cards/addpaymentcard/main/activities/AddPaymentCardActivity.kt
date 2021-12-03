@@ -9,6 +9,12 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.IAddPaymentCard
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.AddSpareCardFragment
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.AddSpareCardFragmentDirections
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour.AddVirtualCardFragment
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardcolour.AddVirtualCardFragmentDirections
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardname.AddVirtualCardNameFragment
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.cardname.AddVirtualCardNameFragmentDirections
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -53,18 +59,68 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
             R.id.tbBtnBack -> {
                 onBackPressed()
             }
+            //TODO(The solution of clicking on Info icon can be more optimized, Need to work on it more)
             R.id.ivInfo -> {
+                val fragment =
+                    supportFragmentManager.findFragmentById(R.id.main_cards_nav_host_fragment)
+                fragment?.let { navFragment ->
+                    navFragment.childFragmentManager.primaryNavigationFragment?.let { fragment ->
+                        when (fragment) {
+                            is AddVirtualCardFragment ->
+                                fragment.handleNavigation(
+                                    AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToSpareCardLandingFragment(
+                                        "AddVirtualCardFragment"
+                                    ), R.id.spareCardLandingFragment
+                                )
+                            is AddVirtualCardNameFragment ->
+                                fragment.handleNavigation(
+                                    AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToSpareCardLandingFragment(
+                                        "AddVirtualCardNameFragment"
+                                    ), R.id.spareCardLandingFragment
+                                )
+                            is AddSpareCardFragment ->
+                                fragment.handleNavigation(
+                                    AddSpareCardFragmentDirections.actionAddSpareCardFragmentToSpareCardLandingFragment(
+                                        "AddSpareCardFragment"
+                                    ), R.id.spareCardLandingFragment
+                                )
+                        }
+                    }
+                }
             }
         }
     }
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_cards_nav_host_fragment)
-        if (!BackPressImpl(fragment).onBackPressed()) {
-            if (onBackPressCheck) {
-                super.onBackPressed()
+        fragment?.let { navFragment ->
+            navFragment.childFragmentManager.primaryNavigationFragment?.let { fragment ->
+                when (fragment) {
+                    is AddVirtualCardFragment ->
+                        fragment.handleNavigation(
+                            AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToSpareCardLandingFragment(
+                                "AddVirtualCardFragment"
+                            ), R.id.spareCardLandingFragment
+                        )
+                    is AddVirtualCardNameFragment ->
+                        fragment.handleNavigation(
+                            AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToAddVirtualCarFragment(),
+                            R.id.addVirtualCardFragment
+                        )
+                    is AddSpareCardFragment ->
+                        fragment.handleNavigation(
+                            AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddvirtualcardnamefragment(),
+                            R.id.addVirtualCardNameFragment
+                        )
+                    else ->
+                        if (!BackPressImpl(fragment).onBackPressed()) {
+                            if (onBackPressCheck) {
+                                super.onBackPressed()
+                                this.finish()
+                            }
+                        }
+                }
             }
-
         }
 //        if (!onBackPressCheck) {
 //            return false

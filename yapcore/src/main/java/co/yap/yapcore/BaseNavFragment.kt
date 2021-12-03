@@ -108,4 +108,44 @@ abstract class BaseNavFragment : Fragment() {
                 }
             })
     }
+
+    protected fun navigateToNext(
+        navDirection: NavDirections,
+        screenType: FeatureSet = FeatureSet.NONE,
+        navOptions: NavOptions? = navOptions {
+            anim {
+                enter = R.anim.slide_in_right
+                exit = R.anim.slide_out_left
+            }
+        }
+    ) {
+        if (FeatureProvisioning.getFeatureProvisioning(screenType)) {
+            showBlockedFeatureAlert(requireActivity(), screenType)
+        } else {
+            findNavController().navigate(navDirection, navOptions)
+        }
+    }
+
+    protected fun navigateToBack(
+        destinationId: NavDirections,
+        @IdRes popupTo: Int,
+        screenType: FeatureSet = FeatureSet.NONE
+    ) {
+        if (FeatureProvisioning.getFeatureProvisioning(screenType)) {
+            showBlockedFeatureAlert(requireActivity(), screenType)
+        } else {
+            findNavController().navigate(
+                destinationId,
+                navOptions {
+                    popUpTo(popupTo) {
+                        inclusive = true
+                    }
+                    anim {
+                        enter = R.anim.slide_in_left
+                        exit = R.anim.slide_out_right
+                    }
+                })
+        }
+    }
+
 }
