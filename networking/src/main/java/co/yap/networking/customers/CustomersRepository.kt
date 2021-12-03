@@ -153,6 +153,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
     const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
     const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
+    const val URL_GET_CUSTOMER_DOCUMENTS =
+        "/customer-documents/customer-info/customer-id/{customer-id}"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -565,7 +567,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                     reqFile
                 )
             executeSafely(call = {
-                api.uploadPassportAmendments(file = body,
+                api.uploadPassportAmendments(
+                    file = body,
                     passportNumber = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"), passportNumber ?: ""
                     ),
@@ -578,4 +581,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                 )
             })
         }
+
+    override suspend fun getCustomerDocuments(customerId: String?) =
+        executeSafely(call = { api.getCustomerDocuments(customerId) })
+
 }

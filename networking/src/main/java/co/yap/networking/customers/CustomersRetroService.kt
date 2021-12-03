@@ -355,10 +355,14 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_GET_CUSTOMER_KYC_DOCUMENTS)
     suspend fun getCustomerKYCData(@Query("accountUuid") accountUuid: String): Response<EIDDocumentsResponse>
 
+    //Get Customer Documents Data (Passport)
+    @GET(CustomersRepository.URL_GET_CUSTOMER_DOCUMENTS)
+    suspend fun getCustomerDocuments(@Path("customer-id") customerId: String?): Response<BaseResponse<PassportRequest>>
+
     @Multipart
     @POST(CustomersRepository.URL_UPDATE_PASSPORT_AMENDMENT)
     suspend fun uploadPassportAmendments(
-        @Part file: MultipartBody.Part?=null,
+        @Part file: MultipartBody.Part? = null,
         @Part("passportNumber") passportNumber: RequestBody? = null,
         @Part("passportIssueDate") passportIssueDate: RequestBody? = null,
         @Part("passportExpiryDate") passportExpiryDate: RequestBody? = null

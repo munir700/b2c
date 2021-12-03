@@ -32,6 +32,21 @@ class PassportAmendmentVM(application: Application) :
         state.expireDataCalender = Calendar.getInstance()
     }
 
+    override fun getCustomerDocuments(customerId: String?) {
+        launch {
+            state.loading = false
+            when (val response = repository.getCustomerDocuments(customerId)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
     override fun handlePressOnView(id: Int) {
         when (id) {
             R.id.btnNext -> {
