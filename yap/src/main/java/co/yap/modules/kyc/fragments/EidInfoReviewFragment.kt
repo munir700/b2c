@@ -350,14 +350,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             )
         }
 
-        /*editText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                disableEndDrawable(null)
-            } else {
-                disableEndDrawable(editText)
-            }
-        }*/
-
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE
             ) {
@@ -395,25 +387,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.errorTitle, viewModel.errorBody
             )
         navigate(action)
-    }
-
-    private fun showEIDAlert(
-        message: String,
-        posBtn: String,
-        negBtn: String? = null,
-        response: (Boolean) -> Unit
-    ) {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(false)
-            setMessage(message)
-            setPositiveButton(posBtn) { _, _ ->
-                response.invoke(true)
-            }
-            if (negBtn != null)
-                setNegativeButton(negBtn) { _, _ ->
-                    response.invoke(false)
-                }
-        }.create().show()
     }
 
     override fun showUSACitizenScreen() {

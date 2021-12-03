@@ -233,6 +233,10 @@ class EidInfoReviewViewModel(application: Application) :
                             Utils.parseCountryList(response.data.data, addOIndex = false)
                         countries =
                             populateNationalitySpinnerData.value as ArrayList<Country>
+                        parentViewModel?.identity?.let {
+                            state.nationality.value =
+                                countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }
+                        }
                     }
 
                     is RetroApiResponse.Error -> {
