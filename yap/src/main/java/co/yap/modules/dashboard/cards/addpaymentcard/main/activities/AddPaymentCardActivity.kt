@@ -67,22 +67,22 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
                     navFragment.childFragmentManager.primaryNavigationFragment?.let { fragment ->
                         when (fragment) {
                             is AddVirtualCardFragment ->
-                                fragment.navigateToBack(
+                                fragment.handleNavigation(
                                     AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToSpareCardLandingFragment(
                                         "AddVirtualCardFragment"
-                                    ),R.id.spareCardLandingFragment
+                                    ), R.id.spareCardLandingFragment
                                 )
                             is AddVirtualCardNameFragment ->
-                                fragment.navigateToBack(
+                                fragment.handleNavigation(
                                     AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToSpareCardLandingFragment(
                                         "AddVirtualCardNameFragment"
-                                    ),R.id.spareCardLandingFragment
+                                    ), R.id.spareCardLandingFragment
                                 )
                             is AddSpareCardFragment ->
-                                fragment.navigateToBack(
+                                fragment.handleNavigation(
                                     AddSpareCardFragmentDirections.actionAddSpareCardFragmentToSpareCardLandingFragment(
                                         "AddSpareCardFragment"
-                                    ),R.id.spareCardLandingFragment
+                                    ), R.id.spareCardLandingFragment
                                 )
                         }
                     }
@@ -97,15 +97,21 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
             navFragment.childFragmentManager.primaryNavigationFragment?.let { fragment ->
                 when (fragment) {
                     is AddVirtualCardFragment ->
-                        fragment.navigateToBack(
+                        fragment.handleNavigation(
                             AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToSpareCardLandingFragment(
                                 "AddVirtualCardFragment"
-                            ),R.id.spareCardLandingFragment
+                            ), R.id.spareCardLandingFragment
                         )
                     is AddVirtualCardNameFragment ->
-                        fragment.navigateToBack(AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToAddVirtualCarFragment(),R.id.addVirtualCardFragment)
+                        fragment.handleNavigation(
+                            AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToAddVirtualCarFragment(),
+                            R.id.addVirtualCardFragment
+                        )
                     is AddSpareCardFragment ->
-                        fragment.navigateToBack(AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddvirtualcardnamefragment(),R.id.addVirtualCardNameFragment)
+                        fragment.handleNavigation(
+                            AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddvirtualcardnamefragment(),
+                            R.id.addVirtualCardNameFragment
+                        )
                     else ->
                         if (!BackPressImpl(fragment).onBackPressed()) {
                             if (onBackPressCheck) {
@@ -113,7 +119,7 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
                                 this.finish()
                             }
                         }
-               }
+                }
             }
         }
 //        if (!onBackPressCheck) {
