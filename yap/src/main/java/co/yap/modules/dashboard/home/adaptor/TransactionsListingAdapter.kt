@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -93,13 +94,20 @@ class TransactionsListingAdapter(
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) View.VISIBLE else View.GONE
             itemAnalyticsTransactionListBinding.tvCurrency.alpha =
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) 0.5f else 1f
-            itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
-                transaction.merchantName ?: analyticsItemTitle ?: transaction.title ?: "",
-                 transaction.merchantLogo ?: analyticsItemImgUrl ?: "",
-                position, type = analyticType,
-                transaction = transaction,
-                categoryColor = categoryColour.toString()
-            )
+            if(type == TransactionAdapterType.TOTAL_PURCHASE) {
+                itemAnalyticsTransactionListBinding.ivItemTransaction.background =
+                    ContextCompat.getDrawable(itemAnalyticsTransactionListBinding.ivItemTransaction.context, co.yap.yapcore.R.drawable.bg_round_purple_enabled)
+                itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
+                    transaction,analyticsItemImgUrl,itemAnalyticsTransactionListBinding.ivItemTransaction.context)
+            }else {
+                itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
+                    transaction.merchantName ?: analyticsItemTitle ?: transaction.title ?: "",
+                    transaction.merchantLogo ?: analyticsItemImgUrl ?: "",
+                    position, type = analyticType,
+                    transaction = transaction,
+                    categoryColor = categoryColour.toString()
+                )
+            }
             itemAnalyticsTransactionListBinding.tvTransactionName.text =
                 transaction.merchantName ?: transaction.title ?: ""
 

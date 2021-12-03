@@ -110,3 +110,35 @@ fun ImageView?.hasBitmap(): Boolean {
     } ?: false
 }
 
+
+/**
+ * this method will be used in total purchase, transaction detail
+ * this method doesn't deal with category related stuff
+ **/
+
+fun CoreCircularImageView?.setCircularDrawable(
+    transaction: Transaction,
+    imageUrl: String?,
+    context: Context
+) {
+    if (transaction.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && transaction.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
+        imageUrl?.let { logo ->
+            this?.loadImage(logo)
+            if (transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode)
+                this?.setBackgroundColor(context.getColor(R.color.white))
+        } ?: setTransactionLogo(this, transaction, context)
+    } else {
+        setTransactionLogo(this, transaction, context)
+    }
+}
+
+fun setTransactionLogo(
+    coreCircularImageView: CoreCircularImageView?,
+    transaction: Transaction,
+    context: Context
+) {
+    coreCircularImageView?.let { imageView ->
+        transaction.setTransactionImage(imageView)
+    }
+}
+

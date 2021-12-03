@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.transaction.totalpurchases
 
 import android.app.Application
 import androidx.databinding.ObservableField
-import co.yap.R
 import co.yap.modules.dashboard.home.adaptor.TransactionsListingAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -15,8 +14,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.helpers.extentions.getTitle
-import co.yap.yapcore.helpers.extentions.loadImage
-import co.yap.yapcore.helpers.extentions.setTransactionImage
+import co.yap.yapcore.helpers.extentions.setCircularDrawable
 
 class TotalPurchasesViewModel(application: Application) :
     BaseViewModel<ITotalPurchases.State>(application), ITotalPurchases.ViewModel {
@@ -104,15 +102,8 @@ class TotalPurchasesViewModel(application: Application) :
 
     override fun setMerchantImage(coreCircularImageView: CoreCircularImageView) {
         transaction.get()?.let { txns ->
-            if (txns.productCode != TransactionProductCode.ATM_DEPOSIT.pCode && txns.productCode != TransactionProductCode.ATM_WITHDRAWL.pCode) {
-                txns.merchantLogo?.let { logo ->
-                    coreCircularImageView.loadImage(logo)
-                    if (txns.productCode == TransactionProductCode.ECOM.pCode || txns.productCode == TransactionProductCode.POS_PURCHASE.pCode)
-                        coreCircularImageView.setBackgroundColor(context.getColor(R.color.white))
-                } ?: txns.setTransactionImage(coreCircularImageView)
-            } else {
-                txns.setTransactionImage(coreCircularImageView)
-            }
+            coreCircularImageView.setCircularDrawable(txns, txns.merchantLogo, context)
+            adapter.analyticsItemImgUrl = txns.merchantLogo
         }
     }
 }
