@@ -35,6 +35,19 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         animatorSet = AnimatorSet()
+        viewModel.state.downTime.observe(viewLifecycleOwner, Observer {downTime->
+            requireActivity().alert(
+                message = downTime.downTimeMessage ?: "",
+                positiveButton = if (downTime.isDown == true) getString(android.R.string.ok) else getString(
+                    R.string.common_display_text_retry
+                ),
+                cancelable = false
+            ) {
+                if (downTime.isDown == true)
+                    requireActivity().finish()
+                else viewModel.loadCookies()
+            }
+        })
         viewModel.splashComplete.observe(this, Observer {
             if (it) viewModel.getAppUpdate()
         })
@@ -106,10 +119,12 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         super.onResume()
         animatorSet?.resume()
     }
+
     override fun onPause() {
         super.onPause()
         animatorSet?.pause()
     }
+
     override fun onDestroyView() {
         animatorSet?.cancel()
         animatorSet = null

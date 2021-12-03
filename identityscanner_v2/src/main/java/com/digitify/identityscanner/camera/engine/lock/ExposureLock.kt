@@ -26,14 +26,14 @@ class ExposureLock : BaseLock() {
                 || aeMode == CameraCharacteristics.CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE
                 || aeMode == 5)/* CameraCharacteristics.CONTROL_AE_MODE_ON_EXTERNAL_FLASH, API 28 */
         val result = isNotLegacy && isAEOn
-        LOG.i("checkIsSupported:", result)
+//        LOG.i("checkIsSupported:", result)
         return result
     }
 
     override fun checkShouldSkip(holder: ActionHolder): Boolean {
         val aeState = holder.getLastResult(this).get(CaptureResult.CONTROL_AE_STATE)
         val result = aeState != null && aeState == CaptureResult.CONTROL_AE_STATE_LOCKED
-        LOG.i("checkShouldSkip:", result)
+        //LOG.i("checkShouldSkip:", result)
         return result
     }
 
@@ -53,7 +53,7 @@ class ExposureLock : BaseLock() {
                                     result: TotalCaptureResult) {
         super.onCaptureCompleted(holder, request, result)
         val aeState = result.get(CaptureResult.CONTROL_AE_STATE)
-        LOG.i("processCapture:", "aeState:", aeState)
+//        LOG.i("processCapture:", "aeState:", aeState)
         if (aeState == null) return
         when (aeState) {
             CaptureRequest.CONTROL_AE_STATE_LOCKED -> {

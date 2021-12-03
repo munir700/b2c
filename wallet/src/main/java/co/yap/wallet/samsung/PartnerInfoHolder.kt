@@ -12,13 +12,7 @@ class PartnerInfoHolder private constructor(private val context: Context) {
     val partnerInfo: PartnerInfo
 
     init {
-//        String serviceId = "553f9a2fbd0244e4a9c7ab";
-        //val serviceId = "421cb4f7453842509db829"
-//        stage
-//        val serviceId = "9f2b7fca270c4f3c81d99e"
-//        live
-        val serviceId = "9f189cfac32b46d9b5c284"
-        //        String serviceId = context.getResources().getString(R.string.gradle_product_id);
+        val serviceId = YAPApplication.configManager?.spayServiceId
         partnerInfo = PartnerInfo(
             serviceId,
             bundleOf(

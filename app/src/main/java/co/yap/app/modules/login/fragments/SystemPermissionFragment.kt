@@ -33,9 +33,9 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     override val viewModel: ISystemPermission.ViewModel
         get() = ViewModelProviders.of(this).get(SystemPermissionViewModel::class.java)
 
-    private fun getScreenType(): String {
-        return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
-    }
+        private fun getScreenType(): String {
+            return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,7 +87,8 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                     navigateToDashboard()
                     viewModel.getNotificationScreenValues(isGranted)
                 }
-
+            }
+            else -> {
             }
         }
     }

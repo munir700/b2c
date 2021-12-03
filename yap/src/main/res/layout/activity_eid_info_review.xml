@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/margin_normal"
-                    android:drawableEnd="@{viewModel.state.dateOfBirthValid ? @drawable/path : @drawable/ic_error}"
+                    android:drawableEnd="@{viewModel.state.isDateOfBirthValid ? @drawable/path : @drawable/ic_error}"
                     android:text="@{viewModel.state.dateOfBirth}"
                     app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading"
                     tools:text="01/01/1979" />

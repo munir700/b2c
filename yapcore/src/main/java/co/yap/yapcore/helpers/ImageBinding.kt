@@ -277,7 +277,8 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("app:srcCompat")
     fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
-        imageView.setImageResource(resource)
+        if (resource > 0)
+            imageView.setImageResource(resource)
     }
 
     @JvmStatic

@@ -74,10 +74,7 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.WIDGET_LIST
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.enums.TransactionStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
@@ -546,6 +543,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.parentViewModel?.isShowHomeTour?.observe(viewLifecycleOwner, Observer {
             if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true && viewModel.state.showTxnShimmer.value?.status != Status.LOADING) {
+                //we need to enable tour guide according to new UI
                 //showHomeTourGuide()
             }
         })
@@ -676,12 +674,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                    putExtra(
-                        Constants.name,
-                        SessionManager.user?.currentCustomer?.firstName.toString()
+                if(SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name){
+                    startActivityForResult(
+                        LocationSelectionActivity.newIntent(
+                            context = requireContext(),
+                            address = SessionManager.userAddress ?: Address(),
+                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                            onBoarding = true
+                        ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-                    putExtra(Constants.data, false)
+                } else{
+                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                        putExtra(Constants.name, SessionManager.user?.currentCustomer?.firstName.toString())
+                        putExtra(Constants.data, false)
+                    }
                 }
             }
 
@@ -850,21 +857,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     )?.transaction?.get(
                         childPosition ?: 0
                     )?.transactionNote =
-                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.transactionNote
 
                     getRecycleViewAdaptor()?.getDataForPosition(
                         groupPosition ?: 0
                     )?.transaction?.get(
                         childPosition ?: 0
                     )?.receiverTransactionNote =
-                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNote
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.receiverTransactionNote
 
                     getRecycleViewAdaptor()?.getDataForPosition(
                         groupPosition ?: 0
                     )?.transaction?.get(
                         childPosition ?: 0
                     )?.transactionNoteDate =
-                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.transactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition ?: 0,
                         getRecycleViewAdaptor()?.getDataForPosition(
@@ -877,7 +884,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     )?.transaction?.get(
                         childPosition ?: 0
                     )?.receiverTransactionNoteDate =
-                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).receiverTransactionNoteDate
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.receiverTransactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition ?: 0,
                         getRecycleViewAdaptor()?.getDataForPosition(

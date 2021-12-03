@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.paybill.prepaid.PrepaidPayBillViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:animateLayoutChanges="true"
+            android:background="@color/white"
+            android:padding="@dimen/margin_medium">
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivUserImage"
+                android:layout_width="@dimen/_62sdp"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:contentDescription="@string/empty_string"
+                app:colorType="@{`Beneficiary`}"
+                app:fullName="@{viewModel.parentViewModel.billModel.billerInfo.billerName}"
+                app:imageUrl="@{viewModel.parentViewModel.billModel.billerInfo.logo}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{viewModel.parentViewModel.state.selectedBillPosition}" />
+
+
+            <TextView
+                android:id="@+id/tvFullName"
+                style="@style/Regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@{viewModel.parentViewModel.billModel.billerInfo.billerName}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+                tools:text="Etisalat" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvReferenceId"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:text="@{viewModel.state.customerAccountNumber}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvFullName"
+                tools:text="5314 5678 0987 0987" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvNickName"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_two_dp"
+                android:text="@{viewModel.state.customerFullName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvReferenceId"
+                tools:text="My Personal Number" />
+
+            <RadioGroup
+                android:id="@+id/raAirtimData"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/_25sdp"
+                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:visibility="@{viewModel.state.isBillTypeDuPrepaid?View.VISIBLE:View.GONE}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvNickName"
+                android:checked="true"
+                app:singleSelection="true">
+
+                <RadioButton
+                    android:id="@+id/btnAirtime"
+                    style="@style/RadioButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:button="@drawable/button_selector"
+                    android:checked="true"
+                    android:clickable="true"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:text="@string/screen_bill_payment_prepaid_bills_airtime_button_title"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/text_label_color_state"
+                    android:textSize="@dimen/text_size_h3"
+                    tools:text="@string/screen_bill_payment_prepaid_bills_airtime_button_title" />
+
+                <RadioButton
+                    android:id="@+id/btnData"
+                    style="@style/RadioButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:button="@drawable/button_selector"
+                    android:checked="false"
+                    android:clickable="true"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:text="@string/screen_bill_payment_prepaid_bills_data_button_title"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/text_label_color_state"
+                    android:textSize="@dimen/text_size_h3"
+                    tools:text="@string/screen_bill_payment_prepaid_bills_data_button_title" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tvCurrency"
+                style="@style/AMicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="AED"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/raAirtimData"
+                tools:text="AED" />
+
+            <!-- ALERT:  DO NOT APPLY DATA BINDING FOR THIS FIELD-->
+
+            <co.yap.widgets.EasyMoneyEditText
+                android:id="@+id/etAmount"
+                style="@style/ATitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="false"
+                android:enabled="false"
+                app:layout_constraintHorizontal_bias="0.512"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
+                tools:text="1234567891" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSkus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:orientation="horizontal"
+                app:adapter="@{viewModel.adapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.512"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etAmount"
+                tools:itemCount="4"
+                tools:listitem="@layout/layout_item_multi_sku" />
+
+            <TextView
+                android:id="@+id/tvAvailableBalance"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:gravity="center"
+                android:text="@{viewModel.state.availableBalanceString}"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvSkus"
+                tools:text="Your available balance is " />
+
+            <co.yap.widgets.AlphaNumericEditText
+                android:id="@+id/etNote"
+                style="@style/ARegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xl"
+                android:background="@drawable/bg_edit_text_disable_grey_under_line"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+                android:maxLength="@integer/notes_external_transfer_length"
+                android:singleLine="true"
+                android:text="@={viewModel.state.noteValue}"
+                android:textColor="@color/colorDarkGrey"
+                android:textColorHint="@color/greyDark"
+                app:hint="@{Strings.screen_pay_bill_input_text_note_hint}"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalance"
+                tools:hint="@string/screen_pay_bill_input_text_note_hint" />
+
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/fAutoPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:orientation="horizontal"
+                app:constraint_referenced_ids="tvAutoPayment,swAutoPayment"
+                app:flow_horizontalStyle="spread_inside"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etNote" />
+
+            <TextView
+                android:id="@+id/tvAutoPayment"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/screen_pay_bill_selection_text"
+                android:visibility="gone"
+                tools:text="@string/screen_pay_bill_selection_text" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAutoPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/CustomSwitch"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/iAutoPayment"
+                layout="@layout/content_prepaid_bill_auto_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fAutoPayment"
+                app:viewModel="@{viewModel}" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/fBillReminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:orientation="horizontal"
+                app:constraint_referenced_ids="tvBillReminder,swBillReminder"
+                app:flow_horizontalStyle="spread_inside"
+                app:layout_constraintTop_toBottomOf="@+id/iAutoPayment" />
+
+            <TextView
+                android:id="@+id/tvBillReminder"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/screen_edit_bill_switch_text_bill_reminder"
+                tools:text="@string/screen_edit_bill_switch_text_bill_reminder" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swBillReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.state.isBillReminderOn()}"
+                android:theme="@style/CustomSwitch" />
+
+            <include
+                android:id="@+id/iBillReminder"
+                layout="@layout/content_prepaid_bill_set_bill_reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/fBillReminder"
+                app:viewModel="@{viewModel}" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnPay"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_large"
+                android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
+                app:btn_size="small"
+                app:enableCoreButton="@{viewModel.state.valid}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iBillReminder"
+                app:layout_constraintVertical_bias="1.0"
+                app:text="@{Strings.screen_pay_bill_pay_button_text}"
+                tools:text="@string/screen_pay_bill_pay_button_text" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
