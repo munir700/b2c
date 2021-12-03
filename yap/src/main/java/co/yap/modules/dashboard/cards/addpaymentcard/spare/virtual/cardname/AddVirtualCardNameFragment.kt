@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddVirtualCardNameBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
+import co.yap.yapcore.helpers.extentions.afterTextChanged
 
 class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.ViewModel>(),
     IAddVirtualCardName.View {
@@ -25,16 +25,11 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setCardImage(getBindings().imgCard)
+        setTextWatcher()
     }
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.state.cardName.observe(this, nameObserver)
-    }
-
-    private val nameObserver = Observer<String> {
-        if (viewModel.observeCardNameLength(viewModel.state.cardName.value ?: ""))
-            viewModel.clickEvent.call()
     }
 
     private val clickObserver = Observer<Int> { id ->
@@ -42,18 +37,24 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
             R.id.btnNext -> {
                 viewModel.parentViewModel?.selectedCardName?.set(viewModel.state.cardName.value)
                 viewModel.parentViewModel?.isFromBlockCard?.set(false)
-                findNavController().navigate(R.id.action_addVirtualCardNameFragment_to_addSpareCardFragment)
+                navigateToNext(AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToAddSpareCardFragment())
             }
         }
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
-        viewModel.state.cardName.removeObserver(nameObserver)
     }
 
     override fun getBindings(): FragmentAddVirtualCardNameBinding {
         return viewDataBinding as FragmentAddVirtualCardNameBinding
+    }
+
+    fun setTextWatcher() {
+        getBindings().etCardName.afterTextChanged {
+            if (viewModel.observeCardNameLength(it))
+                viewModel.clickEvent.call()
+        }
     }
 }
 
