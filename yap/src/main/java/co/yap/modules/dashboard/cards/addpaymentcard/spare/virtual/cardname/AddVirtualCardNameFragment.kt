@@ -35,7 +35,7 @@ class AddVirtualCardNameFragment : AddPaymentChildFragment<IAddVirtualCardName.V
     private val clickObserver = Observer<Int> { id ->
         when (id) {
             R.id.btnNext -> {
-                viewModel.parentViewModel?.selectedCardName?.set(viewModel.state.cardName.get())
+                viewModel.parentViewModel?.selectedCardName?.set(viewModel.state.cardName.value)
                 viewModel.parentViewModel?.isFromBlockCard?.set(false)
                 navigateToNext(AddVirtualCardNameFragmentDirections.actionAddVirtualCardNameFragmentToAddSpareCardFragment())
             }
