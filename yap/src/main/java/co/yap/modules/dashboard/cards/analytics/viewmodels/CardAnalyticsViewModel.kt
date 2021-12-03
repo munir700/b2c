@@ -32,7 +32,6 @@ class CardAnalyticsViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var currentDate: Date? = null
     private var listOfMonths: List<Date> = arrayListOf()
-
 //    override var type: ObservableField<String> = ObservableField("merchant-category-id")
 
     override fun onCreate() {
