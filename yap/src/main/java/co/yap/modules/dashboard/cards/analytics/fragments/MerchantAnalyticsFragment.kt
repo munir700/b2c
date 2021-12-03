@@ -67,7 +67,6 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     }
 
     private fun navigateDetails(pos: Int) {
-        Constants.MERCHANT_TYPE = "merchant-name"
         val selectedItem = getAdaptor().getDataForPosition(pos)
         var category: ArrayList<String> = arrayListOf()
         category.clear()
@@ -86,7 +85,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                     logoUrl = selectedItem.logoUrl,
                     totalSpendingInPercentage = selectedItem.totalSpendingInPercentage,
                     categories = category,
-                    analyticType = Constants.MERCHANT_TYPE
+                    analyticType = Constants.MERCHANT_NAME
                 ),
                 Constants.TRANSACTION_POSITION to pos
             )

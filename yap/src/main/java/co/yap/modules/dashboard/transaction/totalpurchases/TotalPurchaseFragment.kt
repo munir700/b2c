@@ -8,7 +8,6 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.setCircularDrawable
 import kotlinx.android.synthetic.main.activity_total_purchase.*
 
 class TotalPurchaseFragment : BaseBindingFragment<ITotalPurchases.ViewModel>(),

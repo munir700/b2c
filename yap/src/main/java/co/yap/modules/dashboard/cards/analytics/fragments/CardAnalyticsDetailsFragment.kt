@@ -51,7 +51,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 viewModel.state.monthlyTotalPercentage.set("${txnAnalytics.totalSpendingInPercentage}%")
                 viewModel.state.categories.set(txnAnalytics.categories as ArrayList<Any>)
                 viewModel.state.categoryColor = txnAnalytics.categoryColor
-                viewModel.state.analyticType = txnAnalytics.analyticType
+                viewModel.state.analyticType.set(txnAnalytics.analyticType)
                 val array = arrayListOf<Any>(txnAnalytics.yapCategoryId ?: 0)
                 viewModel.yapCategoryId?.set(array)
                 if (txnAnalytics.title.equals("General")) viewModel.state.percentCardVisibility =
@@ -60,8 +60,9 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                     if (txnAnalytics.title.getMerchantCategoryIcon() == -1) null else txnAnalytics.title
                 viewModel.adapter.analyticsItemImgUrl = txnAnalytics.logoUrl
                 viewModel.adapter.categoryColour = txnAnalytics.categoryColor
+                viewModel.adapter.analyticType = txnAnalytics.analyticType
                 viewModel.fetchMerchantTransactions(
-                    Constants.MERCHANT_TYPE,
+                    txnAnalytics.analyticType,
                     viewModel.parentViewModel?.state?.currentSelectedDate ?: ""
                 )
 
@@ -93,7 +94,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
             viewModel.state.title.get() ?: "General",
             viewModel.state.ImageUrl.get() ?: "",
             viewModel.state.position,
-            type = viewModel.state.analyticType,
+            type = viewModel.state.analyticType.get() ?: "",
             categoryColor = viewModel.state.categoryColor
         )
 

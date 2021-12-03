@@ -31,7 +31,7 @@ class TotalPurchasesViewModel(application: Application) :
     var list: List<Transaction> = arrayListOf()
     override fun onCreate() {
         super.onCreate()
-        Constants.MERCHANT_TYPE = "total-purchases"
+        adapter.analyticType = Constants.TOTAL_PURCHASE
         getTotalPurchaseList()
     }
 

@@ -186,8 +186,9 @@ object Constants {
     //Analytics
     const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
     const val TRANSACTION_POSITION = "Transaction_Item_Position"
-    var MERCHANT_TYPE: String = "merchant-name"
-    var CATEGORY_TYPE: String = "mevrchant-category-id"
+    const val MERCHANT_NAME: String = "merchant-name"
+    const val MERCHANT_CATEGORY_ID: String = "merchant-category-id"
+    const val TOTAL_PURCHASE: String = "total-purchases"
 
     //ATM/CDM
     const val LOCATION_TYPE = "ATM_OR_CDM"

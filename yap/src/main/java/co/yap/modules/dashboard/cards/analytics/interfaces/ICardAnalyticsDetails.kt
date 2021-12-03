@@ -32,6 +32,6 @@ interface ICardAnalyticsDetails {
         var percentCardVisibility: Boolean
         var categories: ObservableField<ArrayList<Any>>
         var categoryColor: String
-        var analyticType: String
+        var analyticType: ObservableField<String>
     }
 }
