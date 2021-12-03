@@ -76,8 +76,8 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
                                     viewModel.adapter.get()?.getDataList()
                                         ?.get(selectedPos)?.designCode
                                 onTabSelected(tabLayout.getTabAt(selectedPos))
-                                viewPager.post {
-                                    viewPager.setCurrentItem(selectedPos, true)
+                                post {
+                                    setCurrentItem(selectedPos, true)
                                 }
                             }
                         tab.customView = view
