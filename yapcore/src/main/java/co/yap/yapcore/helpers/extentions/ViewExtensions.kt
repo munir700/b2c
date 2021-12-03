@@ -67,7 +67,7 @@ fun CoreCircularImageView?.setCircularDrawable(
 ) {
     this?.let { image ->
         when (type) {
-            Constants.CATEGORY_TYPE -> {
+            Constants.MERCHANT_CATEGORY_ID -> {
                 ImageBinding.loadCategoryAvatar(
                     image,
                     url,
@@ -78,7 +78,7 @@ fun CoreCircularImageView?.setCircularDrawable(
                     categoryColor
                 )
             }
-            Constants.MERCHANT_TYPE -> {
+            Constants.MERCHANT_NAME -> {
                 ImageBinding.loadAnalyticsAvatar(
                     image,
                     url,

@@ -21,11 +21,6 @@
 
         <import type="co.yap.yapcore.managers.SessionManager" />
 
-        <variable
-            name="constant"
-            type="co.yap.yapcore.constants.Constants" />
-
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
