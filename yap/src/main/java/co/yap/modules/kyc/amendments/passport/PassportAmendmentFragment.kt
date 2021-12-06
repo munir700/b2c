@@ -42,7 +42,6 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewModel.state.amendmentMap =
             arguments?.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         permissionHelper = PermissionHelper(
@@ -65,7 +64,6 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
     private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.etIssueDate -> {
-
                 val dp = viewModel.getDatePicker(
                     currentCalendar = viewModel.state.issueDataCalender, minCalendar = null,
                     callBack = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->

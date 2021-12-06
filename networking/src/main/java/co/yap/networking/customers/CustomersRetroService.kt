@@ -357,7 +357,7 @@ interface CustomersRetroService {
 
     //Get Customer Documents Data (Passport)
     @GET(CustomersRepository.URL_GET_CUSTOMER_DOCUMENTS)
-    suspend fun getCustomerDocuments(@Path("customer-id") customerId: String?): Response<BaseResponse<PassportRequest>>
+    suspend fun getCustomerDocuments(@Path("customer-id") customerId: String?): Response<BaseListResponse<PassportRequest>>
 
     @Multipart
     @POST(CustomersRepository.URL_UPDATE_PASSPORT_AMENDMENT)

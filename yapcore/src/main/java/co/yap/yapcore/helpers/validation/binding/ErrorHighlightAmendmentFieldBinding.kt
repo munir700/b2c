@@ -28,7 +28,7 @@ object ErrorHighlightAmendmentFieldBinding {
         }
         val handledErrorMessage: String = ErrorMessageHelper.getStringOrDefault(
             view,
-            errorMessage, R.string.error_message_first_name_validation
+            errorMessage, R.string.kyc_incorrect_field
         )
         ViewTagHelper.appendValue(
             R.id.validator_rule,

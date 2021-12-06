@@ -42,31 +42,25 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                     viewModel.missingInfoMap.value?.isEmpty() == true -> {
                         goToDashboard()
                     }
-//                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true -> {
-//                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-//                            putExtra(
-//                                Constants.name,
-//                                SessionManager.user?.currentCustomer?.firstName.toString()
-//                            )
-//                            putExtra(
-//                                Constants.data,
-//                                true
-//                            )
-//                            putExtra(
-//                                Constants.KYC_AMENDMENT_MAP,
-//                                viewModel.missingInfoMap.value
-//                            )
-//                        }
-//                    }
-                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.PASSPORT_INFO.value) == true -> {
-                        launchActivity<PassportActivity>(options = bundleOf(Constants.KYC_AMENDMENT_MAP to viewModel.missingInfoMap.value)) {
+                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EID_INFO.value) == true -> {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                            putExtra(
+                                Constants.name,
+                                SessionManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(
+                                Constants.data,
+                                true
+                            )
                             putExtra(
                                 Constants.KYC_AMENDMENT_MAP,
                                 viewModel.missingInfoMap.value
                             )
                         }
                     }
-                    else -> {
+                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.BIRTH_INFO.value) == true || viewModel.missingInfoMap.value?.containsKey(
+                        AmendmentSection.TAX_INFO.value
+                    ) == true || viewModel.missingInfoMap.value?.containsKey(AmendmentSection.EMPLOYMENT_INFO.value) == true -> {
                         startActivityForResult(
                             LocationSelectionActivity.newIntent(
                                 context = requireContext(),
@@ -79,6 +73,18 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                             1000
                         )
                     }
+                    viewModel.missingInfoMap.value?.containsKey(AmendmentSection.PASSPORT_INFO.value) == true -> {
+                        launchActivity<PassportActivity>(
+                            requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                            options = bundleOf(Constants.KYC_AMENDMENT_MAP to viewModel.missingInfoMap.value)
+                        ) {
+                            putExtra(
+                                Constants.KYC_AMENDMENT_MAP,
+                                viewModel.missingInfoMap.value
+                            )
+                        }
+                    }
+
                 }
             }
             R.id.tvDoItLater -> {
