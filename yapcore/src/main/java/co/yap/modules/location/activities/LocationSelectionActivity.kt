@@ -3,6 +3,7 @@ package co.yap.modules.location.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.modules.location.interfaces.ILocation
@@ -20,6 +21,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import kotlinx.android.synthetic.main.activity_location.*
 
 class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), ILocation.View,
     INavigator, IFragmentHolder {
@@ -62,6 +64,7 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, onClickObserver)
+        viewModel.hideProgressToolbar.observe(this, toolbarObserver)
     }
 
     private val onClickObserver = Observer<Int> {
@@ -70,6 +73,10 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
                 onBackPressed()
             }
         }
+    }
+
+    private val toolbarObserver = Observer<Boolean> {
+        progressBar.visibility = if (it) View.GONE else View.VISIBLE
     }
 
     override fun removeObservers() {

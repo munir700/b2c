@@ -128,6 +128,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
     }
 
     private fun navigateToAmendmentSuccess() {
+        viewModel.parentViewModel?.hideProgressToolbar?.value = true
         val bundle = Bundle()
         bundle.putString(
             Constants.CONFIRMATION_DESCRIPTION,
