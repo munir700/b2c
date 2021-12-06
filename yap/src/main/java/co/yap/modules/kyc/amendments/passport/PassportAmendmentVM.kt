@@ -16,6 +16,7 @@ import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.util.*
 
@@ -28,6 +29,7 @@ class PassportAmendmentVM(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        getCustomerDocuments(SessionManager.user?.currentCustomer?.customerId)
         state.issueDataCalender = Calendar.getInstance()
         state.expireDataCalender = Calendar.getInstance()
     }
@@ -38,6 +40,14 @@ class PassportAmendmentVM(application: Application) :
             when (val response = repository.getCustomerDocuments(customerId)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
+                    response.data.data?.let {
+                        state.expireDate.value = it.passportExpiryDate
+                        state.passportNumber.value = it.passportNumber
+                        state.issueDate.value = it.passportIssueDate
+                        state.previousExpireDate.value = it.passportExpiryDate
+                        state.previousPassportNumber.value = it.passportNumber
+                        state.previousIssueDate.value = it.passportIssueDate
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -123,10 +133,12 @@ class PassportAmendmentVM(application: Application) :
             when (val response = repository.uploadPassportAmendments(passportRequest)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
+                    clickEvent.setValue(R.id.btnNext)
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
+                    clickEvent.setValue(R.id.btnNext)
                 }
             }
         }

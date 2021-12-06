@@ -12,7 +12,6 @@ import co.yap.R
 import co.yap.databinding.FragmentPassportAmendmentBinding
 import co.yap.modules.dashboard.addionalinfo.fragments.AdditionalInfoScanDocumentFragment
 import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocumentImage
-import co.yap.networking.customers.requestdtos.PassportRequest
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseBindingFragment
@@ -104,7 +103,12 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
 
             }
             R.id.btnNext -> {
-
+                navigate(
+                    destinationId = R.id.to_missingInfoConfirmationFragment, args = bundleOf(
+                        Constants.CONFIRMATION_DESCRIPTION to "ads",
+                        Constants.KYC_AMENDMENT_MAP to viewModel.state.amendmentMap
+                    )
+                )
             }
             R.id.cvCard -> {
                 askPermission("Passport")

@@ -11,7 +11,7 @@
         android:label="PassportAmendmentFragment"
         tools:layout="@layout/fragment_passport_amendment">
         <action
-            android:id="@+id/action_passportAmendmentFragment_to_missingInfoConfirmationFragment"
+            android:id="@+id/to_missingInfoConfirmationFragment"
             app:destination="@id/missingInfoConfirmationFragment" />
     </fragment>
     <fragment

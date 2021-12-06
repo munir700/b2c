@@ -40,7 +40,8 @@ class MissingInfoFragmentViewModel(application: Application) :
                             list.addAll(it.amendments ?: emptyList())
                         }
                     }
-                    map[AmendmentSection.PASSPORT_INFO.value] = mutableListOf()
+                    map[AmendmentSection.PASSPORT_INFO.value] =
+                        mutableListOf("passportNumber", "passportIssueDate", "passportExpiryDate")
                     missingInfoMap.value = map
                     adapter.get()?.setData(list)
                     state.loading = false

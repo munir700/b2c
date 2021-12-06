@@ -33,6 +33,9 @@ class IPassportAmendment {
         var passportNumber: MutableLiveData<String>
         var issueDate: MutableLiveData<String>
         var expireDate: MutableLiveData<String>
+        var previousPassportNumber: MutableLiveData<String>
+        var previousIssueDate: MutableLiveData<String>
+        var previousExpireDate: MutableLiveData<String>
         var mFile: MutableLiveData<File?>
         var amendmentMap: HashMap<String?, List<String>?>?
     }
