@@ -120,7 +120,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun getMoneyTransferLimits(productCode: String?) {
         launch {
-            when (val response = mTransactionsRepository.getFundTransferLimits(productCode)) {
+            when (val response = mTransactionsRepository.getFundTransferLimits(productCode,"")) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00

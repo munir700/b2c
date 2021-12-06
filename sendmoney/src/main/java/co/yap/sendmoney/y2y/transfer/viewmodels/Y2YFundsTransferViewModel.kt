@@ -122,7 +122,7 @@ class Y2YFundsTransferViewModel(application: Application) :
     override fun getTransactionLimits() {
         launch {
             when (val response =
-                transactionsRepository.getFundTransferLimits(TransactionProductCode.Y2Y_TRANSFER.pCode)) {
+                transactionsRepository.getFundTransferLimits(TransactionProductCode.Y2Y_TRANSFER.pCode,"")) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
