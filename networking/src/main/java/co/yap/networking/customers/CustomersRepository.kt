@@ -11,9 +11,9 @@ import co.yap.networking.customers.responsedtos.billpayment.*
 import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -152,6 +152,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_EDIT_BILLER = "/customers/api/billpayment/edit-biller"
     const val URL_GET_AMENDMENT_FIELDS = "customers/api/amendment-fields"
     const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
+    const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
+    const val URL_GET_CUSTOMER_DOCUMENTS =
+        "customers/api/customer-documents/customer-info/customer-id/{customer-id}"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -566,4 +569,40 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<EIDDocumentsResponse> {
         return executeSafely(call = { api.getCustomerKYCData(accountUuid) })
     }
+
+    override suspend fun uploadPassportAmendments(request: PassportRequest): RetroApiResponse<ApiResponse> =
+        request.run {
+            val reqFile: RequestBody =
+                RequestBody.create(
+                    MediaType.parse(
+                        contentType
+                            ?: "image/" + mFile?.extension
+                    ),
+                    mFile ?: File(filePath ?: "")
+                )
+            val body =
+                MultipartBody.Part.createFormData(
+                    "files",
+                    mFile?.name,
+                    reqFile
+                )
+            executeSafely(call = {
+                api.uploadPassportAmendments(
+                    file = body,
+                    passportNumber = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"), passportNumber ?: ""
+                    ),
+                    passportExpiryDate = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"), passportExpiryDate ?: ""
+                    ),
+                    passportIssueDate = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"), passportIssueDate ?: ""
+                    )
+                )
+            })
+        }
+
+    override suspend fun getCustomerDocuments(customerId: String?) =
+        executeSafely(call = { api.getCustomerDocuments(customerId) })
+
 }

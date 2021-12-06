@@ -4,6 +4,7 @@ import android.app.Application
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import co.yap.BuildConfig
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
@@ -310,12 +311,12 @@ class EidInfoReviewViewModel(application: Application) :
                         //nationality = it.isoCountryCode3Digit.toUpperCase(),
                         nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
                         //identityNo = it.citizenNumber,
-                        identityNo = state.citizenNumber.replace("-", ""),
+                        identityNo = if (BuildConfig.DEBUG) (700000000000000..800000000000000).random()
+                            .toString() else state.citizenNumber.replace("-", ""),
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
                         isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
                     )
-
                     state.loading = true
                     val response = repository.uploadDocuments(request)
                     state.loading = false
