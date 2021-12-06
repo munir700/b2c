@@ -1,14 +1,14 @@
 package co.yap.modules.location.fragments.confirmation
 
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface IMissingInfoConfirmation {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        val onClickEvent: MutableLiveData<Int>
+        val onClickEvent: SingleClickEvent
         fun handlePressView(id: Int)
     }
 

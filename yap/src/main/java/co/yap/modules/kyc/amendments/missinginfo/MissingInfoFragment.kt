@@ -70,7 +70,7 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                                 onBoarding = true,
                                 missingInfoMap = viewModel.missingInfoMap.value
                             ),
-                            1000
+                            RequestCodes.REQUEST_KYC_DOCUMENTS
                         )
                     }
                     viewModel.missingInfoMap.value?.containsKey(AmendmentSection.PASSPORT_INFO.value) == true -> {
@@ -95,7 +95,7 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && data?.getBooleanExtra(
+        if (requestCode == RequestCodes.REQUEST_KYC_DOCUMENTS && resultCode == Activity.RESULT_OK && data?.getBooleanExtra(
                 Constants.KYC_AMENDMENT_SUCCESS, false
             ) == true
         ) {
