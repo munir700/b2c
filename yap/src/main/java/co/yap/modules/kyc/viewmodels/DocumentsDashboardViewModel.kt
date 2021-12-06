@@ -31,6 +31,7 @@ class DocumentsDashboardViewModel(application: Application) :
 
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =
         null
+    override var hideProgressToolbar = MutableLiveData(false)
 
     override fun onCreate() {
         super.onCreate()

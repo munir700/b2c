@@ -16,13 +16,11 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_documents_dashboard.*
 import kotlinx.android.synthetic.main.layout_kyc_progress_toolbar.view.*
 import java.io.File
@@ -78,7 +76,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 progressBar.btnBack.visibility = View.VISIBLE
             }
         })
-
+        viewModel.hideProgressToolbar.observe(this, toolbarObserver)
     }
 
     private val clickEventObserver = Observer<Int> {
@@ -87,6 +85,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
                 onBackPressed()
             }
         }
+    }
+
+    private val toolbarObserver = Observer<Boolean> {
+        progressBar.progressLay.visibility = if (it) View.GONE else View.VISIBLE
+        progressBar.btnBack.visibility = if (it) View.GONE else View.VISIBLE
     }
 
 
