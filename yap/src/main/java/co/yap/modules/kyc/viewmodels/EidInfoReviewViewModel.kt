@@ -470,7 +470,7 @@ class EidInfoReviewViewModel(application: Application) :
                 clickEvent.setValue(eventCitizenNumberIssue)
             } else {
                 state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
-                parentViewModel?.state?.identityNo?.set(it.citizenNumber)
+                parentViewModel?.state?.identityNo?.set(it.citizenNumber.replace("-",""))
             }
             state.gender = it.gender.run {
                 when {
