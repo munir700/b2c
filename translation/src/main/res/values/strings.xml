@@ -246,7 +246,7 @@
 
 
     <!-- Eid details review screen -->
-    <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
+    <string name="screen_b2c_eid_info_review_display_text_title">Confirm your details</string>
     <string name="screen_b2c_eid_info_review_display_text_sub_title">Thanks %1$s! Verify your details so we can send you your YAP card</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_heading">Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_sub_heading">Pending confirmation</string>
@@ -273,7 +273,7 @@
     <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name (if applicable)</string>
     <string name="screen_b2c_eid_info_review_display_text_last_name_heading">Last name</string>
 
-    <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Thanks %1$s! Verify your details are exactly as per your Emirates Id. You can edit the name fields incase we got it wrong!</string>
+    <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Verify your details are exactly as per your ID.</string>
     <string name="screen_b2c_eid_info_review_display_text_eid_number">Emirates ID number</string>
     <string name="screen_b2c_eid_info_review_display_text_select_gender">Select your Gender</string>
 

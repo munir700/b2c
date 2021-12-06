@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.fragments
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -237,6 +236,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     private fun navigateToConfirmNameFragment() {
         viewModel.parentViewModel?.state?.let { state ->
+            state.identityNo.set(viewModel.state.citizenNumber)
             state.middleName.set(viewModel.state.middleName)
             state.firstName.set(viewModel.state.firstName)
             state.lastName.set(viewModel.state.lastName)
@@ -350,14 +350,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             )
         }
 
-        /*editText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                disableEndDrawable(null)
-            } else {
-                disableEndDrawable(editText)
-            }
-        }*/
-
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE
             ) {
@@ -395,25 +387,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.errorTitle, viewModel.errorBody
             )
         navigate(action)
-    }
-
-    private fun showEIDAlert(
-        message: String,
-        posBtn: String,
-        negBtn: String? = null,
-        response: (Boolean) -> Unit
-    ) {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(false)
-            setMessage(message)
-            setPositiveButton(posBtn) { _, _ ->
-                response.invoke(true)
-            }
-            if (negBtn != null)
-                setNegativeButton(negBtn) { _, _ ->
-                    response.invoke(false)
-                }
-        }.create().show()
     }
 
     override fun showUSACitizenScreen() {
