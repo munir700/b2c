@@ -311,7 +311,7 @@
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
-                        app:previousValue="@{viewModel.state.previousCitizenNumber}"
+                        app:previousValue="@{viewModel.state.previousCitizenNumber.replace(`-`,``)}"
                         app:validateEmpty="@{true}"
                         app:validateMinLength="@{@integer/eid_length}"
                         tools:text="Emirates ID" />

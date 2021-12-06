@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import co.yap.BuildConfig
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
@@ -11,6 +12,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -61,20 +63,26 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
+            val fileFront = if (BuildConfig.DEBUG) {
+                context.dummyEID("FRONT")
+            } else
+                File(result.document.files[0].croppedFile)
 
-            val fileFront = File(result.document.files[0].croppedFile)
-            val fileBack = File(result.document.files[1].croppedFile)
+            val fileBack = if (BuildConfig.DEBUG) {
+                context.dummyEID("BACK")
+            } else
+                File(result.document.files[1].croppedFile)
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
             val fileFrontReqBody = RequestBody.create(MediaType.parse("image/*"), fileFront)
             val partFront =
-                MultipartBody.Part.createFormData("files_f", fileFront.name, fileFrontReqBody)
+                MultipartBody.Part.createFormData("files_f", fileFront?.name, fileFrontReqBody)
 
             val fileBackReqBody = RequestBody.create(MediaType.parse("image/*"), fileBack)
             val partBack =
-                MultipartBody.Part.createFormData("files_b", fileBack.name, fileBackReqBody)
+                MultipartBody.Part.createFormData("files_b", fileBack?.name, fileBackReqBody)
             launch {
                 state.loading = true
                 when (val response = repository.detectCardData(partFront, partBack)) {

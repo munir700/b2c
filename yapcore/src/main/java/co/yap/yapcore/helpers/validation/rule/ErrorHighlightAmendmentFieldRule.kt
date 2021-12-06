@@ -30,8 +30,7 @@ class ErrorHighlightAmendmentFieldRule(
             it.values.toList().forEach { it ->
                 it?.forEach {
                     if (view?.tag == it && previousValue != null && view.text.toString()
-                            .isNotBlank() && view.text.toString()
-                            .replace("-", "") == previousValue
+                            .isNotBlank() && view.text.toString() == previousValue
                     ) {
                         return false
                     }
@@ -55,7 +54,10 @@ class ErrorHighlightAmendmentFieldRule(
 
     override fun onValidationFailed(view: TextInputEditText?) {
         EditTextHandler.getTextInputLayout(view)?.apply {
-            error = Translator.getString(context, Strings.kyc_incorrect_field)
+            error = if (errorMessage.isNullOrBlank()) Translator.getString(
+                context,
+                Strings.kyc_incorrect_field
+            ) else errorMessage
         }
         if (errorEnabled) {
             view?.apply {

@@ -15,6 +15,7 @@ import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocumentImage
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
@@ -41,6 +42,8 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.state.amendmentMap =
+            arguments?.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         permissionHelper = PermissionHelper(
             this,
             arrayOf(
@@ -61,7 +64,6 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
     private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.etIssueDate -> {
-
                 val dp = viewModel.getDatePicker(
                     currentCalendar = viewModel.state.issueDataCalender, minCalendar = null,
                     callBack = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -99,7 +101,12 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
 
             }
             R.id.btnNext -> {
-
+                navigate(
+                    destinationId = R.id.to_missingInfoConfirmationFragment, args = bundleOf(
+                        Constants.CONFIRMATION_DESCRIPTION to "ads",
+                        Constants.KYC_AMENDMENT_MAP to viewModel.state.amendmentMap
+                    )
+                )
             }
             R.id.cvCard -> {
                 askPermission("Passport")

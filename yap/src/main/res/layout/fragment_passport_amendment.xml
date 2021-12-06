@@ -117,10 +117,14 @@
                     android:inputType="number"
                     android:maxLength="9"
                     android:singleLine="true"
+                    android:tag="@{`passportNumber`}"
                     android:text="@{viewModel.state.passportNumber}"
                     android:theme="@style/Theme.EditText.GreySoft"
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
                     app:compoundDrawableWidth="@dimen/margin_medium_large"
+                    app:highlightAmendmentField="@{true}"
+                    app:missingFieldMap="@{viewModel.state.amendmentMap}"
+                    app:previousValue="@{viewModel.state.previousPassportNumber}"
                     app:validateEmpty="@{true}" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -146,11 +150,15 @@
                     android:inputType="number"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:singleLine="true"
+                    android:tag="@{`passportExpiryDate`}"
                     android:text="@{viewModel.state.expireDate}"
                     android:theme="@style/Theme.EditText.GreySoft"
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
                     app:compoundDrawableWidth="@dimen/margin_medium_large"
                     app:drawableEndVector="@drawable/ic_chevron_down"
+                    app:highlightAmendmentField="@{true}"
+                    app:missingFieldMap="@{viewModel.state.amendmentMap}"
+                    app:previousValue="@{viewModel.state.previousExpireDate}"
                     app:rtdrawableTint="@color/greyDark"
                     app:validateEmpty="@{true}" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -177,11 +185,15 @@
                     android:inputType="number"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:singleLine="true"
+                    android:tag="@{`passportIssueDate`}"
                     android:text="@{viewModel.state.issueDate}"
                     android:theme="@style/Theme.EditText.GreySoft"
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
                     app:compoundDrawableWidth="@dimen/margin_medium_large"
                     app:drawableEndVector="@drawable/ic_chevron_down"
+                    app:highlightAmendmentField="@{true}"
+                    app:missingFieldMap="@{viewModel.state.amendmentMap}"
+                    app:previousValue="@{viewModel.state.previousIssueDate}"
                     app:rtdrawableTint="@color/greyDark"
                     app:validateEmpty="@{true}" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>

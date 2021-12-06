@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
-import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 
 class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirmation.ViewModel>(),
@@ -22,6 +23,7 @@ class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirma
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initArguments()
+        requireActivity().onBackPressedDispatcher.addCallback { }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

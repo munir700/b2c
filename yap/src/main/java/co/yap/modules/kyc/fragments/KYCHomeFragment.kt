@@ -8,6 +8,7 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.BuildConfig
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
@@ -17,8 +18,11 @@ import co.yap.translation.Strings
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.extentions.dummyEID
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
+import com.digitify.identityscanner.docscanner.enums.DocumentPageType
 import com.digitify.identityscanner.docscanner.enums.DocumentType
+import com.digitify.identityscanner.docscanner.models.DocumentImage
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.io.File
 
@@ -49,7 +53,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
                         viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                     } else {
-                        viewModel.requestDocumentsInformation{
+                        viewModel.requestDocumentsInformation {
                             navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
                         }
                     }
@@ -104,25 +108,39 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     }
 
     private fun openCardScanner() {
-        startActivityForResult(
-            IdentityScannerActivity.getLaunchIntent(
-                requireContext(),
-                DocumentType.EID,
-                IdentityScannerActivity.SCAN_FROM_CAMERA
-            ),
-            IdentityScannerActivity.SCAN_EID_CAM
-        )
+        if (BuildConfig.DEBUG) {
+            val identityScannerResult = IdentityScannerResult()
+            identityScannerResult.document.type = DocumentType.EID
+            val fileFront = requireContext().dummyEID("FRONT")
+            identityScannerResult.document.files.add(DocumentImage(fileFront?.absolutePath, DocumentPageType.FRONT))
+            val fileBack =
+                requireContext().dummyEID("BACK")
+            identityScannerResult.document.files.add(DocumentImage(fileBack?.absolutePath, DocumentPageType.BACK))
+            viewModel.onEIDScanningComplete(
+                identityScannerResult
+            )
+        } else {
+            startActivityForResult(
+                IdentityScannerActivity.getLaunchIntent(
+                    requireContext(),
+                    DocumentType.EID,
+                    IdentityScannerActivity.SCAN_FROM_CAMERA
+                ),
+                IdentityScannerActivity.SCAN_EID_CAM
+            )
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
-                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)?.let { it1 ->
-                    viewModel.onEIDScanningComplete(
-                        it1
-                    )
-                }
+                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
+                    ?.let { it1 ->
+                        viewModel.onEIDScanningComplete(
+                            it1
+                        )
+                    }
             }
         }
     }
