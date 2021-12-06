@@ -23,6 +23,7 @@ import co.yap.yapcore.helpers.FileUtils
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.managers.SessionManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.coroutines.delay
 import java.util.*
@@ -37,7 +38,7 @@ class PassportAmendmentVM(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getCustomerDocuments("3000000240")
+        getCustomerDocuments(SessionManager.user?.currentCustomer.customerId)
         state.issueDataCalender = Calendar.getInstance()
         state.expireDataCalender = Calendar.getInstance()
         validator?.setValidationListener(this)
