@@ -38,7 +38,7 @@ class PassportAmendmentVM(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getCustomerDocuments(SessionManager.user?.currentCustomer.customerId)
+        getCustomerDocuments(SessionManager.user?.currentCustomer?.customerId)
         state.issueDataCalender = Calendar.getInstance()
         state.expireDataCalender = Calendar.getInstance()
         validator?.setValidationListener(this)
