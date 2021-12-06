@@ -30,7 +30,7 @@ class ConfirmCardNameViewModel(application: Application) :
             state.loading = true
             when (val response = repository.updateCardName(
                 CardNameRequest(
-                    customerIDNumber = parentViewModel?.state?.identityNo?.get(),
+                    customerIDNumber = parentViewModel?.state?.identityNo?.get()?.replace("-",""),
                     customerNationality = SessionManager.user?.currentCustomer?.nationality,
                     customerIDFirstName = parentViewModel?.state?.firstName?.get(),
                     customerIDLastName = parentViewModel?.state?.lastName?.get(),
