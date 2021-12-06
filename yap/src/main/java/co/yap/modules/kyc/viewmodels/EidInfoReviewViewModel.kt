@@ -497,9 +497,7 @@ class EidInfoReviewViewModel(application: Application) :
     private fun getFormattedCitizenNumber(citizenNo: String?): String {
         return citizenNo?.let {
             state.caption =
-                getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
-                    parentViewModel?.name?.value
-                )
+                getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title)
 
             val builder = StringBuilder()
             if (hasValidPart(it, 0, 2)) {

@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.fragments
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -237,6 +236,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     private fun navigateToConfirmNameFragment() {
         viewModel.parentViewModel?.state?.let { state ->
+            state.identityNo.set(viewModel.state.citizenNumber)
             state.middleName.set(viewModel.state.middleName)
             state.firstName.set(viewModel.state.firstName)
             state.lastName.set(viewModel.state.lastName)
