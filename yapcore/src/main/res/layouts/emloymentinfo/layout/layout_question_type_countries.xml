@@ -76,7 +76,21 @@
 
             <include
                 layout="@layout/content_input_field_selector"
+                app:containsError="@{viewModel.questionUiFields.containsError}"
                 app:isFocus="@{viewModel.questionUiFields.isFocusInput}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvError"
+                style="@style/SmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="@string/kyc_incorrect_field"
+                android:textColor="@color/red"
+                android:textSize="@dimen/small_text_size"
+                android:visibility="@{viewModel.questionUiFields.containsError ? View.VISIBLE : View.GONE}"
+                tools:text="@string/kyc_incorrect_field" />
+
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,6 @@ data class TaxInfoAmendmentResponse(
         @SerializedName("tinAvailable")
         val tinAvailable: Boolean? = null,
         @SerializedName("tinNumber")
-        val tinNumber: Any? = null
+        val tinNumber: String? = null
     )
 }

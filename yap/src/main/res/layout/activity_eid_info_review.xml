@@ -26,14 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_44sdp"
             android:gravity="center_vertical"
-            android:visibility="@{!viewModel.parentViewModel.skipFirstScreen||(SessionManager.INSTANCE.user.notificationStatuses.equals(`ON_BOARDED`)||SessionManager.INSTANCE.user.notificationStatuses.equals(`ADDITIONAL_COMPLIANCE_INFO_REQ`))? View.GONE:View.VISIBLE}">
+            android:visibility="@{!viewModel.parentViewModel.skipFirstScreen||(SessionManager.INSTANCE.user.notificationStatuses.equals(`ON_BOARDED`)||SessionManager.INSTANCE.user.notificationStatuses.equals(`ADDITIONAL_COMPLIANCE_INFO_REQ`)) || viewModel.parentViewModel.amendmentMap != null? View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:id="@+id/tbBtnBack"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="match_parent"
-                android:clickable="true"
                 android:layout_gravity="start|center_vertical"
+                android:clickable="true"
                 android:contentDescription="@string/empty_string"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -284,7 +284,9 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_eid_number"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cvCard">
@@ -301,7 +303,7 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:tag="IDNumber"
-                        android:text="@{viewModel.state.citizenNumber}"
+                        android:text="@={viewModel.state.citizenNumber}"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
@@ -325,7 +327,9 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_first_name_heading"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEIdHeading">
@@ -363,8 +367,10 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_middle_name_heading"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
                     android:visibility="@{viewModel.state.isShowMiddleName ? View.VISIBLE : View.GONE}"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFirstNameHeading">
@@ -403,8 +409,10 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_last_name_heading"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
                     android:visibility="@{viewModel.state.isShowLastName ? View.VISIBLE : View.GONE}"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvMiddleNameHeading">
@@ -442,7 +450,9 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_nationality_heading"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvLastNameHeading">
@@ -482,7 +492,9 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_dob_heading"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading">
@@ -495,7 +507,7 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:singleLine="true"
                         android:tag="DateofBirth"
-                        android:text="@{viewModel.state.dateOfBirth}"
+                        android:text='@{viewModel.state.dateOfBirth != null ? viewModel.state.dateOfBirth : "" }'
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/margin_medium_large"
                         app:compoundDrawableWidth="@dimen/margin_medium_large"
@@ -519,7 +531,9 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_gender_heading"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading">
@@ -556,7 +570,9 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:dividerPadding="@dimen/margin_medium_large"
                     android:hint="@string/screen_b2c_eid_info_review_display_text_expiry_date_heading"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
                     app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvGenderHeading">

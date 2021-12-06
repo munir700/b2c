@@ -70,60 +70,13 @@ class EidInfoReviewViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
-        // TODO Remove mocking
-        //mockDataForScreen()
-        //mockServerDataForKYC()
         if (isFromAmendment()) {
             getKYCDataFromServer()
         }
         validator?.setValidationListener(this)
+        requestAllAPIs()
         parentViewModel?.identity?.let {
-            requestAllAPIs(it)
             populateState(it)
-        }
-    }
-
-    private fun mockDataForScreen() {
-        val identity = Identity()
-        identity.citizenNumber = "784198653158182"
-        identity.expirationDate =
-            DateUtils.stringToDate("230628", "yyMMdd")
-        identity.dateOfBirth =
-            DateUtils.stringToDate("860319", "yyMMdd")
-        identity.gender = Gender.Male
-        identity.nationality = "Indian"
-        identity.givenName = "Hiral Joshi"
-        identity.isoCountryCode2Digit = "IN"
-        identity.isoCountryCode3Digit = "IND"
-        parentViewModel?.identity = identity
-    }
-
-    private fun mockServerDataForKYC() {
-        launch {
-            delay(3000)
-            state.previousCitizenNumber = "784198653158182"
-            state.previousFirstName = "Hiral"
-            state.previousMiddleName = ""
-            state.previousLastName = "Joshi"
-            state.previousNationality = "Indian"
-            state.previousDateOfBirth = DateUtils.dateToString(
-                DateUtils.stringToDate("1986-03-19", "yyyy-MM-dd"), "dd/MM/yyyy",
-                DateUtils.TIME_ZONE_Default
-            )
-            val gender = "M"
-            state.previousGender = if (gender.equals(
-                    "M",
-                    true
-                )
-            ) getString(Strings.screen_b2c_eid_info_review_display_text_gender_male) else getString(
-                Strings.screen_b2c_eid_info_review_display_text_gender_female
-            )
-            state.previousExpiryDate = DateUtils.dateToString(
-                DateUtils.stringToDate("2023-06-28", "yyyy-MM-dd"), "dd/MM/yyyy",
-                DateUtils.TIME_ZONE_Default
-            )
-            delay(500)
-            validator?.toValidate()
         }
     }
 
@@ -151,7 +104,7 @@ class EidInfoReviewViewModel(application: Application) :
                 !state.isDateOfBirthValid.get() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
-                            state.AgeLimit
+                            state.ageLimit
                         ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
                     )
@@ -271,19 +224,6 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-/*    private fun getSectionedCountriesList() {
-        launch {
-            when (val response = repository.getSectionedCountries()) {
-                is RetroApiResponse.Success -> {
-                    sectionedCountries = response.data
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }*/
-
     override fun getAllCountries() {
         launch(Dispatcher.Background) {
             val response = repository.getAllCountries()
@@ -294,6 +234,10 @@ class EidInfoReviewViewModel(application: Application) :
                             Utils.parseCountryList(response.data.data, addOIndex = false)
                         countries =
                             populateNationalitySpinnerData.value as ArrayList<Country>
+                        parentViewModel?.identity?.let {
+                            state.nationality.value =
+                                countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }
+                        }
                     }
 
                     is RetroApiResponse.Error -> {
@@ -365,7 +309,7 @@ class EidInfoReviewViewModel(application: Application) :
                         //gender = it.gender.mrz.toString(),
                         gender = if (state.gender == Gender.Male.name) Gender.Male.mrz.toString() else Gender.Female.mrz.toString(),
                         //nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        nationality = state.nationality.get()?.isoCountryCode3Digit ?: "",
+                        nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
                         //identityNo = it.citizenNumber,
                         identityNo = if (BuildConfig.DEBUG) (700000000000000..800000000000000).random()
                             .toString() else state.citizenNumber.replace("-", ""),
@@ -506,11 +450,15 @@ class EidInfoReviewViewModel(application: Application) :
         identity?.let {
             splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
-            state.nationality.set(countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit })
+            state.nationality.value =
+                countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }
             state.nationalityValid =
-                state.nationality.get() != null && !state.isCountryUS
-            state.dateOfBirth =
-                DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
+                state.nationality.value != null && !state.isCountryUS
+            state.dateOfBirth.value =
+                DateUtils.reformatToLocalString(
+                    it.dateOfBirth,
+                    DateUtils.DEFAULT_DATE_FORMAT
+                )
             state.expiryDate =
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
@@ -540,16 +488,17 @@ class EidInfoReviewViewModel(application: Application) :
             state.expiryCalendar = Calendar.getInstance().apply {
                 time = it.expirationDate
             }
+            handleAgeValidation()
+            handleIsUsValidation()
             validator?.toValidate()
         }
+
     }
 
     private fun getFormattedCitizenNumber(citizenNo: String?): String {
         return citizenNo?.let {
             state.caption =
-                getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
-                    parentViewModel?.name?.value
-                )
+                getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title)
 
             val builder = StringBuilder()
             if (hasValidPart(it, 0, 2)) {
@@ -574,8 +523,8 @@ class EidInfoReviewViewModel(application: Application) :
         state.firstName = ""
         state.middleName = ""
         state.lastName = ""
-        //state.nationality = ObservableField()
-        state.dateOfBirth = ""
+        state.nationality = MutableLiveData(null)
+        state.dateOfBirth = MutableLiveData("")
         state.gender = ""
         state.citizenNumber = ""
         state.caption = ""
@@ -598,7 +547,7 @@ class EidInfoReviewViewModel(application: Application) :
         } ?: false
     }
 
-    override fun requestAllAPIs(identity: Identity) {
+    override fun requestAllAPIs() {
         requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
@@ -613,19 +562,12 @@ class EidInfoReviewViewModel(application: Application) :
                 when (configurationEIDResponse) {
                     is RetroApiResponse.Success -> {
                         val data = configurationEIDResponse.data.data
-                        state.isDateOfBirthValid.set(
-                            getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
-                        )
-                        val countryName = data?.country2DigitIsoCode?.let { str ->
+                        state.ageLimit = data?.ageLimit
+                        state.countryName.set(data?.country2DigitIsoCode?.let { str ->
                             str.split(",").map { it -> it.trim() }.find {
                                 it.equals("US")
                             }
-                        }
-                        state.isCountryUS =
-                            identity.isoCountryCode2Digit.contains(
-                                countryName ?: "US"
-                            )
-                        state.AgeLimit = data?.ageLimit
+                        })
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = configurationEIDResponse.error.message
@@ -633,7 +575,6 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
         }
-
     }
 
     override fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit) {
@@ -673,6 +614,20 @@ class EidInfoReviewViewModel(application: Application) :
             )
         )
         return list
+    }
+
+    override fun handleIsUsValidation() {
+        state.isCountryUS = state.nationality.value?.let {
+            it.isoCountryCode2Digit?.contains(
+                state.countryName.get() ?: "US"
+            )
+        } == true
+    }
+
+    override fun handleAgeValidation() {
+        state.isDateOfBirthValid.set(
+            getAge(state.dobCalendar.time) >= state.ageLimit ?: 18
+        )
     }
 
     override fun onValidationSuccess(validator: Validator) {

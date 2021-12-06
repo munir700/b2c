@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.fragments
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -227,15 +226,21 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
-
+        viewModel.state.dateOfBirth.observe(viewLifecycleOwner, Observer {
+            viewModel.handleAgeValidation()
+        })
+        viewModel.state.nationality.observe(viewLifecycleOwner, Observer {
+            viewModel.handleIsUsValidation()
+        })
     }
 
     private fun navigateToConfirmNameFragment() {
         viewModel.parentViewModel?.state?.let { state ->
+            state.identityNo.set(viewModel.state.citizenNumber)
             state.middleName.set(viewModel.state.middleName)
             state.firstName.set(viewModel.state.firstName)
             state.lastName.set(viewModel.state.lastName)
-            state.nationality.set(viewModel.state.nationality.get()?.isoCountryCode2Digit)
+            state.nationality.set(viewModel.state.nationality.value?.isoCountryCode2Digit)
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_FIRST_NAME, state.firstName.get() ?: "")
             SharedPreferenceManager.getInstance(requireContext())
@@ -253,7 +258,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         val bundle = Bundle()
         bundle.putString(
             Constants.CONFIRMATION_DESCRIPTION,
-            getString(R.string.common_display_text_y2y_general_share)
+            getString(R.string.kyc_common_success_subtitle)
         )
         bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
         navigate(
@@ -282,7 +287,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                viewModel.state.dateOfBirth = dateToString(
+                viewModel.state.dateOfBirth.value = dateToString(
                     calendar.time, DEFAULT_DATE_FORMAT,
                     TIME_ZONE_Default
                 )
@@ -345,14 +350,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             )
         }
 
-        /*editText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                disableEndDrawable(null)
-            } else {
-                disableEndDrawable(editText)
-            }
-        }*/
-
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE
             ) {
@@ -390,25 +387,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.errorTitle, viewModel.errorBody
             )
         navigate(action)
-    }
-
-    private fun showEIDAlert(
-        message: String,
-        posBtn: String,
-        negBtn: String? = null,
-        response: (Boolean) -> Unit
-    ) {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(false)
-            setMessage(message)
-            setPositiveButton(posBtn) { _, _ ->
-                response.invoke(true)
-            }
-            if (negBtn != null)
-                setNegativeButton(negBtn) { _, _ ->
-                    response.invoke(false)
-                }
-        }.create().show()
     }
 
     override fun showUSACitizenScreen() {
@@ -475,7 +453,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.state.nationality.set(data as Country)
+            viewModel.state.nationality.value = (data as Country)
         }
     }
 }

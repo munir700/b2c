@@ -82,6 +82,7 @@ class MissingInfoFragment : BaseBindingFragment<IMissingInfo.ViewModel>(), IMiss
                 }
             }
             R.id.tvDoItLater -> {
+                goToDashboard()
             }
         }
     }
