@@ -135,6 +135,24 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 } else
                     viewModel.createTransactionSession()
             }
+            R.id.tvDominationFirstAmount -> viewModel.denominationSecondAmount(
+                viewModel.state.denominationFirstAmount.get() ?: ""
+            ) { enabled ->
+                viewModel.state.valid = enabled
+                getBindings().etAmount.setText(viewModel.enteredAmount.value)
+            }
+            R.id.tvDominationSecondAmount -> viewModel.denominationSecondAmount(
+                viewModel.state.denominationSecondAmount.get() ?: ""
+            ) { enabled ->
+                getBindings().etAmount.setText(viewModel.enteredAmount.value)
+                viewModel.state.valid = enabled
+            }
+            R.id.tvDominationThirdAmount -> viewModel.denominationSecondAmount(
+                viewModel.state.denominationThirdAmount.get() ?: ""
+            ) { enabled ->
+                getBindings().etAmount.setText(viewModel.enteredAmount.value)
+                viewModel.state.valid = enabled
+            }
         }
     }
 
@@ -144,19 +162,49 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private val enterAmountObserver = Observer<String> {
         parentViewModel?.updateFees(it.getValueWithoutComa(), isTopUpFee = true)
+        val enteredAmount = it.getValueWithoutComa().toDoubleOrNull() ?: 0.0
         if (it.isNotBlank()) {
             when {
-                isMaxMinLimitReached(it.getValueWithoutComa()) -> {
+                isMaxMinLimitReached(it.getValueWithoutComa()) || enteredAmount < viewModel.state.minLimit -> {
                     viewModel.state.valid = false
                     viewModel.state.amountBackground =
                         resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                     showUpperLowerLimitError()
                 }
-                it.getValueWithoutComa().toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit -> {
+                enteredAmount > viewModel.state.minLimit && enteredAmount <= viewModel.state.remainingAccumulative.get() ?: 0.0 -> {
                     viewModel.state.valid = true
+                    viewModel.state.amountBackground =
+                        resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                    cancelAllSnackBar()
                 }
+                enteredAmount > viewModel.state.remainingAccumulative.get() ?: 0.0 -> {
+                    viewModel.state.valid = false
+                    viewModel.state.amountBackground =
+                        resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                    showAccumalatveLimitError(
+                        if (viewModel.state.remainingAccumulative.get() ?: 0.0 <= 0.0) getString(
+                            Strings.screen_topup_bank_error_display_no_accumulative_balance
+                        ) else getString(
+                            Strings.screen_topup_bank_error_display_less_accumulative_balance
+                        )
+                    )
+                }
+                enteredAmount > viewModel.state.maximumAccumulative.get() ?: 0.0 -> {
+                    viewModel.state.valid = false
+                    viewModel.state.amountBackground =
+                        resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                    showAccumalatveLimitError(
+                        if (viewModel.state.remainingAccumulative.get() == 0.0) getString(
+                            Strings.screen_topup_bank_error_display_no_accumulative_balance
+                        ) else getString(
+                            Strings.screen_topup_bank_error_display_less_accumulative_balance
+                        )
+                    )
+                }
+
                 else -> {
                     viewModel.state.valid = true
                     viewModel.state.amountBackground =
@@ -188,6 +236,13 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         )
         showTextUpdatedAbleSnackBar(
             viewModel.state.errorDescription,
+            Snackbar.LENGTH_INDEFINITE
+        )
+    }
+
+    fun showAccumalatveLimitError(message: String) {
+        showTextUpdatedAbleSnackBar(
+            message,
             Snackbar.LENGTH_INDEFINITE
         )
     }
