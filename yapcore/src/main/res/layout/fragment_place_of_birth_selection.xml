@@ -85,9 +85,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="@string/screen_place_of_birth_display_text_select_country"
-                    android:textColorHint="@color/colorPrimaryDark"
-                    app:hintTextAppearance="@style/Small"
+                    android:hint="@string/screen_place_of_birth_display_text_select_country"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     tools:text="@string/screen_place_of_birth_display_text_select_country">
 
                     <co.yap.widgets.edittext.EditTextRichDrawable
@@ -127,9 +128,9 @@
                     android:drawablePadding="0dp"
                     android:hint="@string/screen_place_of_birth_display_text_city_of_birth"
                     android:paddingTop="@dimen/margin_normal"
-                    android:textColorHint="@color/colorPrimaryDark"
-                    app:hintTextAppearance="@style/Small"
-                    app:hintTextColorSelected="@color/colorPrimaryDarkFadedLight"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/fwPlaceOfBirth"
                     app:layout_constraintTop_toBottomOf="@+id/fwPlaceOfBirth">
@@ -267,8 +268,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:hint="@string/screen_place_of_birth_display_text_nationality_as_per_eid"
-                    android:textColorHint="@color/colorPrimaryDark"
-                    app:hintTextAppearance="@style/Small"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     tools:text="@string/screen_place_of_birth_display_text_nationality_as_per_eid">
 
                     <co.yap.widgets.edittext.EditTextRichDrawable
@@ -288,6 +290,7 @@
                         app:compoundDrawableWidth="@dimen/_26sdp"
                         app:drawableEndVector="@drawable/iv_drown_down_grey"
                         app:editable="@{false}"
+                        android:enabled="false"
                         app:flagOnStartDrawable="@{SessionManager.INSTANCE.homeCountry2Digit}"
                         app:highlightAmendmentField="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
@@ -346,8 +349,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:hint="@string/screen_place_of_birth_display_text_add_second_country"
-                    android:textColorHint="@color/colorPrimaryDark"
-                    app:hintTextAppearance="@style/Small"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
                     tools:text="@string/screen_place_of_birth_display_text_add_second_country">
 
                     <co.yap.widgets.edittext.EditTextRichDrawable

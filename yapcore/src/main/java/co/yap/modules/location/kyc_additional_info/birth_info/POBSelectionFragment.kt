@@ -97,33 +97,17 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                     countriesList = viewModel.populateSpinnerData.value
                 )
             }
-            R.id.tvEIDNationality -> {
-                this.launchBottomSheet(
-                    itemClickListener = selectEidCountryItemClickListener,
-                    label = getString(Strings.screen_place_of_birth_display_text_nationality_as_per_eid),
-                    viewType = Constants.VIEW_WITH_FLAG,
-                    countriesList = viewModel.populateSpinnerData.value
-                )
-            }
         }
     }
 
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.selectedCountry.set(data as Country)
-            viewModel.validateForm()
         }
     }
     private val selectSecondCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.state.selectedSecondCountry.set(data as Country)
-            viewModel.validateForm()
-        }
-    }
-    private val selectEidCountryItemClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.state.eidNationality.set((data as Country).getName())
-            viewModel.validateForm()
         }
     }
 
