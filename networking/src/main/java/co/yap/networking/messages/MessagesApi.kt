@@ -2,10 +2,11 @@ package co.yap.networking.messages
 
 
 import co.yap.networking.messages.requestdtos.*
+import co.yap.networking.messages.responsedtos.DownTime
 import co.yap.networking.messages.responsedtos.FaqsResponse
 import co.yap.networking.messages.responsedtos.HelpDeskResponse
-import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 
 interface MessagesApi {
@@ -28,4 +29,9 @@ interface MessagesApi {
     suspend fun verifyForgotPasscodeOtp(verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): RetroApiResponse<ApiResponse>
     suspend fun getHelpDeskContact(): RetroApiResponse<HelpDeskResponse>
     suspend fun getFaqsUrl(): RetroApiResponse<FaqsResponse>
+
+    /**
+     *  APi will return @see [DownTime] object if partner bank or processor is down
+     * */
+    suspend fun getDownTime(): RetroApiResponse<BaseResponse<DownTime>>
 }
