@@ -893,7 +893,7 @@
     <!--    Topup bank detail screen-->
     <string name="screen_add_topup_bank_account_name_label_text">Account name</string>
     <string name="screen_add_topup_bank_iban_label_text">IBAN</string>
-    <string name="screen_add_topup_bank_bic_label_text">Swift/BIC</string>
+    <string name="screen_add_topup_bank_bic_label_text">SWIFT/BIC</string>
     <string name="screen_add_topup_bank_account_number_label_text">Account number</string>
     <string name="screen_add_topup_bank_address_label_text">Bank &amp; Address</string>
     <string name="screen_add_topup_bank_core_btn_label_text">Share</string>
