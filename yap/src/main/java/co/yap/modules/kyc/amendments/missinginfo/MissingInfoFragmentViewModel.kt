@@ -40,11 +40,6 @@ class MissingInfoFragmentViewModel(application: Application) :
                             list.addAll(it.amendments ?: emptyList())
                         }
                     }
-                    //TODO will remove these coments
-//                    map[AmendmentSection.PASSPORT_INFO.value] =
-//                        mutableListOf("passportNumber", "passportIssueDate", "passportExpiryDate")
-//                    map.remove("eidInfo")
-//                    map["birthInfo"] = listOf("CityofBirth")
                     missingInfoMap.value = map
                     adapter.get()?.setData(list)
                     state.loading = false
