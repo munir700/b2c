@@ -88,8 +88,10 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     }
 
     private val toolbarObserver = Observer<Boolean> {
-        progressBar.progressLay.visibility = if (it) View.GONE else View.VISIBLE
-        progressBar.btnBack.visibility = if (it) View.GONE else View.VISIBLE
+        if (it) {
+            progressBar.progressLay.visibility = View.GONE
+            progressBar.btnBack.visibility = View.GONE
+        }
     }
 
 
