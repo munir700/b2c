@@ -169,7 +169,7 @@ class POBSelectionViewModel(application: Application) :
 
                     state.cityOfBirth.set(response.data.data?.cityOfBirth ?: "")
                     state.previousCityOfBirth.set(response.data.data?.cityOfBirth)
-                    state.isDualNational.set(response.data.data?.isDualNationality ?: true)
+                    state.isDualNational.set(response.data.data?.isDualNationality ?: false)
                     if (!state.isDualNational.get()) {
                         state.selectedSecondCountry.set(null)
                         state.previousSelectedSecondCountry.set(null)
