@@ -283,7 +283,6 @@
                         android:gravity="center_vertical"
                         android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                         android:singleLine="true"
-                        android:tag="NationalityAsPerEID"
                         android:text="@{viewModel.state.eidNationality}"
                         android:theme="@style/Theme.EditText.Primary"
                         android:visibility="@{viewModel.state.isDualNational? View.VISIBLE : View.GONE }"
