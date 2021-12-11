@@ -103,7 +103,8 @@
                         android:paddingStart="0dp"
                         android:singleLine="true"
                         android:tag="CountryofBirth"
-                        android:text="@{viewModel.state.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.state.selectedCountry.name}"
+                        app:validateEmpty="@{true}"
+                        android:text='@{viewModel.state.selectedCountry == null || viewModel.state.selectedCountry.name.length == 0 ? "" : viewModel.state.selectedCountry.name}'
                         android:textColor="@{viewModel.state.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
                         android:theme="@style/Theme.EditText.Primary"
                         app:compoundDrawableHeight="@dimen/_26sdp"
