@@ -4,45 +4,64 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.KeyEvent
+import android.text.InputFilter
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.countryutils.country.Country
+import co.yap.databinding.FragmentEidInfoReviewAmendmentBinding
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.KYCAction
-import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
-import co.yap.modules.onboarding.interfaces.IEidInfoReview
+import co.yap.modules.kyc.viewmodels.EidInfoReviewAmendmentViewModel
+import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
+import co.yap.translation.Strings
 import co.yap.widgets.Status
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.edittext.EditTextRichDrawable
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.Utils.hideKeyboard
-import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
+import co.yap.yapcore.helpers.extentions.launchSheet
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
-import kotlinx.android.synthetic.main.activity_eid_info_review.*
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import kotlinx.android.synthetic.main.fragment_eid_info_review_amendment.*
 import java.io.File
+import java.util.*
 
-class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
-
+class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.ViewModel>(),
+    IEidInfoReviewAmendment.View, View.OnFocusChangeListener {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
+    override fun getLayoutId(): Int = R.layout.fragment_eid_info_review_amendment
 
-    override val viewModel: EidInfoReviewViewModel
-        get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
+    override val viewModel: EidInfoReviewAmendmentViewModel
+        get() = ViewModelProvider(this).get(EidInfoReviewAmendmentViewModel::class.java)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().lifecycleOwner = this
+        viewModel.validator?.targetViewBinding =
+            getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()
+        viewModel.validator?.toValidate()
+        getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber.filters =
+            arrayOf(
+                InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),
+                EidFilter(intArrayOf(3, 8, 16), '-')
+            )
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -52,43 +71,74 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
         }
+        addFocusListeners()
         addObservers()
+    }
+
+    private fun addFocusListeners() {
+        tvEidNumber.onFocusChangeListener = this
+        tvFirstName.onFocusChangeListener = this
+        tvMiddleName.onFocusChangeListener = this
+        tvLastName.onFocusChangeListener = this
     }
 
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.ivEditFirstName, R.id.tvFirstName -> {
-                    ivEditFirstName.isEnabled = false
-                    ivEditMiddleName.isEnabled = true
-                    ivEditLastName.isEnabled = true
-                    manageFocus(tvFirstName, ivEditFirstName)
+                R.id.tvEidNumber -> {
+                    disableEndDrawable(tvEidNumber)
+                    manageFocus(tvEidNumber)
+                }
+                R.id.tvFirstName -> {
+                    disableEndDrawable(tvFirstName)
+                    manageFocus(tvFirstName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "first_name")
                     )
                 }
 
-                R.id.ivEditMiddleName, R.id.tvMiddleName -> {
-                    ivEditMiddleName.isEnabled = false
-                    ivEditFirstName.isEnabled = true
-                    ivEditLastName.isEnabled = true
-                    manageFocus(tvMiddleName, ivEditMiddleName)
+                R.id.tvMiddleName -> {
+                    disableEndDrawable(tvMiddleName)
+                    manageFocus(tvMiddleName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "middle_name")
                     )
                 }
 
-                R.id.ivEditLastName, R.id.tvLastName -> {
-                    ivEditLastName.isEnabled = false
-                    ivEditMiddleName.isEnabled = true
-                    ivEditFirstName.isEnabled = true
-                    manageFocus(tvLastName, ivEditLastName)
+                R.id.tvLastName -> {
+                    disableEndDrawable(tvLastName)
+                    manageFocus(tvLastName)
                     trackEventWithScreenName(
                         FirebaseEvent.EDIT_FIELD,
                         bundleOf("field_name" to "last_name")
                     )
+                }
+
+                R.id.tvNationality -> {
+                    launchBottomSheet(
+                        itemClickListener = selectCountryItemClickListener,
+                        label = getString(Strings.screen_place_of_birth_display_text_select_country),
+                        viewType = Constants.VIEW_WITH_FLAG,
+                        countriesList = viewModel.countries
+                    )
+                }
+
+                R.id.tvDOB -> {
+                    showDateOfBirthPicker(viewModel.state.dobCalendar)
+                }
+
+                R.id.tvGender -> {
+                    requireActivity().launchSheet(
+                        itemClickListener = genderItemListener,
+                        itemsList = viewModel.getGenderOptions(),
+                        heading = getString(Strings.screen_b2c_eid_info_review_display_text_select_gender)
+                    )
+                }
+
+                R.id.tvExpiryDate -> {
+                    showExpiryDatePicker(viewModel.state.expiryCalendar)
                 }
 
                 viewModel.eventErrorInvalidEid -> showInvalidEidScreen()
@@ -98,7 +148,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.eventRescan -> openCardScanner()
                 R.id.tvNoThanks -> {
                     trackEventWithScreenName(FirebaseEvent.RESCAN_ID)
-                    hideKeyboard(tvNoThanks)
+                    Utils.hideKeyboard(tvNoThanks)
                     openCardScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {
@@ -132,11 +182,14 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         viewLifecycleOwner,
                         Observer { isSuccess ->
                             if (isSuccess) {
-                                navigateToConfirmNameFragment()
+                                if (viewModel.isFromAmendment()) {
+                                    navigateToAmendmentSuccess()
+                                } else {
+                                    navigateToConfirmNameFragment()
+                                }
                             } else {
                                 showToast("Accounts info failed")
                                 navigateToConfirmNameFragment()
-
                             }
 
                         })
@@ -162,21 +215,26 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 )
             }
         })
-        viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer
-        {
+        viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer {
             if (it.status == Status.ERROR) {
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
             }
         })
-
+        viewModel.state.dateOfBirth.observe(viewLifecycleOwner, Observer {
+            viewModel.handleAgeValidation()
+        })
+        viewModel.state.nationality.observe(viewLifecycleOwner, Observer {
+            viewModel.handleIsUsValidation()
+        })
     }
 
     private fun navigateToConfirmNameFragment() {
         viewModel.parentViewModel?.state?.let { state ->
+            state.identityNo.set(viewModel.state.citizenNumber.replace("-", ""))
             state.middleName.set(viewModel.state.middleName)
             state.firstName.set(viewModel.state.firstName)
             state.lastName.set(viewModel.state.lastName)
-            state.nationality.set(viewModel.state.nationality)
+            state.nationality.set(viewModel.state.nationality.value?.isoCountryCode2Digit)
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_FIRST_NAME, state.firstName.get() ?: "")
             SharedPreferenceManager.getInstance(requireContext())
@@ -187,6 +245,72 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,
                 R.id.eidInfoReviewFragment
             )
+        }
+    }
+
+    private fun navigateToAmendmentSuccess() {
+        viewModel.parentViewModel?.hideProgressToolbar?.value = true
+        val bundle = Bundle()
+        bundle.putString(
+            Constants.CONFIRMATION_DESCRIPTION,
+            getString(R.string.kyc_common_success_subtitle)
+        )
+        bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
+        navigate(
+            R.id.action_eidInfoReviewFragment_to_missingInfoConfirmationFragment,
+            bundle
+        )
+    }
+
+    private fun disableEndDrawable(view: EditTextRichDrawable?) {
+        val list = listOf<EditTextRichDrawable>(
+            tvEidNumber,
+            tvFirstName,
+            tvMiddleName,
+            tvLastName
+        )
+        list.forEach {
+            it.setDrawableEndVectorId(
+                if (view?.id == it.id) R.drawable.ic_edit_disable else R.drawable.ic_edit
+            )
+        }
+    }
+
+    private fun showDateOfBirthPicker(calendar: Calendar) {
+        val dpd =
+            DatePickerDialog.newInstance({ view, year, monthOfYear, dayOfMonth ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, monthOfYear)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                viewModel.state.dateOfBirth.value = DateUtils.dateToString(
+                    calendar.time, DateUtils.DEFAULT_DATE_FORMAT,
+                    DateUtils.TIME_ZONE_Default
+                )
+            }, calendar)
+        dpd.maxDate = Calendar.getInstance()
+        dpd.version = DatePickerDialog.Version.VERSION_2
+        childFragmentManager.run {
+            dpd.accentColor = requireContext().getColor(R.color.colorPrimary)
+            dpd.show(this, "")
+        }
+    }
+
+    private fun showExpiryDatePicker(calendar: Calendar) {
+        val dpd =
+            DatePickerDialog.newInstance({ view, year, monthOfYear, dayOfMonth ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, monthOfYear)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                viewModel.state.expiryDate = DateUtils.dateToString(
+                    calendar.time, DateUtils.DEFAULT_DATE_FORMAT,
+                    DateUtils.TIME_ZONE_Default
+                )
+            }, calendar)
+        dpd.minDate = Calendar.getInstance()
+        dpd.version = DatePickerDialog.Version.VERSION_2
+        childFragmentManager.run {
+            dpd.accentColor = requireContext().getColor(R.color.colorPrimary)
+            dpd.show(this, "")
         }
     }
 
@@ -206,8 +330,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     private fun manageFocus(
-        editText: EditText,
-        ivEditName: ImageView
+        editText: EditTextRichDrawable
     ) {
         if (!editText.isFocused) {
             editText.isFocusable = true
@@ -222,24 +345,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             )
         }
 
-        editText.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                ivEditName.isEnabled = true
-                editText.isFocusable = false
-                editText.isFocusableInTouchMode = false
-            }
-        }
-
-        editText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action === KeyEvent.ACTION_DOWN || keyEvent.action === KeyEvent.KEYCODE_ENTER
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE
             ) {
-                ivEditName.isEnabled = true
-                editText.isFocusable = false
-                editText.isFocusableInTouchMode = false
+                disableEndDrawable(null)
             }
             false
-        })
-
+        }
 
     }
 
@@ -316,5 +428,27 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             File(filePath).deleteRecursively()
         }
         super.onDestroy()
+    }
+
+    private val genderItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.state.gender = (data as BottomSheetItem).tag ?: ""
+        }
+    }
+
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        if (!hasFocus) {
+            disableEndDrawable(null)
+        } else {
+            val editText = v as EditTextRichDrawable?
+            disableEndDrawable(editText)
+            editText?.setSelection(editText.length())
+        }
+    }
+
+    private val selectCountryItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.state.nationality.value = (data as Country)
+        }
     }
 }

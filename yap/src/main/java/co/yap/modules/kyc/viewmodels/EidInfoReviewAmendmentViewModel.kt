@@ -2,10 +2,13 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import android.view.View
 import androidx.lifecycle.MutableLiveData
+import co.yap.BuildConfig
 import co.yap.R
-import co.yap.modules.onboarding.interfaces.IEidInfoReview
-import co.yap.modules.onboarding.states.EidInfoReviewState
+import co.yap.countryutils.country.Country
+import co.yap.modules.onboarding.interfaces.IEidInfoReviewAmendment
+import co.yap.modules.onboarding.states.EidInfoReviewAmendmentState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
@@ -15,6 +18,9 @@ import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.State
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.edittext.DrawablePosition
+import co.yap.widgets.edittext.OnDrawableClickListener
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
@@ -22,6 +28,8 @@ import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -30,21 +38,23 @@ import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import kotlinx.coroutines.delay
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.util.*
 
-class EidInfoReviewViewModel(application: Application) :
-    KYCChildViewModel<IEidInfoReview.State>(application),
-    IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository> {
-
+class EidInfoReviewAmendmentViewModel(application: Application) :
+    KYCChildViewModel<IEidInfoReviewAmendment.State>(application),
+    IEidInfoReviewAmendment.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
+    Validator.ValidationListener {
+    override var validator: Validator? = Validator(null)
     override val repository: CustomersRepository
         get() = CustomersRepository
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: EidInfoReviewState = EidInfoReviewState()
+    override val state: EidInfoReviewAmendmentState = EidInfoReviewAmendmentState()
     private var sectionedCountries: SectionedCountriesResponseDTO? = null
     override var sanctionedCountry: String = ""
     override var sanctionedNationality: String = ""
@@ -53,12 +63,19 @@ class EidInfoReviewViewModel(application: Application) :
 
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
+    override var countries: ArrayList<Country> = ArrayList()
+    override var populateNationalitySpinnerData: MutableLiveData<ArrayList<Country>> =
+        MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
-        // getSectionedCountriesList()
+        getAllCountries()
+        if (isFromAmendment()) {
+            getKYCDataFromServer()
+        }
+        validator?.setValidationListener(this)
+        requestAllAPIs()
         parentViewModel?.identity?.let {
-            requestAllAPIs(it)
             populateState(it)
         }
     }
@@ -87,7 +104,7 @@ class EidInfoReviewViewModel(application: Application) :
                 !state.isDateOfBirthValid.get() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
-                            state.AgeLimit
+                            state.ageLimit
                         ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
                     )
@@ -207,18 +224,68 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-/*    private fun getSectionedCountriesList() {
+    override fun getAllCountries() {
+        launch(Dispatcher.Background) {
+            val response = repository.getAllCountries()
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        populateNationalitySpinnerData.value =
+                            Utils.parseCountryList(response.data.data, addOIndex = false)
+                        countries =
+                            populateNationalitySpinnerData.value as ArrayList<Country>
+                        parentViewModel?.identity?.let {
+                            state.nationality.value =
+                                countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }
+                        }
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
+                    }
+                }
+            }
+        }
+    }
+
+    override fun getKYCDataFromServer() {
         launch {
-            when (val response = repository.getSectionedCountries()) {
+            state.loading = true
+            when (val response = repository.getCustomerKYCData(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
-                    sectionedCountries = response.data
+                    state.loading = false
+                    splitLastNamesForPrepopulateData(response.data.data?.fullName ?: "")
+                    state.previousNationality = response.data.data?.nationality
+                    response.data.data?.dob?.let {
+                        state.previousDateOfBirth = DateUtils.dateToString(
+                            DateUtils.stringToDate(it, "yyyy-MM-dd"), "dd/MM/yyyy",
+                            DateUtils.TIME_ZONE_Default
+                        )
+                    }
+                    state.previousGender = if (response.data.data?.gender.equals(
+                            "M",
+                            true
+                        )
+                    ) getString(Strings.screen_b2c_eid_info_review_display_text_gender_male) else getString(
+                        Strings.screen_b2c_eid_info_review_display_text_gender_female
+                    )
+                    response.data.data?.dateExpiry?.let {
+                        state.previousExpiryDate = DateUtils.dateToString(
+                            DateUtils.stringToDate(it, "yyyy-MM-dd"), "dd/MM/yyyy",
+                            DateUtils.TIME_ZONE_Default
+                        )
+                    }
+                    state.previousCitizenNumber = response.data.data?.identityNo
+                    delay(500)
+                    validator?.toValidate()
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                 }
             }
         }
-    }*/
+    }
 
     fun performUploadDocumentsRequest(
         fromInformationErrorFragment: Boolean,
@@ -234,16 +301,22 @@ class EidInfoReviewViewModel(application: Application) :
                         firstName = state.firstName,
                         middleName = if (state.middleName.isNotBlank()) state.middleName else null,
                         lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                        dateExpiry = it.expirationDate,
-                        dob = it.dateOfBirth,
+                        //dateExpiry = it.expirationDate,
+                        dateExpiry = state.expiryCalendar.time,
+                        //dob = it.dateOfBirth,
+                        dob = state.dobCalendar.time,
                         fullName = getFullName(),
-                        gender = it.gender.mrz.toString(),
-                        nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo =it.citizenNumber,
+                        //gender = it.gender.mrz.toString(),
+                        gender = if (state.gender == Gender.Male.name) Gender.Male.mrz.toString() else Gender.Female.mrz.toString(),
+                        //nationality = it.isoCountryCode3Digit.toUpperCase(),
+                        nationality = state.nationality.value?.isoCountryCode3Digit ?: "",
+                        //identityNo = it.citizenNumber,
+                        identityNo = if (BuildConfig.DEBUG) (700000000000000..800000000000000).random()
+                            .toString() else state.citizenNumber.replace("-", ""),
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
-                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
+                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null,
+                        isAmendment = !parentViewModel?.amendmentMap.isNullOrEmpty()
                     )
-
                     state.loading = true
                     val response = repository.uploadDocuments(request)
                     state.loading = false
@@ -318,6 +391,29 @@ class EidInfoReviewViewModel(application: Application) :
         })
     }
 
+    private fun splitLastNamesForPrepopulateData(lastNames: String) {
+        val parts = lastNames.trim().split(" ")
+        state.previousFirstName = parts[0]
+        when {
+            parts.size == 2 -> {
+                state.previousLastName = parts[1]
+            }
+            parts.size > 2 -> {
+                state.previousLastName = ""
+                state.previousMiddleName = parts[1]
+                var x = 2
+                while (x < parts.size) {
+                    if (state.previousLastName?.isEmpty() == true) {
+                        state.previousLastName = parts[x]
+                    } else {
+                        state.previousLastName = state.previousLastName + " " + parts[x]
+                    }
+                    x++
+                }
+            }
+        }
+    }
+
     private fun splitLastNames(lastNames: String) {
         val parts = lastNames.trim().split(" ")
         state.firstName = parts[0]
@@ -354,10 +450,15 @@ class EidInfoReviewViewModel(application: Application) :
         identity?.let {
             splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
-            state.nationality = it.nationality
+            state.nationality.value =
+                countries.firstOrNull { country -> country.isoCountryCode2Digit == it.isoCountryCode2Digit }
             state.nationalityValid =
-                state.nationality.isNotBlank() && !state.isCountryUS
-            state.dateOfBirth =DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
+                state.nationality.value != null && !state.isCountryUS
+            state.dateOfBirth.value =
+                DateUtils.reformatToLocalString(
+                    it.dateOfBirth,
+                    DateUtils.DEFAULT_DATE_FORMAT
+                )
             state.expiryDate =
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
@@ -369,7 +470,7 @@ class EidInfoReviewViewModel(application: Application) :
                 clickEvent.setValue(eventCitizenNumberIssue)
             } else {
                 state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
-                parentViewModel?.state?.identityNo?.set(it.citizenNumber)
+                parentViewModel?.state?.identityNo?.set(it.citizenNumber.replace("-",""))
             }
             state.gender = it.gender.run {
                 when {
@@ -381,15 +482,23 @@ class EidInfoReviewViewModel(application: Application) :
                     }
                 }
             }
+            state.dobCalendar = Calendar.getInstance().apply {
+                time = it.dateOfBirth
+            }
+            state.expiryCalendar = Calendar.getInstance().apply {
+                time = it.expirationDate
+            }
+            handleAgeValidation()
+            handleIsUsValidation()
+            validator?.toValidate()
         }
+
     }
 
     private fun getFormattedCitizenNumber(citizenNo: String?): String {
         return citizenNo?.let {
             state.caption =
-                getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
-                    parentViewModel?.name?.value
-                )
+                getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title)
 
             val builder = StringBuilder()
             if (hasValidPart(it, 0, 2)) {
@@ -414,12 +523,13 @@ class EidInfoReviewViewModel(application: Application) :
         state.firstName = ""
         state.middleName = ""
         state.lastName = ""
-        state.nationality = ""
-        state.dateOfBirth = ""
+        state.nationality = MutableLiveData(null)
+        state.dateOfBirth = MutableLiveData("")
         state.gender = ""
         state.citizenNumber = ""
         state.caption = ""
         state.valid = false
+        state.citizenNumberValid = false
         state.fullNameValid = false
         state.nationalityValid = false
         state.isDateOfBirthValid.set(false)
@@ -437,7 +547,7 @@ class EidInfoReviewViewModel(application: Application) :
         } ?: false
     }
 
-    override fun requestAllAPIs(identity: Identity) {
+    override fun requestAllAPIs() {
         requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
@@ -452,19 +562,12 @@ class EidInfoReviewViewModel(application: Application) :
                 when (configurationEIDResponse) {
                     is RetroApiResponse.Success -> {
                         val data = configurationEIDResponse.data.data
-                        state.isDateOfBirthValid.set(
-                            getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
-                        )
-                        val countryName = data?.country2DigitIsoCode?.let { str ->
+                        state.ageLimit = data?.ageLimit
+                        state.countryName.set(data?.country2DigitIsoCode?.let { str ->
                             str.split(",").map { it -> it.trim() }.find {
                                 it.equals("US")
                             }
-                        }
-                        state.isCountryUS =
-                            identity.isoCountryCode2Digit.contains(
-                                countryName ?: "US"
-                            )
-                        state.AgeLimit = data?.ageLimit
+                        })
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = configurationEIDResponse.error.message
@@ -472,7 +575,6 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
         }
-
     }
 
     override fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit) {
@@ -488,4 +590,55 @@ class EidInfoReviewViewModel(application: Application) :
             responses(senctionedCountriesList.await(), eidConfigurationResponse.await())
         }
     }
+
+    override val drawableClickListener = object : OnDrawableClickListener {
+        override fun onClick(view: View, target: DrawablePosition) {
+            clickEvent.setValue(view.id)
+        }
+    }
+
+    override fun getGenderOptions(): ArrayList<BottomSheetItem> {
+        val list = arrayListOf<BottomSheetItem>()
+        list.add(
+            BottomSheetItem(
+                icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)) R.drawable.ic_tick else -1,
+                title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male),
+                tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
+            )
+        )
+        list.add(
+            BottomSheetItem(
+                icon = if (state.gender == getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)) R.drawable.ic_tick else -1,
+                title = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female),
+                tag = getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
+            )
+        )
+        return list
+    }
+
+    override fun handleIsUsValidation() {
+        state.isCountryUS = state.nationality.value?.let {
+            it.isoCountryCode2Digit?.contains(
+                state.countryName.get() ?: "US"
+            )
+        } == true
+    }
+
+    override fun handleAgeValidation() {
+        state.isDateOfBirthValid.set(
+            getAge(state.dobCalendar.time) >= state.ageLimit ?: 18
+        )
+    }
+
+    override fun onValidationSuccess(validator: Validator) {
+        super.onValidationSuccess(validator)
+        state.valid = validator.isValidate.value == true
+    }
+
+    override fun onValidationError(validator: Validator) {
+        super.onValidationError(validator)
+        state.valid = validator.isValidate.value == false
+    }
+
+    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }

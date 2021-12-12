@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.databinding.Observable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BuildConfig
 import co.yap.R
@@ -33,7 +33,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     override fun getLayoutId(): Int = R.layout.fragment_kyc_home
 
     override val viewModel: KYCHomeViewModel
-        get() = ViewModelProviders.of(this).get(KYCHomeViewModel::class.java)
+        get() = ViewModelProvider(this).get(KYCHomeViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -42,7 +42,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         shouldSkipScreen()
         addObservers()
     }
-
 
     private fun addObservers() {
         viewModel.state.addOnPropertyChangedCallback(stateObserver)
@@ -54,7 +53,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                         viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                     } else {
                         viewModel.requestDocumentsInformation {
-                            navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
+                            navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
                         }
                     }
                 }
@@ -69,7 +68,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     private fun shouldSkipScreen() {
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
-                findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
             } else if (viewModel.parentViewModel?.showProgressBar?.value == false) {
                 navigateToInformationErrorFragment()
             } else {
@@ -112,10 +111,20 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             val identityScannerResult = IdentityScannerResult()
             identityScannerResult.document.type = DocumentType.EID
             val fileFront = requireContext().dummyEID("FRONT")
-            identityScannerResult.document.files.add(DocumentImage(fileFront?.absolutePath, DocumentPageType.FRONT))
+            identityScannerResult.document.files.add(
+                DocumentImage(
+                    fileFront?.absolutePath,
+                    DocumentPageType.FRONT
+                )
+            )
             val fileBack =
                 requireContext().dummyEID("BACK")
-            identityScannerResult.document.files.add(DocumentImage(fileBack?.absolutePath, DocumentPageType.BACK))
+            identityScannerResult.document.files.add(
+                DocumentImage(
+                    fileBack?.absolutePath,
+                    DocumentPageType.BACK
+                )
+            )
             viewModel.onEIDScanningComplete(
                 identityScannerResult
             )
