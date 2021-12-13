@@ -103,38 +103,42 @@ object NotificationHelper {
                 )
             )
         }
-        if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
-                    || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
-                    || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
-                    || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
-                    || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
-                    || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
-                    || accountInfo?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
-            && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
-        ) {
-            list.add(
-                HomeNotification(
-                    id = "2",
-                    title = Translator.getString(
-                        context,
-                        Strings.screen_b2c_kyc_home_display_text_screen_title
-                    ), subTitle = Translator.getString(
-                        context,
-                        Strings.screen_b2c_kyc_home_display_text_screen_title
-                    ),
-                    description = Translator.getString(
-                        context,
-                        Strings.screen_home_complete_verification_desc
-                    ),
-                    action = NotificationAction.COMPLETE_VERIFICATION,
-                    imgResId = R.raw.gif_general_notification,
-                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
-                    btnTitle = Translator.getString(
-                        context,
-                        Strings.screen_b2c_kyc_home_display_text_screen_title
+        if (isStatusNotSubmittedToCustomer(accountInfo)) {
+            if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
+                        || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
+                        || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
+                && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
+            ) {
+                list.add(
+                    HomeNotification(
+                        id = "2",
+                        title = Translator.getString(
+                            context,
+                            Strings.screen_b2c_kyc_home_display_text_screen_title
+                        ),
+                        subTitle = Translator.getString(
+                            context,
+                            Strings.screen_b2c_kyc_home_display_text_screen_title
+                        ),
+                        description = Translator.getString(
+                            context,
+                            Strings.screen_home_complete_verification_desc
+                        ),
+                        action = NotificationAction.COMPLETE_VERIFICATION,
+                        imgResId = R.raw.gif_general_notification,
+                        createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC),
+                        isRead = true,
+                        btnTitle = Translator.getString(
+                            context,
+                            Strings.screen_b2c_kyc_home_display_text_screen_title
+                        )
                     )
                 )
-            )
+            }
         }
 
         if (shouldShowSetPin(paymentCard) && accountInfo?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
@@ -322,5 +326,8 @@ object NotificationHelper {
 
         return list
     }
+
+    fun isStatusNotSubmittedToCustomer(accountInfo: AccountInfo?): Boolean =
+        accountInfo?.amendmentStatus.let { it != AmendmentStatus.SUBMIT_TO_CUSTOMER.name }
 
 }
