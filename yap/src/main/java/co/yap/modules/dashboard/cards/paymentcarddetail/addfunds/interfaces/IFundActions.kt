@@ -44,7 +44,7 @@ interface IFundActions {
         fun getTransactionThresholds()
         val transactionThreshold: MutableLiveData<TransactionThresholdModel>
         val transactionsRepository: TransactionsRepository
-        fun denominationSecondAmount(amount: String, enable: (boolean: Boolean) -> Unit)
+        fun denominationAmountValidator(amount: String, enable: (boolean: Boolean) -> Unit)
     }
 
     interface State : IBase.State {

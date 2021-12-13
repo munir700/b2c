@@ -162,7 +162,7 @@ open class FundActionsViewModel(application: Application) :
 
     }
 
-    override fun denominationSecondAmount(amount: String, enable: (boolean: Boolean) -> Unit) {
+    override fun denominationAmountValidator(amount: String, enable: (boolean: Boolean) -> Unit) {
         state.denominationAmount.set("")
         state.denominationAmount.set(
             Utils.getFormattedCurrencyWithoutComma(
