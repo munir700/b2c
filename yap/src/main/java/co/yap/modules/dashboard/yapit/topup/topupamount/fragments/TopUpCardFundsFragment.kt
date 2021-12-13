@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.topup.topupamount.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -43,32 +44,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         parentViewModel =
             this.let { ViewModelProviders.of(it).get(FundActionsViewModel::class.java) }
         parentViewModel?.getTransferFees(TransactionProductCode.TOP_UP_VIA_CARD.pCode)
-
         setObservers()
-        viewModel.firstDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
-            getBindings().etAmount.setText("")
-            getBindings().etAmount.append(viewModel.state.denominationAmount)
-            val position = getBindings().etAmount.length()
-            getBindings().etAmount.setSelection(position)
-            getBindings().etAmount.clearFocus()
-        })
-        viewModel.secondDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
-            getBindings().etAmount.setText("")
-            getBindings().etAmount.append(viewModel.state.denominationAmount)
-            val position = getBindings().etAmount.length()
-            getBindings().etAmount.setSelection(position)
-            getBindings().etAmount.clearFocus()
-        })
-        viewModel.thirdDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
-            getBindings().etAmount.setText("")
-            getBindings().etAmount.append(viewModel.state.denominationAmount)
-            val position = getBindings().etAmount.length()
-            getBindings().etAmount.setSelection(position)
-            getBindings().etAmount.clearFocus()
-        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,19 +111,19 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 } else
                     viewModel.createTransactionSession()
             }
-            R.id.tvDominationFirstAmount -> viewModel.denominationAmountValidator(
+            R.id.tvDominationFirstAmount -> viewModel.denominationSecondAmount(
                 viewModel.state.denominationFirstAmount.get() ?: ""
             ) { enabled ->
                 viewModel.state.valid = enabled
                 getBindings().etAmount.setText(viewModel.enteredAmount.value)
             }
-            R.id.tvDominationSecondAmount -> viewModel.denominationAmountValidator(
+            R.id.tvDominationSecondAmount -> viewModel.denominationSecondAmount(
                 viewModel.state.denominationSecondAmount.get() ?: ""
             ) { enabled ->
                 getBindings().etAmount.setText(viewModel.enteredAmount.value)
                 viewModel.state.valid = enabled
             }
-            R.id.tvDominationThirdAmount -> viewModel.denominationAmountValidator(
+            R.id.tvDominationThirdAmount -> viewModel.denominationSecondAmount(
                 viewModel.state.denominationThirdAmount.get() ?: ""
             ) { enabled ->
                 getBindings().etAmount.setText(viewModel.enteredAmount.value)
@@ -204,7 +180,6 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                         )
                     )
                 }
-
                 else -> {
                     viewModel.state.valid = true
                     viewModel.state.amountBackground =
