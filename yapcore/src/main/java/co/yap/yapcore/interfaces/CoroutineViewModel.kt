@@ -9,4 +9,5 @@ internal interface CoroutineViewModel {
     fun cancelAllJobs()
     fun launch(block: suspend () -> Unit)
     fun launchBG(block: suspend () -> Unit) :Any
+    fun launchJob(block: suspend () -> Unit) : Job
 }

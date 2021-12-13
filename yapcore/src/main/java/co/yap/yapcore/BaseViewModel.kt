@@ -96,6 +96,10 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
         viewModelScope.launch { block() }
     }
 
+    override fun launchJob(block: suspend () -> Unit): Job{
+        return viewModelScope.launch { block() }
+    }
+
     override fun launchBG(block: suspend () -> Unit) = viewModelScope.async {
         block()
 
