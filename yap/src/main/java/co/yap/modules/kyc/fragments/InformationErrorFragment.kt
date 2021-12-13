@@ -2,7 +2,7 @@ package co.yap.modules.kyc.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
@@ -16,7 +16,7 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 
     override fun getLayoutId(): Int = R.layout.fragment_information_error
     override val viewModel: InformationErrorViewModel
-        get() = ViewModelProviders.of(this).get(InformationErrorViewModel::class.java)
+        get() = ViewModelProvider(this).get(InformationErrorViewModel::class.java)
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
