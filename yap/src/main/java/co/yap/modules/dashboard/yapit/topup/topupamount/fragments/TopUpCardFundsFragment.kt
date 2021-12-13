@@ -135,19 +135,19 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 } else
                     viewModel.createTransactionSession()
             }
-            R.id.tvDominationFirstAmount -> viewModel.denominationSecondAmount(
+            R.id.tvDominationFirstAmount -> viewModel.denominationAmountValidator(
                 viewModel.state.denominationFirstAmount.get() ?: ""
             ) { enabled ->
                 viewModel.state.valid = enabled
                 getBindings().etAmount.setText(viewModel.enteredAmount.value)
             }
-            R.id.tvDominationSecondAmount -> viewModel.denominationSecondAmount(
+            R.id.tvDominationSecondAmount -> viewModel.denominationAmountValidator(
                 viewModel.state.denominationSecondAmount.get() ?: ""
             ) { enabled ->
                 getBindings().etAmount.setText(viewModel.enteredAmount.value)
                 viewModel.state.valid = enabled
             }
-            R.id.tvDominationThirdAmount -> viewModel.denominationSecondAmount(
+            R.id.tvDominationThirdAmount -> viewModel.denominationAmountValidator(
                 viewModel.state.denominationThirdAmount.get() ?: ""
             ) { enabled ->
                 getBindings().etAmount.setText(viewModel.enteredAmount.value)
