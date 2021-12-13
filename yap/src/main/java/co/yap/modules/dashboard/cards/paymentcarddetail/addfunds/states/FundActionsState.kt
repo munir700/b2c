@@ -48,27 +48,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         }
 
     @get:Bindable
-    override var denominationFirstAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.denominationFirstAmount)
-        }
-
-    @get:Bindable
-    override var denominationSecondAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.denominationSecondAmount)
-        }
-
-    @get:Bindable
-    override var denominationThirdAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.denominationThirdAmount)
-        }
-
-    @get:Bindable
     override var availableBalanceGuide: String = ""
         set(value) {
             field = value
@@ -99,14 +78,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
 
         }
 
-    @get:Bindable
-    override var denominationAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.denominationAmount)
-            clearError()
-        }
-
 
     @get:Bindable
     override var valid: Boolean = false
@@ -114,6 +85,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.valid)
         }
+
 
     @get:Bindable
     override var maxLimit: Double = 0.00
@@ -158,13 +130,13 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.topUpSuccess)
         }
 
-
     @get:Bindable
     override var primaryCardUpdatedBalance: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.primaryCardUpdatedBalance)
         }
+
 
     @get:Bindable
     override var spareCardUpdatedBalance: String = ""
@@ -186,7 +158,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.transferFee)
         }
-
 
     fun checkValidityForAddTopUpFromExternalCard(): String {
         try {
@@ -222,6 +193,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         return ""
     }
 
+
     private fun clearError() {
         if (amount != "") {
             if (amount != ".") {
@@ -233,5 +205,12 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             valid = false
         }
     }
+
+    override var maximumAccumulative: ObservableField<Double> = ObservableField()
+    override var remainingAccumulative: ObservableField<Double> = ObservableField()
+    override var denominationFirstAmount: ObservableField<String> = ObservableField()
+    override var denominationSecondAmount: ObservableField<String> = ObservableField()
+    override var denominationThirdAmount: ObservableField<String> = ObservableField()
+    override var denominationAmount: ObservableField<String> = ObservableField()
 
 }
