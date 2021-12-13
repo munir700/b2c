@@ -41,17 +41,17 @@
         <!--            app:textColor="@{viewModel.taxModel.selectedCountry == null || viewModel.taxModel.selectedCountry.name.empty? true : false}"-->
         <!--            tools:text="@string/screen_tax_info_display_text_select_country" />-->
 
-                <ImageView
-                    android:id="@+id/ivCross"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:onClick="@{v->viewModel.onViewClicked(v)}"
-                    android:src="@drawable/ic_close"
-                    android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"
-                    tools:visibility="visible" />
+        <ImageView
+            android:id="@+id/ivCross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:onClick="@{v->viewModel.onViewClicked(v)}"
+            android:src="@drawable/ic_close"
+            android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"
+            tools:visibility="visible" />
 
         <!--        <androidx.appcompat.widget.AppCompatTextView-->
         <!--            android:id="@+id/bcountries"-->
@@ -125,8 +125,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
                 app:missingFieldMap="@{viewModel.amendmentMap}"
-                app:previousValue="@{viewModel.taxModel.previousCountry}"
-                />
+                app:previousValue="@{viewModel.taxModel.previousCountry}" />
 
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -149,15 +148,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_extra_small"
+            android:clickable="@{viewModel.amendmentMap == null ? true : false}"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:clickable="@{viewModel.amendmentMap == null ? true : false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvlabelOptions">
 
-            <Spinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/optionsSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -186,7 +185,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_extra_small"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:visibility="@{viewModel.taxModel.selectedOption.equals(`No`) ? View.VISIBLE : View.GONE}"
@@ -293,7 +292,6 @@
                 <co.yap.widgets.edittext.EditTextRichDrawable
                     android:id="@+id/etTinNumber"
                     style="@style/ASmall"
-                    android:visibility="@{viewModel.taxModel.selectedOption.equals(`Yes`) ? View.VISIBLE : View.GONE}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -308,6 +306,7 @@
                     android:tag="@{viewModel.taxModel.tagOfTinNumber}"
                     android:text="@={viewModel.taxModel.tinNumber}"
                     android:theme="@style/Theme.EditText.Primary"
+                    android:visibility="@{viewModel.taxModel.selectedOption.equals(`Yes`) ? View.VISIBLE : View.GONE}"
                     app:highlightAmendmentField="@{true}"
                     app:missingFieldMap="@{viewModel.amendmentMap}"
                     app:previousValue="@{viewModel.taxModel.previousTinNumber}"

@@ -59,7 +59,7 @@ class TaxItemItemViewHolder(
         ) taxModel.options.indexOfFirst { it == "Yes" } else 0)
         itemTaxInfoBinding.optionsSpinner.background =
             if (position == 0) itemTaxInfoBinding.reasonsSpinner.context.getDrawable(R.drawable.bg_spinner_empty) else itemTaxInfoBinding.reasonsSpinner.context.getDrawable(
-                R.drawable.bg_spinner
+                R.drawable.bg_spinner_tax_info
             )
         itemTaxInfoBinding.optionsSpinner.isEnabled = (position != 0)
         itemTaxInfoBinding.optionsSpinner.viewTreeObserver.addOnGlobalLayoutListener {
@@ -81,7 +81,7 @@ class TaxItemItemViewHolder(
         itemTaxInfoBinding.reasonsSpinner.setSelection(if (position == 0) 0 else 0)
         itemTaxInfoBinding.reasonsSpinner.background =
             if (position == 0) itemTaxInfoBinding.reasonsSpinner.context.getDrawable(R.drawable.bg_spinner_empty) else itemTaxInfoBinding.reasonsSpinner.context.getDrawable(
-                R.drawable.bg_spinner
+                R.drawable.bg_spinner_tax_info
             )
         itemTaxInfoBinding.reasonsSpinner.isEnabled = (position != 0)
 
