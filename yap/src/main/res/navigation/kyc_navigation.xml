@@ -19,6 +19,9 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
         <action
+            android:id="@+id/action_KYCHomeFragment_to_confirmCardNameFragment"
+            app:destination="@id/confirmCardNameFragment" />
+        <action
             android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment"
             app:destination="@id/eidInfoReviewAmendmentFragment" />
     </fragment>
@@ -58,9 +61,6 @@
         <action
             android:id="@+id/action_eidInfoReviewFragment_to_confirmCardNameFragment"
             app:destination="@id/confirmCardNameFragment" />
-        <action
-            android:id="@+id/action_eidInfoReviewFragment_to_missingInfoConfirmationFragment"
-            app:destination="@id/missingInfoConfirmationFragment" />
     </fragment>
 
     <fragment
@@ -69,12 +69,12 @@
         android:label="EidInfoReviewFragment"
         tools:layout="@layout/fragment_eid_info_review_amendment">
         <action
-            android:id="@+id/action_eidInfoReviewAmendmentFragment_to_informationErrorFragment"
+            android:id="@+id/action_eidInfoReviewFragment_to_informationErrorFragment"
             app:destination="@id/informationErrorFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
         <action
-            android:id="@+id/action_eidInfoReviewAmendmentFragment_to_confirmCardNameFragment"
+            android:id="@+id/action_eidInfoReviewFragment_to_confirmCardNameFragment"
             app:destination="@id/confirmCardNameFragment" />
         <action
             android:id="@+id/action_eidInfoReviewAmendmentFragment_to_missingInfoConfirmationFragment"

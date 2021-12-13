@@ -523,8 +523,8 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         state.firstName = ""
         state.middleName = ""
         state.lastName = ""
-        state.nationality = MutableLiveData(null)
-        state.dateOfBirth = MutableLiveData("")
+        state.nationality.value = null
+        state.dateOfBirth.value = ""
         state.gender = ""
         state.citizenNumber = ""
         state.caption = ""

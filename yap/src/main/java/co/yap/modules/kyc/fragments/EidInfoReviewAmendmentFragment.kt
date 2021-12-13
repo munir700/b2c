@@ -66,7 +66,10 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-            openCardScanner()
+            if (!viewModel.state.errorScreenVisited) {
+                openCardScanner()
+            }
+            viewModel.state.errorScreenVisited = false
             tbBtnBack.setOnClickListener {
                 viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             }
@@ -159,6 +162,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                 viewModel.eventNextWithError -> {
                     viewModel.performUploadDocumentsRequest(true) {
                         if (it.equals("success", true)) {
+                            viewModel.state.errorScreenVisited = true
                             val action =
                                 EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
                                     viewModel.errorTitle, viewModel.errorBody
@@ -257,7 +261,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         )
         bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
         navigate(
-            R.id.action_eidInfoReviewFragment_to_missingInfoConfirmationFragment,
+            R.id.action_eidInfoReviewAmendmentFragment_to_missingInfoConfirmationFragment,
             bundle
         )
     }
@@ -361,6 +365,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     override fun showUnderAgeScreen() {
+        viewModel.state.errorScreenVisited = true
         val action =
             EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
                 viewModel.errorTitle, viewModel.errorBody
@@ -369,6 +374,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     override fun showExpiredEidScreen() {
+        viewModel.state.errorScreenVisited = true
         val action =
             EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
                 viewModel.errorTitle, viewModel.errorBody
@@ -377,6 +383,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     override fun showInvalidEidScreen() {
+        viewModel.state.errorScreenVisited = true
         val action =
             EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
                 viewModel.errorTitle, viewModel.errorBody
@@ -385,6 +392,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
     }
 
     override fun showUSACitizenScreen() {
+        viewModel.state.errorScreenVisited = true
         val action =
             EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
                 viewModel.errorTitle, viewModel.errorBody

@@ -171,4 +171,5 @@ class EidInfoReviewAmendmentState : BaseState(), IEidInfoReviewAmendment.State {
     override var ageLimit: Int? = 0
     override var isCountryUS: Boolean = false
     override var countryName: ObservableField<String> = ObservableField()
+    override var errorScreenVisited: Boolean = false
 }

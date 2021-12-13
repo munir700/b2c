@@ -52,6 +52,7 @@ interface IEidInfoReviewAmendment {
         var ageLimit: Int?
         var isCountryUS: Boolean
         var countryName: ObservableField<String>
+        var errorScreenVisited : Boolean
     }
 
     interface View : IBase.View<ViewModel> {

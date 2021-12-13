@@ -53,7 +53,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                         viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                     } else {
                         viewModel.requestDocumentsInformation {
-                            navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                            navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
                         }
                     }
                 }
@@ -93,7 +93,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (propertyId) {
                 BR.eidScanStatus -> {
                     if (viewModel.state.eidScanStatus === DocScanStatus.SCAN_COMPLETED) {
-                        findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                        findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
                     }
                 }
             }
