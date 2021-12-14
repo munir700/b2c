@@ -204,8 +204,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                         viewLifecycleOwner,
                         Observer { isSuccess ->
                             if (isSuccess) {
-                                viewModel.parentViewModel?.finishKyc?.value =
-                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                 if (viewModel.isFromAmendment()) {
+                                    navigateToAmendmentSuccess()
+                                } else {
+                                     viewModel.parentViewModel?.finishKyc?.value =
+                                         DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                 }
                             } else {
                                 showToast("Accounts info failed")
                                 viewModel.parentViewModel?.finishKyc?.value =

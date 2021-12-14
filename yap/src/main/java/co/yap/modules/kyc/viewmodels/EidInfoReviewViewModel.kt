@@ -239,7 +239,7 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender.mrz.toString(),
                         nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo =it.citizenNumber,
+                        identityNo = it.citizenNumber,
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
@@ -357,7 +357,8 @@ class EidInfoReviewViewModel(application: Application) :
             state.nationality = it.nationality
             state.nationalityValid =
                 state.nationality.isNotBlank() && !state.isCountryUS
-            state.dateOfBirth =DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
+            state.dateOfBirth =
+                DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate =
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
@@ -380,6 +381,12 @@ class EidInfoReviewViewModel(application: Application) :
                         ""
                     }
                 }
+            }
+            // If Age Limit available in case of Re-Scan, set Age validity again.
+            state.AgeLimit?.let { limit ->
+                state.isDateOfBirthValid.set(
+                    getAge(identity.dateOfBirth) >= limit
+                )
             }
         }
     }
