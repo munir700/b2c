@@ -7,10 +7,7 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.enums.QuestionType
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.yapcore.R
-import co.yap.yapcore.databinding.LayoutQuestionTypeCountriesBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeDropDownBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextBinding
-import co.yap.yapcore.databinding.LayoutQuestionTypeEditTextWithAmountBinding
+import co.yap.yapcore.databinding.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -22,6 +19,7 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
             QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT -> R.layout.layout_question_type_edit_text_with_amount
             QuestionType.COUNTRIES_FIELD -> R.layout.layout_question_type_countries
             QuestionType.DROP_DOWN_FIELD -> R.layout.layout_question_type_drop_down
+            QuestionType.DISPLAY_TEXT -> R.layout.layout_question_type_display_text
         }
     }
 
@@ -111,6 +109,20 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
         return binding.root
     }
 
+    fun questionTypeDisplayTextItemViewHolder(
+        binding: LayoutQuestionTypeDisplayTextBinding, questionUiFields: QuestionUiFields,
+        position: Int,
+        onItemClickListener: OnItemClickListener?
+    ): View {
+        binding.viewModel =
+            QuestionnaireItemViewModel(
+                questionUiFields,
+                position,
+                onItemClickListener
+            )
+        return binding.root
+    }
+
     fun setFocusListener(input: AppCompatEditText, questionUiFields: QuestionUiFields) {
         input.setOnFocusChangeListener { v, hasFocus ->
             questionUiFields.isFocusInput.set(hasFocus)
@@ -156,6 +168,14 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
             }
             is LayoutQuestionTypeCountriesBinding -> {
                 questionTypeCountriesItemViewHolder(
+                    binding,
+                    questionUiField,
+                    position,
+                    onItemClickListener
+                )
+            }
+            is LayoutQuestionTypeDisplayTextBinding -> {
+                questionTypeDisplayTextItemViewHolder(
                     binding,
                     questionUiField,
                     position,

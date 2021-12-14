@@ -116,10 +116,18 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                 ),
                 QuestionUiFields(
                     question = Question(
+                        questionTitle = "Please answer these questions with the most accurate information that represents your expected transaction activity.",
+                        placeholder = "",
+                        questionType = QuestionType.DISPLAY_TEXT,
+                        answer = ObservableField()
+                    )
+                ),
+                QuestionUiFields(
+                    question = Question(
                         questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField()
+                        answer = ObservableField("5000")
                     ),
                     key = EmploymentQuestionIdentifier.SALARY_AMOUNT
                 ), QuestionUiFields(
@@ -127,7 +135,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                         questionTitle = "How much cash do you plan to deposit or receive monthly in a cash deposit machine (ATM)? If you don’t deal with cash, then enter AED 0.00",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
-                        answer = ObservableField()
+                        answer = ObservableField("4000")
                     ), key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
             )
