@@ -204,12 +204,12 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
                         viewLifecycleOwner,
                         Observer { isSuccess ->
                             if (isSuccess) {
-                                 if (viewModel.isFromAmendment()) {
+                                if (viewModel.isFromAmendment()) {
                                     navigateToAmendmentSuccess()
                                 } else {
-                                     viewModel.parentViewModel?.finishKyc?.value =
-                                         DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                                 }
+                                    viewModel.parentViewModel?.finishKyc?.value =
+                                        DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                                }
                             } else {
                                 showToast("Accounts info failed")
                                 viewModel.parentViewModel?.finishKyc?.value =
@@ -258,16 +258,24 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
 
     private fun navigateToAmendmentSuccess() {
         viewModel.parentViewModel?.hideProgressToolbar?.value = true
-        val bundle = Bundle()
-        bundle.putString(
-            Constants.CONFIRMATION_DESCRIPTION,
-            getString(R.string.kyc_common_success_subtitle)
-        )
-        bundle.putSerializable(Constants.KYC_AMENDMENT_MAP, viewModel.parentViewModel?.amendmentMap)
-        navigate(
-            R.id.action_eidInfoReviewAmendmentFragment_to_missingInfoConfirmationFragment,
-            bundle
-        )
+        viewModel.parentViewModel?.amendmentMap?.let { amendmentMap ->
+            val bundle = Bundle()
+            bundle.putSerializable(
+                Constants.CONFIRMATION_DESCRIPTION,
+                Pair(
+                    first = getString(if (amendmentMap.size == 1) R.string.screen_missing_info_confirmation_display_all_set_title else R.string.screen_missing_info_confirmation_display_step_step_completed_title),
+                    second = getString(if (amendmentMap.size == 1) R.string.screen_missing_info_confirmation_display_all_set_description else R.string.screen_missing_info_confirmation_display_step_step_completed_description)
+                )
+            )
+            bundle.putSerializable(
+                Constants.KYC_AMENDMENT_MAP,
+                viewModel.parentViewModel?.amendmentMap
+            )
+            navigate(
+                R.id.action_eidInfoReviewAmendmentFragment_to_missingInfoConfirmationFragment,
+                bundle
+            )
+        }
     }
 
     private fun disableEndDrawable(view: EditTextRichDrawable?) {
