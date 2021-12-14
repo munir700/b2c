@@ -62,10 +62,8 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
                 newText?.let {
                     viewModel.state.transactionRequest?.searchField = it.toLowerCase()
 //                    viewModel.clearCoroutine()
-                    when( viewModel?.job?.isActive){
-                        true->{
-                            viewModel?.job?.cancel( CancellationException())
-                        }
+                    if( viewModel.job?.isActive == true){
+                        viewModel?.job?.cancel( CancellationException())
                     }
                     recyclerView.pagination?.notifyPaginationRestart()
                 }

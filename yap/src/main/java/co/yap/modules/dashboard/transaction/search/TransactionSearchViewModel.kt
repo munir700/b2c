@@ -32,7 +32,7 @@ class TransactionSearchViewModel(application: Application) :
         transactionRequest: HomeTransactionsRequest?,
         isLoadMore: Boolean, apiResponse: ((State?, HomeTransactionListData?) -> Unit?)?
     ) {
-        job = launchJob {
+        job = launch {
             if (!isLoadMore)
                 state.stateLiveData?.value = State.loading(null)
             when (val response =
@@ -78,13 +78,11 @@ class TransactionSearchViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     //This is done because we have to cancel the job when user change the input
-                    when( response.error.statusCode){
-                        in 1..Int.MAX_VALUE ->{
-                            state.loading = false
-                            state.toast = response.error.message
-                            state.stateLiveData?.value = State.error(null)
-                            apiResponse?.invoke(state.stateLiveData?.value, null)
-                        }
+                    if( response.error.statusCode > 0){
+                        state.loading = false
+                        state.toast = response.error.message
+                        state.stateLiveData?.value = State.error(null)
+                        apiResponse?.invoke(state.stateLiveData?.value, null)
                     }
                 }
             }
