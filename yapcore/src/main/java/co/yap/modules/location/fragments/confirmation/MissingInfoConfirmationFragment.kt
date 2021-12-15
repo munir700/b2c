@@ -11,6 +11,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.managers.SessionManager
 
 class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirmation.ViewModel>(),
     IMissingInfoConfirmation.View {
@@ -33,7 +34,12 @@ class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirma
 
     private fun initArguments() {
         arguments?.let { bundle ->
-            viewModel.state.subTitle.set(bundle.getString(Constants.CONFIRMATION_DESCRIPTION))
+            val descData =
+                bundle.getSerializable(Constants.CONFIRMATION_DESCRIPTION) as? Pair<String, String>
+            descData?.let {
+                viewModel.state.title.set(it.first)
+                viewModel.state.subTitle.set(it.second)
+            }
             viewModel.state.missingInfoMap =
                 bundle.getSerializable(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         }
@@ -42,7 +48,18 @@ class MissingInfoConfirmationFragment : BaseBindingFragment<IMissingInfoConfirma
     private val onClickView = Observer<Int> {
         when (it) {
             R.id.btnDone -> {
-                setIntentResult()
+                if (viewModel.state.missingInfoMap?.size == 1) {
+                    SessionManager.getAccountInfo()
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                setIntentResult()
+                            }
+                        })
+                } else {
+                    setIntentResult()
+                }
             }
         }
     }

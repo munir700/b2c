@@ -13,6 +13,7 @@ interface IMissingInfoConfirmation {
     }
 
     interface State : IBase.State {
+        val title: ObservableField<String>
         val subTitle: ObservableField<String>
         var missingInfoMap: HashMap<String?, List<String>?>?
     }

@@ -101,12 +101,18 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
 
             }
             R.id.btnNext -> {
-                navigate(
-                    destinationId = R.id.to_missingInfoConfirmationFragment, args = bundleOf(
-                        Constants.CONFIRMATION_DESCRIPTION to "ads",
-                        Constants.KYC_AMENDMENT_MAP to viewModel.state.amendmentMap
+                viewModel.state.amendmentMap?.let { amendmentMap ->
+                    navigate(
+                        destinationId = R.id.to_missingInfoConfirmationFragment, args = bundleOf(
+                            Constants.CONFIRMATION_DESCRIPTION to
+                                    Pair(
+                                        first = getString(if (amendmentMap.size == 1) R.string.screen_missing_info_confirmation_display_all_set_title else R.string.screen_missing_info_confirmation_display_step_step_completed_title),
+                                        second = getString(if (amendmentMap.size == 1) R.string.screen_missing_info_confirmation_display_all_set_description else R.string.screen_missing_info_confirmation_display_step_step_completed_description)
+                                    ),
+                            Constants.KYC_AMENDMENT_MAP to viewModel.state.amendmentMap
+                        )
                     )
-                )
+                }
             }
             R.id.cvCard -> {
                 askPermission("Passport")

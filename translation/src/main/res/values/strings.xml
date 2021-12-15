@@ -1613,13 +1613,15 @@
 
     <!-- KYC Amendments/ Missing Info Confirmation Screen start -->
     <string name="screen_missing_info_confirmation_button_done">Done</string>
-    <string name="screen_missing_info_confirmation_display_all_set">You\’re all set!</string>
+    <string name="screen_missing_info_confirmation_display_all_set_title">You\’re all set!</string>
+    <string name="screen_missing_info_confirmation_display_step_step_completed_title">Step completed</string>
+    <string name="screen_missing_info_confirmation_display_all_set_description">Thanks for re-submitting your information.</string>
+    <string name="screen_missing_info_confirmation_display_step_step_completed_description">Please proceed to the next step to complete onboarding.</string>
     <!-- KYC Amendments/ Missing Info Confirmation Screen end -->
 
     <!-- KYC Amendments Start -->
     <string name="kyc_incorrect_field">Looks like this is incorrect</string>
     <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
-    <string name="kyc_common_success_subtitle">Thanks for re-submitting your information. Your YAP card will be out for delivery shortly.</string>
     <!-- KYC Amendments End -->
 
 
