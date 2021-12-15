@@ -40,6 +40,7 @@ object KycAmendmentFieldsMappingHelper {
         map["Country2"] = "Second country"
 
         // PASSPORT
+        map["PassportImage"] = "Passport"
         map["passportNumber"] = "Passport Number"
         map["passportIssueDate"] = "Passport issue date"
         map["passportExpiryDate"] = "Passport expiry date"
