@@ -119,7 +119,7 @@ class KYCComplianceComposer : ComplianceQuestionsItemsComposer {
                         questionTitle = "Please answer these questions with the most accurate information that represents your expected transaction activity.",
                         placeholder = "",
                         questionType = QuestionType.DISPLAY_TEXT,
-                        answer = ObservableField()
+                        answer = ObservableField("no answer needed")
                     )
                 ),
                 QuestionUiFields(

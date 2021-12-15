@@ -201,6 +201,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     fun validate() {
         var isValid = false
+
         questionsList.forEach {
             isValid = when (it.question.questionType) {
                 QuestionType.COUNTRIES_FIELD -> it.question.multipleAnswers.get()
