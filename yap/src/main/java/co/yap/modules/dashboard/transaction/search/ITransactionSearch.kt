@@ -8,6 +8,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import kotlinx.coroutines.Job
 
 interface ITransactionSearch {
     interface View : IBase.View<ViewModel> {
@@ -25,6 +26,7 @@ interface ITransactionSearch {
         )
 
         val transactionAdapter: ObservableField<HomeTransactionAdapter>?
+        var job: Job?
     }
 
     interface State : IBase.State {

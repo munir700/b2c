@@ -24,6 +24,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchActivity
 import kotlinx.android.synthetic.main.fragment_transaction_search.*
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -61,6 +62,9 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
                 newText?.let {
                     viewModel.state.transactionRequest?.searchField = it.toLowerCase()
 //                    viewModel.clearCoroutine()
+                    if( viewModel.job?.isActive == true){
+                        viewModel?.job?.cancel( CancellationException())
+                    }
                     recyclerView.pagination?.notifyPaginationRestart()
                 }
             }
