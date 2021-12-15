@@ -339,8 +339,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         ).getAnswer().trim()
                     }?.employmentTypeCode,
                     sponsorName = getDataForPosition(1).getAnswer(),
-                    monthlySalary = getDataForPosition(2).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(3).getAnswer(),
+                    monthlySalary = getDataForPosition(3).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(4).getAnswer(),
                     employmentTypeValue = employmentTypes().find {
                         it.employmentType == getDataForPosition(
                             0
