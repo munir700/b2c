@@ -50,32 +50,34 @@ class PassportAmendmentVM(application: Application) :
             when (val response = repository.getCustomerDocuments(customerId)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    response.data.data?.get(0)?.let {
-                        state.expireDate.value = reformatDate(
-                            it.passportExpiryDate,
-                            SIMPLE_DATE_FORMAT,
-                            DEFAULT_DATE_FORMAT, DateUtils.UTC
-                        )
-                        state.passportNumber.value = it.passportNumber
-                        state.issueDate.value = reformatDate(
-                            it.passportIssueDate,
-                            SIMPLE_DATE_FORMAT,
-                            DEFAULT_DATE_FORMAT, DateUtils.UTC
-                        )
-                        state.previousExpireDate.value = reformatDate(
-                            it.passportExpiryDate,
-                            SIMPLE_DATE_FORMAT,
-                            DEFAULT_DATE_FORMAT, DateUtils.UTC
-                        )
-                        state.previousPassportNumber.value = it.passportNumber
-                        state.previousIssueDate.value = reformatDate(
-                            it.passportIssueDate,
-                            SIMPLE_DATE_FORMAT,
-                            DateUtils.DEFAULT_DATE_FORMAT, DateUtils.UTC
-                        )
+                    if (response.data.data?.isNotEmpty() == true) {
+                        response.data.data?.get(0)?.let {
+                            state.expireDate.value = reformatDate(
+                                it.passportExpiryDate,
+                                SIMPLE_DATE_FORMAT,
+                                DEFAULT_DATE_FORMAT, DateUtils.UTC
+                            )
+                            state.passportNumber.value = it.passportNumber
+                            state.issueDate.value = reformatDate(
+                                it.passportIssueDate,
+                                SIMPLE_DATE_FORMAT,
+                                DEFAULT_DATE_FORMAT, DateUtils.UTC
+                            )
+                            state.previousExpireDate.value = reformatDate(
+                                it.passportExpiryDate,
+                                SIMPLE_DATE_FORMAT,
+                                DEFAULT_DATE_FORMAT, DateUtils.UTC
+                            )
+                            state.previousPassportNumber.value = it.passportNumber
+                            state.previousIssueDate.value = reformatDate(
+                                it.passportIssueDate,
+                                SIMPLE_DATE_FORMAT,
+                                DateUtils.DEFAULT_DATE_FORMAT, DateUtils.UTC
+                            )
+                        }
+                        delay(50)
+                        validator?.toValidate()
                     }
-                    delay(50)
-                    validator?.toValidate()
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
