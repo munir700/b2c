@@ -18,7 +18,6 @@ class TaxInfoItemViewModel(
                 if (taxModel.options.contains(data)) {
                     taxModel.selectedOption.set(data)
                     view.id = R.id.optionsSpinner
-                   // validator?.toValidate()
                     onItemClickListener?.onItemClick(view, taxModel, position)
                 } else {
                     taxModel.selectedReason = data

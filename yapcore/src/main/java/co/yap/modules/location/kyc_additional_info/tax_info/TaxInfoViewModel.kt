@@ -391,19 +391,84 @@ class TaxInfoViewModel(application: Application) :
 //        }
 //        return valid
 //    }
+//    fun finalCheck(): Boolean {
+//        var valid = true
+//        taxInfoList.forEach {
+//            System.out.println("here i am "+it.previousCountry?.get()+":"+it.selectedCountry?.getName())
+//            if ((it.previousCountry?.get() == it.selectedCountry?.getName()) ||
+//                (it.selectedOption.get().equals("Yes") && ((it.previousTinNumber?.get() == it.tinNumber?.get()) || (it.tinNumber?.get()
+//                    .equals("")))) ||
+//                (it.selectedCountry?.getName().equals(""))
+//            ) {
+//                valid = false
+//                return@forEach
+//            }
+//        }
+//        return valid
+//    }
 
     fun finalCheck(): Boolean {
-        var valid = true
-        taxInfoList.forEach {
-            if ((it.previousCountry?.get() == it.selectedCountry?.getName()) || (it.selectedOption.get()
-                    .equals("Yes") && ((it.previousTinNumber?.get() == it.tinNumber?.get()) || (it.tinNumber?.get()
-                    .equals("")))) || (it.selectedCountry?.getName().equals(""))
-            ) {
-                valid = false
-                return@forEach
+        var firstvalid = true
+        var secondValid = true
+        for (countryPositionIndex in 0 until taxInfoList.size) {
+            when (countryPositionIndex) {
+                1 -> {
+                    firstvalid =
+                        isCountryValid(
+                            taxInfoList[countryPositionIndex],
+                            "CountryofTaxResidence"
+                        ) && isTinNumberValid(taxInfoList[countryPositionIndex], "TINNumber1")
+                }
+                2 -> {
+                    secondValid = isCountryValid(
+                        taxInfoList[countryPositionIndex],
+                        "SecondCountryofTaxResidence"
+                    ) && isTinNumberValid(taxInfoList[countryPositionIndex], "TINNumber2")
+                }
+                else -> {
+                }
             }
         }
-        return valid
+        return firstvalid && secondValid
+
     }
 
+    fun isCountryValid(taxModel: TaxModel, key: String?): Boolean {
+        if (taxModel.selectedCountry?.getName()
+                .equals("") || (taxModel.previousCountry?.get() == taxModel.selectedCountry?.getName() && hasKeyInAmendmentMap(
+                key
+            ))
+        ) {
+            return false
+        }
+        return true
+    }
+
+    fun isTinNumberValid(taxModel: TaxModel, key: String?): Boolean {
+        if (taxModel.selectedOption.get().equals("Yes") && (taxModel.tinNumber?.get().equals(""))) {
+            return false
+        } else if (taxModel.selectedOption.get()
+                .equals("Yes") && (taxModel.previousTinNumber?.get() == taxModel.tinNumber?.get()) && hasKeyInAmendmentMap(
+                key
+            )
+        ) {
+            return false
+        }
+        return true
+    }
+
+    fun hasKeyInAmendmentMap(key: String?): Boolean {
+        if (key != null && parentViewModel?.amendmentMap != null) {
+            parentViewModel?.amendmentMap?.let { it ->
+                it.values.toList().forEach { it ->
+                    it?.forEach {
+                        if (key == it) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+        return false
+    }
 }
