@@ -391,7 +391,6 @@ class TaxInfoViewModel(application: Application) :
 //        }
 //        return valid
 //    }
-
 //    fun finalCheck(): Boolean {
 //        var valid = true
 //        taxInfoList.forEach {
