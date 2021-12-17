@@ -1374,7 +1374,7 @@
     <!-- YFY Better Together -->
     <string name="screen_yfy_invite_a_friend_description">Once you\'re set, head over to the top right menu on your dashboard (or via More on the bottom navigation menu) to start inviting your friends to join YAP.\n\n The more the merrier!</string>
     <string name="screen_yfy_invite_a_friend_button_label">Invite a friend</string>
-    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.\n\n Use the YAP It button and choose either bank transfer or cash pickup, so you can send money to even those who don\'t have a bank account! </string>
+    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.</string>
     <string name="screen_yfy_send_money_to_someone_description">Send money to someone instantly within your YAP network. Tap on the YAP It button on your dashboard, select a friend from the list and enter the desired amount.\n\n Yes, It\'s that simple!</string>
     <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends.\n\nTo split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly.\n\n Psst… you can also send reminders!</string>
 
