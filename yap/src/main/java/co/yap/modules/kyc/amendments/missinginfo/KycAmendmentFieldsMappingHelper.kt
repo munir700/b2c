@@ -41,9 +41,9 @@ object KycAmendmentFieldsMappingHelper {
 
         // PASSPORT
         map["PassportImage"] = "Passport"
-        map["passportNumber"] = "Passport Number"
-        map["passportIssueDate"] = "Passport issue date"
-        map["passportExpiryDate"] = "Passport expiry date"
+        map["PassportNumber"] = "Passport Number"
+        map["PassportIssueDate"] = "Passport issue date"
+        map["PassportExpiryDate"] = "Passport expiry date"
     }
 
     fun getValueForKey(key: String): String {
