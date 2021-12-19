@@ -190,7 +190,7 @@
     <string name="screen_kyc_information_error_text_description_sanctioned_country">Unfortunately, we\'re unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account.</string>
     <string name="screen_kyc_information_error_display_text_title_from_us">Looks like you\'re from the United States</string>
     <string name="screen_kyc_information_error_text_description_from_us">We\'re sorry, we aren\'t able to create bank accounts for US Citizens at this point. Stay tuned though, we\'ll announce it everywhere if this changes!</string>
-    <string name="screen_kyc_information_error_display_text_explanation_under_age">And while that\'s great, this YAP account is only for adults. Don\'t worry though, you can speak to your parents about getting you started with YAP Young or wait till you\'re 18 :)</string>
+    <string name="screen_kyc_information_error_display_text_explanation_under_age">Unfortunately, YAP is only available to users over the age of %1$s. But don’t worry! We’re working on bringing something special to our younger audiences soon 😉</string>
     <string name="screen_kyc_information_error_display_text_title_expired_card">YAP works best with a valid Emirates ID</string>
     <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
     <string name="screen_kyc_information_error_button_go_to_dashboard">Go to dashboard</string>
