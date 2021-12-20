@@ -89,7 +89,9 @@ class EidInfoReviewViewModel(application: Application) :
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
                             state.AgeLimit
                         ),
-                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
+                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age).format(
+                            state.AgeLimit
+                        )
                     )
                     clickEvent.setValue(eventErrorUnderAge)
                     trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
