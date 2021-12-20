@@ -1,15 +1,15 @@
 [
   {
     "employmentType": "I’m a student",
-    "employmentTypeCode": "OTHER"
+    "employmentTypeCode": "Other"
   },
   {
     "employmentType": "I’m on my parent’s visa",
-    "employmentTypeCode": "OTHER"
+    "employmentTypeCode": "Other"
   },
   {
     "employmentType": "I’m on a spousal visa",
-    "employmentTypeCode": "OTHER"
+    "employmentTypeCode": "Other"
   },
   {
     "employmentType": "I’m a homemaker/home dependant",
