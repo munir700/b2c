@@ -135,7 +135,7 @@ class PassportAmendmentFragment : BaseBindingFragment<IPassportAmendment.ViewMod
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when ((data as BottomSheetItem).tag) {
                 PhotoSelectionType.CAMERA.name -> {
-                    openScanDocumentFragment(getString(R.string.scan_passport))
+                    openScanDocumentFragment(getString(R.string.passport))
                 }
 
                 PhotoSelectionType.GALLERY.name -> {

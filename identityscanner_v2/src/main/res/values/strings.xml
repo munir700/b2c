@@ -55,6 +55,7 @@
     <string name="scan_front_eid">Scan Front Side of Emirates ID</string>
     <string name="scan_back_eid">Scan Back Side of Emirates ID</string>
     <string name="scan_passport">Scan Passport</string>
+    <string name="passport">Passport</string>
     <string name="review_doc_title">Review</string>
     <string name="review_scan_results_title">Review Information</string>
     <string name="invalid_file">Could not open file. File does not exist.</string>

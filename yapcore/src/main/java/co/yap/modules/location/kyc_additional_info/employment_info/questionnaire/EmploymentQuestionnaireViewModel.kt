@@ -501,9 +501,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         } else if (employmentStatus == EmploymentStatus.OTHER) {
                             selectedQuestionItemPosition = 0
                             val objQuestion = getDataForPosition(selectedQuestionItemPosition)
-                            objQuestion.question.answer.set(employmentTypes().first {
+                            objQuestion.question.answer.set(employmentTypes().firstOrNull {
                                 it.employmentTypeCode == res.employmentType
-                            }.employmentType)
+                            }?.employmentType?:"")
                             questionsList[selectedQuestionItemPosition] = objQuestion
                             validateForm()
                         } else {
