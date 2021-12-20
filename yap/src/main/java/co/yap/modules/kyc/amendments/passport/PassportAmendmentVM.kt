@@ -38,20 +38,20 @@ class PassportAmendmentVM(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getCustomerDocuments(SessionManager.user?.currentCustomer?.customerId)
+        getCustomerDocuments(SessionManager.user?.uuid)
         state.issueDataCalender = Calendar.getInstance()
         state.expireDataCalender = Calendar.getInstance()
         validator?.setValidationListener(this)
     }
 
-    override fun getCustomerDocuments(customerId: String?) {
+    override fun getCustomerDocuments(accountUuid: String?) {
         launch {
             state.loading = false
-            when (val response = repository.getCustomerDocuments(customerId)) {
+            when (val response = repository.getCustomerDocuments(accountUuid)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    if (response.data.data?.isNotEmpty() == true) {
-                        response.data.data?.get(0)?.let {
+//                    if (response.data.data?.isNotEmpty() == true) {
+                        response.data.data?.let {
                             state.expireDate.value = reformatDate(
                                 it.passportExpiryDate,
                                 SIMPLE_DATE_FORMAT,
@@ -74,7 +74,7 @@ class PassportAmendmentVM(application: Application) :
                                 SIMPLE_DATE_FORMAT,
                                 DateUtils.DEFAULT_DATE_FORMAT, DateUtils.UTC
                             )
-                        }
+//                        }
                         delay(50)
                         validator?.toValidate()
                     }

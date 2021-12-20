@@ -154,8 +154,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_CUSTOMER_KYC_DOCUMENTS = "customers/api/v2/documents"
     const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
     const val URL_GET_CUSTOMER_DOCUMENTS =
-        "customers/api/customer-documents/customer-info/customer-id/{customer-id}"
-
+        "customers/api/eida-data"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -602,7 +601,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             })
         }
 
-    override suspend fun getCustomerDocuments(customerId: String?) =
-        executeSafely(call = { api.getCustomerDocuments(customerId) })
+    override suspend fun getCustomerDocuments(accountUuid: String?) =
+        executeSafely(call = { api.getCustomerDocuments(accountUuid) })
 
 }

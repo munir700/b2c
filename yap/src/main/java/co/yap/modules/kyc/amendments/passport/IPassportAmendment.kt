@@ -17,7 +17,7 @@ class IPassportAmendment {
         fun handlePressOnView(id: Int)
         val clickEvent: SingleClickEvent
         fun getUploadDocumentOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem>
-        fun getCustomerDocuments(customerId: String?)
+        fun getCustomerDocuments(accountUuid: String?)
         fun uploadPassportAmendments(passportRequest: PassportRequest)
         fun getDatePicker(
             currentCalendar: Calendar?,
