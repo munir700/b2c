@@ -19,6 +19,8 @@ data class EIDDocumentsResponse(
         var documentType: String? = "",
         @SerializedName("firstName")
         var firstName: String? = "",
+        @SerializedName("middleName")
+        var middleName: String? = "",
         @SerializedName("lastName")
         var lastName: String? = "",
         @SerializedName("fullName")
