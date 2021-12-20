@@ -45,12 +45,12 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";
     //VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=
     sslHost = "*.yap.com";
+    spayServiceId = "9f189cfac32b46d9b5c284";
     flagSmithAPIKey = "jA6afrdULLjYpqHELs8kfJ";
 
     sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
     md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
     sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
-    spayServiceId = "9f189cfac32b46d9b5c284";
 
 #endif
 #ifdef Preprod
@@ -61,12 +61,13 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";
     //VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=
     sslHost = "*.yap.com";
+    spayServiceId = "9f2b7fca270c4f3c81d99e";
     flagSmithAPIKey = "Ci4xvVedB8dBPYZGJR5qXf";
 
     sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
     md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
     sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
-    spayServiceId = "9f2b7fca270c4f3c81d99e";
+
 
 #endif
 #ifdef STG
@@ -76,12 +77,12 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslPin2 = "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=";
     sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";
     sslHost = "*.yap.co";
+    spayServiceId = "9f2b7fca270c4f3c81d99e";
     flagSmithAPIKey = "mNarPKjWTf8gqeor6qmBXj";
 
     sha1Encoded = "REI6QTg6REE6OTg6RUY6ODA6QkY6ODQ6MDQ6RDE6NzM6Rjg6QzE6RjE6QzA6MTU6NTk6MjA6MTY6RDI=";
     md5Encoded = "MjU6ODQ6MUY6RTE6RjE6QTg6QzI6NTg6N0I6QUU6RUE6QjM6NDE6NjU6NzY6RkU=";
     sha256Encoded = "QTQ6QUM6MTQ6RjM6REQ6RDg6NTc6RTk6RkM6QUM6N0M6MDk6NkM6QTQ6MEQ6RUM6QjU6MEU6RTE6OTY6QTI6RjA6Qjc6Q0M6QjA6MEY6MDc6MDA6Qzc6N0M6RjM6Qjg=";
-    spayServiceId = "9f2b7fca270c4f3c81d99e";
 
 #endif
 #ifdef QA
@@ -93,12 +94,12 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
     sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
     sslHost = "*.yap.co";
+     spayServiceId = "9f2b7fca270c4f3c81d99e";
     flagSmithAPIKey = "hyzRfWb6DS87tRpswTUiJB";
 
     sha1Encoded = "";
     md5Encoded = "";
     sha256Encoded = "";
-    spayServiceId = "9f2b7fca270c4f3c81d99e";
 
 
 #endif
@@ -110,12 +111,12 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
     sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
     sslHost = "*.yap.co";
+     spayServiceId = "9f2b7fca270c4f3c81d99e";
     flagSmithAPIKey = "hyzRfWb6DS87tRpswTUiJB";
 
     sha1Encoded = "";
     md5Encoded = "";
     sha256Encoded = "";
-    spayServiceId = "9f2b7fca270c4f3c81d99e";
 #endif
 
     const char *appId = env->GetStringUTFChars(applicationId, 0);
@@ -189,8 +190,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                   env->NewStringUTF(sslPin2.c_str()),
                                   env->NewStringUTF(sslPin3.c_str()),
                                   env->NewStringUTF(sslHost.c_str()),
-                                  env->NewStringUTF(sslHost.c_str()),
-                                  env->NewStringUTF(flagSmithAPIKey.c_str()),
-                                  env->NewStringUTF(spayServiceId.c_str()));
+                                  env->NewStringUTF(spayServiceId.c_str()),
+                                  env->NewStringUTF(flagSmithAPIKey.c_str()));
     return jObj;
 }
