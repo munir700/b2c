@@ -29,8 +29,7 @@ class ErrorHighlightAmendmentFieldRule(
         missingFieldMap?.let { it ->
             it.values.toList().forEach { it ->
                 it?.forEach {
-                    if (view?.tag == it && previousValue != null && view.text.toString()
-                            .isNotBlank() && view.text.toString() == previousValue
+                    if (view?.tag == it && previousValue != null && view.text.toString() == previousValue
                     ) {
                         return false
                     }

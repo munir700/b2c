@@ -254,7 +254,9 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
             when (val response = repository.getCustomerKYCData(SessionManager.user?.uuid ?: "")) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    splitLastNamesForPrepopulateData(response.data.data?.fullName ?: "")
+                    state.previousFirstName = response.data.data?.firstName ?: ""
+                    state.previousMiddleName = response.data.data?.middleName ?: ""
+                    state.previousLastName = response.data.data?.lastName ?: ""
                     state.previousNationality = response.data.data?.nationality
                     response.data.data?.dob?.let {
                         state.previousDateOfBirth = DateUtils.dateToString(
@@ -389,29 +391,6 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                 state.firstName
             }
         })
-    }
-
-    private fun splitLastNamesForPrepopulateData(lastNames: String) {
-        val parts = lastNames.trim().split(" ")
-        state.previousFirstName = parts[0]
-        when {
-            parts.size == 2 -> {
-                state.previousLastName = parts[1]
-            }
-            parts.size > 2 -> {
-                state.previousLastName = ""
-                state.previousMiddleName = parts[1]
-                var x = 2
-                while (x < parts.size) {
-                    if (state.previousLastName?.isEmpty() == true) {
-                        state.previousLastName = parts[x]
-                    } else {
-                        state.previousLastName = state.previousLastName + " " + parts[x]
-                    }
-                    x++
-                }
-            }
-        }
     }
 
     private fun splitLastNames(lastNames: String) {
