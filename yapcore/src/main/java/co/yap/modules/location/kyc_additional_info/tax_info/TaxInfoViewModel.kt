@@ -77,15 +77,20 @@ class TaxInfoViewModel(application: Application) :
             when (val response = repository.getTaxReasons()) {
                 is RetroApiResponse.Success -> {
                     reasonsList = response.data.reasons
+
                     if (!parentViewModel?.countries.isNullOrEmpty()) {
-                        createModel(reasonsList, options, ObservableField(rowTitles[0]))
+                        if (taxInfoList.size == 0) {
+                            createModel(reasonsList, options, ObservableField(rowTitles[0]))
+                        }
                         state.onSuccess.set(true)
                         state.loading = false
 
                     } else
                         getAllCountries {
                             parentViewModel?.countries = it
-                            createModel(reasonsList, options, ObservableField(rowTitles[0]))
+                            if (taxInfoList.size == 0) {
+                                createModel(reasonsList, options, ObservableField(rowTitles[0]))
+                            }
                             state.onSuccess.set(true)
                             state.loading = false
                         }
