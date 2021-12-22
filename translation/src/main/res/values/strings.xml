@@ -1567,4 +1567,13 @@
     <!-- Bill Category Screen-->
     <string name="screen_bill_category_title_coming_soon">Coming soon</string>
 
+    <string-array name="screen_otp_messages">
+        <item>SWIFT;Hi %1s! Your OTP to send %2s to %3s is %4s. This code expires in %5s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
+        <item>UAEFTS;Hi %1s! Your OTP to send %2s to %3s is %4s. This code expires in %5s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
+        <item>RMT;Hi %1s! Your OTP to send %2s to %3s is %4s. This code expires in %5s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
+        <item>CASHPAYOUT;Hi %1s! Your OTP to send %2s to %3s is %4s. This code expires in %5s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
+        <item>DOMESTIC_TRANSFER;Hi %1s! Your OTP to send %2s to %3s is %4s. This code expires in %5s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
+        <item>Y2Y;Hi %1s! Your OTP to send %2s to %3s is %4s. This code expires in %5s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
+    </string-array>
+
 </resources>

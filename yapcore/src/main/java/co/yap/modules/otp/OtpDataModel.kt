@@ -11,5 +11,7 @@ data class OtpDataModel(
     var emailOtp: Boolean? = false,
     var amount: String? = "",
     var logoData: LogoData? = null,
-    var toolBarData: OtpToolBarData? = OtpToolBarData()
+    var toolBarData: OtpToolBarData? = OtpToolBarData(),
+    var otpMessage: String? = null
+
 ) : Parcelable
