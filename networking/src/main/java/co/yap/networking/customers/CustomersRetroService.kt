@@ -362,9 +362,9 @@ interface CustomersRetroService {
     @Multipart
     @POST(CustomersRepository.URL_UPDATE_PASSPORT_AMENDMENT)
     suspend fun uploadPassportAmendments(
-        @Part file: MultipartBody.Part? = null,
-        @Part("passportNumber") passportNumber: RequestBody? = null,
-        @Part("passportIssueDate") passportIssueDate: RequestBody? = null,
-        @Part("passportExpiryDate") passportExpiryDate: RequestBody? = null
+        @Part files: MultipartBody.Part,
+        @Part("passportNumber") passportNumber: RequestBody,
+        @Part("passportIssueDate") passportIssueDate: RequestBody,
+        @Part("passportExpiryDate") passportExpiryDate: RequestBody
     ): Response<ApiResponse>
 }
