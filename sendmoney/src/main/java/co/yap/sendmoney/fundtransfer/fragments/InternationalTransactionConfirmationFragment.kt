@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.modules.webview.WebViewFragment
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -122,7 +123,7 @@ class InternationalTransactionConfirmationFragment :
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.isOtpRequired.observe(this, Observer {
-            if (it)
+            if (!it)
                 startOtpFragment()
         })
     }
@@ -144,6 +145,14 @@ class InternationalTransactionConfirmationFragment :
                         position = viewModel.parentViewModel?.transferData?.value?.position,
                         flagVisibility = true,
                         beneficiaryCountry = viewModel.parentViewModel?.beneficiary?.value?.country
+                    ),
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
+                        SessionManager.user?.currentCustomer?.firstName,
+                        viewModel.parentViewModel?.transferData?.value?.sourceAmount + " AED",
+                        viewModel.parentViewModel?.beneficiary?.value?.firstName,
+                        "%s1",
+                        "%s2"
                     )
                 )
             ),

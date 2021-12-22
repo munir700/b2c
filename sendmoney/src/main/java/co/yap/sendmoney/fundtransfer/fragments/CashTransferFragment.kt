@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendmoney.PopListBottomSheet
@@ -202,6 +203,14 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     amount = viewModel.state.amount,
                     logoData = LogoData(
                         position = viewModel.parentViewModel?.transferData?.value?.position
+                    ),
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
+                        SessionManager.user?.currentCustomer?.firstName,
+                        viewModel.state.amount + " AED",
+                        viewModel.parentViewModel?.beneficiary?.value?.firstName,
+                        "%s1",
+                        "%s2"
                     )
                 )
             )
