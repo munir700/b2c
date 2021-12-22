@@ -47,7 +47,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         ViewModelProviders.of(requireActivity())
             .get(AddPaymentCardViewModel::class.java).state.tootlBarTitle =
             "Add a virtual spare card"
-
+        playCardAnimation()
         setObservers()
     }
 
@@ -147,14 +147,17 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                         viewModel.state.cardImageUrl =
                             viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage
                                 ?: ""
-                        lav_cards.progress = 0f
-                        lav_cards.playAnimation()
                     } else {
                         addSpareCard.enableButton(false)
                     }
                 }
             }
         }
+    }
+
+    private fun playCardAnimation() {
+        lav_cards.progress = 0f
+        lav_cards.playAnimation()
     }
 
     override fun removeObservers() {
