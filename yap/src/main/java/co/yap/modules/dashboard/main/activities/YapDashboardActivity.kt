@@ -66,7 +66,6 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import com.adjust.sdk.Adjust.trackEvent
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
@@ -357,7 +356,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
         }
-        dialog.show()
+        if (!isFinishing)
+            dialog.show()
     }
 
     fun showHideBottomBar(show: Boolean) {
