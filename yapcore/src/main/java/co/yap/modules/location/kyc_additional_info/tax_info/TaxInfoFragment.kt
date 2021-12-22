@@ -2,6 +2,7 @@ package co.yap.modules.location.kyc_additional_info.tax_info
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
@@ -31,13 +32,14 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
         super.onCreate(savedInstanceState)
         if (viewModel.canSkipFragment()) {
             skipTaxInfoSelectionFragment()
-        } else {
-            addObservers()
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.state.viewState.value = MutableLiveData<Any?>()
+        addObservers()
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FATCA.", View.OnClickListener {
                 if (viewModel.state.valid.get() == true) {
@@ -54,7 +56,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.state.viewState.observe(this, Observer {
+        viewModel.state.viewState.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
                     is ITaxInfo.CountryPicker -> {
