@@ -64,26 +64,27 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if(viewModel.canSkipFragment()) {
+        if (viewModel.canSkipFragment()) {
             return
-        }
-        super.onViewCreated(view, savedInstanceState)
-        if (viewModel.parentViewModel?.isOnBoarding == true) {
-            when (SessionManager.user?.notificationStatuses) {
-                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name, AccountStatus.FATCA_GENERATED.name -> {
-                }
-                else -> {
-                    checkPermission()
-                    setHeadings()
-                    setAddress()
-                    addListeners()
-                }
-            }
         } else {
-            checkPermission()
-            setHeadings()
-            setAddress()
-            addListeners()
+            super.onViewCreated(view, savedInstanceState)
+            if (viewModel.parentViewModel?.isOnBoarding == true) {
+                when (SessionManager.user?.notificationStatuses) {
+                    AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name, AccountStatus.FATCA_GENERATED.name -> {
+                    }
+                    else -> {
+                        checkPermission()
+                        setHeadings()
+                        setAddress()
+                        addListeners()
+                    }
+                }
+            } else {
+                checkPermission()
+                setHeadings()
+                setAddress()
+                addListeners()
+            }
         }
 
     }
