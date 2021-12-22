@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -36,7 +35,6 @@ class MissingInfoFragmentViewModel(application: Application) :
                     response.data.data?.forEach {
                         if (it.amendments?.isNotEmpty() == true) {
                             map[it.sectionName] = it.amendments
-
                             list.addAll(it.amendments ?: emptyList())
                         }
                     }

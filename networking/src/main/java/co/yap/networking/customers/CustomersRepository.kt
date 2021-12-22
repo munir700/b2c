@@ -574,20 +574,20 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             val reqFile: RequestBody =
                 RequestBody.create(
                     MediaType.parse(
-                        contentType
-                            ?: "image/" + mFile?.extension
+                        request.contentType
+                            ?: "image/" + request.files?.extension
                     ),
-                    mFile ?: File(filePath ?: "")
+                    request.files ?: File(request.files?.name ?: "")
                 )
             val body =
                 MultipartBody.Part.createFormData(
                     "files",
-                    mFile?.name,
+                    request.files?.name,
                     reqFile
                 )
             executeSafely(call = {
                 api.uploadPassportAmendments(
-                    file = body,
+                    files = body,
                     passportNumber = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"), passportNumber ?: ""
                     ),

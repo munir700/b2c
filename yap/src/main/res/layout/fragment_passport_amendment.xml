@@ -78,7 +78,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:text="The picture page of your passport"
+                        android:text='@{viewModel.state.mFile!=null &amp;&amp; viewModel.state.mFile.exists()? "Uploaded" : "The picture page of your passport"}'
                         android:textColor="@color/colorPrimaryDark"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/ivCheck"
@@ -105,7 +105,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_medium_large"
-                android:hint="@string/screen_b2c_passport_number_text">
+                android:hint="@string/screen_b2c_passport_number_text"
+                android:textColorHint="@color/colorPrimaryDark"
+                app:hintTextColor="@color/colorPrimaryDark">
 
                 <co.yap.widgets.edittext.EditTextRichDrawable
                     android:id="@+id/etPassportNumber"
@@ -118,8 +120,8 @@
                     android:maxLength="9"
                     android:singleLine="true"
                     android:tag="@{`PassportNumber`}"
-                    android:text="@{viewModel.state.passportNumber}"
-                    android:theme="@style/Theme.EditText.GreySoft"
+                    android:text="@={viewModel.state.passportNumber}"
+                    android:theme="@style/Theme.EditText.Primary"
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
                     app:compoundDrawableWidth="@dimen/margin_medium_large"
                     app:highlightAmendmentField="@{true}"
@@ -152,7 +154,7 @@
                     android:singleLine="true"
                     android:tag="@{`PassportExpiryDate`}"
                     android:text="@{viewModel.state.expireDate}"
-                    android:theme="@style/Theme.EditText.GreySoft"
+                    android:theme="@style/Theme.EditText.Primary"
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
                     app:compoundDrawableWidth="@dimen/margin_medium_large"
                     app:drawableEndVector="@drawable/ic_chevron_down"
@@ -187,7 +189,7 @@
                     android:singleLine="true"
                     android:tag="@{`PassportIssueDate`}"
                     android:text="@{viewModel.state.issueDate}"
-                    android:theme="@style/Theme.EditText.GreySoft"
+                    android:theme="@style/Theme.EditText.Primary"
                     app:compoundDrawableHeight="@dimen/margin_medium_large"
                     app:compoundDrawableWidth="@dimen/margin_medium_large"
                     app:drawableEndVector="@drawable/ic_chevron_down"

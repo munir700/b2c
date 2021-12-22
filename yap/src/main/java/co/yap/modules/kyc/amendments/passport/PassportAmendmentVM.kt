@@ -14,9 +14,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
-import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MONTH_YEAR_2
 import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
-import co.yap.yapcore.helpers.DateUtils.UTC
+import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.DateUtils.reformatDate
 import co.yap.yapcore.helpers.FileUtils
@@ -50,31 +49,43 @@ class PassportAmendmentVM(application: Application) :
             when (val response = repository.getCustomerDocuments(accountUuid)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-//                    if (response.data.data?.isNotEmpty() == true) {
-                        response.data.data?.let {
-                            state.expireDate.value = reformatDate(
-                                it.passportExpiryDate,
-                                SIMPLE_DATE_FORMAT,
-                                DEFAULT_DATE_FORMAT, DateUtils.UTC
-                            )
-                            state.passportNumber.value = it.passportNumber
-                            state.issueDate.value = reformatDate(
-                                it.passportIssueDate,
-                                SIMPLE_DATE_FORMAT,
-                                DEFAULT_DATE_FORMAT, DateUtils.UTC
-                            )
-                            state.previousExpireDate.value = reformatDate(
-                                it.passportExpiryDate,
-                                SIMPLE_DATE_FORMAT,
-                                DEFAULT_DATE_FORMAT, DateUtils.UTC
-                            )
-                            state.previousPassportNumber.value = it.passportNumber
-                            state.previousIssueDate.value = reformatDate(
-                                it.passportIssueDate,
-                                SIMPLE_DATE_FORMAT,
-                                DateUtils.DEFAULT_DATE_FORMAT, DateUtils.UTC
-                            )
-//                        }
+                    response.data.data?.let {
+                        state.expireDate.value = reformatDate(
+                            it.passportExpiryDate,
+                            SIMPLE_DATE_FORMAT,
+                            DEFAULT_DATE_FORMAT
+                        )
+                        state.passportNumber.value = it.passportNumber
+                        state.issueDate.value = reformatDate(
+                            it.passportIssueDate,
+                            SIMPLE_DATE_FORMAT,
+                            DEFAULT_DATE_FORMAT
+                        )
+                        state.previousExpireDate.value = reformatDate(
+                            it.passportExpiryDate,
+                            SIMPLE_DATE_FORMAT,
+                            DEFAULT_DATE_FORMAT
+                        )
+                        state.previousPassportNumber.value = it.passportNumber
+                        state.previousIssueDate.value = reformatDate(
+                            it.passportIssueDate,
+                            SIMPLE_DATE_FORMAT,
+                            DEFAULT_DATE_FORMAT
+                        )
+                        it.passportIssueDate?.let { expiry ->
+                            DateUtils.stringToDate(expiry, SIMPLE_DATE_FORMAT)?.let { date ->
+                                state.issueDataCalender = Calendar.getInstance().apply {
+                                    time = date
+                                }
+                            }
+                        }
+                        it.passportExpiryDate?.let { expiry ->
+                            DateUtils.stringToDate(expiry, SIMPLE_DATE_FORMAT)?.let { date ->
+                                state.expireDataCalender = Calendar.getInstance().apply {
+                                    time = date
+                                }
+                            }
+                        }
                         delay(50)
                         validator?.toValidate()
                     }
@@ -82,15 +93,6 @@ class PassportAmendmentVM(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
-//                    state.previousExpireDate.value = "dd/MM/yyyy"
-//                    state.previousPassportNumber.value = "121342242"
-//                    state.previousIssueDate.value = "dd/MM/yyyy"
-//
-//                    state.expireDate.value = "dd/MM/yyyy"
-//                    state.passportNumber.value = "121342242"
-//                    state.issueDate.value = "dd/MM/yyyy"
-//                    delay(50)
-//                    validator?.toValidate()
                 }
             }
         }
@@ -103,20 +105,20 @@ class PassportAmendmentVM(application: Application) :
                     if (it.sizeInMb() < 25) {
                         uploadPassportAmendments(
                             PassportRequest(
-                                it.absolutePath,
+                                it,
                                 state.passportNumber.value, dateToString(
                                     state.issueDataCalender?.time,
-                                    FORMAT_DATE_MONTH_YEAR_2,
-                                    UTC
+                                    SIMPLE_DATE_FORMAT,
+                                    TIME_ZONE_Default
                                 ),
                                 dateToString(
                                     state.expireDataCalender?.time,
-                                    FORMAT_DATE_MONTH_YEAR_2,
-                                    UTC
+                                    SIMPLE_DATE_FORMAT,
+                                    TIME_ZONE_Default
                                 ), FileUtils.getContentType(
                                     context,
                                     it.toUri()
-                                ), it
+                                )
                             )
                         )
                     } else {
