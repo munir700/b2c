@@ -105,7 +105,10 @@ class RemoveFundsViewModel(application: Application) :
     override fun getFundTransferLimits() {
         launch {
             when (val response =
-                repository.getFundTransferLimits(TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode,"")) {
+                repository.getFundTransferLimits(
+                    TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode,
+                    SessionManager.user?.uuid
+                )) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00

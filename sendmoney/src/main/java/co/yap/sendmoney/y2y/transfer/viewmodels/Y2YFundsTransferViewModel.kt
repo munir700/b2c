@@ -122,7 +122,9 @@ class Y2YFundsTransferViewModel(application: Application) :
     override fun getTransactionLimits() {
         launch {
             when (val response =
-                transactionsRepository.getFundTransferLimits(TransactionProductCode.Y2Y_TRANSFER.pCode,"")) {
+                transactionsRepository.getFundTransferLimits(
+                    TransactionProductCode.Y2Y_TRANSFER.pCode, SessionManager.user?.uuid
+                )) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
@@ -208,7 +210,7 @@ class Y2YFundsTransferViewModel(application: Application) :
     }
 
     private fun setUpToolBar() {
-        if(parentViewModel?.state?.fromQR?.get() == true) {
+        if (parentViewModel?.state?.fromQR?.get() == true) {
             toggleToolBarVisibility(true)
             setToolBarTitle(getString(Strings.screen_qr_transfer_display_title))
             setRightButtonVisibility(true)
@@ -216,7 +218,7 @@ class Y2YFundsTransferViewModel(application: Application) :
             setRightIcon(R.drawable.ic_close)
             state.availableBalanceGuide =
                 getString(Strings.screen_qr_funds_transfer_display_text_available_balance)
-        } else{
+        } else {
             toggleToolBarVisibility(true)
             setToolBarTitle(getString(Strings.screen_y2y_funds_transfer_display_text_title))
             setRightButtonVisibility(false)
