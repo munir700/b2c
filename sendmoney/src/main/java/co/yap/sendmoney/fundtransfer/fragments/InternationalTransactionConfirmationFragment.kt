@@ -86,7 +86,8 @@ class InternationalTransactionConfirmationFragment :
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency(
                         false,
-                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: SessionManager.getDefaultCurrency()
+                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency
+                            ?: SessionManager.getDefaultCurrency()
                     )
                         ?: ""
                 ),
@@ -123,12 +124,22 @@ class InternationalTransactionConfirmationFragment :
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.isOtpRequired.observe(this, Observer {
-            if (!it)
+            if (it)
                 startOtpFragment()
         })
     }
 
     private fun startOtpFragment() {
+        var string = requireContext().getOtpMessageFromComposer(
+            viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
+            args = *arrayOf(
+                SessionManager.user?.currentCustomer?.firstName,
+                "AED "+viewModel.parentViewModel?.transferData?.value?.sourceAmount ,
+                viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                "%s1",
+                "%s2"
+            )
+        )
         startFragmentForResult<GenericOtpFragment>(
             GenericOtpFragment::class.java.name,
             bundleOf(
@@ -146,14 +157,7 @@ class InternationalTransactionConfirmationFragment :
                         flagVisibility = true,
                         beneficiaryCountry = viewModel.parentViewModel?.beneficiary?.value?.country
                     ),
-                    otpMessage = requireContext().getOtpMessageFromComposer(
-                        viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
-                        SessionManager.user?.currentCustomer?.firstName,
-                        viewModel.parentViewModel?.transferData?.value?.sourceAmount + " AED",
-                        viewModel.parentViewModel?.beneficiary?.value?.firstName,
-                        "%s1",
-                        "%s2"
-                    )
+                    otpMessage = string
                 )
             ),
             showToolBar = true,
@@ -176,7 +180,11 @@ class InternationalTransactionConfirmationFragment :
             }
 
             Constants.ADD_SUCCESS -> {
-                trackEvent(SendMoneyEvents.SEND_MONEY_INTERNATIONAL.type,viewModel.parentViewModel?.beneficiary?.value?.country, viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType)
+                trackEvent(
+                    SendMoneyEvents.SEND_MONEY_INTERNATIONAL.type,
+                    viewModel.parentViewModel?.beneficiary?.value?.country,
+                    viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType
+                )
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
