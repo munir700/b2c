@@ -130,16 +130,6 @@ class InternationalTransactionConfirmationFragment :
     }
 
     private fun startOtpFragment() {
-        var string = requireContext().getOtpMessageFromComposer(
-            viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
-            args = *arrayOf(
-                SessionManager.user?.currentCustomer?.firstName,
-                "AED "+viewModel.parentViewModel?.transferData?.value?.sourceAmount ,
-                viewModel.parentViewModel?.beneficiary?.value?.fullName(),
-                "%s1",
-                "%s2"
-            )
-        )
         startFragmentForResult<GenericOtpFragment>(
             GenericOtpFragment::class.java.name,
             bundleOf(
@@ -157,7 +147,16 @@ class InternationalTransactionConfirmationFragment :
                         flagVisibility = true,
                         beneficiaryCountry = viewModel.parentViewModel?.beneficiary?.value?.country
                     ),
-                    otpMessage = string
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
+                        args = *arrayOf(
+                            SessionManager.user?.currentCustomer?.firstName,
+                            viewModel.parentViewModel?.transferData?.value?.sourceAmount+" "+SessionManager.getDefaultCurrency() ,
+                            viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                            "%s1",
+                            "%s2"
+                        )
+                    )
                 )
             ),
             showToolBar = true,
