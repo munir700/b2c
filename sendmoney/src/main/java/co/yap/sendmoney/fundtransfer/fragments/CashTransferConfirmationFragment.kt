@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.modules.webview.WebViewFragment
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferConfirmationBinding
@@ -199,6 +200,14 @@ class CashTransferConfirmationFragment :
                     logoData = LogoData(
                         imageUrl = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryPictureUrl,
                         position = viewModel.parentViewModel?.transferData?.value?.position
+                    ) ,
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
+                        SessionManager.user?.currentCustomer?.firstName,
+                        "AED "+viewModel.parentViewModel?.transferData?.value?.transferAmount ,
+                        viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                        "%s1",
+                        "%s2"
                     )
                 )
             ),
