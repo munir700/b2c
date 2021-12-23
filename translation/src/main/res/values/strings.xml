@@ -1574,6 +1574,7 @@
         <item>CASHPAYOUT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
         <item>DOMESTIC_TRANSFER;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
         <item>Y2Y;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
+        <item>TOP_UP_SUPPLEMENTARY;Hi %1$s! Your OTP to top up your YAP card with %2$s from your card ending in %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at 600551214</item>
     </string-array>
 
 </resources>
