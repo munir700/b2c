@@ -134,7 +134,7 @@ class InternationalTransactionConfirmationFragment :
             viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
             args = *arrayOf(
                 SessionManager.user?.currentCustomer?.firstName,
-                "AED "+viewModel.parentViewModel?.transferData?.value?.sourceAmount ,
+                viewModel.parentViewModel?.transferData?.value?.sourceAmount+" "+SessionManager.getDefaultCurrency() ,
                 viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                 "%s1",
                 "%s2"
