@@ -116,9 +116,11 @@
                     android:layout_height="wrap_content"
                     android:hint="Enter passport number"
                     android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:maxLength="9"
+                    android:inputType="text"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-"
+                    android:maxLength="20"
                     android:singleLine="true"
+                    app:validateMinLength="@{9}"
                     android:tag="@{`PassportNumber`}"
                     android:text="@={viewModel.state.passportNumber}"
                     android:theme="@style/Theme.EditText.Primary"
@@ -127,7 +129,7 @@
                     app:highlightAmendmentField="@{true}"
                     app:missingFieldMap="@{viewModel.state.amendmentMap}"
                     app:previousValue="@{viewModel.state.previousPassportNumber}"
-                    app:validateEmpty="@{true}" />
+                    />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
