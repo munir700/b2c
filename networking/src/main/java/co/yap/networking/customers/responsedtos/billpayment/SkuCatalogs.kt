@@ -42,6 +42,7 @@ data class SkuCatalogs(
     var type: String? = null
 ) : Parcelable {
     val isPrepaid: Boolean get() = isPostpaid == 0
+    val isPostPaid: Boolean get() = isPostpaid == 1
     val isExcessPayment: Boolean get() = excessPaymentAllowed == 1
     val isPartialPayment: Boolean get() = partialPaymentAllowed == 1
 }
