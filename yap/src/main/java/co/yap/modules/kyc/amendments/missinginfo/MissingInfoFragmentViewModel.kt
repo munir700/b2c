@@ -7,6 +7,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.SessionManager
 
 class MissingInfoFragmentViewModel(application: Application) :
@@ -15,7 +16,7 @@ class MissingInfoFragmentViewModel(application: Application) :
     override val adapter = ObservableField<MissingInfoAdapter>()
     override val state: IMissingInfo.State = MissingInfoState()
     override val repository: CustomersRepository = CustomersRepository
-    override val onClickEvent: MutableLiveData<Int> = MutableLiveData()
+    override val onClickEvent: SingleClickEvent = SingleClickEvent()
     override val missingInfoMap: MutableLiveData<HashMap<String?, List<String>?>> =
         MutableLiveData(hashMapOf())
 
@@ -51,6 +52,6 @@ class MissingInfoFragmentViewModel(application: Application) :
     }
 
     override fun handlePressView(id: Int) {
-        onClickEvent.value = id
+        onClickEvent.setValue(id)
     }
 }

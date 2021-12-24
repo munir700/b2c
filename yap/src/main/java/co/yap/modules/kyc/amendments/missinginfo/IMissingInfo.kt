@@ -3,6 +3,7 @@ package co.yap.modules.kyc.amendments.missinginfo
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface IMissingInfo {
 
@@ -10,7 +11,7 @@ interface IMissingInfo {
 
     interface ViewModel : IBase.ViewModel<State> {
         val adapter: ObservableField<MissingInfoAdapter>
-        val onClickEvent: MutableLiveData<Int>
+        val onClickEvent: SingleClickEvent
         val missingInfoMap: MutableLiveData<HashMap<String?, List<String>?>>
         fun getMissingInfoItems()
         fun handlePressView(id: Int)

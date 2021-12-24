@@ -386,8 +386,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         } else {
                             viewModel.state.isUserAccountActivated.set(false)
                             SessionManager.getAccountInfo {
-                                GlobalScope.launch(Main) {
-                                    setUpDashBoardNotificationsView()
+                                if(isAdded) {
+                                    GlobalScope.launch(Main) {
+                                        setUpDashBoardNotificationsView()
+                                    }
                                 }
                             }
                         }
