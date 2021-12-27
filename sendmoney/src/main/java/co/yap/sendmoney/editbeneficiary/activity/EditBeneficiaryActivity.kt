@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,6 +12,7 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -168,7 +170,14 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         mobileNumber = SessionManager.user?.currentCustomer?.getCompletePhone(),
                         username = SessionManager.user?.currentCustomer?.getFullName(),
                         emailOtp = false,
-                        toolBarData = OtpToolBarData()
+                        toolBarData = OtpToolBarData(),
+                        otpMessage = this.getOtpMessageFromComposer(
+                            action,
+                            SessionManager.user?.currentCustomer?.firstName,
+                            viewModel.state.beneficiary?.fullName(),
+                            "%s1",
+                            "%s2"
+                        )
                     )
                 ), false
             ) { resultCode, data ->
