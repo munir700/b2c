@@ -21,6 +21,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IAdd
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -295,7 +296,15 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                     OTPActions.TOP_UP_SUPPLEMENTARY.name,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
                         ?: "",
-                    amount = viewModel.state.amount
+                    amount = viewModel.state.amount,
+                    otpMessage = this.getOtpMessageFromComposer(
+                        OTPActions.TOP_UP_SUPPLEMENTARY.name,
+                        SessionManager.user?.currentCustomer?.firstName,
+                        viewModel.state.amount + " " + SessionManager.getDefaultCurrency(),
+                        SessionManager.card.value?.maskedCardNo?.takeLast(4),
+                        "%s1",
+                        "%s2"
+                    )
                 )
             ),
             showToolBar = true

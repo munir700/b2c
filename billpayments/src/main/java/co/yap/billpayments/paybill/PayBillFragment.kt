@@ -53,8 +53,8 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
         initTabLayout()
-        setEditTextWatcher()
         setValidation()
+        setEditTextWatcher()
     }
 
     private fun setValidation() {
