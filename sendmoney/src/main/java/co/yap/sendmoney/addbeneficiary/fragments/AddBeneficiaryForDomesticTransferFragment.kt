@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -64,6 +65,14 @@ class AddBeneficiaryForDomesticTransferFragment :
                     OTPActions.DOMESTIC_BENEFICIARY.name,//action,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
+                    ,
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        OTPActions.DOMESTIC_BENEFICIARY.name,
+                        SessionManager.user?.currentCustomer?.firstName,
+                        viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                        "%s1",
+                        "%s2"
+                    )
                 )
             ),
             showToolBar = false,
