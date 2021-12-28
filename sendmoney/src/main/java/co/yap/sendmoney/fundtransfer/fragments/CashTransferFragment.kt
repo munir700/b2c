@@ -207,10 +207,11 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     otpMessage = requireContext().getOtpMessageFromComposer(
                         viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
                         SessionManager.user?.currentCustomer?.firstName,
-                        viewModel.parentViewModel?.transferData?.value?.transferAmount+" "+SessionManager.getDefaultCurrency(),
+                        viewModel.parentViewModel?.transferData?.value?.transferAmount + SessionManager.getDefaultCurrency(),
                         viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                         "%s1",
-                        "%s2"
+                        "%s2",
+                        SessionManager.helpPhoneNumber
                     )
                 )
             )

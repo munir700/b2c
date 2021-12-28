@@ -1,13 +1,7 @@
 package co.yap.modules.otp
 
 import android.content.Context
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.R
-import co.yap.yapcore.enums.OTPActions
-import co.yap.yapcore.helpers.StringUtils
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.SessionManager
 
 
 fun Context?.getOtpMessageFromComposer(otpActions: String, vararg args: Any?): String {

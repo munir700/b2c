@@ -207,7 +207,8 @@ class CashTransferConfirmationFragment :
                         viewModel.parentViewModel?.transferData?.value?.transferAmount+" "+SessionManager.getDefaultCurrency(),
                         viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                         "%s1",
-                        "%s2"
+                        "%s2",
+                        SessionManager.helpPhoneNumber
                     )
                 )
             ),

@@ -176,7 +176,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             SessionManager.user?.currentCustomer?.firstName,
                             viewModel.state.beneficiary?.fullName(),
                             "%s1",
-                            "%s2"
+                            "%s2",
+                            SessionManager.helpPhoneNumber
                         )
                     )
                 ), false

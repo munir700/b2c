@@ -71,7 +71,8 @@ class AddBeneficiaryForDomesticTransferFragment :
                         SessionManager.user?.currentCustomer?.firstName,
                         viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                         "%s1",
-                        "%s2"
+                        "%s2",
+                        SessionManager.helpPhoneNumber
                     )
                 )
             ),

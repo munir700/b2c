@@ -300,10 +300,11 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                     otpMessage = this.getOtpMessageFromComposer(
                         OTPActions.TOP_UP_SUPPLEMENTARY.name,
                         SessionManager.user?.currentCustomer?.firstName,
-                        viewModel.state.amount + " " + SessionManager.getDefaultCurrency(),
+                        viewModel.state.amount + SessionManager.getDefaultCurrency(),
                         SessionManager.card.value?.maskedCardNo?.takeLast(4),
                         "%s1",
-                        "%s2"
+                        "%s2",
+                        SessionManager.helpPhoneNumber
                     )
                 )
             ),
