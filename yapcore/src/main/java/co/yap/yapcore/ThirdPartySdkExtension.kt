@@ -30,8 +30,7 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
             ProductFlavour.PROD.flavour -> {
                 Adjust.setEnabled(true)
                 config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894)
-
-                config.setDefaultTracker("6hpplis")
+//                config.setDefaultTracker("6hpplis")
                 config.setEventBufferingEnabled(true)
                 config.setPreinstallTrackingEnabled(true)
 
@@ -65,7 +64,7 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         }
 
         Adjust.onCreate(config)
-        Adjust.addSessionPartnerParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
+//        Adjust.addSessionPartnerParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
         registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
         config.setOnAttributionChangedListener { }
     }
