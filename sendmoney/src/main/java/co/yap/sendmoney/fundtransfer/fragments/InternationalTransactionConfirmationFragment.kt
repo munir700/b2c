@@ -12,6 +12,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
@@ -46,12 +47,13 @@ class InternationalTransactionConfirmationFragment :
     override fun getLayoutId(): Int = R.layout.fragment_international_transaction_confirmation
 
     override val viewModel: InternationalTransactionConfirmationViewModel
-        get() = ViewModelProviders.of(this)
+        get() = ViewModelProvider(this)
             .get(InternationalTransactionConfirmationViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews()
+        setObservers()
     }
 
     private fun setUpViews() {
@@ -227,22 +229,14 @@ class InternationalTransactionConfirmationFragment :
             (newValue.length + 1) + clickValue.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        getBinding().tvDisclaimer.text = spanStr
-        getBinding().tvDisclaimer.movementMethod = LinkMovementMethod.getInstance()
+        getDataBindingView<FragmentInternationalTransactionConfirmationBinding>().tvDisclaimer.text =
+            spanStr
+        getDataBindingView<FragmentInternationalTransactionConfirmationBinding>().tvDisclaimer.movementMethod =
+            LinkMovementMethod.getInstance()
     }
 
-    override fun onResume() {
-        setObservers()
-        super.onResume()
-    }
-
-    override fun onPause() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewModel.clickEvent.removeObservers(this)
-        super.onPause()
     }
-
-    fun getBinding(): FragmentInternationalTransactionConfirmationBinding {
-        return viewDataBinding as FragmentInternationalTransactionConfirmationBinding
-    }
-
 }
