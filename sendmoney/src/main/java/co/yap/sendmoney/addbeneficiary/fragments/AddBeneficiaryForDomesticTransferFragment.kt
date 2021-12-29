@@ -47,7 +47,7 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     private val otpCreateObserver = Observer<Boolean> {
         if (it) {
-           startOtpFragment()
+            startOtpFragment()
         }
     }
 
@@ -64,9 +64,7 @@ class AddBeneficiaryForDomesticTransferFragment :
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.DOMESTIC_BENEFICIARY.name,//action,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-                        ?: ""
-                    ,
-                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        ?: "", otpMessage = requireContext().getOtpMessageFromComposer(
                         OTPActions.DOMESTIC_BENEFICIARY.name,
                         SessionManager.user?.currentCustomer?.firstName,
                         viewModel.parentViewModel?.beneficiary?.value?.fullName(),
@@ -84,9 +82,11 @@ class AddBeneficiaryForDomesticTransferFragment :
             }
         }
     }
+
     private fun addBeneficiarySuccessDialog() {
         context?.let { it ->
-            Utils.confirmationDialog(it,
+            Utils.confirmationDialog(
+                it,
                 Translator.getString(
                     it,
                     R.string.screen_add_beneficiary_detail_display_text_alert_title
@@ -115,7 +115,8 @@ class AddBeneficiaryForDomesticTransferFragment :
                             }
                         }
                     }
-                },false)
+                }, false
+            )
         }
     }
 
