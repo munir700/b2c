@@ -23,8 +23,13 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.cardNumber)
         }
     override var isAddFundScreen: ObservableField<Boolean> = ObservableField()
-
     override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
+    override var maximumAccumulative: ObservableField<Double> = ObservableField()
+    override var remainingAccumulative: ObservableField<Double> = ObservableField()
+    override var denominationFirstAmount: ObservableField<String> = ObservableField()
+    override var denominationSecondAmount: ObservableField<String> = ObservableField()
+    override var denominationThirdAmount: ObservableField<String> = ObservableField()
+    override var denominationAmount: ObservableField<String> = ObservableField()
 
     @get:Bindable
     override var cardName: String = ""
@@ -78,14 +83,12 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
 
         }
 
-
     @get:Bindable
     override var valid: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
         }
-
 
     @get:Bindable
     override var maxLimit: Double = 0.00
@@ -136,7 +139,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.primaryCardUpdatedBalance)
         }
-
 
     @get:Bindable
     override var spareCardUpdatedBalance: String = ""
@@ -193,7 +195,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         return ""
     }
 
-
     private fun clearError() {
         if (amount != "") {
             if (amount != ".") {
@@ -205,12 +206,4 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             valid = false
         }
     }
-
-    override var maximumAccumulative: ObservableField<Double> = ObservableField()
-    override var remainingAccumulative: ObservableField<Double> = ObservableField()
-    override var denominationFirstAmount: ObservableField<String> = ObservableField()
-    override var denominationSecondAmount: ObservableField<String> = ObservableField()
-    override var denominationThirdAmount: ObservableField<String> = ObservableField()
-    override var denominationAmount: ObservableField<String> = ObservableField()
-
 }
