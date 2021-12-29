@@ -15,7 +15,7 @@ interface IUpdateCardName {
     interface ViewModel : IBase.ViewModel<State> {
         val EVENT_UPDATE_CARD_NAME: Int get() = 1
         val clickEvent: SingleClickEvent
-        var card: Card
+        var card: Card?
         fun handlePressOnView(id: Int)
         fun updateCardName()
     }

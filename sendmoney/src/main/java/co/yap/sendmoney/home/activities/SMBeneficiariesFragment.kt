@@ -25,6 +25,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
+import co.yap.yapcore.constants.Constants.SHOW_ADDRESS_IN_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.enums.FeatureSet
@@ -32,6 +33,7 @@ import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.beneficiaryInfoDialog
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -68,6 +70,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initSwipeListener()
         if (viewModel.state.sendMoneyType.get() != SendMoneyTransferType.ALL_Y2Y_SM.name) {
             initComponents()
         }
@@ -86,7 +89,6 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 viewModel.state.isNoBeneficiary.set(true)
                 viewModel.state.hasBeneficiary.set(false)
             } else {
-                initSwipeListener()
                 viewModel.state.isNoBeneficiary.set(false)
                 viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
@@ -164,11 +166,12 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
         }
     }
 
-    private fun openEditBeneficiary(beneficiary: Beneficiary?) {
+    private fun openEditBeneficiary(beneficiary: Beneficiary?, show: Boolean = false) {
         beneficiary?.let {
             trackEventWithScreenName(FirebaseEvent.EDIT_BENEFICIARY)
             val bundle = Bundle()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
+            bundle.putBoolean(SHOW_ADDRESS_IN_BENEFICIARY, show)
             bundle.putString(Constants.IS_IBAN_NEEDED, "loadFromServer")
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
             launchActivity<EditBeneficiaryActivity>(
@@ -208,7 +211,29 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     when (payload.itemData) {
                         is Beneficiary -> {
-                            startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
+                            if (addressMandatory((payload.itemData as Beneficiary).country) && (payload.itemData as Beneficiary).beneficiaryAddress.isNullOrEmpty()) {
+                                requireContext().beneficiaryInfoDialog(
+                                    title = "We need more information about the beneficiary",
+                                    message = "Please fill in the address field to complete the transaction",
+                                    buttonText = "Do it later",
+                                    callback = { proceed ->
+                                        if (proceed) {
+                                            openEditBeneficiary(
+                                                payload.itemData as Beneficiary,
+                                                true
+                                            )
+                                        }
+                                    },
+                                    icon = R.drawable.ic_exclamation_primary_white,
+                                    coreButtonTitle = "Do it now"
+                                )
+                            } else {
+                                startMoneyTransfer(
+                                    payload.itemData as Beneficiary,
+                                    payload.position
+                                )
+                            }
+
                         }
                         is Contact -> {
                             startY2YTransfer(
@@ -224,7 +249,10 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
             R.id.btnEdit -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
-                        openEditBeneficiary(payload.itemData as Beneficiary)
+                        openEditBeneficiary(
+                            payload.itemData as Beneficiary,
+                            addressMandatory((payload.itemData as Beneficiary).country)
+                        )
                     }
                 }
                 viewModel.clickEvent.setPayload(null)
@@ -242,6 +270,13 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
             }
             R.id.tvCancel, R.id.tbBtnBack -> activity?.finish()
         }
+    }
+
+    private fun addressMandatory(countryCode: String?): Boolean {
+        val country = SessionManager.getCountries().find {
+            it.isoCountryCode2Digit == countryCode
+        }
+        return country?.addressMandatory ?: false
     }
 
     private fun deleteBeneficiary(beneficiary: Beneficiary, position: Int) {
@@ -308,9 +343,10 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                                 }
                                 isDismissFlow == true -> {
                                 }
-                                else -> viewModel.parentViewModel?.requestAllBeneficiaries(
+                                else -> {
+                                    viewModel.parentViewModel?.requestAllBeneficiaries(
                                     viewModel.state.sendMoneyType.get() ?: ""
-                                )
+                                )}
                             }
                         }
                     }

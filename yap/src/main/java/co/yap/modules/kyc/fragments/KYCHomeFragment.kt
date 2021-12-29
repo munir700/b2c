@@ -14,10 +14,12 @@ import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
+import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import java.io.File
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
@@ -44,7 +46,13 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
+                    if (viewModel.parentViewModel?.accountStatus?.value == AccountStatus.FSS_PROFILE_UPDATED.name) {
+                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
+                    } else {
+                        viewModel.requestDocumentsInformation{
+                            navigate(R.id.action_KYCHomeFragment_to_confirmCardNameFragment)
+                        }
+                    }
                 }
                 R.id.tvSkip -> {
                     trackEventWithScreenName(FirebaseEvent.CLICK_SKIP_EID)
@@ -58,12 +66,12 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
                 findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-            } else if (viewModel.parentViewModel?.gotoInformationErrorFragment?.value == true) {
+            } else if (viewModel.parentViewModel?.showProgressBar?.value == false) {
                 navigateToInformationErrorFragment()
             } else {
                 viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
             }
-        } ?: if (viewModel.parentViewModel?.gotoInformationErrorFragment?.value == true) {
+        } ?: if (viewModel.parentViewModel?.showProgressBar?.value == false) {
             navigateToInformationErrorFragment()
         }
     }
@@ -110,7 +118,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
-                viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
+                it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)?.let { it1 ->
+                    viewModel.onEIDScanningComplete(
+                        it1
+                    )
+                }
             }
         }
     }

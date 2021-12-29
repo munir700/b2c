@@ -85,6 +85,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin3 = originalSign.sslPin3,
             sslHost = originalSign.sslHost,
             spayServiceId = originalSign.spayServiceId,
+            flagSmithAPIKey = originalSign.flagSmithAPIKey,
             uxCamKey = originalSign.uxCamKey
         )
         initAllModules()

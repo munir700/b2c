@@ -41,7 +41,7 @@ class AddTopUpCardActivityV2 : BaseBindingActivity<IAddTopUpCard.ViewModel>(), I
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (intent.hasExtra(Constants.KEY) && intent.hasExtra(Constants.TYPE)) {
-            viewModel.state.url = intent.getStringExtra(Constants.KEY)
+            viewModel.state.url = intent.getStringExtra(Constants.KEY)?:""
             type = intent.getStringExtra(Constants.TYPE)
             viewModel.state.toolbarVisibility.set(type == Constants.TYPE_ADD_CARD)
 //            if (type == Constants.TYPE_ADD_CARD) {

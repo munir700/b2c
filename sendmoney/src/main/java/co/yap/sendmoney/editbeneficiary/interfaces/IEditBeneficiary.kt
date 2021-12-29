@@ -1,5 +1,6 @@
 package co.yap.sendmoney.editbeneficiary.interfaces
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
@@ -43,6 +44,8 @@ interface IEditBeneficiary {
         var valid: Boolean?
         var selectedCountryOfResidence: Country?
         var rightButtonText: ObservableField<String>
+        var beneficiaryAddress: String?
+        var showAddressField : ObservableBoolean
 
     }
 }

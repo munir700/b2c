@@ -79,7 +79,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             }
             R.id.lyCall -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_CALL)
-                requireContext().makeCall(viewModel.state.contactPhone.get())
+                requireContext().openDialer(viewModel.state.contactPhone.get() ?: "")
             }
 
         }

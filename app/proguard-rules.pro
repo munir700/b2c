@@ -182,3 +182,5 @@
 -keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
   <fields>;
 }
+
+-keep class com.flagsmith.** { *; }

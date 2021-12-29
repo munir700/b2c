@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.billpayments.dashboard.mybills.adapter.MyBillsItemViewModel" />
+
+        <import type="co.yap.billpayments.utils.enums.BillStatus" />
+
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:background="@drawable/card_border_container"
+        android:onClick="@{(v)->viewModel.onViewClicked(v)}">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginVertical="@dimen/margin_medium_large"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            app:fullName="@{viewModel.billModel.billerInfo.billerName}"
+            app:imageUrl="@{viewModel.billModel.billerInfo.logo}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:position="@{viewModel.position}" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/fwNameAndDesc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="tvBillerName,tvDescription"
+            app:flow_verticalGap="@dimen/_1sdp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@id/ivIcon"
+            app:layout_constraintEnd_toStartOf="@+id/fwAmountAndStatus"
+            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintTop_toTopOf="@id/ivIcon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBillerName"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.billModel.billerInfo.billerName}"
+            tools:text="Etsilat" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDescription"
+            style="@style/MicroGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{viewModel.billModel.formattedDueDate.equals(``) ? viewModel.billModel.billNickName : viewModel.billModel.formattedDueDate + ` - `+ viewModel.billModel.billNickName}"
+            tools:text="Etsilatkdsjf;kdsjfskadjfksdjfl;askdjfl;kasdjflkasdjfl;kasdjf;laskdjfsfsdfsadf" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/fwAmountAndStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="tvAmount,tvBillStatus"
+            app:flow_horizontalAlign="end"
+            app:flow_horizontalBias="0"
+            app:flow_verticalAlign="center"
+            app:layout_constraintBottom_toBottomOf="@id/fwNameAndDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fwNameAndDesc"
+            app:layout_constraintTop_toTopOf="@id/fwNameAndDesc" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAmount"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{Double.parseDouble(viewModel.billModel.totalAmountDue) >= 1.0 ? CurrencyExtensionsKt.toFormattedCurrency(viewModel.billModel.totalAmountDue,true,viewModel.billModel.settlementCurrency, true) : viewModel.billModel.totalAmountDue}"
+            android:visibility="@{viewModel.billModel.isPrepaid()? View.GONE:View.VISIBLE}"
+            tools:text="AED 200.00" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBillStatus"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.formattedBillStatus}"
+            android:textColor="@{viewModel.billModel.status.equals(BillStatus.PAID.name)?@color/greyDark: @color/red}"
+            tools:text="Paid" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

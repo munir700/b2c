@@ -717,7 +717,8 @@ object Utils {
                     currency = getDefaultCurrency(
                         it.currencyList?.filter { curr -> curr.active == true }
                     ),
-                    ibanMandatory = it.ibanMandatory
+                    ibanMandatory = it.ibanMandatory,
+                    addressMandatory = it.addressMandatory
                 )
             })
             return@let countries
