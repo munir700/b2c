@@ -151,7 +151,7 @@ open class FundActionsViewModel(application: Application) :
 
     override fun getFundTransferLimits(productCode: String) {
         launch {
-            when (val response = transactionsRepository.getFundTransferLimits(productCode)) {
+            when (val response = transactionsRepository.getFundTransferLimits(productCode,SessionManager.user?.uuid)) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
