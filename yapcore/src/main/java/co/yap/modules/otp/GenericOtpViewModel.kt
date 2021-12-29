@@ -216,7 +216,8 @@ class GenericOtpViewModel(application: Application) :
             when (val response =
                 repository.createOtpGeneric(
                     createOtpGenericRequest = CreateOtpGenericRequest(
-                        state.otpDataModel?.otpAction ?: ""
+                        action = state.otpDataModel?.otpAction ?: "",
+                        otpMessage = state.otpDataModel?.otpMessage?:""
                     )
                 )) {
                 is RetroApiResponse.Success -> {

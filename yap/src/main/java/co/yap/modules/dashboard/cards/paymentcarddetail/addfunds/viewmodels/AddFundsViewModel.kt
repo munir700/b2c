@@ -104,7 +104,7 @@ class AddFundsViewModel(application: Application) : SMFeeViewModel<IAddFunds.Sta
     override fun getFundTransferLimits() {
         launch {
             when (val response =
-                repository.getFundTransferLimits(TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode)) {
+                repository.getFundTransferLimits(TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode,SessionManager.user?.uuid)) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00

@@ -8,11 +8,11 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -211,6 +211,15 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     logoData = LogoData(
                         imageUrl = viewModel.state.imageUrl,
                         position = args.position
+                    ),
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        OTPActions.Y2Y.name,
+                        SessionManager.user?.currentCustomer?.firstName,
+                        viewModel.state.amount + SessionManager.getDefaultCurrency(),
+                        viewModel.state.fullName,
+                        "%s1",
+                        "%s2",
+                        SessionManager.helpPhoneNumber
                     )
                 )
             ),

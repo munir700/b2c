@@ -32,6 +32,7 @@
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
     <string name="common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
+    <string name="common_display_text_accumulative_limit_error_transaction">Your maximum accumulative limit is %1s and your remaining accumulative limit is %2s</string>
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
@@ -816,6 +817,8 @@
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
     <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
     <string name="screen_cash_transfer_display_text_required_topup_balance">Your available balance is %1s.\n Top up to proceed with this purchase.</string>
+    <string name="screen_topup_bank_error_display_no_accumulative_balance">Hi there! You have exceeded the amount you can top-up your YAP card for today. Please try again tomorrow</string>
+    <string name="screen_topup_bank_error_display_less_accumulative_balance">Hi there! the top-up amount requested exceeds your daily limit. Please try again with a lesser amount</string>
 
     <!-- International Funds Transfer -->
 
@@ -1566,5 +1569,19 @@
 
     <!-- Bill Category Screen-->
     <string name="screen_bill_category_title_coming_soon">Coming soon</string>
+
+    <!-- OTP Message Composition -->
+    <string-array name="screen_otp_messages">
+        <item>SWIFT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>UAEFTS;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>RMT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>CASHPAYOUT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>DOMESTIC_TRANSFER;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>Y2Y;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>TOP_UP_SUPPLEMENTARY;Hi %1$s! Your OTP to top up your YAP card with %2$s from your card ending in %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>SWIFT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+        <item>RMT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+        <item>DOMESTIC_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as a local beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+    </string-array>
 
 </resources>

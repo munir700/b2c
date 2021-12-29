@@ -20,9 +20,6 @@ interface IFundActions {
         val EVENT_ADD_FUNDS_SUCCESS: Int get() = 1
         val EVENT_REMOVE_FUNDS_SUCCESS: Int get() = 2
         fun buttonClickEvent(id: Int)
-        fun denominationFirstAmountClick()
-        fun denominationSecondAmount()
-        fun denominationThirdAmount()
         fun addFunds()
         fun removeFunds()
         fun initateVM(topupCard: TopUpCard)
@@ -47,6 +44,7 @@ interface IFundActions {
         fun getTransactionThresholds()
         val transactionThreshold: MutableLiveData<TransactionThresholdModel>
         val transactionsRepository: TransactionsRepository
+        fun denominationAmountValidator(amount: String, enable: (boolean: Boolean) -> Unit)
     }
 
     interface State : IBase.State {
@@ -56,9 +54,6 @@ interface IFundActions {
         var enterAmountHeading: String
         var currencyType: String
         var amount: String?
-        var denominationFirstAmount: String
-        var denominationSecondAmount: String
-        var denominationThirdAmount: String
         var availableBalanceGuide: String
         var availableBalance: String
         var availableBalanceText: String
@@ -68,7 +63,6 @@ interface IFundActions {
         var minLimit: Double
         var amountBackground: Drawable?
         var errorDescription: String
-        var denominationAmount: String
         var transactionFeeSpannableString: String?
         var transferFee: CharSequence?
 
@@ -78,5 +72,11 @@ interface IFundActions {
         var spareCardUpdatedBalance: String
 
         var isAddFundScreen: ObservableField<Boolean>
+        var maximumAccumulative : ObservableField<Double>
+        var remainingAccumulative : ObservableField<Double>
+        var denominationFirstAmount: ObservableField<String>
+        var denominationSecondAmount: ObservableField<String>
+        var denominationThirdAmount: ObservableField<String>
+        var denominationAmount: ObservableField<String>
     }
 }
