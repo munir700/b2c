@@ -16,6 +16,8 @@ import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
@@ -163,7 +165,6 @@ open class FundActionsViewModel(application: Application) :
     }
 
     override fun denominationAmountValidator(amount: String, enable: (boolean: Boolean) -> Unit) {
-        state.denominationAmount.set("")
         state.denominationAmount.set(
             Utils.getFormattedCurrencyWithoutComma(
                 amount.replace(
@@ -174,7 +175,7 @@ open class FundActionsViewModel(application: Application) :
         )
         if (!enteredAmount.value.equals(state.denominationAmount.get())) {
             enteredAmount.value = state.denominationAmount.get()
-            enable.invoke(true)
+            enable.invoke(enteredAmount.value?.getValueWithoutComa().parseToDouble() <= state.remainingAccumulative.get()?:0.0)
         } else {
             enteredAmount.value = ""
             enable.invoke(false)
