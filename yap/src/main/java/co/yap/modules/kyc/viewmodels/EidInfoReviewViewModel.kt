@@ -87,10 +87,10 @@ class EidInfoReviewViewModel(application: Application) :
                 !state.isDateOfBirthValid.get() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
-                            state.AgeLimit
+                            state.AgeLimit?:18
                         ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age).format(
-                            state.AgeLimit
+                            state.AgeLimit?:18
                         )
                     )
                     clickEvent.setValue(eventErrorUnderAge)
@@ -107,15 +107,17 @@ class EidInfoReviewViewModel(application: Application) :
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
                 }
-                it.isoCountryCode2Digit.equals(
-                    sectionedCountries?.data?.find { country ->
-                        country.isoCountryCode2Digit.equals(
-                            it.isoCountryCode2Digit,
-                            true
-                        )
-                    }?.isoCountryCode2Digit,
-                    true
-                ) -> {
+                sectionedCountries?.let { sc ->
+                    it.isoCountryCode2Digit.equals(
+                        sc.data.find { country ->
+                            country.isoCountryCode2Digit.equals(
+                                it.isoCountryCode2Digit,
+                                true
+                            )
+                        }?.isoCountryCode2Digit,
+                        true
+                    )
+                } ?: true -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_sanctioned_country),
                         body = getString(Strings.screen_kyc_information_error_text_description_sanctioned_country)
@@ -443,16 +445,9 @@ class EidInfoReviewViewModel(application: Application) :
         requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
-                when (senctionedCountryResponse) {
-                    is RetroApiResponse.Success -> {
+                when {
+                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success -> {
                         sectionedCountries = senctionedCountryResponse.data
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.toast = senctionedCountryResponse.error.message
-                    }
-                }
-                when (configurationEIDResponse) {
-                    is RetroApiResponse.Success -> {
                         val data = configurationEIDResponse.data.data
                         state.isDateOfBirthValid.set(
                             getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
@@ -464,12 +459,15 @@ class EidInfoReviewViewModel(application: Application) :
                         }
                         state.isCountryUS =
                             identity.isoCountryCode2Digit.contains(
+
                                 countryName ?: "US"
                             )
                         state.AgeLimit = data?.ageLimit
+
                     }
-                    is RetroApiResponse.Error -> {
-                        state.toast = configurationEIDResponse.error.message
+                    else -> {
+                        if (senctionedCountryResponse is RetroApiResponse.Error)
+                            state.toast = senctionedCountryResponse.error.message
                     }
                 }
             }
