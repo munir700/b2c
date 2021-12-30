@@ -19,6 +19,8 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
@@ -95,6 +97,7 @@ class EidInfoReviewViewModel(application: Application) :
                     )
                     clickEvent.setValue(eventErrorUnderAge)
                     trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_UNDERAGED)
 
                 }
                 state.isCountryUS -> {
@@ -106,6 +109,7 @@ class EidInfoReviewViewModel(application: Application) :
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
                 sectionedCountries?.let { sc ->
                     it.isoCountryCode2Digit.equals(
@@ -126,6 +130,7 @@ class EidInfoReviewViewModel(application: Application) :
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
                 parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {
                     state.toast =
