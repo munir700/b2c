@@ -41,7 +41,7 @@ object DateUtils {
     fun getAge(day: Int, month: Int, year: Int): Int = getAge(toDate(day, month, year))
 
     fun isDatePassed(date: Date): Boolean = date.before(Date())
-    fun isFutureDate(date: Date): Boolean = date.after(Date())
+    fun isFutureDate(date: Date?): Boolean? = date?.after(Date())
     private fun toDate(day: Int, month: Int, year: Int): Date {
         return if (year.toString().length == 2) {
             normaliseDate(day, month, year)

@@ -187,8 +187,11 @@ class EidInfoReviewViewModel(application: Application) :
                             )
                             identity.expirationDate =
                                 DateUtils.stringToDate(data.expiration_date, "yyMMdd")
-                            identity.dateOfBirth =
-                                DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            val dob = DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            identity.dateOfBirth = if (DateUtils.isFutureDate(dob) == true) DateUtils.nextYear(
+                                dob,
+                                -100
+                            ) else DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit
