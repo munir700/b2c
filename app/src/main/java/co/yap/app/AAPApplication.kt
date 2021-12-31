@@ -106,10 +106,6 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         initUxCam(configManager)
     }
 
-    private fun initUxCam(configManager: BuildConfigManager?) {
-        UXCam.startWithKey(configManager?.uxCamKey)
-    }
-
     private fun initNetworkLayer() {
         RetroNetwork.initWith(this, getAppDataForNetwork(configManager))
         NetworkConnectionManager.init(this)
@@ -247,5 +243,11 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         LocaleManager.setLocale(this)
+    }
+
+    private fun initUxCam(configManager: BuildConfigManager?) {
+        if(!BuildConfig.DEBUG){
+            UXCam.startWithKey(configManager?.uxCamKey)
+        }
     }
 }

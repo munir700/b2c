@@ -1105,18 +1105,35 @@ object UIBinder {
 
     }
 
+    @BindingAdapter("strikeThroughText")
+    @JvmStatic
+    fun AppCompatTextView.strikeThroughText(isStrikeThrough: Boolean) {
+        this.paintFlags =
+            if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+    }
+
+    /*
+    Binding adapter for hiding sensitive views using UXCam
+
+    This adapter is called on the outermost layout of any layout file
+
+    UXCam hides these sensitive views in the session recording
+     */
+
+    /**
+     * Binding adapter for hiding sensitive views using UXCam
+     *
+     * This adapter is called on the outermost layout of any layout file
+     * UXCam hides these sensitive views in the session recording
+     *
+     * @param rootView : View on which this adapter is called
+     * @param views : List of sensitive views that needs to be hidden in UXCam Session
+     */
     @BindingAdapter("sensitiveViews")
     @JvmStatic
     fun hideSensitiveViews(rootView: View, views: List<View>) {
         views.forEach {
             UXCam.occludeSensitiveView(it)
         }
-    }
-
-    @BindingAdapter("strikeThroughText")
-    @JvmStatic
-    fun AppCompatTextView.strikeThroughText(isStrikeThrough: Boolean) {
-        this.paintFlags =
-            if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
     }
 }
