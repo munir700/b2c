@@ -34,6 +34,7 @@
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
     <string name="common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
+    <string name="common_display_text_accumulative_limit_error_transaction">Your maximum accumulative limit is %1s and your remaining accumulative limit is %2s</string>
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <!--Validation Error Messages start-->
@@ -246,8 +247,8 @@
 
 
     <!-- Eid details review screen -->
-    <string name="screen_b2c_eid_info_review_display_text_title">Confirm your details</string>
-    <string name="screen_b2c_eid_info_review_display_text_sub_title">Thanks %1$s! Verify your details so we can send you your YAP card</string>
+    <string name="screen_b2c_eid_info_review_amendment_display_text_title">Confirm your details</string>
+    <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_heading">Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_sub_heading">Pending confirmation</string>
     <string name="screen_b2c_eid_info_review_display_text_name_heading">Name</string>
@@ -258,8 +259,8 @@
     <string name="screen_b2c_eid_info_review_display_text_gender_female">Female</string>
     <string name="screen_b2c_eid_info_review_display_text_gender_unknown"> </string>
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
-    <string name="screen_b2c_eid_info_review_button_title_confirm">Submit</string>
-    <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan your ID</string>
+    <string name="screen_b2c_eid_info_review__button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_amendment_button_title_rescan_eid">Re-scan your ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
@@ -272,8 +273,8 @@
     <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First name</string>
     <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name (if applicable)</string>
     <string name="screen_b2c_eid_info_review_display_text_last_name_heading">Last name</string>
-
-    <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Verify your details are exactly as per your ID.</string>
+    <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Thanks %1$s! Verify your details are exactly as per your Emirates Id. You can edit the name fields incase we got it wrong!</string>
+    <string name="screen_b2c_eid_info_review_amendment_display_text_edit_sub_title">Verify your details are exactly as per your ID.</string>
     <string name="screen_b2c_eid_info_review_display_text_eid_number">Emirates ID number</string>
     <string name="screen_b2c_eid_info_review_display_text_select_gender">Select your Gender</string>
 
@@ -851,6 +852,8 @@
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
     <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
     <string name="screen_cash_transfer_display_text_required_topup_balance">Your available balance is %1s.\n Top up to proceed with this purchase.</string>
+    <string name="screen_topup_bank_error_display_no_accumulative_balance">Hi there! You have exceeded the amount you can top-up your YAP card for today. Please try again tomorrow</string>
+    <string name="screen_topup_bank_error_display_less_accumulative_balance">Hi there! the top-up amount requested exceeds your daily limit. Please try again with a lesser amount</string>
 
     <!-- International Funds Transfer -->
 
@@ -1144,7 +1147,7 @@
     <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
-    <string name="screen_invite_friend_display_text_share_url">Hey! I just joined the UAE\'s newest banking app – YAP. Transform the way you bank and reserve your place in the queue to be one of the first to join me in the banking revolution.\n\n%1s</string>
+    <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>
 
     <!--  OTP Blocked New screen -->
     <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
@@ -1603,6 +1606,20 @@
 
     <!-- Bill Category Screen-->
     <string name="screen_bill_category_title_coming_soon">Coming soon</string>
+
+    <!-- OTP Message Composition -->
+    <string-array name="screen_otp_messages">
+        <item>SWIFT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>UAEFTS;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>RMT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>CASHPAYOUT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>DOMESTIC_TRANSFER;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>Y2Y;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>TOP_UP_SUPPLEMENTARY;Hi %1$s! Your OTP to top up your YAP card with %2$s from your card ending in %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>SWIFT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+        <item>RMT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+        <item>DOMESTIC_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as a local beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+    </string-array>
 
     <!-- KYC Amendments/ Missing Info Screen start -->
     <string name="screen_missing_info_button_get_started">Get started</string>

@@ -42,6 +42,8 @@ object Strings {
         "common_display_text_available_balance_error"
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
+    const val common_display_text_accumulative_limit_error_transaction: String =
+        "common_display_text_accumulative_limit_error_transaction"
     const val sm_display_text_min_max_limit_error_transaction: String =
         "sm_display_text_min_max_limit_error_transaction"
     const val common_display_text_daily_limit_error: String =
@@ -345,8 +347,8 @@ object Strings {
     //Eid Info Review screen
     const val screen_b2c_eid_info_review_display_text_title: String =
         "screen_b2c_eid_info_review_display_text_title"
-    const val screen_b2c_eid_info_review_display_text_sub_title: String =
-        "screen_b2c_eid_info_review_display_text_sub_title"
+    const val screen_b2c_eid_info_review_amendment_display_text_title: String =
+        "screen_b2c_eid_info_review_amendment_display_text_title"
     const val screen_b2c_eid_info_review_display_text_emirates_id_heading: String =
         "screen_b2c_eid_info_review_display_text_emirates_id_heading"
     const val screen_b2c_eid_info_review_display_text_emirates_id_sub_heading: String =
@@ -369,8 +371,10 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_expiry_date_heading"
     const val screen_b2c_eid_info_review_button_title_confirm: String =
         "screen_b2c_eid_info_review_button_title_confirm"
-    const val screen_b2c_eid_info_review_button_title_rescan_eid: String =
-        "screen_b2c_eid_info_review_button_title_rescan_eid"
+    const val screen_b2c_eid_info_review__button_title_rescan_eid: String =
+        "screen_b2c_eid_info_review__button_title_rescan_eid"
+    const val screen_b2c_eid_info_review_amendment_button_title_rescan_eid: String =
+        "screen_b2c_eid_info_review_amendment_button_title_rescan_eid"
     const val screen_b2c_eid_info_review_button_title_scan_eid: String =
         "screen_b2c_eid_info_review_button_title_scan_eid"
     const val screen_b2c_eid_info_review_display_text_error_under_age: String =
@@ -1350,6 +1354,10 @@ object Strings {
         "screen_cash_transfer_display_text_available_balance"
     const val screen_cash_transfer_display_text_required_topup_balance: String =
         "screen_cash_transfer_display_text_required_topup_balance"
+    const val screen_topup_bank_error_display_no_accumulative_balance: String =
+        "screen_topup_bank_error_display_no_accumulative_balance"
+    const val screen_topup_bank_error_display_less_accumulative_balance: String =
+        "screen_topup_bank_error_display_less_accumulative_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =
@@ -1467,6 +1475,7 @@ object Strings {
         "screen_y2y_display_text_recent_transfer"
     const val screen_add_topup_card_limit_text_title: String =
         "screen_add_topup_card_limit_text_title"
+
 
     // Screen Card Analytics
     const val screen_card_analytics_display_tab_title_category: String =

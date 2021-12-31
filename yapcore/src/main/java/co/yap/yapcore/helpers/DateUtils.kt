@@ -42,7 +42,7 @@ object DateUtils {
     fun getAge(day: Int, month: Int, year: Int): Int = getAge(toDate(day, month, year))
 
     fun isDatePassed(date: Date): Boolean = date.before(Date())
-
+    fun isFutureDate(date: Date?): Boolean? = date?.after(Date())
     private fun toDate(day: Int, month: Int, year: Int): Date {
         return if (year.toString().length == 2) {
             normaliseDate(day, month, year)
@@ -416,6 +416,15 @@ object DateUtils {
             cal.time = date
         }
         cal.add(Calendar.DAY_OF_YEAR, day)
+        return cal.time
+    }
+
+    fun nextYear(date: Date?, year: Int): Date? {
+        val cal = Calendar.getInstance()
+        if (date != null) {
+            cal.time = date
+        }
+        cal.add(Calendar.YEAR, year)
         return cal.time
     }
 
