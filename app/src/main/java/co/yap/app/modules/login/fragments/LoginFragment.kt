@@ -15,17 +15,11 @@ import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
-import co.yap.modules.kyc.amendments.passportactivity.PassportActivity
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
-import co.yap.widgets.setOnClick
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
