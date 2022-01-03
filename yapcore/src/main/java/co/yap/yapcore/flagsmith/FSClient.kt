@@ -26,6 +26,7 @@ class FSClient private constructor() : FeatureFlagClient {
         val featureUser = FeatureUser()
         if(SessionManager.user?.currentCustomer?.customerId.isNullOrBlank()) {
             hasFeatureEnable(false)
+            return
         }
         featureUser.identifier = SessionManager.user?.currentCustomer?.customerId ?: ""
         GlobalScope.launch(Dispatchers.IO) {
