@@ -1,6 +1,7 @@
 package co.yap.modules.location.interfaces
 
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
@@ -26,6 +27,9 @@ interface ILocation {
         val clickEvent: SingleClickEvent
         var selectedCountry: Country?
         var countries: ArrayList<Country>
+        // Will be used for KYC Amendment
+        var amendmentMap: HashMap<String?, List<String>?>?
+        var hideProgressToolbar: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel>{

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/passport_amendment_navigation"
+    app:startDestination="@id/passportAmendmentFragment">
+
+    <fragment
+        android:id="@+id/passportAmendmentFragment"
+        android:name="co.yap.modules.kyc.amendments.passport.PassportAmendmentFragment"
+        android:label="PassportAmendmentFragment"
+        tools:layout="@layout/fragment_passport_amendment">
+        <action
+            android:id="@+id/to_missingInfoConfirmationFragment"
+            app:destination="@id/missingInfoConfirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/missingInfoConfirmationFragment"
+        android:name="co.yap.modules.location.fragments.confirmation.MissingInfoConfirmationFragment"
+        android:label="MissingInfoConfirmationFragment"
+        tools:layout="@layout/fragment_missinginfo_confirmation" />
+
+</navigation>

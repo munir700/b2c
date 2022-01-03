@@ -162,4 +162,5 @@
     <color name="stepview_mark">@color/stepview_selected_number</color>
     <color name="teal_green">#44d389</color>
     <color name="colorPurple">#712ce2</color>
+    <color name="primary_purple_diffused">#EDE6FF</color>
 </resources>

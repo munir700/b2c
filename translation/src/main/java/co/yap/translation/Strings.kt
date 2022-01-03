@@ -347,8 +347,8 @@ object Strings {
     //Eid Info Review screen
     const val screen_b2c_eid_info_review_display_text_title: String =
         "screen_b2c_eid_info_review_display_text_title"
-    const val screen_b2c_eid_info_review_display_text_sub_title: String =
-        "screen_b2c_eid_info_review_display_text_sub_title"
+    const val screen_b2c_eid_info_review_amendment_display_text_title: String =
+        "screen_b2c_eid_info_review_amendment_display_text_title"
     const val screen_b2c_eid_info_review_display_text_emirates_id_heading: String =
         "screen_b2c_eid_info_review_display_text_emirates_id_heading"
     const val screen_b2c_eid_info_review_display_text_emirates_id_sub_heading: String =
@@ -371,8 +371,10 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_expiry_date_heading"
     const val screen_b2c_eid_info_review_button_title_confirm: String =
         "screen_b2c_eid_info_review_button_title_confirm"
-    const val screen_b2c_eid_info_review_button_title_rescan_eid: String =
-        "screen_b2c_eid_info_review_button_title_rescan_eid"
+    const val screen_b2c_eid_info_review__button_title_rescan_eid: String =
+        "screen_b2c_eid_info_review__button_title_rescan_eid"
+    const val screen_b2c_eid_info_review_amendment_button_title_rescan_eid: String =
+        "screen_b2c_eid_info_review_amendment_button_title_rescan_eid"
     const val screen_b2c_eid_info_review_button_title_scan_eid: String =
         "screen_b2c_eid_info_review_button_title_scan_eid"
     const val screen_b2c_eid_info_review_display_text_error_under_age: String =
@@ -397,6 +399,10 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_last_name_heading"
     const val screen_b2c_eid_info_review_display_text_edit_sub_title: String =
         "screen_b2c_eid_info_review_display_text_edit_sub_title"
+    const val screen_b2c_eid_info_review_display_text_eid_number: String =
+        "screen_b2c_eid_info_review_display_text_eid_number"
+    const val screen_b2c_eid_info_review_display_text_select_gender: String =
+        "screen_b2c_eid_info_review_display_text_select_gender"
 
     // KYC SDK
     const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String =
@@ -1550,6 +1556,11 @@ object Strings {
     const val custom_view_funds_transfer_display_text_reference_number_heading: String =
         "custom_view_funds_transfer_display_text_reference_number_heading"
 
+    // KYC Amendment Strings
+    const val kyc_incorrect_field = "kyc_incorrect_field"
+    const val eid_info_review_screen_select_nationality: String =
+        "eid_info_review_screen_select_nationality"
+
 
     //House hold screen
 
@@ -2240,6 +2251,10 @@ object Strings {
         "common_display_text_founder"
     const val screen_additional_info_label_text_question_hint: String =
         "screen_additional_info_label_text_question_hint"
+    const val screen_home_amendment_title: String =
+        "screen_home_amendment_title"
+    const val screen_home_amendment_desc: String =
+        "screen_home_amendment_desc"
 
     const val screen_additional_info_label_text_additional_info: String =
         "screen_additional_info_label_text_additional_info"
@@ -2526,4 +2541,16 @@ object Strings {
     //Bill Category
     const val screen_bill_category_title_coming_soon: String =
         "screen_bill_category_title_coming_soon"
+
+    // KYC Amendments/ Missing Info Screen
+    const val screen_missing_info_button_get_started = "screen_missing_info_button_get_started"
+    const val screen_missing_info_button_do_it_later = "screen_missing_info_button_do_it_later"
+    const val screen_missing_info_title = "screen_missing_info_title"
+    const val screen_missing_info_description = "screen_missing_info_description"
+    const val screen_missing_info_review_required = "screen_missing_info_review_required"
+
+    // KYC Amendments/ Missing Info Confirmation Screen
+    const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
+    const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
+
 }

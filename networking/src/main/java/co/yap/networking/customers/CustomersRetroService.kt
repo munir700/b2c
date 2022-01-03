@@ -7,15 +7,20 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.billpayment.*
+import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
-import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
+import co.yap.networking.customers.responsedtos.taxinfoamendment.TaxInfoAmendmentResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
@@ -68,7 +73,8 @@ interface CustomersRetroService {
         @Part("dob") dob: RequestBody,
         @Part("fullName") fullName: RequestBody,
         @Part("gender") gender: RequestBody,
-        @Part("identityNo") identityNo: RequestBody
+        @Part("identityNo") identityNo: RequestBody,
+        @Part("isAmendment") isAmendment: RequestBody
     ): Response<ApiResponse>
 
     // Get Documents
@@ -110,7 +116,10 @@ interface CustomersRetroService {
 
     @Multipart
     @POST(CustomersRepository.URL_DETECT)
-    suspend fun uploadIdCard(@Part fileFront: MultipartBody.Part, @Part fileBack: MultipartBody.Part): Response<KycResponse>
+    suspend fun uploadIdCard(
+        @Part fileFront: MultipartBody.Part,
+        @Part fileBack: MultipartBody.Part
+    ): Response<KycResponse>
 
     @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
     suspend fun getY2YBeneficiaries(@Body contacts: List<Contact>): Response<Y2YBeneficiariesResponse>
@@ -232,6 +241,15 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
+    @GET(CustomersRepository.URL_AMENDMENTS_Birth_INFO)
+    suspend fun getAmendmentsBirthInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<BirthInfoAmendmentResponse>>
+
+    @GET(CustomersRepository.URL_AMENDMENTS_TAX_INFO)
+    suspend fun getAmendmentsTaxInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<TaxInfoAmendmentResponse>>
+
+    @GET(CustomersRepository.URL_AMENDMENTS_Employment_INFO)
+    suspend fun getAmendmentsEmploymentInfo(@Query("accountUuid") accountUuid: String): Response<BaseResponse<EmploymentInfoAmendmentResponse>>
+
     @GET(CustomersRepository.URL_GET_ALL_CURRENCIES)
     suspend fun getAllCurrencies(): Response<CurrenciesResponse>
 
@@ -328,4 +346,25 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_VALIDATE_EID)
     suspend fun getEIDConfigurations(): Response<BaseResponse<ConfigureEIDResponse>>
+
+    // Get Missing Info
+    @GET(CustomersRepository.URL_GET_AMENDMENT_FIELDS)
+    suspend fun getMissingInfoList(@Query("accountUuid") accountUuid: String): Response<BaseListResponse<AmendmentFields>>
+
+    //Get Customer KYC Data
+    @GET(CustomersRepository.URL_GET_CUSTOMER_KYC_DOCUMENTS)
+    suspend fun getCustomerKYCData(@Query("accountUuid") accountUuid: String): Response<BaseResponse<EIDDocumentsResponse>>
+
+    //Get Customer Documents Data (Passport)
+    @GET(CustomersRepository.URL_GET_CUSTOMER_DOCUMENTS)
+    suspend fun getCustomerDocuments(@Query("accountUuid") accountUuid: String?): Response<BaseResponse<PassportRequest>>
+
+    @Multipart
+    @POST(CustomersRepository.URL_UPDATE_PASSPORT_AMENDMENT)
+    suspend fun uploadPassportAmendments(
+        @Part files: MultipartBody.Part,
+        @Part("passportNumber") passportNumber: RequestBody,
+        @Part("passportIssueDate") passportIssueDate: RequestBody,
+        @Part("passportExpiryDate") passportExpiryDate: RequestBody
+    ): Response<ApiResponse>
 }
