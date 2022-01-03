@@ -12,6 +12,7 @@ import co.yap.networking.customers.responsedtos.birthinfoamendment.BirthInfoAmen
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
+import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
@@ -128,7 +129,7 @@ interface CustomersApi {
     suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse>
    suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse>
     suspend fun getMissingInfoList(accountUuid: String): RetroApiResponse<BaseListResponse<AmendmentFields>>
-    suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<ApiResponse>
+    suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<BaseResponse<EIDDocumentsResponse>>
     suspend fun getAmendmentsBirthInfo(accountUuid: String): RetroApiResponse<BaseResponse<BirthInfoAmendmentResponse>>
     suspend fun getAmendmentsTaxInfo(accountUuid: String): RetroApiResponse<BaseResponse<TaxInfoAmendmentResponse>>
     suspend fun getAmendmentsEmploymentInfo(accountUuid: String): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>

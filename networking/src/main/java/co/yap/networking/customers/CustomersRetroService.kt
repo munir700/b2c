@@ -353,7 +353,7 @@ interface CustomersRetroService {
 
     //Get Customer KYC Data
     @GET(CustomersRepository.URL_GET_CUSTOMER_KYC_DOCUMENTS)
-    suspend fun getCustomerKYCData(@Query("accountUuid") accountUuid: String): Response<EIDDocumentsResponse>
+    suspend fun getCustomerKYCData(@Query("accountUuid") accountUuid: String): Response<BaseResponse<EIDDocumentsResponse>>
 
     //Get Customer Documents Data (Passport)
     @GET(CustomersRepository.URL_GET_CUSTOMER_DOCUMENTS)

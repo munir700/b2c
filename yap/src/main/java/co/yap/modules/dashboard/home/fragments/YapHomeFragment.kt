@@ -386,7 +386,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         } else {
                             viewModel.state.isUserAccountActivated.set(false)
                             SessionManager.getAccountInfo {
-                                if(isAdded) {
+                                if (isAdded) { // TODO will add permanent solution. need to awar with lifecycle
                                     GlobalScope.launch(Main) {
                                         setUpDashBoardNotificationsView()
                                     }
@@ -684,9 +684,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
             NotificationAction.AMENDMENT -> {
                 startFragment(
-                    fragmentName = MissingInfoFragment::class.java.name
+                    fragmentName = MissingInfoFragment::class.java.name,
+                    clearAllPrevious = true
                 )
-                requireActivity().finish()
+
             }
         }
     }
