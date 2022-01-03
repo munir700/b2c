@@ -530,8 +530,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
         } ?: false
     }
 
-    override fun requ
-    estAllAPIs() {
+    override fun requestAllAPIs() {
         requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
