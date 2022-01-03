@@ -56,6 +56,7 @@ class EidInfoReviewAmendmentFragment : KYCChildFragment<IEidInfoReviewAmendment.
         viewModel.validator?.targetViewBinding =
             getDataBindingView<FragmentEidInfoReviewAmendmentBinding>()
         viewModel.validator?.toValidate()
+        // TODO use MaskTextWatcher to mask the eid number
         getDataBindingView<FragmentEidInfoReviewAmendmentBinding>().tvEidNumber.filters =
             arrayOf(
                 InputFilter.LengthFilter(resources.getInteger(R.integer.eid_length)),

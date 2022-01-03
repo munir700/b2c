@@ -565,7 +565,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         return executeSafely(call = { api.getMissingInfoList(accountUuid) })
     }
 
-    override suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<EIDDocumentsResponse> {
+    override suspend fun getCustomerKYCData(accountUuid: String): RetroApiResponse<BaseResponse<EIDDocumentsResponse>> {
         return executeSafely(call = { api.getCustomerKYCData(accountUuid) })
     }
 

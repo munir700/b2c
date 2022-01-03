@@ -12,6 +12,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.isFutureDate
+import co.yap.yapcore.helpers.DateUtils.nextYear
 import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
@@ -63,26 +65,20 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val fileFront = if (BuildConfig.DEBUG) {
-                context.dummyEID("FRONT")
-            } else
-                File(result.document.files[0].croppedFile)
 
-            val fileBack = if (BuildConfig.DEBUG) {
-                context.dummyEID("BACK")
-            } else
-                File(result.document.files[1].croppedFile)
+            val fileFront = File(result.document.files[0].croppedFile)
+            val fileBack = File(result.document.files[1].croppedFile)
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
             val fileFrontReqBody = RequestBody.create(MediaType.parse("image/*"), fileFront)
             val partFront =
-                MultipartBody.Part.createFormData("files_f", fileFront?.name, fileFrontReqBody)
+                MultipartBody.Part.createFormData("files_f", fileFront.name, fileFrontReqBody)
 
             val fileBackReqBody = RequestBody.create(MediaType.parse("image/*"), fileBack)
             val partBack =
-                MultipartBody.Part.createFormData("files_b", fileBack?.name, fileBackReqBody)
+                MultipartBody.Part.createFormData("files_b", fileBack.name, fileBackReqBody)
             launch {
                 state.loading = true
                 when (val response = repository.detectCardData(partFront, partBack)) {
@@ -101,8 +97,11 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             )
                             identity.expirationDate =
                                 DateUtils.stringToDate(data.expiration_date, "yyMMdd")
-                            identity.dateOfBirth =
-                                DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            val dob = DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            identity.dateOfBirth = if (isFutureDate(dob) == true) nextYear(
+                                dob,
+                                -100
+                            ) else DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit

@@ -164,8 +164,8 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_title}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_title" />
+                    app:text="@{Strings.screen_b2c_eid_info_review_amendment_display_text_title}"
+                    tools:text="@string/screen_b2c_eid_info_review_amendment_display_text_title" />
 
                 <TextView
                     android:id="@+id/tvDetailsVerify"
@@ -176,11 +176,10 @@
                     android:layout_marginTop="@dimen/margin_extra_small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="center"
-                    android:text="@{viewModel.state.caption}"
+                    android:text="@string/screen_b2c_eid_info_review_amendment_display_text_edit_sub_title"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_edit_sub_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvCard"
@@ -273,8 +272,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid" />
+                    app:text="@{Strings.screen_b2c_eid_info_review_amendment_button_title_rescan_eid}"
+                    tools:text="@string/screen_b2c_eid_info_review_amendment_button_title_rescan_eid" />
 
                 <co.yap.widgets.CollapsedColoredHintTextInputLayout
                     android:id="@+id/tvEIdHeading"
@@ -617,8 +616,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvError"
                     app:layout_constraintVertical_bias="0.75"
-                    app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_confirm" />
+                    app:text="@{Strings.common_button_submit}"
+                    tools:text="@string/common_button_submit" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

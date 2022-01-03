@@ -356,6 +356,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
         }
+        // TODO check this crash fix code
         if (!isFinishing)
             dialog.show()
     }

@@ -9,7 +9,7 @@ import android.view.View
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
@@ -33,7 +33,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     override fun getLayoutId(): Int = R.layout.fragment_biometric_permission
 
     override val viewModel: ISystemPermission.ViewModel
-        get() = ViewModelProviders.of(this).get(SystemPermissionViewModel::class.java)
+        get() = ViewModelProvider(this).get(SystemPermissionViewModel::class.java)
 
     private fun getScreenType(): String {
         return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String

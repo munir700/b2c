@@ -1000,7 +1000,7 @@ object UIBinder {
             drawables[3]
         )
     }
-
+// TODO refactor this binding adapter
     @BindingAdapter(requireAll = false, value = ["flagOnStartDrawable"])
     @JvmStatic
     fun setFlagOnDrawableStart(

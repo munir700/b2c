@@ -64,6 +64,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        //TODO optimize below logic
         if (viewModel.canSkipFragment()) {
             return
         } else {

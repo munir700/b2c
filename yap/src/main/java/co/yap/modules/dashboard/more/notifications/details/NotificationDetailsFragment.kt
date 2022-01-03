@@ -135,9 +135,8 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                         }
                         NotificationAction.AMENDMENT -> {
                             startFragment(
-                                fragmentName = MissingInfoFragment::class.java.name
+                                fragmentName = MissingInfoFragment::class.java.name, clearAllPrevious = true
                             )
-                            requireActivity().finish()
                         }
                     }
                 }

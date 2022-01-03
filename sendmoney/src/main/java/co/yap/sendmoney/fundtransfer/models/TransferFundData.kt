@@ -18,6 +18,7 @@ data class TransferFundData(
     var destinationAmount: String? = null,
     var toFxRate: String? = null,
     var fromFxRate: String? = null,
-    var rate: String? = null
+    var rate: String? = null,
+    var otpMessage: String? = null
 
 )
