@@ -24,7 +24,7 @@ class FSClient private constructor() : FeatureFlagClient {
 
     override fun hasFeature(flag: String, hasFeatureEnable: (Boolean) -> Unit) {
         val featureUser = FeatureUser()
-        if(SessionManager.user?.currentCustomer?.customerId == null) {
+        if(SessionManager.user?.currentCustomer?.customerId.isNullOrBlank()) {
             hasFeatureEnable(false)
         }
         featureUser.identifier = SessionManager.user?.currentCustomer?.customerId ?: ""
