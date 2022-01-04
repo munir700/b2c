@@ -19,6 +19,8 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
@@ -87,14 +89,15 @@ class EidInfoReviewViewModel(application: Application) :
                 !state.isDateOfBirthValid.get() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
-                            state.AgeLimit
+                            state.AgeLimit?:18
                         ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age).format(
-                            state.AgeLimit
+                            state.AgeLimit?:18
                         )
                     )
                     clickEvent.setValue(eventErrorUnderAge)
                     trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_UNDERAGED)
 
                 }
                 state.isCountryUS -> {
@@ -106,16 +109,19 @@ class EidInfoReviewViewModel(application: Application) :
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
-                it.isoCountryCode2Digit.equals(
-                    sectionedCountries?.data?.find { country ->
-                        country.isoCountryCode2Digit.equals(
-                            it.isoCountryCode2Digit,
-                            true
-                        )
-                    }?.isoCountryCode2Digit,
-                    true
-                ) -> {
+                sectionedCountries?.let { sc ->
+                    it.isoCountryCode2Digit.equals(
+                        sc.data.find { country ->
+                            country.isoCountryCode2Digit.equals(
+                                it.isoCountryCode2Digit,
+                                true
+                            )
+                        }?.isoCountryCode2Digit,
+                        true
+                    )
+                } ?: true -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_sanctioned_country),
                         body = getString(Strings.screen_kyc_information_error_text_description_sanctioned_country)
@@ -124,6 +130,7 @@ class EidInfoReviewViewModel(application: Application) :
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
                 parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {
                     state.toast =
@@ -180,8 +187,11 @@ class EidInfoReviewViewModel(application: Application) :
                             )
                             identity.expirationDate =
                                 DateUtils.stringToDate(data.expiration_date, "yyMMdd")
-                            identity.dateOfBirth =
-                                DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            val dob = DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            identity.dateOfBirth = if (DateUtils.isFutureDate(dob) == true) DateUtils.nextYear(
+                                dob,
+                                -100
+                            ) else DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit
@@ -443,16 +453,9 @@ class EidInfoReviewViewModel(application: Application) :
         requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
-                when (senctionedCountryResponse) {
-                    is RetroApiResponse.Success -> {
+                when {
+                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success -> {
                         sectionedCountries = senctionedCountryResponse.data
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.toast = senctionedCountryResponse.error.message
-                    }
-                }
-                when (configurationEIDResponse) {
-                    is RetroApiResponse.Success -> {
                         val data = configurationEIDResponse.data.data
                         state.isDateOfBirthValid.set(
                             getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
@@ -464,12 +467,15 @@ class EidInfoReviewViewModel(application: Application) :
                         }
                         state.isCountryUS =
                             identity.isoCountryCode2Digit.contains(
+
                                 countryName ?: "US"
                             )
                         state.AgeLimit = data?.ageLimit
+
                     }
-                    is RetroApiResponse.Error -> {
-                        state.toast = configurationEIDResponse.error.message
+                    else -> {
+                        if (senctionedCountryResponse is RetroApiResponse.Error)
+                            state.toast = senctionedCountryResponse.error.message
                     }
                 }
             }

@@ -11,6 +11,10 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.extentions.ParseExtenstionKt" />
+
+        <import type="co.yap.billpayments.utils.enums.BillStatus" />
+
         <import type="android.view.View" />
 
     </data>
@@ -98,6 +102,7 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:btn_enable="true"
                 app:btn_size="mini_normal"
+                app:enableCoreButton="@{!(viewModel.parentViewModel.selectedBill.isPostPaid() &amp;&amp; viewModel.parentViewModel.selectedBill.status.equals(BillStatus.PAID.name)) }"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBillStatus"

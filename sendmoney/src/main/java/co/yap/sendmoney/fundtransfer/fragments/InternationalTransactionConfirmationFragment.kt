@@ -12,7 +12,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import co.yap.modules.otp.GenericOtpFragment
@@ -46,12 +46,13 @@ class InternationalTransactionConfirmationFragment :
     override fun getLayoutId(): Int = R.layout.fragment_international_transaction_confirmation
 
     override val viewModel: InternationalTransactionConfirmationViewModel
-        get() = ViewModelProviders.of(this)
+        get() = ViewModelProvider(this)
             .get(InternationalTransactionConfirmationViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews()
+        setObservers()
     }
 
     private fun setUpViews() {
@@ -86,7 +87,8 @@ class InternationalTransactionConfirmationFragment :
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency(
                         false,
-                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: SessionManager.getDefaultCurrency()
+                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency
+                            ?: SessionManager.getDefaultCurrency()
                     )
                         ?: ""
                 ),
@@ -123,7 +125,7 @@ class InternationalTransactionConfirmationFragment :
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.isOtpRequired.observe(this, Observer {
-            if (!it)
+            if (it)
                 startOtpFragment()
         })
     }
@@ -148,11 +150,14 @@ class InternationalTransactionConfirmationFragment :
                     ),
                     otpMessage = requireContext().getOtpMessageFromComposer(
                         viewModel.parentViewModel?.transferData?.value?.otpAction ?: "",
-                        SessionManager.user?.currentCustomer?.firstName,
-                        viewModel.parentViewModel?.transferData?.value?.sourceAmount + " AED",
-                        viewModel.parentViewModel?.beneficiary?.value?.firstName,
-                        "%s1",
-                        "%s2"
+                        args = *arrayOf(
+                            SessionManager.user?.currentCustomer?.firstName,
+                            viewModel.parentViewModel?.transferData?.value?.sourceAmount + SessionManager.getDefaultCurrency(),
+                            viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                            "%s1",
+                            "%s2",
+                            SessionManager.helpPhoneNumber
+                        )
                     )
                 )
             ),
@@ -176,7 +181,11 @@ class InternationalTransactionConfirmationFragment :
             }
 
             Constants.ADD_SUCCESS -> {
-                trackEvent(SendMoneyEvents.SEND_MONEY_INTERNATIONAL.type,viewModel.parentViewModel?.beneficiary?.value?.country, viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType)
+                trackEvent(
+                    SendMoneyEvents.SEND_MONEY_INTERNATIONAL.type,
+                    viewModel.parentViewModel?.beneficiary?.value?.country,
+                    viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType
+                )
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
@@ -219,22 +228,14 @@ class InternationalTransactionConfirmationFragment :
             (newValue.length + 1) + clickValue.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        getBinding().tvDisclaimer.text = spanStr
-        getBinding().tvDisclaimer.movementMethod = LinkMovementMethod.getInstance()
+        getDataBindingView<FragmentInternationalTransactionConfirmationBinding>().tvDisclaimer.text =
+            spanStr
+        getDataBindingView<FragmentInternationalTransactionConfirmationBinding>().tvDisclaimer.movementMethod =
+            LinkMovementMethod.getInstance()
     }
 
-    override fun onResume() {
-        setObservers()
-        super.onResume()
-    }
-
-    override fun onPause() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewModel.clickEvent.removeObservers(this)
-        super.onPause()
     }
-
-    fun getBinding(): FragmentInternationalTransactionConfirmationBinding {
-        return viewDataBinding as FragmentInternationalTransactionConfirmationBinding
-    }
-
 }
