@@ -24,10 +24,6 @@ class FSClient private constructor() : FeatureFlagClient {
 
     override fun hasFeature(flag: String, hasFeatureEnable: (Boolean) -> Unit) {
         val featureUser = FeatureUser()
-        if(SessionManager.user?.currentCustomer?.customerId.isNullOrBlank()) {
-            hasFeatureEnable(false)
-            return
-        }
         featureUser.identifier = SessionManager.user?.currentCustomer?.customerId ?: ""
         GlobalScope.launch(Dispatchers.IO) {
             client?.updateTrait(
@@ -40,7 +36,9 @@ class FSClient private constructor() : FeatureFlagClient {
             )
         }
         GlobalScope.launch(Dispatchers.IO) {
-            val isEnable = client?.hasFeatureFlag(flag, featureUser) ?: false
+            val isEnable = SessionManager.user?.currentCustomer?.customerId?.let {
+                it.isNotBlank() && (client?.hasFeatureFlag(flag, featureUser)?: false)
+            } ?: false
             hasFeatureEnable(isEnable)
         }
     }
