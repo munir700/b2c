@@ -421,8 +421,8 @@ fun Context.customAlertDialog(
     positiveCallback: (View) -> Unit = {},
     negativeCallback: (View) -> Unit = {}
 ) {
-    val builder =
-        MaterialAlertDialogBuilder(this, R.style.Yap_App_MaterialAlertDialog_Rounded).apply {
+    val builder = MaterialAlertDialogBuilder(this, R.style.Yap_App_MaterialAlertDialog_Rounded)
+    val alertDialog = builder.create().apply {
             val binding =
                 ConfirmAlertDialogBinding.inflate(LayoutInflater.from(this@customAlertDialog))
             setView(binding.root)
@@ -441,18 +441,19 @@ fun Context.customAlertDialog(
             if (positiveButton.isNullOrBlank().not()) {
                 binding.btnNext.text = positiveButton
                 binding.btnNext.setTextColor(getColor(positiveButtonTextColor))
-                binding.btnNext.setOnClick { positiveCallback.invoke(it) }
+                binding.btnNext.setOnClick { positiveCallback.invoke(it)
+                dismiss()}
 
             } else binding.btnNext.visibility = View.GONE
             if (negativeButton.isNullOrBlank().not()) {
                 binding.btnClose.text = negativeButton
                 binding.btnClose.setTextColor(getColor(negativeButtonTextColor))
-                binding.btnClose.setOnClick { negativeCallback.invoke(it) }
-
+                binding.btnClose.setOnClick {
+                    negativeCallback.invoke(it)
+                    dismiss()
+                }
             } else binding.btnClose.visibility = View.GONE
         }
-    val alertDialog = builder.create()
     alertDialog.setCancelable(cancelable)
     alertDialog.show()
-
 }

@@ -1459,6 +1459,13 @@
     <string name="screen_bill_payment_bill_due_button_pay_all">Pay All</string>
     <string name="screen_bill_payment_bill_total_due_label">Total due</string>
     <string name="screen_bill_payment_due_bills_swipe_button_title">Pay Now</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_title">Looks like you entered an unavailable number</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_text">Please double check and try again</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_p_button_text">Edit now</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_n_button_text">No, I\'ll do it later</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_title">Etisalat services are down at the moment</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_text">We are unable to add this bill, please try again in a few hours</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_button_text">Got it</string>
 
 
     <!--    Biller Screen-->

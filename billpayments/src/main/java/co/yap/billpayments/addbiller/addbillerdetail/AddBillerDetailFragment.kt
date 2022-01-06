@@ -35,13 +35,26 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.addBillerError.observe(viewLifecycleOwner, Observer {
-            if (it == viewModel.state.EVENT_BILLER_NOTAVAILABLE || it == viewModel.state.EVENT_WORNG_INPUT) {
-                requireContext().customAlertDialog(
-                    topIconResId = R.drawable.ic_error_info_primary,
-                    title = "Etisalat services are down at the moment"
+        viewModel.addBillerError.observe(viewLifecycleOwner, Observer { errorCode ->
+            requireContext().customAlertDialog(
+                topIconResId = R.drawable.ic_error_info_primary,
+                title = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_title)
+                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_title),
+                message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
+                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
+                positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                    Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
                 )
-            }
+                else null,
+                negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                    Strings.screen_bill_payment_add_bill_error_dialog_n_button_text
+                )
+                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_button_text),
+                cancelable = false,
+                negativeCallback = {
+                    if (errorCode == viewModel.state.EVENT_WORNG_INPUT) navigateBack()
+                }
+            )
         })
     }
 
