@@ -19,6 +19,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AddBillerDetailViewModel(application: Application) :
@@ -131,7 +132,13 @@ class AddBillerDetailViewModel(application: Application) :
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
-                        showToast(response.error.message)
+                        if (response.error.actualCode == "1101" || response.error.actualCode == "1102")//1101  Biller Not Available and 1102 Invalid Input Number
+                        {
+                            clickEvent.setValue(response.error.actualCode.parseToInt())
+                        } else {
+                            showToast(response.error.message)
+                        }
+
                     }
                 }
             }
@@ -153,7 +160,7 @@ class AddBillerDetailViewModel(application: Application) :
             billerID = billerInformation?.billerID ?: "",
             skuId = billerInformation?.skuId ?: "",
             billNickName = state.nickNameValue.get()?.trim() ?: "",
-            inputsData = inputsData
+            inputsData = inputsData, isDown = 1
         )
     }
 }

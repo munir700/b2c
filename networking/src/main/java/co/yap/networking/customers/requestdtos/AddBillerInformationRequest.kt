@@ -11,5 +11,7 @@ data class AddBillerInformationRequest(
     @SerializedName("billNickName")
     val billNickName: String,
     @SerializedName("inputsData")
-    val inputsData: List<BillerInputData>
+    val inputsData: List<BillerInputData>,
+    @SerializedName("isDown")
+    val isDown: Int
 )

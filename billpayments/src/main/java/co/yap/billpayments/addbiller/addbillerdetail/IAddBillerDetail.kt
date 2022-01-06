@@ -39,5 +39,9 @@ interface IAddBillerDetail {
         var screenTitle: ObservableField<String>
         var valid: ObservableBoolean
         var nickNameValue: ObservableField<String>
+        val EVENT_BILLER_NOTAVAILABLE: Int
+            get() = 1101
+        val EVENT_WORNG_INPUT: Int
+            get() = 1102
     }
 }

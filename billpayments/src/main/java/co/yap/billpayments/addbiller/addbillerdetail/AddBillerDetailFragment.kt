@@ -13,6 +13,7 @@ import co.yap.billpayments.addbiller.base.AddBillBaseFragment
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.successDialog
 import kotlinx.android.synthetic.main.fragment_biller_detail.*
@@ -46,6 +47,9 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
         when (it) {
             R.id.btnAddBiller -> {
                 addBillerClick()
+            }
+            viewModel.state.EVENT_BILLER_NOTAVAILABLE, viewModel.state.EVENT_WORNG_INPUT -> {
+                requireContext().customAlertDialog(topIconResId = R.drawable.ic_error_info_primary,title = "Etisalat services are down at the moment")
             }
         }
     }
