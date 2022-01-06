@@ -186,7 +186,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     mobileNumber = viewModel.mobileNumber,
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name),
-                    otpMessage = viewModel.otpMessage()
+                    otpMessage = viewModel.otpMessage(OTPActions.FORGOT_PASS_CODE.name)
                 )
             ),
             showToolBar = true
