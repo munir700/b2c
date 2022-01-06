@@ -41,6 +41,14 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.addBillerError.observe(viewLifecycleOwner, Observer {
+            if (it == viewModel.state.EVENT_BILLER_NOTAVAILABLE || it == viewModel.state.EVENT_WORNG_INPUT) {
+                requireContext().customAlertDialog(
+                    topIconResId = R.drawable.ic_error_info_primary,
+                    title = "Etisalat services are down at the moment"
+                )
+            }
+        })
     }
 
     val clickObserver = Observer<Int> {
@@ -48,9 +56,7 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
             R.id.btnAddBiller -> {
                 addBillerClick()
             }
-            viewModel.state.EVENT_BILLER_NOTAVAILABLE, viewModel.state.EVENT_WORNG_INPUT -> {
-                requireContext().customAlertDialog(topIconResId = R.drawable.ic_error_info_primary,title = "Etisalat services are down at the moment")
-            }
+
         }
     }
 
@@ -93,6 +99,7 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.addBillerError.removeObservers(this)
     }
 
     override fun onDestroy() {

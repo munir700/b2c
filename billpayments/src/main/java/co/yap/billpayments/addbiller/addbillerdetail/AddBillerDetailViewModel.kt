@@ -33,6 +33,7 @@ class AddBillerDetailViewModel(application: Application) :
         AddBillerDetailInputComposer()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val billerDetailsResponse: MutableLiveData<SkuCatalogs> = MutableLiveData()
+    override val addBillerError: MutableLiveData<Int> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -134,7 +135,7 @@ class AddBillerDetailViewModel(application: Application) :
                         state.viewState.value = false
                         if (response.error.actualCode == "1101" || response.error.actualCode == "1102")//1101  Biller Not Available and 1102 Invalid Input Number
                         {
-                            clickEvent.setValue(response.error.actualCode.parseToInt())
+                            addBillerError.setValue(response.error.actualCode.parseToInt())
                         } else {
                             showToast(response.error.message)
                         }
