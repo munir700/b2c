@@ -12,6 +12,8 @@ object Constants {
     const val IS_TOPUP_SKIP: String = "isTopUpSkip"
     const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
+    const val VERIFY_PASSCODE_FROM = "Verify-Passcode-From"
+
 
     const val LONGITUDE = "longitude"
     const val LATITUDE = "latitude"
