@@ -1586,6 +1586,8 @@
         <item>FORGOT_PASS_CODE;Hi %1$s! Your OTP to change your passcode for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
         <item>FORGOT_CARD_PIN;Hi %1$s! Your OTP to reset your YAP card PIN is  %2$s. This code expires in  %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %4$s</item>
         <item>CHANGE_MOBILE_NO;Hi %1$s! Your OTP to change your mobile number for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>SIGN_UP_NUMBER;Hey there! Your OTP to verify your number for YAP is %1$s. This code expires in %2$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %3$s</item>
+        <item>Hi %1$s! Your OTP to sign into YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
     </string-array>
 
 </resources>
