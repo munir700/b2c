@@ -39,9 +39,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
-        getViewBinding().etNickName.afterTextChanged {
-            viewModel.validation()
-        }
+        getViewBinding().etNickName.afterTextChanged { viewModel.validation() }
         setObservers()
         initTabLayout()
         initReminderTabLayout()
