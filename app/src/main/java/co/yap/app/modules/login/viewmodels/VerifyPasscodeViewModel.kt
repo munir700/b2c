@@ -187,7 +187,8 @@ class VerifyPasscodeViewModel(application: Application) :
                     DemographicDataRequest(
                         clientId = state.username,
                         clientSecret = state.passcode,
-                        deviceId = state.deviceId
+                        deviceId = state.deviceId,
+                        otpMessage = otpMessage(OTPActions.DEMOGRAPHIC_VALIDATION.name)
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -209,7 +210,8 @@ class VerifyPasscodeViewModel(application: Application) :
             when (val response = messagesRepository.createForgotPasscodeOTP(
                 CreateForgotPasscodeOtpRequest(
                     Utils.verifyUsername(username),
-                    !Utils.isUsernameNumeric(username)
+                    !Utils.isUsernameNumeric(username),
+                    otpMessage = otpMessage(OTPActions.FORGOT_PASS_CODE.name)
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -249,13 +251,11 @@ class VerifyPasscodeViewModel(application: Application) :
         onClickEvent.value = id
     }
 
-    fun otpMessage(): String {
-      return  context.getOtpMessageFromComposer(
-            OTPActions.FORGOT_PASS_CODE.name,
+    override fun otpMessage(otpAction : String): String = context.getOtpMessageFromComposer(
+            otpAction,
             if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "There" else SessionManager.user?.currentCustomer?.firstName,
             "%s1",
             "%s2",
           if (state.verifyPassCodeEnum == VerifyPassCodeEnum.ACCESS_ACCOUNT.name) "%s3" else SessionManager.helpPhoneNumber
         )
-    }
 }

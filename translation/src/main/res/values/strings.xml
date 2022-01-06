@@ -1431,7 +1431,7 @@
     <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
-<!--    ERROR_INVALID_CARDINPUT-->
+    <!--    ERROR_INVALID_CARDINPUT-->
     <!--    Samsung Pay start-->
     <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
     <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
@@ -1440,7 +1440,7 @@
     <!--    Samsung Pay end-->
 
 
-<!--    Edit Card Name -->
+    <!--    Edit Card Name -->
     <string name="screen_edit_card_name_text_heading">Type your full name</string>
     <string name="screen_edit_card_name_display_heading">What name would you like on your card?</string>
     <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
@@ -1587,7 +1587,7 @@
         <item>FORGOT_CARD_PIN;Hi %1$s! Your OTP to reset your YAP card PIN is  %2$s. This code expires in  %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %4$s</item>
         <item>CHANGE_MOBILE_NO;Hi %1$s! Your OTP to change your mobile number for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
         <item>SIGN_UP_NUMBER;Hey there! Your OTP to verify your number for YAP is %1$s. This code expires in %2$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %3$s</item>
-        <item>Hi %1$s! Your OTP to sign into YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>DEMOGRAPHIC_VALIDATION;Hi %1$s! Your OTP to sign into YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
     </string-array>
 
 </resources>
