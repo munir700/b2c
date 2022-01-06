@@ -13,7 +13,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.billpayments.utils.enums.BillStatus
+import co.yap.networking.customers.responsedtos.billpayment.BillStatus
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 
@@ -47,7 +47,7 @@ class BillDashboardViewModel(application: Application) :
 
     override fun handleBillsResponse(billsList: List<ViewBillModel>?) {
         val dueBillsList =
-            billsList?.filter { it.status == BillStatus.OVERDUE.name || it.status == BillStatus.BILL_DUE.name }
+            billsList?.filter { it.status == BillStatus.OVERDUE.name || it.status == BillStatus.BILL_DUE.name || it.status == BillStatus.NA.name}
         initDashboard(dueBillsList.isNullOrEmpty(), dueBillsList)
         state.showBillCategory.set(dueBillsList.isNullOrEmpty())
     }

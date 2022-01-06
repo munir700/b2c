@@ -13,7 +13,7 @@
 
         <import type="co.yap.yapcore.helpers.extentions.ParseExtenstionKt" />
 
-        <import type="co.yap.billpayments.utils.enums.BillStatus" />
+        <import type="co.yap.networking.customers.responsedtos.billpayment.BillStatus" />
 
         <import type="android.view.View" />
 
@@ -92,20 +92,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvDueAmount"
                 tools:text="This bill is overdue" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBillerUnavailable"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:text="Unavailable, check back later."
+                android:visibility="@{viewModel.parentViewModel.selectedBill.isPostPaid() &amp;&amp;!viewModel.parentViewModel.selectedBill.isBillerNotUnavailable()? View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvBillStatus"
+                tools:text="Unavailable, check back later." />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnPayNow"
                 style="@style/RectangleBtnSmallStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:btn_enable="true"
                 app:btn_size="mini_normal"
-                app:enableCoreButton="@{!(viewModel.parentViewModel.selectedBill.isPostPaid() &amp;&amp; viewModel.parentViewModel.selectedBill.status.equals(BillStatus.PAID.name)) }"
+                app:enableCoreButton="@{!(viewModel.parentViewModel.selectedBill.isPostPaid() &amp;&amp; viewModel.parentViewModel.selectedBill.status.equals(BillStatus.PAID.name)) || !viewModel.parentViewModel.selectedBill.isBillerNotUnavailable() }"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvBillStatus"
+                app:layout_constraintTop_toBottomOf="@id/tvBillerUnavailable"
                 app:text="@{Strings.screen_bill_account_detail_button_text}"
                 tools:text="@string/screen_bill_account_detail_button_text" />
 

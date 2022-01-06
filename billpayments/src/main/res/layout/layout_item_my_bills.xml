@@ -9,7 +9,7 @@
             name="viewModel"
             type="co.yap.billpayments.dashboard.mybills.adapter.MyBillsItemViewModel" />
 
-        <import type="co.yap.billpayments.utils.enums.BillStatus" />
+        <import type="co.yap.networking.customers.responsedtos.billpayment.BillStatus" />
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{Double.parseDouble(viewModel.billModel.totalAmountDue) >= 1.0 ? CurrencyExtensionsKt.toFormattedCurrency(viewModel.billModel.totalAmountDue,true,viewModel.billModel.settlementCurrency, true) : viewModel.billModel.totalAmountDue}"
-            android:visibility="@{viewModel.billModel.isPrepaid() || viewModel.isBillerUnavailable? View.GONE:View.VISIBLE}"
+            android:visibility="@{viewModel.billModel.isPrepaid() || viewModel.billModel.isBillerNotUnavailable()? View.GONE:View.VISIBLE}"
             tools:text="AED 200.00" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -102,8 +102,8 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.isBillerUnavailable?`Unavailable`:viewModel.formattedBillStatus}"
-            android:textColor="@{viewModel.isBillerUnavailable?@color/error:viewModel.billModel.status.equals(BillStatus.PAID.name)?@color/greyDark: @color/red}"
+            android:text="@{viewModel.billModel.isBillerNotUnavailable()?viewModel.formattedBillStatus:`Unavailable`}"
+            android:textColor="@{viewModel.billModel.isBillerNotUnavailable()?@color/error:viewModel.billModel.status.equals(BillStatus.PAID.name)?@color/greyDark: @color/red}"
             tools:text="Paid" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -13,5 +13,5 @@ data class AddBillerInformationRequest(
     @SerializedName("inputsData")
     val inputsData: List<BillerInputData>,
     @SerializedName("isDown")
-    val isDown: Int
+    val isDown: Int?=null
 )

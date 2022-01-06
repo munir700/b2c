@@ -161,7 +161,7 @@ class AddBillerDetailViewModel(application: Application) :
             billerID = billerInformation?.billerID ?: "",
             skuId = billerInformation?.skuId ?: "",
             billNickName = state.nickNameValue.get()?.trim() ?: "",
-            inputsData = inputsData, isDown = 1
+            inputsData = inputsData, isDown = 0
         )
     }
 }
