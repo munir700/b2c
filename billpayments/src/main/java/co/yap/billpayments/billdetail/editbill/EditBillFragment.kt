@@ -34,10 +34,6 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override val viewModel: EditBillViewModel
         get() = ViewModelProviders.of(this).get(EditBillViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObservers()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +42,7 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
         getViewBinding().etNickName.afterTextChanged {
             viewModel.validation()
         }
+        setObservers()
         initTabLayout()
         initReminderTabLayout()
     }
