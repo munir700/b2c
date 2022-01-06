@@ -10,7 +10,7 @@
             name="viewModel"
             type="co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel" />
 
-        <import type="co.yap.app.modules.login.fragments.VerifyPassCodeEnum" />
+        <import type="co.yap.yapcore.enums.VerifyPassCodeEnum" />
 
         <import type="co.yap.translation.Strings" />
 
