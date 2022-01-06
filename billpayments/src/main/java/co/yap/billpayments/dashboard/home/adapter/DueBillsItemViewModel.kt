@@ -9,6 +9,12 @@ class DueBillsItemViewModel(
     val position: Int,
     private val onItemClickListener: OnItemClickListener?
 ) {
+    var isBillerUnavailable: Boolean = false
+
+    init {
+        isBillerUnavailable = true
+    }
+
     fun onViewClicked(view: View) {
         onItemClickListener?.onItemClick(view, dueBill, position)
     }

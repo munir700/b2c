@@ -13,6 +13,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <import type="co.yap.billpayments.utils.enums.BillStatus" />
     </data>
 
@@ -135,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.dueBill.totalAmountDue,false,viewModel.dueBill.settlementCurrency,true)}"
                 android:textColor="@{viewModel.dueBill.status.equals(BillStatus.OVERDUE.name) ? @color/red : @color/colorPrimaryDark }"
+                android:visibility="@{viewModel.isBillerUnavailable?View.GONE:View.VISIBLE}"
                 tools:text="200.00" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -142,7 +145,8 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.dueBill.settlementCurrency}"
+                android:text="@{viewModel.isBillerUnavailable?`Unavailable`:viewModel.dueBill.settlementCurrency}"
+                android:textColor="@{viewModel.isBillerUnavailable? @color/error : @color/greyDark }"
                 tools:text="AED" />
 
             <View
