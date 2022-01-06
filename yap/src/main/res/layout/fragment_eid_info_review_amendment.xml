@@ -556,6 +556,7 @@
                         app:onDrawableClickListener="@{viewModel.drawableClickListener}"
                         app:previousValue="@{viewModel.state.previousGender}"
                         app:validateEmpty="@{true}"
+                        app:isNotNeedToCheckWithPrevious="@{true}"
                         tools:text="Female" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>

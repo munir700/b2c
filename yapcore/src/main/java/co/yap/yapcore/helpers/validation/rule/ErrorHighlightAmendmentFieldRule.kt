@@ -12,6 +12,7 @@ import com.google.android.material.textfield.TextInputEditText
 class ErrorHighlightAmendmentFieldRule(
     view: TextInputEditText?,
     value: Boolean,
+    val isNotNeedToCheckWithPrevious: Boolean = false,
     errorMessage: String?,
     errorEnabled: Boolean,
     val previousValue: String? = null,
@@ -22,6 +23,7 @@ class ErrorHighlightAmendmentFieldRule(
     errorMessage,
     errorEnabled
 ) {
+    var tagFound: Boolean = false
     override fun isValid(view: TextInputEditText?): Boolean {
         if (view?.visibility == View.GONE || view?.visibility == View.INVISIBLE) {
             return true
@@ -29,7 +31,10 @@ class ErrorHighlightAmendmentFieldRule(
         missingFieldMap?.let { it ->
             it.values.toList().forEach { it ->
                 it?.forEach {
-                    if (view?.tag == it && previousValue != null && view.text.toString() == previousValue
+                    if (view?.tag == it && isNotNeedToCheckWithPrevious) {
+                        tagFound = true
+                        return tagFound
+                    } else if (view?.tag == it && previousValue != null && view.text.toString() == previousValue
                     ) {
                         return false
                     }
@@ -41,17 +46,25 @@ class ErrorHighlightAmendmentFieldRule(
 
     override fun onValidationSucceeded(view: TextInputEditText?) {
         super.onValidationSucceeded(view)
-        EditTextHandler.getTextInputLayout(view)?.apply {
-            error = ""
-        }
-        if (errorEnabled) {
-            view?.apply {
-                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        if (tagFound) {
+            showError(view)
+        } else {
+            EditTextHandler.getTextInputLayout(view)?.apply {
+                error = ""
+            }
+            if (errorEnabled) {
+                view?.apply {
+                    view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                }
             }
         }
     }
 
     override fun onValidationFailed(view: TextInputEditText?) {
+        showError(view)
+    }
+
+    private fun showError(view: TextInputEditText?) {
         EditTextHandler.getTextInputLayout(view)?.apply {
             error = if (errorMessage.isNullOrBlank()) Translator.getString(
                 context,
