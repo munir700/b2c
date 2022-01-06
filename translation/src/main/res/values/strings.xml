@@ -19,6 +19,7 @@
     <string name="common_text_hey">Hey</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
+    <string name="common_text_edit_now">Edit now</string>
     <string name="common_amount_hint">0.00</string>
     <string name="common_percentage_hint">0</string>
     <string name="common_display_text_nothing_to_report">Start using your account to see all your transactions here</string>

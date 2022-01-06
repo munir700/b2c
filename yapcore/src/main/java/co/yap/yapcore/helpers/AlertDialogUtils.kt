@@ -8,17 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import co.yap.widgets.CoreButton
+import co.yap.widgets.setOnClick
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.extentions.chatSetup
-import co.yap.yapcore.helpers.extentions.makeCall
-import co.yap.yapcore.helpers.extentions.makeLinks
+import co.yap.yapcore.databinding.ConfirmAlertDialogBinding
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
  * Display AlertDialog instantly with confirm
@@ -376,8 +379,8 @@ fun Context.successDialog(
     dialogLayout.setContentView(R.layout.dialog_success)
     val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
     val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
-    val tvBottomButton = dialogLayout.findViewById<TextView>(R.id.tvBottomButton)
-    val btnPay = dialogLayout.findViewById<CoreButton>(R.id.btnPay)
+    val tvBottomButton = dialogLayout.findViewById<TextView>(R.id.btnClose)
+    val btnPay = dialogLayout.findViewById<CoreButton>(R.id.btnNext)
     val ivTopIcon = dialogLayout.findViewById<AppCompatImageView>(R.id.ivTopIcon)
     messageView.text = message
     dialogTitle.text = title
@@ -402,4 +405,54 @@ fun Context.successDialog(
     }
     dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
     dialogLayout.show()
+}
+
+fun Context.customAlertDialog(
+    @DrawableRes topIconResId: Int? = null,
+    title: String? = null,
+    @ColorRes titleTextColor: Int = R.color.colorPrimaryDark,
+    message: String? = null,
+    @ColorRes messageTextColor: Int = R.color.greyDark,
+    positiveButton: String? = null,
+    negativeButton: String? = null,
+    @ColorRes positiveButtonTextColor: Int = R.color.white,
+    @ColorRes negativeButtonTextColor: Int = R.color.colorPrimary,
+    cancelable: Boolean = true,
+    positiveCallback: (View) -> Unit = {},
+    negativeCallback: (View) -> Unit = {}
+) {
+    val builder =
+        MaterialAlertDialogBuilder(this, R.style.Yap_App_MaterialAlertDialog_Rounded).apply {
+            val binding =
+                ConfirmAlertDialogBinding.inflate(LayoutInflater.from(this@customAlertDialog))
+            setView(binding.root)
+            if (topIconResId != null) {
+                binding.ivTopIcon.setImageResource(topIconResId)
+            } else binding.ivTopIcon.visibility = View.GONE
+            if (title.isNullOrBlank().not()) {
+                binding.tvDialogTitle.text = title
+                binding.tvDialogTitle.setTextColor(getColor(titleTextColor))
+            } else binding.tvDialogTitle.visibility = View.GONE
+            if (message.isNullOrBlank().not()) {
+                binding.tvMessage.text = message
+                binding.tvMessage.setTextColor(getColor(messageTextColor))
+            } else binding.tvMessage.visibility = View.GONE
+
+            if (positiveButton.isNullOrBlank().not()) {
+                binding.btnNext.text = positiveButton
+                binding.btnNext.setTextColor(getColor(positiveButtonTextColor))
+                binding.btnNext.setOnClick { positiveCallback.invoke(it) }
+
+            } else binding.btnNext.visibility = View.GONE
+            if (negativeButton.isNullOrBlank().not()) {
+                binding.btnClose.text = negativeButton
+                binding.btnClose.setTextColor(getColor(negativeButtonTextColor))
+                binding.btnClose.setOnClick { negativeCallback.invoke(it) }
+
+            } else binding.btnClose.visibility = View.GONE
+        }
+    val alertDialog = builder.create()
+    alertDialog.setCancelable(cancelable)
+    alertDialog.show()
+
 }

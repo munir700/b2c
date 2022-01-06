@@ -26,6 +26,7 @@ object Strings {
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
     const val common_percentage_hint: String = "common_percentage_hint"
+    const val common_text_edit_now: String = "common_text_edit_now"
     const val common_display_text_nothing_to_report: String =
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
