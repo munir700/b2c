@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.base.AddBillBaseFragment
@@ -24,16 +24,10 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
 
     override fun getLayoutId(): Int = R.layout.fragment_biller_detail
 
-    override val viewModel: AddBillerDetailViewModel
-        get() = ViewModelProviders.of(this).get(AddBillerDetailViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObservers()
-    }
-
+    override val viewModel: AddBillerDetailViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
         etNickName.afterTextChanged {
             viewModel.listener.onItemClick(etNickName, it, -1)
         }
@@ -56,7 +50,6 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
             R.id.btnAddBiller -> {
                 addBillerClick()
             }
-
         }
     }
 

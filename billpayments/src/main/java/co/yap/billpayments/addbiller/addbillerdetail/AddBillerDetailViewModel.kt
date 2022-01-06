@@ -33,7 +33,7 @@ class AddBillerDetailViewModel(application: Application) :
         AddBillerDetailInputComposer()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val billerDetailsResponse: MutableLiveData<SkuCatalogs> = MutableLiveData()
-    override val addBillerError: MutableLiveData<Int> = MutableLiveData()
+    override val addBillerError: MutableLiveData<Int> = MutableLiveData(0)
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
