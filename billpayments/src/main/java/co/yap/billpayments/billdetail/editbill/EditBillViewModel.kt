@@ -2,6 +2,7 @@ package co.yap.billpayments.billdetail.editbill
 
 import android.app.Application
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
@@ -17,6 +18,7 @@ import co.yap.networking.transactions.requestdtos.EditBillerRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class EditBillViewModel(application: Application) :
@@ -28,6 +30,7 @@ class EditBillViewModel(application: Application) :
         AddBillerDetailInputComposer()
     override var adapter: AddBillerDetailAdapter = AddBillerDetailAdapter(mutableListOf())
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override val editBillerError: MutableLiveData<Int> = MutableLiveData(0)
 
     override fun onCreate() {
         super.onCreate()
@@ -185,6 +188,12 @@ class EditBillViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         showToast(response.error.message)
                         state.viewState.value = false
+                        if (response.error.actualCode == "1101" || response.error.actualCode == "1102")//1101  Biller Not Available and 1102 Invalid Input Number
+                        {
+                            editBillerError.setValue(response.error.actualCode.parseToInt())
+                        } else {
+                            showToast(response.error.message)
+                        }
                     }
                 }
             }

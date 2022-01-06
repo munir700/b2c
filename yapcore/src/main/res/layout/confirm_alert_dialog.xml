@@ -51,17 +51,20 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/enabled_color_selector"
             android:paddingStart="@dimen/margin_extra_large"
             android:paddingTop="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_extra_large"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_normal"
             android:paddingBottom="@dimen/margin_small"
             android:text="@string/common_text_edit_now"
             android:textColor="@color/white"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:visibility="visible"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btnClose"
@@ -69,7 +72,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_normal"
             android:padding="@dimen/margin_small"
             android:text="@string/screen_employment_information_dialog_button_text_close"
             android:textColor="?attr/colorPrimaryAttr"

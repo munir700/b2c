@@ -2359,6 +2359,20 @@ object Strings {
         "screen_bill_payment_bill_total_due_label"
     const val screen_bill_payment_due_bills_swipe_button_title: String =
         "screen_bill_payment_due_bills_swipe_button_title"
+    const val screen_bill_payment_add_bill_service_error_dialog_button_text: String =
+        "screen_bill_payment_add_bill_service_error_dialog_button_text"
+    const val screen_bill_payment_add_bill_service_error_dialog_title: String =
+        "screen_bill_payment_add_bill_service_error_dialog_title"
+    const val screen_bill_payment_add_bill_service_error_dialog_text: String =
+        "screen_bill_payment_add_bill_service_error_dialog_text"
+    const val screen_bill_payment_add_bill_error_dialog_title: String =
+        "screen_bill_payment_add_bill_error_dialog_title"
+    const val screen_bill_payment_add_bill_error_dialog_text: String =
+        "screen_bill_payment_add_bill_error_dialog_text"
+    const val screen_bill_payment_add_bill_error_dialog_p_button_text: String =
+        "screen_bill_payment_add_bill_error_dialog_p_button_text"
+    const val screen_bill_payment_add_bill_error_dialog_n_button_text: String =
+        "screen_bill_payment_add_bill_error_dialog_n_button_text"
 
     //Biller Screen
     const val screen_bill_payment_text_title_add_a_credit_card: String =

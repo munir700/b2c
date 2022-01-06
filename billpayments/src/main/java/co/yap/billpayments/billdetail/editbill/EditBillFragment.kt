@@ -19,6 +19,7 @@ import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayout
@@ -156,6 +157,27 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.editBillerError.observe(viewLifecycleOwner, Observer { errorCode ->
+            requireContext().customAlertDialog(
+                topIconResId = R.drawable.ic_error_info_primary,
+                title = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_title)
+                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_title),
+                message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
+                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
+                positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                    Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
+                )
+                else null,
+                negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                    Strings.screen_bill_payment_add_bill_error_dialog_n_button_text
+                )
+                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_button_text),
+                cancelable = false,
+                negativeCallback = {
+                    if (errorCode == viewModel.state.EVENT_WORNG_INPUT) navigateBack()
+                }
+            )
+        })
     }
 
     val clickObserver = Observer<Int> {
