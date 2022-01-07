@@ -145,7 +145,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.dueBill.isBillerNotUnavailable()?`Unavailable`:viewModel.dueBill.settlementCurrency}"
+                android:text="@{viewModel.dueBill.isBillerNotUnavailable()?@string/common_button_unavailable:viewModel.dueBill.settlementCurrency}"
                 android:textColor="@{viewModel.dueBill.isBillerNotUnavailable()? @color/error : @color/greyDark }"
                 tools:text="AED" />
 

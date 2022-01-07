@@ -205,7 +205,6 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
                         )
                         viewModel.clickEvent.setValue(viewID)
                     }
-            onTouchListener?.setSwipeable(false)
             getBindings().lbillPaymentDue.rvAllDueBills.addOnItemTouchListener(onTouchListener!!)
         }
     }

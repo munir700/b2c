@@ -39,7 +39,7 @@ class IEditBill {
         fun editBill(editBillerRequest: EditBillerRequest, success: () -> Unit)
         fun getEditBillerRequest(): EditBillerRequest
         fun validation()
-        val editBillerError: MutableLiveData<Int>
+        val editBillerError: MutableLiveData<Int?>
 
     }
 

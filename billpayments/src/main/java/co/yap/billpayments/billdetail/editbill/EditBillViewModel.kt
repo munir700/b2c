@@ -30,7 +30,7 @@ class EditBillViewModel(application: Application) :
         AddBillerDetailInputComposer()
     override var adapter: AddBillerDetailAdapter = AddBillerDetailAdapter(mutableListOf())
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val editBillerError: MutableLiveData<Int> = MutableLiveData(0)
+    override val editBillerError: MutableLiveData<Int?> = MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
@@ -183,10 +183,9 @@ class EditBillViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
-                        success.invoke()
+                       success.invoke()
                     }
                     is RetroApiResponse.Error -> {
-                        showToast(response.error.message)
                         state.viewState.value = false
                         if (response.error.actualCode == "1101" || response.error.actualCode == "1102")//1101  Biller Not Available and 1102 Invalid Input Number
                         {

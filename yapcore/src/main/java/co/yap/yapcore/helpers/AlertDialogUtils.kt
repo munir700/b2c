@@ -364,49 +364,6 @@ fun Context.beneficiaryInfoDialog(
     dialogLayout.show()
 }
 
-fun Context.successDialog(
-    title: String = "",
-    message: String,
-    buttonText: String? = null,
-    bottomText: String? = null,
-    topIcon: Int? = -1,
-    callback: (isDismiss: Boolean) -> Unit = {}
-) {
-
-    val dialogLayout = Dialog(this)
-    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
-    dialogLayout.setCancelable(false)
-    dialogLayout.setContentView(R.layout.dialog_success)
-    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
-    val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
-    val tvBottomButton = dialogLayout.findViewById<TextView>(R.id.btnClose)
-    val btnPay = dialogLayout.findViewById<CoreButton>(R.id.btnNext)
-    val ivTopIcon = dialogLayout.findViewById<AppCompatImageView>(R.id.ivTopIcon)
-    messageView.text = message
-    dialogTitle.text = title
-    btnPay.text = buttonText
-    ivTopIcon.setImageDrawable(topIcon?.let {
-        AppCompatResources.getDrawable(
-            dialogLayout.context,
-            it
-        )
-    })
-    if (bottomText.isNullOrEmpty())
-        tvBottomButton.visibility = View.GONE
-    else
-        tvBottomButton.text = bottomText
-    btnPay.setOnClickListener {
-        callback.invoke(false)
-        dialogLayout.dismiss()
-    }
-    tvBottomButton.setOnClickListener {
-        callback.invoke(true)
-        dialogLayout.dismiss()
-    }
-    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
-    dialogLayout.show()
-}
-
 fun Context.customAlertDialog(
     @DrawableRes topIconResId: Int? = null,
     title: String? = null,

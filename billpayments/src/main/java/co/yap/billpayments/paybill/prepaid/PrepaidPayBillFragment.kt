@@ -3,8 +3,8 @@ package co.yap.billpayments.paybill.prepaid
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
@@ -19,6 +19,7 @@ import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -30,16 +31,11 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_prepaid_pay_bill
-    override val viewModel: PrepaidPayBillViewModel
-        get() = ViewModelProviders.of(this).get(PrepaidPayBillViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObservers()
-    }
+    override val viewModel: PrepaidPayBillViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
         initTabLayout()
@@ -177,6 +173,32 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.adapter.setItemListener(skuListener)
+        viewModel.editBillerError.observe(viewLifecycleOwner, Observer { errorCode ->
+            errorCode?.let {
+                requireContext().customAlertDialog(
+                    topIconResId = R.drawable.ic_error_info_primary,
+                    title = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_title)
+                    else getString(
+                        Strings.screen_bill_payment_add_bill_service_error_dialog_title,
+                        viewModel.parentViewModel?.billModel?.value?.billerInfo?.billerName ?: ""
+                    ),
+                    message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
+                    else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
+                    positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                        Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
+                    )
+                    else null,
+                    negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                        Strings.screen_bill_payment_add_bill_error_dialog_n_button_text
+                    )
+                    else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_button_text),
+                    cancelable = false,
+                    negativeCallback = {
+                        if (errorCode == viewModel.state.EVENT_WORNG_INPUT) navigateBack()
+                    }
+                )
+            }
+        })
     }
 
     private val skuListener = object : OnItemClickListener {
@@ -261,6 +283,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.editBillerError.removeObservers(this)
     }
 
     override fun onDestroy() {

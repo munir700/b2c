@@ -181,7 +181,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     }
 
                     2 -> {
-                        launchActivity<BillPaymentsHomeActivity>(type = FeatureSet.NONE)
+                        launchActivity<BillPaymentsHomeActivity>(type = FeatureSet.BILL_PAYMENT)
                     }
 
                     3 -> {

@@ -2373,6 +2373,8 @@ object Strings {
         "screen_bill_payment_add_bill_error_dialog_p_button_text"
     const val screen_bill_payment_add_bill_error_dialog_n_button_text: String =
         "screen_bill_payment_add_bill_error_dialog_n_button_text"
+    const val screen_bill_payment_add_bill_error_unavailable: String =
+        "screen_bill_payment_add_bill_error_unavailable"
 
     //Biller Screen
     const val screen_bill_payment_text_title_add_a_credit_card: String =

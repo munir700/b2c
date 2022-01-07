@@ -15,7 +15,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.successDialog
 import kotlinx.android.synthetic.main.fragment_biller_detail.*
 
 class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(),
@@ -36,25 +35,31 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.addBillerError.observe(viewLifecycleOwner, Observer { errorCode ->
-            requireContext().customAlertDialog(
-                topIconResId = R.drawable.ic_error_info_primary,
-                title = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_title)
-                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_title),
-                message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
-                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
-                positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
-                    Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
+            errorCode?.let {
+                requireContext().customAlertDialog(
+                    topIconResId = R.drawable.ic_error_info_primary,
+                    title = if (errorCode == viewModel.state.EVENT_BILLER_NOTAVAILABLE) getString(
+                        Strings.screen_bill_payment_add_bill_service_error_dialog_title,
+                        viewModel.parentViewModel?.selectedBillerCatalog?.billerName ?: ""
+                    )
+                    else getString(Strings.screen_bill_payment_add_bill_error_dialog_title),
+                    message = if (errorCode == viewModel.state.EVENT_BILLER_NOTAVAILABLE) getString(
+                        Strings.screen_bill_payment_add_bill_service_error_dialog_text
+                    ) else getString(Strings.screen_bill_payment_add_bill_error_dialog_text),
+                    positiveButton = if (errorCode == viewModel.state.EVENT_BILLER_NOTAVAILABLE) null else getString(
+                        Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
+                    ),
+                    negativeButton = if (errorCode == viewModel.state.EVENT_BILLER_NOTAVAILABLE) getString(
+                        Strings.screen_bill_payment_add_bill_service_error_dialog_button_text
+                    ) else getString(
+                        Strings.screen_bill_payment_add_bill_error_dialog_n_button_text
+                    ),
+                    cancelable = false,
+                    negativeCallback = {
+                        if (errorCode != viewModel.state.EVENT_BILLER_NOTAVAILABLE) navigateBack()
+                    }
                 )
-                else null,
-                negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
-                    Strings.screen_bill_payment_add_bill_error_dialog_n_button_text
-                )
-                else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_button_text),
-                cancelable = false,
-                negativeCallback = {
-                    if (errorCode == viewModel.state.EVENT_WORNG_INPUT) navigateBack()
-                }
-            )
+            }
         })
     }
 
@@ -81,15 +86,15 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
             getString(Strings.screen_bill_detail_success_dialog_button_description).format(
                 viewModel.parentViewModel?.selectedBillerCatalog?.billerName
             )
-        requireContext().successDialog(
-            topIcon = R.drawable.ic_tick,
+        requireContext().customAlertDialog(
+            topIconResId = R.drawable.ic_item_selected,
             title = title,
             message = description,
-            buttonText = getString(Strings.screen_bill_detail_success_dialog_button_text),
-            bottomText = getString(Strings.screen_bill_detail_success_dialog_button_text_do_it_later)
-        ) { isSkip ->
-            setIntentResult(isSkip, viewBillModel)
-        }
+            positiveButton = getString(Strings.screen_bill_detail_success_dialog_button_text),
+            negativeButton = getString(Strings.screen_bill_detail_success_dialog_button_text_do_it_later),
+            positiveCallback = { setIntentResult(false, viewBillModel) },
+            negativeCallback = { setIntentResult(true, viewBillModel) }
+        )
     }
 
     private fun setIntentResult(

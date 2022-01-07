@@ -24,6 +24,7 @@
     <string name="common_percentage_hint">0</string>
     <string name="common_display_text_nothing_to_report">Start using your account to see all your transactions here</string>
     <string name="common_button_logout">Logout</string>
+    <string name="common_button_unavailable">Unavailable</string>
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
     <string name="common_text_fee">Fee: %1s</string>
@@ -1463,9 +1464,10 @@
     <string name="screen_bill_payment_add_bill_error_dialog_text">Please double check and try again</string>
     <string name="screen_bill_payment_add_bill_error_dialog_p_button_text">Edit now</string>
     <string name="screen_bill_payment_add_bill_error_dialog_n_button_text">No, I\'ll do it later</string>
-    <string name="screen_bill_payment_add_bill_service_error_dialog_title">Etisalat services are down at the moment</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_title">%1s services are down at the moment</string>
     <string name="screen_bill_payment_add_bill_service_error_dialog_text">We are unable to add this bill, please try again in a few hours</string>
     <string name="screen_bill_payment_add_bill_service_error_dialog_button_text">Got it</string>
+    <string name="screen_bill_payment_add_bill_error_unavailable">Unavailable, check back later.</string>
 
 
     <!--    Biller Screen-->
