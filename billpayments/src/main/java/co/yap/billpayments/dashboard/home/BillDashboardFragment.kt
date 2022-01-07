@@ -299,7 +299,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         launchActivity<PayAllMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL_ALL) {
             putExtra(
                 ExtraKeys.ALL_BILLS.name,
-                Gson().toJson(viewModel.dueBillsAdapter.getDataList())
+                Gson().toJson(viewModel.dueBillsAdapter.getDataList().filter { it.isBillerNotUnavailable().not() })
             )
         }
         requireActivity().overridePendingTransition(
