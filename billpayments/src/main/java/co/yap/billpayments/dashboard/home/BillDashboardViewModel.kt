@@ -47,7 +47,7 @@ class BillDashboardViewModel(application: Application) :
 
     override fun handleBillsResponse(billsList: List<ViewBillModel>?) {
         val dueBillsList =
-            billsList?.filter { it.status == BillStatus.OVERDUE.name || it.status == BillStatus.BILL_DUE.name || it.status == BillStatus.NA.name}
+            billsList?.filter { it.isPostPaid()==true && (it.status == BillStatus.OVERDUE.name || it.status == BillStatus.BILL_DUE.name || it.status == BillStatus.NA.name)}
         initDashboard(dueBillsList.isNullOrEmpty(), dueBillsList)
         state.showBillCategory.set(dueBillsList.isNullOrEmpty())
     }
