@@ -8,6 +8,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
@@ -41,10 +43,16 @@ class BillAccountDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (requireActivity().intent.hasExtra(ExtraKeys.IS_UPDATED.name))
-            if (requireActivity().intent.getBooleanExtra(ExtraKeys.IS_UPDATED.name, false))
-                navigate(
-                    destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
+            if (requireActivity().intent.getBooleanExtra(ExtraKeys.IS_UPDATED.name, false)) {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.billAccountDetailFragment, true) // starting destination skipped
+                    .build()
+                findNavController().navigate(
+                    R.id.action_billAccountDetailFragment_to_editBillFragment,
+                    null,
+                    navOptions
                 )
+            }
 
     }
 

@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.billdetail.BillDetailActivity
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
+import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.utils.enums.ReminderType
 import co.yap.billpayments.utils.enums.SkuInfoType
@@ -20,10 +22,12 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -197,12 +201,19 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                     else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_button_text),
                     cancelable = false, positiveCallback = {
                         viewModel.parentViewModel?.billModel?.value?.let {
-                            val intent = Intent()
-                            intent.putExtra(ExtraKeys.IS_UPDATED.name, true)
-                            requireActivity().setResult(Activity.RESULT_OK, intent)
-                            requireActivity().finish()
+                            if (requireActivity().intent.getBooleanExtra("whenAdded", false)) {
+                                launchActivity<BillDetailActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
+                                    putExtra(ExtraKeys.SELECTED_BILL.name, it)
+                                    putExtra(ExtraKeys.IS_UPDATED.name, true)
+                                }
+                                requireActivity().finish()
+                            } else {
+                                val intent = Intent()
+                                intent.putExtra(ExtraKeys.IS_UPDATED.name, true)
+                                requireActivity().setResult(Activity.RESULT_OK, intent)
+                                requireActivity().finish()
+                            }
                         }
-
                     },
                     negativeCallback = {
                         if (errorCode == viewModel.state.EVENT_WORNG_INPUT) navigateBack()
