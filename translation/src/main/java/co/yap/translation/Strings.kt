@@ -26,6 +26,7 @@ object Strings {
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
     const val common_percentage_hint: String = "common_percentage_hint"
+    const val common_text_edit_now: String = "common_text_edit_now"
     const val common_display_text_nothing_to_report: String =
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
@@ -42,6 +43,8 @@ object Strings {
         "common_display_text_available_balance_error"
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
+    const val common_display_text_accumulative_limit_error_transaction: String =
+        "common_display_text_accumulative_limit_error_transaction"
     const val sm_display_text_min_max_limit_error_transaction: String =
         "sm_display_text_min_max_limit_error_transaction"
     const val common_display_text_daily_limit_error: String =
@@ -1346,6 +1349,10 @@ object Strings {
         "screen_cash_transfer_display_text_available_balance"
     const val screen_cash_transfer_display_text_required_topup_balance: String =
         "screen_cash_transfer_display_text_required_topup_balance"
+    const val screen_topup_bank_error_display_no_accumulative_balance: String =
+        "screen_topup_bank_error_display_no_accumulative_balance"
+    const val screen_topup_bank_error_display_less_accumulative_balance: String =
+        "screen_topup_bank_error_display_less_accumulative_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =
@@ -1463,6 +1470,7 @@ object Strings {
         "screen_y2y_display_text_recent_transfer"
     const val screen_add_topup_card_limit_text_title: String =
         "screen_add_topup_card_limit_text_title"
+
 
     // Screen Card Analytics
     const val screen_card_analytics_display_tab_title_category: String =
@@ -2351,6 +2359,20 @@ object Strings {
         "screen_bill_payment_bill_total_due_label"
     const val screen_bill_payment_due_bills_swipe_button_title: String =
         "screen_bill_payment_due_bills_swipe_button_title"
+    const val screen_bill_payment_add_bill_service_error_dialog_button_text: String =
+        "screen_bill_payment_add_bill_service_error_dialog_button_text"
+    const val screen_bill_payment_add_bill_service_error_dialog_title: String =
+        "screen_bill_payment_add_bill_service_error_dialog_title"
+    const val screen_bill_payment_add_bill_service_error_dialog_text: String =
+        "screen_bill_payment_add_bill_service_error_dialog_text"
+    const val screen_bill_payment_add_bill_error_dialog_title: String =
+        "screen_bill_payment_add_bill_error_dialog_title"
+    const val screen_bill_payment_add_bill_error_dialog_text: String =
+        "screen_bill_payment_add_bill_error_dialog_text"
+    const val screen_bill_payment_add_bill_error_dialog_n_button_text: String =
+        "screen_bill_payment_add_bill_error_dialog_n_button_text"
+    const val screen_bill_payment_add_bill_error_unavailable: String =
+        "screen_bill_payment_add_bill_error_unavailable"
 
     //Biller Screen
     const val screen_bill_payment_text_title_add_a_credit_card: String =

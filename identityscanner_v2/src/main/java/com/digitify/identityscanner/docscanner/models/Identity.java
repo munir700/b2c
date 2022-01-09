@@ -35,11 +35,6 @@ public class Identity implements Parcelable {
      */
     public Date dateOfBirth;
 
-    public boolean isDateOfBirthValid() {
-
-        return dateOfBirthValid = dateOfBirth != null && DateUtils.INSTANCE.getAge(dateOfBirth) >= 21;
-    }
-
     public boolean isExpiryDateValid() {
         if (expirationDate == null) {
             return expiryDateValid = false;

@@ -1,8 +1,8 @@
 package co.yap.billpayments.dashboard.mybills.adapter
 
 import android.view.View
+import co.yap.networking.customers.responsedtos.billpayment.BillStatus
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
-import co.yap.billpayments.utils.enums.BillStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class MyBillsItemViewModel(

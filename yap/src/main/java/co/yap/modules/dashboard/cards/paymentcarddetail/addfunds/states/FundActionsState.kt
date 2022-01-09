@@ -23,8 +23,13 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.cardNumber)
         }
     override var isAddFundScreen: ObservableField<Boolean> = ObservableField()
-
     override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
+    override var maximumAccumulative: ObservableField<Double> = ObservableField()
+    override var remainingAccumulative: ObservableField<Double> = ObservableField()
+    override var denominationFirstAmount: ObservableField<String> = ObservableField()
+    override var denominationSecondAmount: ObservableField<String> = ObservableField()
+    override var denominationThirdAmount: ObservableField<String> = ObservableField()
+    override var denominationAmount: ObservableField<String> = ObservableField()
 
     @get:Bindable
     override var cardName: String = ""
@@ -45,27 +50,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         set(value) {
             field = value
             notifyPropertyChanged(BR.currencyType)
-        }
-
-    @get:Bindable
-    override var denominationFirstAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.denominationFirstAmount)
-        }
-
-    @get:Bindable
-    override var denominationSecondAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.denominationSecondAmount)
-        }
-
-    @get:Bindable
-    override var denominationThirdAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.denominationThirdAmount)
         }
 
     @get:Bindable
@@ -98,15 +82,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
 
 
         }
-
-    @get:Bindable
-    override var denominationAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.denominationAmount)
-            clearError()
-        }
-
 
     @get:Bindable
     override var valid: Boolean = false
@@ -158,7 +133,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.topUpSuccess)
         }
 
-
     @get:Bindable
     override var primaryCardUpdatedBalance: String = ""
         set(value) {
@@ -186,7 +160,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.transferFee)
         }
-
 
     fun checkValidityForAddTopUpFromExternalCard(): String {
         try {
@@ -233,5 +206,4 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             valid = false
         }
     }
-
 }
