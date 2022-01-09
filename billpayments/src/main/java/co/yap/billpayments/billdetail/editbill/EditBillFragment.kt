@@ -157,11 +157,14 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
                 requireContext().customAlertDialog(
                     topIconResId = R.drawable.ic_error_info_primary,
                     title = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_title)
-                    else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_title,viewModel.parentViewModel?.selectedBill?.billerInfo?.billerName ?: ""),
+                    else getString(
+                        Strings.screen_bill_payment_add_bill_service_error_dialog_title,
+                        viewModel.parentViewModel?.selectedBill?.billerInfo?.billerName ?: ""
+                    ),
                     message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
                     else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
                     positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
-                        Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
+                        Strings.common_text_edit_now
                     )
                     else null,
                     negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(

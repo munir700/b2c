@@ -2369,8 +2369,6 @@ object Strings {
         "screen_bill_payment_add_bill_error_dialog_title"
     const val screen_bill_payment_add_bill_error_dialog_text: String =
         "screen_bill_payment_add_bill_error_dialog_text"
-    const val screen_bill_payment_add_bill_error_dialog_p_button_text: String =
-        "screen_bill_payment_add_bill_error_dialog_p_button_text"
     const val screen_bill_payment_add_bill_error_dialog_n_button_text: String =
         "screen_bill_payment_add_bill_error_dialog_n_button_text"
     const val screen_bill_payment_add_bill_error_unavailable: String =

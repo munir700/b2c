@@ -1,5 +1,7 @@
 package co.yap.billpayments.paybill.prepaid
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
@@ -18,6 +20,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
@@ -185,14 +188,22 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                     message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
                     else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
                     positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
-                        Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
+                        Strings.common_text_edit_now
                     )
                     else null,
                     negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
                         Strings.screen_bill_payment_add_bill_error_dialog_n_button_text
                     )
                     else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_button_text),
-                    cancelable = false,
+                    cancelable = false, positiveCallback = {
+                        viewModel.parentViewModel?.billModel?.value?.let {
+                            val intent = Intent()
+                            intent.putExtra(ExtraKeys.IS_UPDATED.name, true)
+                            requireActivity().setResult(Activity.RESULT_OK, intent)
+                            requireActivity().finish()
+                        }
+
+                    },
                     negativeCallback = {
                         if (errorCode == viewModel.state.EVENT_WORNG_INPUT) navigateBack()
                     }

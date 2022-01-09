@@ -47,7 +47,7 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
                         Strings.screen_bill_payment_add_bill_service_error_dialog_text
                     ) else getString(Strings.screen_bill_payment_add_bill_error_dialog_text),
                     positiveButton = if (errorCode == viewModel.state.EVENT_BILLER_NOTAVAILABLE) null else getString(
-                        Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
+                        Strings.common_text_edit_now
                     ),
                     negativeButton = if (errorCode == viewModel.state.EVENT_BILLER_NOTAVAILABLE) getString(
                         Strings.screen_bill_payment_add_bill_service_error_dialog_button_text

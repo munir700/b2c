@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -35,6 +36,16 @@ class BillAccountDetailFragment :
         viewModel.getBillAccountHistory(viewModel.parentViewModel?.selectedBill?.uuid.toString())
         viewModel.getBillAccountLineChartHistory(viewModel.parentViewModel?.selectedBill?.uuid.toString())
         viewModel.parentViewModel?.state?.enableRightIcon?.set(viewModel.parentViewModel?.selectedBill?.isBillerNotUnavailable() == false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (requireActivity().intent.hasExtra(ExtraKeys.IS_UPDATED.name))
+            if (requireActivity().intent.getBooleanExtra(ExtraKeys.IS_UPDATED.name, false))
+                navigate(
+                    destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
+                )
+
     }
 
     override fun setObservers() {
@@ -71,7 +82,12 @@ class BillAccountDetailFragment :
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_PAY_BILL -> {
-                    setIntentResult()
+                    if (data?.getBooleanExtra(ExtraKeys.IS_UPDATED.name, false) == true) {
+                        navigate(
+                            destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
+                        )
+                    } else
+                        setIntentResult()
                 }
             }
         }

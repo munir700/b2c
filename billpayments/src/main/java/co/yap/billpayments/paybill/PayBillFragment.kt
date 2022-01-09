@@ -154,7 +154,7 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
                 message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
                 else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
                 positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
-                    Strings.screen_bill_payment_add_bill_error_dialog_p_button_text
+                    Strings.common_text_edit_now
                 )
                 else null,
                 negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
