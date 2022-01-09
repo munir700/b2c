@@ -59,6 +59,7 @@ class BillCategoryFragment : BillDashboardBaseFragment<IBillCategory.ViewModel>(
         launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
             putExtra(ExtraKeys.SELECTED_BILL.name, viewBillModel)
             putExtra(ExtraKeys.SELECTED_POSITION.name, pos)
+            putExtra("whenAdded", true)
         }
     }
 

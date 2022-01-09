@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryAdapter
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryModel
-import co.yap.billpayments.utils.enums.BillStatus
+import co.yap.networking.customers.responsedtos.billpayment.BillStatus
 import co.yap.networking.transactions.responsedtos.billpayment.BillHistory
 import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
 import co.yap.yapcore.IBase
