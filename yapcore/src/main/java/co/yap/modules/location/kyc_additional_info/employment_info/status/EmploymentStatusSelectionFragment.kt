@@ -24,6 +24,7 @@ class EmploymentStatusSelectionFragment :
         if (viewModel.canSkipFragment()) {
             skipEmploymentStatusSelectionFragment()
         } else {
+            viewModel.getAmendmentsEmploymentInfo()
             setObservers()
         }
     }

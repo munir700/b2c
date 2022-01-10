@@ -241,7 +241,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             isValid = when (it.question.questionType) {
                 QuestionType.COUNTRIES_FIELD -> {
                     var hasCountryError = true
-                    if (it.question.multiplePreviousAnswers.get()?.isNotEmpty() == true && hasKeyInAmendmentMap(it.question.tag)) {
+                    if (it.question.multiplePreviousAnswers.get()
+                            ?.isNotEmpty() == true && hasKeyInAmendmentMap(it.question.tag)
+                    ) {
                         it.question.multiplePreviousAnswers.get()?.let { previousAnswersList ->
                             if (previousAnswersList.size == it.question.multipleAnswers.get()?.size) {
                                 previousAnswersList.forEach { country ->
@@ -488,7 +490,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     response.data.data?.let { res ->
-                        employmentStatus = EmploymentStatus.valueOf(res.employmentStatus ?: "")
+                        if (employmentStatus == EmploymentStatus.NONE)
+                            employmentStatus = EmploymentStatus.valueOf(res.employmentStatus ?: "")
                         employmentStatusValue.value = res
 
                         if (employmentStatus == EmploymentStatus.SALARIED_AND_SELF_EMPLOYED || employmentStatus == EmploymentStatus.SELF_EMPLOYED
@@ -503,7 +506,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             val objQuestion = getDataForPosition(selectedQuestionItemPosition)
                             objQuestion.question.answer.set(employmentTypes().firstOrNull {
                                 it.employmentTypeCode == res.employmentType
-                            }?.employmentType?:"")
+                            }?.employmentType ?: "")
                             questionsList[selectedQuestionItemPosition] = objQuestion
                             validateForm()
                         } else {
