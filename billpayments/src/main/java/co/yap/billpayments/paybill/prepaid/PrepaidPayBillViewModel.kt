@@ -1,10 +1,11 @@
 package co.yap.billpayments.paybill.prepaid
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
 import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
-import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.paybill.prepaid.skuadapter.SkuAdapter
+import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.utils.enums.SkuInfoType
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
@@ -21,6 +22,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -34,6 +36,7 @@ class PrepaidPayBillViewModel(application: Application) :
     override val state: IPrepaidPayBill.State = PrepaidPayBillState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var adapter: SkuAdapter = SkuAdapter(mutableListOf())
+    override val editBillerError: MutableLiveData<Int?> = MutableLiveData()
     override var selectedSku: SkuCatalogs? = null
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
@@ -144,7 +147,13 @@ class PrepaidPayBillViewModel(application: Application) :
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
-                        showToast(payBillResponse.error.message)
+                        if (payBillResponse.error.actualCode == "1101" || payBillResponse.error.actualCode == "1102")//1101  Biller Not Available and 1102 Invalid Input Number
+                        {
+                            editBillerError.setValue(payBillResponse.error.actualCode.parseToInt())
+                        } else {
+                            showToast(payBillResponse.error.message)
+                        }
+
                     }
                 }
             }

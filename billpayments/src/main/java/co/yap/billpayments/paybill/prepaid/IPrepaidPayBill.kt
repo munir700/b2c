@@ -2,6 +2,7 @@ package co.yap.billpayments.paybill.prepaid
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.paybill.prepaid.skuadapter.SkuAdapter
@@ -35,12 +36,17 @@ interface IPrepaidPayBill {
         val customerFullName: ObservableField<String>
         val customerAccountNumber: ObservableField<String>
         var isBillTypeDuPrepaid: ObservableBoolean
+        val EVENT_BILLER_NOTAVAILABLE: Int
+            get() = 1101
+        val EVENT_WORNG_INPUT: Int
+            get() = 1102
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         var adapter: SkuAdapter
         var selectedSku: SkuCatalogs?
+        val editBillerError: MutableLiveData<Int?>
         fun handlePressView(id: Int)
         fun updateAutoPaySelection(
             isWeek: Boolean,

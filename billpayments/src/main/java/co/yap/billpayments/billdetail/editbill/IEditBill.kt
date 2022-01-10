@@ -2,6 +2,7 @@ package co.yap.billpayments.billdetail.editbill
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.addbiller.addbillerdetail.adapter.AddBillerDetailAdapter
 import co.yap.billpayments.addbiller.addbillerdetail.composer.AddBillerDetailInputComposer
 import co.yap.billpayments.databinding.FragmentEditBillBinding
@@ -38,6 +39,8 @@ class IEditBill {
         fun editBill(editBillerRequest: EditBillerRequest, success: () -> Unit)
         fun getEditBillerRequest(): EditBillerRequest
         fun validation()
+        val editBillerError: MutableLiveData<Int?>
+
     }
 
     interface State : IBase.State {
@@ -55,6 +58,10 @@ class IEditBill {
         var billReminderOneWeek: ObservableBoolean
         var billReminderThreeWeeks: ObservableBoolean
         var nickNameValue: ObservableField<String>
+        val EVENT_BILLER_NOTAVAILABLE: Int
+            get() = 1101
+        val EVENT_WORNG_INPUT: Int
+            get() = 1102
     }
 
     interface View : IBase.View<ViewModel> {
