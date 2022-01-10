@@ -285,8 +285,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
 //                        )☻
                         SessionManager.getAccountInfo {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                     }
@@ -754,14 +757,20 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet) {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                     } else {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                         launchActivity<AddMoneyActivity>()
