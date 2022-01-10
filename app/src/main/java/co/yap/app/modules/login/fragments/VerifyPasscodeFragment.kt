@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.os.bundleOf
@@ -377,9 +376,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     if (accountInfo?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else {
-                        Log.d("co.yap", "getCardAndTourInfo: called1")
                         SessionManager.sendFcmTokenToServer(requireContext()) {}
-                        Log.d("co.yap", "getCardAndTourInfo: called2")
                         navigate(R.id.action_goto_yapDashboardActivity)
                     }
                     activity?.finish()
