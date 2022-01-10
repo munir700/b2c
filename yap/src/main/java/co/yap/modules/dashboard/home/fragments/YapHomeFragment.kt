@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -385,8 +386,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         } else {
                             viewModel.state.isUserAccountActivated.set(false)
                             SessionManager.getAccountInfo {
-                                GlobalScope.launch(Main) {
-                                    setUpDashBoardNotificationsView()
+                                // TODO will add permanent solution. need to be aware with lifecycle
+                                if (isAdded) {
+                                    lifecycleScope.launch(Main) {
+                                        setUpDashBoardNotificationsView()
+                                    }
                                 }
                             }
                         }
