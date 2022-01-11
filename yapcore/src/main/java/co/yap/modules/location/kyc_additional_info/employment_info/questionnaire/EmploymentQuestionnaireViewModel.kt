@@ -363,10 +363,10 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             countriesResponse.data.data,
                             addOIndex = false
                         ) as ArrayList<Country>
-                        var businessCountriesList: ArrayList<String> = ArrayList()
+                        val businessCountriesList: ArrayList<String> = ArrayList()
                         if (isFromAmendment() && businessCountries != null) {
                             for (i in 0 until businessCountries.size) {
-                                var businessCountry = parentViewModel?.countries?.filter {
+                                val businessCountry = parentViewModel?.countries?.filter {
                                     it.isoCountryCode2Digit.equals(businessCountries[i])
                                 }?.get(0)?.getName() ?: ""
                                 businessCountriesList.add(businessCountry)
@@ -385,8 +385,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         industrySegmentsList.clear()
                         industrySegmentsList.addAll(segmentsResponse.data.segments)
 
-                        if (isFromAmendment() && segmentCode != null) {
-                            var industrySegment = industrySegmentsList.first {
+                        if (isFromAmendment() && segmentCode.isNullOrBlank().not()) {
+                            val industrySegment = industrySegmentsList.first {
                                 it.segmentCode == segmentCode
                             }
                             val objQuestion = getDataForPosition(1)
