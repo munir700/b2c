@@ -103,7 +103,6 @@
                         android:paddingStart="0dp"
                         android:singleLine="true"
                         android:tag="CountryofBirth"
-                        app:validateEmpty="@{true}"
                         android:text='@{viewModel.state.selectedCountry == null || viewModel.state.selectedCountry.name.length == 0 ? "" : viewModel.state.selectedCountry.name}'
                         android:textColor="@{viewModel.state.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
                         android:theme="@style/Theme.EditText.Primary"
@@ -113,8 +112,10 @@
                         app:editable="@{false}"
                         app:flagOnStartDrawable="@{viewModel.state.selectedCountry.isoCountryCode2Digit}"
                         app:highlightAmendmentField="@{true}"
+                        app:isNotNeedToCheckWithPrevious="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
-                        app:previousValue="@{viewModel.state.previousSelectedCountry}" />
+                        app:previousValue="@{viewModel.state.previousSelectedCountry}"
+                        app:validateEmpty="@{true}" />
 
                 </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -165,6 +166,7 @@
                         android:theme="@style/Theme.EditText.Primary"
                         app:enableError="@{true}"
                         app:highlightAmendmentField="@{true}"
+                        app:isNotNeedToCheckWithPrevious="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:previousValue="@{viewModel.state.previousCityOfBirth}"
                         app:validateEmpty="@{true}"
@@ -280,6 +282,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/margin_small"
+                        android:enabled="false"
                         android:gravity="center_vertical"
                         android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                         android:singleLine="true"
@@ -290,9 +293,9 @@
                         app:compoundDrawableWidth="@dimen/_26sdp"
                         app:drawableEndVector="@drawable/iv_drown_down_grey"
                         app:editable="@{false}"
-                        android:enabled="false"
                         app:flagOnStartDrawable="@{SessionManager.INSTANCE.homeCountry2Digit}"
                         app:highlightAmendmentField="@{true}"
+                        app:isNotNeedToCheckWithPrevious="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:previousValue="@{viewModel.state.previousEidNationality}"
                         app:validateEmpty="@{true}"
@@ -374,6 +377,7 @@
                         app:editable="@{false}"
                         app:flagOnStartDrawable="@{viewModel.state.selectedSecondCountry.isoCountryCode2Digit}"
                         app:highlightAmendmentField="@{true}"
+                        app:isNotNeedToCheckWithPrevious="@{true}"
                         app:missingFieldMap="@{viewModel.parentViewModel.amendmentMap}"
                         app:previousValue="@{viewModel.state.previousSelectedSecondCountry}"
                         app:validateEmpty="@{true}"

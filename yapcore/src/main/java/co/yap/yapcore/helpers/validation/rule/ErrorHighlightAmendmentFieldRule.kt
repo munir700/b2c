@@ -46,7 +46,7 @@ class ErrorHighlightAmendmentFieldRule(
 
     override fun onValidationSucceeded(view: TextInputEditText?) {
         super.onValidationSucceeded(view)
-        if (tagFound) {
+        if (tagFound && view?.text.toString() == previousValue) {
             showError(view)
         } else {
             EditTextHandler.getTextInputLayout(view)?.apply {

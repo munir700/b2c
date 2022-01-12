@@ -22,7 +22,7 @@ import co.yap.yapcore.managers.SessionManager
 
 class TaxInfoViewModel(application: Application) :
     LocationChildViewModel<ITaxInfo.State>(application),
-    ITaxInfo.ViewModel, IRepositoryHolder<CustomersRepository>, ITaxItemOnClickListenerInterface {
+    ITaxInfo.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITaxInfo.State =
         TaxInfoState()
@@ -30,9 +30,7 @@ class TaxInfoViewModel(application: Application) :
     override var taxInfoAdaptor: TaxInfoAdaptor =
         TaxInfoAdaptor(
             taxInfoList,
-            amendmentMap = parentViewModel?.amendmentMap,
-            listener = this
-        )
+            amendmentMap = parentViewModel?.amendmentMap)
     override val repository: CustomersRepository = CustomersRepository
     override var reasonsList: ArrayList<String> = arrayListOf()
     override var options = arrayListOf("No", "Yes")
@@ -41,7 +39,6 @@ class TaxInfoViewModel(application: Application) :
         "Select a second country of tax residence",
         "Select a third country of tax residence"
     )
-
 
     override
     fun onCreate() {
@@ -192,8 +189,7 @@ class TaxInfoViewModel(application: Application) :
             }
             if (!valid) break
         }
-        //return state.isRuleValid && valid && state.isAgreed.get() == true
-        return if (isFromAmendment()) finalCheck() && valid && state.isAgreed.get() == true else valid && state.isAgreed.get() == true
+        return valid && state.isAgreed.get() == true
     }
 
     override fun saveInfoDetails(isSubmit: Boolean, success: (pdfUrl: String?) -> Unit) {
@@ -324,47 +320,6 @@ class TaxInfoViewModel(application: Application) :
                             }
                         }
                     }
-// TODO REMOVE MOCK DATA
-//                    taxInfoList.add(
-//                        TaxModel(
-//                            countries = parentViewModel?.countries ?: arrayListOf(),
-//                            reasons = reasonsList,
-//                            options = options,
-//                            canAddMore = ObservableField(false),
-//                            taxRowNumber = ObservableField(true),
-//                            taxRowTitle = ObservableField(rowTitles[1]),
-//                            selectedCountry = parentViewModel?.countries?.get(2),
-//                            tinNumber = ObservableField("3987874"),
-//                            previousTinNumber = ObservableField("3987874"),
-//                            tagOfTinNumber = ObservableField("TINNumber1"),
-//                            selectedOption = ObservableField("Yes"),
-//                            previousCountry = ObservableField(
-//                                parentViewModel?.countries?.get(2)?.getName() ?: ""
-//                            ),
-//                            tagOfCountry = ObservableField("CountryofTaxResidence")
-//                        )
-//                    )
-//                    taxInfoList.add(
-//                        TaxModel(
-//                            countries = parentViewModel?.countries ?: arrayListOf(),
-//                            reasons = reasonsList,
-//                            options = options,
-//                            canAddMore = ObservableField(false),
-//                            taxRowNumber = ObservableField(false),
-//                            taxRowTitle = ObservableField(rowTitles[2]),
-//                            selectedCountry = parentViewModel?.countries?.get(3),
-//                            tinNumber = ObservableField("3987874"),
-//                            previousTinNumber = ObservableField("3987874"),
-//                            tagOfTinNumber = ObservableField("TINNumber2"),
-//                            selectedOption = ObservableField("Yes"),
-//                            previousCountry = ObservableField(
-//                                parentViewModel?.countries?.get(3)?.getName() ?: ""
-//                            ),
-//                            tagOfCountry = ObservableField("SecondCountryofTaxResidence")
-//                        )
-//                    )
-//                    taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
-
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -375,92 +330,6 @@ class TaxInfoViewModel(application: Application) :
 
     //check if Amendment exist or not
     override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
-
-    override fun onRuleValidationComplete(position: Int, isRuleValid: Boolean) {
-        if (position != 0 && isFromAmendment()) {
-            taxInfoList[position].isRuleValid = isRuleValid
-            state.valid.set(finalCheck())
-        }
-    }
-//TODO Will be remove once done with final testing
-//    fun finalCheck(): Boolean {
-//        var valid = true
-//        taxInfoList.forEach {
-//            if (it.isRuleValid == false || (it.selectedOption.get()
-//                    .equals("Yes") && (it.tinNumber.get()
-//                    .isNullOrBlank() || it.tinNumber.get().equals("")))
-//            ) {
-//                valid = false
-//                return@forEach
-//            }
-//        }
-//        return valid
-//    }
-//    fun finalCheck(): Boolean {
-//        var valid = true
-//        taxInfoList.forEach {
-//            System.out.println("here i am "+it.previousCountry?.get()+":"+it.selectedCountry?.getName())
-//            if ((it.previousCountry?.get() == it.selectedCountry?.getName()) ||
-//                (it.selectedOption.get().equals("Yes") && ((it.previousTinNumber?.get() == it.tinNumber?.get()) || (it.tinNumber?.get()
-//                    .equals("")))) ||
-//                (it.selectedCountry?.getName().equals(""))
-//            ) {
-//                valid = false
-//                return@forEach
-//            }
-//        }
-//        return valid
-//    }
-
-    fun finalCheck(): Boolean {
-        var firstvalid = true
-        var secondValid = true
-        for (countryPositionIndex in 0 until taxInfoList.size) {
-            when (countryPositionIndex) {
-                1 -> {
-                    firstvalid =
-                        isCountryValid(
-                            taxInfoList[countryPositionIndex],
-                            "CountryofTaxResidence"
-                        ) && isTinNumberValid(taxInfoList[countryPositionIndex], "TINNumber1")
-                }
-                2 -> {
-                    secondValid = isCountryValid(
-                        taxInfoList[countryPositionIndex],
-                        "SecondCountryofTaxResidence"
-                    ) && isTinNumberValid(taxInfoList[countryPositionIndex], "TINNumber2")
-                }
-                else -> {
-                }
-            }
-        }
-        return firstvalid && secondValid
-
-    }
-
-    fun isCountryValid(taxModel: TaxModel, key: String?): Boolean {
-        if (taxModel.selectedCountry?.getName()
-                .equals("") || (taxModel.previousCountry?.get() == taxModel.selectedCountry?.getName() && hasKeyInAmendmentMap(
-                key
-            ))
-        ) {
-            return false
-        }
-        return true
-    }
-
-    fun isTinNumberValid(taxModel: TaxModel, key: String?): Boolean {
-        if (taxModel.selectedOption.get().equals("Yes") && (taxModel.tinNumber?.get().equals(""))) {
-            return false
-        } else if (taxModel.selectedOption.get()
-                .equals("Yes") && (taxModel.previousTinNumber?.get() == taxModel.tinNumber?.get()) && hasKeyInAmendmentMap(
-                key
-            )
-        ) {
-            return false
-        }
-        return true
-    }
 
     fun hasKeyInAmendmentMap(key: String?): Boolean {
         if (key != null && parentViewModel?.amendmentMap != null) {
