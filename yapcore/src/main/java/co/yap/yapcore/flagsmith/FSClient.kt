@@ -36,7 +36,9 @@ class FSClient private constructor() : FeatureFlagClient {
             )
         }
         GlobalScope.launch(Dispatchers.IO) {
-            val isEnable = client?.hasFeatureFlag(flag, featureUser) ?: false
+            val isEnable = SessionManager.user?.currentCustomer?.customerId?.let {
+                it.isNotBlank() && (client?.hasFeatureFlag(flag, featureUser)?: false)
+            } ?: false
             hasFeatureEnable(isEnable)
         }
     }

@@ -8,7 +8,7 @@ import co.yap.billpayments.dashboard.mybills.adapter.MyBillsAdapter
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.billpayments.utils.enums.BillStatus
+import co.yap.networking.customers.responsedtos.billpayment.BillStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.interfaces.OnItemClickListener
 

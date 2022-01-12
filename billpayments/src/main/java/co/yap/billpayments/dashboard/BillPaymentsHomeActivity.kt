@@ -1,8 +1,8 @@
 package co.yap.billpayments.dashboard
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.yapcore.BaseBindingActivity
@@ -18,8 +18,7 @@ class BillPaymentsHomeActivity : BaseBindingActivity<IBillPayments.ViewModel>(),
 
     override fun getLayoutId(): Int = R.layout.activity_bill_payments_home
 
-    override val viewModel: IBillPayments.ViewModel
-        get() = ViewModelProviders.of(this).get(BillPaymentsViewModel::class.java)
+    override val viewModel: BillPaymentsViewModel by viewModels()
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(

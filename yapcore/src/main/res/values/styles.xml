@@ -727,4 +727,19 @@
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="Yap.App.MaterialAlertDialog.Rounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:backgroundDimAmount">0.50</item>
+        <item name="backgroundInsetStart">@dimen/_50sdp</item>
+        <item name="backgroundInsetEnd">@dimen/_50sdp</item>
+        <item name="scrimBackground">@color/semiBlack</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+
 </resources>
