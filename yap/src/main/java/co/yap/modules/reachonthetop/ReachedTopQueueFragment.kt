@@ -164,8 +164,7 @@ class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(
 
     override fun goToDashboard() {
         activity?.let {
-            val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-            SessionManager.sendFcmTokenToServer(deviceId)
+            SessionManager.sendFcmTokenToServer(PreferenceUtils.getDeviceId(it.applicationContext))
         }
         startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
         activity?.finishAffinity()

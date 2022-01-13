@@ -158,8 +158,7 @@ class PhoneVerificationSignInFragment :
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                             else {
                                 activity?.let {
-                                    val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-                                    SessionManager.sendFcmTokenToServer(deviceId)
+                                    SessionManager.sendFcmTokenToServer(PreferenceUtils.getDeviceId(it.applicationContext))
                                 }
                                 if (!this.isWaiting) {
                                     if (this.iban.isNullOrBlank()) {
@@ -193,8 +192,7 @@ class PhoneVerificationSignInFragment :
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         } else {
                             activity?.let {
-                                val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-                                SessionManager.sendFcmTokenToServer(deviceId)
+                                SessionManager.sendFcmTokenToServer(PreferenceUtils.getDeviceId(it.applicationContext))
                             }
                             if (!this.isWaiting) {
                                 if (this.iban.isNullOrBlank()) {

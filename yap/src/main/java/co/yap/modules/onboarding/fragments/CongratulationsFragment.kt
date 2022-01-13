@@ -186,8 +186,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     private fun goToDashboard() {
         activity?.let {
-            val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-            SessionManager.sendFcmTokenToServer(deviceId)
+            SessionManager.sendFcmTokenToServer(PreferenceUtils.getDeviceId(it.applicationContext))
         }
         val action =
             CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()

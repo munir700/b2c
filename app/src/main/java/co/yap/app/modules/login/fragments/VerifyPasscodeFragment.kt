@@ -378,8 +378,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else {
                         activity?.let {
-                            val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-                            SessionManager.sendFcmTokenToServer(deviceId)
+                            SessionManager.sendFcmTokenToServer(PreferenceUtils.getDeviceId(it.applicationContext))
                             navigate(R.id.action_goto_yapDashboardActivity)
                         }
                     }
