@@ -25,7 +25,6 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.PreferenceUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
@@ -158,7 +157,10 @@ class PhoneVerificationSignInFragment :
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                             else {
                                 activity?.let {
-                                    SessionManager.sendFcmTokenToServer(PreferenceUtils.getDeviceId(it.applicationContext))
+                                    SharedPreferenceManager.getInstance(it.applicationContext)
+                                        .getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)?.apply {
+                                            SessionManager.sendFcmTokenToServer(this)
+                                        }
                                 }
                                 if (!this.isWaiting) {
                                     if (this.iban.isNullOrBlank()) {
@@ -192,7 +194,10 @@ class PhoneVerificationSignInFragment :
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         } else {
                             activity?.let {
-                                SessionManager.sendFcmTokenToServer(PreferenceUtils.getDeviceId(it.applicationContext))
+                                SharedPreferenceManager.getInstance(it.applicationContext)
+                                    .getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)?.apply {
+                                        SessionManager.sendFcmTokenToServer(this)
+                                    }
                             }
                             if (!this.isWaiting) {
                                 if (this.iban.isNullOrBlank()) {

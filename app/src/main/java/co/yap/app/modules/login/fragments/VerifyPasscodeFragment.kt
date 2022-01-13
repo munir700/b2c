@@ -35,7 +35,6 @@ import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.PreferenceUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
@@ -378,7 +377,10 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else {
                         activity?.let {
-                            SessionManager.sendFcmTokenToServer(PreferenceUtils.getDeviceId(it.applicationContext))
+                            SharedPreferenceManager.getInstance(it.applicationContext)
+                                .getValueString(KEY_APP_UUID)?.apply {
+                                    SessionManager.sendFcmTokenToServer(this)
+                                }
                             navigate(R.id.action_goto_yapDashboardActivity)
                         }
                     }
