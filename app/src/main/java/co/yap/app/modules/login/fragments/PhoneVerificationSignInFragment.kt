@@ -25,6 +25,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.PreferenceUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
@@ -156,7 +157,10 @@ class PhoneVerificationSignInFragment :
                             if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                             else {
-                                SessionManager.sendFcmTokenToServer(requireContext()) {}
+                                activity?.let {
+                                    val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
+                                    SessionManager.sendFcmTokenToServer(deviceId) {}
+                                }
                                 if (!this.isWaiting) {
                                     if (this.iban.isNullOrBlank()) {
                                         startFragment(
@@ -188,7 +192,10 @@ class PhoneVerificationSignInFragment :
                         if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         } else {
-                            SessionManager.sendFcmTokenToServer(requireContext()) {}
+                            activity?.let {
+                                val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
+                                SessionManager.sendFcmTokenToServer(deviceId) {}
+                            }
                             if (!this.isWaiting) {
                                 if (this.iban.isNullOrBlank()) {
                                     startFragment(

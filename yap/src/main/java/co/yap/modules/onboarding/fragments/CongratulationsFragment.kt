@@ -38,10 +38,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.AnimationUtils
-import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -189,7 +186,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     }
 
     private fun goToDashboard() {
-        sendFcmTokenToServer(requireContext()) {}
+        activity?.let {
+            val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
+            sendFcmTokenToServer(deviceId) {}
+        }
         val action =
             CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
         findNavController().navigate(action)

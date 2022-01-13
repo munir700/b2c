@@ -21,6 +21,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.PreferenceUtils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -162,7 +163,10 @@ class ReachedTopQueueFragment : BaseBindingFragment<IReachedQueueTop.ViewModel>(
     }
 
     override fun goToDashboard() {
-        SessionManager.sendFcmTokenToServer(requireContext()) {}
+        activity?.let {
+            val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
+            SessionManager.sendFcmTokenToServer(deviceId) {}
+        }
         startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
         activity?.finishAffinity()
     }
