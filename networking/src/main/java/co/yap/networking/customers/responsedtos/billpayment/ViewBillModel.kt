@@ -53,7 +53,10 @@ data class ViewBillModel(
     fun isPrepaid(): Boolean? {
         return billerInfo?.skuInfos?.first()?.isPrepaid
     }
+
     fun isPostPaid(): Boolean? {
         return billerInfo?.skuInfos?.first()?.isPostPaid
     }
+
+    fun isBillerNotUnavailable() = BillStatus.valueOf(status ?: "") == BillStatus.NA
 }
