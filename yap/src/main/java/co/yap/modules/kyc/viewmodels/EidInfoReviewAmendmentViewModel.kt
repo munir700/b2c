@@ -266,7 +266,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                     state.previousFirstName = response.data.data?.firstName ?: ""
                     state.previousMiddleName = response.data.data?.middleName ?: ""
                     state.previousLastName = response.data.data?.lastName ?: ""
-                    state.previousNationality = response.data.data?.nationality
+                    state.previousNationality = response.data.data?.nationality?.let { countries.firstOrNull { country -> country.isoCountryCode3Digit == it }?.getName() }
                     response.data.data?.dob?.let {
                         state.previousDateOfBirth = DateUtils.dateToString(
                             DateUtils.stringToDate(it, "yyyy-MM-dd"), "dd/MM/yyyy",
@@ -286,7 +286,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             DateUtils.TIME_ZONE_Default
                         )
                     }
-                    state.previousCitizenNumber = response.data.data?.identityNo
+                    state.previousCitizenNumber = getFormattedCitizenNumber(response.data.data?.identityNo)
                     delay(500)
                     validator?.toValidate()
                 }
