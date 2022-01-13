@@ -159,7 +159,7 @@ class PhoneVerificationSignInFragment :
                             else {
                                 activity?.let {
                                     val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-                                    SessionManager.sendFcmTokenToServer(deviceId) {}
+                                    SessionManager.sendFcmTokenToServer(deviceId)
                                 }
                                 if (!this.isWaiting) {
                                     if (this.iban.isNullOrBlank()) {
@@ -194,7 +194,7 @@ class PhoneVerificationSignInFragment :
                         } else {
                             activity?.let {
                                 val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-                                SessionManager.sendFcmTokenToServer(deviceId) {}
+                                SessionManager.sendFcmTokenToServer(deviceId)
                             }
                             if (!this.isWaiting) {
                                 if (this.iban.isNullOrBlank()) {

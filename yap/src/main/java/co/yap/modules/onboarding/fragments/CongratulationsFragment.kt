@@ -45,7 +45,6 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.leanplum.*
 import co.yap.yapcore.managers.SessionManager
-import co.yap.yapcore.managers.SessionManager.sendFcmTokenToServer
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -188,7 +187,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     private fun goToDashboard() {
         activity?.let {
             val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-            sendFcmTokenToServer(deviceId) {}
+            SessionManager.sendFcmTokenToServer(deviceId)
         }
         val action =
             CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()

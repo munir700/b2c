@@ -379,7 +379,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     else {
                         activity?.let {
                             val deviceId = PreferenceUtils.getDeviceId(it.applicationContext)
-                            SessionManager.sendFcmTokenToServer(deviceId) {}
+                            SessionManager.sendFcmTokenToServer(deviceId)
                             navigate(R.id.action_goto_yapDashboardActivity)
                         }
                     }
