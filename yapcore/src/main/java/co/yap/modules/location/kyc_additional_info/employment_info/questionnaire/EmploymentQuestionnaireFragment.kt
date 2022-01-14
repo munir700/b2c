@@ -37,6 +37,8 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
+        if (arguments?.containsKey("EMPLOYMENT_STATUS") == true) viewModel.employmentStatus =
+            arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
         if (!viewModel.hasAmendmentMap()) {
             viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
             viewModel.isDataRequiredFromApi(

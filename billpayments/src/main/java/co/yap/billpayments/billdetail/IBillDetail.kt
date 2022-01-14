@@ -9,6 +9,7 @@ interface IBillDetail {
     interface State : IBase.State {
         var toolbarVisibility: ObservableBoolean
         var rightIconVisibility: ObservableBoolean
+        var enableRightIcon: ObservableBoolean
         var leftIconVisibility: ObservableBoolean
         var toolbarTitleString: ObservableField<String>
     }

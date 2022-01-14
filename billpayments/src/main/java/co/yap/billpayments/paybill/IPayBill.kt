@@ -2,6 +2,7 @@ package co.yap.billpayments.paybill
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.databinding.FragmentPayBillBinding
 import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.networking.coreitems.CoreBottomSheetData
@@ -28,7 +29,12 @@ interface IPayBill {
         val maxLimit: ObservableField<Double>
         val customerFullName: ObservableField<String>
         val customerAccountNumber: ObservableField<String>
-        var isError: ObservableBoolean }
+        var isError: ObservableBoolean
+        val EVENT_BILLER_NOTAVAILABLE: Int
+            get() = 1101
+        val EVENT_WORNG_INPUT: Int
+            get() = 1102
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
@@ -38,7 +44,7 @@ interface IPayBill {
             isMonth: Boolean,
             paymentScheduleType: PaymentScheduleType
         )
-
+       val editBillerError: MutableLiveData<Int?>
         fun composeWeekDaysList(listData: List<String>): MutableList<CoreBottomSheetData>
         fun setMinMaxLimitForPostPaid(viewBillModel: ViewBillModel)
         fun payBillAndEditBiller(

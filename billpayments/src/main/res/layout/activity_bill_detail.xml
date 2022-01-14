@@ -33,6 +33,7 @@
             app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_edit}"
+            app:rightIconEnabled="@{viewModel.state.enableRightIcon}"
             app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
             app:rightTitleVisibility="@{false}"
             app:titleString="@{viewModel.state.toolbarTitleString}"
