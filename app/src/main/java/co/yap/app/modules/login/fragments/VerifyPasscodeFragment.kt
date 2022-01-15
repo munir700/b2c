@@ -18,6 +18,7 @@ import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
@@ -32,6 +33,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -377,7 +379,14 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else {
                         SessionManager.sendFcmTokenToServer(requireContext()) {}
-                        navigate(R.id.action_goto_yapDashboardActivity)
+                        // launching missing info screen
+                        if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == accountInfo?.amendmentStatus) {
+                            startFragment(
+                                fragmentName = MissingInfoFragment::class.java.name
+                            )
+                        } else {
+                            navigate(R.id.action_goto_yapDashboardActivity)
+                        }
                     }
                     activity?.finish()
 

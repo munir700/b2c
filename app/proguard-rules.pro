@@ -161,6 +161,7 @@
     boolean isLimitAdTrackingEnabled();
 }
 -keep public class com.android.installreferrer.** { *; }
+-keep class co.yap.yapcore.helpers.validation.** { *; }
 
 #Samsung ProGuard rules start
 -dontwarn com.samsung.android.sdk.samsungpay.**

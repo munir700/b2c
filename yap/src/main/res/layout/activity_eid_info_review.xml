@@ -278,8 +278,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid" />
+                    app:text="@{Strings.screen_b2c_eid_info_review__button_title_rescan_eid}"
+                    tools:text="@string/screen_b2c_eid_info_review__button_title_rescan_eid" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/tvFirstName"
@@ -438,8 +438,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvError"
                     app:layout_constraintVertical_bias="0.75"
-                    app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_confirm" />
+                    app:text="@{Strings.common_button_confirm}"
+                    tools:text="@string/common_button_confirm" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

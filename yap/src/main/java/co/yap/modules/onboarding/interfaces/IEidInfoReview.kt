@@ -30,9 +30,9 @@ interface IEidInfoReview {
         var valid: Boolean
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
-        var isDateOfBirthValid : ObservableBoolean
-        var AgeLimit : Int?
-        var isCountryUS : Boolean
+        var isDateOfBirthValid: ObservableBoolean
+        var AgeLimit: Int?
+        var isCountryUS: Boolean
     }
 
     interface View : IBase.View<ViewModel> {

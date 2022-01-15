@@ -8,7 +8,8 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 data class QuestionUiFields(
     val key: EmploymentQuestionIdentifier? = null,
     val question: Question,
-    val isFocusInput: ObservableBoolean = ObservableBoolean(false)
+    val isFocusInput: ObservableBoolean = ObservableBoolean(false),
+    val containsError: ObservableBoolean = ObservableBoolean(false)
 ) {
     fun getAnswer(): String {
         return if (question.questionType == QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT) question.answer.get()

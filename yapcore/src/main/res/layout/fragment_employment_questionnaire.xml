@@ -107,7 +107,7 @@
                 android:gravity="bottom"
                 android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                 app:btn_size="small"
-                app:enableCoreButton="@{viewModel.state.valid}"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
