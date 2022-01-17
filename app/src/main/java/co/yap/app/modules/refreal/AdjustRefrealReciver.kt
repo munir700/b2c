@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import co.yap.app.BuildConfig
+import co.yap.app.YAPApplication
 import co.yap.app.main.MainActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.yapcore.adjust.ReferralInfo
@@ -87,9 +88,9 @@ class AdjustReferrerReceiver : AppCompatActivity() {
                     launchYapDashboard()
                 } ?: openLogin()
             } ?: run {
-                if (isRunning(this))
-                    finish()
-                else
+//                if (isRunning(this))
+//                   finish()
+//                else
                     startLauncherActivity()
             }
         }
@@ -114,7 +115,12 @@ class AdjustReferrerReceiver : AppCompatActivity() {
     }
 
     private fun startLauncherActivity() {
-        startActivity(packageManager.getLaunchIntentForPackage(packageName))
-        finish()
+        YAPApplication.AUTO_RESTART_APP = false
+        val i = packageManager.getLaunchIntentForPackage(packageName)
+        i?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        i?.data = intent.data
+        i?.putExtras(intent)
+        startActivity(i)
+        finishAffinity()
     }
 }

@@ -63,7 +63,7 @@ public class IdentityScannerActivity extends DefaultActivity implements IIdentit
 
     protected void showFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_holder, fragment).commit();
+        ft.replace(R.id.fragment_holder, fragment).commitAllowingStateLoss();
     }
 
     @Override

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.billdetail.base.BillDetailBaseViewModel
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryAdapter
 import co.yap.billpayments.billdetail.billaccountdetail.adapter.BillHistoryModel
-import co.yap.billpayments.utils.enums.BillStatus
+import co.yap.networking.customers.responsedtos.billpayment.BillStatus
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository

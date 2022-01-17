@@ -20,13 +20,13 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.*
 import co.yap.networking.transactions.responsedtos.transactionreciept.TransactionReceiptResponse
 import okhttp3.MultipartBody
-import retrofit2.http.Body
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     const val URL_ADD_FUNDS = "/transactions/api/top-up"
     const val URL_REMOVE_FUNDS = "/transactions/api/withdraw"
-    const val URL_FUND_TRANSFER_LIMITS = "/transactions/api/product/{product-code}/limits"
+    const val URL_FUND_TRANSFER_LIMITS =
+        "/transactions/api/product/{product-code}/{account_uuid}/limits"
     const val URL_FUND_TRANSFER_DENOMINATIONS =
         "/transactions/api/product/{product-code}/denominations"
     const val URL_GET_CARD_FEE = "/transactions/api/fees/spare-card/subscription/{card-type}"
@@ -119,8 +119,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse> =
         executeSafely(call = { api.removeFunds(removeFundsResponse) })
 
-    override suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse> =
-        executeSafely(call = { api.getFundTransferLimits(productCode) })
+    override suspend fun getFundTransferLimits(
+        productCode: String?,
+        accountUuuid: String?
+    ): RetroApiResponse<FundTransferLimitsResponse> =
+        executeSafely(call = { api.getFundTransferLimits(productCode, accountUuuid) })
 
     override suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse> =
         executeSafely(call = { api.getFundTransferDenominations(productCode) })

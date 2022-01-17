@@ -33,12 +33,6 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 //        )
 
         viewModel.clickEvent.observe(this, Observer {
-            if (viewModel.parentViewModel?.identity?.isDateOfBirthValid == true)
-                trackEventWithScreenName(FirebaseEvent.KYC_UNDERAGED)
-            else
-                trackEventWithScreenName(if (viewModel.state.isUSACitizen.get() == true) FirebaseEvent.KYC_US else FirebaseEvent.KYC_SANCTIONED)
-
-            // viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
             SessionManager.doLogout(requireContext())
 
         })

@@ -49,4 +49,14 @@ data class ViewBillModel(
     var billerInfo: BillerInfoModel? = null,
     @Transient
     var formattedDueDate: String? = null
-) : Parcelable
+) : Parcelable {
+    fun isPrepaid(): Boolean? {
+        return billerInfo?.skuInfos?.first()?.isPrepaid
+    }
+
+    fun isPostPaid(): Boolean? {
+        return billerInfo?.skuInfos?.first()?.isPostPaid
+    }
+
+    fun isBillerNotUnavailable() = BillStatus.valueOf(status ?: "") == BillStatus.NA
+}

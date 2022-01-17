@@ -11,7 +11,10 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="android.view.View"/>
+        <import type="co.yap.yapcore.helpers.extentions.ParseExtenstionKt" />
+
+        <import type="android.view.View" />
+
         <import type="co.yap.translation.Translator" />
 
     </data>
@@ -100,6 +103,7 @@
                 android:id="@+id/etAmount"
                 style="@style/ATitle2"
                 android:layout_width="0dp"
+                app:editable="@{ParseExtenstionKt.parseToDouble( viewModel.parentViewModel.billModel.totalAmountDue)>0}"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -174,8 +178,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fAutoPayment"
@@ -224,7 +228,7 @@
                 android:layout_marginTop="@dimen/margin_extra_large"
                 android:onClick="@{(v)->viewModel.handlePressView(v.id)}"
                 app:btn_size="small"
-                app:enableCoreButton="@{viewModel.state.valid}"
+                app:enableCoreButton="@{viewModel.state.valid &amp;&amp; ParseExtenstionKt.parseToDouble( viewModel.parentViewModel.billModel.totalAmountDue)>0}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

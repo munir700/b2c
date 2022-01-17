@@ -19,10 +19,12 @@
     <string name="common_text_hey">Hey</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
+    <string name="common_text_edit_now">Edit now</string>
     <string name="common_amount_hint">0.00</string>
     <string name="common_percentage_hint">0</string>
     <string name="common_display_text_nothing_to_report">Start using your account to see all your transactions here</string>
     <string name="common_button_logout">Logout</string>
+    <string name="common_button_unavailable">Unavailable</string>
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
     <string name="common_text_fee">Fee: %1s</string>
@@ -32,6 +34,7 @@
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
     <string name="common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
+    <string name="common_display_text_accumulative_limit_error_transaction">Your maximum accumulative limit is %1s and your remaining accumulative limit is %2s</string>
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
@@ -190,7 +193,7 @@
     <string name="screen_kyc_information_error_text_description_sanctioned_country">Unfortunately, we\'re unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account.</string>
     <string name="screen_kyc_information_error_display_text_title_from_us">Looks like you\'re from the United States</string>
     <string name="screen_kyc_information_error_text_description_from_us">We\'re sorry, we aren\'t able to create bank accounts for US Citizens at this point. Stay tuned though, we\'ll announce it everywhere if this changes!</string>
-    <string name="screen_kyc_information_error_display_text_explanation_under_age">And while that\'s great, this YAP account is only for adults. Don\'t worry though, you can speak to your parents about getting you started with YAP Young or wait till you\'re 18 :)</string>
+    <string name="screen_kyc_information_error_display_text_explanation_under_age">Unfortunately, YAP is only available to users over the age of %1$s. But don’t worry! We’re working on bringing something special to our younger audiences soon 😉</string>
     <string name="screen_kyc_information_error_display_text_title_expired_card">YAP works best with a valid Emirates ID</string>
     <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
     <string name="screen_kyc_information_error_button_go_to_dashboard">Go to dashboard</string>
@@ -838,6 +841,8 @@
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
     <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
     <string name="screen_cash_transfer_display_text_required_topup_balance">Your available balance is %1s.\n Top up to proceed with this purchase.</string>
+    <string name="screen_topup_bank_error_display_no_accumulative_balance">Hi there! You have exceeded the amount you can top-up your YAP card for today. Please try again tomorrow</string>
+    <string name="screen_topup_bank_error_display_less_accumulative_balance">Hi there! the top-up amount requested exceeds your daily limit. Please try again with a lesser amount</string>
 
     <!-- International Funds Transfer -->
 
@@ -1133,7 +1138,7 @@
     <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
-    <string name="screen_invite_friend_display_text_share_url">Hey! I just joined the UAE\'s newest banking app – YAP. Transform the way you bank and reserve your place in the queue to be one of the first to join me in the banking revolution.\n\n%1s</string>
+    <string name="screen_invite_friend_display_text_share_url">Connect with me on YAP! An innovative digital banking app that gives you total control of your finances.\n\n%1s</string>
 
     <!--  OTP Blocked New screen -->
     <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
@@ -1400,7 +1405,7 @@
     <!-- YFY Better Together -->
     <string name="screen_yfy_invite_a_friend_description">Once you\'re set, head over to the top right menu on your dashboard (or via More on the bottom navigation menu) to start inviting your friends to join YAP.\n\n The more the merrier!</string>
     <string name="screen_yfy_invite_a_friend_button_label">Invite a friend</string>
-    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.\n\n Use the YAP It button and choose either bank transfer or cash pickup, so you can send money to even those who don\'t have a bank account! </string>
+    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.</string>
     <string name="screen_yfy_send_money_to_someone_description">Send money to someone instantly within your YAP network. Tap on the YAP It button on your dashboard, select a friend from the list and enter the desired amount.\n\n Yes, It\'s that simple!</string>
     <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends.\n\nTo split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly.\n\n Psst… you can also send reminders!</string>
 
@@ -1489,6 +1494,13 @@
     <string name="screen_bill_payment_bill_due_button_pay_all">Pay All</string>
     <string name="screen_bill_payment_bill_total_due_label">Total due</string>
     <string name="screen_bill_payment_due_bills_swipe_button_title">Pay Now</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_title">Looks like you entered an unavailable number</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_text">Please double check and try again</string>
+    <string name="screen_bill_payment_add_bill_error_dialog_n_button_text">No, I\'ll do it later</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_title">%1s services are down at the moment</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_text">We are unable to add this bill, please try again in a few hours</string>
+    <string name="screen_bill_payment_add_bill_service_error_dialog_button_text">Got it</string>
+    <string name="screen_bill_payment_add_bill_error_unavailable">Unavailable, check back later.</string>
 
 
     <!--    Biller Screen-->
@@ -1600,5 +1612,19 @@
 
     <!-- Bill Category Screen-->
     <string name="screen_bill_category_title_coming_soon">Coming soon</string>
+
+    <!-- OTP Message Composition -->
+    <string-array name="screen_otp_messages">
+        <item>SWIFT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>UAEFTS;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>RMT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>CASHPAYOUT;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>DOMESTIC_TRANSFER;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>Y2Y;Hi %1$s! Your OTP to send %2$s to %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>TOP_UP_SUPPLEMENTARY;Hi %1$s! Your OTP to top up your YAP card with %2$s from your card ending in %3$s is %4$s. This code expires in %5$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %6$s</item>
+        <item>SWIFT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+        <item>RMT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+        <item>DOMESTIC_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as a local beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+    </string-array>
 
 </resources>
