@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import co.yap.BuildConfig
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
@@ -13,6 +14,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.isFutureDate
 import co.yap.yapcore.helpers.DateUtils.nextYear
+import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -152,7 +154,12 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         response.data.data?.customerDocuments?.get(0)?.documentInformation
                     val data = response.data?.data
                     data?.let { data ->
-                        parentViewModel?.state?.identityNo?.set(parentViewModel?.document?.identityNo)
+                        parentViewModel?.state?.identityNo?.set(
+                            parentViewModel?.document?.identityNo?.replace(
+                                "-",
+                                ""
+                            )
+                        )
                         parentViewModel?.state?.firstName?.set(data.firstName)
                         parentViewModel?.state?.lastName?.set(data.lastName)
                         parentViewModel?.state?.nationality?.set(data.nationality)
@@ -169,4 +176,5 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
         }
     }
 
+    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }

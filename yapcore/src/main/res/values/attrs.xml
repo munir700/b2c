@@ -741,4 +741,13 @@
         <attr name="disableEmoji" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="TextViewRichDrawable">
+        <attr name="compoundDrawableWidth" format="dimension" />
+        <attr name="compoundDrawableHeight" format="dimension" />
+        <attr name="drawableStartVector" format="reference" />
+        <attr name="drawableTopVector" format="reference" />
+        <attr name="drawableEndVector" format="reference" />
+        <attr name="drawableBottomVector" format="reference" />
+        <attr name="rtdrawableTint" format="reference" />
+    </declare-styleable>
 </resources>

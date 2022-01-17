@@ -1,6 +1,7 @@
 package co.yap.modules.location.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.ILocation
 import co.yap.modules.location.states.LocationState
@@ -21,6 +22,9 @@ class LocationViewModel(application: Application) :
     override var address: Address? = null
     override var isOnBoarding: Boolean = false
     override var countries: ArrayList<Country> = ArrayList()
+    override var amendmentMap: HashMap<String?, List<String>?>? = null
+    override var hideProgressToolbar: MutableLiveData<Boolean> = MutableLiveData(false)
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }

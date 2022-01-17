@@ -6,10 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import co.yap.app.YAPApplication
 import co.yap.yapcore.helpers.DateUtils
@@ -38,19 +36,21 @@ fun Context.createTempFile(extension: String): File {
     return File(dir, "${time}.$extension")
 }
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 @Throws(IOException::class)
-fun Context.dummyEID(): File? {
+fun Context.dummyEID(type: String): File? {
     val file = this.createTempFile(".jpg")
     if (!file.exists()) {
-        val asset: InputStream = this.assets.open("eid_doc.jpg")
+        var asset: InputStream? = null
+        if (type == "BACK") asset = this.assets.open("eid_back.png")
+        if (type == "FRONT") asset = this.assets.open("eid_front.png")
+
         val output = FileOutputStream(file)
         val buffer = ByteArray(1024)
         var size: Int
-        while (asset.read(buffer).also { size = it } != -1) {
+        while (asset?.read(buffer).also { size = it ?: 0 } != -1) {
             output.write(buffer, 0, size)
         }
-        asset.close()
+        asset?.close()
         output.close()
         return file
     }

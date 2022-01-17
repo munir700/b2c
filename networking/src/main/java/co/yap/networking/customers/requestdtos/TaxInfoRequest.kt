@@ -8,7 +8,9 @@ data class TaxInfoRequest(
     @SerializedName("submit")
     val submit: Boolean,
     @SerializedName("taxInformationDetails")
-    val taxInfoDetails: ArrayList<TaxInfoDetailRequest>
+    val taxInfoDetails: ArrayList<TaxInfoDetailRequest>,
+    @SerializedName("isAmendment")
+    val isAmendment: Boolean
 )
 
 data class TaxInfoDetailRequest(

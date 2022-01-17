@@ -16,5 +16,6 @@ data class UploadDocumentsRequest(
     @SerializedName("fullName") val fullName: String,
     @SerializedName("gender") val gender: String, // M/F
     @SerializedName("identityNo") val identityNo: String? = null,
-    @SerializedName("countryIsSanctioned") val countryIsSanctioned: Boolean? = null
+    @SerializedName("countryIsSanctioned") val countryIsSanctioned: Boolean? = null,
+    @SerializedName("isAmendment") val isAmendment: Boolean = false
 )
