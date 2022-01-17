@@ -64,6 +64,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            <!--android:visibility="@{viewModel.state.transactionData.isMApVisible()?View.VISIBLE : View.GONE}"/>
+
+                        this visibility check not handled here because fragmant dont support binding expression alternate solution is to handle it by adding additional one parent layout
+
+                        -->
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_120sdp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
             <FrameLayout
                 android:id="@+id/flImageLayout"
@@ -332,9 +347,8 @@
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clReceiptParent"
-                app:ratingViewModel="@{viewModel}"
-              />
-<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
+                app:ratingViewModel="@{viewModel}" />
+            <!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
 
             <include
                 android:id="@+id/parentTotalPurchase"
@@ -423,9 +437,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clDetail"
-                app:text="@{Strings.screen_transaction_details_display_feedback_label}"
-                />
-<!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
+                app:text="@{Strings.screen_transaction_details_display_feedback_label}" />
+            <!--            tools:visibility="@{viewModel.state.transactionData.showFeedBack ? View.VISIBLE: View.GONE}"-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
