@@ -19,6 +19,7 @@
         android:orientation="vertical">
 
         <include
+            android:id="@+id/progressBar"
             layout="@layout/layout_location_progress_toolbar"
             app:viewModel="@{viewModel}" />
 
