@@ -283,8 +283,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 //TODO("In onResume method of YapDashBoardActivity getAccountInfo method is already calling.This changed required complete testing of notification section on dashboard")
 //                checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
-                viewModel.state.isCardStatusActivated.set(Constants.CARD_STATUS == SessionManager.card.value?.status)
-                setWidgetVisibility()
+                 setWidgetVisibility()
             }
         })
         getBindings().toolbarLayout.ivSearch.setOnLongClickListener {
@@ -384,6 +383,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         SessionManager.card.observe(viewLifecycleOwner, Observer { primaryCard ->
             primaryCard?.let {
                 checkUserStatus()
+                viewModel.state.isCardStatusActivated.set(Constants.CARD_STATUS == it.status)
+                setWidgetVisibility()
             }
         })
 
