@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
@@ -11,6 +12,7 @@ import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.billpayments.billdetail.BillDetailActivity
+import co.yap.billpayments.dashboard.analytics.BillPaymentAnalyticsViewModel
 import co.yap.billpayments.databinding.FragmentBillDashboardBinding
 import co.yap.billpayments.payall.main.PayAllMainActivity
 import co.yap.billpayments.paybill.main.PayBillMainActivity
@@ -40,8 +42,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_bill_dashboard
     override var isFromSwipePayBill: Boolean = false
-    override val viewModel: BillDashboardViewModel
-        get() = ViewModelProviders.of(this).get(BillDashboardViewModel::class.java)
+    override val viewModel: BillDashboardViewModel  by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -298,7 +299,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         launchActivity<PayAllMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL_ALL) {
             putExtra(
                 ExtraKeys.ALL_BILLS.name,
-                Gson().toJson(viewModel.dueBillsAdapter.getDataList())
+                Gson().toJson(viewModel.dueBillsAdapter.getDataList().filter { it.isBillerNotUnavailable().not() })
             )
         }
         requireActivity().overridePendingTransition(

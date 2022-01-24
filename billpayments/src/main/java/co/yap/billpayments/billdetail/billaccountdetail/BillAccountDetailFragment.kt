@@ -8,6 +8,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.base.BillDetailBaseFragment
@@ -35,10 +37,23 @@ class BillAccountDetailFragment :
         setObservers()
         viewModel.getBillAccountHistory(viewModel.parentViewModel?.selectedBill?.uuid.toString())
         viewModel.getBillAccountLineChartHistory(viewModel.parentViewModel?.selectedBill?.uuid.toString())
+        viewModel.parentViewModel?.state?.enableRightIcon?.set(viewModel.parentViewModel?.selectedBill?.isBillerNotUnavailable() == false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (requireActivity().intent.hasExtra(ExtraKeys.IS_UPDATED.name))
+            if (requireActivity().intent.getBooleanExtra(ExtraKeys.IS_UPDATED.name, false)) {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.billAccountDetailFragment, true) // starting destination skipped
+                    .build()
+                findNavController().navigate(
+                    R.id.action_billAccountDetailFragment_to_editBillFragment,
+                    null,
+                    navOptions
+                )
+            }
+
     }
 
     override fun setObservers() {
@@ -61,9 +76,12 @@ class BillAccountDetailFragment :
 
     private val toolbarClickObserver = Observer<Int> {
         when (it) {
-            R.id.ivRightIcon -> navigate(
-                destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
-            )
+            R.id.ivRightIcon -> {
+                if (viewModel.parentViewModel?.selectedBill?.isBillerNotUnavailable() == false)
+                    navigate(
+                        destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
+                    )
+            }
         }
     }
 
@@ -72,7 +90,12 @@ class BillAccountDetailFragment :
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_PAY_BILL -> {
-                    setIntentResult()
+                    if (data?.getBooleanExtra(ExtraKeys.IS_UPDATED.name, false) == true) {
+                        navigate(
+                            destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
+                        )
+                    } else
+                        setIntentResult()
                 }
             }
         }
@@ -112,7 +135,7 @@ class BillAccountDetailFragment :
         getViewBinding().billingHistoryChart.setDrawGridBackground(false)
 
         // create marker to display box when values are selected
-        val mv = ToolTipView2(requireContext(), R.layout.item_bill_account_details_tooltip_view,it)
+        val mv = ToolTipView2(requireContext(), R.layout.item_bill_account_details_tooltip_view, it)
 
         // Set the marker to the chart
         mv.chartView = getViewBinding().billingHistoryChart
@@ -136,7 +159,8 @@ class BillAccountDetailFragment :
         yAxis.setDrawLimitLinesBehindData(true)
         yAxis.axisLineColor = Color.parseColor("#dae0f0")
         // axis range
-        yAxis.axisMaximum = it.maxWith(Comparator.comparingDouble { it.amount!! })?.amount?.toFloat()
+        yAxis.axisMaximum =
+            it.maxWith(Comparator.comparingDouble { it.amount!! })?.amount?.toFloat()
                 ?: 0f
         yAxis.axisMinimum = 0f
         yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
@@ -168,7 +192,7 @@ class BillAccountDetailFragment :
         chart.axisRight.setDrawGridLines(false)
         val set1: LineDataSet
         if (chart.data != null &&
-                chart.data.dataSetCount > 0
+            chart.data.dataSetCount > 0
         ) {
             set1 = chart.data.getDataSetByIndex(0) as LineDataSet
             set1.values = values
@@ -177,7 +201,10 @@ class BillAccountDetailFragment :
             chart.notifyDataSetChanged()
         } else {
             // create a dataset and give it a type
-            set1 = LineDataSet(values, "") //Dont assign value to label. This will add Label ate the bottom of chart.
+            set1 = LineDataSet(
+                values,
+                ""
+            ) //Dont assign value to label. This will add Label ate the bottom of chart.
             set1.setDrawIcons(false)
             val valueFormatter = object : ValueFormatter() {
                 override fun getAxisLabel(value: Float, axis: AxisBase?): String {
@@ -236,11 +263,11 @@ class BillAccountDetailFragment :
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-         e?.x?.let {
+        e?.x?.let {
 
-             getViewBinding().billingHistoryChart.xAxis?.textColor = Color.parseColor("#7c4dff")
+            getViewBinding().billingHistoryChart.xAxis?.textColor = Color.parseColor("#7c4dff")
 //             getViewBinding().billingHistoryChart.xAxis?.valueFormatter?.getAxisLabel()
-         }
+        }
     }
 
     override fun onNothingSelected() {

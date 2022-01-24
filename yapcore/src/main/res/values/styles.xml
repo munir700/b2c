@@ -558,7 +558,6 @@
         <item name="colorControlNormal">@color/greyLight</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="strokeWidth">1dp</item>
     </style>
 
     <style name="Theme.EditText.GreySoft" parent="CoreAppTheme">
@@ -728,6 +727,20 @@
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="Yap.App.MaterialAlertDialog.Rounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:backgroundDimAmount">0.50</item>
+        <item name="backgroundInsetStart">@dimen/_50sdp</item>
+        <item name="backgroundInsetEnd">@dimen/_50sdp</item>
+        <item name="scrimBackground">@color/semiBlack</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
     <style name="Yap.App.Widget.TextInputLayout" parent="Widget.Design.TextInputLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -760,5 +773,6 @@
         <item name="font">@font/roboto_regular</item>
 
     </style>
+
 
 </resources>

@@ -5,10 +5,13 @@ import android.view.View
 import android.widget.CheckedTextView
 import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.AmendmentSection
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EmploymentStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class EmploymentStatusSelectionViewModel(application: Application) :
     LocationChildViewModel<IEmploymentStatusSelection.State>(application),
@@ -98,5 +101,36 @@ class EmploymentStatusSelectionViewModel(application: Application) :
     }
 
     override fun canSkipFragment() =
-        parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+        parentViewModel?.amendmentMap?.isNullOrEmpty() == false && parentViewModel?.amendmentMap?.get(
+            AmendmentSection.EMPLOYMENT_INFO.value
+        )?.contains(
+            "EmploymentStatus"
+        ) == false
+
+    fun getAmendmentsEmploymentInfo() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.getAmendmentsEmploymentInfo(SessionManager.user?.uuid ?: "")) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    response.data.data?.let { res ->
+                        //
+                        lastItemCheckedPosition = employmentStatusAdapter.getDataList()
+                            .indexOfFirst { it.employmentStatus.name == res.employmentStatus ?: "" }
+                        if (lastItemCheckedPosition >= 0) {
+                            employmentStatusAdapter.getDataList()[lastItemCheckedPosition].isSelected =
+                                true
+                            employmentStatusAdapter.notifyItemChanged(lastItemCheckedPosition)
+                            state.enableNextButton.set(true)
+                        }
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
 }

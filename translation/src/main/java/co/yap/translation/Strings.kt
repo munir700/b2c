@@ -26,6 +26,7 @@ object Strings {
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
     const val common_percentage_hint: String = "common_percentage_hint"
+    const val common_text_edit_now: String = "common_text_edit_now"
     const val common_display_text_nothing_to_report: String =
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
@@ -2373,6 +2374,20 @@ object Strings {
         "screen_bill_payment_bill_total_due_label"
     const val screen_bill_payment_due_bills_swipe_button_title: String =
         "screen_bill_payment_due_bills_swipe_button_title"
+    const val screen_bill_payment_add_bill_service_error_dialog_button_text: String =
+        "screen_bill_payment_add_bill_service_error_dialog_button_text"
+    const val screen_bill_payment_add_bill_service_error_dialog_title: String =
+        "screen_bill_payment_add_bill_service_error_dialog_title"
+    const val screen_bill_payment_add_bill_service_error_dialog_text: String =
+        "screen_bill_payment_add_bill_service_error_dialog_text"
+    const val screen_bill_payment_add_bill_error_dialog_title: String =
+        "screen_bill_payment_add_bill_error_dialog_title"
+    const val screen_bill_payment_add_bill_error_dialog_text: String =
+        "screen_bill_payment_add_bill_error_dialog_text"
+    const val screen_bill_payment_add_bill_error_dialog_n_button_text: String =
+        "screen_bill_payment_add_bill_error_dialog_n_button_text"
+    const val screen_bill_payment_add_bill_error_unavailable: String =
+        "screen_bill_payment_add_bill_error_unavailable"
 
     //Biller Screen
     const val screen_bill_payment_text_title_add_a_credit_card: String =

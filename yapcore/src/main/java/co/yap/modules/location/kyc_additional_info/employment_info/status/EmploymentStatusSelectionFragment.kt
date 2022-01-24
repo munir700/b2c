@@ -21,11 +21,15 @@ class EmploymentStatusSelectionFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel.canSkipFragment()) {
-            skipEmploymentStatusSelectionFragment()
-        } else {
-            setObservers()
+        if(viewModel.parentViewModel?.amendmentMap?.isNullOrEmpty()?.not()==true){
+            viewModel.getAmendmentsEmploymentInfo()
         }
+//        if (viewModel.canSkipFragment()) {
+//            skipEmploymentStatusSelectionFragment()
+//        } else {
+//            viewModel.getAmendmentsEmploymentInfo()
+            setObservers()
+//        }
     }
 
     override fun setObservers() {
