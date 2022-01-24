@@ -229,6 +229,7 @@ object Constants {
     //Widget bar
     const val WIDGET_HIDDEN_STATUS = "WIDGET_HIDDEN_STATUS"
     const val WIDGET_LIST = "WIDGET_LIST"
+    const val CARD_STATUS = "ACTIVE"
 
     //KYC Details
     const val KYC_FIRST_NAME = "KYC_FIRST_NAME"
