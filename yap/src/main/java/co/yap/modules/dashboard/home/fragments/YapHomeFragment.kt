@@ -283,7 +283,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 //TODO("In onResume method of YapDashBoardActivity getAccountInfo method is already calling.This changed required complete testing of notification section on dashboard")
 //                checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
-                 setWidgetVisibility()
+                setWidgetVisibility()
             }
         })
         getBindings().toolbarLayout.ivSearch.setOnLongClickListener {
