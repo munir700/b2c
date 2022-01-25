@@ -21,6 +21,9 @@
 
         <import type="co.yap.yapcore.R" />
 
+        <import type="co.yap.wallet.samsung.SamsungPayStatus" />
+
+
     </data>
 
 
@@ -103,24 +106,26 @@
                 android:layout_gravity="center_horizontal"
                 app:cardViewModel="@{viewModel}" />
 
-            <include
-                android:id="@+id/includeWalletButton"
-                layout="@layout/layout_wallet_buttons"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                app:viewModel="@{viewModel}" />
         </FrameLayout>
-
+        <include
+            android:id="@+id/includeWalletButton"
+            layout="@layout/layout_wallet_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:viewModel="@{viewModel}"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardName"
+            app:layout_constraintStart_toStartOf="@+id/tvCardName"
+            app:layout_constraintTop_toBottomOf="@+id/frameContainer"/>
         <include
             android:id="@+id/lySeeDetail"
             layout="@layout/layout_view_card_details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@{viewModel.sPayStatus instanceof SamsungPayStatus.SPAY_NOT_SUPPORTED?@dimen/margin_medium_large:@dimen/margin_zero_dp}"
             app:cardViewModel="@{viewModel}"
             app:layout_constraintEnd_toEndOf="@+id/frameContainer"
             app:layout_constraintStart_toStartOf="@+id/frameContainer"
-            app:layout_constraintTop_toBottomOf="@+id/frameContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/includeWalletButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
