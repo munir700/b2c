@@ -39,11 +39,16 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val customerRepository: CustomersRepository = CustomersRepository
     private var usersList: List<AccountInfo?> = arrayListOf()
     var user: AccountInfo? = null
+        set(value) {
+            field = value
+            userLiveData.postValue(value)
+        }
+    var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData()
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
-    var helpPhoneNumber: String = ""
+    var helpPhoneNumber: String = "+971600551214"
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()

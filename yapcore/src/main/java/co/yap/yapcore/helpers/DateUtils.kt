@@ -25,6 +25,7 @@ object DateUtils {
     const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17 AM
     const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
     const val FORMATE_DATE_MONTH_YEAR = "dd MMM yyyy" // 12 Jan 2012
+    const val FORMAT_DATE_MONTH_YEAR_2 = "dd-MM-yyyy" // 12 Jan 2012
     const val FORMAT_SHORT_MONTH_DAY = "MMM d" //jan 1
 
     fun getAge(date: Date): Int {
@@ -41,7 +42,7 @@ object DateUtils {
     fun getAge(day: Int, month: Int, year: Int): Int = getAge(toDate(day, month, year))
 
     fun isDatePassed(date: Date): Boolean = date.before(Date())
-
+    fun isFutureDate(date: Date?): Boolean? = date?.after(Date())
     private fun toDate(day: Int, month: Int, year: Int): Date {
         return if (year.toString().length == 2) {
             normaliseDate(day, month, year)
@@ -415,6 +416,15 @@ object DateUtils {
             cal.time = date
         }
         cal.add(Calendar.DAY_OF_YEAR, day)
+        return cal.time
+    }
+
+    fun nextYear(date: Date?, year: Int): Date? {
+        val cal = Calendar.getInstance()
+        if (date != null) {
+            cal.time = date
+        }
+        cal.add(Calendar.YEAR, year)
         return cal.time
     }
 

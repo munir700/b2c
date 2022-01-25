@@ -36,6 +36,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTinNumber"
                 style="@style/SmallGrey"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2sp"
@@ -98,7 +99,21 @@
 
             <include
                 layout="@layout/content_input_field_selector"
-                app:isFocus="@{viewModel.questionUiFields.isFocusInput}" />
+                app:isFocus="@{viewModel.questionUiFields.isFocusInput}"
+                app:containsError="@{viewModel.questionUiFields.containsError}"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvError"
+                style="@style/SmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="@string/kyc_incorrect_field"
+                android:textColor="@color/red"
+                android:visibility="@{viewModel.questionUiFields.containsError ? View.VISIBLE : View.GONE}"
+                tools:text="@string/kyc_incorrect_field" />
+
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

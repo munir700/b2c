@@ -22,6 +22,9 @@ interface IDocumentsDashboard {
     interface ViewModel : IBase.ViewModel<State> {
         var identity: Identity?
         var paths: ArrayList<String>
+
+        // Will be used for KYC Amendment
+        var amendmentMap: HashMap<String?, List<String>?>?
         var name: MutableLiveData<String>
         var skipFirstScreen: MutableLiveData<Boolean>
         var finishKyc: MutableLiveData<DocumentsResponse>
@@ -31,6 +34,7 @@ interface IDocumentsDashboard {
         var gotoInformationErrorFragment: MutableLiveData<Boolean>?
         var showProgressBar: MutableLiveData<Boolean>
         var accountStatus: MutableLiveData<String>
+        var hideProgressToolbar: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel>

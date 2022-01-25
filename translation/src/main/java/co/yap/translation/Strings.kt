@@ -26,6 +26,7 @@ object Strings {
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
     const val common_percentage_hint: String = "common_percentage_hint"
+    const val common_text_edit_now: String = "common_text_edit_now"
     const val common_display_text_nothing_to_report: String =
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
@@ -42,6 +43,8 @@ object Strings {
         "common_display_text_available_balance_error"
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
+    const val common_display_text_accumulative_limit_error_transaction: String =
+        "common_display_text_accumulative_limit_error_transaction"
     const val sm_display_text_min_max_limit_error_transaction: String =
         "sm_display_text_min_max_limit_error_transaction"
     const val common_display_text_daily_limit_error: String =
@@ -345,8 +348,8 @@ object Strings {
     //Eid Info Review screen
     const val screen_b2c_eid_info_review_display_text_title: String =
         "screen_b2c_eid_info_review_display_text_title"
-    const val screen_b2c_eid_info_review_display_text_sub_title: String =
-        "screen_b2c_eid_info_review_display_text_sub_title"
+    const val screen_b2c_eid_info_review_amendment_display_text_title: String =
+        "screen_b2c_eid_info_review_amendment_display_text_title"
     const val screen_b2c_eid_info_review_display_text_emirates_id_heading: String =
         "screen_b2c_eid_info_review_display_text_emirates_id_heading"
     const val screen_b2c_eid_info_review_display_text_emirates_id_sub_heading: String =
@@ -369,8 +372,10 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_expiry_date_heading"
     const val screen_b2c_eid_info_review_button_title_confirm: String =
         "screen_b2c_eid_info_review_button_title_confirm"
-    const val screen_b2c_eid_info_review_button_title_rescan_eid: String =
-        "screen_b2c_eid_info_review_button_title_rescan_eid"
+    const val screen_b2c_eid_info_review__button_title_rescan_eid: String =
+        "screen_b2c_eid_info_review__button_title_rescan_eid"
+    const val screen_b2c_eid_info_review_amendment_button_title_rescan_eid: String =
+        "screen_b2c_eid_info_review_amendment_button_title_rescan_eid"
     const val screen_b2c_eid_info_review_button_title_scan_eid: String =
         "screen_b2c_eid_info_review_button_title_scan_eid"
     const val screen_b2c_eid_info_review_display_text_error_under_age: String =
@@ -395,6 +400,10 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_last_name_heading"
     const val screen_b2c_eid_info_review_display_text_edit_sub_title: String =
         "screen_b2c_eid_info_review_display_text_edit_sub_title"
+    const val screen_b2c_eid_info_review_display_text_eid_number: String =
+        "screen_b2c_eid_info_review_display_text_eid_number"
+    const val screen_b2c_eid_info_review_display_text_select_gender: String =
+        "screen_b2c_eid_info_review_display_text_select_gender"
 
     // KYC SDK
     const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String =
@@ -1346,6 +1355,10 @@ object Strings {
         "screen_cash_transfer_display_text_available_balance"
     const val screen_cash_transfer_display_text_required_topup_balance: String =
         "screen_cash_transfer_display_text_required_topup_balance"
+    const val screen_topup_bank_error_display_no_accumulative_balance: String =
+        "screen_topup_bank_error_display_no_accumulative_balance"
+    const val screen_topup_bank_error_display_less_accumulative_balance: String =
+        "screen_topup_bank_error_display_less_accumulative_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =
@@ -1464,6 +1477,7 @@ object Strings {
     const val screen_add_topup_card_limit_text_title: String =
         "screen_add_topup_card_limit_text_title"
 
+
     // Screen Card Analytics
     const val screen_card_analytics_display_tab_title_category: String =
         "screen_card_analytics_display_tab_title_category"
@@ -1542,6 +1556,11 @@ object Strings {
     //Screen funds transfer information custom view
     const val custom_view_funds_transfer_display_text_reference_number_heading: String =
         "custom_view_funds_transfer_display_text_reference_number_heading"
+
+    // KYC Amendment Strings
+    const val kyc_incorrect_field = "kyc_incorrect_field"
+    const val eid_info_review_screen_select_nationality: String =
+        "eid_info_review_screen_select_nationality"
 
 
     //House hold screen
@@ -2233,6 +2252,10 @@ object Strings {
         "common_display_text_founder"
     const val screen_additional_info_label_text_question_hint: String =
         "screen_additional_info_label_text_question_hint"
+    const val screen_home_amendment_title: String =
+        "screen_home_amendment_title"
+    const val screen_home_amendment_desc: String =
+        "screen_home_amendment_desc"
 
     const val screen_additional_info_label_text_additional_info: String =
         "screen_additional_info_label_text_additional_info"
@@ -2357,6 +2380,20 @@ object Strings {
         "screen_bill_payment_bill_total_due_label"
     const val screen_bill_payment_due_bills_swipe_button_title: String =
         "screen_bill_payment_due_bills_swipe_button_title"
+    const val screen_bill_payment_add_bill_service_error_dialog_button_text: String =
+        "screen_bill_payment_add_bill_service_error_dialog_button_text"
+    const val screen_bill_payment_add_bill_service_error_dialog_title: String =
+        "screen_bill_payment_add_bill_service_error_dialog_title"
+    const val screen_bill_payment_add_bill_service_error_dialog_text: String =
+        "screen_bill_payment_add_bill_service_error_dialog_text"
+    const val screen_bill_payment_add_bill_error_dialog_title: String =
+        "screen_bill_payment_add_bill_error_dialog_title"
+    const val screen_bill_payment_add_bill_error_dialog_text: String =
+        "screen_bill_payment_add_bill_error_dialog_text"
+    const val screen_bill_payment_add_bill_error_dialog_n_button_text: String =
+        "screen_bill_payment_add_bill_error_dialog_n_button_text"
+    const val screen_bill_payment_add_bill_error_unavailable: String =
+        "screen_bill_payment_add_bill_error_unavailable"
 
     //Biller Screen
     const val screen_bill_payment_text_title_add_a_credit_card: String =
@@ -2525,4 +2562,16 @@ object Strings {
     //Bill Category
     const val screen_bill_category_title_coming_soon: String =
         "screen_bill_category_title_coming_soon"
+
+    // KYC Amendments/ Missing Info Screen
+    const val screen_missing_info_button_get_started = "screen_missing_info_button_get_started"
+    const val screen_missing_info_button_do_it_later = "screen_missing_info_button_do_it_later"
+    const val screen_missing_info_title = "screen_missing_info_title"
+    const val screen_missing_info_description = "screen_missing_info_description"
+    const val screen_missing_info_review_required = "screen_missing_info_review_required"
+
+    // KYC Amendments/ Missing Info Confirmation Screen
+    const val screen_missing_info_confirmation_button_done = "screen_missing_info_confirmation_button_done"
+    const val screen_missing_info_confirmation_display_all_set = "screen_missing_info_confirmation_display_all_set"
+
 }

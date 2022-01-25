@@ -31,7 +31,9 @@ interface ITaxInfo {
         var reasonsList: ArrayList<String>
         var options: ArrayList<String>
         var taxInfoAdaptor: TaxInfoAdaptor
-
+        fun canSkipFragment(): Boolean
+        fun getAmendmentsTaxInfo()
+        fun isFromAmendment(): Boolean
     }
 
     interface State : IBase.State {

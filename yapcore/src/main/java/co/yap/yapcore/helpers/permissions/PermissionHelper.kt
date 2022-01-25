@@ -147,9 +147,9 @@ class PermissionHelper {
     interface PermissionCallback {
         fun onPermissionGranted()
 
-        fun onIndividualPermissionGranted(grantedPermission: Array<String>)
+        fun onIndividualPermissionGranted(grantedPermission: Array<String>){}
 
-        fun onPermissionDenied()
+        fun onPermissionDenied(){}
 
         fun onPermissionDeniedBySystem()
     }

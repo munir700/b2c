@@ -39,7 +39,7 @@ open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
 
     private val defaultClickListenerAdapter: OnDrawableClickListener =
         object : OnDrawableClickListener {
-            override fun onClick(target: DrawablePosition) {
+            override fun onClick(view: View, target: DrawablePosition) {
                 when (target) {
                     DrawablePosition.BOTTOM -> {
 
@@ -221,8 +221,8 @@ open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     private fun setupDrawableBottomClick(bounds: Rect?, event: MotionEvent) {
         val extraClickingArea = 13
         if (abs((width - paddingLeft - paddingRight) / 2 + paddingLeft - positionX) <= bounds!!.width() / 2 + extraClickingArea) {
-            onDrawableClickListener?.onClick(DrawablePosition.BOTTOM)
-            defaultClickListener?.onClick(DrawablePosition.BOTTOM)
+            onDrawableClickListener?.onClick(this, DrawablePosition.BOTTOM)
+            defaultClickListener?.onClick(this, DrawablePosition.BOTTOM)
             event.action = MotionEvent.ACTION_CANCEL
         }
     }
@@ -230,8 +230,8 @@ open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     private fun setupDrawableTopClick(bounds: Rect?, event: MotionEvent) {
         val extraClickingArea = 13
         if (abs((width - paddingLeft - paddingRight) / 2 + paddingLeft - positionX) <= bounds!!.width() / 2 + extraClickingArea) {
-            onDrawableClickListener?.onClick(DrawablePosition.TOP)
-            defaultClickListener?.onClick(DrawablePosition.TOP)
+            onDrawableClickListener?.onClick(this, DrawablePosition.TOP)
+            defaultClickListener?.onClick(this, DrawablePosition.TOP)
             event.action = MotionEvent.ACTION_CANCEL
         }
     }
@@ -260,8 +260,8 @@ open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
         }
 
         if (bounds.contains(xClickPosition, yClickPosition) && onDrawableClickListener != null) {
-            onDrawableClickListener?.onClick(DrawablePosition.LEFT)
-            defaultClickListener?.onClick(DrawablePosition.LEFT)
+            onDrawableClickListener?.onClick(this, DrawablePosition.LEFT)
+            defaultClickListener?.onClick(this, DrawablePosition.LEFT)
             event.action = MotionEvent.ACTION_CANCEL
 
         }
@@ -294,8 +294,8 @@ open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
                 yClickPosition
             ) && (onDrawableClickListener != null || defaultClickListener != null)
         ) {
-            onDrawableClickListener?.onClick(DrawablePosition.RIGHT)
-            defaultClickListener?.onClick(DrawablePosition.RIGHT)
+            onDrawableClickListener?.onClick(this, DrawablePosition.RIGHT)
+            defaultClickListener?.onClick(this, DrawablePosition.RIGHT)
             event.action = MotionEvent.ACTION_CANCEL
         }
     }
@@ -305,7 +305,7 @@ open class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     }
 
     interface OnDrawableClickListener {
-        fun onClick(target: DrawablePosition)
+        fun onClick(view: View, target: DrawablePosition)
     }
     @Keep
     enum class DrawablePosition {

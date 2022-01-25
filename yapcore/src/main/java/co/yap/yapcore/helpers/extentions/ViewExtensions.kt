@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.ScrollView
+import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
@@ -92,6 +94,8 @@ fun ImageView?.hasBitmap(): Boolean {
         this.drawable != null && (this.drawable is BitmapDrawable)
     } ?: false
 }
+fun View.getDrawable(@DrawableRes drawResId: Int) = ContextCompat.getDrawable(context, drawResId)
+
 
 fun Context.showInfoDialog(
     title: String,

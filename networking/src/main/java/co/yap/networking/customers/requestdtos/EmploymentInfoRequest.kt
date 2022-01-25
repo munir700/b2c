@@ -24,5 +24,7 @@ data class EmploymentInfoRequest(
     @SerializedName("typeOfSelfEmployment")
     val typeOfSelfEmployment: String? = null,
     @SerializedName("employmentTypeValue")
-    val employmentTypeValue: String? = null
+    val employmentTypeValue: String? = null,
+    @SerializedName("isAmendment")
+val isAmendment: Boolean
 )

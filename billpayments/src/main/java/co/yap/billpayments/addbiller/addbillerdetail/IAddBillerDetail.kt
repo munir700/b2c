@@ -24,6 +24,7 @@ interface IAddBillerDetail {
         val addBillerDetailItemComposer: AddBillerDetailInputComposer
         var clickEvent: SingleClickEvent
         val billerDetailsResponse: MutableLiveData<SkuCatalogs>
+        val addBillerError: MutableLiveData<Int?>
         fun handlePressOnView(id: Int)
         fun getScreenTitle(billCategory: BillCategory?): String
         fun getBillerDetails(billerId: String)
@@ -39,5 +40,9 @@ interface IAddBillerDetail {
         var screenTitle: ObservableField<String>
         var valid: ObservableBoolean
         var nickNameValue: ObservableField<String>
+        val EVENT_BILLER_NOTAVAILABLE: Int
+            get() = 1101
+        val EVENT_WORNG_INPUT: Int
+            get() = 1102
     }
 }

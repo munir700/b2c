@@ -33,7 +33,9 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
-                onItemClickListener
+                onItemClickListener,
+                viewModel.parentViewModel?.amendmentMap,
+                questionUiFields.question.tag
             )
         binding.etQuestionEditText.afterTextChanged {
             onItemClickListener?.onItemClick(
@@ -56,7 +58,9 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
-                onItemClickListener
+                onItemClickListener,
+                viewModel.parentViewModel?.amendmentMap,
+                questionUiFields.question.tag
             )
         binding.ivSupport.setOnClickListener {
             binding.etAmount.hideKeyboard()
@@ -82,7 +86,9 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
-                onItemClickListener
+                onItemClickListener,
+                viewModel.parentViewModel?.amendmentMap,
+                questionUiFields.question.tag
             )
         return binding.root
     }
@@ -104,7 +110,9 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
-                onItemClickListener
+                onItemClickListener,
+                viewModel.parentViewModel?.amendmentMap,
+                questionUiFields.question.tag
             )
         return binding.root
     }

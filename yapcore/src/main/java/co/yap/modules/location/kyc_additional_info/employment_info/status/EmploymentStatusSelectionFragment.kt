@@ -3,7 +3,9 @@ package co.yap.modules.location.kyc_additional_info.employment_info.status
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
@@ -20,11 +22,19 @@ class EmploymentStatusSelectionFragment :
 
     override fun getLayoutId(): Int = R.layout.fragment_employment_status_selection
     override val viewModel: EmploymentStatusSelectionViewModel
-        get() = ViewModelProviders.of(this).get(EmploymentStatusSelectionViewModel::class.java)
+        get() = ViewModelProvider(this).get(EmploymentStatusSelectionViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setObservers()
+        if(viewModel.parentViewModel?.amendmentMap?.isNullOrEmpty()?.not()==true){
+            viewModel.getAmendmentsEmploymentInfo()
+        }
+//        if (viewModel.canSkipFragment()) {
+//            skipEmploymentStatusSelectionFragment()
+//        } else {
+//            viewModel.getAmendmentsEmploymentInfo()
+            setObservers()
+//        }
     }
 
     override fun setObservers() {
@@ -33,6 +43,21 @@ class EmploymentStatusSelectionFragment :
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+    }
+
+    private fun skipEmploymentStatusSelectionFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(
+                R.id.employmentStatusSelectionFragment,
+                true
+            ) // starting destination skipped
+            .build()
+
+        findNavController().navigate(
+            R.id.action_employmentStatusSelectionFragment_to_employmentQuestionnaireFragment,
+            null,
+            navOptions
+        )
     }
 
 
