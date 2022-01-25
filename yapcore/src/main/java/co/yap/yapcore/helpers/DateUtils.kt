@@ -490,4 +490,13 @@ object DateUtils {
          return dateToString(calendar.time, format, false)
 
     }
+    fun changeZoneAndFormatDate(date:String,outPutFormat: String):String{
+        return convertServerDateToLocalDate(date)?.let {
+            it.let { convertedDate ->
+                val smsTime: Calendar = Calendar.getInstance()
+                smsTime.timeInMillis = convertedDate.time
+                return android.text.format.DateFormat.format(outPutFormat, smsTime).toString()
+            }
+        }?:""
+    }
 }
