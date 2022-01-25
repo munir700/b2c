@@ -14,7 +14,10 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_FCM_TOKEN
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.initializeAdjustSdk
+import com.adjust.sdk.Adjust
 import com.google.firebase.messaging.RemoteMessage
+import com.leanplum.Leanplum
 import com.leanplum.LeanplumPushFirebaseMessagingService
 
 class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
@@ -26,6 +29,7 @@ class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         SharedPreferenceManager.getInstance(applicationContext).save(KEY_FCM_TOKEN, token)
+        Adjust.setPushToken(token,applicationContext)
         Log.d("YapFirebaseMessaging>>", token)
     }
 
