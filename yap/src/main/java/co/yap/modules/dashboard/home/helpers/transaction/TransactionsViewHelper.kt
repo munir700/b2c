@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import co.yap.R
+import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.component.categorybar.CustomCategoryBar
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.networking.transactions.responsedtos.categorybar.Categories
@@ -410,11 +411,7 @@ class TransactionsViewHelper(
                         ) else Translator.getString(
                             context,
                             R.string.screen_fragment_yap_home_balance_on_date,
-                            DateUtils.reformatStringDate(
-                                viewModel.transactionsLiveData.value?.get(position)?.originalDate ?: "",
-                                "yyyy-MM-dd",
-                                DateUtils.FORMAT_MONTH_DAY
-                            )
+                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(position).dateForBalance?:""
                         )
                     }
                     /*transactionsView.layoutBalance.tvAvailableBalance.text =

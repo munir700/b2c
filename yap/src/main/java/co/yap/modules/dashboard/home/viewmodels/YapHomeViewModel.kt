@@ -222,7 +222,8 @@ class YapHomeViewModel(application: Application) :
                     SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                         contentsList[0].creationDate.toString()
                     )
-                )
+                ),
+                dateForBalance = DateUtils.changeZoneAndFormatDate(contentsList[0].creationDate.toString(),DateUtils.FORMAT_MONTH_DAY)
             )
             transactionModelData.add(transactionModel)
             MAX_CLOSING_BALANCE =

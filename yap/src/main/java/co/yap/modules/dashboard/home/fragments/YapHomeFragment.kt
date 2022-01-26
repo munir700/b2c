@@ -405,8 +405,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
 
                 val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
-/*
-                getGraphRecycleViewAdapter()?.getDataList()?.let { oldData ->
+
+                getRecycleViewAdaptor()?.getDataList()?.let { oldData ->
                     for (parentItem in it) {
                         var shouldAppend = false
                         for (i in 0 until oldData.size) {
@@ -427,7 +427,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             listToAppend.add(parentItem)
                     }
                 }
-*/
+
                 listToAppend.partition { txn -> txn.isNewItem }.let { pair ->
                     pair.second.forEach { data ->
                         getTransactionPosition(data)?.let { index ->
