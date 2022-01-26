@@ -34,7 +34,7 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
         valid.set(
             StringUtils.validateRegix(
                 cityOfBirth.get() ?: "",
-                "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2
+                "^([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]+", 2
             ) && selectedCountry.get() != null && (isDualNational.get() == (selectedSecondCountry.get() != null))
         )
     }
