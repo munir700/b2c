@@ -260,10 +260,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(context: Context, success: () -> Unit = {}) {
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
-        val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
-
+    fun sendFcmTokenToServer(deviceId:String? , success: () -> Unit = {}) {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {

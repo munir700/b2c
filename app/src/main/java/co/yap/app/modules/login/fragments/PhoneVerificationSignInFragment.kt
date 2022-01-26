@@ -158,7 +158,12 @@ class PhoneVerificationSignInFragment :
                             if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                             else {
-                                SessionManager.sendFcmTokenToServer(requireContext()) {}
+                                activity?.let {
+                                    SharedPreferenceManager.getInstance(it.applicationContext)
+                                        .getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)?.apply {
+                                            SessionManager.sendFcmTokenToServer(this)
+                                        }
+                                }
                                 if (!this.isWaiting) {
                                     if (this.iban.isNullOrBlank()) {
                                         startFragment(
@@ -190,7 +195,12 @@ class PhoneVerificationSignInFragment :
                         if (accountInfo.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         } else {
-                            SessionManager.sendFcmTokenToServer(requireContext()) {}
+                            activity?.let {
+                                SharedPreferenceManager.getInstance(it.applicationContext)
+                                    .getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)?.apply {
+                                        SessionManager.sendFcmTokenToServer(this)
+                                    }
+                            }
                             if (!this.isWaiting) {
                                 if (this.iban.isNullOrBlank()) {
                                     startFragment(
