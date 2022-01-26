@@ -10,5 +10,7 @@ data class BirthInfoRequest(
     @SerializedName("dualNationality")
     val dualNationality: String,
     @SerializedName("isDualNationality")
-    val isDualNationality: Boolean
+    val isDualNationality: Boolean,
+    @SerializedName("isAmendment")
+    val isAmendment: Boolean
 )

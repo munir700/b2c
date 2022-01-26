@@ -26,15 +26,24 @@ interface IPOBSelection {
         fun getAllCountries()
         val dualNatioanlitySpinnerItemClickListener: OnItemClickListener
         val dualNationalityQuestionOptions: ArrayList<String>
+        fun canSkipFragment(): Boolean
+        fun getAmendmentsBirthInfo()
+        fun isFromAmendment(): Boolean
+        fun validateForm()
     }
 
     interface State : IBase.State {
-        var cityOfBirth: String
+        var cityOfBirth: ObservableField<String>
         var valid: ObservableField<Boolean>
         var selectedCountry: ObservableField<Country?>
         var selectedSecondCountry: ObservableField<Country?>
         var eidNationality: ObservableField<String>
         var isDualNational: ObservableBoolean
+        var dualNationalityOption: MutableLiveData<Int>
+        var previousSelectedCountry: ObservableField<String?>
+        var previousCityOfBirth: ObservableField<String?>
+        var previousEidNationality: ObservableField<String?>
+        var previousSelectedSecondCountry: ObservableField<String?>
         fun validate()
     }
 }

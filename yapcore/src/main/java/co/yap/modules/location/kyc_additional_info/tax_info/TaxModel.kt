@@ -15,6 +15,13 @@ data class TaxModel(
     var selectedOption: ObservableField<String> = ObservableField("No"),
 
     var tinNumber: ObservableField<String> = ObservableField(""),
+
+    @Transient var previousTinNumber: ObservableField<String>? = ObservableField(),
+    @Transient var tagOfTinNumber: ObservableField<String>? = ObservableField(),
+    @Transient var previousCountry: ObservableField<String>? = ObservableField(),
+    @Transient var tagOfCountry: ObservableField<String>? = ObservableField(),
+    @Transient var isRuleValid : Boolean? = true,
+
     val taxRowTitle: ObservableField<String> = ObservableField("Select country of tax residence"),
 
     var taxRowNumber: ObservableField<Boolean>,

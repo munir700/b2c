@@ -2,4 +2,6 @@
 <resources>
     <item name="view_holder_array_adapter_holder" type="id"/>
     <item name="view_holder_array_adapter_position" type="id"/>
+    <item type="id" name="validator_rule" />
+    <item type="id" name="text_watcher_clear_error" />
 </resources>

@@ -2,8 +2,9 @@ package co.yap.modules.location.kyc_additional_info.tax_info
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
@@ -13,13 +14,11 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
-import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 
 class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
     ITaxInfo.View {
@@ -27,22 +26,20 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_tax_info
     override val viewModel: TaxInfoViewModel
-        get() = ViewModelProviders.of(this).get(TaxInfoViewModel::class.java)
+        get() = ViewModelProvider(this).get(TaxInfoViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        when (SessionManager.user?.notificationStatuses) {
-            AccountStatus.FATCA_GENERATED.name -> {
-                skipTaxInfoSelectionFragment()
-            }
-            else -> {
-                addObservers()
-            }
+        if (viewModel.canSkipFragment()) {
+            skipTaxInfoSelectionFragment()
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.state.viewState.value = MutableLiveData<Any?>()
+        addObservers()
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FATCA.", View.OnClickListener {
                 if (viewModel.state.valid.get() == true) {
@@ -59,7 +56,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.state.viewState.observe(this, Observer {
+        viewModel.state.viewState.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
                     is ITaxInfo.CountryPicker -> {
@@ -92,9 +89,14 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
             R.id.nextButton -> {
                 viewModel.saveInfoDetails(true) {
                     trackEventWithScreenName(FirebaseEvent.TAX_RESIDENCE_SUBMIT)
-                    navigate(
-                        R.id.action_taxInfoFragment_to_employmentStatusSelectionFragment
-                    )
+                    if (viewModel.isFromAmendment()) {
+                        navigateToAmendmentSuccess()
+                    } else {
+                        navigate(
+                            R.id.action_taxInfoFragment_to_employmentStatusSelectionFragment
+                        )
+                    }
+
                 }
             }
         }
@@ -125,5 +127,27 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    private fun navigateToAmendmentSuccess() {
+        viewModel.parentViewModel?.hideProgressToolbar?.value = true
+        viewModel.parentViewModel?.amendmentMap?.let { amendmentMap ->
+            val bundle = Bundle()
+            bundle.putSerializable(
+                Constants.CONFIRMATION_DESCRIPTION,
+                Pair(
+                    first = getString(if (amendmentMap.size == 1) R.string.screen_missing_info_confirmation_display_all_set_title else R.string.screen_missing_info_confirmation_display_step_step_completed_title),
+                    second = getString(if (amendmentMap.size == 1) R.string.screen_missing_info_confirmation_display_all_set_description else R.string.screen_missing_info_confirmation_display_step_step_completed_description)
+                )
+            )
+            bundle.putSerializable(
+                Constants.KYC_AMENDMENT_MAP,
+                viewModel.parentViewModel?.amendmentMap
+            )
+            navigate(
+                R.id.action_taxInfoFragment_to_missingInfoConfirmationFragment,
+                bundle
+            )
+        }
     }
 }

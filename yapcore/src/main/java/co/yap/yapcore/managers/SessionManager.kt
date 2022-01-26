@@ -39,6 +39,11 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val customerRepository: CustomersRepository = CustomersRepository
     private var usersList: List<AccountInfo?> = arrayListOf()
     var user: AccountInfo? = null
+        set(value) {
+            field = value
+            userLiveData.postValue(value)
+        }
+    var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData()
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
