@@ -251,7 +251,7 @@ class TransactionsViewHelper(
                                 transactionsView.layoutBalance.tvAvailableBalance.text =
                                     viewModel.state.availableBalance
                                         .getAvailableBalanceWithFormat()
-                                var filterd: List<MonthData>? =
+                                val filterd: List<MonthData>? =
                                     viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
                                 filterd?.let {
                                     if (filterd.isNotEmpty()) {
@@ -297,9 +297,6 @@ class TransactionsViewHelper(
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
                     if (viewModel.transactionsLiveData.value?.size != 0) {
-                        transactionsView.layoutBalance.tvAvailableBalance.text =
-                        viewModel.transactionsLiveData.value?.get(position)?.closingBalance.toString()
-                            .getAvailableBalanceWithFormat()
                     if (!checkScroll) {
                         transactionsView.layoutBalance.tvAvailableBalance.text =
                             viewModel.state.availableBalance
@@ -311,7 +308,7 @@ class TransactionsViewHelper(
                         visibleMonth =
                             viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
 
-                        var filterd: List<MonthData>? =
+                        val filterd: List<MonthData>? =
                             viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
                         filterd?.let {
                             if (filterd.isNotEmpty()) {
@@ -345,7 +342,7 @@ class TransactionsViewHelper(
                         }
                         if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() != visibleMonth) {
 
-                            var filterd: List<MonthData>? =
+                            val filterd: List<MonthData>? =
                                 viewModel.monthData?.filter { monthData ->
                                     monthData.date == viewModel.transactionsLiveData.value?.get(
                                         position
@@ -386,7 +383,7 @@ class TransactionsViewHelper(
                             )?.monthYear.toString() == visibleMonth
                         ) {
                             //only collapse
-                            var filterd: List<MonthData>? =
+                            val filterd: List<MonthData>? =
                                 viewModel.monthData?.filter { monthData ->
                                     monthData.date == viewModel.transactionsLiveData.value?.get(
                                         position
@@ -421,6 +418,8 @@ class TransactionsViewHelper(
                             currentMode = Constants.COLLAPSE_MODE
 
                         }
+                        transactionsView.layoutBalance.tvAvailableBalance.text =
+                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(position).closingBalance.toString().getAvailableBalanceWithFormat()
                         transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
                                 viewModel.transactionsLiveData.value?.get(position)?.originalDate.toString(),
                                 "yyyy-MM-dd",
