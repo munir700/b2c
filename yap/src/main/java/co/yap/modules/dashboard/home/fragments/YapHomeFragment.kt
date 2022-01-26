@@ -40,6 +40,7 @@ import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -607,7 +608,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
-                if(SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name){
+                if (SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name) {
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
@@ -617,9 +618,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             onBoarding = true
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-                } else{
+                } else {
                     launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                        putExtra(Constants.name, SessionManager.user?.currentCustomer?.firstName.toString())
+                        putExtra(
+                            Constants.name,
+                            SessionManager.user?.currentCustomer?.firstName.toString()
+                        )
                         putExtra(Constants.data, false)
                     }
                 }
@@ -682,6 +686,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
             NotificationAction.CARD_FEATURES_BLOCKED -> {
                 requireContext().makeCall(SessionManager.helpPhoneNumber)
+            }
+            NotificationAction.AMENDMENT -> {
+                startFragment(
+                    fragmentName = MissingInfoFragment::class.java.name,
+                    clearAllPrevious = true
+                )
+
             }
         }
     }
