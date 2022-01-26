@@ -136,7 +136,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         initComponents()
         setObservers()
         setClickOnWelcomeYapItem()
-        setAvailableBalance(viewModel.state.availableBalance)
         categoryBarSetup()
         viewModel.requestDashboardWidget()
 
@@ -388,9 +387,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-        /* SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
-             //setAvailableBalance(value.availableBalance.toString())
-         })*/
+        SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
+            viewModel.state.availableBalance = value.availableBalance.toString()
+        })
 
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
@@ -467,7 +466,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     else -> {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                             viewModel.state.isUserAccountActivated.set(true)
-//                            showTransactionsAndGraph()
+                            showTransactionsAndGraph()
                         } else {
                             viewModel.state.isTransEmpty.set(true)
                         }
@@ -610,14 +609,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         } else {
             getBindings().lyInclude.multiStateView.viewState = MultiStateView.ViewState.CONTENT
             viewModel.state.isTransEmpty.set(false)
-            view?.let {
-                transactionViewHelper = TransactionsViewHelper(
-                    requireContext(),
-                    it,
-                    viewModel
-                )
-                //       getGraphRecycleViewAdapter()?.helper = transactionViewHelper
-            }
         }
     }
 
@@ -660,13 +651,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     }
 
-    private fun setAvailableBalance(balance: String?) {
-        /*  getBindings().skeletonLayout.apply {
-              if (balance.isNullOrEmpty()) showSkeleton() else showOriginal()
-          }*/
-        getBindings().tvAvailableBalance.text = balance.getAvailableBalanceWithFormat()
-    }
-
     override fun onClick(notification: HomeNotification, position: Int) {
         if (position != getBindings().lyInclude.rvNotificationList.currentItem) {
             getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(position)
@@ -675,7 +659,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
-                if(SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name){
+                if (SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name) {
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
@@ -685,9 +669,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             onBoarding = true
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-                } else{
+                } else {
                     launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                        putExtra(Constants.name, SessionManager.user?.currentCustomer?.firstName.toString())
+                        putExtra(
+                            Constants.name,
+                            SessionManager.user?.currentCustomer?.firstName.toString()
+                        )
                         putExtra(Constants.data, false)
                     }
                 }
@@ -807,6 +794,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val filters: TransactionFilters? =
                         data?.getParcelableExtra<TransactionFilters?>("txnRequest")
                     if (viewModel.txnFilters != filters) {
+                        transactionViewHelper?.checkScroll = false
+                        getBindings().lyInclude.multiStateView.viewState =
+                            MultiStateView.ViewState.CONTENT
                         setTransactionRequest(filters)
                         getFilterTransactions()
                     }

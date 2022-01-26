@@ -248,17 +248,22 @@ class TransactionsViewHelper(
                                         context,
                                         R.string.screen_fragment_yap_home_todays_balance
                                     )
-                                var filterd: List<MonthData>? =
+                                transactionsView.layoutBalance.tvAvailableBalance.text =
+                                    viewModel.state.availableBalance
+                                        .getAvailableBalanceWithFormat()
+                                val filterd: List<MonthData>? =
                                     viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
                                 filterd?.let {
                                     if (filterd.isNotEmpty()) {
-                                        filteredList = filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
-                                        if (filteredList.isNotEmpty()) {
+                                        filteredList =
+                                            filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+                                        viewModel.transactionsLiveData.value?.let { list ->
+                                        if (filteredList.isNotEmpty() && list.isNotEmpty()) {
                                             updateData(
                                                 transactionsView.lyInclude.customCategoryBar,
                                                 filteredList,
                                                 SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                    viewModel.transactionsLiveData.value?.get(0)?.originalDate
+                                                    list[0]?.originalDate
                                                 ).toString(),
                                                 Constants.EXPAND_MODE,
                                                 false
@@ -268,6 +273,7 @@ class TransactionsViewHelper(
                                         } else {
                                             goneWithZeoProgress()
                                         }
+                                    }
                                     } else {
                                         goneWithZeoProgress()
                                     }
@@ -290,11 +296,11 @@ class TransactionsViewHelper(
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
-                    transactionsView.layoutBalance.tvAvailableBalance.text =
-                        viewModel.transactionsLiveData.value?.get(position)?.closingBalance.toString()
-                            .getAvailableBalanceWithFormat()
-
+                    if (viewModel.transactionsLiveData.value?.size != 0) {
                     if (!checkScroll) {
+                        transactionsView.layoutBalance.tvAvailableBalance.text =
+                            viewModel.state.availableBalance
+                                .getAvailableBalanceWithFormat()
                         transactionsView.layoutBalance.tvBalanceTitle.text = Translator.getString(
                             context,
                             R.string.screen_fragment_yap_home_todays_balance
@@ -302,7 +308,7 @@ class TransactionsViewHelper(
                         visibleMonth =
                             viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
 
-                        var filterd: List<MonthData>? =
+                        val filterd: List<MonthData>? =
                             viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
                         filterd?.let {
                             if (filterd.isNotEmpty()) {
@@ -330,13 +336,18 @@ class TransactionsViewHelper(
                         currentMode = Constants.DEFAULT_MODE
                     } else {
                         //new month
-                            if(viewModel.transactionsLiveData.value?.get(position)?.monthYear.isNullOrBlank()){
-                                viewModel.transactionsLiveData.value?.get(position)?.monthYear = visibleMonth
-                            }
+                        if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.isNullOrBlank()) {
+                            viewModel.transactionsLiveData.value?.get(position)?.monthYear =
+                                visibleMonth
+                        }
                         if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() != visibleMonth) {
 
-                            var filterd: List<MonthData>? =
-                                viewModel.monthData?.filter { monthData -> monthData.date == viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() }
+                            val filterd: List<MonthData>? =
+                                viewModel.monthData?.filter { monthData ->
+                                    monthData.date == viewModel.transactionsLiveData.value?.get(
+                                        position
+                                    )?.monthYear.toString()
+                                }
                             filterd?.let {
                                 if (filterd.isNotEmpty()) {
                                     filteredList =
@@ -367,10 +378,17 @@ class TransactionsViewHelper(
 
                             visibleMonth =
                                 viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
-                        } else if (currentMode != Constants.COLLAPSE_MODE && viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() == visibleMonth) {
+                        } else if (currentMode != Constants.COLLAPSE_MODE && viewModel.transactionsLiveData.value?.get(
+                                position
+                            )?.monthYear.toString() == visibleMonth
+                        ) {
                             //only collapse
-                            var filterd: List<MonthData>? =
-                                viewModel.monthData?.filter { monthData -> monthData.date == viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() }
+                            val filterd: List<MonthData>? =
+                                viewModel.monthData?.filter { monthData ->
+                                    monthData.date == viewModel.transactionsLiveData.value?.get(
+                                        position
+                                    )?.monthYear.toString()
+                                }
                             filterd?.let {
                                 if (filterd.isNotEmpty()) {
                                     filteredList =
@@ -400,6 +418,8 @@ class TransactionsViewHelper(
                             currentMode = Constants.COLLAPSE_MODE
 
                         }
+                        transactionsView.layoutBalance.tvAvailableBalance.text =
+                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(position).closingBalance.toString().getAvailableBalanceWithFormat()
                         transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
                                 viewModel.transactionsLiveData.value?.get(position)?.originalDate.toString(),
                                 "yyyy-MM-dd",
@@ -411,9 +431,12 @@ class TransactionsViewHelper(
                         ) else Translator.getString(
                             context,
                             R.string.screen_fragment_yap_home_balance_on_date,
-                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(position).dateForBalance?:""
+                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                position
+                            ).dateForBalance ?: ""
                         )
                     }
+                }
                     /*transactionsView.layoutBalance.tvAvailableBalance.text =
                         viewModel.transactionsLiveData.value!![position].closingBalance.toString()
                             .getAvailableBalanceWithFormat()
