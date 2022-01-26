@@ -18,7 +18,6 @@ import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
-import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.fragments.WaitingListFragment
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
@@ -26,6 +25,7 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.reachonthetop.ReachedTopQueueFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -33,7 +33,6 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
-import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -48,6 +47,7 @@ import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 
 class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
     IVerifyPasscode.View, NumberKeyboardListener {
@@ -378,14 +378,19 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     if (accountInfo?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else {
-                        SessionManager.sendFcmTokenToServer(requireContext()) {}
-                        // launching missing info screen
-                        if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == accountInfo?.amendmentStatus) {
-                            startFragment(
-                                fragmentName = MissingInfoFragment::class.java.name
-                            )
-                        } else {
-                            navigate(R.id.action_goto_yapDashboardActivity)
+                        activity?.let {
+                            SharedPreferenceManager.getInstance(it.applicationContext)
+                                .getValueString(KEY_APP_UUID)?.apply {
+                                    SessionManager.sendFcmTokenToServer(this)
+                                }
+                            // launching missing info screen
+                            if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == accountInfo?.amendmentStatus) {
+                                startFragment(
+                                    fragmentName = MissingInfoFragment::class.java.name
+                                )
+                            } else {
+                                navigate(R.id.action_goto_yapDashboardActivity)
+                            }
                         }
                     }
                     activity?.finish()
