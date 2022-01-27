@@ -23,7 +23,7 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         val config = AdjustConfig(
                 this,
                 configurations.adjustToken,
-                if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_SANDBOX
+                if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_PRODUCTION
         )
 
         when (configurations.flavor) {
@@ -37,6 +37,9 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
 
             }
             ProductFlavour.PREPROD.flavour -> {
+                Adjust.setEnabled(true)
+                config.setEventBufferingEnabled(true)
+                config.setPreinstallTrackingEnabled(true)
                 config.setAppSecret(1, 82588340, 60633897, 806753301, 962146915)
             }
             ProductFlavour.STG.flavour -> {
