@@ -8,4 +8,5 @@
     android:layout_marginEnd="@dimen/margin_normal_large"
     android:background="@color/white"
     android:gravity="center_vertical"
+    android:animateLayoutChanges="true"
     android:orientation="horizontal" />
