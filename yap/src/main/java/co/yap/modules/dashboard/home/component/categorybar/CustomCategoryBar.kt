@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.home.component.categorybar
 
 import android.animation.Animator
+import android.animation.LayoutTransition
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -10,6 +11,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
@@ -181,16 +183,12 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
      * Set segments in collapse mode
      */
     private fun setCollapseMode(linearContainer: ConstraintLayout) {
-        linearContainer.animate()
-            .scaleY(0.5f)
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration =
-            300
         linearContainer.background =
             ContextCompat.getDrawable(context, R.drawable.category_background_collapse)
-
+        requestLayoutHeightChanges(linearContainer, context.dimen(R.dimen._10sdp))
         val layout: ConstraintLayout = constraintArray[0]
-        var imageView: ImageView = layout.getChildAt(0) as ImageView
-        var textView: TextView = layout.getChildAt(1) as TextView
+        val imageView: ImageView = layout.getChildAt(0) as ImageView
+        val textView: TextView = layout.getChildAt(1) as TextView
         textView.visibility = View.GONE
         imageView.visibility = View.GONE
     }
@@ -202,15 +200,12 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
         linearContainer: ConstraintLayout,
         categorySegmentDataList: List<Categories>
     ) {
-        linearContainer.animate()
-            .scaleY(1f)
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration =
-            300
         linearContainer.background =
             ContextCompat.getDrawable(context, R.drawable.category_background)
+        requestLayoutHeightChanges(linearContainer, context.dimen(R.dimen._20sdp))
         val layout: ConstraintLayout = constraintArray[0]
-        var imageView: ImageView = layout.getChildAt(0) as ImageView
-        var textView: TextView = layout.getChildAt(1) as TextView
+        val imageView: ImageView = layout.getChildAt(0) as ImageView
+        val textView: TextView = layout.getChildAt(1) as TextView
         textView.text =
             "${categorySegmentDataList[0].categoryWisePercentage.toInt()}%"
         val urlString = categorySegmentDataList[0].logoUrl
@@ -232,7 +227,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
     ) {
 
         //add image
-        var imageView = ImageView(context)
+        val imageView = ImageView(context)
         imageView.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
         val layoutParams =
             LayoutParams(
@@ -318,6 +313,20 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
 
     }
 
+    /**
+     * This method changes layout height with animation
+     */
+    fun requestLayoutHeightChanges(linearContainer: ConstraintLayout, heightChange: Int) {
+        linearContainer.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        val layoutParams =
+            LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                heightChange
+            )
+        layoutParams.setMargins(context.dimen(R.dimen._14sdp), 0, context.dimen(R.dimen._14sdp), 0)
+        linearContainer.layoutParams = layoutParams
+        linearContainer.requestLayout()
+    }
 
     fun setSegmentClickedListener(segmentClickedListener: ISegmentClicked?) {
         this.segmentClickedListener = segmentClickedListener
