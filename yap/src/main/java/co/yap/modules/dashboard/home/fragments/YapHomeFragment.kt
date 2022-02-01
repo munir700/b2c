@@ -87,6 +87,7 @@ import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
+import kotlinx.android.synthetic.main.toolbaar_home_fragment.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -544,7 +545,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.parentViewModel?.isShowHomeTour?.observe(viewLifecycleOwner, Observer {
             if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true && viewModel.state.showTxnShimmer.value?.status != Status.LOADING) {
                 //we need to enable tour guide according to new UI
-                //showHomeTourGuide()
+                showHomeTourGuide()
             }
         })
 
@@ -1052,8 +1053,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
 
-/*
-    private fun setGraphViewsArray(): ArrayList<GuidedTourViewDetail> {
+    /*private fun setGraphViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
             GuidedTourViewDetail(
@@ -1070,8 +1070,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             )
         )
         return list
-    }
-*/
+    }*/
 
     private suspend fun startGraphTour() {
         if (parentView?.isDrawerOpen() == false && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
