@@ -8,8 +8,7 @@ import co.yap.yapcore.databinding.ItemTaxInfoBinding
 
 class TaxInfoAdaptor(
     private val list: MutableList<TaxModel>,
-    var amendmentMap: HashMap<String?, List<String>?>?,
-    private val listener: ITaxItemOnClickListenerInterface? = null
+    var amendmentMap: HashMap<String?, List<String>?>?
 ) :
     BaseBindingRecyclerAdapter<TaxModel, RecyclerView.ViewHolder>(list) {
 
@@ -17,8 +16,7 @@ class TaxInfoAdaptor(
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return TaxItemItemViewHolder(
-            binding as ItemTaxInfoBinding,
-            listener
+            binding as ItemTaxInfoBinding
         )
     }
 
