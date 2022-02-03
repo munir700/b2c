@@ -26,5 +26,7 @@ data class EmploymentInfoAmendmentResponse(
     @SerializedName("sponsorName")
     val sponsorName: String? = null,
     @SerializedName("isAmendment")
-    val isAmendment: Boolean? = null
+    val isAmendment: Boolean? = null,
+    @SerializedName("typeOfSelfEmployment")
+    val typeOfSelfEmployment: String? = null
 ) : ApiResponse(), Parcelable

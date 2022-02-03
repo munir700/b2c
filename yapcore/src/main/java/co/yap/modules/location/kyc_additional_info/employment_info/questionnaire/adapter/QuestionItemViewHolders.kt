@@ -126,7 +126,9 @@ class QuestionItemViewHolders constructor(private val viewModel: EmploymentQuest
             QuestionnaireItemViewModel(
                 questionUiFields,
                 position,
-                onItemClickListener
+                onItemClickListener,
+                viewModel.parentViewModel?.amendmentMap,
+                questionUiFields.question.tag
             )
         return binding.root
     }

@@ -513,13 +513,13 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             employmentStatus = EmploymentStatus.valueOf(res.employmentStatus ?: "")
                         employmentStatusValue.value = res
 
-                        if (employmentStatus == EmploymentStatus.SALARIED_AND_SELF_EMPLOYED || employmentStatus == EmploymentStatus.SELF_EMPLOYED
-                        ) {
+                        if (employmentStatus == EmploymentStatus.SALARIED_AND_SELF_EMPLOYED ||
+                            employmentStatus == EmploymentStatus.SELF_EMPLOYED)
+                        {
                             isDataRequiredFromApi(
                                 employmentStatus,
                                 res.businessCountries,
-                                res.industrySubSegmentCode?.get(0) ?: ""
-                            )
+                                res.industrySubSegmentCode?.get(0) ?: "")
                         } else if (employmentStatus == EmploymentStatus.OTHER) {
                             selectedQuestionItemPosition = 0
                             val objQuestion = getDataForPosition(selectedQuestionItemPosition)

@@ -38,6 +38,7 @@ object KycAmendmentFieldsMappingHelper {
         map["IndustrySegment"] = "Industry segment"
         map["CompanyNameListWhereCompanyDoesBusiness"] = "Company business list"
         map["Country2"] = "Second country"
+        map["typeOfSelfEmployment"] = "Type of self-employment:"
 
         // PASSPORT
         map["PassportImage"] = "Passport"
