@@ -33,7 +33,7 @@ interface IYapHome {
         var isLoadMore: MutableLiveData<Boolean>
         var isRefreshing: MutableLiveData<Boolean>
         var isLast: MutableLiveData<Boolean>
-        var monthData: List<MonthData>?
+        var monthData: MutableLiveData<List<MonthData>>?
         var dashboardWidgetList: MutableLiveData<List<WidgetData>>
         var widgetList: List<WidgetData>
         fun loadMore()

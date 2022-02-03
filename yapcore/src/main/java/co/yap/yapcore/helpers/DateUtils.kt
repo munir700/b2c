@@ -301,7 +301,7 @@ object DateUtils {
     ): String {
         val calendar = Calendar.getInstance()
         calendar.time = currentDate
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.MONTH))
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
         return dateToString(calendar.time, format, false)
 
     }
