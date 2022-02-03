@@ -421,17 +421,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lScanQR.lnAnalytics.setOnClickListener {
-            trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
-            QRCodeFragment { beneficary ->
-                launchActivity<YapToYapDashboardActivity>(
-                    requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
-                    type = FeatureSet.Y2Y_TRANSFER
-                ) {
-                    putExtra(Beneficiary::class.java.name, beneficary)
-                    putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, true)
-                    putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
-                }
-            }.show(this.supportFragmentManager, "")
+            openQRCodeFragment()
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
@@ -616,5 +606,19 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
         }
+    }
+
+    fun openQRCodeFragment(){
+        trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
+        QRCodeFragment { beneficary ->
+            launchActivity<YapToYapDashboardActivity>(
+                requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+                type = FeatureSet.Y2Y_TRANSFER
+            ) {
+                putExtra(Beneficiary::class.java.name, beneficary)
+                putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, true)
+                putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, 0)
+            }
+        }.show(this.supportFragmentManager, "")
     }
 }
