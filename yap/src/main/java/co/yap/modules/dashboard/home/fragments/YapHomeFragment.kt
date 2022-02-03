@@ -219,12 +219,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                             }
                             "QR code" -> {
-                                QRCodeFragment {}.let { fragment ->
-                                    if (isAdded) fragment.show(
-                                        requireActivity().supportFragmentManager,
-                                        ""
-                                    )
-                                }
+                                (activity as YapDashboardActivity).openQRCodeFragment()
                             }
                             "Bills" -> {
                                 view.context.toast("Coming Soon", Toast.LENGTH_SHORT)
