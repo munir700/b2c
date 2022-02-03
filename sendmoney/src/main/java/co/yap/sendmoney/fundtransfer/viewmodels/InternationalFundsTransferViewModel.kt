@@ -80,6 +80,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
                     fxRateResponse.value = response.data.data
+                    isFeeReceived.value = true
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
