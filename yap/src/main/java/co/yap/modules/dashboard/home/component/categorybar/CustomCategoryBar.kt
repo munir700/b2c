@@ -8,7 +8,6 @@ import android.graphics.PorterDuff
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -26,7 +25,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
 import com.liveperson.infra.utils.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
 
 
 class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
@@ -341,6 +339,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
         }
         return true
     }
+
     fun goneWithZeoProgress() {
         val size = 9
         var filteredListWithZeroProgress = ArrayList<Categories>(size)
@@ -353,7 +352,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
         }
         setCategoryBar(
             filteredListWithZeroProgress,
-            Constants.COLLAPSE_MODE,"",true
+            Constants.COLLAPSE_MODE, "", true
         )
     }
 }

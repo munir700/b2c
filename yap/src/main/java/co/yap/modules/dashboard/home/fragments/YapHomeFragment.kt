@@ -66,7 +66,6 @@ import co.yap.widgets.Status
 import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
-import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.SingleClickEvent
@@ -156,7 +155,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun initComponents() {
-        getBindings().lyInclude.rvTransaction.layoutManager = LinearLayoutManager(context)
         getBindings().lyInclude.rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true

@@ -164,7 +164,7 @@
                     android:id="@+id/rvTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.INVISIBLE}"
+                    android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.GONE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <androidx.recyclerview.widget.RecyclerView
