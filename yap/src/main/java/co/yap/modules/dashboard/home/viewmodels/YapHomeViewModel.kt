@@ -47,7 +47,7 @@ class YapHomeViewModel(application: Application) :
     override var isLast: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
     override var MAX_CLOSING_BALANCE: Double = 0.0
-    override var monthData: List<MonthData>? = ArrayList()
+    override var monthData: MutableLiveData<List<MonthData>>? = MutableLiveData()
     override var dashboardWidgetList: MutableLiveData<List<WidgetData>> = MutableLiveData()
     override var widgetList: List<WidgetData> = ArrayList()
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
@@ -356,7 +356,7 @@ class YapHomeViewModel(application: Application) :
         launch {
             when (val response = transactionsRepository.requestCategoryBarData()) {
                 is RetroApiResponse.Success -> {
-                    this.monthData = response.data.categoryBarData.monthData
+                    this.monthData?.postValue(response.data.categoryBarData.monthData)
                 }
                 is RetroApiResponse.Error -> {
 

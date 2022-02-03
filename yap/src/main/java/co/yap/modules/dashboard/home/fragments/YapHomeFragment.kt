@@ -56,6 +56,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.notification.responsedtos.NotificationAction
+import co.yap.networking.transactions.responsedtos.categorybar.MonthData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
@@ -86,6 +87,7 @@ import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
+import kotlinx.android.synthetic.main.fragment_dashboard_home.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
 import kotlinx.android.synthetic.main.toolbaar_home_fragment.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -93,7 +95,9 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.abs
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 //TODO("We need to refactor the this fragment because this fragment contains a lot of code regarding transaction graph bars")
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -180,21 +184,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.apply {
             fixSwipeToRefresh(getBindings().refreshLayout)
         }
-
-        getBindings().toolbarLayout.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val pram = getBindings().lyInclude.lyHomeAction.layoutParams
-            if (abs(verticalOffset) <= 5) {
-                getBindings().lyInclude.lyHomeAction.alpha = 1f
-                pram.height = appBarLayout.totalScrollRange
-                getBindings().lyInclude.lyHomeAction.layoutParams = pram
-            } else {
-                if (Math.abs(verticalOffset) > 0)
-                    getBindings().lyInclude.lyHomeAction.alpha =
-                        10 / abs(verticalOffset).toFloat()
-                pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
-                getBindings().lyInclude.lyHomeAction.layoutParams = pram
-            }
-        })
     }
 
     private fun handleShimmerState(state: State?) {
@@ -212,7 +201,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
             getBindings().refreshLayout.isRefreshing = false
-            getBindings().toolbarLayout.appbar.setExpanded(true)
         } else {
             getBindings().refreshLayout.isRefreshing = false
         }
@@ -286,7 +274,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 setWidgetVisibility()
             }
         })
-        getBindings().toolbarLayout.ivSearch.setOnLongClickListener {
+        getBindings().ivSearch.setOnLongClickListener {
             return@setOnLongClickListener activity?.let {
                 //val tour = TourSetup(it, setViewsArray())
                 //tour.startTour()
@@ -294,8 +282,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 true
             } ?: false
         }
-
-        listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             if (drawerButtonEnabled)
                 when (it) {
@@ -394,10 +380,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
-                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().toolbarLayout.appbar.setExpanded(
-                    true
-                )
-
                 getRecycleViewAdaptor()?.itemCount?.let { itemCount ->
                     if (itemCount > 0) {
                         getRecycleViewAdaptor()?.removeItemAt(position = itemCount - 1)
@@ -559,6 +541,44 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 list
             )
         })
+        viewModel.monthData?.observe(viewLifecycleOwner, Observer { list ->
+            setCategoryBar(list)
+        })
+    }
+
+    /**
+     * This method was created to handle a case , in which we get 'account-transaction' API response first, and 'category-bar' later
+     */
+    private fun setCategoryBar(monthList: List<MonthData>?) {
+
+        viewModel.transactionsLiveData.value?.let { list ->
+            if (list.isNotEmpty()) {
+                val filtered: List<MonthData>? =
+                    monthList?.filter { monthData -> monthData.date == list[0].monthYear }
+                filtered?.let {
+                    if (filtered.isNotEmpty()) {
+                        val selectedDate: Date? = SimpleDateFormat(
+                            DateUtils.SERVER_DATE_FORMAT,
+                            Locale.getDefault()
+                        ).parse(list[0].originalDate.toString())
+                        val filteredList =
+                            filtered[0].categories.sortedByDescending { it.categoryWisePercentage }
+                        if (filteredList.isNotEmpty()) {
+                            customCategoryBar.setCategoryBar(
+                                filteredList,
+                                Constants.DEFAULT_MODE, selectedDate.toString(),
+                                false
+                            )
+                            customCategoryBar.visibility = VISIBLE
+                        } else {
+                            customCategoryBar.goneWithZeoProgress()
+                        }
+                    } else {
+                        customCategoryBar.goneWithZeoProgress()
+                    }
+                } ?: customCategoryBar.goneWithZeoProgress()
+            }
+        }
     }
 
     private fun getTransactionPosition(item: HomeTransactionListData): Int? {
@@ -641,7 +661,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onDestroyView() {
         super.onDestroyView()
         unregisterTransactionBroadcast()
-        getBindings().toolbarLayout.appbar.removeOnOffsetChangedListener(appbarListener)
     }
 
     override fun onDestroy() {
@@ -749,10 +768,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 transactionViewHelper?.onToolbarExpanded()
             }
         }
-    }
-
-    private fun listenForToolbarExpansion() {
-        getBindings().toolbarLayout.appbar.addOnOffsetChangedListener(appbarListener)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -969,7 +984,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
             GuidedTourViewDetail(
-                getBindings().toolbarLayout.ivMenu,
+                getBindings().ivMenu,
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_menu),
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_menu_des),
                 padding = -getDimension(R.dimen._20sdp),
@@ -999,7 +1014,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         )
         list.add(
             GuidedTourViewDetail(
-                getBindings().toolbarLayout.ivSearch,
+                getBindings().ivSearch,
                 getString(R.string.screen_dashboard_tour_guide_display_text_search),
                 getString(R.string.screen_dashboard_tour_guide_display_text_search_des),
                 padding = getDimension(R.dimen._45sdp),
@@ -1103,7 +1118,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun categoryBarSetup() {
-        getBindings().lyInclude.customCategoryBar.setSegmentClickedListener(object :
+        getBindings().customCategoryBar.setSegmentClickedListener(object :
             ISegmentClicked {
             override fun onClickSegment(selectedDate: String) {
                 if (selectedDate != "")

@@ -252,7 +252,7 @@ class TransactionsViewHelper(
                                     viewModel.state.availableBalance
                                         .getAvailableBalanceWithFormat()
                                 val filterd: List<MonthData>? =
-                                    viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
+                                    viewModel.monthData?.value?.filter { monthData -> monthData.date == visibleMonth }
                                 filterd?.let {
                                     if (filterd.isNotEmpty()) {
                                         filteredList =
@@ -260,7 +260,7 @@ class TransactionsViewHelper(
                                         viewModel.transactionsLiveData.value?.let { list ->
                                         if (filteredList.isNotEmpty() && list.isNotEmpty()) {
                                             updateData(
-                                                transactionsView.lyInclude.customCategoryBar,
+                                                transactionsView.customCategoryBar,
                                                 filteredList,
                                                 SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                                                     list[0]?.originalDate
@@ -268,16 +268,16 @@ class TransactionsViewHelper(
                                                 Constants.EXPAND_MODE,
                                                 false
                                             )
-                                            transactionsView.lyInclude.customCategoryBar.visibility =
+                                            transactionsView.customCategoryBar.visibility =
                                                 View.VISIBLE
                                         } else {
-                                            goneWithZeoProgress()
+                                            setCategoryWithZero()
                                         }
                                     }
                                     } else {
-                                        goneWithZeoProgress()
+                                        setCategoryWithZero()
                                     }
-                                } ?: goneWithZeoProgress()
+                                } ?: setCategoryWithZero()
 
                                 currentMode = Constants.EXPAND_MODE
                             }
@@ -309,14 +309,14 @@ class TransactionsViewHelper(
                             viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
 
                         val filterd: List<MonthData>? =
-                            viewModel.monthData?.filter { monthData -> monthData.date == visibleMonth }
+                            viewModel.monthData?.value?.filter { monthData -> monthData.date == visibleMonth }
                         filterd?.let {
                             if (filterd.isNotEmpty()) {
                                 filteredList =
                                     filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
                                 if (filteredList.isNotEmpty()) {
                                     updateData(
-                                        transactionsView.lyInclude.customCategoryBar,
+                                        transactionsView.customCategoryBar,
                                         filteredList,
                                         SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                                             viewModel.transactionsLiveData.value?.get(position)?.originalDate
@@ -324,15 +324,15 @@ class TransactionsViewHelper(
                                         Constants.DEFAULT_MODE,
                                         false
                                     )
-                                    transactionsView.lyInclude.customCategoryBar.visibility =
+                                    transactionsView.customCategoryBar.visibility =
                                         View.VISIBLE
                                 } else {
-                                    goneWithZeoProgress()
+                                    setCategoryWithZero()
                                 }
                             } else {
-                                goneWithZeoProgress()
+                                setCategoryWithZero()
                             }
-                        } ?: goneWithZeoProgress()
+                        } ?: setCategoryWithZero()
                         currentMode = Constants.DEFAULT_MODE
                     } else {
                         //new month
@@ -343,7 +343,7 @@ class TransactionsViewHelper(
                         if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() != visibleMonth) {
 
                             val filterd: List<MonthData>? =
-                                viewModel.monthData?.filter { monthData ->
+                                viewModel.monthData?.value?.filter { monthData ->
                                     monthData.date == viewModel.transactionsLiveData.value?.get(
                                         position
                                     )?.monthYear.toString()
@@ -355,7 +355,7 @@ class TransactionsViewHelper(
 
                                     if (filteredList.isNotEmpty()) {
                                         updateData(
-                                            transactionsView.lyInclude.customCategoryBar,
+                                            transactionsView.customCategoryBar,
                                             filteredList,
                                             SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                                                 viewModel.transactionsLiveData.value?.get(position)?.originalDate
@@ -363,18 +363,18 @@ class TransactionsViewHelper(
                                             Constants.COLLAPSE_MODE,
                                             false
                                         )
-                                        transactionsView.lyInclude.customCategoryBar.visibility =
+                                        transactionsView.customCategoryBar.visibility =
                                             View.VISIBLE
                                         currentMode = Constants.COLLAPSE_MODE
 
                                     } else {
-                                        goneWithZeoProgress()
+                                        setCategoryWithZero()
                                     }
                                 } else {
-                                    goneWithZeoProgress()
+                                    setCategoryWithZero()
                                 }
 
-                            } ?: goneWithZeoProgress()
+                            } ?: setCategoryWithZero()
 
                             visibleMonth =
                                 viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
@@ -384,7 +384,7 @@ class TransactionsViewHelper(
                         ) {
                             //only collapse
                             val filterd: List<MonthData>? =
-                                viewModel.monthData?.filter { monthData ->
+                                viewModel.monthData?.value?.filter { monthData ->
                                     monthData.date == viewModel.transactionsLiveData.value?.get(
                                         position
                                     )?.monthYear.toString()
@@ -396,7 +396,7 @@ class TransactionsViewHelper(
 
                                     if (filteredList.isNotEmpty()) {
                                         updateData(
-                                            transactionsView.lyInclude.customCategoryBar,
+                                            transactionsView.customCategoryBar,
                                             filteredList,
                                             SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
                                                 viewModel.transactionsLiveData.value?.get(position)?.originalDate
@@ -404,16 +404,16 @@ class TransactionsViewHelper(
                                             Constants.COLLAPSE_MODE,
                                             false
                                         )
-                                        transactionsView.lyInclude.customCategoryBar.visibility =
+                                        transactionsView.customCategoryBar.visibility =
                                             View.VISIBLE
                                     } else {
-                                        goneWithZeoProgress()
+                                        setCategoryWithZero()
                                     }
                                 } else {
-                                    goneWithZeoProgress()
+                                    setCategoryWithZero()
                                 }
 
-                            } ?: goneWithZeoProgress()
+                            } ?:setCategoryWithZero()
 
                             currentMode = Constants.COLLAPSE_MODE
 
@@ -499,23 +499,10 @@ class TransactionsViewHelper(
         mode: Int,
         isZero: Boolean
     ) {
-        customCategoryBar.setCategoryBar(progressList, mode, date,isZero, transactionsView.lyInclude.customCategoryBar)
+        customCategoryBar.setCategoryBar(progressList, mode, date,isZero)
     }
 
-    fun goneWithZeoProgress() {
-        var size = 9
-        var filteredListWithZeroProgress = ArrayList<Categories>(size)
-        for (i in 0..size) {
-            filteredListWithZeroProgress.add(
-                i,
-                Categories(categoryWisePercentage = 0f, logoUrl = "")
-            )
-            filteredListWithZeroProgress[i].categoryWisePercentage = 0f
-        }
-        updateData(
-            transactionsView.lyInclude.customCategoryBar,
-            filteredListWithZeroProgress, "",
-            Constants.COLLAPSE_MODE,true
-        )
+    fun setCategoryWithZero() {
+        transactionsView.customCategoryBar.goneWithZeoProgress()
      }
 }

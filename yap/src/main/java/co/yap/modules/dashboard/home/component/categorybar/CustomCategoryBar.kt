@@ -8,6 +8,7 @@ import android.graphics.PorterDuff
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -25,6 +26,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
 import com.liveperson.infra.utils.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
 
 
 class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
@@ -59,8 +61,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
         categorySegmentDataList: List<Categories>,
         mode: Int,
         date: String,
-        isZero: Boolean,
-        customCategoryBar: CustomCategoryBar
+        isZero: Boolean
     ) {
         selectedDate = date
         //allow max 10 categories
@@ -69,15 +70,15 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
             if (constraintArray.size == 0) {
                 setCategorySegmentFirstTime(categorySegmentDataList)
                 if (!isZero) {
-                    setVisibilityWithAnimation(customCategoryBar, 1f)
+                    setVisibilityWithAnimation(this, 1f)
                 } else {
-                    setVisibilityWithAnimation(customCategoryBar, 0f)
+                    setVisibilityWithAnimation(this, 0f)
                 }
             }
             //segment creation other than first time
             else {
                 if (!isZero) {
-                    setVisibilityWithAnimation(customCategoryBar, 1f)
+                    setVisibilityWithAnimation(this, 1f)
                     constraintContainer?.let { linearContainer ->
                         if (mode == Constants.COLLAPSE_MODE) {
                             setCollapseMode(linearContainer)
@@ -110,7 +111,7 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
                         set?.applyTo(constraintContainer)
                     }
                 } else {
-                    setVisibilityWithAnimation(customCategoryBar, 0f)
+                    setVisibilityWithAnimation(this, 0f)
                 }
             }
         }
@@ -339,5 +340,20 @@ class CustomCategoryBar(context: Context, attrs: AttributeSet) : ConstraintLayou
             )
         }
         return true
+    }
+    fun goneWithZeoProgress() {
+        val size = 9
+        var filteredListWithZeroProgress = ArrayList<Categories>(size)
+        for (i in 0..size) {
+            filteredListWithZeroProgress.add(
+                i,
+                Categories(categoryWisePercentage = 0f, logoUrl = "")
+            )
+            filteredListWithZeroProgress[i].categoryWisePercentage = 0f
+        }
+        setCategoryBar(
+            filteredListWithZeroProgress,
+            Constants.COLLAPSE_MODE,"",true
+        )
     }
 }
