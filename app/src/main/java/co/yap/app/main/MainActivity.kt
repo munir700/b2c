@@ -9,9 +9,11 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import co.yap.yapcore.managers.SessionManager
+import com.adjust.sdk.Adjust
 
 class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragmentHolder {
 
@@ -29,6 +31,11 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
         SessionManager.expireUserSession()
+        launch {
+            getFCMToken {
+                Adjust.setPushToken(it, applicationContext)
+            }
+        }
     }
 
     override fun onBackPressed() {

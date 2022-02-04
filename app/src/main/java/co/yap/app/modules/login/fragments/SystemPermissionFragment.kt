@@ -85,9 +85,13 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 findNavController().navigate(action)
             }
             Constants.NOTIFICATION_SCREEN_TYPE -> {
-                navigateToNotificationSettings()
-            }
-            else -> {
+                if (isGranted) navigateToNotificationSettings() else {
+                    navigateToDashboard()
+                    viewModel.getNotificationScreenValues(isGranted)
+
+
+                }
+
             }
         }
     }
@@ -114,7 +118,6 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
         } else {
             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
         }
-
         activity?.finish()
     }
 
