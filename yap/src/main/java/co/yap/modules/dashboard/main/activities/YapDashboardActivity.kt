@@ -66,7 +66,6 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import com.adjust.sdk.Adjust.trackEvent
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
@@ -103,7 +102,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         getFeatureFlagClient.hasFeature(ToggleFeature.BILL_PAYMENTS.flag) { hasFlag ->
             launch {
 //                if (hasFlag) {
-                    setupNewYapButtons(hasFlag)
+                setupNewYapButtons(hasFlag)
 //                }
             }
         }
@@ -213,6 +212,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 positionOffsetPixels: Int
             ) {
             }
+
             override fun onPageSelected(position: Int) {
                 enableDrawerSwipe(position == 0)
                 when (position) {
@@ -435,9 +435,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         }
         getViewBinding().includedDrawerLayout.lManageWidget.lnAnalytics.setOnClickListener {
-                 viewModel.isFromSideMenu = true
-                viewModel.isYapHomeFragmentVisible.value = true
-                closeDrawer()
+            viewModel.isFromSideMenu = true
+            viewModel.isYapHomeFragmentVisible.value = true
+            closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lSupport.lnAnalytics.setOnClickListener {
             startActivity(
@@ -608,7 +608,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
     }
 
-    fun openQRCodeFragment(){
+    fun openQRCodeFragment() {
         trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
         QRCodeFragment { beneficary ->
             launchActivity<YapToYapDashboardActivity>(
