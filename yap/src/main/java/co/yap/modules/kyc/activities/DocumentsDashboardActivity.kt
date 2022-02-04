@@ -46,7 +46,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
             intent.getSerializableExtra(Constants.KYC_AMENDMENT_MAP) as? HashMap<String?, List<String>?>
         viewModel.skipFirstScreen.value =
             intent.getValue(Constants.data, ExtraType.BOOLEAN.name) as? Boolean
-        viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
+        viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", false)
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
         if (viewModel.showProgressBar.value == false) {
