@@ -31,11 +31,6 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
         SessionManager.expireUserSession()
-        launch {
-            getFCMToken {
-                Adjust.setPushToken(it, applicationContext)
-            }
-        }
     }
 
     override fun onBackPressed() {
