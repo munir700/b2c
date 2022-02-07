@@ -82,6 +82,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -97,6 +98,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 //TODO("We need to refactor the this fragment because this fragment contains a lot of code regarding transaction graph bars")
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -142,7 +144,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         categoryBarSetup()
         viewModel.requestDashboardWidget()
-
+        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.appBarLayout.addOnOffsetChangedListener(
+            OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                getBindings().refreshLayout.isEnabled = when {
+                    verticalOffset == 0 -> true // expanded state
+                    abs(verticalOffset) >= appBarLayout.totalScrollRange -> false // Collapsed state
+                    else -> false //Idle State
+                }
+            })
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -1158,4 +1167,5 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         }
     }
+
 }
