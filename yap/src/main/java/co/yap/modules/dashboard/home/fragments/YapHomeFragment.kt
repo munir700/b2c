@@ -144,14 +144,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         categoryBarSetup()
         viewModel.requestDashboardWidget()
-        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.appBarLayout.addOnOffsetChangedListener(
-            OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                getBindings().refreshLayout.isEnabled = when {
-                    verticalOffset == 0 -> true // expanded state
-                    abs(verticalOffset) >= appBarLayout.totalScrollRange -> false // Collapsed state
-                    else -> false //Idle State
-                }
-            })
+        appBarListener()
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -1166,6 +1159,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
         }
+    }
+
+    private fun appBarListener() {
+        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.appBarLayout.addOnOffsetChangedListener(
+            OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                getBindings().refreshLayout.isEnabled = when {
+                    verticalOffset == 0 -> true // expanded state
+                    abs(verticalOffset) >= appBarLayout.totalScrollRange -> false // Collapsed state
+                    else -> false //Idle State
+                }
+            })
     }
 
 }
