@@ -381,7 +381,7 @@
                 <include
                     android:id="@+id/lManageWidget"
                     layout="@layout/layout_item_icon_text"
-                    app:paddingvalue="@{@dimen/margin_zero_dp}"
+                    app:paddingvalue="@{@dimen/margin_three_dp}"
                     app:icon="@{@drawable/ic_manage_widget}"
                     app:tint="@{@color/greyDark}"
                     app:title='@{"Manage widgets"}' />
