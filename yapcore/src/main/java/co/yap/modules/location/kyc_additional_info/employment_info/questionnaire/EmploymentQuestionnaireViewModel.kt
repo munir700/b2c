@@ -379,7 +379,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                                 }?.get(0)?.getName() ?: ""
                                 businessCountriesList.add(businessCountry)
                             }
-                            selectedQuestionItemPosition = 2
+                            selectedQuestionItemPosition = 3
                             businessCountriesLiveData.value = businessCountriesList
                         }
                     }
@@ -397,7 +397,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             val industrySegment = industrySegmentsList.first {
                                 it.segmentCode == segmentCode
                             }
-                            val objQuestion = getDataForPosition(1)
+                            val objQuestion = getDataForPosition(2)
                             objQuestion.question.answer.set(industrySegment.segment)
                             objQuestion.question.previousValue.set(industrySegment.segment)
                             validateForm()
