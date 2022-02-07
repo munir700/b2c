@@ -30,27 +30,6 @@ class TransactionFiltersViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        launch {
-            state.loading = true
-            when (val response = repository.getSearchFilterAmount()) {
-                is RetroApiResponse.Success -> {
-                    transactionFilters.value = response.data.data
-                    delay(1000)
-                    withContext(Dispatchers.Main) {
-                        state.loading = false
-                    }
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.hasInternet.set(response.error.statusCode == 504)
-                    state.loading = false
-                }
-            }
-        }
-    }
-
     override fun updateRangeValue(seekBar: RangeSeekBar) {
 
         val startRangeValue =
@@ -76,8 +55,25 @@ class TransactionFiltersViewModel(application: Application) :
             "Education"
 
         )
-
     }
 
-
+    override fun requestSearchFilterAmount() {
+        launch {
+            state.loading = true
+            when (val response = repository.getSearchFilterAmount()) {
+                is RetroApiResponse.Success -> {
+                    transactionFilters.value = response.data.data
+                    delay(1000)
+                    withContext(Dispatchers.Main) {
+                        state.loading = false
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.hasInternet.set(response.error.statusCode == 504)
+                    state.loading = false
+                }
+            }
+        }
+    }
 }
