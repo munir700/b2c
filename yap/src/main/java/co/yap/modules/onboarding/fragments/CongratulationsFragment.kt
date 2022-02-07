@@ -38,17 +38,13 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
-import co.yap.yapcore.helpers.AnimationUtils
-import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.leanplum.*
 import co.yap.yapcore.managers.SessionManager
-import co.yap.yapcore.managers.SessionManager.sendFcmTokenToServer
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -189,7 +185,12 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     }
 
     private fun goToDashboard() {
-        sendFcmTokenToServer(requireContext()) {}
+        activity?.let {
+            SharedPreferenceManager.getInstance(it.applicationContext)
+                .getValueString(Constants.KEY_APP_UUID)?.apply {
+                    SessionManager.sendFcmTokenToServer(this)
+                }
+        }
         val action =
             CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
         findNavController().navigate(action)

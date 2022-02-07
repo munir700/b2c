@@ -86,10 +86,11 @@ class InternationalFundsTransferFragment :
                 setSpannableFee(it)
         })
         viewModel.isFeeReceived.observe(this, Observer {
-            if (it) viewModel.updateFees()
+            if (it) viewModel.fxRateResponse.value?.let { viewModel.updateFees() }
         })
         viewModel.fxRateResponse.observe(this, Observer {
             handleFxRateResponse(it)
+//            viewModel.updateFees()
         })
         viewModel.isAPIFailed.observe(this, Observer {
             if (it) {
