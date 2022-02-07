@@ -144,7 +144,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         categoryBarSetup()
         viewModel.requestDashboardWidget()
-        appBarListener()
+        appBarListenerForCollapsing()
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -1161,7 +1161,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    private fun appBarListener() {
+    private fun appBarListenerForCollapsing() {
         getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.appBarLayout.addOnOffsetChangedListener(
             OnOffsetChangedListener { appBarLayout, verticalOffset ->
                 getBindings().refreshLayout.isEnabled = when {
