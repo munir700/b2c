@@ -1129,4 +1129,9 @@ object UIBinder {
         }
     }
 
+    @BindingAdapter("paddingImage")
+    @JvmStatic
+    fun setPaddingImage(imageView: AppCompatImageView, padding: Float) {
+            imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
+    }
 }
