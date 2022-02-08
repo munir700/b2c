@@ -146,6 +146,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     data?.getValue(Constants.UPDATED_CATEGORY, "PARCEABLE") as TapixCategory
                 viewModel.state.updatedCategory.set(category)
                 viewModel.state.categoryDescription.set(viewModel.state.updatedCategory.get()?.description)
+                viewModel.state.isCategoryUpdated.set(true)
                 makeToast(this, "category updated sucessfully", LENGTH_SHORT)
             }
         }
@@ -287,7 +288,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
                 )
             )
-
+            intent.putExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, viewModel.state.isCategoryUpdated.get())
+            if(viewModel.state.isCategoryUpdated.get()==true){
+                intent.putExtra(ExtraKeys.UPDATED_CATEGORY_ICON.name,viewModel.state.updatedCategory.get()?.categoryIcon )
+                intent.putExtra(ExtraKeys.UPDATED_CATEGORY_NAME.name,viewModel.state.updatedCategory.get()?.categoryName )
+            }
             setResult(Activity.RESULT_OK, intent)
         }
         finish()

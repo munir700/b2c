@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -110,6 +111,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private lateinit var skeleton: Skeleton
     private var tourStep: TourSetup? = null
     var shardPrefs: SharedPreferenceManager? = null
+    var groupPosition = 0
+    var childPosition = 0
 
     override val viewModel: YapHomeViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -280,7 +283,23 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.clickEvent.observe(this, Observer {
             if (drawerButtonEnabled)
                 when (it) {
-                    R.id.ivSearch -> startFragment(TransactionSearchFragment::class.java.name)
+                    R.id.ivSearch ->
+                        startFragmentForResult<TransactionSearchFragment>(
+                            fragmentName = TransactionSearchFragment::class.java.name,
+                            bundle = bundleOf()
+                        ) { resultCode, data ->
+                            if (resultCode == Activity.RESULT_OK) {
+                                Log.e("getBooleanExtra", "${data?.getBooleanExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, false) == true}")
+                                if (data?.getBooleanExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, false) == true) {
+                                    viewModel.requestCategoryBarData()
+                                    transactionViewHelper?.checkScroll = false
+                                    getBindings().lyInclude.multiStateView.viewState =
+                                        MultiStateView.ViewState.CONTENT
+                                    setTransactionRequest(TransactionFilters())
+                                    getFilterTransactions()
+                                }
+                            }
+                        }
                     R.id.lyTransaction -> {
                         viewModel.clickEvent.getPayload()?.let {
                             val childPosition = it.position
@@ -549,19 +568,25 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.transactionsLiveData.value?.let { list ->
             if (list.isNotEmpty()) {
                 val filtered: List<MonthData>? =
-                    monthList?.filter { monthData -> monthData.date == list[0].monthYear }
+                    monthList?.filter { monthData -> monthData.date == transactionViewHelper?.visibleMonth }
                 filtered?.let {
                     if (filtered.isNotEmpty()) {
+                        val date = getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition
+                        )?.transaction?.get(
+                            childPosition
+                        )?.creationDate.toString()
+
                         val selectedDate: Date? = SimpleDateFormat(
                             DateUtils.SERVER_DATE_FORMAT,
                             Locale.getDefault()
-                        ).parse(list[0].originalDate.toString())
+                        ).parse(date)
                         val filteredList =
                             filtered[0].categories.sortedByDescending { it.categoryWisePercentage }
                         if (filteredList.isNotEmpty()) {
                             customCategoryBar.setCategoryBar(
                                 filteredList,
-                                Constants.DEFAULT_MODE, selectedDate.toString(),
+                                transactionViewHelper?.currentMode ?: 2, selectedDate.toString(),
                                 false
                             )
                             customCategoryBar.visibility = VISIBLE
@@ -840,19 +865,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
             RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
-
-                val groupPosition = data.let { intent ->
+                groupPosition = data.let { intent ->
                     intent?.getIntExtra(
                         ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                         -1
                     )
-                }
-                val childPosition = data.let { intent ->
+                } ?: 0
+                childPosition = data.let { intent ->
                     intent?.getIntExtra(
                         ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                         -1
                     )
-                }
+                } ?: 0
                 if (groupPosition != -1 && childPosition != -1) {
                     getRecycleViewAdaptor()?.getDataForPosition(
                         groupPosition ?: 0
@@ -887,13 +911,39 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         childPosition ?: 0
                     )?.receiverTransactionNoteDate =
                         (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.receiverTransactionNoteDate
+
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition ?: 0,
                         getRecycleViewAdaptor()?.getDataForPosition(
                             groupPosition ?: 0
                         )?.transaction?.get(childPosition ?: 0)
                     )
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.receiverTransactionNoteDate =
+                        (data?.getParcelableExtra<Transaction>(ExtraKeys.TRANSACTION_OBJECT_STRING.name))?.receiverTransactionNoteDate
 
+                }
+                if (data?.getBooleanExtra(
+                        ExtraKeys.IS_CATEGORY_UPDATED.name,
+                        false
+                    ) == true
+                ) {
+                    viewModel.requestCategoryBarData()
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.tapixCategory?.categoryIcon =
+                        (data.getStringExtra(ExtraKeys.UPDATED_CATEGORY_ICON.name) ?: "")
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.tapixCategory?.categoryName =
+                        (data.getStringExtra(ExtraKeys.UPDATED_CATEGORY_NAME.name) ?: "")
                 }
             }
 

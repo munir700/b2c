@@ -35,5 +35,7 @@ interface ITransactionSearch {
         var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>?
         var transactionRequest: HomeTransactionsRequest?
         // var stateLiveData: MutableLiveData<co.yap.widgets.State>?
+        var isCategoryChangeResult : ObservableField<Boolean>
+        var categoryLogo : String
     }
 }
