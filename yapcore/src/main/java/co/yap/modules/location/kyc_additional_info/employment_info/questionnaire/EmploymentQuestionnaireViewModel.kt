@@ -514,12 +514,13 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         employmentStatusValue.value = res
 
                         if (employmentStatus == EmploymentStatus.SALARIED_AND_SELF_EMPLOYED ||
-                            employmentStatus == EmploymentStatus.SELF_EMPLOYED)
-                        {
+                            employmentStatus == EmploymentStatus.SELF_EMPLOYED
+                        ) {
                             isDataRequiredFromApi(
                                 employmentStatus,
                                 res.businessCountries,
-                                res.industrySubSegmentCode?.get(0) ?: "")
+                                res.industrySubSegmentCode?.get(0) ?: ""
+                            )
                         } else if (employmentStatus == EmploymentStatus.OTHER) {
                             selectedQuestionItemPosition = 0
                             val objQuestion = getDataForPosition(selectedQuestionItemPosition)
@@ -527,6 +528,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                                 it.employmentTypeCode == res.employmentType
                             }?.employmentType ?: "")
                             questionsList[selectedQuestionItemPosition] = objQuestion
+                            if (objQuestion.question.questionType == QuestionType.DROP_DOWN_FIELD) objQuestion.question.previousValue.set(objQuestion.question.answer.get())
+
                             validateForm()
                         } else {
                             isDataRequiredFromApi(employmentStatus)
