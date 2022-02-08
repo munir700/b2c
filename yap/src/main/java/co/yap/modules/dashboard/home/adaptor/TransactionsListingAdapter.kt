@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
 
 class TransactionsListingAdapter(
     private val list: MutableList<Transaction>,
@@ -99,7 +100,11 @@ class TransactionsListingAdapter(
                     ContextCompat.getDrawable(itemAnalyticsTransactionListBinding.ivItemTransaction.context, co.yap.yapcore.R.drawable.bg_round_purple_enabled)
                 itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
                     transaction,analyticsItemImgUrl,itemAnalyticsTransactionListBinding.ivItemTransaction.context)
+                itemAnalyticsTransactionListBinding.tvTransactionAmount.text =
+                    transaction.getFormattedTransactionAmount()
             }else {
+                itemAnalyticsTransactionListBinding.tvTransactionAmount.text =
+                    transaction.getFormattedTransactionAmountAnalytics()
                 itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
                     transaction.merchantName ?: analyticsItemTitle ?: transaction.title ?: "",
                     transaction.merchantLogo ?: analyticsItemImgUrl ?: "",
@@ -185,7 +190,7 @@ class TransactionsListingAdapter(
                     || transaction.category.equals("DECLINE_FEE", true)
                 ) View.GONE else View.VISIBLE
             //itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
-            itemTransactionListBinding.tvCurrency.text = transaction.cardHolderBillingCurrency
+            itemTransactionListBinding.tvCurrency.text = transaction.cardHolderBillingCurrency?:SessionManager.getDefaultCurrency()
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             itemTransactionListBinding.ivIncoming.background =

@@ -296,147 +296,159 @@ class TransactionsViewHelper(
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
-                    if (viewModel.transactionsLiveData.value?.size != 0) {
-                    if (!checkScroll) {
-                        transactionsView.layoutBalance.tvAvailableBalance.text =
-                            viewModel.state.availableBalance
-                                .getAvailableBalanceWithFormat()
-                        transactionsView.layoutBalance.tvBalanceTitle.text = Translator.getString(
-                            context,
-                            R.string.screen_fragment_yap_home_todays_balance
-                        )
-                        visibleMonth =
-                            viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
-
-                        val filterd: List<MonthData>? =
-                            viewModel.monthData?.value?.filter { monthData -> monthData.date == visibleMonth }
-                        filterd?.let {
-                            if (filterd.isNotEmpty()) {
-                                filteredList =
-                                    filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
-                                if (filteredList.isNotEmpty()) {
-                                    updateData(
-                                        transactionsView.customCategoryBar,
-                                        filteredList,
-                                        SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                            viewModel.transactionsLiveData.value?.get(position)?.originalDate
-                                        ).toString(),
-                                        Constants.DEFAULT_MODE,
-                                        false
+                    if(transactionsView.lyInclude.multiStateView.rvTransaction.adapter is TransactionsHeaderAdapter) {
+                        if ((transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataList().size > 0) {
+                            if (!checkScroll) {
+                                transactionsView.layoutBalance.tvAvailableBalance.text =
+                                    viewModel.state.availableBalance
+                                        .getAvailableBalanceWithFormat()
+                                transactionsView.layoutBalance.tvBalanceTitle.text =
+                                    Translator.getString(
+                                        context,
+                                        R.string.screen_fragment_yap_home_todays_balance
                                     )
-                                    transactionsView.customCategoryBar.visibility =
-                                        View.VISIBLE
-                                } else {
-                                    setCategoryWithZero()
-                                }
+                                visibleMonth =
+                                    viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
+
+                                val filterd: List<MonthData>? =
+                                    viewModel.monthData?.value?.filter { monthData -> monthData.date == visibleMonth }
+                                filterd?.let {
+                                    if (filterd.isNotEmpty()) {
+                                        filteredList =
+                                            filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+                                        if (filteredList.isNotEmpty()) {
+                                            updateData(
+                                                transactionsView.customCategoryBar,
+                                                filteredList,
+                                                SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                    viewModel.transactionsLiveData.value?.get(
+                                                        position
+                                                    )?.originalDate
+                                                ).toString(),
+                                                Constants.DEFAULT_MODE,
+                                                false
+                                            )
+                                            transactionsView.customCategoryBar.visibility =
+                                                View.VISIBLE
+                                        } else {
+                                            setCategoryWithZero()
+                                        }
+                                    } else {
+                                        setCategoryWithZero()
+                                    }
+                                } ?: setCategoryWithZero()
+                                currentMode = Constants.DEFAULT_MODE
                             } else {
-                                setCategoryWithZero()
+                                //new month
+                                if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.isNullOrBlank()) {
+                                    viewModel.transactionsLiveData.value?.get(position)?.monthYear =
+                                        visibleMonth
+                                }
+                                if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() != visibleMonth) {
+
+                                    val filterd: List<MonthData>? =
+                                        viewModel.monthData?.value?.filter { monthData ->
+                                            monthData.date == viewModel.transactionsLiveData.value?.get(
+                                                position
+                                            )?.monthYear.toString()
+                                        }
+                                    filterd?.let {
+                                        if (filterd.isNotEmpty()) {
+                                            filteredList =
+                                                filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+
+                                            if (filteredList.isNotEmpty()) {
+                                                updateData(
+                                                    transactionsView.customCategoryBar,
+                                                    filteredList,
+                                                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                        viewModel.transactionsLiveData.value?.get(
+                                                            position
+                                                        )?.originalDate
+                                                    ).toString(),
+                                                    Constants.COLLAPSE_MODE,
+                                                    false
+                                                )
+                                                transactionsView.customCategoryBar.visibility =
+                                                    View.VISIBLE
+                                                currentMode = Constants.COLLAPSE_MODE
+
+                                            } else {
+                                                setCategoryWithZero()
+                                            }
+                                        } else {
+                                            setCategoryWithZero()
+                                        }
+
+                                    } ?: setCategoryWithZero()
+
+                                    visibleMonth =
+                                        viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
+                                } else if (currentMode != Constants.COLLAPSE_MODE && viewModel.transactionsLiveData.value?.get(
+                                        position
+                                    )?.monthYear.toString() == visibleMonth
+                                ) {
+                                    //only collapse
+                                    val filterd: List<MonthData>? =
+                                        viewModel.monthData?.value?.filter { monthData ->
+                                            monthData.date == viewModel.transactionsLiveData.value?.get(
+                                                position
+                                            )?.monthYear.toString()
+                                        }
+                                    filterd?.let {
+                                        if (filterd.isNotEmpty()) {
+                                            filteredList =
+                                                filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+
+                                            if (filteredList.isNotEmpty()) {
+                                                updateData(
+                                                    transactionsView.customCategoryBar,
+                                                    filteredList,
+                                                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                        viewModel.transactionsLiveData.value?.get(
+                                                            position
+                                                        )?.originalDate
+                                                    ).toString(),
+                                                    Constants.COLLAPSE_MODE,
+                                                    false
+                                                )
+                                                transactionsView.customCategoryBar.visibility =
+                                                    View.VISIBLE
+                                            } else {
+                                                setCategoryWithZero()
+                                            }
+                                        } else {
+                                            setCategoryWithZero()
+                                        }
+
+                                    } ?: setCategoryWithZero()
+
+                                    currentMode = Constants.COLLAPSE_MODE
+
+                                }
+                                transactionsView.layoutBalance.tvAvailableBalance.text =
+                                    (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                        position
+                                    ).closingBalance.toString().getAvailableBalanceWithFormat()
+                                transactionsView.layoutBalance.tvBalanceTitle.text =
+                                    if (DateUtils.isToday(
+                                            viewModel.transactionsLiveData.value?.get(position)?.originalDate.toString(),
+                                            "yyyy-MM-dd",
+                                            TIME_ZONE_Default
+                                        )
+                                    ) Translator.getString(
+                                        context,
+                                        R.string.screen_fragment_yap_home_todays_balance
+                                    ) else Translator.getString(
+                                        context,
+                                        R.string.screen_fragment_yap_home_balance_on_date,
+                                        (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                            position
+                                        ).dateForBalance ?: ""
+                                    )
                             }
-                        } ?: setCategoryWithZero()
-                        currentMode = Constants.DEFAULT_MODE
-                    } else {
-                        //new month
-                        if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.isNullOrBlank()) {
-                            viewModel.transactionsLiveData.value?.get(position)?.monthYear =
-                                visibleMonth
                         }
-                        if (viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString() != visibleMonth) {
-
-                            val filterd: List<MonthData>? =
-                                viewModel.monthData?.value?.filter { monthData ->
-                                    monthData.date == viewModel.transactionsLiveData.value?.get(
-                                        position
-                                    )?.monthYear.toString()
-                                }
-                            filterd?.let {
-                                if (filterd.isNotEmpty()) {
-                                    filteredList =
-                                        filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
-
-                                    if (filteredList.isNotEmpty()) {
-                                        updateData(
-                                            transactionsView.customCategoryBar,
-                                            filteredList,
-                                            SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                viewModel.transactionsLiveData.value?.get(position)?.originalDate
-                                            ).toString(),
-                                            Constants.COLLAPSE_MODE,
-                                            false
-                                        )
-                                        transactionsView.customCategoryBar.visibility =
-                                            View.VISIBLE
-                                        currentMode = Constants.COLLAPSE_MODE
-
-                                    } else {
-                                        setCategoryWithZero()
-                                    }
-                                } else {
-                                    setCategoryWithZero()
-                                }
-
-                            } ?: setCategoryWithZero()
-
-                            visibleMonth =
-                                viewModel.transactionsLiveData.value?.get(position)?.monthYear.toString()
-                        } else if (currentMode != Constants.COLLAPSE_MODE && viewModel.transactionsLiveData.value?.get(
-                                position
-                            )?.monthYear.toString() == visibleMonth
-                        ) {
-                            //only collapse
-                            val filterd: List<MonthData>? =
-                                viewModel.monthData?.value?.filter { monthData ->
-                                    monthData.date == viewModel.transactionsLiveData.value?.get(
-                                        position
-                                    )?.monthYear.toString()
-                                }
-                            filterd?.let {
-                                if (filterd.isNotEmpty()) {
-                                    filteredList =
-                                        filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
-
-                                    if (filteredList.isNotEmpty()) {
-                                        updateData(
-                                            transactionsView.customCategoryBar,
-                                            filteredList,
-                                            SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                viewModel.transactionsLiveData.value?.get(position)?.originalDate
-                                            ).toString(),
-                                            Constants.COLLAPSE_MODE,
-                                            false
-                                        )
-                                        transactionsView.customCategoryBar.visibility =
-                                            View.VISIBLE
-                                    } else {
-                                        setCategoryWithZero()
-                                    }
-                                } else {
-                                    setCategoryWithZero()
-                                }
-
-                            } ?:setCategoryWithZero()
-
-                            currentMode = Constants.COLLAPSE_MODE
-
-                        }
-                        transactionsView.layoutBalance.tvAvailableBalance.text =
-                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(position).closingBalance.toString().getAvailableBalanceWithFormat()
-                        transactionsView.layoutBalance.tvBalanceTitle.text = if (DateUtils.isToday(
-                                viewModel.transactionsLiveData.value?.get(position)?.originalDate.toString(),
-                                "yyyy-MM-dd",
-                                TIME_ZONE_Default
-                            )
-                        ) Translator.getString(
-                            context,
-                            R.string.screen_fragment_yap_home_todays_balance
-                        ) else Translator.getString(
-                            context,
-                            R.string.screen_fragment_yap_home_balance_on_date,
-                            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
-                                position
-                            ).dateForBalance ?: ""
-                        )
                     }
-                }
                     /*transactionsView.layoutBalance.tvAvailableBalance.text =
                         viewModel.transactionsLiveData.value!![position].closingBalance.toString()
                             .getAvailableBalanceWithFormat()

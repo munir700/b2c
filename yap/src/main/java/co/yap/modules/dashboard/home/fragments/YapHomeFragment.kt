@@ -22,6 +22,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
+import co.yap.billpayments.dashboard.BillPaymentsHomeActivity
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentDashboardHomeBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
@@ -225,7 +226,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 (activity as YapDashboardActivity).openQRCodeFragment()
                             }
                             "Bills" -> {
-                                view.context.toast("Coming Soon", Toast.LENGTH_SHORT)
+                                launchActivity<BillPaymentsHomeActivity>(type = FeatureSet.BILL_PAYMENT)
                             }
                             "Offers" -> {
                                 view.context.toast("Coming Soon", Toast.LENGTH_SHORT)
