@@ -399,6 +399,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             card = paymentCard
                         )
                         viewModel.getCards()
+                        SessionManager.updateCardBalance{}
                     }
                 }
             }
