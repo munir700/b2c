@@ -34,8 +34,8 @@ class TransactionsViewHelper(
     var barSelectedPosition: Int = 0
     private var toolbarCollapsed = false
     private var rvTransactionScrollListener: OnScrollListener? = null
-    private var visibleMonth: String? = null
-    private var currentMode: Int = 0
+    var visibleMonth: String? = null
+    var currentMode: Int = Constants.EXPAND_MODE
     private var filteredList = listOf<Categories>()
 
     init {
