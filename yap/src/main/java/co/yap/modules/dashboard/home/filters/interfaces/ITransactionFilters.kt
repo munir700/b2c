@@ -16,7 +16,7 @@ interface ITransactionFilters {
         val transactionFilters: MutableLiveData<TransactionFilters>
         var txnFilters: MutableLiveData<co.yap.modules.dashboard.home.filters.models.TransactionFilters>
         fun getCategoriesList(): ArrayList<String>
-
+        fun requestSearchFilterAmount()
     }
 
     interface State : IBase.State {
