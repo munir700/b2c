@@ -149,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/divider"
-                android:paddingTop="@dimen/_8sdp"
+                android:paddingTop="@dimen/_24sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rlFilter" />
 
