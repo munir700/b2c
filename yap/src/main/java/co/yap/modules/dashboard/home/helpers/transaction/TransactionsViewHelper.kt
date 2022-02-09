@@ -426,7 +426,7 @@ class TransactionsViewHelper(
                                     currentMode = Constants.COLLAPSE_MODE
 
                                 }
-                                transactionsView.layoutBalance.tvAvailableBalance.text =
+                                transactionsView.layoutBalance.tvAvailableBalance.text =if(position==0)viewModel.state.availableBalance.getAvailableBalanceWithFormat() else
                                     (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
                                         position
                                     ).closingBalance.toString().getAvailableBalanceWithFormat()
