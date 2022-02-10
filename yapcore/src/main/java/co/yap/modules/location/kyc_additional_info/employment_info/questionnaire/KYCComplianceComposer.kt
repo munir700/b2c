@@ -76,7 +76,7 @@ class KYCComplianceComposer :
                         questionType = QuestionType.DROP_DOWN_FIELD,
                         answer =ObservableField(status?.typeOfSelfEmployment?:""),
                         previousValue = ObservableField(status?.typeOfSelfEmployment?:""),
-                        tag = "SelfEmployment"
+                        tag = "typeOfSelfEmployment"
                     ),
                     key = EmploymentQuestionIdentifier.SELF_EMPLOYMENT
                 ),
