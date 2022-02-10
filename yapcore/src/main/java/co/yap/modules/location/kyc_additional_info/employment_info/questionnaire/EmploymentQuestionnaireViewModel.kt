@@ -524,12 +524,9 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         } else if (employmentStatus == EmploymentStatus.OTHER) {
                             selectedQuestionItemPosition = 0
                             val objQuestion = getDataForPosition(selectedQuestionItemPosition)
-                            objQuestion.question.answer.set(employmentTypes().firstOrNull {
-                                it.employmentTypeCode == res.employmentType
-                            }?.employmentType ?: "")
+                            objQuestion.question.answer.set(res.employmentTypeValue?:"")
                             questionsList[selectedQuestionItemPosition] = objQuestion
                             if (objQuestion.question.questionType == QuestionType.DROP_DOWN_FIELD) objQuestion.question.previousValue.set(objQuestion.question.answer.get())
-
                             validateForm()
                         } else {
                             isDataRequiredFromApi(employmentStatus)

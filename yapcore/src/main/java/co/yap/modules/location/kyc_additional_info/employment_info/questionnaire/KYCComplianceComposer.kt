@@ -129,8 +129,8 @@ class KYCComplianceComposer :
                         questionTitle = "Which of the following statements describes you best?",
                         placeholder = "Select from list",
                         questionType = QuestionType.DROP_DOWN_FIELD,
-                        answer = ObservableField(),
-                        previousValue = ObservableField(),
+                        answer = ObservableField(status?.employmentTypeValue?:""),
+                        previousValue = ObservableField(status?.employmentTypeValue?:""),
                         tag = "EmploymentStatus"
                     ), key = EmploymentQuestionIdentifier.EMPLOYMENT_TYPE
                 ),
