@@ -354,14 +354,6 @@ fun Transaction?.getFormattedTransactionAmount(): String? {
     )
 }
 
-fun Transaction?.getFormattedTransactionAmountAnalytics() =
-    String.format(
-        "%s %s", this?.getTransactionAmountPrefix(),
-    this?.totalAmount.toString().toFormattedCurrency(
-        showCurrency = false,
-        currency = this?.currency ?: SessionManager.getDefaultCurrency()
-    ))
-
 fun Transaction?.getTransactionAmountColor(): Int {
     return when (this?.txnType) {
         TxnType.DEBIT.type -> R.color.colorPrimaryDark
