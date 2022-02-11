@@ -506,6 +506,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                                 it.employmentTypeCode == res.employmentType
                             }?.employmentType ?: "")
                             questionsList[selectedQuestionItemPosition] = objQuestion
+                            if (objQuestion.question.questionType == QuestionType.DROP_DOWN_FIELD)
+                                objQuestion.question.previousValue.set(objQuestion.question.answer.get())
                             validateForm()
                         } else {
                             isDataRequiredFromApi(employmentStatus)

@@ -120,7 +120,7 @@ class KYCComplianceComposer :
                         questionType = QuestionType.DROP_DOWN_FIELD,
                         answer = ObservableField(),
                         previousValue = ObservableField(),
-                        tag = ""
+                        tag = "EmploymentStatus"
                     ), key = EmploymentQuestionIdentifier.EMPLOYMENT_TYPE
                 ),
                 QuestionUiFields(
@@ -130,7 +130,7 @@ class KYCComplianceComposer :
                         questionType = QuestionType.EDIT_TEXT_FIELD,
                         answer = ObservableField(status?.sponsorName ?: ""),
                         previousValue = ObservableField(status?.sponsorName),
-                        tag = ""
+                        tag = "EmploymentName"
                     )
                 ),
                 QuestionUiFields(
