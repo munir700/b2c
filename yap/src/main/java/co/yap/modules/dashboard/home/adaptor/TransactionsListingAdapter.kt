@@ -103,8 +103,6 @@ class TransactionsListingAdapter(
                 itemAnalyticsTransactionListBinding.tvTransactionAmount.text =
                     transaction.getFormattedTransactionAmount()
             }else {
-                itemAnalyticsTransactionListBinding.tvTransactionAmount.text =
-                    transaction.getFormattedTransactionAmountAnalytics()
                 itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
                     transaction.merchantName ?: analyticsItemTitle ?: transaction.title ?: "",
                     transaction.merchantLogo ?: analyticsItemImgUrl ?: "",

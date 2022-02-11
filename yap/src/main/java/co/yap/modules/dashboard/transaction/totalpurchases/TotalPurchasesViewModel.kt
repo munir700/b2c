@@ -102,8 +102,8 @@ class TotalPurchasesViewModel(application: Application) :
 
     override fun setMerchantImage(coreCircularImageView: CoreCircularImageView) {
         transaction.get()?.let { txns ->
-            coreCircularImageView.setCircularDrawable(txns, txns.merchantLogo, context)
-            adapter.analyticsItemImgUrl = txns.merchantLogo
+            coreCircularImageView.setCircularDrawable(txns, txns.merchantLogo?:txns.tapixCategory?.categoryIcon, context)
+            adapter.analyticsItemImgUrl = txns.merchantLogo?:txns.tapixCategory?.categoryIcon
         }
     }
 }
