@@ -230,6 +230,11 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
         UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED -> {
             arrayListOf(FeatureSet.CHANGE_PIN, FeatureSet.FORGOT_PIN)
         }
+        UserAccessRestriction.CARD_INACTIVE_CLOSE -> {
+            arrayListOf(FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT)
+        }
         UserAccessRestriction.NONE -> {
             arrayListOf()
         }
