@@ -61,12 +61,14 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
     if (SessionManager.card.value != null) {
         if (SessionManager.card.value?.pinStatus == CardPinStatus.BLOCKED.name) {
             restrictions.add(UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED)
+//            restrictions.add(UserAccessRestriction.CARD_INACTIVE_CLOSE)
             completion.invoke(restrictions)
         }
     } else {
         SessionManager.getDebitCard { card ->
             if (card?.pinStatus == CardPinStatus.BLOCKED.name) {
                 restrictions.add(UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED)
+//                restrictions.add(UserAccessRestriction.CARD_INACTIVE_CLOSE)
                 completion.invoke(restrictions)
             }
         }
