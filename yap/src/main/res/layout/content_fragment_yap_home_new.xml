@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/margin_normal_large"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:text="Transactions"
                 app:layout_constraintStart_toStartOf="parent"

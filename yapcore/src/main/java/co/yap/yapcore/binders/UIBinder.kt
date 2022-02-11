@@ -174,9 +174,8 @@ object UIBinder {
     fun setCardDetailLayoutVisibility(linearLayout: LinearLayout, card: Card) {
         when (card.status) {
             CardStatus.ACTIVE.name -> {
-                if (card.cardType == CardType.DEBIT.type) {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
-                        linearLayout.visibility = GONE
+                if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                        linearLayout.visibility = if(card.pinCreated) VISIBLE else GONE
                 } else {
                     linearLayout.visibility = VISIBLE
                 }
