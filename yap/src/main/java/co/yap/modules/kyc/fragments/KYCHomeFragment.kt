@@ -69,12 +69,12 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         viewModel.parentViewModel?.skipFirstScreen?.value?.let {
             if (it) {
                 findNavController().navigate(if (viewModel.isFromAmendment()) R.id.action_KYCHomeFragment_to_eidInfoReviewAmendmentFragment else R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-            } else if (viewModel.parentViewModel?.showProgressBar?.value == false) {
+            } else if (requireActivity().intent?.getBooleanExtra("GO_ERROR", false) == true) {
                 navigateToInformationErrorFragment()
             } else {
                 viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
             }
-        } ?: if (viewModel.parentViewModel?.showProgressBar?.value == false) {
+        } ?: if (requireActivity().intent?.getBooleanExtra("GO_ERROR", false) == true) {
             navigateToInformationErrorFragment()
         }
     }
