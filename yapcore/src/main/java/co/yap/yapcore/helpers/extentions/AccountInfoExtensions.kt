@@ -13,7 +13,7 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
     if (partnerBankStatus?.equals(PartnerBankStatus.ACTIVATED.status) == false) {
         restrictions.add(UserAccessRestriction.ACCOUNT_INACTIVE)
     }
-
+//    this.freezeInitiator = "YAP_COMPLIANCE_TOTAL"
     restrictions.add(
         when (this.freezeInitiator) {
             "MOBILE_APP_HOSTLIST" -> {
@@ -99,7 +99,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD
+                FeatureSet.UNFREEZE_CARD,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
             )
         }
         UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT -> {
@@ -112,7 +115,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD
+                FeatureSet.UNFREEZE_CARD,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
             )
         }
         UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT -> {
@@ -152,7 +158,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD
+                FeatureSet.UNFREEZE_CARD,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
             )
         }
         UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT -> {
@@ -165,7 +174,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD
+                FeatureSet.UNFREEZE_CARD,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
             )
         }
         UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
@@ -206,7 +218,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.TOP_UP,
                 FeatureSet.BILL_PAYMENT,
                 FeatureSet.DEBIT_CARD_DETAIL,
-                FeatureSet.ANALYTICS
+                FeatureSet.ANALYTICS,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
 
             )
         }
@@ -257,11 +272,10 @@ fun AccountInfo.getNotificationOfBlockedFeature(
     return (when (key) {
         UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,
         UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD, UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
-
             Translator.getString(
                 context,
                 Strings.iban_or_debit_card_freeze_or_blocked_message
-            ).format(SessionManager.helpPhoneNumber)
+            )
 
         }
         else -> null

@@ -12,9 +12,12 @@ import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.base.AddBillBaseFragment
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
+import co.yap.yapcore.managers.FeatureProvisioning
 import kotlinx.android.synthetic.main.fragment_biller_detail.*
 
 class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(),
@@ -66,7 +69,10 @@ class AddBillerDetailFragment : AddBillBaseFragment<IAddBillerDetail.ViewModel>(
     val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnAddBiller -> {
-                addBillerClick()
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.ADD_BILL_PAYMENT))
+                    showBlockedFeatureAlert(requireActivity(), FeatureSet.ADD_BILL_PAYMENT)
+                else
+                    addBillerClick()
             }
         }
     }

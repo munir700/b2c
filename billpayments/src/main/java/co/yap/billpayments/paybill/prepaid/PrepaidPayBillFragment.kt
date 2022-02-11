@@ -12,7 +12,6 @@ import co.yap.billpayments.R
 import co.yap.billpayments.billdetail.BillDetailActivity
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
-import co.yap.billpayments.paybill.main.PayBillMainActivity
 import co.yap.billpayments.utils.enums.PaymentScheduleType
 import co.yap.billpayments.utils.enums.ReminderType
 import co.yap.billpayments.utils.enums.SkuInfoType
@@ -23,14 +22,13 @@ import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.customAlertDialog
-import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.tabs.TabLayout
 
 class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel>(),
@@ -247,16 +245,20 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                 )
             }
             R.id.btnPay -> {
-                viewModel.payBillAndEditBiller(
-                    payBillRequest = viewModel.getPayBillRequest(
-                        viewModel.parentViewModel?.billModel?.value,
-                        viewModel.state.amount
-                    ), editBillerRequest = viewModel.getEditBillerRequest(
-                        viewModel.parentViewModel?.billModel?.value
-                    )
-                ) {
-                    viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
-                    navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.PAY_BILL_PAYMENT)) {
+                    showBlockedFeatureAlert(requireActivity(), FeatureSet.PAY_BILL_PAYMENT)
+                } else {
+                    viewModel.payBillAndEditBiller(
+                        payBillRequest = viewModel.getPayBillRequest(
+                            viewModel.parentViewModel?.billModel?.value,
+                            viewModel.state.amount
+                        ), editBillerRequest = viewModel.getEditBillerRequest(
+                            viewModel.parentViewModel?.billModel?.value
+                        )
+                    ) {
+                        viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
+                        navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
+                    }
                 }
             }
         }

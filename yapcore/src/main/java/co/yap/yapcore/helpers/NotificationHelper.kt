@@ -33,6 +33,7 @@ object NotificationHelper {
         )
     }
 
+
     private fun getNotification(
         accountInfo: AccountInfo?,
         paymentCard: Card?,
@@ -313,7 +314,7 @@ object NotificationHelper {
                 description = Translator.getString(
                     context,
                     Strings.iban_or_debit_card_freeze_or_blocked_message
-                ).format(SessionManager.helpPhoneNumber),
+                ),
                 action = NotificationAction.CARD_FEATURES_BLOCKED,
                 imgResId = R.raw.gif_notification_bel,
                 createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
