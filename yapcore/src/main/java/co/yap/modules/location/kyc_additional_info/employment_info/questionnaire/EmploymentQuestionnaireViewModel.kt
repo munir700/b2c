@@ -291,7 +291,6 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             if (depositAmount?.isNotBlank() == true && depositAmount == previousDepositAmount?.get()) {
                 questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
                     ?.containsError?.set(true)
-                isValid = false
             } else {
                 questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.DEPOSIT_AMOUNT }
                     ?.containsError?.set(false)
@@ -307,15 +306,14 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             if (salaryAmount?.isNotBlank() == true && salaryAmount == previousSalary?.get()) {
                 questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
                     ?.containsError?.set(true)
-                isValid = false
             } else {
                 questionsList.firstOrNull { it.key == EmploymentQuestionIdentifier.SALARY_AMOUNT }
                     ?.containsError?.set(false)
             }
         }
 
-        validator?.isValidate?.value =
-            isValid && state.ruleValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble()
+       validator?.isValidate?.value =
+            isValid && salaryAmount.parseToDouble() >= depositAmount.parseToDouble()
     }
 
     override fun hasKeyInAmendmentMap(key: String?): Boolean {
@@ -508,6 +506,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                                 it.employmentTypeCode == res.employmentType
                             }?.employmentType ?: "")
                             questionsList[selectedQuestionItemPosition] = objQuestion
+                            if (objQuestion.question.questionType == QuestionType.DROP_DOWN_FIELD)
+                                objQuestion.question.previousValue.set(objQuestion.question.answer.get())
                             validateForm()
                         } else {
                             isDataRequiredFromApi(employmentStatus)
@@ -524,13 +524,13 @@ class EmploymentQuestionnaireViewModel(application: Application) :
 
     override fun onValidationSuccess(validator: Validator) {
         super.onValidationSuccess(validator)
-        state.ruleValid = true
-        validate()
+       // state.ruleValid = true
+      //  validate()
     }
 
     override fun onValidationError(validator: Validator) {
         super.onValidationError(validator)
-        state.ruleValid = false
+       // state.ruleValid = false
     }
 
     //check if Amendment exist or not

@@ -11,7 +11,7 @@ import com.google.android.material.textfield.TextInputEditText
 object ErrorHighlightAmendmentFieldBinding {
     @JvmStatic
     @BindingAdapter(
-        value = ["highlightAmendmentField", "validateHighlightAmendmentFieldMessage", "validateHighlightAmendmentFieldAutoDismiss", "enableError", "previousValue", "missingFieldMap"],
+        value = ["highlightAmendmentField", "validateHighlightAmendmentFieldMessage", "validateHighlightAmendmentFieldAutoDismiss", "enableError", "previousValue", "missingFieldMap", "isNotNeedToCheckWithPrevious"],
         requireAll = false
     )
     fun bindErrorHighlighter(
@@ -21,7 +21,8 @@ object ErrorHighlightAmendmentFieldBinding {
         autoDismiss: Boolean,
         enableError: Boolean,
         previousValue: String? = null,
-        missingFieldMap: HashMap<String?, List<String>?>? = null
+        missingFieldMap: HashMap<String?, List<String>?>? = null,
+        isNotNeedToCheckWithPrevious: Boolean = false
     ) {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
@@ -36,6 +37,7 @@ object ErrorHighlightAmendmentFieldBinding {
             ErrorHighlightAmendmentFieldRule(
                 view,
                 value,
+                isNotNeedToCheckWithPrevious,
                 handledErrorMessage,
                 enableError,
                 previousValue,

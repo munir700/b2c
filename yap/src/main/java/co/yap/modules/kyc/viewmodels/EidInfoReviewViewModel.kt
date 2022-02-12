@@ -52,19 +52,10 @@ class EidInfoReviewViewModel(application: Application) :
     override var sanctionedNationality: String = ""
     override var errorTitle: String = ""
     override var errorBody: String = ""
+    override var configureEIDResponse: MutableLiveData<ConfigureEIDResponse> = MutableLiveData()
 
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
-
-    override fun onCreate() {
-        super.onCreate()
-        // getSectionedCountriesList()
-        parentViewModel?.identity?.let {
-            requestAllAPIs(it)
-            populateState(it)
-        }
-    }
-
     override fun handlePressOnView(id: Int) {
         if (id == R.id.btnTouchId)
             handlePressOnConfirmBtn()
@@ -89,10 +80,10 @@ class EidInfoReviewViewModel(application: Application) :
                 !state.isDateOfBirthValid.get() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
-                            state.AgeLimit?:18
+                            state.AgeLimit ?: 18
                         ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age).format(
-                            state.AgeLimit?:18
+                            state.AgeLimit ?: 18
                         )
                     )
                     clickEvent.setValue(eventErrorUnderAge)
@@ -188,10 +179,11 @@ class EidInfoReviewViewModel(application: Application) :
                             identity.expirationDate =
                                 DateUtils.stringToDate(data.expiration_date, "yyMMdd")
                             val dob = DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
-                            identity.dateOfBirth = if (DateUtils.isFutureDate(dob) == true) DateUtils.nextYear(
-                                dob,
-                                -100
-                            ) else DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            identity.dateOfBirth =
+                                if (DateUtils.isFutureDate(dob) == true) DateUtils.nextYear(
+                                    dob,
+                                    -100
+                                ) else DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit
@@ -362,7 +354,7 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun populateState(identity: Identity?) {
+    override fun populateState(identity: Identity?) {
         identity?.let {
             splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
@@ -400,6 +392,16 @@ class EidInfoReviewViewModel(application: Application) :
                     getAge(identity.dateOfBirth) >= limit
                 )
             }
+//            state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
+            val countryName = configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
+                str.split(",").map { it -> it.trim() }.find {
+                    it.equals("US")
+                }
+            }
+            state.isCountryUS =
+                identity.isoCountryCode2Digit.contains(
+                    countryName ?: "US"
+                )
         }
     }
 
@@ -456,29 +458,26 @@ class EidInfoReviewViewModel(application: Application) :
         } ?: false
     }
 
-    override fun requestAllAPIs(identity: Identity) {
+    override fun requestAllAPIs() {
         requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
                 when {
                     senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success -> {
                         sectionedCountries = senctionedCountryResponse.data
-                        val data = configurationEIDResponse.data.data
-                        state.isDateOfBirthValid.set(
-                            getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
-                        )
-                        val countryName = data?.country2DigitIsoCode?.let { str ->
-                            str.split(",").map { it -> it.trim() }.find {
-                                it.equals("US")
+                        configureEIDResponse.value = configurationEIDResponse.data.data
+//                        state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
+                        state.AgeLimit = configureEIDResponse.value?.ageLimit
+                        val countryName =
+                            configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
+                                str.split(",").map { it -> it.trim() }.find {
+                                    it.equals("US")
+                                }
                             }
-                        }
-                        state.isCountryUS =
-                            identity.isoCountryCode2Digit.contains(
-
-                                countryName ?: "US"
-                            )
-                        state.AgeLimit = data?.ageLimit
-
+//                        state.isCountryUS =
+//                            identity.isoCountryCode2Digit.contains(
+//                                countryName ?: "US"
+//                            )
                     }
                     else -> {
                         if (senctionedCountryResponse is RetroApiResponse.Error)

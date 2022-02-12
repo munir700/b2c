@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -285,8 +286,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
 //                        )☻
                         SessionManager.getAccountInfo {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                     }
@@ -386,8 +390,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         } else {
                             viewModel.state.isUserAccountActivated.set(false)
                             SessionManager.getAccountInfo {
-                                if (isAdded) { // TODO will add permanent solution. need to awar with lifecycle
-                                    GlobalScope.launch(Main) {
+                                // TODO will add permanent solution. need to be aware with lifecycle
+                                if (isAdded) {
+                                    lifecycleScope.launch(Main) {
                                         setUpDashBoardNotificationsView()
                                     }
                                 }
@@ -763,14 +768,20 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet) {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                     } else {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                         launchActivity<AddMoneyActivity>()

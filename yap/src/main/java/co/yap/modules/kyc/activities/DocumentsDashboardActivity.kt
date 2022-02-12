@@ -49,7 +49,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.showProgressBar.value = intent?.getBooleanExtra("GO_ERROR", true)
         viewModel.document =
             intent.getParcelableExtra("document") as? GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation
-        if (viewModel.showProgressBar.value == false) {
+        if (intent?.getBooleanExtra("PersonalDetails", false) == true) {
             progressBar.visibility = View.GONE
         }
         addObserver()
