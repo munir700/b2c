@@ -15,6 +15,9 @@
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.modules.others.helper.Constants"/>
+
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -45,8 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@{CurrencyExtensionsKt.toFormattedCurrency(cardsGroupItemViewModel.item.cards[0].availableBalance,true,SessionManager.INSTANCE.defaultCurrency,true)}"
-            android:textColor="@color/colorMidnightExpress"
+            app:textColor="@{cardsGroupItemViewModel.item.cardType.equals(Constants.CARD_TYPE_DEBIT) ? @color/colorMidnightExpress : @color/greyDark}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.cards.cardlist.CardListAdapter
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.states.YapCardsState
@@ -42,6 +43,7 @@ class YapCardsViewModel(application: Application) :
     override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
     lateinit var adapter: YapCardsAdaptor
     override var selectedCardPosition: Int = 0
+    override val cardAdapter: ObservableField<CardListAdapter>? = ObservableField()
 
     fun setupAdaptor(context: Context) {
         adapter = YapCardsAdaptor(context, mutableListOf())
@@ -89,7 +91,7 @@ class YapCardsViewModel(application: Application) :
         }
     }
 
-    override fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit) {
+    override fun getUpdatedCard(cardPosition: Int, serailnum: String, card: (Card?) -> Unit) {
         launch {
             when (val response = repository.getDebitCards("")) {
                 is RetroApiResponse.Success -> {
@@ -105,8 +107,9 @@ class YapCardsViewModel(application: Application) :
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
                             state.showIndicator.set(true)
-
-                            card(cardsList?.get(cardPosition))
+                            card(cardsList?.firstOrNull { card ->
+                                card.cardSerialNumber == serailnum
+                            })
                         }
                     }
                     state.loading = false
@@ -161,7 +164,8 @@ class YapCardsViewModel(application: Application) :
             customerId = "10",
             accountNumber = "100",
             productCode = "CD",
-            pinCreated = true
+            pinCreated = true,
+            isAddCardIndex = true
         )
     }
 
@@ -386,5 +390,9 @@ class YapCardsViewModel(application: Application) :
                 )
             )
         }
+    }
+
+    override fun isListDisplay(): Boolean {
+        return state.isListView.value?.equals(true) == true
     }
 }
