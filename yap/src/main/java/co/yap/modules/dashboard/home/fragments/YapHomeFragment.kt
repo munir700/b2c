@@ -486,6 +486,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.addOnScrollListener(
             object :
                 RecyclerView.OnScrollListener() {
+
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager =
@@ -494,8 +495,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
                     getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.appBarLayout.addOnOffsetChangedListener(
                         OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                            getBindings().refreshLayout.isEnabled =
-                                firstVisiblePosition == 0 && verticalOffset == 0
+                            if (firstVisiblePosition == 0 && verticalOffset == 0 && !recyclerView.canScrollVertically(
+                                    -1
+                                )
+                            ) {
+                                getBindings().refreshLayout.isEnabled = true
+                                Log.e("valuevalue","true")
+                            } else {
+                                getBindings().refreshLayout.isEnabled = false
+                                Log.e("valuevalue","false")
+                            }
                         })
                     if (viewModel.state.showTxnShimmer.value?.status == Status.SUCCESS)
                         if (lastVisiblePosition == layoutManager.itemCount - 1) {
