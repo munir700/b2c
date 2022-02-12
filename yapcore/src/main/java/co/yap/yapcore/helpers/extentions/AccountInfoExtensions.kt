@@ -82,9 +82,16 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
         UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR -> {
             arrayListOf()
         }
-        UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD -> {
+        UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD -> {
             arrayListOf(
                 FeatureSet.UNFREEZE_CARD,
+                FeatureSet.CHANGE_PIN,
+                FeatureSet.FORGOT_PIN
+            )
+        }
+
+        UserAccessRestriction.CARD_HOTLISTED_BY_CSR -> {
+            arrayListOf(
                 FeatureSet.CHANGE_PIN,
                 FeatureSet.FORGOT_PIN
             )

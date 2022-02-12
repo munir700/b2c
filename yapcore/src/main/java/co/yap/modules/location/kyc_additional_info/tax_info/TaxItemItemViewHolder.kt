@@ -13,9 +13,7 @@ import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxItemItemViewHolder(
-    private val itemTaxInfoBinding: ItemTaxInfoBinding,
-    private val listener: ITaxItemOnClickListenerInterface? = null
-) :
+    private val itemTaxInfoBinding: ItemTaxInfoBinding) :
     RecyclerView.ViewHolder(itemTaxInfoBinding.root), IValidator,
     Validator.ValidationListener {
     override var validator: Validator? = Validator(null)
@@ -71,7 +69,6 @@ class TaxItemItemViewHolder(
             )
         }
 
-
         //Disable TIN for UAE
         itemTaxInfoBinding.tvReason.text =
             Translator.getString(
@@ -94,15 +91,5 @@ class TaxItemItemViewHolder(
             )
         }
         validator?.toValidate()
-    }
-
-    override fun onValidationError(validator: Validator) {
-        super.onValidationError(validator)
-        listener?.onRuleValidationComplete(itemPosition, false)
-    }
-
-    override fun onValidationSuccess(validator: Validator) {
-        super.onValidationSuccess(validator)
-        listener?.onRuleValidationComplete(itemPosition, true)
     }
 }
