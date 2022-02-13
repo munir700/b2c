@@ -53,7 +53,7 @@ object ImageBinding {
     fun setImageDrawable(imageView: AppCompatImageView, drawable: Drawable?) {
         drawable?.let {
             setImage(imageView, drawable)
-         }
+        }
 
     }
 
@@ -605,7 +605,7 @@ object ImageBinding {
         position: Int,
         isBackground: Boolean = true,
         showFirstInitials: Boolean = false,
-        categoryColor: String = ""
+        categoryColor: String? = ""
     ) {
         if (categoryTitle.isNullOrEmpty()) return
         val fName = categoryTitle ?: ""
@@ -625,8 +625,8 @@ object ImageBinding {
                         )
                         imageView.setImageDrawable(resImg)
                         if (isBackground) {
-                            if (categoryColor.isNotEmpty()) {
-                                val colorCode = Utils.categoryColorValidation(categoryColor)
+                            categoryColor?.let { category ->
+                                val colorCode = Utils.categoryColorValidation(category)
                                 if (colorCode != -1)
                                     setCategoryDrawable(
                                         imageView,
@@ -635,14 +635,12 @@ object ImageBinding {
                                             0.20f
                                         )
                                     )
-                            } else {
-                                setCategoryDrawable(
-                                    imageView, Utils.getBackgroundColorForAnalytics(
-                                        imageView.context,
-                                        position = position
-                                    )
+                            } ?: setCategoryDrawable(
+                                imageView, Utils.getBackgroundColorForAnalytics(
+                                    imageView.context,
+                                    position = position
                                 )
-                            }
+                            )
                         }
                     }
 
