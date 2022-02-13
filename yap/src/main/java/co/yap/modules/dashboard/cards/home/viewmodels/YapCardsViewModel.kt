@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
+import co.yap.modules.dashboard.cards.home.interfaces.SwipeUpClick
 import co.yap.modules.dashboard.cards.home.states.YapCardsState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
@@ -43,9 +44,8 @@ class YapCardsViewModel(application: Application) :
     lateinit var adapter: YapCardsAdaptor
     override var selectedCardPosition: Int = 0
 
-    fun setupAdaptor(context: Context) {
-        adapter = YapCardsAdaptor(context, mutableListOf())
-
+    fun setupAdaptor(context: Context, swipeUpClick: SwipeUpClick) {
+        adapter = YapCardsAdaptor(context, mutableListOf(), swipeUpClick)
     }
 
     override fun getCards() {

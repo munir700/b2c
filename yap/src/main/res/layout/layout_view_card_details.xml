@@ -10,11 +10,10 @@
 
     </data>
     <LinearLayout
-        android:id="@+id/lySeeDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/lySeeDetailMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:onClick="@{(v) -> cardViewModel.handlePressOnView(v)}"
         android:orientation="vertical"
         app:cardSeeDetailVisibility="@{cardViewModel.paymentCard}"
         tools:text="Update Card"

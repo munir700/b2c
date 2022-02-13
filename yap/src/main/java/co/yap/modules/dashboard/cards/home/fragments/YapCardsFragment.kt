@@ -18,6 +18,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.cardlist.CardsListFragment
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
+import co.yap.modules.dashboard.cards.home.interfaces.SwipeUpClick
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
@@ -52,7 +53,8 @@ import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
-class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
+class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View,
+    SwipeUpClick {
 
     private var tourStep: TourSetup? = null
     private lateinit var mNavigator: ActivityNavigator
@@ -65,7 +67,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupAdaptor(requireContext())
+        viewModel.setupAdaptor(requireContext(), this)
         viewModel.clickEvent.observe(this, observer)
 
     }
@@ -260,7 +262,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                             pos
                                         )
                                     } else
-                                       openCardDetailBottomSheet(card)
+                                        openCardDetailBottomSheet(card)
                                 } else
                                     openCardDetailBottomSheet(card)
                             }
@@ -399,7 +401,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             card = paymentCard
                         )
                         viewModel.getCards()
-                        SessionManager.updateCardBalance{}
+                        SessionManager.updateCardBalance {}
                     }
                 }
             }
@@ -631,5 +633,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun updateCardCount() {
         viewModel.updateCardCount(viewModel.adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
+    }
+
+    override fun onSwipeUp(position: Int) {
+        super.onSwipeUp(position)
+        openDetailScreen(position)
     }
 }
