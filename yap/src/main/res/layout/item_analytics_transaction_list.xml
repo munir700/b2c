@@ -21,6 +21,9 @@
 
         <import type="co.yap.yapcore.managers.SessionManager" />
 
+        <import type="co.yap.yapcore.constants.Constants" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,6 +43,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivItemAnalyticTransaction"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:padding="@{viewModel.analyticsType.equals(`merchant-category-id`)?@dimen/margin_small:@dimen/margin_zero_dp}"
+                android:visibility="@{viewModel.analyticsType.equals(Constants.TOTAL_PURCHASE)?View.GONE:View.VISIBLE}"
+                tools:src="@drawable/ic_access_alarm" />
+
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivItemTransaction"
                 android:layout_width="@dimen/_35sdp"
@@ -47,6 +60,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/_12sdp"
                 android:padding="@{viewModel.analyticsType.equals(`merchant-category-id`)?@dimen/margin_small:@dimen/margin_zero_dp}"
+                android:visibility="@{viewModel.analyticsType.equals(Constants.TOTAL_PURCHASE)?View.VISIBLE:View.GONE}"
                 app:cropImage="@{viewModel.analyticsType != `merchant-category-id`}"
                 tools:src="@drawable/ic_access_alarm" />
         </FrameLayout>

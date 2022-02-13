@@ -77,9 +77,9 @@ class TransactionsListingAdapter(
             analyticMainType: String
         ) {
             var analyticType: String = Constants.MERCHANT_NAME
-            if( analyticMainType == Constants.MERCHANT_CATEGORY_ID && transaction.merchantLogo.isNullOrBlank()){
+            if (analyticMainType == Constants.MERCHANT_CATEGORY_ID && transaction.merchantLogo.isNullOrBlank()) {
                 analyticType = Constants.MERCHANT_CATEGORY_ID
-            }else if( analyticMainType == Constants.TOTAL_PURCHASE){
+            } else if (analyticMainType == Constants.TOTAL_PURCHASE) {
                 analyticType = Constants.TOTAL_PURCHASE
             }
 
@@ -95,20 +95,29 @@ class TransactionsListingAdapter(
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) View.VISIBLE else View.GONE
             itemAnalyticsTransactionListBinding.tvCurrency.alpha =
                 if (type == TransactionAdapterType.TOTAL_PURCHASE) 0.5f else 1f
-            if(type == TransactionAdapterType.TOTAL_PURCHASE) {
+            if (type == TransactionAdapterType.TOTAL_PURCHASE) {
                 itemAnalyticsTransactionListBinding.ivItemTransaction.background =
-                    ContextCompat.getDrawable(itemAnalyticsTransactionListBinding.ivItemTransaction.context, co.yap.yapcore.R.drawable.bg_round_purple_enabled)
+                    ContextCompat.getDrawable(
+                        itemAnalyticsTransactionListBinding.ivItemTransaction.context,
+                        co.yap.yapcore.R.drawable.bg_round_purple_enabled
+                    )
                 itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
-                    transaction,analyticsItemImgUrl,itemAnalyticsTransactionListBinding.ivItemTransaction.context)
+                    transaction,
+                    analyticsItemImgUrl,
+                    itemAnalyticsTransactionListBinding.ivItemTransaction.context
+                )
                 itemAnalyticsTransactionListBinding.tvTransactionAmount.text =
                     transaction.getFormattedTransactionAmount()
-            }else {
-                itemAnalyticsTransactionListBinding.ivItemTransaction.setCircularDrawable(
-                    transaction.merchantName ?: analyticsItemTitle ?: transaction.title ?: "",
+            } else {
+                ImageBinding.loadCategoryAvatar(
+                    itemAnalyticsTransactionListBinding.ivItemAnalyticTransaction,
                     transaction.merchantLogo ?: analyticsItemImgUrl ?: "",
-                    position, type = analyticType,
-                    transaction = transaction,
-                    categoryColor = categoryColour.toString()
+                    transaction.merchantName ?: analyticsItemTitle ?: transaction.title ?: "",
+                    position,
+                    isBackground = true,
+                    showFirstInitials = true,
+                    categoryColor = categoryColour.toString(),
+                    detailType = analyticType
                 )
             }
             itemAnalyticsTransactionListBinding.tvTransactionName.text =
@@ -188,7 +197,8 @@ class TransactionsListingAdapter(
                     || transaction.category.equals("DECLINE_FEE", true)
                 ) View.GONE else View.VISIBLE
             //itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
-            itemTransactionListBinding.tvCurrency.text = transaction.cardHolderBillingCurrency?:SessionManager.getDefaultCurrency()
+            itemTransactionListBinding.tvCurrency.text =
+                transaction.cardHolderBillingCurrency ?: SessionManager.getDefaultCurrency()
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             itemTransactionListBinding.ivIncoming.background =

@@ -90,14 +90,6 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
     }
 
     private fun initView() {
-        ivUserImage.setCircularDrawable(
-            viewModel.state.title.get() ?: "General",
-            viewModel.state.ImageUrl.get() ?: "",
-            viewModel.state.position,
-            type = viewModel.state.analyticType.get() ?: "",
-            categoryColor = viewModel.state.categoryColor
-        )
-
         multiStateView.viewState = MultiStateView.ViewState.CONTENT
     }
 
