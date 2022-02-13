@@ -86,24 +86,6 @@ object NotificationHelper {
                 )
             )
         }
-        if (accountInfo?.otpBlocked == true) {
-            list.add(
-                HomeNotification(
-                    id = "1",
-                    description = Translator.getString(
-                        context,
-                        Strings.screen_home_help_and_support_desc
-                    ),
-                    action = NotificationAction.HELP_AND_SUPPORT,
-                    imgResId = R.raw.gif_notification_bel,
-                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
-                    btnTitle = "Open " + Translator.getString(
-                        context,
-                        Strings.screen_help_support_display_text_title
-                    )
-                )
-            )
-        }
         if (isStatusNotSubmittedToCustomer(accountInfo)) {
             if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
                         || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
@@ -164,7 +146,7 @@ object NotificationHelper {
                 )
             )
         }
-        if (accountInfo?.getUserAccessRestrictions()
+        if (accountInfo?.getUserAccessRestrictions(paymentCard)
                 ?.contains(UserAccessRestriction.EID_EXPIRED) == true || !accountInfo?.EIDExpiryMessage.isNullOrBlank()
         ) {
             list.add(
@@ -189,7 +171,7 @@ object NotificationHelper {
                 )
             )
         }
-        accountInfo?.getUserAccessRestrictions()?.forEach {
+        accountInfo?.getUserAccessRestrictions(paymentCard)?.forEach {
             accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
                 list.add(
                     HomeNotification(

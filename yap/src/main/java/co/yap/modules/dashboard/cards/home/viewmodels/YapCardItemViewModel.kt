@@ -114,6 +114,9 @@ class YapCardItemViewModel(
                 CardStatus.BLOCKED, CardStatus.HOTLISTED, CardStatus.INACTIVE, CardStatus.EXPIRED -> {
                     false
                 }
+                else->{
+                    false
+                }
             }
         return status
     }

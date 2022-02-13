@@ -77,6 +77,7 @@
     <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
     <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
     <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
+    <string name="common_display_text_feature_blocked_bill_payment_error">Unfortunately, this feature isn’t currently available to you. Please get in touch via live chat for help &amp; support</string>
     <string name="common_display_text_show_recent_transfer">Show Recent transfers</string>
     <string name="common_display_text_search_hint">Search</string>
     <string name="common_display_text_no_results">No results</string>

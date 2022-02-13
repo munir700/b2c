@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 
 @Keep
 enum class CardStatus {
-    ACTIVE, BLOCKED, INACTIVE, HOTLISTED, EXPIRED,CANCELLED,CLOSED;
+    ACTIVE, BLOCKED, INACTIVE, HOTLISTED, EXPIRED,CANCELLED,CLOSED,NAN;
 
 //    ACTIVE("Active"),
 //    INACTIVE("Inactive"),

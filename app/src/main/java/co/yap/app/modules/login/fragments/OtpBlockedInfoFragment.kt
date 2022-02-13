@@ -13,10 +13,14 @@ import co.yap.app.modules.login.viewmodels.OtpBlockedInfoViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.chatSetup
+import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.FeatureProvisioning.getFeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 
 class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
@@ -40,7 +44,7 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     }
 
     private fun setDetailTextView() {
-        if (SessionManager.user?.freezeInitiator != null) {
+        if (SessionManager.user?.freezeInitiator != null || getFeatureProvisioning(FeatureSet.ADD_BILL_PAYMENT)) {
             getDataBindingView<FragmentOtpBlockedInfoBinding>().tvTitle.text = getString(
                 R.string.screen_otp_blocked_display_title_card_blocked,
                 viewModel.state.userFirstName.get()
@@ -56,7 +60,7 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
         } else if (SessionManager.user?.otpBlocked == true) {
             getDataBindingView<FragmentOtpBlockedInfoBinding>().tvTitle.text = getString(
                 R.string.screen_otp_blocked_display_text_heading,
-                viewModel.state.userFirstName
+                viewModel.state.userFirstName.get()
             )
             getBinding().tvSubTitle.text = resources.getText(
                 getString(Strings.screen_otp_blocked_display_text_details),

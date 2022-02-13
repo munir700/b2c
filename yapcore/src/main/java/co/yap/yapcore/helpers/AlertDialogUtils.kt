@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
@@ -257,6 +256,14 @@ fun Activity.showAlertDialogAndExitApp(
                 this@showAlertDialogAndExitApp.chatSetup()
             })
         )
+    } else {
+        if (message?.contains("live chat") == true) {
+            label.makeLinks(
+                Pair("live chat", View.OnClickListener {
+                    this@showAlertDialogAndExitApp.chatSetup()
+                })
+            )
+        }
     }
 
     builder.setView(dialogLayout)
@@ -380,37 +387,39 @@ fun Context.customAlertDialog(
 ) {
     val builder = MaterialAlertDialogBuilder(this, R.style.Yap_App_MaterialAlertDialog_Rounded)
     val alertDialog = builder.create().apply {
-            val binding =
-                ConfirmAlertDialogBinding.inflate(LayoutInflater.from(this@customAlertDialog))
-            setView(binding.root)
-            if (topIconResId != null) {
-                binding.ivTopIcon.setImageResource(topIconResId)
-            } else binding.ivTopIcon.visibility = View.GONE
-            if (title.isNullOrBlank().not()) {
-                binding.tvDialogTitle.text = title
-                binding.tvDialogTitle.setTextColor(getColor(titleTextColor))
-            } else binding.tvDialogTitle.visibility = View.GONE
-            if (message.isNullOrBlank().not()) {
-                binding.tvMessage.text = message
-                binding.tvMessage.setTextColor(getColor(messageTextColor))
-            } else binding.tvMessage.visibility = View.GONE
+        val binding =
+            ConfirmAlertDialogBinding.inflate(LayoutInflater.from(this@customAlertDialog))
+        setView(binding.root)
+        if (topIconResId != null) {
+            binding.ivTopIcon.setImageResource(topIconResId)
+        } else binding.ivTopIcon.visibility = View.GONE
+        if (title.isNullOrBlank().not()) {
+            binding.tvDialogTitle.text = title
+            binding.tvDialogTitle.setTextColor(getColor(titleTextColor))
+        } else binding.tvDialogTitle.visibility = View.GONE
+        if (message.isNullOrBlank().not()) {
+            binding.tvMessage.text = message
+            binding.tvMessage.setTextColor(getColor(messageTextColor))
+        } else binding.tvMessage.visibility = View.GONE
 
-            if (positiveButton.isNullOrBlank().not()) {
-                binding.btnNext.text = positiveButton
-                binding.btnNext.setTextColor(getColor(positiveButtonTextColor))
-                binding.btnNext.setOnClick { positiveCallback.invoke(it)
-                dismiss()}
+        if (positiveButton.isNullOrBlank().not()) {
+            binding.btnNext.text = positiveButton
+            binding.btnNext.setTextColor(getColor(positiveButtonTextColor))
+            binding.btnNext.setOnClick {
+                positiveCallback.invoke(it)
+                dismiss()
+            }
 
-            } else binding.btnNext.visibility = View.GONE
-            if (negativeButton.isNullOrBlank().not()) {
-                binding.btnClose.text = negativeButton
-                binding.btnClose.setTextColor(getColor(negativeButtonTextColor))
-                binding.btnClose.setOnClick {
-                    negativeCallback.invoke(it)
-                    dismiss()
-                }
-            } else binding.btnClose.visibility = View.GONE
-        }
+        } else binding.btnNext.visibility = View.GONE
+        if (negativeButton.isNullOrBlank().not()) {
+            binding.btnClose.text = negativeButton
+            binding.btnClose.setTextColor(getColor(negativeButtonTextColor))
+            binding.btnClose.setOnClick {
+                negativeCallback.invoke(it)
+                dismiss()
+            }
+        } else binding.btnClose.visibility = View.GONE
+    }
     alertDialog.setCancelable(cancelable)
     alertDialog.show()
 }
