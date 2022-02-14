@@ -88,6 +88,7 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.content_fragment_yap_home_new.*
 import kotlinx.android.synthetic.main.content_fragment_yap_home_new.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.view.*
@@ -100,7 +101,6 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.abs
 
 //TODO("We need to refactor the this fragment because this fragment contains a lot of code regarding transaction graph bars")
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -148,7 +148,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         categoryBarSetup()
         viewModel.requestDashboardWidget()
-        appBarListenerForCollapsing()
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -271,6 +270,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
                 setWidgetVisibility()
+                checkUserStatus()
             }
         })
         getBindings().ivSearch.setOnLongClickListener {
@@ -290,8 +290,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             bundle = bundleOf()
                         ) { resultCode, data ->
                             if (resultCode == Activity.RESULT_OK) {
-                                Log.e("getBooleanExtra", "${data?.getBooleanExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, false) == true}")
-                                if (data?.getBooleanExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, false) == true) {
+                                if (data?.getBooleanExtra(
+                                        ExtraKeys.IS_CATEGORY_UPDATED.name,
+                                        false
+                                    ) == true
+                                ) {
                                     viewModel.requestCategoryBarData()
                                     transactionViewHelper?.checkScroll = false
                                     getBindings().lyInclude.multiStateView.viewState =
@@ -484,11 +487,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.addOnScrollListener(
             object :
                 RecyclerView.OnScrollListener() {
+
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager =
                         getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
                     val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+                    getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.appBarLayout.addOnOffsetChangedListener(
+                        OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                            if (firstVisiblePosition == 0 && verticalOffset == 0 && !recyclerView.canScrollVertically(
+                                    -1
+                                )
+                            ) {
+                                getBindings().refreshLayout.isEnabled = true
+                                Log.e("valuevalue","true")
+                            } else {
+                                getBindings().refreshLayout.isEnabled = false
+                                Log.e("valuevalue","false")
+                            }
+                        })
                     if (viewModel.state.showTxnShimmer.value?.status == Status.SUCCESS)
                         if (lastVisiblePosition == layoutManager.itemCount - 1) {
                             if (false == viewModel.isLoadMore.value && false == viewModel.isLast.value) {
@@ -853,12 +871,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         SessionManager.getDebitCard {
                             GlobalScope.launch(Main) {
                                 setUpDashBoardNotificationsView()
+                                setWidgetVisibility()
                             }
                         }
                     } else {
                         SessionManager.getDebitCard {
                             GlobalScope.launch(Main) {
                                 setUpDashBoardNotificationsView()
+                                setWidgetVisibility()
                             }
                         }
                         launchActivity<AddMoneyActivity>()
@@ -1177,7 +1197,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun setWidgetVisibility() {
-        if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true) {
+        if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true && SessionManager.getPrimaryCard()?.status == "ACTIVE") {
             parentViewModel?.isWidgetVisible(true)
             shardPrefs?.let { pref ->
                 getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
@@ -1211,16 +1231,4 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         }
     }
-
-    private fun appBarListenerForCollapsing() {
-        getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.appBarLayout.addOnOffsetChangedListener(
-            OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                getBindings().refreshLayout.isEnabled = when {
-                    verticalOffset == 0 -> true // expanded state
-                    abs(verticalOffset) >= appBarLayout.totalScrollRange -> false // Collapsed state
-                    else -> false //Idle State
-                }
-            })
-    }
-
 }
