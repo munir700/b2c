@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentDashboardHomeBinding
+import co.yap.databinding.FragmentYapCardsBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.cardlist.CardListAdapter
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
@@ -76,12 +78,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun getLayoutId(): Int = R.layout.fragment_yap_cards
 
     override val viewModel: YapCardsViewModel
-        get() = ViewModelProviders.of(requireActivity()).get(YapCardsViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(YapCardsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupAdaptor(requireContext())
         viewModel.clickEvent.observe(this, observer)
+
 
     }
 
@@ -93,6 +96,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
         mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
+        getDataBindingView<FragmentYapCardsBinding>().lifecycleOwner = this
+        //getDataBindingView<FragmentYapCardsBinding>().viewModel = viewModel
     }
 
     private fun observeValues() {
