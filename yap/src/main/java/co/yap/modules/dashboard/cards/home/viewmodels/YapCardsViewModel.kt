@@ -336,6 +336,7 @@ class YapCardsViewModel(application: Application) :
             adapter.removeItemAt(selectedCardPosition)
             adapter.notifyDataSetChanged()
             updateCardCount(adapter.itemCount - if (state.enableAddCard.get()) 1 else 0)
+            state.totalCardsCount.set(adapter.itemCount - if (state.enableAddCard.get()) 1 else 0)
         }
     }
 

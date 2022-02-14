@@ -361,14 +361,18 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     when {
                         true == removed -> {
                             viewModel.removeCard(updatedCard)
-                        }
+                           viewModel.state.cardIndicator.set(
+                                "${viewPager2.currentItem.plus(1)} of ${viewModel.state.totalCardsCount.get()}")
+                       }
                         true == cardBlocked -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
+                            SessionManager.getDebitCard()
                         }
                         true == cardReorder -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
+                            SessionManager.getDebitCard()
                         }
                         true == addRemoveFunds -> {
                             viewModel.adapter.removeAllItems()
