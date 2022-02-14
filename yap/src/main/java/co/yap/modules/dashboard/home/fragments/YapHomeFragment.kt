@@ -270,6 +270,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                checkUserStatus()
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
                 setWidgetVisibility()
+                checkUserStatus()
             }
         })
         getBindings().ivSearch.setOnLongClickListener {
@@ -870,12 +871,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         SessionManager.getDebitCard {
                             GlobalScope.launch(Main) {
                                 setUpDashBoardNotificationsView()
+                                setWidgetVisibility()
                             }
                         }
                     } else {
                         SessionManager.getDebitCard {
                             GlobalScope.launch(Main) {
                                 setUpDashBoardNotificationsView()
+                                setWidgetVisibility()
                             }
                         }
                         launchActivity<AddMoneyActivity>()
@@ -1194,7 +1197,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun setWidgetVisibility() {
-        if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true) {
+        if (viewModel.state.isPartnerBankStatusActivated.get() == true && viewModel.state.isCardStatusActivated.get() == true && SessionManager.getPrimaryCard()?.status == "ACTIVE") {
             parentViewModel?.isWidgetVisible(true)
             shardPrefs?.let { pref ->
                 getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.recyclerWidget.visibility =
