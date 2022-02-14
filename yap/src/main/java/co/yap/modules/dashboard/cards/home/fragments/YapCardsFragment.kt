@@ -365,10 +365,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         true == cardBlocked -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
+                            SessionManager.getDebitCard()
                         }
                         true == cardReorder -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
+                            SessionManager.getDebitCard()
                         }
                         true == addRemoveFunds -> {
                             viewModel.adapter.removeAllItems()
