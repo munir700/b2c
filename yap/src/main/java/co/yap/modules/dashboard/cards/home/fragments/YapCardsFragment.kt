@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentDashboardHomeBinding
 import co.yap.databinding.FragmentYapCardsBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.cardlist.CardListAdapter
@@ -56,8 +55,9 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.configuration.Configuration.getDimension
-import kotlinx.android.synthetic.main.card_list_layout_stub.view.*
-import kotlinx.android.synthetic.main.card_swipe_layout_stub.view.*
+import kotlinx.android.synthetic.main.card_list_layout_include.view.*
+import kotlinx.android.synthetic.main.card_swipe_layout_include.*
+import kotlinx.android.synthetic.main.card_swipe_layout_include.view.*
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View,
@@ -87,7 +87,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         viewModel.setupAdaptor(requireContext(), this)
         viewModel.clickEvent.observe(this, observer)
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,7 +98,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
         mNavigator = (activity?.applicationContext as NavigatorProvider).provideNavigator()
         getDataBindingView<FragmentYapCardsBinding>().lifecycleOwner = this
-        //getDataBindingView<FragmentYapCardsBinding>().viewModel = viewModel
     }
 
     private fun observeValues() {
@@ -134,12 +132,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             })
         viewModel.state.isListView.observe(viewLifecycleOwner, Observer { isList ->
             if (isList) {
-                cardListStub?.visibility = View.VISIBLE
+                cardListLayout?.visibility = View.VISIBLE
                 initArguments()
-                cardSwipeStub?.visibility = View.GONE
+                cardSwipeLayout?.visibility = View.GONE
             } else {
-                cardSwipeStub?.visibility = View.VISIBLE
-                cardListStub?.visibility = View.GONE
+                cardSwipeLayout?.visibility = View.VISIBLE
+                cardListLayout?.visibility = View.GONE
 
             }
         })
@@ -147,8 +145,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun setupPager() {
         //getCardAdaptor() = YapCardsAdaptor(requireContext(), mutableListOf())
-        cardSwipeStub?.viewPager2?.adapter = viewModel.adapter
-        cardSwipeStub?.viewPager2?.let {
+        cardSwipeLayout?.viewPager2?.adapter = viewModel.adapter
+        cardSwipeLayout?.viewPager2?.let {
             with(it) {
                 clipToPadding = false
                 clipChildren = false
@@ -157,7 +155,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
         val pageMarginPx = Utils.getDimensionInPercent(requireContext(), true, 14)
         val offsetPx = Utils.getDimensionInPercent(requireContext(), true, 14)
-        cardSwipeStub?.viewPager2?.setPageTransformer { page, position ->
+        cardSwipeLayout?.viewPager2?.setPageTransformer { page, position ->
             val viewPager = page.parent.parent as ViewPager2
             val offset = position * -(2 * offsetPx + pageMarginPx)
             if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
@@ -184,7 +182,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 viewModel.clickEvent.setValue(view.id)
             }
         })
-        cardSwipeStub?.viewPager2?.registerOnPageChangeCallback(pageChangedCallBack)
+        cardSwipeLayout?.viewPager2?.registerOnPageChangeCallback(pageChangedCallBack)
     }
 
     val observer = Observer<Int> {
@@ -679,7 +677,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 }.toMutableMap()
             }
         }
-        cardListStub.recyclerView.apply {
+        cardListLayout.recyclerView.apply {
             adapter = mWrappedAdapter
             viewModel.cardAdapter?.set(mAdapter)
             mAdapter.setData(viewModel.state.cardMap)
@@ -688,7 +686,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun intRecyclersView() {
         mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
-        cardListStub.recyclerView.apply {
+        cardListLayout.recyclerView.apply {
             addItemDecoration(StickyHeaderItemDecoration())
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             setHasFixedSize(true)
