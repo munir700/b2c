@@ -21,6 +21,7 @@ import co.yap.databinding.FragmentYapCardsBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.cardlist.CardListAdapter
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
+import co.yap.modules.dashboard.cards.home.interfaces.SwipeUpClick
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
@@ -59,7 +60,8 @@ import kotlinx.android.synthetic.main.card_list_layout_stub.view.*
 import kotlinx.android.synthetic.main.card_swipe_layout_stub.view.*
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
-class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
+class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View,
+    SwipeUpClick {
 
     private var tourStep: TourSetup? = null
     private lateinit var mNavigator: ActivityNavigator
@@ -82,7 +84,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupAdaptor(requireContext())
+        viewModel.setupAdaptor(requireContext(), this)
         viewModel.clickEvent.observe(this, observer)
 
 
@@ -385,14 +387,18 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     when {
                         true == removed -> {
                             viewModel.removeCard(updatedCard)
-                        }
+                           viewModel.state.cardIndicator.set(
+                                "${viewPager2.currentItem.plus(1)} of ${viewModel.state.totalCardsCount.get()}")
+                       }
                         true == cardBlocked -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
+                            SessionManager.getDebitCard()
                         }
                         true == cardReorder -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
+                            SessionManager.getDebitCard()
                         }
                         true == addRemoveFunds -> {
                             viewModel.adapter.removeAllItems()
@@ -708,5 +714,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
             }
+    }
+
+    override fun onSwipeUp(position: Int) {
+        super.onSwipeUp(position)
+        openDetailScreen(position)
     }
 }

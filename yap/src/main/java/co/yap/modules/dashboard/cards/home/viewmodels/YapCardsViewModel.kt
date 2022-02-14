@@ -8,6 +8,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.cardlist.CardListAdapter
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
+import co.yap.modules.dashboard.cards.home.interfaces.SwipeUpClick
 import co.yap.modules.dashboard.cards.home.states.YapCardsState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
@@ -45,9 +46,8 @@ class YapCardsViewModel(application: Application) :
     override var selectedCardPosition: Int = 0
     override val cardAdapter: ObservableField<CardListAdapter>? = ObservableField()
 
-    fun setupAdaptor(context: Context) {
-        adapter = YapCardsAdaptor(context, mutableListOf())
-
+    fun setupAdaptor(context: Context, swipeUpClick: SwipeUpClick) {
+        adapter = YapCardsAdaptor(context, mutableListOf(), swipeUpClick)
     }
 
     override fun getCards() {
@@ -340,6 +340,7 @@ class YapCardsViewModel(application: Application) :
             adapter.removeItemAt(selectedCardPosition)
             adapter.notifyDataSetChanged()
             updateCardCount(adapter.itemCount - if (state.enableAddCard.get()) 1 else 0)
+            state.totalCardsCount.set(adapter.itemCount - if (state.enableAddCard.get()) 1 else 0)
         }
     }
 
