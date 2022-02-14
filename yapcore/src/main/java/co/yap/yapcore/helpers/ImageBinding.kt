@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.databinding.BindingAdapter
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import co.yap.widgets.CoreCircularImageView
@@ -53,7 +54,7 @@ object ImageBinding {
     fun setImageDrawable(imageView: AppCompatImageView, drawable: Drawable?) {
         drawable?.let {
             setImage(imageView, drawable)
-         }
+        }
 
     }
 
@@ -595,7 +596,7 @@ object ImageBinding {
     */
     @JvmStatic
     @BindingAdapter(
-        value = ["imageLogo", "categoryTitle", "position", "isBackground", "showFirstInitials", "categoryColor"],
+        value = ["imageLogo", "categoryTitle", "position", "isBackground", "showFirstInitials", "categoryColor", "detailType"],
         requireAll = false
     )
     fun loadCategoryAvatar(
@@ -605,69 +606,49 @@ object ImageBinding {
         position: Int,
         isBackground: Boolean = true,
         showFirstInitials: Boolean = false,
-        categoryColor: String = ""
+        categoryColor: String? = "",
+        detailType: String? = Constants.MERCHANT_CATEGORY_ID
     ) {
         if (categoryTitle.isNullOrEmpty()) return
         val fName = categoryTitle ?: ""
-
-        if (!imageLogo.isNullOrEmpty() && !imageLogo.equals(" ")) {
-            Glide.with(imageView)
-                .asBitmap()
-                .load(imageLogo)
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val resImg = BitmapDrawable(
-                            getResources(),
-                            resource
-                        )
-                        imageView.setImageDrawable(resImg)
-                        if (isBackground) {
-                            if (categoryColor.isNotEmpty()) {
-                                val colorCode = Utils.categoryColorValidation(categoryColor)
-                                if (colorCode != -1)
-                                    setCategoryDrawable(
-                                        imageView,
-                                        getColorWithAlpha(
-                                            colorCode,
-                                            0.20f
-                                        )
-                                    )
-                            } else {
-                                setCategoryDrawable(
-                                    imageView, Utils.getBackgroundColorForAnalytics(
-                                        imageView.context,
-                                        position = position
-                                    )
-                                )
+        when {
+            imageLogo.isNullOrEmpty().not() && imageLogo != " " -> {
+                Glide.with(imageView)
+                    .asBitmap()
+                    .load(imageLogo)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            val resImg = BitmapDrawable(
+                                getResources(),
+                                resource
+                            )
+                            imageView.setImageDrawable(resImg)
+                            if (isBackground) {
+                                detailType?.let { type ->
+                                    if (type.contentEquals(Constants.MERCHANT_NAME)) {
+                                        val roundedBitmapDrawable =
+                                            RoundedBitmapDrawableFactory.create(
+                                                getResources(),
+                                                resource
+                                            )
+                                        roundedBitmapDrawable.cornerRadius = 300.0f
+                                        roundedBitmapDrawable.setAntiAlias(true)
+                                        imageView.setImageDrawable(roundedBitmapDrawable)
+                                    } else setCategoryIcon(categoryColor, imageView, position)
+                                } ?: setCategoryIcon(categoryColor, imageView, position)
                             }
                         }
-                    }
 
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                    }
-                })
-        } else {
-            val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
-            val builder = TextDrawable.builder()
-            builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
-                .height(imageView.context.dimen(R.dimen._40sdp))
-                .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
-                .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
-                .textColor(
-                    getAnalyticsColor(
-                        colors,
-                        position
-                    )
-                )
-            val fallBack = builder.buildRect(
-                Utils.shortName(fName ?: ""),
-                Color.TRANSPARENT
-            )
-            imageView.setImageDrawable(fallBack)
-
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                        }
+                    })
+            }
+            else -> {
+                setDrawableWithoutURL(imageView, position, showFirstInitials, fName)
+            }
         }
     }
 
@@ -705,5 +686,53 @@ object ImageBinding {
         val canvas = Canvas(bitmapResult)
         canvas.drawBitmap(resource, 0f, 0f, paint)
         return bitmapResult
+    }
+
+    fun setCategoryIcon(categoryColor: String?, imageView: ImageView, position: Int) {
+        categoryColor?.let { category ->
+            val colorCode = Utils.categoryColorValidation(category)
+            if (colorCode != -1)
+                setCategoryDrawable(
+                    imageView,
+                    getColorWithAlpha(
+                        colorCode,
+                        0.20f
+                    )
+                )
+        } ?: setCategoryDrawable(
+            imageView, Utils.getBackgroundColorForAnalytics(
+                imageView.context,
+                position = position
+            )
+        )
+    }
+
+    fun setDrawableWithoutURL(
+        imageView: ImageView,
+        position: Int,
+        showFirstInitials: Boolean,
+        fName: String
+    ) {
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
+            .height(imageView.context.dimen(R.dimen._40sdp))
+            .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
+            .textColor(
+                getAnalyticsColor(
+                    colors,
+                    position
+                )
+            )
+        val fallBack = builder.buildRect(
+            Utils.shortName(if (showFirstInitials) fName.split(" ")[0] else fName),
+            Color.TRANSPARENT
+        )
+        imageView.setImageDrawable(fallBack)
+        setCategoryDrawable(
+            imageView,
+            Utils.getBackgroundColorForAnalytics(imageView.context, position = position)
+        )
     }
 }

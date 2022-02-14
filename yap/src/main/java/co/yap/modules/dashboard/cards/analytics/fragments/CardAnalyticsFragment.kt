@@ -149,7 +149,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.highlightValue(0f, -1)
 
         chart.invalidate()
-        viewModel.setPieChartIcon(getBindingView().ivPieView)
+        viewModel.setPieChartIcon(getBindingView().ivPieViewImage)
         setTextColour()
     }
 
@@ -231,8 +231,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.ivPrevious -> {
-                getBindingView().ivPieView.cropImage = false
-                viewModel.setPieChartIcon(getBindingView().ivPieView)
+                //getBindingView().ivPieView.cropImage = false
+                viewModel.setPieChartIcon(getBindingView().ivPieViewImage)
                 setTextColour()
             }
             Constants.CATEGORY_AVERAGE_AMOUNT_VALUE -> {
@@ -371,9 +371,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }*/
             }
         }
-        getBindingView().ivPieView.cropImage = false
+       // getBindingView().ivPieView.cropImage = false
         if (!viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value.isNullOrEmpty()) {
-            getBindingView().ivPieView.visibility = View.VISIBLE
+            getBindingView().ivPieViewImage.visibility = View.VISIBLE
             val txnItem =
                 viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.get(
                     contentPos
@@ -381,13 +381,13 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             updatePieChartInnerData(txnItem)
             setState(txnItem)
         } else {
-            getBindingView().ivPieView.visibility = View.GONE
+            getBindingView().ivPieViewImage.visibility = View.GONE
             reSetPieChartInnerData(TxnAnalytic())
             setState(TxnAnalytic())
         }
         viewModel.state.selectedItemPosition.set(contentPos)
 //        viewModel.type.set(Constants.MERCHANT_TYPE)
-        viewModel.setPieChartIcon(getBindingView().ivPieView)
+        viewModel.setPieChartIcon(getBindingView().ivPieViewImage)
         setTextColour()
     }
 
@@ -433,7 +433,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     .toFormattedCurrency(true)
             )
         )
-        viewModel.setPieChartIcon(getBindingView().ivPieView)
+        viewModel.setPieChartIcon(getBindingView().ivPieViewImage)
         setTextColour()
     }
 

@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.app.Application
+import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
@@ -10,7 +11,6 @@ import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
-import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
@@ -18,7 +18,7 @@ import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
-import co.yap.yapcore.helpers.extentions.setCircularDrawable
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -203,13 +203,15 @@ class CardAnalyticsViewModel(application: Application) :
             DateUtils.dateToString(currentDate, SIMPLE_DATE_FORMAT, false)
     }
 
-    override fun setPieChartIcon(image: CoreCircularImageView) {
-        image.setCircularDrawable(
-            title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
-            url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
-            position = state.selectedItemPosition.get(),
-            type = Constants.MERCHANT_CATEGORY_ID,
-            showBackground = false
+    override fun setPieChartIcon(image: ImageView) {
+        ImageBinding.loadCategoryAvatar(
+            image,
+            state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
+            state.selectedTxnAnalyticsItem.get()?.title ?: "",
+            state.selectedItemPosition.get(),
+            isBackground = false,
+            showFirstInitials = false,
+            categoryColor = ""
         )
     }
 }
