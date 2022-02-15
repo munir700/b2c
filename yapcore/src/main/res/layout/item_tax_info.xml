@@ -124,6 +124,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
+                app:isNotNeedToCheckWithPrevious="@{true}"
                 app:missingFieldMap="@{viewModel.amendmentMap}"
                 app:previousValue="@{viewModel.taxModel.previousCountry}" />
 
@@ -309,6 +310,7 @@
                     android:visibility="@{viewModel.taxModel.selectedOption.equals(`Yes`) ? View.VISIBLE : View.GONE}"
                     app:highlightAmendmentField="@{true}"
                     app:missingFieldMap="@{viewModel.amendmentMap}"
+                    app:isNotNeedToCheckWithPrevious="@{true}"
                     app:previousValue="@{viewModel.taxModel.previousTinNumber}"
                     tools:text="@string/screen_tax_info_display_text_heading_tin_number" />
 

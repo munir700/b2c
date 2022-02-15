@@ -286,7 +286,7 @@ class EidInfoReviewAmendmentViewModel(application: Application) :
                             DateUtils.TIME_ZONE_Default
                         )
                     }
-                    state.previousCitizenNumber = getFormattedCitizenNumber(response.data.data?.identityNo)
+                    state.previousCitizenNumber = response.data.data?.identityNo
                     delay(500)
                     validator?.toValidate()
                 }

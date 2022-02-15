@@ -29,8 +29,9 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         when (configurations.flavor) {
             ProductFlavour.PROD.flavour -> {
                 Adjust.setEnabled(true)
-                config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894)
-//                config.setDefaultTracker("6hpplis")
+                config.setAppSecret(2, 1311020853, 2017617475, 1876218290, 941483639)
+//                config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894) // Old Signature
+                config.setDefaultTracker("6hpplis")
                 config.setEventBufferingEnabled(true)
                 config.setPreinstallTrackingEnabled(true)
 

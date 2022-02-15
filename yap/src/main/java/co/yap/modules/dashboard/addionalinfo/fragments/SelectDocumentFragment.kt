@@ -24,7 +24,6 @@ import co.yap.yapcore.helpers.extentions.openFilePicker
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
-import pl.aprilapps.easyphotopicker.EasyImage
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
 
@@ -37,7 +36,8 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     private val pickPhoto = 2
     internal var permissionHelper: PermissionHelper? = null
     private var currentPos: Int? = null
-//    lateinit var easyImage: EasyImage
+
+    //    lateinit var easyImage: EasyImage
     private var currentDocument: AdditionalDocument? = null
 
     override val viewModel: SelectDocumentViewModel
@@ -70,7 +70,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                 itemClickListener = itemListener,
                 itemsList = viewModel.getUploadDocumentOptions(false),
                 heading = name + " " + getString(Strings.common_display_text_copy),
-                subHeading = getString(Strings.screen_additional_info_label_text_bottom_sheet_des) + " " + name
+                subHeading = getString(Strings.screen_additional_info_label_text_bottom_sheet_des) + " " + name + "\nPlease upload in a single file"
             )
         }
     }

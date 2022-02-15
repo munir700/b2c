@@ -278,7 +278,9 @@ class YapCameraFragment : BaseFragment(),
 
     override fun onCameraError(exception: CameraException) {
         viewModel?.state?.isCapturing = false
-        showToast(exception.message)
+        exception.message?.let {
+            showToast(it)
+        }
     }
 
     override fun onPictureTaken(result: PictureResult) {
