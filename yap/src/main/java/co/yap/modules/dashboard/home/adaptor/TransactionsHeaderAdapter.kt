@@ -1,5 +1,9 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.RelativeSizeSpan
+import android.text.style.SuperscriptSpan
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,6 +70,7 @@ class TransactionsHeaderAdapter(
             adaptorClick: OnItemClickListener,
             groupPosition: Int
         ) {
+            lateinit var spannableStringBuilder: SpannableStringBuilder
 
             //itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date
             //itemTransactionListHeaderBinding.tvTotalAmount.text = homeTransaction.totalAmount
@@ -125,6 +130,27 @@ class TransactionsHeaderAdapter(
             }
 
             homeTransaction.totalAmount = value
+            /*set dte on header with superscript */
+            val superscriptText = homeTransaction.suffixForDay.toString()
+            val strText = homeTransaction.dateForBalance.toString()
+            spannableStringBuilder = SpannableStringBuilder(strText)
+            val superscriptSpan = SuperscriptSpan()
+            spannableStringBuilder.setSpan(
+                superscriptSpan,
+                strText.indexOf(superscriptText),
+                strText.indexOf(superscriptText) +
+                        superscriptText.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            val relativeSizeSpan = RelativeSizeSpan(.5f)
+            spannableStringBuilder.setSpan(
+                relativeSizeSpan,
+                strText.indexOf(superscriptText),
+                strText.indexOf(superscriptText) + superscriptText.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            itemTransactionListHeaderBinding.tvTransactionDate.text = spannableStringBuilder
+
             itemTransactionListHeaderBinding.viewModel =
                 ItemHeaderTransactionsViewModel(homeTransaction)
             itemTransactionListHeaderBinding.executePendingBindings()

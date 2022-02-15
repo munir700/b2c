@@ -29,7 +29,8 @@ object DateUtils {
     const val FORMAT_MONTH_DAY = "MMMM d"
     const val FORMATE_DATE_MONTH_YEAR = "dd MMM yyyy" // 12 Jan 2012
     const val FORMAT_SHORT_MONTH_DAY = "MMM d" //jan 1
-    const val FORMAT_COMPLETE_DATE = "EEE MMM dd HH:mm:ss Z yyyy" //Tue Sep 07 14:42:12 GMT+05:00 2021
+    const val FORMAT_COMPLETE_DATE =
+        "EEE MMM dd HH:mm:ss Z yyyy" //Tue Sep 07 14:42:12 GMT+05:00 2021
     const val FORMAT_MONTH_YEAR_SHORT = "yyyy-MM"
 
     fun getAge(date: Date): Int {
@@ -479,6 +480,7 @@ object DateUtils {
             }
         } ?: reformatDate(date, inputFormatter, outFormatter, inputTimeZone, outTimeZone)
     }
+
     fun getMonthWithYear(
         currentDate: Date,
         format: String = FORMAT_MONTH_YEAR_SHORT
@@ -487,16 +489,67 @@ object DateUtils {
         calendar.time = currentDate
         calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
         calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR))
-         return dateToString(calendar.time, format, false)
-
+        return dateToString(calendar.time, format, false)
     }
-    fun changeZoneAndFormatDate(date:String,outPutFormat: String):String{
+
+    fun changeZoneAndFormatDate(date: String, outPutFormat: String): String {
         return convertServerDateToLocalDate(date)?.let {
             it.let { convertedDate ->
                 val smsTime: Calendar = Calendar.getInstance()
                 smsTime.timeInMillis = convertedDate.time
                 return android.text.format.DateFormat.format(outPutFormat, smsTime).toString()
             }
-        }?:""
+        } ?: ""
     }
+
+    fun changeZoneAndFormatDateWithSuperScript(date: String): String {
+        return convertServerDateToLocalDate(date)?.let { it ->
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.time = it
+            val dayNumberSuffix = getDayNumberSuffix(calendar[Calendar.DAY_OF_MONTH])
+            return when {
+                isToday(
+                    date,
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
+                    val dateFormat = SimpleDateFormat("MMMM d'$dayNumberSuffix', yyyy")
+                    dateFormat.format(calendar.time)
+                    "Today, " + dateFormat.format(calendar.time)
+                }
+                isYesterday(
+                    date,
+                    "yyyy-MM-dd",
+                    TIME_ZONE_Default
+                ) -> {
+                    val dateFormat = SimpleDateFormat("MMMM d'$dayNumberSuffix', yyyy")
+                    "Yesterday, " + dateFormat.format(calendar.time)
+                }
+                else -> {
+                    val dateFormat = SimpleDateFormat("EEEE, MMMM d'$dayNumberSuffix', yyyy")
+                    dateFormat.format(calendar.time)
+                }
+            }
+        } ?: ""
+    }
+
+    fun getSuffixFromDate(date: String): String {
+        return convertServerDateToLocalDate(date)?.let { it ->
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.time = it
+            return getDayNumberSuffix(calendar[Calendar.DAY_OF_MONTH]) ?: ""
+        } ?: ""
+    }
+
+    private fun getDayNumberSuffix(day: Int): String? {
+        return if (day in 11..13) {
+            "th"
+        } else when (day % 10) {
+            1 -> "st"
+            2 -> "nd"
+            3 -> "rd"
+            else -> "th"
+        }
+    }
+
 }
