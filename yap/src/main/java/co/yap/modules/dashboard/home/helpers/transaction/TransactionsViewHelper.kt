@@ -2,7 +2,12 @@ package co.yap.modules.dashboard.home.helpers.transaction
 
 import android.content.Context
 import android.os.Handler
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.RelativeSizeSpan
+import android.text.style.SuperscriptSpan
 import android.view.View
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
@@ -37,6 +42,9 @@ class TransactionsViewHelper(
     var visibleMonth: String? = null
     var currentMode: Int = Constants.EXPAND_MODE
     private var filteredList = listOf<Categories>()
+    private lateinit var strText: String
+    lateinit var spannableStringBuilder: SpannableStringBuilder
+
 
     init {
         //setOnGraphBarClickListeners()
@@ -426,26 +434,28 @@ class TransactionsViewHelper(
                                     currentMode = Constants.COLLAPSE_MODE
 
                                 }
-                                transactionsView.layoutBalance.tvAvailableBalance.text =if(position==0)viewModel.state.availableBalance.getAvailableBalanceWithFormat() else
-                                    (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
-                                        position
-                                    ).closingBalance.toString().getAvailableBalanceWithFormat()
-                                transactionsView.layoutBalance.tvBalanceTitle.text =
-                                    if (DateUtils.isToday(
-                                            viewModel.transactionsLiveData.value?.get(position)?.originalDate.toString(),
-                                            "yyyy-MM-dd",
-                                            TIME_ZONE_Default
-                                        )
-                                    ) Translator.getString(
-                                        context,
-                                        R.string.screen_fragment_yap_home_todays_balance
-                                    ) else Translator.getString(
-                                        context,
-                                        R.string.screen_fragment_yap_home_balance_on_date,
+                                transactionsView.layoutBalance.tvAvailableBalance.text =
+                                    if (position == 0) viewModel.state.availableBalance.getAvailableBalanceWithFormat() else
                                         (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
                                             position
-                                        ).dateForBalance ?: ""
+                                        ).closingBalance.toString().getAvailableBalanceWithFormat()
+                                if (DateUtils.isToday(
+                                        viewModel.transactionsLiveData.value?.get(
+                                            position
+                                        )?.originalDate.toString(), "yyyy-MM-dd", TIME_ZONE_Default
                                     )
+                                ) {
+                                    transactionsView.layoutBalance.tvBalanceTitle.text =
+                                        Translator.getString(
+                                            context,
+                                            R.string.screen_fragment_yap_home_todays_balance
+                                        )
+                                } else {
+                                    getBalance(
+                                        position,
+                                        transactionsView.layoutBalance.tvBalanceTitle
+                                    )
+                                }
                             }
                         }
                     }
@@ -516,5 +526,33 @@ class TransactionsViewHelper(
 
     fun setCategoryWithZero() {
         transactionsView.customCategoryBar.goneWithZeoProgress()
-     }
+    }
+
+    private fun showSmallSizeText(string: String) {
+        val relativeSizeSpan = RelativeSizeSpan(.5f)
+        spannableStringBuilder.setSpan(
+            relativeSizeSpan, strText.indexOf(string),
+            strText.indexOf(string) + string.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+
+    private fun getBalance(position: Int, tvBalanceTitle: AppCompatTextView) {
+        val superscriptText =
+            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                position
+            ).suffixForDay ?: ""
+        strText =
+            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                position
+            ).dateForBalance ?: ""
+        spannableStringBuilder = SpannableStringBuilder(strText)
+        val superscriptSpan = SuperscriptSpan()
+        spannableStringBuilder.setSpan(
+            superscriptSpan, strText.indexOf(superscriptText), strText.indexOf(superscriptText) +
+                    superscriptText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        showSmallSizeText(superscriptText)
+        tvBalanceTitle.text = spannableStringBuilder
+    }
 }
