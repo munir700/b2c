@@ -385,9 +385,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     when {
                         true == removed -> {
                             viewModel.removeCard(updatedCard)
-                           viewModel.state.cardIndicator.set(
-                                "${viewPager2.currentItem.plus(1)} of ${viewModel.state.totalCardsCount.get()}")
-                       }
+                            updateListData()
+                            if (viewPager2.currentItem.plus(1) < viewModel.adapter.getDataList().size ?: 0) viewModel.state.cardIndicator.set(
+                                "${viewPager2.currentItem.plus(1)} of ${viewModel.state.totalCardsCount.get()}"
+                            )
+                        }
                         true == cardBlocked -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
@@ -656,7 +658,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             positionOffsetPixels: Int
         ) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-            if (position.plus(1) < viewModel.cards.value?.size ?: 0) viewModel.state.cardIndicator.set(
+            if (position.plus(1) < viewModel.adapter.getDataList().size ?: 0) viewModel.state.cardIndicator.set(
                 "${position.plus(1)} of ${viewModel.state.totalCardsCount.get()}"
             )
         }
@@ -667,7 +669,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun initArguments() {
-        val list = viewModel.cards.value
+        val list = viewModel.adapter.getDataList()
         list?.let { cardList ->
             cardList.filter { !it.isAddCardIndex }.apply {
                 viewModel.state.cardMap = sortedBy { card ->
@@ -717,5 +719,20 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onSwipeUp(position: Int) {
         super.onSwipeUp(position)
         openDetailScreen(position)
+    }
+
+    private fun updateListData() {
+        viewModel.adapter.getDataList().let { cardList ->
+            cardList.filter { !it.isAddCardIndex }.apply {
+                viewModel.state.cardMap = sortedBy { card ->
+                    card.cardType
+                }.distinct().groupBy { card ->
+                    card.cardType
+                }.toMutableMap()
+            }
+        }
+        mAdapter.cardsData.clear()
+        mAdapter.setData(viewModel.state.cardMap)
+        mAdapter.notifyDataSetChanged()
     }
 }
