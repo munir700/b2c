@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 interface ILogin {
@@ -15,9 +16,10 @@ interface ILogin {
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val signUpButtonPressEvent: SingleLiveEvent<Boolean>
         var isAccountBlocked:MutableLiveData<Boolean>
-        fun handlePressOnLogin()
         fun handlePressOnSignUp()
         fun onEditorActionListener(): TextView.OnEditorActionListener
+        var clickEvent: SingleClickEvent
+        fun handlePressOnView(id: Int)
     }
 
     interface State : IBase.State {

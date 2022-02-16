@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.widgets.bottomsheet.multi_selection_bottom_sheet.CoreMultiSelectionBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
-import java.util.*
 
 fun FragmentActivity.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
@@ -81,3 +81,69 @@ fun FragmentActivity.launchMultiSelectionBottomSheet(
         }
     }
 }
+
+fun FragmentActivity.launchBottomSheetForMutlipleCountries(
+    itemClickListener: OnItemClickListener? = null,
+    countriesList: ArrayList<Country>? = null
+) {
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
+            CoreBottomSheet(
+                itemClickListener,
+                bottomSheetItems = getCountries(
+                    parseCountries(
+                        this,
+                        countriesList?: arrayListOf()
+                    ).toMutableList()
+                ),
+                viewType = Constants.VIEW_ITEM_WITH_FLAG_AND_CODE,
+                configuration = BottomSheetConfiguration(
+                    heading = "Select Country",
+                    showSearch = false,
+                    showHeaderSeparator = true
+                )
+            )
+        coreBottomSheet.show(it, "")
+
+    }
+}
+
+fun Context.getCountries(Countries: MutableList<CoreBottomSheetData>? = null): MutableList<CoreBottomSheetData> =
+    mutableListOf(
+        CoreBottomSheetData(
+            sheetImage = CurrencyUtils.getFlagDrawable(
+                this,
+                "PK"
+            ),
+            content = "+92",
+            subTitle = "Pakistan",
+            isSelected = false
+        ),
+        CoreBottomSheetData(
+            sheetImage = CurrencyUtils.getFlagDrawable(
+                this,
+                "AE"
+            ),
+            content = "+971",
+            subTitle = "United Arab Emirates",
+            isSelected = false
+        ),
+        CoreBottomSheetData(
+            sheetImage = CurrencyUtils.getFlagDrawable(
+                this,
+                "SA"
+            ),
+            content = "+966",
+            subTitle = "Saudi Arab",
+            isSelected = false
+        ),
+        CoreBottomSheetData(
+            sheetImage = CurrencyUtils.getFlagDrawable(
+                this,
+                "GH"
+            ), content = "+233", subTitle = "Ghana", isSelected = false
+        )
+    ).apply {
+        if (Countries?.isNullOrEmpty()?.not() == true) addAll(Countries)
+    }
+

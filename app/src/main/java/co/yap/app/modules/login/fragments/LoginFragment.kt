@@ -11,7 +11,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
@@ -20,7 +19,9 @@ import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.launchBottomSheetForMutlipleCountries
 import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
@@ -35,6 +36,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
         viewModel.isAccountBlocked.observe(viewLifecycleOwner, accountBlockedObserver)
         val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
         if (sharedPreferenceManager.getValueBoolien(
@@ -89,6 +91,14 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         navigateToPassCode()
     }
 
+    private val clickListenerHandler = Observer<Int> { id ->
+        when (id) {
+            R.id.btnLogIn -> activity?.let { context ->
+                context.launchBottomSheetForMutlipleCountries(selectCountryItemClickListener, arrayListOf())
+            }
+        }
+    }
+
     private fun navigateToPassCode() {
         val action =
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(
@@ -113,5 +123,11 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+    }
+
+    private val selectCountryItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            showToast("Hello Hello Kon??")
+        }
     }
 }

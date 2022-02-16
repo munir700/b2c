@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.widget.EditText
 import android.widget.TextView
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 interface IMobile {
@@ -15,6 +16,8 @@ interface IMobile {
         fun handlePressOnNext()
         fun getCcp(etMobileNumber: EditText)
         fun onEditorActionListener(): TextView.OnEditorActionListener
+        var clickEvent: SingleClickEvent
+        fun handlePressOnView(id: Int)
     }
 
     interface State : IBase.State {

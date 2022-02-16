@@ -7,14 +7,16 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
-import co.yap.yapcore.helpers.Utils
 
 class LoginViewModel(application: Application) :
     MainChildViewModel<ILogin.State>(application),
@@ -27,21 +29,26 @@ class LoginViewModel(application: Application) :
     override val repository: AuthRepository = AuthRepository
     private val customersRepository: CustomersRepository = CustomersRepository
     override var isAccountBlocked: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
 
-    override fun handlePressOnLogin() {
-        state.twoWayTextWatcher = Utils.verifyUsername(state.twoWayTextWatcher.trim())
-        validateUsername()
+    fun handlePressOnLogin(eventHandle: () -> Unit) {
+        eventHandle.invoke()
+        /*  state.twoWayTextWatcher = Utils.verifyUsername(state.twoWayTextWatcher.trim())
+          validateUsername()*/
     }
 
     override fun handlePressOnSignUp() {
-   signUpButtonPressEvent.value = true
+        signUpButtonPressEvent.value = true
 
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                handlePressOnLogin()
+                //handlePressOnLogin(){}
             }
             false
         }
@@ -81,4 +88,5 @@ class LoginViewModel(application: Application) :
 
         }
     }
+
 }

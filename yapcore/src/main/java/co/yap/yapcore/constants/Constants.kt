@@ -197,6 +197,7 @@ object Constants {
     const val VIEW_WITH_FLAG = 2
     const val VIEW_FIXED_HEIGHT = 3
     const val VIEW_ITEM_WITHOUT_SEPARATOR = 4
+    const val VIEW_ITEM_WITH_FLAG_AND_CODE = 5
 
     //Yap Store
     const val ITEM_STORE_CARD_PLANS = 0

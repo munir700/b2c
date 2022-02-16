@@ -67,6 +67,8 @@
                     android:layout_marginTop="@dimen/margin_xl"
                     android:layout_marginEnd="@dimen/margin_medium_large"
                     android:layout_marginBottom="@dimen/margin_small"
+                    android:visibility="visible"
+
                     app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
                     app:coreInputError="@{viewModel.state.emailError}"
                     app:coreInputText="@{viewModel.state.email}"
@@ -99,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_button_sign_in)}"
                     app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}" />

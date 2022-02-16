@@ -11,6 +11,7 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.leanplum.SignupEvents
@@ -24,7 +25,10 @@ class MobileViewModel(application: Application) :
     override val repository: MessagesRepository = MessagesRepository
     override val state: MobileState = MobileState(application, this)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
     override fun onResume() {
         super.onResume()
         setProgress(20)

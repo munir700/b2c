@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:minHeight="52dp"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium"
@@ -75,21 +76,20 @@
                     android:layout_weight=".99"
                     android:background="@null"
                     android:digits="1234567890 "
-                    android:drawableRight="@{viewModel.state.drawbleRight}"
                     android:drawableEnd="@{viewModel.state.drawbleRight}"
-                    android:editable="false"
-                    android:imeOptions="actionDone"
+                    android:drawableRight="@{viewModel.state.drawbleRight}"
                     android:hint="@string/empty_string"
+                    android:enabled="false"
+                    android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:maxLength="@{viewModel.state.mobileNoLength}"
                     android:paddingEnd="@dimen/margin_normal"
                     android:singleLine="true"
                     android:text="@={viewModel.state.mobile}"
                     android:textColor="?attr/colorPrimaryDarkAttr"
-                    android:textSize="@dimen/_15sdp"
-                 />
-<!--                app:drawbleRight="@{viewModel.state.drawbleRight}"-->
-<!--                app:isValid="@{viewModel.state.valid}"-->
+                    android:textSize="@dimen/_15sdp" />
+                <!--                app:drawbleRight="@{viewModel.state.drawbleRight}"-->
+                <!--                app:isValid="@{viewModel.state.valid}"-->
             </LinearLayout>
 
             <TextView
@@ -109,14 +109,14 @@
             style="@style/FragmentsBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:btn_size="small"
             android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{() -> viewModel.handlePressOnNext()}"
             android:text="@string/screen_phone_number_button_send"
+            app:btn_size="small"
             app:enableCoreButton="@{viewModel.state.valid}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="44dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
