@@ -23,8 +23,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:enabled="@{viewModel.state.isUserAccountActivated}"
-        android:orientation="vertical"
+         android:orientation="vertical"
         app:srcCompat="?attr/colorPrimaryAttr">
 
         <androidx.constraintlayout.widget.ConstraintLayout
