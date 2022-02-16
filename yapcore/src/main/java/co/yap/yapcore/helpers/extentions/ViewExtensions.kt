@@ -75,7 +75,8 @@ fun CoreCircularImageView?.setCircularDrawable(
                     position,
                     showBackground,
                     showInitials,
-                    categoryColor
+                    categoryColor,
+                    type
                 )
             }
             Constants.MERCHANT_NAME -> {

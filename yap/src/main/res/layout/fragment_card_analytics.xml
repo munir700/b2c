@@ -66,12 +66,12 @@
                             android:orientation="vertical"
                             android:soundEffectsEnabled="false">
 
-                            <co.yap.widgets.CoreCircularImageView
-                                android:id="@+id/ivPieView"
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/ivPieViewImage"
                                 android:layout_width="@dimen/_35sdp"
                                 android:layout_height="@dimen/_35sdp"
+                                android:layout_gravity="center_horizontal"
                                 android:contentDescription="@string/empty_string"
-                                app:cropImage="@{viewModel.state.selectedTab == 1}"
                                 />
 
                             <TextView
@@ -86,7 +86,7 @@
                                 android:textColor="@color/colorSecondaryMagenta"
                                 android:textSize="@dimen/_10sdp"
                                 tools:text="Retail Stores" />
-                                <!-- app:tvColor="@{viewModel.state.selectedItemPosition}"-->
+                            <!--app:tvColor="@{viewModel.state.selectedItemPosition}"-->
 
                             <TextView
                                 android:id="@+id/tvPieViewPrice"
@@ -259,6 +259,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{viewModel.state.totalSpent}"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
