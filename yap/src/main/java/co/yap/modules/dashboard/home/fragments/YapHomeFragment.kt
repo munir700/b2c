@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -488,25 +487,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.addOnScrollListener(
             object :
                 RecyclerView.OnScrollListener() {
-
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager =
                         getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
                     val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                    val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
                     getDataBindingView<FragmentDashboardHomeBinding>().lyInclude.appBarLayout.addOnOffsetChangedListener(
                         OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                            if (firstVisiblePosition == 0 && verticalOffset == 0 && !recyclerView.canScrollVertically(
-                                    -1
-                                )
-                            ) {
-                                getBindings().refreshLayout.isEnabled = true
-                                Log.e("valuevalue","true")
-                            } else {
-                                getBindings().refreshLayout.isEnabled = false
-                                Log.e("valuevalue","false")
-                            }
+                            getBindings().refreshLayout.isEnabled =
+                                !recyclerView.canScrollVertically(-1) && verticalOffset == 0 && viewModel.state.isUserAccountActivated.get() == true
                         })
                     if (viewModel.state.showTxnShimmer.value?.status == Status.SUCCESS)
                         if (lastVisiblePosition == layoutManager.itemCount - 1) {
