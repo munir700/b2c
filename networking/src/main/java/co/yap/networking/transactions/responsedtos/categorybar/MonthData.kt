@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class MonthData(
 	@SerializedName("date") val date: String,
-	@SerializedName("categories") val categories: List<Categories>
+	@SerializedName("categories") var categories: List<Categories>
 )
