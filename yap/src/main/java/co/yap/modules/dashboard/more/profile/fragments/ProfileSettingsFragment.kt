@@ -10,7 +10,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -42,7 +42,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
     override val viewModel: IProfile.ViewModel
-        get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
+        get() = ViewModelProvider(this).get(ProfileSettingsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -180,6 +180,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
                 R.id.llNotification -> {
                     navigateToNotificationSettings()
+                }
+                R.id.tvEmploymentInformationView -> {
+                    // Handle routing for Employment Information
                 }
             }
         })

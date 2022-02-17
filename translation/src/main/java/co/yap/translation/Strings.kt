@@ -833,6 +833,8 @@ object Strings {
         "screen_profile_settings_display_text_profile"
     const val screen_profile_settings_display_text_personal_detail: String =
         "screen_profile_settings_display_text_personal_detail"
+    const val screen_profile_settings_display_text_employment_information: String =
+        "screen_profile_settings_display_text_employment_information"
     const val screen_profile_settings_display_text_view: String =
         "screen_profile_settings_display_text_view"
     const val screen_profile_settings_display_text_change: String =

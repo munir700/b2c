@@ -540,6 +540,7 @@
     <string name="screen_profile_settings_display_text_title">Settings</string>
     <string name="screen_profile_settings_display_text_profile">Profile</string>
     <string name="screen_profile_settings_display_text_personal_detail">Personal details</string>
+    <string name="screen_profile_settings_display_text_employment_information">Employment information</string>
     <string name="screen_profile_settings_display_text_view">View</string>
     <string name="screen_profile_settings_display_text_security">Security</string>
     <string name="screen_profile_settings_display_text_privacy">Privacy</string>
