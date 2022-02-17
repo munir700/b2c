@@ -10,7 +10,7 @@ import co.yap.widgets.advrecyclerview.utils.BaseExpandableRVAdapter
 import co.yap.yapcore.helpers.extentions.onClick
 
 class CardListAdapter(
-    var cardsData: MutableMap<String?, List<Card>>,
+    private var cardsData: MutableMap<String?, List<Card>>,
     val expandableItemManager: RecyclerViewExpandableItemManager
 ) :
     BaseExpandableRVAdapter<Card, CardChildItemViewModel, CardChildViewHolder, CardListData, CardHeaderItemViewModel, CardGroupViewHolder>() {
