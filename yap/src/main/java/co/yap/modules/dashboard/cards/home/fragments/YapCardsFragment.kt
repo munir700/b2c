@@ -384,11 +384,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val nameUpdate = data?.getBooleanExtra("nameUpdate", false)
                     when {
                         true == removed -> {
-                            viewModel.removeCard(updatedCard)
-                            updateListData()
-                            if (viewPager2.currentItem.plus(1) < viewModel.adapter.getDataList().size ?: 0) viewModel.state.cardIndicator.set(
-                                "${viewPager2.currentItem.plus(1)} of ${viewModel.state.totalCardsCount.get()}"
-                            )
+                            viewModel.adapter.removeAllItems()
+                            viewModel.getCards()
+                            SessionManager.getDebitCard()
                         }
                         true == cardBlocked -> {
                             viewModel.adapter.removeAllItems()
@@ -719,20 +717,5 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onSwipeUp(position: Int) {
         super.onSwipeUp(position)
         openDetailScreen(position)
-    }
-
-    private fun updateListData() {
-        viewModel.adapter.getDataList().let { cardList ->
-            cardList.filter { !it.isAddCardIndex }.apply {
-                viewModel.state.cardMap = sortedBy { card ->
-                    card.cardType
-                }.distinct().groupBy { card ->
-                    card.cardType
-                }.toMutableMap()
-            }
-        }
-        mAdapter.cardsData.clear()
-        mAdapter.setData(viewModel.state.cardMap)
-        mAdapter.notifyDataSetChanged()
     }
 }

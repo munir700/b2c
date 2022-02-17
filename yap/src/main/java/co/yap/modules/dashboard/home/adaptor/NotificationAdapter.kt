@@ -41,7 +41,9 @@ class NotificationAdapter(
 
             binding.tvTitle.text = notification.title
 
-            notification.fileName?.let { binding.lottie.setAnimation(it) }
+            notification.fileName?.let { filename->
+                binding.notificationImage.setImageResource(filename)
+            }
 
 //            binding.ivNotification
             binding.tvDescription.text = notification.description
