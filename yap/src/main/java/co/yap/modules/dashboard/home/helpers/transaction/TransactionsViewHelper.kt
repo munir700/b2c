@@ -264,7 +264,7 @@ class TransactionsViewHelper(
                                 filterd?.let {
                                     if (filterd.isNotEmpty()) {
                                         filteredList =
-                                            filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+                                            filterd[0].categories
                                         viewModel.transactionsLiveData.value?.let { list ->
                                         if (filteredList.isNotEmpty() && list.isNotEmpty()) {
                                             updateData(
@@ -323,7 +323,7 @@ class TransactionsViewHelper(
                                 filterd?.let {
                                     if (filterd.isNotEmpty()) {
                                         filteredList =
-                                            filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+                                            filterd[0].categories
                                         if (filteredList.isNotEmpty()) {
                                             updateData(
                                                 transactionsView.customCategoryBar,
@@ -363,7 +363,7 @@ class TransactionsViewHelper(
                                     filterd?.let {
                                         if (filterd.isNotEmpty()) {
                                             filteredList =
-                                                filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+                                                filterd[0].categories
 
                                             if (filteredList.isNotEmpty()) {
                                                 updateData(
@@ -406,7 +406,7 @@ class TransactionsViewHelper(
                                     filterd?.let {
                                         if (filterd.isNotEmpty()) {
                                             filteredList =
-                                                filterd[0].categories.sortedByDescending { it.categoryWisePercentage }
+                                                filterd[0].categories
 
                                             if (filteredList.isNotEmpty()) {
                                                 updateData(
