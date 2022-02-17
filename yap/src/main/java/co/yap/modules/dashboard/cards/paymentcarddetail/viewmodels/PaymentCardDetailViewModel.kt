@@ -22,6 +22,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
@@ -196,7 +197,9 @@ class PaymentCardDetailViewModel(application: Application) :
                 response.data.data.size,
                 response.data.data.sort,
                 response.data.data.totalElements,
-                response.data.data.totalPages
+                response.data.data.totalPages,
+                dateForBalance = DateUtils.changeZoneAndFormatDateWithSuperScript(contentsList[0].creationDate.toString()),
+                suffixForDay = DateUtils.getSuffixFromDate(contentsList[0].creationDate.toString())
             )
             transactionModelData.add(transactionModel)
             MAX_CLOSING_BALANCE =

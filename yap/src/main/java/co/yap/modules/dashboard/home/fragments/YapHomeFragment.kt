@@ -393,7 +393,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
             viewModel.state.availableBalance = value.availableBalance.toString()
-            getBindings().tvAvailableBalance.text = viewModel.state.availableBalance
+            getBindings().tvAvailableBalance.text = viewModel.state.availableBalance.getAvailableBalanceWithFormat()
         })
 
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->

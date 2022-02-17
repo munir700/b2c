@@ -384,10 +384,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val nameUpdate = data?.getBooleanExtra("nameUpdate", false)
                     when {
                         true == removed -> {
-                            viewModel.removeCard(updatedCard)
-                           viewModel.state.cardIndicator.set(
-                                "${viewPager2.currentItem.plus(1)} of ${viewModel.state.totalCardsCount.get()}")
-                       }
+                            viewModel.adapter.removeAllItems()
+                            viewModel.getCards()
+                            SessionManager.getDebitCard()
+                        }
                         true == cardBlocked -> {
                             viewModel.adapter.removeAllItems()
                             viewModel.getCards()
