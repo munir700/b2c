@@ -86,17 +86,19 @@
             android:gravity="center"
             android:orientation="vertical"
             app:cardViewModel="@{viewModel}"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintTop_toBottomOf="@+id/imgCard"
-            tools:visibility="visible" />
+             tools:visibility="visible" />
 
         <FrameLayout
             android:id="@+id/frameContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
-            app:layout_constraintTop_toBottomOf="@+id/imgCard">
+            app:layout_constraintTop_toBottomOf="@+id/imgCard" >
 
             <include
                 layout="@layout/layout_card_balance"
@@ -113,17 +115,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             app:viewModel="@{viewModel}"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
-            app:layout_constraintTop_toBottomOf="@+id/frameContainer"/>
+            app:layout_constraintTop_toBottomOf="@+id/frameContainer"
+            app:layout_constraintBottom_toTopOf="@+id/lySeeDetail"/>
 
         <include
             android:id="@+id/lySeeDetail"
             layout="@layout/layout_view_card_details"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@{viewModel.sPayStatus instanceof SamsungPayStatus.SPAY_NOT_SUPPORTED?@dimen/margin_zero_dp:@dimen/margin_zero_dp}"
+            android:layout_height="wrap_content"
             app:cardViewModel="@{viewModel}"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/frameContainer"
             app:layout_constraintStart_toStartOf="@+id/frameContainer"
