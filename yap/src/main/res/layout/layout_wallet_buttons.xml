@@ -37,7 +37,6 @@
             android:id="@+id/btnSamsungPay"
             android:layout_width="@dimen/_128sdp"
             android:layout_height="@dimen/_34sdp"
-            android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginStart="@dimen/margin_small"
             android:onClick="@{(v) -> viewModel.handlePressOnSamsung(v)}"
             android:src="@drawable/ic_samsung_pay"
