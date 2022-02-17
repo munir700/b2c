@@ -57,6 +57,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.notification.responsedtos.NotificationAction
+import co.yap.networking.transactions.responsedtos.categorybar.Categories
 import co.yap.networking.transactions.responsedtos.categorybar.MonthData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -393,7 +394,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         SessionManager.cardBalance.observe(viewLifecycleOwner, Observer { value ->
             viewModel.state.availableBalance = value.availableBalance.toString()
-            getBindings().tvAvailableBalance.text = viewModel.state.availableBalance.getAvailableBalanceWithFormat()
+            getBindings().tvAvailableBalance.text =
+                viewModel.state.availableBalance.getAvailableBalanceWithFormat()
         })
 
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer { it ->
@@ -565,6 +567,33 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             )
         })
         viewModel.monthData?.observe(viewLifecycleOwner, Observer { list ->
+            var listCategories: MutableList<Categories> = mutableListOf()
+            var listCategoriesSorted: MutableList<Categories> = mutableListOf()
+            list.mapIndexed { index, value ->
+                if (value.categories.size > 10) {
+                    listCategoriesSorted = value.categories.sortedByDescending { cat ->
+                        cat.categoryWisePercentage
+                    }.toMutableList()
+                    listCategories = listCategoriesSorted.subList(0, 9)
+                    val listRemaining: List<Categories> =
+                        listCategoriesSorted.subList(9, listCategoriesSorted.size)
+                    val sum =
+                        listRemaining.sumByDouble { per -> per.categoryWisePercentage.toDouble() }
+                    listCategories.add(
+                        Categories(
+                            title = "Other",
+                            categoryWisePercentage = sum.toFloat(),
+                            categoryColor = "AF216A",
+                            logoUrl = ""
+                        )
+                    )
+                    value.categories = listCategories
+                } else {
+                    value.categories = value.categories.sortedByDescending { cat ->
+                        cat.categoryWisePercentage
+                    }.toMutableList()
+                }
+            }
             setCategoryBar(list)
         })
     }
@@ -591,7 +620,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             Locale.getDefault()
                         ).parse(date)
                         val filteredList =
-                            filtered[0].categories.sortedByDescending { it.categoryWisePercentage }
+                            filtered[0].categories
                         if (filteredList.isNotEmpty()) {
                             customCategoryBar.setCategoryBar(
                                 filteredList,
