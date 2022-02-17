@@ -136,6 +136,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                                 )
                                 putExtra(Constants.data, true)
                                 putExtra("document", viewModel.parentViewModel?.document)
+                                putExtra("PersonalDetails", true)
                             }
                         }
                     }

@@ -30,6 +30,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_POBSelectionFragment_to_missingInfoConfirmationFragment"
+            app:destination="@id/missingInfoConfirmationFragment" />
     </fragment>
 
     <fragment
@@ -40,6 +43,9 @@
         <action
             android:id="@+id/action_taxInfoFragment_to_employmentStatusSelectionFragment"
             app:destination="@id/employmentStatusSelectionFragment" />
+        <action
+            android:id="@+id/action_taxInfoFragment_to_missingInfoConfirmationFragment"
+            app:destination="@id/missingInfoConfirmationFragment" />
     </fragment>
     <fragment
         android:id="@+id/employmentStatusSelectionFragment"
@@ -58,11 +64,20 @@
         <action
             android:id="@+id/action_employmentQuestionnaireFragment_to_cardOnTheWayFragment"
             app:destination="@id/cardOnTheWayFragment" />
+        <action
+            android:id="@+id/action_employmentQuestionnaireFragment_to_missingInfoConfirmationFragment"
+            app:destination="@id/missingInfoConfirmationFragment" />
     </fragment>
     <fragment
         android:id="@+id/cardOnTheWayFragment"
         android:name="co.yap.modules.location.kyc_additional_info.cardontheway.CardOnTheWayFragment"
         android:label="CardOnTheWayFragment"
         tools:layout="@layout/fragment_card_on_the_way" />
+
+    <fragment
+        android:id="@+id/missingInfoConfirmationFragment"
+        android:name="co.yap.modules.location.fragments.confirmation.MissingInfoConfirmationFragment"
+        android:label="MissingInfoConfirmationFragment"
+        tools:layout="@layout/fragment_missinginfo_confirmation" />
 
 </navigation>

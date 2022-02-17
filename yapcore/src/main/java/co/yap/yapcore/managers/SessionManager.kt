@@ -39,6 +39,11 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val customerRepository: CustomersRepository = CustomersRepository
     private var usersList: List<AccountInfo?> = arrayListOf()
     var user: AccountInfo? = null
+        set(value) {
+            field = value
+            userLiveData.postValue(value)
+        }
+    var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData()
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
@@ -255,10 +260,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(context: Context, success: () -> Unit = {}) {
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
-        val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
-
+    fun sendFcmTokenToServer(deviceId:String? , success: () -> Unit = {}) {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {

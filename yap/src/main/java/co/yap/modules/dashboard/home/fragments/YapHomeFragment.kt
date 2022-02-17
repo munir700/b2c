@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +48,7 @@ import co.yap.modules.dashboard.widgets.WidgetFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -348,8 +350,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
 //                        )☻
                         SessionManager.getAccountInfo {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                     }
@@ -450,8 +455,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         } else {
                             viewModel.state.isUserAccountActivated.set(false)
                             SessionManager.getAccountInfo {
-                                GlobalScope.launch(Main) {
-                                    setUpDashBoardNotificationsView()
+                                // TODO will add permanent solution. need to be aware with lifecycle
+                                if (isAdded) {
+                                    lifecycleScope.launch(Main) {
+                                        setUpDashBoardNotificationsView()
+                                    }
                                 }
                             }
                         }
@@ -815,6 +823,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             NotificationAction.CARD_FEATURES_BLOCKED -> {
                 requireContext().makeCall(SessionManager.helpPhoneNumber)
             }
+            NotificationAction.AMENDMENT -> {
+                startFragment(
+                    fragmentName = MissingInfoFragment::class.java.name,
+                    clearAllPrevious = true
+                )
+
+            }
         }
     }
 
@@ -888,16 +903,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     //     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet) {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
-                                setWidgetVisibility()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                    setWidgetVisibility()
+                                }
                             }
                         }
                     } else {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
-                                setWidgetVisibility()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                    setWidgetVisibility()
+                                }
                             }
                         }
                         launchActivity<AddMoneyActivity>()

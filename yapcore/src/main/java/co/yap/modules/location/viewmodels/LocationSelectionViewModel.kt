@@ -18,9 +18,11 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class LocationSelectionViewModel(application: Application) :
     LocationSelectionBaseViewModel<ILocationSelection.State>(application),
@@ -149,11 +151,17 @@ class LocationSelectionViewModel(application: Application) :
         }
     }
 
+    override fun canSkipFragment() =
+        parentViewModel?.isOnBoarding == true && SessionManager.user?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name
+                || SessionManager.user?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                || SessionManager.user?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
+                || parentViewModel?.amendmentMap?.isNullOrEmpty() == false
+
 
     fun getUserAddress(): Address? {
-        address?.address1 = state.addressTitle.get()?.trim()?:""
-        address?.address2 = state.addressSubtitle.get()?.trim()?:""
-        address?.city = state.city.get()?.trim()?:""
+        address?.address1 = state.addressTitle.get()?.trim() ?: ""
+        address?.address2 = state.addressSubtitle.get()?.trim() ?: ""
+        address?.city = state.city.get()?.trim() ?: ""
         address?.cityIATA3Code = if (state.iata3Code.get().isNullOrEmpty())
             cities.value?.firstOrNull { it.name.equals(state.city.get(), true) }?.iata3Code
         else state.iata3Code.get()

@@ -1,6 +1,8 @@
 <resources>
 
     <!-- Common -->
+    <string name="permissions_rationale_ask_again">This app may not work correctly without the requested permissions. Open the app settings screen to modify app permissions.</string>
+    <string name="title_settings_dialog">Permissions Required</string>
     <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
     <string name="common_display_text_retry">Retry</string>
     <string name="common_empty_string"> </string>
@@ -37,6 +39,35 @@
     <string name="common_display_text_accumulative_limit_error_transaction">Your maximum accumulative limit is %1s and your remaining accumulative limit is %2s</string>
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
+    <!--Validation Error Messages start-->
+    <string name="error_message_date_validation">Invalid data format</string>
+    <string name="error_message_id_validation">The value should be between 13 and 15 characters.</string>
+    <string name="error_message_regex_validation">Invalid format</string>
+    <string name="error_message_email_validation">Invalid Email format</string>
+    <string name="error_message_first_name_validation">Invalid first name format</string>
+    <string name="error_message_last_name_validation">Invalid last name format</string>
+    <string name="error_message_cpf_validation">Invalid CPF format</string>
+    <string name="error_message_url_validation">Invalid url format</string>
+    <string name="error_message_credit_card_validation">Invalid Credit Card format</string>
+    <string name="error_message_empty_validation">This field can\'t be empty</string>
+    <string name="error_message_not_equal_password">Passwords are not the same</string>
+    <string name="error_message_not_equal_phone">Mobile No are not the same</string>
+    <string name="default_required_validation_message">This field is required.</string>
+    <string name="error_message_postal_address">Postal Address is not valid</string>
+    <string name="default_required_length_message_min_max">The input must have length between %1$d
+        and %2$d.
+    </string>
+    <string name="default_required_length_message_min">The input length must be greater than
+        or equal to %1$d characters.
+    </string>
+    <string name="default_required_length_message_max">The input length must be less than or
+        equal to %1$d characters.
+    </string>
+    <string name="default_regex_validation_message">The field value does not match the
+        required format.
+    </string>
+    <!--Validation Error Messages End-->
+    <string name="error_message_phone_email_validation">Invalid Email or Phone format</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
     <string name="common_display_text_cooling_period_limit_consumed_error">You have consumed the limit for the amount you can send at this time. To send money, please wait for %1s from the time you added %2s.</string>
     <string name="common_display_text_cooling_period_limit_error">You can only send up to %1s at this time. To transfer bigger amounts, please wait for %2s from the time you added %3s.</string>
@@ -218,8 +249,8 @@
 
 
     <!-- Eid details review screen -->
+    <string name="screen_b2c_eid_info_review_amendment_display_text_title">Confirm your details</string>
     <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
-    <string name="screen_b2c_eid_info_review_display_text_sub_title">Thanks %1$s! Verify your details so we can send you your YAP card</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_heading">Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_sub_heading">Pending confirmation</string>
     <string name="screen_b2c_eid_info_review_display_text_name_heading">Name</string>
@@ -230,8 +261,8 @@
     <string name="screen_b2c_eid_info_review_display_text_gender_female">Female</string>
     <string name="screen_b2c_eid_info_review_display_text_gender_unknown"> </string>
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
-    <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
-    <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review__button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_amendment_button_title_rescan_eid">Re-scan your ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
     <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
@@ -244,8 +275,12 @@
     <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First name</string>
     <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name (if applicable)</string>
     <string name="screen_b2c_eid_info_review_display_text_last_name_heading">Last name</string>
-
     <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Thanks %1$s! Verify your details are exactly as per your Emirates Id. You can edit the name fields incase we got it wrong!</string>
+    <string name="screen_b2c_eid_info_review_amendment_display_text_edit_sub_title">Verify your details are exactly as per your ID.</string>
+    <string name="screen_b2c_eid_info_review_display_text_eid_number">Emirates ID number</string>
+    <string name="screen_b2c_eid_info_review_display_text_select_gender">Select your Gender</string>
+
+    <string name="screen_b2c_passport_number_text">Passport number</string>
 
 
     <!--    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>-->
@@ -1334,6 +1369,8 @@
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
     <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
     <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
+    <string name="screen_home_amendment_title">Missing information</string>
+    <string name="screen_home_amendment_desc">Looks like some of your information in your application wasn’t right.</string>
     <string name="screen_home_complete_verification_desc">Complete verification to activate your account.</string>
     <string name="screen_home_set_pin_desc">This 4-digit code is yours to keep. Please don\'t share it with anyone</string>
     <string name="screen_home_renewed_id_title">Renew ID</string>
@@ -1459,7 +1496,7 @@
     <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
-<!--    ERROR_INVALID_CARDINPUT-->
+    <!--    ERROR_INVALID_CARDINPUT-->
     <!--    Samsung Pay start-->
     <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
     <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
@@ -1477,7 +1514,7 @@
     <string name="screen_dashboard_widget_edit_hide_bottom_sheet_button_title">Hide Widgets</string>
     <string name="screen_dashboard_widget_edit_hide_bottom_sheet_content">You have chosen to hide the quick link widgets from your dashboard. To turn these back on, go to the dashboard menu in the top right and click on Quick Access Widgets.</string>
 
-<!--    Edit Card Name -->
+    <!--    Edit Card Name -->
     <string name="screen_edit_card_name_text_heading">Type your full name</string>
     <string name="screen_edit_card_name_display_heading">What name would you like on your card?</string>
     <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
@@ -1626,5 +1663,26 @@
         <item>RMT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
         <item>DOMESTIC_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as a local beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
     </string-array>
+
+    <!-- KYC Amendments/ Missing Info Screen start -->
+    <string name="screen_missing_info_button_get_started">Get started</string>
+    <string name="screen_missing_info_title">Hey %1s,</string>
+    <string name="screen_missing_info_description">Looks like there are some errors with the details you provided during onboarding. Please review the below list and make the updates where applicable to get your YAP account activated.</string>
+    <string name="screen_missing_info_review_required">Review required for:</string>
+    <!-- KYC Amendments/ Missing Info Screen End -->
+
+    <!-- KYC Amendments/ Missing Info Confirmation Screen start -->
+    <string name="screen_missing_info_confirmation_button_done">Done</string>
+    <string name="screen_missing_info_confirmation_display_all_set_title">You\’re all set!</string>
+    <string name="screen_missing_info_confirmation_display_step_step_completed_title">Step completed</string>
+    <string name="screen_missing_info_confirmation_display_all_set_description">Thanks for re-submitting your information.</string>
+    <string name="screen_missing_info_confirmation_display_step_step_completed_description">Please proceed to the next step to complete onboarding.</string>
+    <!-- KYC Amendments/ Missing Info Confirmation Screen end -->
+
+    <!-- KYC Amendments Start -->
+    <string name="kyc_incorrect_field">Looks like this is incorrect</string>
+    <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
+    <!-- KYC Amendments End -->
+
 
 </resources>

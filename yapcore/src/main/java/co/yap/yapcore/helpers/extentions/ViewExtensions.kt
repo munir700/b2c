@@ -4,9 +4,12 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.ScrollView
+import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.R
@@ -110,6 +113,8 @@ fun ImageView?.hasBitmap(): Boolean {
         this.drawable != null && (this.drawable is BitmapDrawable)
     } ?: false
 }
+
+fun View.getDrawable(@DrawableRes drawResId: Int) = ContextCompat.getDrawable(context, drawResId)
 
 
 /**

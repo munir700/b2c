@@ -8,38 +8,56 @@ import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemTaxInfoBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) :
-    RecyclerView.ViewHolder(itemTaxInfoBinding.root) {
+class TaxItemItemViewHolder(
+    private val itemTaxInfoBinding: ItemTaxInfoBinding) :
+    RecyclerView.ViewHolder(itemTaxInfoBinding.root), IValidator,
+    Validator.ValidationListener {
+    override var validator: Validator? = Validator(null)
+    var itemPosition = -1
 
     fun onBind(
         taxModel: TaxModel,
         position: Int,
+        amendmentMap: HashMap<String?, List<String>?>?,
         onItemClickListener: OnItemClickListener?
     ) {
+        itemPosition = position
+        validator?.targetViewBinding = itemTaxInfoBinding
+        validator?.setValidationListener(this)
+
+
         itemTaxInfoBinding.viewModel =
             TaxInfoItemViewModel(
                 taxModel,
                 position,
-                onItemClickListener
+                amendmentMap,
+                onItemClickListener,
+                validator
             )
+
         itemTaxInfoBinding.etTinNumber.afterTextChanged {
             onItemClickListener?.onItemClick(itemTaxInfoBinding.etTinNumber, it, -1)
+            validator?.toValidate()
         }
 
         if (position == 0) {
-            itemTaxInfoBinding.bcountries.text =
-                taxModel.countries.find { it.isoCountryCode2Digit == "AE" }?.getName()
+            itemTaxInfoBinding.bcountries.setText(taxModel.countries.find { it.isoCountryCode2Digit == "AE" }
+                ?.getName())
         }
         itemTaxInfoBinding.bcountries.isEnabled = position != 0
         itemTaxInfoBinding.executePendingBindings()
 
         //Disable TIN for UAE
-        itemTaxInfoBinding.optionsSpinner.setSelection(if (position == 0) taxModel.options.indexOfFirst { it == "No" } else 0)
+        itemTaxInfoBinding.optionsSpinner.setSelection(if (position == 0) taxModel.options.indexOfFirst { it == "No" } else if (taxModel.selectedOption.get()
+                .equals("Yes")
+        ) taxModel.options.indexOfFirst { it == "Yes" } else 0)
         itemTaxInfoBinding.optionsSpinner.background =
             if (position == 0) itemTaxInfoBinding.reasonsSpinner.context.getDrawable(R.drawable.bg_spinner_empty) else itemTaxInfoBinding.reasonsSpinner.context.getDrawable(
-                R.drawable.bg_spinner
+                R.drawable.bg_spinner_tax_info
             )
         itemTaxInfoBinding.optionsSpinner.isEnabled = (position != 0)
         itemTaxInfoBinding.optionsSpinner.viewTreeObserver.addOnGlobalLayoutListener {
@@ -51,7 +69,6 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
             )
         }
 
-
         //Disable TIN for UAE
         itemTaxInfoBinding.tvReason.text =
             Translator.getString(
@@ -61,7 +78,7 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         itemTaxInfoBinding.reasonsSpinner.setSelection(if (position == 0) 0 else 0)
         itemTaxInfoBinding.reasonsSpinner.background =
             if (position == 0) itemTaxInfoBinding.reasonsSpinner.context.getDrawable(R.drawable.bg_spinner_empty) else itemTaxInfoBinding.reasonsSpinner.context.getDrawable(
-                R.drawable.bg_spinner
+                R.drawable.bg_spinner_tax_info
             )
         itemTaxInfoBinding.reasonsSpinner.isEnabled = (position != 0)
 
@@ -73,6 +90,6 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
                 )
             )
         }
+        validator?.toValidate()
     }
-
 }

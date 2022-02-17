@@ -356,7 +356,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
         }
-        dialog.show()
+        // TODO check this crash fix code
+        if (!isFinishing)
+            dialog.show()
     }
 
     fun showHideBottomBar(show: Boolean) {
