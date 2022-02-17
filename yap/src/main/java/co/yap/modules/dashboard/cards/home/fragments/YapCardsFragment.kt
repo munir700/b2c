@@ -150,7 +150,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             with(it) {
                 clipToPadding = false
                 clipChildren = false
-                offscreenPageLimit = 3
+                offscreenPageLimit = 6
             }
         }
         val pageMarginPx = Utils.getDimensionInPercent(requireContext(), true, 14)
@@ -656,7 +656,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             positionOffsetPixels: Int
         ) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-            if (position.plus(1) < viewModel.cards.value?.size ?: 0) viewModel.state.cardIndicator.set(
+            if (position.plus(1) < viewModel.adapter.getDataList().size ?: 0) viewModel.state.cardIndicator.set(
                 "${position.plus(1)} of ${viewModel.state.totalCardsCount.get()}"
             )
         }
@@ -667,7 +667,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun initArguments() {
-        val list = viewModel.cards.value
+        val list = viewModel.adapter.getDataList()
         list?.let { cardList ->
             cardList.filter { !it.isAddCardIndex }.apply {
                 viewModel.state.cardMap = sortedBy { card ->
