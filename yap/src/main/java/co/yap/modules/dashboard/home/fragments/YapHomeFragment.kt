@@ -36,6 +36,7 @@ import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
+import co.yap.modules.dashboard.home.enums.EnumWidgetTitles
 import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
@@ -217,22 +218,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 R.id.imgWidget -> {
                     if (data is WidgetData) {
                         when (data.name) {
-                            "Add money" -> {
+                            EnumWidgetTitles.ADD_MONEY.title -> {
                                 launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                             }
-                            "Send money" -> {
+                            EnumWidgetTitles.SEND_MONEY.title -> {
                                 launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                             }
-                            "QR code" -> {
+                            EnumWidgetTitles.QR_CODE.title -> {
                                 (activity as YapDashboardActivity).openQRCodeFragment()
                             }
-                            "Bills" -> {
+                            EnumWidgetTitles.BILLS.title -> {
                                 launchActivity<BillPaymentsHomeActivity>(type = FeatureSet.BILL_PAYMENT)
                             }
-                            "Offers" -> {
+                            EnumWidgetTitles.OFFERS.title -> {
                                 view.context.toast("Coming Soon", Toast.LENGTH_SHORT)
                             }
-                            "Edit" -> {
+                            EnumWidgetTitles.EDIT.title -> {
                                 startWidgetFragment()
                             }
                         }
