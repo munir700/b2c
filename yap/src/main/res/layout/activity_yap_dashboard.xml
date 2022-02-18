@@ -57,7 +57,7 @@
                 >
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivYapIt"
+                    android:id="@+id/btnYapIt"
                     android:layout_width="@dimen/_54sdp"
                     android:layout_height="@dimen/_54sdp"
                     android:background="@color/transparent"
