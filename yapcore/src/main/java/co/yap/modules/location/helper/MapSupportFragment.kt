@@ -58,7 +58,6 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initMap()
-        icon = bitmapDescriptorFromVector(requireContext(), R.drawable.ic_location_pin)
         defaultPlacePhoto = BitmapFactory.decodeResource(
             requireContext().resources,
             R.drawable.location_place_holder
@@ -90,6 +89,7 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
 
     protected fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
+            icon = bitmapDescriptorFromVector(requireContext(), R.drawable.ic_location_pin)
             mMap = googleMap
             if (mDefaultLocation != null) {
                 setupMapOptions()
