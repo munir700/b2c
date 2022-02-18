@@ -279,15 +279,25 @@ class CoreEditText : AppCompatEditText {
                                 val nums =
                                     getValueString().split("\\.".toRegex()).toTypedArray()
                                 if (nums[1].length <= decimalDigits) {
-                                    val front =
-                                        getDecoratedStringFromNumber(nums[0].toLong())
-                                    textToDisplay = front + "." + nums[1]
+                                    textToDisplay = if (nums[0].isEmpty()) {
+                                        "." + nums[1]
+                                    } else {
+                                        val front =
+                                            getDecoratedStringFromNumber(nums[0].toLong())
+                                        front + "." + nums[1]
+                                    }
+
                                     setText(textToDisplay)
                                 } else {
-                                    val front =
-                                        getDecoratedStringFromNumber(nums[0].toLong())
-                                    textToDisplay =
+                                    textToDisplay = if (nums[0].isEmpty()) {
+                                        "." + nums[1].substring(0, decimalDigits)
+                                    } else {
+                                        val front =
+                                            getDecoratedStringFromNumber(nums[0].toLong())
+
                                         front + "." + nums[1].substring(0, decimalDigits)
+                                    }
+
                                     setText(textToDisplay)
                                 }
                             }
