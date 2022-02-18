@@ -53,6 +53,8 @@ object Strings {
         "common_display_text_on_hold_limit_error"
     const val common_display_text_feature_blocked_error: String =
         "common_display_text_feature_blocked_error"
+    const val common_display_text_feature_blocked_bill_payment_error: String =
+        "common_display_text_feature_blocked_bill_payment_error"
     const val common_send_money: String =
         "common_send_money"
     const val common_add_money: String =
@@ -1997,6 +1999,8 @@ object Strings {
 
     const val screen_otp_blocked_display_text_details_card_blocked: String =
         "screen_otp_blocked_display_text_details_card_blocked"
+    const val screen_otp_blocked_display_title_card_blocked: String =
+        "screen_otp_blocked_display_title_card_blocked"
 
     const val iban_or_debit_card_freeze_or_blocked_message: String =
         "iban_or_debit_card_freeze_or_blocked_message"

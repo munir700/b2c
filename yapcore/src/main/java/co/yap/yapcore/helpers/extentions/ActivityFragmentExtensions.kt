@@ -18,6 +18,12 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
 import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.translation.Strings
+import co.yap.translation.Translator
+import co.yap.widgets.bottomsheet.BottomSheet
+import co.yap.widgets.bottomsheet.BottomSheetConfiguration
+import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.widgets.bottomsheet.*
 import co.yap.widgets.bottomsheet.bottomsheet_with_initials.CoreInitialsBottomSheet
 import co.yap.widgets.guidedtour.TourSetup
@@ -188,10 +194,23 @@ inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
 }
 
 fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
-    val blockedMessage = SessionManager.user?.getBlockedMessage(
-        key = FeatureProvisioning.getUserAccessRestriction(type),
-        context = context
-    )
+    val blockedMessage=
+    when (type) {
+        FeatureSet.PAY_BILL_PAYMENT, FeatureSet.EDIT_BILL_PAYMENT, FeatureSet.ADD_BILL_PAYMENT -> {
+            Translator.getString(
+                context,
+                Strings.common_display_text_feature_blocked_bill_payment_error
+            )
+        }
+        else -> {
+         SessionManager.user?.getBlockedMessage(
+                key = FeatureProvisioning.getUserAccessRestriction(type),
+                context = context
+            )
+        }
+
+    }
+
     context.showAlertDialogAndExitApp(
         message = blockedMessage,
         isOtpBlocked = blockedMessage?.contains(SessionManager.helpPhoneNumber) ?: false,

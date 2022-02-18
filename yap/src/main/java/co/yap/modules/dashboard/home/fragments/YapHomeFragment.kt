@@ -822,7 +822,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 )
             }
             NotificationAction.CARD_FEATURES_BLOCKED -> {
-                requireContext().makeCall(SessionManager.helpPhoneNumber)
+                requireActivity().chatSetup()
+//                requireContext().makeCall(SessionManager.helpPhoneNumber)
             }
             NotificationAction.AMENDMENT -> {
                 startFragment(

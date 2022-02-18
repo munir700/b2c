@@ -19,6 +19,7 @@ import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHist
 import co.yap.widgets.pieview.*
 import co.yap.widgets.pieview.components.ToolTipView2
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchActivity
 import java.util.*
@@ -67,7 +68,7 @@ class BillAccountDetailFragment :
     private val onViewClickObserver = Observer<Int> {
         when (it) {
             R.id.btnPayNow -> {
-                launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
+                launchActivity<PayBillMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL , type = FeatureSet.PAY_BILL_PAYMENT) {
                     putExtra(ExtraKeys.SELECTED_BILL.name, viewModel.parentViewModel?.selectedBill)
                 }
             }
@@ -79,7 +80,7 @@ class BillAccountDetailFragment :
             R.id.ivRightIcon -> {
                 if (viewModel.parentViewModel?.selectedBill?.isBillerNotUnavailable() == false)
                     navigate(
-                        destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment
+                        destinationId = R.id.action_billAccountDetailFragment_to_editBillFragment,screenType = FeatureSet.EDIT_BILL_PAYMENT
                     )
             }
         }

@@ -332,6 +332,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     private fun getCardAndTourInfo(accountInfo: AccountInfo?) {
         TourGuideManager.getTourGuides()
         SessionManager.getDebitCard { card ->
+            SessionManager.setupDataSetForBlockedFeatures(card)
             SessionManager.updateCardBalance { }
             shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
             if (shardPrefs?.getValueBoolien(

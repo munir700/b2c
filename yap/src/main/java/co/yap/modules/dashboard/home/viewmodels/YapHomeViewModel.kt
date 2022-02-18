@@ -321,14 +321,13 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun fetchTransactionDetailsForLeanplum(cardStatus: String?) {
-        //getFxRates() {
         launch {
             when (val response = transactionsRepository.getTransDetailForLeanplum()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { resp ->
                         val info: HashMap<String, Any?> = HashMap()
                         info[UserAttributes().primary_card_status] = cardStatus?.let {
-                            if (CardStatus.valueOf(it) == CardStatus.BLOCKED)
+                            if (it.isBlank().not() && CardStatus.valueOf(it) == CardStatus.BLOCKED)
                                 "frozen"
                             else it.toLowerCase()
                         } ?: ""
@@ -348,7 +347,6 @@ class YapHomeViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                 }
-                //     }
             }
         }
     }

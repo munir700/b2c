@@ -15,6 +15,7 @@ import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
@@ -112,7 +113,7 @@ class MyBillsFragment : BillDashboardBaseFragment<IMyBills.ViewModel>(),
     private val toolbarClickObserver = Observer<Int> {
         when (it) {
             R.id.ivSortIcon -> openSortBottomSheet()
-            R.id.ivRightIcon -> navigate(R.id.action_myBillsFragment_to_billCategoryFragment)
+            R.id.ivRightIcon -> navigate(destinationId = R.id.action_myBillsFragment_to_billCategoryFragment,screenType = FeatureSet.ADD_BILL_PAYMENT)
         }
     }
 

@@ -81,26 +81,7 @@ object NotificationHelper {
                     btnTitle = "Open " + Translator.getString(
                         context,
                         Strings.screen_help_support_display_text_title
-                    )
-                )
-            )
-        }
-        if (accountInfo?.otpBlocked == true) {
-            list.add(
-                HomeNotification(
-                    id = "1",
-                    description = Translator.getString(
-                        context,
-                        Strings.screen_home_help_and_support_desc
-                    ),
-                    action = NotificationAction.HELP_AND_SUPPORT,
-                    imgResId = R.raw.gif_notification_bel,
-                    createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
-                    btnTitle = "Open " + Translator.getString(
-                        context,
-                        Strings.screen_help_support_display_text_title
-                    ),
-                    fileName = R.drawable.bell
+                    ),fileName = R.drawable.bell
                 )
             )
         }
@@ -165,7 +146,7 @@ object NotificationHelper {
                 )
             )
         }
-        if (accountInfo?.getUserAccessRestrictions()
+        if (accountInfo?.getUserAccessRestrictions(paymentCard)
                 ?.contains(UserAccessRestriction.EID_EXPIRED) == true || !accountInfo?.EIDExpiryMessage.isNullOrBlank()
         ) {
             list.add(
@@ -191,7 +172,7 @@ object NotificationHelper {
                 )
             )
         }
-        accountInfo?.getUserAccessRestrictions()?.forEach {
+        accountInfo?.getUserAccessRestrictions(paymentCard)?.forEach {
             accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
                 list.add(
                     HomeNotification(
@@ -321,7 +302,7 @@ object NotificationHelper {
                 description = Translator.getString(
                     context,
                     Strings.iban_or_debit_card_freeze_or_blocked_message
-                ).format(SessionManager.helpPhoneNumber),
+                ),
                 action = NotificationAction.CARD_FEATURES_BLOCKED,
                 imgResId = R.raw.gif_notification_bel,
                 createdAt = getCurrentDateWithFormat(SERVER_DATE_FORMAT, UTC), isRead = true,
