@@ -750,4 +750,8 @@
         <attr name="drawableBottomVector" format="reference" />
         <attr name="rtdrawableTint" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="PhoneTextInputEditText">
+        <attr name="p_showHint" format="boolean" />
+    </declare-styleable>
 </resources>

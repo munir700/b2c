@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -66,9 +67,7 @@
                     android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/margin_xl"
                     android:layout_marginEnd="@dimen/margin_medium_large"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:visibility="visible"
-
+                    android:visibility="gone"
                     app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
                     app:coreInputError="@{viewModel.state.emailError}"
                     app:coreInputText="@{viewModel.state.email}"
@@ -77,6 +76,40 @@
                     app:showKeyboard="false"
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
                     app:view_input_type="email" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_xl"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:paddingLeft="@dimen/margin_medium_large"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:singleLine="true"
+                    app:endIconDrawable="@{viewModel.validator.isValidate ? @drawable/ic_tick : null}"
+                    app:errorEnabled="@{viewModel.state.isError}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSignIn"
+                    app:prefixText="@{viewModel.state.countryCode}"
+                    app:startIconDrawable="@drawable/flag_ae"
+                    tools:prefixText="+233">
+
+                    <co.yap.widgets.edittext.PhoneTextInputEditText
+                        android:id="@+id/etMobileNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:digits="0123456789-"
+                        android:drawablePadding="@dimen/margin_small"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:onTextChanged="@{viewModel::onPhoneNumberTextChanged}"
+                        android:text="@={viewModel.state.mobile}"
+                        app:p_showHint="false"
+                        app:prefix="@{viewModel.state.countryCode}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swRemember"

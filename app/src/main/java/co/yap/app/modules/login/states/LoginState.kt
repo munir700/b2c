@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
@@ -90,5 +91,8 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
         emailError.value = ""
         drawbleRight = context.resources.getDrawable(R.drawable.path, null)
     }
+    override var isError: ObservableBoolean = ObservableBoolean()
+    override var countryCode: ObservableField<String> = ObservableField("+92")
+    override var mobile: ObservableField<String> = ObservableField()
 
 }

@@ -2,6 +2,7 @@ package co.yap.app.modules.login.interfaces
 
 import android.graphics.drawable.Drawable
 import android.widget.TextView
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
@@ -29,5 +30,8 @@ interface ILogin {
         var twoWayTextWatcher: String
         var drawbleRight: Drawable?
         var refreshField: Boolean
+        var isError: ObservableBoolean
+        var countryCode: ObservableField<String>
+        var mobile: ObservableField<String>
     }
 }

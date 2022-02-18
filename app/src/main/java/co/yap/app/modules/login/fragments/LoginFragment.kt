@@ -21,6 +21,8 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.launchBottomSheetForMutlipleCountries
 import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
+import co.yap.yapcore.helpers.getCountryCodeForRegion
+import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -94,7 +96,10 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
             R.id.btnLogIn -> activity?.let { context ->
-                context.launchBottomSheetForMutlipleCountries(selectCountryItemClickListener, arrayListOf())
+                context.launchBottomSheetForMutlipleCountries(
+                    selectCountryItemClickListener,
+                    arrayListOf()
+                )
             }
         }
     }
@@ -130,4 +135,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             showToast("Hello Hello Kon??")
         }
     }
+
+
 }

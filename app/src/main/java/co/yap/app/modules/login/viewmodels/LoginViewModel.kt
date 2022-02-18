@@ -7,9 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
-import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.ApiError
@@ -17,11 +15,16 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.helpers.getCountryCodeForRegion
+import co.yap.yapcore.helpers.isValidPhoneNumber
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 
 class LoginViewModel(application: Application) :
     MainChildViewModel<ILogin.State>(application),
     ILogin.ViewModel,
-    IRepositoryHolder<AuthRepository> {
+    IRepositoryHolder<AuthRepository>, IValidator,
+    Validator.ValidationListener {
 
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -87,6 +90,21 @@ class LoginViewModel(application: Application) :
             }
 
         }
+    }
+
+    override var validator: Validator? = Validator(null)
+    fun onPhoneNumberTextChanged(
+        s: CharSequence, start: Int, before: Int,
+        count: Int
+    ) {
+        state.isError.set(false)
+        validator?.isValidate?.value =
+            isValidPhoneNumber(
+                s.toString(),
+                getCountryCodeForRegion(
+                    state.countryCode.get().toString().replace("+", "").toInt()
+                )
+            )
     }
 
 }
