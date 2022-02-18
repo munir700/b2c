@@ -318,6 +318,6 @@ object NotificationHelper {
     }
 
     fun isStatusNotSubmittedToCustomer(accountInfo: AccountInfo?): Boolean =
-        accountInfo?.amendmentStatus.let { it != AmendmentStatus.SUBMIT_TO_CUSTOMER.name }
+        accountInfo?.amendmentStatus != AmendmentStatus.SUBMIT_TO_CUSTOMER.name
 
 }
