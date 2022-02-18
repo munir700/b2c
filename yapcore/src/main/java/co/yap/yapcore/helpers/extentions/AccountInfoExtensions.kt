@@ -1,19 +1,22 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.managers.SessionManager
 
-fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestriction>) -> Unit = {}): ArrayList<UserAccessRestriction> {
+fun AccountInfo.getUserAccessRestrictions(
+    card: Card? = null,
+    completion: (ArrayList<UserAccessRestriction>) -> Unit = {}
+): ArrayList<UserAccessRestriction> {
     val restrictions: ArrayList<UserAccessRestriction> = arrayListOf()
 
     if (partnerBankStatus?.equals(PartnerBankStatus.ACTIVATED.status) == false) {
         restrictions.add(UserAccessRestriction.ACCOUNT_INACTIVE)
     }
-
     restrictions.add(
         when (this.freezeInitiator) {
             "MOBILE_APP_HOSTLIST" -> {
@@ -58,17 +61,26 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
         restrictions.add(UserAccessRestriction.OTP_BLOCKED)
     }
 
-    if (SessionManager.card.value != null) {
+    if (card != null) {
         if (SessionManager.card.value?.pinStatus == CardPinStatus.BLOCKED.name) {
             restrictions.add(UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED)
-            completion.invoke(restrictions)
         }
+        val status =
+            if (card.status.isBlank().not()) CardStatus.valueOf(card.status) else CardStatus.NAN
+        if (status == CardStatus.INACTIVE || status == CardStatus.CLOSED || status == CardStatus.CANCELLED)
+            restrictions.add(UserAccessRestriction.CARD_INACTIVE_CLOSE)
+        //completion.invoke(restrictions)
     } else {
         SessionManager.getDebitCard { card ->
             if (card?.pinStatus == CardPinStatus.BLOCKED.name) {
                 restrictions.add(UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED)
-                completion.invoke(restrictions)
             }
+            card?.status?.let {
+                val status = if (it.isBlank().not()) CardStatus.valueOf(it) else CardStatus.NAN
+                if (status == CardStatus.INACTIVE || status == CardStatus.CLOSED || status == CardStatus.CANCELLED)
+                    restrictions.add(UserAccessRestriction.CARD_INACTIVE_CLOSE)
+            }
+            completion.invoke(restrictions)
         }
     }
     completion.invoke(restrictions)
@@ -106,7 +118,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD
+                FeatureSet.UNFREEZE_CARD,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
             )
         }
         UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT -> {
@@ -119,7 +134,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD
+                FeatureSet.UNFREEZE_CARD,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
             )
         }
         UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT -> {
@@ -159,7 +177,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD
+                FeatureSet.UNFREEZE_CARD,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
             )
         }
         UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT -> {
@@ -172,7 +193,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD
+                FeatureSet.UNFREEZE_CARD,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
             )
         }
         UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
@@ -213,12 +237,22 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.TOP_UP,
                 FeatureSet.BILL_PAYMENT,
                 FeatureSet.DEBIT_CARD_DETAIL,
-                FeatureSet.ANALYTICS
+                FeatureSet.ANALYTICS,
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
 
             )
         }
         UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED -> {
             arrayListOf(FeatureSet.CHANGE_PIN, FeatureSet.FORGOT_PIN)
+        }
+        UserAccessRestriction.CARD_INACTIVE_CLOSE -> {
+            arrayListOf(
+                FeatureSet.ADD_BILL_PAYMENT,
+                FeatureSet.EDIT_BILL_PAYMENT,
+                FeatureSet.PAY_BILL_PAYMENT
+            )
         }
         UserAccessRestriction.NONE -> {
             arrayListOf()
@@ -238,9 +272,10 @@ fun AccountInfo.getBlockedMessage(key: UserAccessRestriction, context: Context):
 
         }
         UserAccessRestriction.OTP_BLOCKED -> {
-            Translator.getString(context, Strings.screen_blocked_otp_display_text_message).format(
-                SessionManager.helpPhoneNumber
-            )
+            Translator.getString(context, Strings.screen_blocked_otp_display_text_message)
+                .format(
+                    SessionManager.helpPhoneNumber
+                )
         }
         UserAccessRestriction.ACCOUNT_INACTIVE -> {
             Translator.getString(
@@ -262,13 +297,12 @@ fun AccountInfo.getNotificationOfBlockedFeature(
     context: Context
 ): String? {
     return (when (key) {
-        UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,
+        UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,UserAccessRestriction.CARD_INACTIVE_CLOSE,
         UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD, UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
-
             Translator.getString(
                 context,
                 Strings.iban_or_debit_card_freeze_or_blocked_message
-            ).format(SessionManager.helpPhoneNumber)
+            )
 
         }
         else -> null

@@ -165,7 +165,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     if (!response.data.data.isNullOrEmpty()) {
                         SessionManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
-                        SessionManager.setupDataSetForBlockedFeatures()
+//                        SessionManager.setupDataSetForBlockedFeatures()
                         trackEventWithAttributes(SessionManager.user)
                         state.loading = false
                     }
