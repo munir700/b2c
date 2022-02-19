@@ -39,7 +39,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:alpha="@{viewModel.billProviderModel.categoryType.equals(`CREDIT_CARD`) ? 0.5f:255.0f}"
-                app:srcCompat="@{BPExtensionsKt.getResId(viewModel.billProviderModel.icon)}"
+                app:srcCompat="@{BPExtensionsKt.getResId(viewModel.billProviderModel.icon,context)}"
                 tools:src="@drawable/icon_biller_type_utility" />
 
             <androidx.appcompat.widget.AppCompatTextView

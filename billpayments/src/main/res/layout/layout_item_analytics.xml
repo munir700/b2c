@@ -42,7 +42,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@{BPExtensionsKt.getResId(viewModel.bpAnalyticsModel.icon)}"
+                app:srcCompat="@{BPExtensionsKt.getResId(viewModel.bpAnalyticsModel.icon,context)}"
                 tools:src="@drawable/icon_biller_type_utility_creditcard_enable" />
 
             <androidx.constraintlayout.helper.widget.Flow

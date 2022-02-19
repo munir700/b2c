@@ -173,13 +173,16 @@ fun Transaction?.getStatusIcon(): Int {
 }
 
 
-fun String?.getMerchantCategoryIcon(): Int {
-    this?.let { title ->
-        return ImageBinding.getResId(
-            "ic_" + ImageBinding.getDrawableName(
-                title
-            ) + "_no_bg"
-        )
+fun String?.getMerchantCategoryIcon(context: Context?): Int {
+    context?.let {
+        this?.let { title ->
+            return ImageBinding.getResId(
+                context,
+                "ic_" + ImageBinding.getDrawableName(
+                    title
+                ) + "_no_bg"
+            )
+        } ?: return -1
     } ?: return -1
 }
 
@@ -446,7 +449,7 @@ fun Transaction?.setTransactionImage(imageView: CoreCircularImageView) {
                     setInitialsAsTxnImage(transaction, imageView)
                 } else if (transaction.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
                     setVirtualCardIcon(transaction, imageView)
-                } else if (txnIconResId != -1) {
+                } else if (txnIconResId >0) {
                     imageView.setImageResource(txnIconResId)
                     when (txnIconResId) {
                         R.drawable.ic_rounded_plus -> {

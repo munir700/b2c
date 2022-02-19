@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -10,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -38,7 +40,7 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.liveperson.infra.utils.Utils.getResources
 
-
+@Keep
 object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl")
@@ -236,9 +238,9 @@ object ImageBinding {
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId =
-            if (isBackground) getResId("ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon()
+            if (isBackground) getResId(imageView.context,"ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon(imageView.context)
 
-        if (resId != -1) {
+        if (resId >0) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
                 resImg?.setTint(
@@ -369,10 +371,10 @@ object ImageBinding {
     @BindingAdapter("app:setFlagDrawable")
     fun setIsoCountryDrawable(imageView: ImageView, isoCountryCode: String?) {
         isoCountryCode?.let {
-            val resId = getResId(
+            val resId = getResId(imageView.context,
                 "flag_${getDrawableName(it)}"
             )
-            if (resId != -1) {
+            if (resId > 0) {
                 imageView.setImageResource(resId)
             }
         }
@@ -425,6 +427,17 @@ object ImageBinding {
         }
     }
 
+    fun getResId(context: Context, drawableName: String): Int {
+        return try {
+            context.resources.getIdentifier(drawableName, "drawable", context.packageName)
+//            val res = R.drawable::class.java
+//            val field = res.getField(drawableName)
+//            field.getInt(null)
+        } catch (e: Exception) {
+            -1
+        }
+    }
+
 
     private fun getTextColorFromType(colorType: String, imageView: ImageView, position: Int): Int {
         return when (colorType) {
@@ -447,14 +460,14 @@ object ImageBinding {
     @BindingAdapter(value = ["countryCode", "countryName"], requireAll = false)
     fun setPhonePrefix(view: PrefixSuffixEditText, countryCode: String, countryName: String) {
 
-        val resId = getResId(
+        val resId = getResId(view.context,
             "flag_${
                 getDrawableName(
                     countryName
                 )
             }"
         )
-        if (resId != -1) {
+        if (resId >0) {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
         }
         view.prefix = countryCode
@@ -557,9 +570,9 @@ object ImageBinding {
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId =
-            if (isBackground) getResId("ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon()
+            if (isBackground) getResId(imageView.context,"ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon(imageView.context)
 
-        if (resId != -1) {
+        if (resId >0) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
                 resImg?.setTint(
