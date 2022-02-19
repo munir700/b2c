@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Yap.App.Widget.TextInputLayout.OutLined" parent="TextAppearance.AppCompat">
+    <style name="Yap.App.Widget.TextInputLayout.OutLined" parent="Widget.Design.TextInputLayout">
         <item name="android:textAppearance">
             @style/Yap.App.Widget.TextAppearance.TextInputField
         </item>
@@ -18,21 +18,25 @@
         <item name="hintEnabled">false</item>
         <item name="startIconTint">@null</item>
         <item name="endIconTint">@null</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="editTextStyle">@style/Yap.Widget.Outline</item>
         <item name="endIconMode">custom</item>
-        <item name="boxBackgroundColor">@color/purple</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">@dimen/_2sdp</item>
+        <item name="boxBackgroundColor">@color/textInputBackgroundColor</item>
         <item name="android:textColor">?attr/colorPrimaryDark</item>
-        <item name="materialThemeOverlay">@style/Yap.EditText.Outline.ThemeOverlay</item>
         <item name="prefixTextAppearance">@style/Yap.Widget.TextInputLayout.Prefix</item>
-        <item name="boxStrokeColor">@color/text_input_layout_box_border_color_state</item>
+        <item name="boxStrokeColor">@color/purple</item>
         <item name="prefixTextColor">@color/grey</item>
         <item name="hintTextColor">@color/greyDark</item>
+        <item name="editTextBackground">@null</item>
         <item name="boxStrokeErrorColor">@color/error</item>
         <item name="errorTextColor">@color/error</item>
         <item name="errorIconDrawable">@drawable/ic_error</item>
 
     </style>
 
-    <style name="Yap.App.Widget.TextInputLayout.Filled" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <style name="Yap.App.Widget.TextInputLayout.Filled" parent="Widget.Design.TextInputLayout">
 
         <item name="hintTextAppearance">@style/Yap.Hint.TextAppearance.TextInputLayout</item>
         <item name="materialThemeOverlay">@style/Yap.EditText.Filled.ThemeOverlay</item>
@@ -84,7 +88,7 @@
         <item name="editTextStyle">@style/Yap.Widget.Outline</item>
     </style>
 
-    <style name="Yap.Widget.Outline" parent="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+    <style name="Yap.Widget.Outline" parent="Widget.Design.TextInputEditText">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="autoSizeTextType">uniform</item>
@@ -96,7 +100,8 @@
     </style>
 
     <style name="Yap.Widget.TextInputLayout.Prefix" parent="">
-        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="Yap.App.Widget.TextInputLayout.Filled.Drawable" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -117,5 +122,4 @@
         </item>
 
     </style>
-
 </resources>

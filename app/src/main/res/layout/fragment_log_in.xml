@@ -79,21 +79,25 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tlPhoneNumber"
+                    style="@style/Yap.App.Widget.TextInputLayout.OutLined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_xl"
-                    android:layout_marginEnd="@dimen/margin_medium_large"
-                    android:paddingLeft="@dimen/margin_medium_large"
-                    android:paddingRight="@dimen/margin_medium_large"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:gravity="center_vertical"
                     android:singleLine="true"
+                    android:paddingLeft="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_extra_small"
+                    android:paddingRight="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_extra_small"
                     app:endIconDrawable="@{viewModel.validator.isValidate ? @drawable/ic_tick : null}"
                     app:errorEnabled="@{viewModel.state.isError}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSignIn"
                     app:prefixText="@{viewModel.state.countryCode}"
-                    app:startIconDrawable="@drawable/flag_ae"
+                    app:startIconDrawable="@drawable/draw_icon_pk"
                     tools:prefixText="+233">
 
                     <co.yap.widgets.edittext.PhoneTextInputEditText
@@ -103,6 +107,7 @@
                         android:background="@null"
                         android:digits="0123456789-"
                         android:drawablePadding="@dimen/margin_small"
+                        android:padding="@dimen/margin_normal"
                         android:imeOptions="actionDone"
                         android:inputType="phone"
                         android:onTextChanged="@{viewModel::onPhoneNumberTextChanged}"
