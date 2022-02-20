@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail.composer
 
+import android.content.Context
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
@@ -248,7 +249,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         }
     }
 
-    fun getTransferCategoryIcon(): Int {
+    fun getTransferCategoryIcon(context: Context): Int {
         transaction?.let { transaction ->
 
             if (transaction.getProductType() == TransactionProductType.IS_TRANSACTION_FEE) {
@@ -264,7 +265,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                     R.drawable.ic_cash
                 }
-                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
+                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon(context) == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon(context)
 
                 else -> 0
             })

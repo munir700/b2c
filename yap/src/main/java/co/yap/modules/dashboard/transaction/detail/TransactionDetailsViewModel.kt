@@ -60,7 +60,7 @@ class TransactionDetailsViewModel(application: Application) :
         )
     override var totalPurchase: ObservableField<TotalPurchases> = ObservableField()
     override var responseReciept: MutableLiveData<ArrayList<String>> = MutableLiveData()
-    override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer()
+    override var itemsComposer: TransactionDetailComposer = TransactionDetailComposer(application)
     override var gMap: GoogleMap? = null
         set(value) {
             field = value
