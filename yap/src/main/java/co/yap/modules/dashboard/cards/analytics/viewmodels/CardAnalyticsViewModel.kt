@@ -46,6 +46,9 @@ class CardAnalyticsViewModel(application: Application) :
             startDate,
             endDate
         )
+        currentDate.let {
+            currentDate = Date()
+        }
         setSelectedDate(currentDate)
         state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
         state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)

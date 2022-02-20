@@ -48,15 +48,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         trackEvent(AnalyticsEvents.ANALYTICS_OPEN.type)
-        viewModel.parentViewModel?.state?.selectedDate?.let {
-            val date = SimpleDateFormat(DateUtils.FORMAT_COMPLETE_DATE).parse(it)
-            viewModel.fetchCardCategoryAnalytics(
-                DateUtils.dateToString(
-                    date, "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
-                )
-            )
-            viewModel.currentDate = date
-        } ?: setCurrentMonthCall()
         setObservers()
     }
 
@@ -65,6 +56,18 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         setupBindings()
         setupAdaptor()
         setupTabs()
+        viewModel.parentViewModel?.state?.selectedDate?.let {
+            if(viewModel.parentViewModel?.state?.currentSelectedDate.isNullOrEmpty()){
+                val date = SimpleDateFormat(DateUtils.FORMAT_COMPLETE_DATE).parse(it)
+                viewModel.fetchCardCategoryAnalytics(
+                    DateUtils.dateToString(
+                        date, "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
+                    )
+                )
+                viewModel.currentDate = date
+            }else setCurrentMonthCall()
+
+        } ?: setCurrentMonthCall()
     }
 
     private fun setupBindings() {
