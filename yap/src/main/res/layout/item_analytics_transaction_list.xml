@@ -19,8 +19,6 @@
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
-        <import type="co.yap.yapcore.managers.SessionManager" />
-
         <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
