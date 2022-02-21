@@ -88,7 +88,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             "test_receipt_visibility_for_product_code_%s",
             transaction.productCode
         )
-        val transactionDetailComposer = TransactionDetailComposer()
+        val transactionDetailComposer = TransactionDetailComposer(context)
         val txnDetail = transactionDetailComposer.compose(transaction)
         return DynamicTest.dynamicTest(displayName) {
             Assert.assertEquals(expectation, txnDetail?.showReceipts)
@@ -113,7 +113,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             "test_transaction_for_detail_items_%s",
             transaction.productCode
         )
-        val transactionDetailComposer = TransactionDetailComposer()
+        val transactionDetailComposer = TransactionDetailComposer(context)
         val txnDetail = transactionDetailComposer.compose(transaction)
         return DynamicTest.dynamicTest(displayName) {
             Assert.assertEquals(expectation.items, txnDetail?.transactionItem)
@@ -139,7 +139,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
             transaction.productCode
         )
 
-        val transactionDetailComposer = TransactionDetailComposer()
+        val transactionDetailComposer = TransactionDetailComposer(context)
         val txnDetail = transactionDetailComposer.compose(transaction)
         return DynamicTest.dynamicTest(displayName) {
             Assert.assertEquals(expectation.detailTransferType, txnDetail?.transferType)
@@ -196,7 +196,7 @@ class TransactionDetailsViewModelTest : BaseTestCase() {
                 TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                     R.drawable.ic_cash
                 }
-                TransactionProductCode.POS_PURCHASE.pCode,TransactionProductCode.ECOM.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
+                TransactionProductCode.POS_PURCHASE.pCode,TransactionProductCode.ECOM.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon(context) == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon(context)
 
                 else -> 0
             })

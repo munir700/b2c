@@ -382,7 +382,7 @@ object UIBinder {
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {
-        if (resId != -1)
+        if (resId >0)
             view.setImageResource(resId)
     }
 

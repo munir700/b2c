@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail.composer
 
+import android.content.Context
 import co.yap.modules.dashboard.transaction.detail.models.ItemTransactionDetail
 import co.yap.modules.dashboard.transaction.detail.models.TransactionDetail
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -10,7 +11,7 @@ interface TransactionDetailItemsComposer {
     fun compose(transaction: Transaction?): TransactionDetail?
 }
 
-class TransactionDetailComposer : TransactionDetailItemsComposer {
+class TransactionDetailComposer(val context: Context) : TransactionDetailItemsComposer {
     private var transactionDetailFactory: TransactionDetailFactory? = null
 
     override fun compose(transaction: Transaction?): TransactionDetail? {
@@ -21,7 +22,7 @@ class TransactionDetailComposer : TransactionDetailItemsComposer {
                 noteValue = transactionDetailFactory?.getNote(),
                 noteAddedDate = transactionDetailFactory?.getTransactionNoteDate(),
                 categoryTitle = transactionDetailFactory?.getTransferCategoryTitle(),
-                categoryIcon = transactionDetailFactory?.getTransferCategoryIcon(),
+                categoryIcon = transactionDetailFactory?.getTransferCategoryIcon(context),
                 totalAmount = transactionDetailFactory?.getTotalAmount(),
                 locationValue = transactionDetailFactory?.getLocation(),
                 transferType = transactionDetailFactory?.getStatusType(),
