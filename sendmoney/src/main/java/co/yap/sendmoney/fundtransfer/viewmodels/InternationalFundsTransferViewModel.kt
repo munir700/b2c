@@ -80,6 +80,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
                     fxRateResponse.value = response.data.data
+                    isFeeReceived.value = true
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
@@ -120,7 +121,9 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun getMoneyTransferLimits(productCode: String?) {
         launch {
-            when (val response = mTransactionsRepository.getFundTransferLimits(productCode)) {
+            when (val response = mTransactionsRepository.getFundTransferLimits(
+                productCode, SessionManager.user?.uuid
+            )) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00

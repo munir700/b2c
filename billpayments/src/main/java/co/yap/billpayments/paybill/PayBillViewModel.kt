@@ -1,6 +1,7 @@
 package co.yap.billpayments.paybill
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.billpayments.R
 import co.yap.billpayments.paybill.base.PayBillMainBaseViewModel
 import co.yap.billpayments.utils.enums.PaymentScheduleType
@@ -19,6 +20,7 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -32,7 +34,7 @@ class PayBillViewModel(application: Application) :
     private val transactionRepository: TransactionsRepository = TransactionsRepository
     override val state: IPayBill.State = PayBillState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-
+    override val editBillerError: MutableLiveData<Int?> = MutableLiveData()
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -113,7 +115,11 @@ class PayBillViewModel(application: Application) :
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
-                        showToast(payBillResponse.error.message)
+                        if (payBillResponse.error.actualCode == "1101" || payBillResponse.error.actualCode == "1102")//1101  Biller Not Available and 1102 Invalid Input Number
+                        {
+                            editBillerError.setValue(payBillResponse.error.actualCode.parseToInt())
+                        } else
+                            showToast(payBillResponse.error.message)
                     }
                 }
             }

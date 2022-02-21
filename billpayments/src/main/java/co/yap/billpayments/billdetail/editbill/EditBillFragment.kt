@@ -18,9 +18,13 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.tabs.TabLayout
 
 class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
@@ -33,18 +37,13 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     override val viewModel: EditBillViewModel
         get() = ViewModelProviders.of(this).get(EditBillViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObservers()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
-        getViewBinding().etNickName.afterTextChanged {
-            viewModel.validation()
-        }
+        getViewBinding().etNickName.afterTextChanged { viewModel.validation() }
+        setObservers()
         initTabLayout()
         initReminderTabLayout()
     }
@@ -156,12 +155,42 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.editBillerError.observe(viewLifecycleOwner, Observer { errorCode ->
+            errorCode?.let {
+                requireContext().customAlertDialog(
+                    topIconResId = R.drawable.ic_error_info_primary,
+                    title = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_title)
+                    else getString(
+                        Strings.screen_bill_payment_add_bill_service_error_dialog_title,
+                        viewModel.parentViewModel?.selectedBill?.billerInfo?.billerName ?: ""
+                    ),
+                    message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
+                    else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
+                    positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                        Strings.common_text_edit_now
+                    )
+                    else null,
+                    negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                        Strings.screen_bill_payment_add_bill_error_dialog_n_button_text
+                    )
+                    else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_button_text),
+                    cancelable = false,
+                    negativeCallback = {
+                        if (errorCode == viewModel.state.EVENT_WORNG_INPUT) navigateBack()
+                    }
+                )
+            }
+        })
     }
 
     val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnEditBill -> {
-                editBillClick()
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_BILL_PAYMENT)) {
+                    showBlockedFeatureAlert(requireActivity(), FeatureSet.EDIT_BILL_PAYMENT)
+                } else {
+                    editBillClick()
+                }
             }
             R.id.tvDeleteThisButton -> showPopUp()
             R.id.tvDropDownWeekDays -> {

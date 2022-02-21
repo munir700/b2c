@@ -1,12 +1,15 @@
 package co.yap.billpayments.paybill.prepaid
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
+import co.yap.billpayments.billdetail.BillDetailActivity
 import co.yap.billpayments.databinding.FragmentPrepaidPayBillBinding
 import co.yap.billpayments.paybill.base.PayBillMainBaseFragment
 import co.yap.billpayments.utils.enums.PaymentScheduleType
@@ -18,11 +21,14 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.customAlertDialog
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.tabs.TabLayout
 
 class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel>(),
@@ -30,16 +36,11 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_prepaid_pay_bill
-    override val viewModel: PrepaidPayBillViewModel
-        get() = ViewModelProviders.of(this).get(PrepaidPayBillViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObservers()
-    }
+    override val viewModel: PrepaidPayBillViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
         getViewBinding().swAutoPayment.setOnCheckedChangeListener(this)
         getViewBinding().swBillReminder.setOnCheckedChangeListener(this)
         initTabLayout()
@@ -177,6 +178,47 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.adapter.setItemListener(skuListener)
+        viewModel.editBillerError.observe(viewLifecycleOwner, Observer { errorCode ->
+            errorCode?.let {
+                requireContext().customAlertDialog(
+                    topIconResId = R.drawable.ic_error_info_primary,
+                    title = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_title)
+                    else getString(
+                        Strings.screen_bill_payment_add_bill_service_error_dialog_title,
+                        viewModel.parentViewModel?.billModel?.value?.billerInfo?.billerName ?: ""
+                    ),
+                    message = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(Strings.screen_bill_payment_add_bill_error_dialog_text)
+                    else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_text),
+                    positiveButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                        Strings.common_text_edit_now
+                    )
+                    else null,
+                    negativeButton = if (errorCode == viewModel.state.EVENT_WORNG_INPUT) getString(
+                        Strings.screen_bill_payment_add_bill_error_dialog_n_button_text
+                    )
+                    else getString(Strings.screen_bill_payment_add_bill_service_error_dialog_button_text),
+                    cancelable = false, positiveCallback = {
+                        viewModel.parentViewModel?.billModel?.value?.let {
+                            if (requireActivity().intent.getBooleanExtra("whenAdded", false)) {
+                                launchActivity<BillDetailActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL) {
+                                    putExtra(ExtraKeys.SELECTED_BILL.name, it)
+                                    putExtra(ExtraKeys.IS_UPDATED.name, true)
+                                }
+                                requireActivity().finish()
+                            } else {
+                                val intent = Intent()
+                                intent.putExtra(ExtraKeys.IS_UPDATED.name, true)
+                                requireActivity().setResult(Activity.RESULT_OK, intent)
+                                requireActivity().finish()
+                            }
+                        }
+                    },
+                    negativeCallback = {
+                        if (errorCode == viewModel.state.EVENT_WORNG_INPUT) navigateBack()
+                    }
+                )
+            }
+        })
     }
 
     private val skuListener = object : OnItemClickListener {
@@ -203,16 +245,20 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
                 )
             }
             R.id.btnPay -> {
-                viewModel.payBillAndEditBiller(
-                    payBillRequest = viewModel.getPayBillRequest(
-                        viewModel.parentViewModel?.billModel?.value,
-                        viewModel.state.amount
-                    ), editBillerRequest = viewModel.getEditBillerRequest(
-                        viewModel.parentViewModel?.billModel?.value
-                    )
-                ) {
-                    viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
-                    navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.PAY_BILL_PAYMENT)) {
+                    showBlockedFeatureAlert(requireActivity(), FeatureSet.PAY_BILL_PAYMENT)
+                } else {
+                    viewModel.payBillAndEditBiller(
+                        payBillRequest = viewModel.getPayBillRequest(
+                            viewModel.parentViewModel?.billModel?.value,
+                            viewModel.state.amount
+                        ), editBillerRequest = viewModel.getEditBillerRequest(
+                            viewModel.parentViewModel?.billModel?.value
+                        )
+                    ) {
+                        viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
+                        navigate(R.id.action_prepaidPayBillFragment_to_payBillSuccessFragment)
+                    }
                 }
             }
         }
@@ -261,6 +307,7 @@ class PrepaidPayBillFragment : PayBillMainBaseFragment<IPrepaidPayBill.ViewModel
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.editBillerError.removeObservers(this)
     }
 
     override fun onDestroy() {

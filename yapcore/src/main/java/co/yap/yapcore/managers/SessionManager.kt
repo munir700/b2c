@@ -39,11 +39,16 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val customerRepository: CustomersRepository = CustomersRepository
     private var usersList: List<AccountInfo?> = arrayListOf()
     var user: AccountInfo? = null
+        set(value) {
+            field = value
+            userLiveData.postValue(value)
+        }
+    var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData()
     var userAddress: Address? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
-    var helpPhoneNumber: String = ""
+    var helpPhoneNumber: String = "+971600551214"
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
@@ -120,7 +125,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     usersList = response.data.data as ArrayList
                     user = getCurrentUser()
                     isFounder.postValue(user?.currentCustomer?.founder)
-                    setupDataSetForBlockedFeatures()
+                    setupDataSetForBlockedFeatures(card = card.value)
                     onAccountInfoSuccess.postValue(true)
                     success.invoke()
                 }
@@ -132,8 +137,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun setupDataSetForBlockedFeatures() {
-        user?.getUserAccessRestrictions {
+    fun setupDataSetForBlockedFeatures(card: Card?) {
+        user?.getUserAccessRestrictions(card = card) {
             val featuresList = arrayListOf<FeatureSet>()
             it.forEach { userAccessRestriction ->
                 featuresList.addAll(user.getBlockedFeaturesList(userAccessRestriction))
@@ -255,10 +260,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(context: Context, success: () -> Unit = {}) {
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
-        val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
-
+    fun sendFcmTokenToServer(deviceId:String? , success: () -> Unit = {}) {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {

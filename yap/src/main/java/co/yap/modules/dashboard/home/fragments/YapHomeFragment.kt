@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,6 +40,7 @@ import co.yap.modules.dashboard.transaction.detail.TransactionDetailsActivity
 import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -284,8 +286,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
 //                        )☻
                         SessionManager.getAccountInfo {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                     }
@@ -385,8 +390,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         } else {
                             viewModel.state.isUserAccountActivated.set(false)
                             SessionManager.getAccountInfo {
-                                GlobalScope.launch(Main) {
-                                    setUpDashBoardNotificationsView()
+                                // TODO will add permanent solution. need to be aware with lifecycle
+                                if (isAdded) {
+                                    lifecycleScope.launch(Main) {
+                                        setUpDashBoardNotificationsView()
+                                    }
                                 }
                             }
                         }
@@ -600,7 +608,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
-                if(SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name){
+                if (SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name) {
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
@@ -610,9 +618,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             onBoarding = true
                         ), RequestCodes.REQUEST_FOR_LOCATION
                     )
-                } else{
+                } else {
                     launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                        putExtra(Constants.name, SessionManager.user?.currentCustomer?.firstName.toString())
+                        putExtra(
+                            Constants.name,
+                            SessionManager.user?.currentCustomer?.firstName.toString()
+                        )
                         putExtra(Constants.data, false)
                     }
                 }
@@ -674,7 +685,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 )
             }
             NotificationAction.CARD_FEATURES_BLOCKED -> {
-                requireContext().makeCall(SessionManager.helpPhoneNumber)
+                requireActivity().chatSetup()
+//                requireContext().makeCall(SessionManager.helpPhoneNumber)
+            }
+            NotificationAction.AMENDMENT -> {
+                startFragment(
+                    fragmentName = MissingInfoFragment::class.java.name,
+                    clearAllPrevious = true
+                )
+
             }
         }
     }
@@ -750,14 +769,20 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet) {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                     } else {
                         SessionManager.getDebitCard {
-                            GlobalScope.launch(Main) {
-                                setUpDashBoardNotificationsView()
+                            // TODO will add permanent solution. need to awar with lifecycle
+                            if (isAdded) {
+                                lifecycleScope.launch(Main) {
+                                    setUpDashBoardNotificationsView()
+                                }
                             }
                         }
                         launchActivity<AddMoneyActivity>()

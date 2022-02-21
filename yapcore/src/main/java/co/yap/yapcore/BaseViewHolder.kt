@@ -4,7 +4,7 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseViewHolder<ITEM : Any, VM : BaseListItemViewModel<ITEM>>
+open class BaseViewHolder<ITEM : Any, VM : BaseListItemViewModel<ITEM>>
     (view: View, viewModel: VM, private val mDataBinding: ViewDataBinding) :
     RecyclerView.ViewHolder(view) {
     private val mViewModel: VM = viewModel

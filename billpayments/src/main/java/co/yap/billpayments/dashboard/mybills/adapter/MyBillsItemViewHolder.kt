@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.billpayments.R
 import co.yap.billpayments.databinding.LayoutItemMyBillsBinding
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
-import co.yap.billpayments.utils.enums.BillStatus
+import co.yap.networking.customers.responsedtos.billpayment.BillStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 

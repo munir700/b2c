@@ -19,6 +19,8 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.getAge
 import co.yap.yapcore.helpers.Utils
@@ -50,19 +52,10 @@ class EidInfoReviewViewModel(application: Application) :
     override var sanctionedNationality: String = ""
     override var errorTitle: String = ""
     override var errorBody: String = ""
+    override var configureEIDResponse: MutableLiveData<ConfigureEIDResponse> = MutableLiveData()
 
     private val eidLength = 15
     override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
-
-    override fun onCreate() {
-        super.onCreate()
-        // getSectionedCountriesList()
-        parentViewModel?.identity?.let {
-            requestAllAPIs(it)
-            populateState(it)
-        }
-    }
-
     override fun handlePressOnView(id: Int) {
         if (id == R.id.btnTouchId)
             handlePressOnConfirmBtn()
@@ -87,14 +80,15 @@ class EidInfoReviewViewModel(application: Application) :
                 !state.isDateOfBirthValid.get() -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_under_age).format(
-                            state.AgeLimit
+                            state.AgeLimit ?: 18
                         ),
                         body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age).format(
-                            state.AgeLimit
+                            state.AgeLimit ?: 18
                         )
                     )
                     clickEvent.setValue(eventErrorUnderAge)
                     trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_UNDERAGED)
 
                 }
                 state.isCountryUS -> {
@@ -106,16 +100,19 @@ class EidInfoReviewViewModel(application: Application) :
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_US)
                 }
-                it.isoCountryCode2Digit.equals(
-                    sectionedCountries?.data?.find { country ->
-                        country.isoCountryCode2Digit.equals(
-                            it.isoCountryCode2Digit,
-                            true
-                        )
-                    }?.isoCountryCode2Digit,
-                    true
-                ) -> {
+                sectionedCountries?.let { sc ->
+                    it.isoCountryCode2Digit.equals(
+                        sc.data.find { country ->
+                            country.isoCountryCode2Digit.equals(
+                                it.isoCountryCode2Digit,
+                                true
+                            )
+                        }?.isoCountryCode2Digit,
+                        true
+                    )
+                } ?: true -> {
                     updateLabels(
                         title = getString(Strings.screen_kyc_information_error_display_text_title_sanctioned_country),
                         body = getString(Strings.screen_kyc_information_error_text_description_sanctioned_country)
@@ -124,6 +121,7 @@ class EidInfoReviewViewModel(application: Application) :
                     sanctionedNationality = it.nationality
                     clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
+                    trackEventWithScreenName(FirebaseEvent.KYC_SANCTIONED)
                 }
                 parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {
                     state.toast =
@@ -180,8 +178,12 @@ class EidInfoReviewViewModel(application: Application) :
                             )
                             identity.expirationDate =
                                 DateUtils.stringToDate(data.expiration_date, "yyMMdd")
+                            val dob = DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.dateOfBirth =
-                                DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                                if (DateUtils.isFutureDate(dob) == true) DateUtils.nextYear(
+                                    dob,
+                                    -100
+                                ) else DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit
@@ -241,7 +243,7 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender.mrz.toString(),
                         nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo =it.citizenNumber,
+                        identityNo = it.citizenNumber,
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
@@ -352,14 +354,15 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun populateState(identity: Identity?) {
+    override fun populateState(identity: Identity?) {
         identity?.let {
             splitLastNames(it.givenName + " " + it.sirName)
             state.fullNameValid = state.firstName.isNotBlank()
             state.nationality = it.nationality
             state.nationalityValid =
                 state.nationality.isNotBlank() && !state.isCountryUS
-            state.dateOfBirth =DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
+            state.dateOfBirth =
+                DateUtils.reformatToLocalString(it.dateOfBirth, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDate =
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
@@ -383,6 +386,22 @@ class EidInfoReviewViewModel(application: Application) :
                     }
                 }
             }
+            // If Age Limit available in case of Re-Scan, set Age validity again.
+            state.AgeLimit?.let { limit ->
+                state.isDateOfBirthValid.set(
+                    getAge(identity.dateOfBirth) >= limit
+                )
+            }
+//            state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
+            val countryName = configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
+                str.split(",").map { it -> it.trim() }.find {
+                    it.equals("US")
+                }
+            }
+            state.isCountryUS =
+                identity.isoCountryCode2Digit.contains(
+                    countryName ?: "US"
+                )
         }
     }
 
@@ -439,37 +458,30 @@ class EidInfoReviewViewModel(application: Application) :
         } ?: false
     }
 
-    override fun requestAllAPIs(identity: Identity) {
+    override fun requestAllAPIs() {
         requestAllEIDConfigurations { senctionedCountryResponse, configurationEIDResponse ->
             launch(Dispatcher.Main) {
                 state.viewState.postValue(false)
-                when (senctionedCountryResponse) {
-                    is RetroApiResponse.Success -> {
+                when {
+                    senctionedCountryResponse is RetroApiResponse.Success && configurationEIDResponse is RetroApiResponse.Success -> {
                         sectionedCountries = senctionedCountryResponse.data
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.toast = senctionedCountryResponse.error.message
-                    }
-                }
-                when (configurationEIDResponse) {
-                    is RetroApiResponse.Success -> {
-                        val data = configurationEIDResponse.data.data
-                        state.isDateOfBirthValid.set(
-                            getAge(identity.dateOfBirth) >= data?.ageLimit ?: 18
-                        )
-                        val countryName = data?.country2DigitIsoCode?.let { str ->
-                            str.split(",").map { it -> it.trim() }.find {
-                                it.equals("US")
+                        configureEIDResponse.value = configurationEIDResponse.data.data
+//                        state.isDateOfBirthValid.set(getAge(identity.dateOfBirth) >= configureEIDResponse.value?.ageLimit ?: 18)
+                        state.AgeLimit = configureEIDResponse.value?.ageLimit
+                        val countryName =
+                            configureEIDResponse.value?.country2DigitIsoCode?.let { str ->
+                                str.split(",").map { it -> it.trim() }.find {
+                                    it.equals("US")
+                                }
                             }
-                        }
-                        state.isCountryUS =
-                            identity.isoCountryCode2Digit.contains(
-                                countryName ?: "US"
-                            )
-                        state.AgeLimit = data?.ageLimit
+//                        state.isCountryUS =
+//                            identity.isoCountryCode2Digit.contains(
+//                                countryName ?: "US"
+//                            )
                     }
-                    is RetroApiResponse.Error -> {
-                        state.toast = configurationEIDResponse.error.message
+                    else -> {
+                        if (senctionedCountryResponse is RetroApiResponse.Error)
+                            state.toast = senctionedCountryResponse.error.message
                     }
                 }
             }

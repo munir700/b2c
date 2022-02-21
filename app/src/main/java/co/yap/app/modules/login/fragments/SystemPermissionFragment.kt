@@ -9,14 +9,16 @@ import android.view.View
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
+import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
 import co.yap.modules.webview.WebViewFragment
+import co.yap.networking.customers.responsedtos.AmendmentStatus
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
 import co.yap.yapcore.helpers.extentions.startFragment
@@ -31,11 +33,11 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     override fun getLayoutId(): Int = R.layout.fragment_biometric_permission
 
     override val viewModel: ISystemPermission.ViewModel
-        get() = ViewModelProviders.of(this).get(SystemPermissionViewModel::class.java)
+        get() = ViewModelProvider(this).get(SystemPermissionViewModel::class.java)
 
-        private fun getScreenType(): String {
-            return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
-        }
+    private fun getScreenType(): String {
+        return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -83,9 +85,13 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 findNavController().navigate(action)
             }
             Constants.NOTIFICATION_SCREEN_TYPE -> {
-                navigateToNotificationSettings()
-            }
-            else -> {
+                if (isGranted) navigateToNotificationSettings() else {
+                    navigateToDashboard()
+                    viewModel.getNotificationScreenValues(isGranted)
+
+
+                }
+
             }
         }
     }
@@ -103,11 +109,15 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     }
 
     private fun navigateToDashboard() {
-        if (SessionManager.user?.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+        if (SessionManager.user?.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-        else
+        } else if (AmendmentStatus.SUBMIT_TO_CUSTOMER.name == SessionManager.user?.amendmentStatus) {
+            startFragment(
+                fragmentName = MissingInfoFragment::class.java.name
+            )
+        } else {
             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-
+        }
         activity?.finish()
     }
 

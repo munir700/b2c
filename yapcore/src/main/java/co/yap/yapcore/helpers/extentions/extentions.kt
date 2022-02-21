@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers.extentions
 
-import android.app.Activity
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
@@ -16,7 +15,6 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -65,13 +63,6 @@ fun Intent.getValue(key: String, type: String): Any? {
             }
         } else null
     } else return null
-}
-
-fun Activity.preventTakeScreenShot(isPrevent: Boolean) {
-    if (isPrevent)
-        window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-    else
-        window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
 }
 
 fun ImageView.loadImage(path: String) {

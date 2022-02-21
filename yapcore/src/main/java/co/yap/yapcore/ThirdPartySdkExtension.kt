@@ -23,14 +23,14 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         val config = AdjustConfig(
                 this,
                 configurations.adjustToken,
-                if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_SANDBOX
+                if (configurations.isReleaseBuild()) AdjustConfig.ENVIRONMENT_PRODUCTION else AdjustConfig.ENVIRONMENT_PRODUCTION
         )
 
         when (configurations.flavor) {
             ProductFlavour.PROD.flavour -> {
                 Adjust.setEnabled(true)
-                config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894)
-
+                config.setAppSecret(2, 1311020853, 2017617475, 1876218290, 941483639)
+//                config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894) // Old Signature
                 config.setDefaultTracker("6hpplis")
                 config.setEventBufferingEnabled(true)
                 config.setPreinstallTrackingEnabled(true)
@@ -38,6 +38,9 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
 
             }
             ProductFlavour.PREPROD.flavour -> {
+                Adjust.setEnabled(true)
+                config.setEventBufferingEnabled(true)
+                config.setPreinstallTrackingEnabled(true)
                 config.setAppSecret(1, 82588340, 60633897, 806753301, 962146915)
             }
             ProductFlavour.STG.flavour -> {
@@ -65,7 +68,7 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
         }
 
         Adjust.onCreate(config)
-        Adjust.addSessionPartnerParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
+//        Adjust.addSessionPartnerParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
         registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
         config.setOnAttributionChangedListener { }
     }

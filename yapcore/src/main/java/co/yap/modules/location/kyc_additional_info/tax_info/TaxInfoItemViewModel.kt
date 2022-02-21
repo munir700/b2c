@@ -2,12 +2,15 @@ package co.yap.modules.location.kyc_additional_info.tax_info
 
 import android.view.View
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxInfoItemViewModel(
     val taxModel: TaxModel,
     val position: Int,
-    val onItemClickListener: OnItemClickListener?
+    val amendmentMap: HashMap<String?, List<String>?>?,
+    val onItemClickListener: OnItemClickListener?,
+    val validator: Validator?
 ) {
     val spinnerItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {

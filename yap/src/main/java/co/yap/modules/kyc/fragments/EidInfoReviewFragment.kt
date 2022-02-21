@@ -1,11 +1,11 @@
 package co.yap.modules.kyc.fragments
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -13,7 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -36,7 +36,6 @@ import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
 import java.io.File
 
-
 class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -44,7 +43,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun getLayoutId(): Int = R.layout.activity_eid_info_review
 
     override val viewModel: EidInfoReviewViewModel
-        get() = ViewModelProviders.of(this).get(EidInfoReviewViewModel::class.java)
+        get() = ViewModelProvider(this).get(EidInfoReviewViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -56,7 +55,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         }
         addObservers()
     }
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.requestAllAPIs()
+        viewModel.parentViewModel?.identity?.let {
+            viewModel.populateState(it)
+        }
+    }
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -130,37 +135,41 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     trackEventWithScreenName(FirebaseEvent.CONFIRM_ID)
 //                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.CONFIRM_ID.event))
                     SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
-                        if (isSuccess) {
-                            navigateToConfirmNameFragment()
-                        } else {
-                            showToast("Accounts info failed")
-                            navigateToConfirmNameFragment()
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                navigateToConfirmNameFragment()
+                            } else {
+                                showToast("Accounts info failed")
+                                navigateToConfirmNameFragment()
 
-                        }
+                            }
 
-                    })
+                        })
                 }
                 viewModel.eventEidUpdate -> {
                     SessionManager.getAccountInfo()
-                    SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
-                        if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                        } else {
-                            showToast("Accounts info failed")
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
-                        }
+                    SessionManager.onAccountInfoSuccess.observe(
+                        viewLifecycleOwner,
+                        Observer { isSuccess ->
+                            if (isSuccess) {
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            } else {
+                                showToast("Accounts info failed")
+                                viewModel.parentViewModel?.finishKyc?.value =
+                                    DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
+                            }
 
-                    })
+                        })
                 }
                 viewModel.eventCitizenNumberIssue, viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber(
                     "Sorry, that didn’t work. Please try again"
                 )
             }
         })
-        viewModel.eidStateLiveData.observe(this, Observer
+        viewModel.eidStateLiveData.observe(viewLifecycleOwner, Observer
         {
             if (it.status == Status.ERROR) {
                 invalidCitizenNumber(it.message ?: "Sorry, that didn’t work. Please try again")
@@ -181,7 +190,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 .save(Constants.KYC_LAST_NAME, state.lastName.get() ?: "")
             SharedPreferenceManager.getInstance(requireContext())
                 .save(Constants.KYC_MIDDLE_NAME, state.middleName.get() ?: "")
-            navigateWithPopup(R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,R.id.eidInfoReviewFragment)
+            navigateWithPopup(
+                R.id.action_eidInfoReviewFragment_to_confirmCardNameFragment,
+                R.id.eidInfoReviewFragment
+            )
         }
     }
 
@@ -267,25 +279,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         navigate(action)
     }
 
-    private fun showEIDAlert(
-        message: String,
-        posBtn: String,
-        negBtn: String? = null,
-        response: (Boolean) -> Unit
-    ) {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(false)
-            setMessage(message)
-            setPositiveButton(posBtn) { _, _ ->
-                response.invoke(true)
-            }
-            if (negBtn != null)
-                setNegativeButton(negBtn) { _, _ ->
-                    response.invoke(false)
-                }
-        }.create().show()
-    }
-
     override fun showUSACitizenScreen() {
         val action =
             EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
@@ -296,17 +289,15 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-
-        }
+        if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) { }
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
                 it.getParcelableExtra<IdentityScannerResult>(IdentityScannerActivity.SCAN_RESULT)
                     ?.let { it1 ->
-                    viewModel.onEIDScanningComplete(
-                        it1
-                    )
-                }
+                        viewModel.onEIDScanningComplete(
+                            it1
+                        )
+                    }
             }
         } else {
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)

@@ -68,7 +68,6 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
-import com.adjust.sdk.Adjust.trackEvent
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import com.uxcam.UXCam
@@ -153,7 +152,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             R.layout.component_yap_menu_sub_button,
             this, 3
         )
-        builder.attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+        builder.attachTo(getViewBinding().btnYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
         builder.setTxtYapIt(getViewBinding().txtYapIt)
         builder.setStateChangeListener(object :
             FloatingActionMenu.MenuStateChangeListener {
@@ -368,7 +367,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
         }
-        dialog.show()
+        // TODO check this crash fix code
+        if (!isFinishing)
+            dialog.show()
     }
 
     fun showHideBottomBar(show: Boolean) {
@@ -405,7 +406,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onBackPressed() {
         if (actionMenu?.isOpen == true && actionMenu?.isAnimating() == false) {
-            actionMenu?.toggle(getViewBinding().ivYapIt, true)
+            actionMenu?.toggle(getViewBinding().btnYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else if (getViewBinding().viewPager.currentItem != 0) {
             bottomNav.selectedItemId = R.id.yapHome

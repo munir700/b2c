@@ -7,4 +7,5 @@ enum class NotificationAction {
     UPDATE_EMIRATES_ID,
     CARD_FEATURES_BLOCKED,
     LEANPLUM,
+    AMENDMENT
 }

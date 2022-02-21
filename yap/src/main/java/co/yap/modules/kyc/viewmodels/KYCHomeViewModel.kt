@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import co.yap.BuildConfig
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
@@ -11,6 +12,9 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.isFutureDate
+import co.yap.yapcore.helpers.DateUtils.nextYear
+import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -93,8 +97,11 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             )
                             identity.expirationDate =
                                 DateUtils.stringToDate(data.expiration_date, "yyMMdd")
-                            identity.dateOfBirth =
-                                DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            val dob = DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                            identity.dateOfBirth = if (isFutureDate(dob) == true) nextYear(
+                                dob,
+                                -100
+                            ) else DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
                             identity.citizenNumber = data.optional1
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit
@@ -147,7 +154,12 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         response.data.data?.customerDocuments?.get(0)?.documentInformation
                     val data = response.data?.data
                     data?.let { data ->
-                        parentViewModel?.state?.identityNo?.set(parentViewModel?.document?.identityNo)
+                        parentViewModel?.state?.identityNo?.set(
+                            parentViewModel?.document?.identityNo?.replace(
+                                "-",
+                                ""
+                            )
+                        )
                         parentViewModel?.state?.firstName?.set(data.firstName)
                         parentViewModel?.state?.lastName?.set(data.lastName)
                         parentViewModel?.state?.nationality?.set(data.nationality)
@@ -164,4 +176,5 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
         }
     }
 
+    override fun isFromAmendment() = parentViewModel?.amendmentMap?.isNullOrEmpty() == false
 }

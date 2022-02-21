@@ -1,7 +1,7 @@
 package co.yap.billpayments.billdetail
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.networking.customers.responsedtos.billpayment.ViewBillModel
@@ -22,7 +22,7 @@ class BillDetailActivity : BaseBindingActivity<IBillDetail.ViewModel>(), INaviga
     override fun getLayoutId(): Int = R.layout.activity_bill_detail
 
     override val viewModel: IBillDetail.ViewModel
-        get() = ViewModelProviders.of(this).get(BillDetailViewModel::class.java)
+        get() = ViewModelProvider(this).get(BillDetailViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(

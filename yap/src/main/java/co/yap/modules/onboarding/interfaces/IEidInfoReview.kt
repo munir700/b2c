@@ -30,9 +30,9 @@ interface IEidInfoReview {
         var valid: Boolean
         var isShowMiddleName: ObservableBoolean
         var isShowLastName: ObservableBoolean
-        var isDateOfBirthValid : ObservableBoolean
-        var AgeLimit : Int?
-        var isCountryUS : Boolean
+        var isDateOfBirthValid: ObservableBoolean
+        var AgeLimit: Int?
+        var isCountryUS: Boolean
     }
 
     interface View : IBase.View<ViewModel> {
@@ -57,6 +57,7 @@ interface IEidInfoReview {
         val eventCitizenNumberIssue: Int get() = 10
         val eventEidExpiryDateIssue: Int get() = 11
         var eidStateLiveData: MutableLiveData<co.yap.widgets.State>
+        var configureEIDResponse:MutableLiveData<ConfigureEIDResponse>
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun updateLabels(title: String, body: String)
@@ -65,7 +66,8 @@ interface IEidInfoReview {
         var sanctionedNationality: String
         var errorTitle: String
         var errorBody: String
-        fun requestAllAPIs(identity: Identity)
+        fun requestAllAPIs()
         fun requestAllEIDConfigurations(responses: (RetroApiResponse<SectionedCountriesResponseDTO>?, RetroApiResponse<BaseResponse<ConfigureEIDResponse>>?) -> Unit)
+        fun populateState(identity: Identity?)
     }
 }
