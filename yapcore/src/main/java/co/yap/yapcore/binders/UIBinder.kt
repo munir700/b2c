@@ -69,6 +69,7 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
+import com.uxcam.UXCam
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -240,7 +241,6 @@ object UIBinder {
                     imageView.setImageResource(R.drawable.ic_status_expired)
                 }
             }
-
     }
 
     // Card status message text
@@ -1169,5 +1169,30 @@ object UIBinder {
     @JvmStatic
     fun setPaddingImage(imageView: AppCompatImageView, padding: Float) {
             imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
+    }
+
+    /*
+    Binding adapter for hiding sensitive views using UXCam
+
+    This adapter is called on the outermost layout of any layout file
+
+    UXCam hides these sensitive views in the session recording
+     */
+
+    /**
+     * Binding adapter for hiding sensitive views using UXCam
+     *
+     * This adapter is called on the outermost layout of any layout file
+     * UXCam hides these sensitive views in the session recording
+     *
+     * @param rootView : View on which this adapter is called
+     * @param views : List of sensitive views that needs to be hidden in UXCam Session
+     */
+    @BindingAdapter("sensitiveViews")
+    @JvmStatic
+    fun hideSensitiveViews(rootView: View, views: List<View>) {
+        views.forEach {
+            UXCam.occludeSensitiveView(it)
+        }
     }
 }

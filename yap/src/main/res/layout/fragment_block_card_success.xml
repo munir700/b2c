@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
@@ -14,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
+        app:sensitiveViews="@{Utils.getViewsList(tvFeeCaption)}"
         android:orientation="vertical"
         android:paddingRight="@dimen/margin_medium">
 
