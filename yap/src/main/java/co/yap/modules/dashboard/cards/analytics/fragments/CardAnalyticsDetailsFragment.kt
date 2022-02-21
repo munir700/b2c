@@ -59,7 +59,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 if (txnAnalytics.title.equals("General")) viewModel.state.percentCardVisibility =
                     false
                 viewModel.adapter.analyticsItemTitle =
-                    if (txnAnalytics.title.getMerchantCategoryIcon() == -1) null else txnAnalytics.title
+                    if (txnAnalytics.title.getMerchantCategoryIcon(requireContext()) == -1) null else txnAnalytics.title
                 viewModel.adapter.analyticsItemImgUrl = txnAnalytics.logoUrl
                 viewModel.fetchMerchantTransactions(
                     Constants.MERCHANT_TYPE,
