@@ -19,6 +19,7 @@ import co.yap.networking.transactions.responsedtos.categorybar.Categories
 import co.yap.networking.transactions.responsedtos.categorybar.MonthData
 import co.yap.translation.Translator
 import co.yap.widgets.tooltipview.TooltipView
+import co.yap.yapcore.binders.UIBinder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
@@ -42,8 +43,6 @@ class TransactionsViewHelper(
     var visibleMonth: String? = null
     var currentMode: Int = Constants.EXPAND_MODE
     private var filteredList = listOf<Categories>()
-    private lateinit var strText: String
-    lateinit var spannableStringBuilder: SpannableStringBuilder
 
 
     init {
@@ -266,22 +265,22 @@ class TransactionsViewHelper(
                                         filteredList =
                                             filterd[0].categories
                                         viewModel.transactionsLiveData.value?.let { list ->
-                                        if (filteredList.isNotEmpty() && list.isNotEmpty()) {
-                                            updateData(
-                                                transactionsView.customCategoryBar,
-                                                filteredList,
-                                                SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
-                                                    list[0]?.originalDate
-                                                ).toString(),
-                                                Constants.EXPAND_MODE,
-                                                false
-                                            )
-                                            transactionsView.customCategoryBar.visibility =
-                                                View.VISIBLE
-                                        } else {
-                                            setCategoryWithZero()
+                                            if (filteredList.isNotEmpty() && list.isNotEmpty()) {
+                                                updateData(
+                                                    transactionsView.customCategoryBar,
+                                                    filteredList,
+                                                    SimpleDateFormat(DateUtils.SERVER_DATE_FORMAT).parse(
+                                                        list[0]?.originalDate
+                                                    ).toString(),
+                                                    Constants.EXPAND_MODE,
+                                                    false
+                                                )
+                                                transactionsView.customCategoryBar.visibility =
+                                                    View.VISIBLE
+                                            } else {
+                                                setCategoryWithZero()
+                                            }
                                         }
-                                    }
                                     } else {
                                         setCategoryWithZero()
                                     }
@@ -304,7 +303,7 @@ class TransactionsViewHelper(
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
-                    if(transactionsView.lyInclude.multiStateView.rvTransaction.adapter is TransactionsHeaderAdapter) {
+                    if (transactionsView.lyInclude.multiStateView.rvTransaction.adapter is TransactionsHeaderAdapter) {
                         if ((transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataList().size > 0) {
                             if (!checkScroll) {
                                 transactionsView.layoutBalance.tvAvailableBalance.text =
@@ -451,9 +450,17 @@ class TransactionsViewHelper(
                                             R.string.screen_fragment_yap_home_todays_balance
                                         )
                                 } else {
-                                    getBalance(
-                                        position,
-                                        transactionsView.layoutBalance.tvBalanceTitle
+                                    UIBinder.setDateWithSuperScript(
+                                        transactionsView.layoutBalance.tvBalanceTitle,
+                                        (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                            position
+                                        ).balanceYear ?: "",
+                                        (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                            position
+                                        ).dateForBalance ?: "",
+                                        (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
+                                            position
+                                        ).suffixForDay ?: ""
                                     )
                                 }
                             }
@@ -521,38 +528,11 @@ class TransactionsViewHelper(
         mode: Int,
         isZero: Boolean
     ) {
-        customCategoryBar.setCategoryBar(progressList, mode, date,isZero)
+        customCategoryBar.setCategoryBar(progressList, mode, date, isZero)
     }
 
     fun setCategoryWithZero() {
         transactionsView.customCategoryBar.goneWithZeoProgress()
     }
 
-    private fun showSmallSizeText(string: String) {
-        val relativeSizeSpan = RelativeSizeSpan(.5f)
-        spannableStringBuilder.setSpan(
-            relativeSizeSpan, strText.indexOf(string),
-            strText.indexOf(string) + string.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-    }
-
-    private fun getBalance(position: Int, tvBalanceTitle: AppCompatTextView) {
-        val superscriptText =
-            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
-                position
-            ).suffixForDay ?: ""
-        strText =
-            (transactionsView.lyInclude.multiStateView.rvTransaction.adapter as TransactionsHeaderAdapter).getDataForPosition(
-                position
-            ).dateForBalance ?: ""
-        spannableStringBuilder = SpannableStringBuilder(strText)
-        val superscriptSpan = SuperscriptSpan()
-        spannableStringBuilder.setSpan(
-            superscriptSpan, strText.indexOf(superscriptText), strText.indexOf(superscriptText) +
-                    superscriptText.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        showSmallSizeText(superscriptText)
-        tvBalanceTitle.text = spannableStringBuilder
-    }
 }

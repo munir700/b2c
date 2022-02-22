@@ -503,18 +503,17 @@ object DateUtils {
         } ?: ""
     }
 
-    fun changeZoneAndFormatDateWithSuperScript(date: String): String {
+    fun changeZoneAndFormatDateWithDay(date: String): String {
         return convertServerDateToLocalDate(date)?.let { it ->
             val calendar: Calendar = Calendar.getInstance()
             calendar.time = it
-            val dayNumberSuffix = getDayNumberSuffix(calendar[Calendar.DAY_OF_MONTH])
             return when {
                 isToday(
                     date,
                     "yyyy-MM-dd",
                     TIME_ZONE_Default
                 ) -> {
-                    val dateFormat = SimpleDateFormat("MMMM d'$dayNumberSuffix', yyyy")
+                    val dateFormat = SimpleDateFormat("MMMM d")
                     dateFormat.format(calendar.time)
                     "Today, " + dateFormat.format(calendar.time)
                 }
@@ -523,11 +522,11 @@ object DateUtils {
                     "yyyy-MM-dd",
                     TIME_ZONE_Default
                 ) -> {
-                    val dateFormat = SimpleDateFormat("MMMM d'$dayNumberSuffix', yyyy")
+                    val dateFormat = SimpleDateFormat("MMMM d")
                     "Yesterday, " + dateFormat.format(calendar.time)
                 }
                 else -> {
-                    val dateFormat = SimpleDateFormat("EEEE, MMMM d'$dayNumberSuffix', yyyy")
+                    val dateFormat = SimpleDateFormat("EEEE, MMMM d")
                     dateFormat.format(calendar.time)
                 }
             }
@@ -539,6 +538,14 @@ object DateUtils {
             val calendar: Calendar = Calendar.getInstance()
             calendar.time = it
             return getDayNumberSuffix(calendar[Calendar.DAY_OF_MONTH]) ?: ""
+        } ?: ""
+    }
+
+    fun getYearFromDate(date: String, isSeparater:Boolean , separater:String): String {
+        return convertServerDateToLocalDate(date)?.let { it ->
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.time = it
+            return if(isSeparater) "$separater ${calendar[Calendar.YEAR]}" else "${calendar[Calendar.YEAR]}"
         } ?: ""
     }
 
