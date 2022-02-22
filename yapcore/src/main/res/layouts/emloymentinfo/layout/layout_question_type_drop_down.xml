@@ -34,6 +34,7 @@
             android:id="@+id/tvTinNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:enabled="@{viewModel.isEditable()}"
             android:layout_marginTop="@dimen/margin_medium"
             android:dividerPadding="@dimen/margin_medium_large"
             android:hint="@{viewModel.questionUiFields.question.questionTitle}"

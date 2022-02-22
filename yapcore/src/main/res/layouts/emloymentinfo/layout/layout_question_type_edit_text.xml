@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:dividerPadding="@dimen/margin_medium_large"
+            android:enabled="@{viewModel.isEditable()}"
             android:hint="@{viewModel.questionUiFields.question.questionTitle}"
             android:textColorHint="@color/colorPrimaryDark"
             app:hintTextAppearance="@style/Small"

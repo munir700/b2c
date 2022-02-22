@@ -1,4 +1,4 @@
-package co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
+package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.unSelectAllCountries
-import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
@@ -16,8 +15,10 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.skeletonlayout.views
 import co.yap.yapcore.BR
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireAmendmentBinding
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
@@ -25,40 +26,48 @@ import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
-import com.liveperson.infra.utils.UIUtils.hideKeyboard
+import com.liveperson.infra.utils.UIUtils
 
-class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestionnaire.ViewModel>(),
-    IEmploymentQuestionnaire.View {
+class EmploymentQuestionnaireAmendmentFragment :
+    BaseBindingFragment<IEmploymentQuestionnaireAmendment.ViewModel>(),
+    IEmploymentQuestionnaireAmendment.View {
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_employment_questionnaire
-    override val viewModel: EmploymentQuestionnaireViewModel
-        get() = ViewModelProvider(this).get(EmploymentQuestionnaireViewModel::class.java)
+    override fun getLayoutId(): Int = R.layout.fragment_employment_questionnaire_amendment
+    override val viewModel: EmploymentQuestionnaireAmendmentViewModel
+        get() = ViewModelProvider(this).get(EmploymentQuestionnaireAmendmentViewModel::class.java)
+
+    override fun showInfoDialog(title: String, message: String) {
+        requireContext().infoDialog(
+            title = title,
+            message = message,
+            buttonText = getString(Strings.screen_employment_information_dialog_button_text_close)
+        )
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> activity?.finish()
+            R.id.tvRightText -> {
+                viewModel.updateEditMode(true)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.updateEditMode(false)
         addObservers()
-        if (arguments?.containsKey("EMPLOYMENT_STATUS") == true) viewModel.employmentStatus =
-            arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
-        if (!viewModel.hasAmendmentMap()) {
-            viewModel.employmentStatus = arguments?.get("EMPLOYMENT_STATUS") as EmploymentStatus
-            viewModel.isDataRequiredFromApi(
-                forStatus = viewModel.employmentStatus
-            )
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!viewModel.hasAmendmentMap()) {
-            initQuestionViews()
-        }
-        getDataBindingView<FragmentEmploymentQuestionnaireBinding>().lifecycleOwner = this
+        getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().lifecycleOwner = this
     }
 
     private fun initQuestionViews() {
         viewModel.questionsList.addAll(
             viewModel.questionnaires(
-                viewModel.employmentStatus,
+                viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED,
                 viewModel.employmentStatusValue.value
             )
         )
@@ -78,12 +87,16 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 position,
                 listener,
                 viewModel.selectedBusinessCountries.get() ?: arrayListOf(),
-                viewModel.parentViewModel?.amendmentMap
+                null,
+                viewModel.isInEditMode
             )
             if (questionView != null)
-                getBinding().llQuestions.addView(questionView)
+                getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.addView(
+                    questionView
+                )
+            binding.lifecycleOwner = this
         }
-        getBinding().llQuestions.post {
+        getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.post {
             viewModel.validator?.targetViewBinding =
                 getDataBindingView<FragmentEmploymentQuestionnaireBinding>()
             viewModel.validateForm()
@@ -93,9 +106,9 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnSubmit -> {
-                viewModel.saveEmploymentInfo(
+                /*viewModel.saveEmploymentInfo(
                     viewModel.getEmploymentInfoRequest(
-                        viewModel.employmentStatus
+                        viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED
                     )
                 ) {
                     if (viewModel.isFromAmendment()) {
@@ -103,7 +116,11 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                     } else {
                         navigate(R.id.action_employmentQuestionnaireFragment_to_cardOnTheWayFragment)
                     }
-                }
+                }*/
+            }
+            R.id.tvEmploymentStatusDropDown -> {
+                UIUtils.hideKeyboard(requireActivity())
+                openAmendmentEmploymentTypeBottomSheet()
             }
         }
     }
@@ -129,7 +146,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 }
 
                 R.id.searchCountries -> {
-                    hideKeyboard(requireActivity())
+                    UIUtils.hideKeyboard(requireActivity())
                     requireActivity().launchMultiSelectionBottomSheet(
                         itemClickListener = object : OnItemClickListener {
                             override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -148,7 +165,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
                 }
 
                 R.id.tvDropDown -> {
-                    hideKeyboard(requireActivity())
+                    UIUtils.hideKeyboard(requireActivity())
                     when ((data as QuestionUiFields).key) {
                         EmploymentQuestionIdentifier.EMPLOYMENT_TYPE -> openEmploymentTypeBottomSheet()
                         EmploymentQuestionIdentifier.INDUSTRY_SEGMENT -> openSegmentsBottomSheet()
@@ -162,7 +179,7 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
 
     private fun onBusinessCountriesSelection(list: ArrayList<String>) {
         val viewCountriesLayout =
-            getBinding().llQuestions.views()[viewModel.selectedQuestionItemPosition]
+            getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.views()[viewModel.selectedQuestionItemPosition]
         viewModel.setBusinessCountries(
             viewCountriesLayout,
             list,
@@ -176,6 +193,15 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
             configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you)),
             viewType = Constants.VIEW_WITHOUT_FLAG,
             listData = viewModel.parseEmploymentTypes(viewModel.employmentTypes())
+        )
+    }
+
+    private fun openAmendmentEmploymentTypeBottomSheet() {
+        launchBottomSheetSegment(
+            viewModel.employmentStatusItemClickListener,
+            configuration = BottomSheetConfiguration(heading = getString(Strings.screen_employment_type_display_text_bottom_sheet_title)),
+            viewType = Constants.VIEW_WITHOUT_FLAG,
+            listData = viewModel.getEmploymentTypesList()
         )
     }
 
@@ -205,17 +231,6 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         removeObservers()
     }
 
-    override fun getBinding(): FragmentEmploymentQuestionnaireBinding =
-        viewDataBinding as FragmentEmploymentQuestionnaireBinding
-
-    override fun showInfoDialog(title: String, message: String) {
-        requireContext().infoDialog(
-            title = title,
-            message = message,
-            buttonText = getString(Strings.screen_employment_information_dialog_button_text_close)
-        )
-    }
-
     override fun onResume() {
         super.onResume()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -227,27 +242,5 @@ class EmploymentQuestionnaireFragment : LocationChildFragment<IEmploymentQuestio
         viewModel.parentViewModel?.countries?.unSelectAllCountries(
             viewModel.selectedBusinessCountries.get() ?: arrayListOf()
         )
-    }
-
-    private fun navigateToAmendmentSuccess() {
-        viewModel.parentViewModel?.hideProgressToolbar?.value = true
-        viewModel.parentViewModel?.amendmentMap?.let { amendmentMap ->
-            val bundle = Bundle()
-            bundle.putSerializable(
-                Constants.CONFIRMATION_DESCRIPTION,
-                Pair(
-                    first = getString(if (amendmentMap.size == 1) R.string.screen_missing_info_confirmation_display_all_set_title else R.string.screen_missing_info_confirmation_display_step_step_completed_title),
-                    second = getString(if (amendmentMap.size == 1) R.string.screen_missing_info_confirmation_display_all_set_description else R.string.screen_missing_info_confirmation_display_step_step_completed_description)
-                )
-            )
-            bundle.putSerializable(
-                Constants.KYC_AMENDMENT_MAP,
-                viewModel.parentViewModel?.amendmentMap
-            )
-            navigate(
-                R.id.action_employmentQuestionnaireFragment_to_missingInfoConfirmationFragment,
-                bundle
-            )
-        }
     }
 }

@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
+import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -182,7 +183,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     navigateToNotificationSettings()
                 }
                 R.id.tvEmploymentInformationView -> {
-                    // Handle routing for Employment Information
+                    startFragment(
+                        fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name
+                    )
                 }
             }
         })
