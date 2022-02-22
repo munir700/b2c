@@ -53,7 +53,8 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                 R.id.btnAction -> {
                     if (viewModel.state.passCode == parentActivity.passCodeData.newPassCode) {
                         viewModel.updatePassCodeRequest {
-                            SharedPreferenceManager.getInstance(requireContext()).savePassCodeWithEncryption(viewModel.state.passCode)
+                            SharedPreferenceManager.getInstance(requireContext())
+                                .savePassCodeWithEncryption(viewModel.state.passCode)
                             navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
                         }
                     } else
@@ -76,7 +77,9 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
                     mobileNumber = viewModel.mobileNumber,
                     username = name,
-                    emailOtp = !Utils.isUsernameNumeric(name)
+                    emailOtp = !Utils.isUsernameNumeric(name),
+                    otpMessage = parentActivity.viewModel.getOtpMessage()
+
                 )
             ),
             showToolBar = true
