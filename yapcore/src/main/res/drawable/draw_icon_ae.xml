@@ -2,9 +2,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
     <item
-        android:left="@dimen/_14sdp"
         android:drawable="@drawable/ic_uae_flag"
-        android:gravity="top|left">
+        android:gravity="top|left"
+        android:left="@dimen/_14sdp"
+        android:width="@dimen/_20sdp"
+        android:height="@dimen/_20sdp">
 
     </item>
     <item

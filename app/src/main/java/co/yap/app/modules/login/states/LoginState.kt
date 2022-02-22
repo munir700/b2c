@@ -92,7 +92,7 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
         drawbleRight = context.resources.getDrawable(R.drawable.path, null)
     }
     override var isError: ObservableBoolean = ObservableBoolean()
-    override var countryCode: ObservableField<String> = ObservableField("+92")
+    override var countryCode: ObservableField<String> = ObservableField("+971")
     override var mobile: ObservableField<String> = ObservableField()
 
 }

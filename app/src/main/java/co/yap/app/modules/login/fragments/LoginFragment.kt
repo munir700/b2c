@@ -1,6 +1,8 @@
 package co.yap.app.modules.login.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -11,20 +13,20 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.launchBottomSheetForMutlipleCountries
-import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
-import co.yap.yapcore.helpers.getCountryCodeForRegion
-import co.yap.yapcore.helpers.isValidPhoneNumber
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.ezaka.customer.app.utils.showKeyboard
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
@@ -63,6 +65,8 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
+        setTouchListener()
+        getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocus()
         viewModel.state.emailError.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrBlank()) {
                 etEmailField.settingUIForError(it)
@@ -95,12 +99,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
-            R.id.btnLogIn -> activity?.let { context ->
-                context.launchBottomSheetForMutlipleCountries(
-                    selectCountryItemClickListener,
-                    arrayListOf()
-                )
-            }
+            R.id.btnLogIn -> showToast("Navigate to Next")
         }
     }
 
@@ -132,9 +131,38 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            showToast("Hello Hello Kon??")
+            if (data is CoreBottomSheetData) {
+                getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.setStartIconDrawable(
+                    requireContext().getDropDownIconByName(
+                        data.key ?: "PK"
+                    )
+                )
+                viewModel.state.countryCode.set(data.content.toString())
+                getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocus()
+              //  getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.showKeyboard()
+                getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.boxStrokeColor =
+                    resources.getColor(R.color.colorPrimary)
+            }
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setTouchListener() {
+        etMobileNumber.setOnTouchListener(View.OnTouchListener { v, event ->
+            val drawableLeft = 0
+            if (event.action == MotionEvent.ACTION_UP && event.rawX <=
+                etMobileNumber.compoundDrawables[drawableLeft].bounds.width()
+            ) {
 
+                getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.hideKeyboard()
+                activity?.let { context ->
+                    context.launchBottomSheetForMutlipleCountries(
+                        selectCountryItemClickListener
+                    )
+                }
+                return@OnTouchListener true
+            }
+            false
+        })
+    }
 }

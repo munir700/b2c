@@ -27,11 +27,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
 import co.yap.modules.qrcode.BarcodeFormat
+import co.yap.widgets.edittext.PhoneTextInputEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.textfield.TextInputLayout
 import java.io.IOException
 import java.math.RoundingMode
 
@@ -245,4 +247,10 @@ fun Context?.getJsonDataFromAsset(fileName: String): String? {
         return null
     }
     return jsonString
+}
+fun TextInputLayout.requestKeyboard() {
+    this.requestFocus()
+    (this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+        InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
+    )
 }

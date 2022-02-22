@@ -4,7 +4,9 @@
     <item
         android:drawable="@drawable/flag_gh"
         android:gravity="top|left"
-        android:left="@dimen/_6sdp">
+        android:left="@dimen/_14sdp"
+        android:width="@dimen/_20sdp"
+        android:height="@dimen/_20sdp">
 
     </item>
     <item

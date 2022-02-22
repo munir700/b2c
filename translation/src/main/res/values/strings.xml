@@ -1205,7 +1205,7 @@
 
     <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your account features may not work. This is due to a temporary block that has been put on your card or account.\n\nPlease get in touch via live chat for help &amp; support.</string>
     <string name="screen_otp_blocked_display_title_card_blocked">We’re sorry, %1s</string>
-<!--    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>-->
+    <!--    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>-->
     <string name="iban_or_debit_card_freeze_or_blocked_message">Sorry, some of your account features are temporarily unavailable. Please get in touch via <b>live chat</b> for help &amp; support</string>
 
     <!--  Yap home fragment screen-->
@@ -1653,5 +1653,5 @@
     <string name="eid_info_review_screen_select_nationality">Please select your Nationality</string>
     <!-- KYC Amendments End -->
 
-
+    <string name="country_encoded_base64">W3sKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiUEFLIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiUEsiLAoibmFtZSI6IlBha2lzdGFuIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiQVJFIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiQUUiLAoibmFtZSI6IlVuaXRlZCBBcmFiIEVtaXJhdGVzIn0sCnsKImlzb0NvdW50cnlDb2RlM0RpZ2l0IjoiR0hBIiwKImlzb0NvdW50cnlDb2RlMkRpZ2l0IjoiR0giLAoibmFtZSI6IkdoYW5hIn0KXQ==</string>
 </resources>

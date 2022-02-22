@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
     <item
-        android:drawable="@drawable/flag_pk"
+        android:drawable="@drawable/flag_sa"
         android:gravity="top|left"
         android:left="@dimen/_14sdp"
         android:width="@dimen/_20sdp"

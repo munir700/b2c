@@ -18,22 +18,20 @@
         <item name="hintEnabled">false</item>
         <item name="startIconTint">@null</item>
         <item name="endIconTint">@null</item>
+        <item name="prefixText">+971</item>
         <item name="boxBackgroundMode">outline</item>
-        <item name="editTextStyle">@style/Yap.Widget.Outline</item>
+        <item name="shapeAppearanceOverlay">@style/Yap.Widget.Outline</item>
         <item name="endIconMode">custom</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">@dimen/_2sdp</item>
         <item name="boxBackgroundColor">@color/textInputBackgroundColor</item>
-        <item name="android:textColor">?attr/colorPrimaryDark</item>
         <item name="prefixTextAppearance">@style/Yap.Widget.TextInputLayout.Prefix</item>
-        <item name="boxStrokeColor">@color/purple</item>
-        <item name="prefixTextColor">@color/grey</item>
+        <item name="boxStrokeColor">@color/textInputBackgroundColor</item>
         <item name="hintTextColor">@color/greyDark</item>
         <item name="editTextBackground">@null</item>
         <item name="boxStrokeErrorColor">@color/error</item>
         <item name="errorTextColor">@color/error</item>
         <item name="errorIconDrawable">@drawable/ic_error</item>
-
     </style>
 
     <style name="Yap.App.Widget.TextInputLayout.Filled" parent="Widget.Design.TextInputLayout">
@@ -102,6 +100,8 @@
     <style name="Yap.Widget.TextInputLayout.Prefix" parent="">
         <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="prefixTextColor">@color/greyDark</item>
+        <item name="alpha">0.7</item>
     </style>
 
     <style name="Yap.App.Widget.TextInputLayout.Filled.Drawable" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">

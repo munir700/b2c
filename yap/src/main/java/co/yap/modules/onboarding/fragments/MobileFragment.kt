@@ -38,7 +38,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
             R.id.ccpContainer -> activity?.let { context ->
-                context.launchBottomSheetForMutlipleCountries(selectCountryItemClickListener, arrayListOf())
+                context.launchBottomSheetForMutlipleCountries(selectCountryItemClickListener)
             }
         }
     }

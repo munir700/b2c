@@ -8,5 +8,6 @@ open class CoreBottomSheetData(
     var sheetImage: Int? = -1,
     var content: String? = "",
     var subTitle: String? = "",
-    var isSelected: Boolean? = false
+    var isSelected: Boolean? = false,
+    var key : String? = "None"
 ) : Parcelable
