@@ -21,5 +21,6 @@ enum class ExtraKeys {
     IS_SKIP_PAY_BILL,
     IS_DELETED,
     IS_UPDATED,
-    ALL_BILLS
+    ALL_BILLS,
+    EMPLOYMENT_STATUS
 }

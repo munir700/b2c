@@ -13,6 +13,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.ButtonType
 
 interface IEmploymentQuestionnaire {
 
@@ -20,7 +21,12 @@ interface IEmploymentQuestionnaire {
         fun addObservers()
         fun removeObservers()
         fun getBinding(): FragmentEmploymentQuestionnaireBinding
-        fun showInfoDialog(title: String, message: String)
+      /*  fun showInfoDialog(
+            title: String,
+            message: String,
+            buttonTypes: ArrayList<ButtonType>,
+            cb: (view: android.view.View) -> Unit
+        )*/
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -79,6 +85,8 @@ interface IEmploymentQuestionnaire {
         fun isFromAmendment(): Boolean
         fun hasKeyInAmendmentMap(key: String?): Boolean
         fun validateForm()
+        fun selfEmploymentTypes(): MutableList<EmploymentType>
+
     }
 
     interface State : IBase.State {
