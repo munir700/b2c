@@ -30,13 +30,13 @@ import co.yap.modules.dashboard.home.adaptor.DashboardWidgetAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.component.categorybar.ISegmentClicked
+import co.yap.modules.dashboard.home.enums.EnumWidgetTitles
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
-import co.yap.modules.dashboard.home.enums.EnumWidgetTitles
 import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
