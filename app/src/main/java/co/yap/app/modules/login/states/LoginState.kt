@@ -27,12 +27,7 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
 
     override var emailError: MutableLiveData<String> = MutableLiveData("")
 
-    @get:Bindable
-    override var valid: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.valid)
-        }
+    override var valid: ObservableBoolean = ObservableBoolean(false)
 
 
     fun validate(): Boolean {
@@ -81,18 +76,19 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
 
     private fun setDefaultUI() {
         refreshField = true
-        valid = false
+        valid.set(false)
         drawbleRight = null
     }
 
     private fun setSuccessUI() {
         refreshField = true
-        valid = true
+        valid.set(true)
         emailError.value = ""
         drawbleRight = context.resources.getDrawable(R.drawable.path, null)
     }
     override var isError: ObservableBoolean = ObservableBoolean()
     override var countryCode: ObservableField<String> = ObservableField("+971")
     override var mobile: ObservableField<String> = ObservableField()
+    override var mobileNumber: MutableLiveData<String> = MutableLiveData("")
 
 }

@@ -23,10 +23,13 @@ import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getDropDownIconByName
+import co.yap.yapcore.helpers.extentions.hideKeyboard
+import co.yap.yapcore.helpers.extentions.launchBottomSheetForMutlipleCountries
+import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import com.ezaka.customer.app.utils.showKeyboard
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
@@ -99,18 +102,25 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
-            R.id.btnLogIn -> showToast("Navigate to Next")
+            R.id.btnLogIn -> {
+                viewModel.state.mobileNumber.value = Utils.verifyUsername(
+                    viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim() ?: ""
+                )
+                viewModel.validateUsername {error ->
+                 if (error.isNullOrEmpty().not())   getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error = error else navigateToPassCode()
+                }
+            }
         }
     }
 
     private fun navigateToPassCode() {
         val action =
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(
-                viewModel.state.twoWayTextWatcher,
+                viewModel.state.mobileNumber.value?:"",
                 isAccountBlocked = false
             )
         NavHostFragment.findNavController(this).navigate(action)
-        viewModel.state.twoWayTextWatcher = ""
+        viewModel.state.mobileNumber.value = ""
     }
 
     private val accountBlockedObserver = Observer<Boolean> { isAccountBlocked ->
@@ -137,9 +147,10 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                         data.key ?: "PK"
                     )
                 )
+                viewModel.state.mobile.set("")
                 viewModel.state.countryCode.set(data.content.toString())
                 getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocus()
-              //  getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.showKeyboard()
+                //  getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.showKeyboard()
                 getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.boxStrokeColor =
                     resources.getColor(R.color.colorPrimary)
             }
@@ -148,7 +159,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setTouchListener() {
-        etMobileNumber.setOnTouchListener(View.OnTouchListener { v, event ->
+        getDataBindingView<FragmentLogInBinding>().etMobileNumber.setOnTouchListener(View.OnTouchListener { v, event ->
             val drawableLeft = 0
             if (event.action == MotionEvent.ACTION_UP && event.rawX <=
                 etMobileNumber.compoundDrawables[drawableLeft].bounds.width()

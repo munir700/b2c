@@ -26,12 +26,13 @@ interface ILogin {
     interface State : IBase.State {
         var email: String
         var emailError: MutableLiveData<String>
-        var valid: Boolean
+        var valid: ObservableBoolean
         var twoWayTextWatcher: String
         var drawbleRight: Drawable?
         var refreshField: Boolean
         var isError: ObservableBoolean
         var countryCode: ObservableField<String>
         var mobile: ObservableField<String>
+        var mobileNumber: MutableLiveData<String>
     }
 }

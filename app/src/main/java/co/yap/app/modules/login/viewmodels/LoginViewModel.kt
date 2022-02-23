@@ -15,6 +15,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.helpers.validation.IValidator
@@ -39,8 +40,9 @@ class LoginViewModel(application: Application) :
 
     fun handlePressOnLogin(eventHandle: () -> Unit) {
         eventHandle.invoke()
-        /*  state.twoWayTextWatcher = Utils.verifyUsername(state.twoWayTextWatcher.trim())
-          validateUsername()*/
+        state.twoWayTextWatcher =
+            Utils.verifyUsername(state.twoWayTextWatcher.trim().filter { !it.isWhitespace() })
+        validateUsername{}
     }
 
     override fun handlePressOnSignUp() {
@@ -57,54 +59,59 @@ class LoginViewModel(application: Application) :
         }
     }
 
-    private fun validateUsername() {
+    fun validateUsername(success: (errorMessage: String) -> Unit) {
         launch {
             state.loading = true
-            when (val response = customersRepository.verifyUsername(state.twoWayTextWatcher)) {
+            when (val response =
+                customersRepository.verifyUsername(state.mobileNumber.value ?: "")) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data) {
                         parentViewModel?.signingInData?.clientId = state.twoWayTextWatcher
-                        signInButtonPressEvent.postValue(true)
+                        success.invoke("")
+                        state.isError.set(false)
                     } else {
                         state.emailError.value =
                             getString(Strings.screen_sign_in_display_text_error_text)
+                        success.invoke(state.emailError.value ?: "")
+                        state.isError.set(true)
                     }
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    handleBlockedAccountError(response.error)
+                    state.emailError.value = handleBlockedAccountError(response.error)
+                    success.invoke(state.emailError.value ?: "")
                     state.loading = false
+                    state.isError.set(true)
                 }
             }
         }
     }
 
-    private fun handleBlockedAccountError(error: ApiError) {
-        when (error.actualCode) {
+    private fun handleBlockedAccountError(error: ApiError): String {
+        return when (error.actualCode) {
             "AD-10018" -> {
                 isAccountBlocked.value = true
+                ""
             }
             else -> {
                 state.error = error.message
-                state.emailError.value = error.message
+                error.message
             }
 
         }
     }
 
     override var validator: Validator? = Validator(null)
-    fun onPhoneNumberTextChanged(
-        s: CharSequence, start: Int, before: Int,
-        count: Int
-    ) {
+    fun onPhoneNumberTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         state.isError.set(false)
-        validator?.isValidate?.value =
+        state.valid.set(
             isValidPhoneNumber(
                 s.toString(),
                 getCountryCodeForRegion(
                     state.countryCode.get().toString().replace("+", "").toInt()
                 )
             )
+        )
     }
 
 
