@@ -70,8 +70,6 @@ class TransactionsHeaderAdapter(
             adaptorClick: OnItemClickListener,
             groupPosition: Int
         ) {
-            lateinit var spannableStringBuilder: SpannableStringBuilder
-
             //itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date
             //itemTransactionListHeaderBinding.tvTotalAmount.text = homeTransaction.totalAmount
 
@@ -130,26 +128,27 @@ class TransactionsHeaderAdapter(
             }
 
             homeTransaction.totalAmount = value
-            /*set dte on header with superscript */
-            val superscriptText = homeTransaction.suffixForDay.toString()
-            val strText = homeTransaction.dateForBalance.toString()
-            spannableStringBuilder = SpannableStringBuilder(strText)
-            val superscriptSpan = SuperscriptSpan()
-            spannableStringBuilder.setSpan(
-                superscriptSpan,
-                strText.indexOf(superscriptText),
-                strText.indexOf(superscriptText) +
-                        superscriptText.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            val relativeSizeSpan = RelativeSizeSpan(.5f)
-            spannableStringBuilder.setSpan(
-                relativeSizeSpan,
-                strText.indexOf(superscriptText),
-                strText.indexOf(superscriptText) + superscriptText.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            itemTransactionListHeaderBinding.tvTransactionDate.text = spannableStringBuilder
+//            /*set dte on header with superscript */
+//            val superscriptText = homeTransaction.suffixForDay.toString()
+//            val strText = homeTransaction.dateForBalance.toString()
+//            spannableStringBuilder = SpannableStringBuilder(superscriptText)
+//            spannableStringBuilderPreText = SpannableStringBuilder(strText)
+//            val superscriptSpan = SuperscriptSpan()
+//            spannableStringBuilder.setSpan(
+//                superscriptSpan,
+//                superscriptText.indexOf(superscriptText),
+//                superscriptText.indexOf(superscriptText) +
+//                        superscriptText.length,
+//                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+//            )
+//            val relativeSizeSpan = RelativeSizeSpan(.5f)
+//            spannableStringBuilder.setSpan(
+//                relativeSizeSpan,
+//                superscriptText.indexOf(superscriptText),
+//                superscriptText.indexOf(superscriptText) + superscriptText.length,
+//                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+//            )
+           // itemTransactionListHeaderBinding.tvTransactionDate.text = spannableStringBuilderPreText.append(spannableStringBuilder).append( homeTransaction.balanceYear.toString())
 
             itemTransactionListHeaderBinding.viewModel =
                 ItemHeaderTransactionsViewModel(homeTransaction)
