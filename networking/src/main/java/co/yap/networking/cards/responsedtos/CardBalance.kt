@@ -7,7 +7,7 @@ data class CardBalance(
     @SerializedName("accountNumber")
     val accountNumber: String? = null,
     @SerializedName("availableBalance")
-    val availableBalance: String? = null,
+    val availableBalance: String? = "0.00",
     @SerializedName("currencyCode")
     val currencyCode: String? = null,
     @SerializedName("currencyDecimals")

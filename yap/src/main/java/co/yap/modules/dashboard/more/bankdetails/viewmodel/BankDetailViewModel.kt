@@ -11,6 +11,7 @@ import co.yap.yapcore.helpers.extentions.maskAccountNumber
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.managers.SessionManager
 
+@Deprecated(message = "We are using bottom sheet to show bank details now")
 class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.State>(application),
     IBankDetail.ViewModel {
 

@@ -17,6 +17,10 @@
         <variable
             name="tint"
             type="int" />
+
+        <variable
+            name="paddingvalue"
+            type="float" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,9 +36,10 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivIcon"
             tintAppCompatImageView="@{tint}"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:src="@{icon}"
+            paddingImage="@{paddingvalue}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
