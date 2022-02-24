@@ -3,6 +3,9 @@ package co.yap.modules.onboarding.interfaces
 import android.graphics.drawable.Drawable
 import android.widget.EditText
 import android.widget.TextView
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -24,11 +27,15 @@ interface IMobile {
         var mobile: String
         var drawbleRight: Drawable?
         var mobileError: String
-        var valid: Boolean
+        var valid: ObservableBoolean
         var errorVisibility: Int
         var background: Drawable?
         var activeFieldValue: Boolean
         var mobileNoLength: Int
+
+        var isError: ObservableBoolean
+        var countryCode: ObservableField<String>
+        var mobileNumber: MutableLiveData<String>
 
     }
 }

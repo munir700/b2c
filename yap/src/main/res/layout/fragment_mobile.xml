@@ -43,6 +43,42 @@
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlPhoneNumber"
+                style="@style/Yap.App.Widget.TextInputLayout.OutLined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_extra_small"
+                android:paddingTop="@dimen/margin_extra_small"
+                android:paddingRight="@dimen/margin_extra_small"
+                android:paddingBottom="@dimen/margin_extra_small"
+                android:singleLine="true"
+                android:visibility="visible"
+                app:endIconDrawable="@{viewModel.state.valid ? @drawable/path : null}"
+                app:errorEnabled="@{viewModel.state.isError}"
+                app:prefixText="@{viewModel.state.countryCode != null ?viewModel.state.countryCode:`+971` }"
+                app:prefixTextAppearance="@style/Yap.Widget.TextInputLayout.Prefix"
+                app:startIconDrawable="@drawable/draw_icon_ae"
+                tools:prefixText="+233">
+
+                <co.yap.widgets.edittext.PhoneTextInputEditText
+                    android:id="@+id/etMobileNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:digits="0123456789-"
+                    android:drawablePadding="@dimen/margin_small"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:onTextChanged="@{viewModel::onPhoneNumberTextChanged}"
+                    android:paddingVertical="@dimen/margin_normal_large"
+                    android:text="@={viewModel.state.mobile}"
+                    app:p_showHint="false"
+                    app:prefixTextNew="@{viewModel.state.countryCode}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <LinearLayout
                 android:id="@+id/ccpContainer"
                 android:layout_width="match_parent"
@@ -53,6 +89,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium"
+                android:visibility="gone"
                 android:weightSum="1"
                 app:isCCpActivated="@{viewModel.state.activeFieldValue}"
                 app:setBackGroundRes="@{viewModel.state.background}">
@@ -70,7 +107,6 @@
                     app:ccp_onFlagClick="false" />
 
                 <EditText
-                    android:id="@+id/etMobileNumber"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".99"
@@ -78,8 +114,8 @@
                     android:digits="1234567890 "
                     android:drawableEnd="@{viewModel.state.drawbleRight}"
                     android:drawableRight="@{viewModel.state.drawbleRight}"
-                    android:hint="@string/empty_string"
                     android:enabled="false"
+                    android:hint="@string/empty_string"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:maxLength="@{viewModel.state.mobileNoLength}"
@@ -87,7 +123,8 @@
                     android:singleLine="true"
                     android:text="@={viewModel.state.mobile}"
                     android:textColor="?attr/colorPrimaryDarkAttr"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="@dimen/_15sdp"
+                    android:visibility="visible" />
                 <!--                app:drawbleRight="@{viewModel.state.drawbleRight}"-->
                 <!--                app:isValid="@{viewModel.state.valid}"-->
             </LinearLayout>

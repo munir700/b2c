@@ -14,6 +14,8 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.helpers.getCountryCodeForRegion
+import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
 import java.util.*
@@ -29,6 +31,7 @@ class MobileViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
+
     override fun onResume() {
         super.onResume()
         setProgress(20)
@@ -56,7 +59,7 @@ class MobileViewModel(application: Application) :
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (state.valid) {
+                if (state.valid.get()) {
                     handlePressOnNext()
                 }
             }
@@ -65,14 +68,15 @@ class MobileViewModel(application: Application) :
     }
 
     private fun createOtp() {
-        var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
+        var mobileNumber: String =
+            state.mobile.trim().replace(state.countryCode.get()?.trim() ?: "", "")
         mobileNumber = state.mobile.trim().replace(" ", "")
         val formattedMobileNumber: String =
-            state.countryCode.trim() + " " + state.mobile.trim().replace(
-                state.countryCode.trim(),
+            state.countryCode.get()?.trim() + " " + state.mobile.trim().replace(
+                state.countryCode.get()?.trim() ?: "",
                 ""
             )
-        val countryCode: String = state.countryCode.trim().replace("+", "00")
+        val countryCode: String = state.countryCode.get()?.trim()?.replace("+", "00") ?: ""
         trackEvent(SignupEvents.SIGN_UP_NUMBER.type, countryCode + mobileNumber)
         launch {
             state.loading = true
@@ -97,5 +101,17 @@ class MobileViewModel(application: Application) :
             }
             state.loading = false
         }
+    }
+
+    fun onPhoneNumberTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        state.isError.set(false)
+        state.valid.set(
+            isValidPhoneNumber(
+                s.toString(),
+                getCountryCodeForRegion(
+                    state.countryCode.get().toString().replace("+", "").toInt()
+                )
+            )
+        )
     }
 }

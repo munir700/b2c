@@ -1,14 +1,17 @@
 package co.yap.modules.onboarding.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentMobileBinding
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
-import co.yap.yapcore.helpers.extentions.launchBottomSheetForMutlipleCountries
+import co.yap.networking.coreitems.CoreBottomSheetData
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_mobile.*
 
@@ -32,23 +35,47 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.requestDefaultFocus()
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
+        setTouchListener()
 
     }
+
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
-            R.id.ccpContainer -> activity?.let { context ->
-                context.launchBottomSheetForMutlipleCountries(selectCountryItemClickListener)
-            }
+            R.id.ccpContainer -> showToast("Blah Blah...")
         }
     }
+
     override fun onDestroyView() {
         viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroyView()
     }
+
     private val selectCountryItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            showToast("Chal beta chutti kr!!")
+            if (data is CoreBottomSheetData) {
+                getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.setStartIconDrawable(
+                    requireContext().getDropDownIconByName(
+                        data.key ?: "AE"
+                    )
+                )
+                viewModel.state.mobile = ""
+                viewModel.state.countryCode.set(data.content.toString())
+                getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.requestFocusForField()
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setTouchListener() {
+        getDataBindingView<FragmentMobileBinding>().etMobileNumber.setTouchListener {
+            getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.hideKeyboard()
+            activity?.let { context ->
+                context.launchBottomSheetForMutlipleCountries(
+                    selectCountryItemClickListener
+                )
+            }
         }
     }
 }

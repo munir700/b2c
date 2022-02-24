@@ -181,7 +181,7 @@ fun TextInputLayout.requestFocusForField() {
 
 fun TextInputLayout.requestDefaultFocus() {
     this.requestFocus()
-    this.boxStrokeColor = resources.getColor(R.color.grey)
+    this.boxStrokeColor = resources.getColor(R.color.textInputBackgroundColor)
     (this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
         InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
     )
