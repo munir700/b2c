@@ -8,7 +8,7 @@
         <variable
             name="cardChildItemViewModel"
             type="co.yap.modules.dashboard.cards.cardlist.CardChildItemViewModel" />
-
+        <import type="co.yap.yapcore.helpers.Utils" />
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
@@ -24,6 +24,7 @@
         android:paddingStart="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_small"
         android:paddingEnd="@dimen/margin_medium"
+        app:sensitiveViews="@{Utils.getViewsList(tvCardBalance,tvCardCurrency)}"
         android:layout_marginBottom="@dimen/margin_extra_small"
         >
 

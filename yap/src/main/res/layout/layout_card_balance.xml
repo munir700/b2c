@@ -14,7 +14,7 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.R" />
-
+        <import type="co.yap.yapcore.helpers.Utils" />
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <import type="co.yap.yapcore.managers.SessionManager" />
@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_15sdp"
+        app:sensitiveViews="@{Utils.getViewsList(tvCardBalanceTitle,tvCardBalance)}"
         app:cardStatus="@{cardViewModel.paymentCard}">
 
         <TextView
