@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:maxLines="1"
-                android:onClick="@{(v) -> viewModel.handlePressOnSignUp()}"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_extra_small"
                 android:paddingBottom="@dimen/margin_extra_small"
                 android:singleLine="true"

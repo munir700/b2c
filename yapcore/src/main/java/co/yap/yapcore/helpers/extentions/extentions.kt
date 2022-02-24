@@ -248,9 +248,3 @@ fun Context?.getJsonDataFromAsset(fileName: String): String? {
     }
     return jsonString
 }
-fun TextInputLayout.requestKeyboard() {
-    this.requestFocus()
-    (this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-        InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
-    )
-}

@@ -1,8 +1,12 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import android.util.Base64
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import co.yap.countryutils.country.Country
@@ -15,6 +19,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
@@ -90,7 +96,8 @@ fun FragmentActivity.launchMultiSelectionBottomSheet(
 }
 
 fun FragmentActivity.launchBottomSheetForMutlipleCountries(
-    itemClickListener: OnItemClickListener? = null) {
+    itemClickListener: OnItemClickListener? = null
+) {
     this.supportFragmentManager.let {
         val coreBottomSheet =
             CoreBottomSheet(
@@ -146,4 +153,36 @@ fun Context.fromSuperAppCountries(): ArrayList<Country> {
     val jsonString = gson.toJson(data)
     val sType = object : TypeToken<ArrayList<Country>>() {}.type
     return gson.fromJson(jsonString, sType)
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun TextInputEditText.setTouchListener(
+    callback: () -> Unit
+) {
+    setOnTouchListener(View.OnTouchListener { v, event ->
+        val drawableLeft = 0
+        if (event.action == MotionEvent.ACTION_UP && event.rawX <=
+            this.compoundDrawables[drawableLeft].bounds.width()
+        ) {
+            callback.invoke()
+            return@OnTouchListener true
+        }
+        false
+    })
+}
+
+fun TextInputLayout.requestFocusForField() {
+    this.requestFocus()
+    this.boxStrokeColor = resources.getColor(R.color.colorPrimary)
+    (this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+        InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
+    )
+}
+
+fun TextInputLayout.requestDefaultFocus() {
+    this.requestFocus()
+    this.boxStrokeColor = resources.getColor(R.color.grey)
+    (this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+        InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
+    )
 }
