@@ -30,6 +30,7 @@ interface IEmploymentQuestionnaireAmendment {
         var questionsList: ArrayList<QuestionUiFields>
         var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse>
         var isInEditMode: MutableLiveData<Boolean>
+        var accountActivated : MutableLiveData<Boolean>
         var businessCountriesLiveData: MutableLiveData<ArrayList<String>>
         var countries: ArrayList<Country>
         fun handleOnPressView(id: Int)
@@ -55,6 +56,8 @@ interface IEmploymentQuestionnaireAmendment {
         )
 
         fun getAllApiCallsInParallelForScreen()
+
+        fun setAnswersForQuestions()
 
         fun saveEmploymentInfo(
             employmentInfoRequest: EmploymentInfoRequest,

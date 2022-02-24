@@ -33,8 +33,48 @@
             app:leftIcon="@{R.drawable.ic_back_arrow_left}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightTitle="@{viewModel.state.rightButtonText}"
-            app:rightTitleVisibility="@{!viewModel.isInEditMode()}"
+            app:rightTitleVisibility="@{viewModel.accountActivated &amp;&amp; !viewModel.isInEditMode()}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/accountNotActiveStrip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_half"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_half"
+            android:visibility="@{viewModel.accountActivated ? View.GONE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <ImageView
+                android:id="@+id/lockImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_lock"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeadingTitle"
+                style="@style/NormalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:text="@string/screen_place_of_birth_display_text_heading"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/lockImageView"
+                app:layout_constraintStart_toEndOf="@+id/lockImageView"
+                app:layout_constraintTop_toTopOf="@+id/lockImageView"
+                app:text="@{Strings.screen_employment_type_display_text_account_blocked}"
+                tools:text="@string/screen_employment_type_display_text_account_blocked" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
             android:id="@+id/scrollView"
@@ -44,7 +84,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/accountNotActiveStrip">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

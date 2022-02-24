@@ -31,6 +31,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
@@ -63,6 +64,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var businessCountriesLiveData: MutableLiveData<ArrayList<String>> =
         MutableLiveData()
     override var countries: ArrayList<Country> = arrayListOf()
+    override var accountActivated: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isInEditMode: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun handleOnPressView(id: Int) {
@@ -83,6 +85,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
+        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         getAllApiCallsInParallelForScreen()
     }
 
@@ -322,48 +325,13 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         if (employmentResponse.data.data == null) {
                             // Manually adding EMPLOYED & sending empty response
-                            employmentStatus.value = EmploymentStatus.EMPLOYED
                             employmentStatusValue.value = EmploymentInfoAmendmentResponse()
+                            employmentStatus.value = EmploymentStatus.EMPLOYED
                         } else {
                             employmentResponse.data.data?.let { res ->
+                                employmentStatusValue.value = res
                                 employmentStatus.value =
                                     EmploymentStatus.valueOf(res.employmentStatus ?: "")
-                                employmentStatusValue.value = res
-                                when (employmentStatus.value) {
-                                    EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
-                                        val industrySegment = industrySegmentsList.first {
-                                            it.segmentCode == res.industrySubSegmentCode?.get(0) ?: ""
-                                        }
-                                        val objQuestionSegment = getDataForPosition(1)
-                                        objQuestionSegment.question.answer.set(industrySegment.segment)
-                                        // Check Selected Countries
-                                        val businessCountriesList: ArrayList<String> = ArrayList()
-                                        res.businessCountries?.let { selectedCountries ->
-                                            for (i in 0 until selectedCountries.size) {
-                                                businessCountriesList.add(countries.firstOrNull() {
-                                                    it.isoCountryCode2Digit.equals(selectedCountries[i])
-                                                }?.getName() ?: "")
-                                            }
-                                            selectedQuestionItemPosition = 2
-                                            businessCountriesLiveData.value = businessCountriesList
-                                        }
-                                    }
-                                    EmploymentStatus.OTHER -> {
-                                        selectedQuestionItemPosition = 0
-                                        val objQuestion =
-                                            getDataForPosition(selectedQuestionItemPosition)
-                                        objQuestion.question.answer.set(employmentTypes().firstOrNull {
-                                            it.employmentTypeCode == res.employmentType
-                                        }?.employmentType ?: "")
-                                        questionsList[selectedQuestionItemPosition] = objQuestion
-                                        when (objQuestion.question.questionType) {
-                                            QuestionType.DROP_DOWN_FIELD -> objQuestion.question.previousValue.set(objQuestion.question.answer.get())
-                                            else -> {}
-                                        }
-                                        //validateForm()
-                                    }
-                                    else -> {}
-                                }
                             }
                         }
                     }
@@ -373,6 +341,40 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 }
                 state.viewState.value = false
             }
+        }
+    }
+
+    override fun setAnswersForQuestions() {
+        when (employmentStatus.value) {
+            EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
+                val industrySegment = industrySegmentsList.first {
+                    it.segmentCode == employmentStatusValue.value?.industrySubSegmentCode?.get(0) ?: ""
+                }
+                val objQuestionSegment = getDataForPosition(1)
+                objQuestionSegment.question.answer.set(industrySegment.segment)
+                // Check Selected Countries
+                val businessCountriesList: ArrayList<String> = ArrayList()
+                employmentStatusValue.value?.businessCountries?.let { selectedCountries ->
+                    for (i in 0 until selectedCountries.size) {
+                        businessCountriesList.add(countries.firstOrNull() {
+                            it.isoCountryCode2Digit.equals(selectedCountries[i])
+                        }?.getName() ?: "")
+                    }
+                    selectedQuestionItemPosition = 2
+                    businessCountriesLiveData.value = businessCountriesList
+                }
+            }
+            EmploymentStatus.OTHER -> {
+                selectedQuestionItemPosition = 0
+                val objQuestion =
+                    getDataForPosition(selectedQuestionItemPosition)
+                objQuestion.question.answer.set(employmentTypes().firstOrNull {
+                    it.employmentTypeCode == employmentStatusValue.value?.employmentType ?: ""
+                }?.employmentType ?: "")
+                questionsList[selectedQuestionItemPosition] = objQuestion
+                //validateForm()
+            }
+            else -> {}
         }
     }
 
