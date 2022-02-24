@@ -187,14 +187,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
                 R.id.tvEmploymentInformationView -> {
                     val accountInfo = SessionManager.user
-                    if ((accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
+                    if (accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
                                 || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
                                 || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
                                 || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
                                 || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
                                 || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
-                                || accountInfo?.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
-                        && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
                     ) {
                         toast(
                             Translator.getString(
