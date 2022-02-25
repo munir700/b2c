@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.R
 import co.yap.databinding.ActivityViewDocumentBinding
-import co.yap.databinding.ActivityViewDocumentBindingImpl
 import co.yap.modules.document.enums.FileFrom
 import co.yap.modules.document.enums.FileType
 import co.yap.modules.document.enums.TakePhotoType
@@ -32,20 +30,20 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         private const val LINK = "LINK"
         private const val FILETYPE = "FILETYPE"
         private const val FILEFROM = "FILEFROM"
-        private const val ISNEEDTOUPDATEFILE = "ISNEEDTOUPDATEFILE"
+        private const val ISNEEDTOSHOWONLYUPDATEOPTION = "ISNEEDTOSHOWONLYUPDATEOPTION"
 
         fun newIntent(
             context: Context,
             link: String,
             fileType: String,
             fileFrom: String,
-            isNeedToUpdateFile: Boolean
+            isNeedToShowOnlyUpdateOption: Boolean
         ): Intent {
             val intent = Intent(context, ViewDocumentActivity::class.java)
             intent.putExtra(LINK, link)
             intent.putExtra(FILEFROM, fileFrom)
             intent.putExtra(FILETYPE, fileType)
-            intent.putExtra(ISNEEDTOUPDATEFILE, isNeedToUpdateFile)
+            intent.putExtra(ISNEEDTOSHOWONLYUPDATEOPTION, isNeedToShowOnlyUpdateOption)
             return intent
         }
     }
@@ -68,10 +66,10 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
         val link = intent?.getValue(LINK, ExtraType.STRING.name) as? String
         val fileFrom = intent?.getValue(FILEFROM, ExtraType.STRING.name) as? String
         val filetype = intent?.getValue(FILETYPE, ExtraType.STRING.name) as? String
-        val isNeedToUpdateFile = intent?.getBooleanExtra(ISNEEDTOUPDATEFILE, false)
+        val isNeedToUpdateFile = intent?.getBooleanExtra(ISNEEDTOSHOWONLYUPDATEOPTION, false)
 
         viewModel.state.fileType?.value = filetype
-        viewModel.state.isNeedToUpdateFile?.value = isNeedToUpdateFile ?: false
+        viewModel.state.isNeedToShowOnlyUpdateOption?.value = isNeedToUpdateFile ?: false
 
         loadFileInView(filetype, fileFrom, link)
     }
@@ -115,17 +113,19 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                 onBackPressed()
             }
             R.id.ivshare -> {
-                if (viewModel.state.isNeedToUpdateFile.value == true) {
+                if (viewModel.state.isNeedToShowOnlyUpdateOption.value == true) {
                     uploadAlert()
                 } else {
                     showDialogueOptions()
                 }
             }
             R.id.ivdelete -> {
-//                viewDataBinding?.root?.pdfView?.fromFile(null)?.show()
                 viewModel.state.filePath?.value = null
                 viewModel.state.ImageUrlForImageView?.value = null
                 viewModel.state.fileType?.value = null
+                viewModel.state.isPDF.value = false
+                viewDataBinding?.root?.iviImage?.setImageResource(0)
+
             }
         }
     }
@@ -156,6 +156,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                                         FileFrom.Local().local,
                                         FileUtils.getFile(context, uriIntent.data).absolutePath
                                     )
+                                    viewModel.state.isNeedToShowOnlyUpdateOption?.value = false
                                 } else {
                                     showToast("You can select 25 mb size file only")
                                 }
@@ -223,6 +224,7 @@ class ViewDocumentActivity : BaseBindingImageActivity<IViewDocumentActivity.View
                 FileFrom.Local().local,
                 mediaFile.file.absolutePath
             )
+            viewModel.state.isNeedToShowOnlyUpdateOption?.value = false
         } else {
             showToast("You can select 25 mb size file only")
         }
