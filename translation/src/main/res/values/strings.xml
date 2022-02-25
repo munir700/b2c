@@ -19,6 +19,8 @@
     <string name="common_button_submit">Submit</string>
     <string name="common_text_thanks">Thanks</string>
     <string name="common_text_hey">Hey</string>
+    <string name="common_text_go_back">Go back</string>
+    <string name="common_text_complete">Complete</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_text_edit_now">Edit now</string>
@@ -558,7 +560,7 @@
     <string name="screen_profile_settings_display_text_follow_us">Follow us</string>
     <string name="screen_profile_settings_display_text_like_us">Like us</string>
     <string name="screen_profile_settings_display_text_logout">Log out</string>
-    <string name="screen_profile_settings_display_toast_text_account_not_active">Account not activated</string>
+    <string name="screen_profile_settings_display_toast_text_account_not_active">Please complete your application to access this section</string>
 
     <!-- update profile photo Bottom Sheet -->
 

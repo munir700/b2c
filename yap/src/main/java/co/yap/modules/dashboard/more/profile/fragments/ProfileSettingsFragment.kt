@@ -19,17 +19,22 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
 import co.yap.modules.webview.WebViewFragment
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.bottomsheet.BottomSheetItem
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
+import co.yap.yapcore.dialogs.showTwoOptionsAlertDialog
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -188,18 +193,41 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.tvEmploymentInformationView -> {
                     val accountInfo = SessionManager.user
                     if (accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
-                                || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
-                                || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
-                                || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
-                                || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
-                                || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
+                        || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
+                        || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                        || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
                     ) {
-                        toast(
-                            Translator.getString(
-                                requireContext(),
-                                Strings.screen_profile_settings_display_toast_text_account_not_active
+                        context?.let { context ->
+                            context.showTwoOptionsAlertDialog(
+                                dialogTitle = getString(Strings.screen_profile_settings_display_toast_text_account_not_active),
+                                dialogDescription = null,
+                                leftButtonText = getString(Strings.common_text_go_back),
+                                rightButtonText = getString(Strings.common_text_complete),
+                                callback = {
+                                    if (SessionManager.user?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name) {
+                                        startActivityForResult(
+                                            LocationSelectionActivity.newIntent(
+                                                context = requireContext(),
+                                                address = SessionManager.userAddress ?: Address(),
+                                                headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
+                                                subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
+                                                onBoarding = true
+                                            ), RequestCodes.REQUEST_FOR_LOCATION
+                                        )
+                                    } else {
+                                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                                            putExtra(
+                                                Constants.name,
+                                                SessionManager.user?.currentCustomer?.firstName.toString()
+                                            )
+                                            putExtra(Constants.data, false)
+                                        }
+                                    }
+                                }
                             )
-                        )?.show()
+                        }
                     } else {
                         startFragment(
                             fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name
