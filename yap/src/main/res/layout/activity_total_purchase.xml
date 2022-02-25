@@ -56,7 +56,7 @@
             android:gravity="center_horizontal"
             android:maxLines="1"
             android:singleLine="true"
-            android:text="@{viewModel.transaction.merchantName}"
+            android:text="@{viewModel.state.merchantName}"
             android:textColor="@color/greyDark"
             android:textSize="@dimen/text_size_h2"
             tools:text="StarBucks" />
@@ -99,7 +99,8 @@
             app:msv_animateViewChanges="true"
             app:msv_emptyView="@layout/error_view_no_transaction_found"
             app:msv_errorView="@layout/error_view_no_transaction_found"
-            app:msv_loadingView="@layout/layout_loading_view">
+            app:msv_loadingView="@layout/layout_loading_view"
+            app:msv_viewState="content">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

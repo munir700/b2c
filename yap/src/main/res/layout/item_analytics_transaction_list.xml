@@ -19,15 +19,17 @@
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
-        <import type="co.yap.yapcore.managers.SessionManager" />
-
         <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="constant"
             type="co.yap.yapcore.constants.Constants"/>
 
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
+        <import type="co.yap.yapcore.constants.Constants" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,16 +50,26 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivItemAnalyticTransaction"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:padding="@{viewModel.analyticsType.equals(`merchant-category-id`)?@dimen/margin_small:@dimen/margin_zero_dp}"
+                android:visibility="@{viewModel.analyticsType.equals(Constants.TOTAL_PURCHASE)?View.GONE:View.VISIBLE}"
+                tools:src="@drawable/ic_access_alarm" />
+
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivItemTransaction"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/_12sdp"
-                android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)?@dimen/margin_zero_dp:@dimen/margin_small}"
-                tools:src="@drawable/ic_access_alarm"
-                app:cropImage="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)}"
-                />
+                android:padding="@{viewModel.analyticsType.equals(`merchant-category-id`)?@dimen/margin_small:@dimen/margin_zero_dp}"
+                android:visibility="@{viewModel.analyticsType.equals(Constants.TOTAL_PURCHASE)?View.VISIBLE:View.GONE}"
+                app:cropImage="@{viewModel.analyticsType != `merchant-category-id`}"
+                tools:src="@drawable/ic_access_alarm" />
         </FrameLayout>
 
         <TextView
@@ -69,7 +81,6 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/margin_normal"
             android:singleLine="true"
-            android:text="@{viewModel.item.title}"
             android:textColor="@color/colorMidnightExpress"
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
@@ -94,7 +105,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:alpha="0.5"
-            android:text="@{TransactionExtentionsKt.getTransactionTime(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)+` \u2022 `+TransactionExtentionsKt.getTransferType(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)}"
             app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
@@ -110,14 +120,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
             tools:text="AED" />
+
         <View
             android:id="@+id/dividerBottom"
             android:layout_width="0dp"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/divider"
             android:layout_marginTop="@dimen/margin_normal_large"
+            android:background="@color/divider"
+            app:layout_constraintEnd_toEndOf="@id/tvCurrency"
             app:layout_constraintStart_toStartOf="@id/tvTransactionTimeAndCategory"
-            app:layout_constraintTop_toBottomOf="@id/tvTransactionTimeAndCategory"
-            app:layout_constraintEnd_toEndOf="@id/tvCurrency" />
+            app:layout_constraintTop_toBottomOf="@id/tvTransactionTimeAndCategory" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

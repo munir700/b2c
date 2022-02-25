@@ -52,6 +52,9 @@
     <color name="colorSecondaryMagenta">#F44774</color>
 
     <color name="colorMidnightExpress">#1e1c37</color>
+    <color name="colorCardBg">#EDF0F8</color>
+    <color name="colorImageBg">#ede6ff</color>
+
     <color name="colorDarkSlateBlue">#2f2067</color>
     <color name="colorBlueyPurple">#6334b6</color>
     <color name="colorPurpleMain">#5e35b1</color>

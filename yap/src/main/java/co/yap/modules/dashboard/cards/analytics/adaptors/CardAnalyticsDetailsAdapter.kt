@@ -14,7 +14,7 @@ class CardAnalyticsDetailsAdapter(mValue: MutableList<ApiResponse>, navigation: 
         mValue,
         navigation
     ) {
-    override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
+    override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun getViewHolder(
         view: View,
         viewModel: CardAnalyticsDetailsItemVM,
@@ -25,7 +25,7 @@ class CardAnalyticsDetailsAdapter(mValue: MutableList<ApiResponse>, navigation: 
         mDataBinding
     )
 
-    override fun getViewModel() = CardAnalyticsDetailsItemVM()
+    override fun getViewModel( viewType: Int) = CardAnalyticsDetailsItemVM()
     override fun getVariableId() = BR.cardAnalyticsDetailsItemViewModel
 
     class ViewHolder(

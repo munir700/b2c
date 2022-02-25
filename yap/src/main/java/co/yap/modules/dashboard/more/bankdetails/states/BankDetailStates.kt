@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.more.bankdetails.interfaces.IBankDetail
 import co.yap.yapcore.BaseState
 
+@Deprecated(message = "We are using bottom sheet to show bank details now")
 class BankDetailStates : BaseState(), IBankDetail.State {
     override var name: ObservableField<String> = ObservableField()
     override var swift: ObservableField<String> = ObservableField("")

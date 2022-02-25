@@ -101,7 +101,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
-            android:alpha="0.5"
             android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransferType(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION))}"
             android:textColor="@{TransactionExtentionsKt.isTransactionRejected(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/greyDark}"
             app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
@@ -115,7 +114,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@{TransactionExtentionsKt.getCurrency(homeTransactionChildItemVM.item)}"
             android:textColor="@{TransactionExtentionsKt.isTransactionRejected(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/greyDark}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
@@ -128,7 +126,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_weight="1"
-            android:alpha="0.5"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{homeTransactionChildItemVM.item.transactionNote==null?``:homeTransactionChildItemVM.item.transactionNote}"
@@ -145,7 +142,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_weight="1"
-            android:alpha="0.5"
             android:maxLines="2"
             android:text="@{TransactionExtentionsKt.getStatus(homeTransactionChildItemVM.item)}"
             android:textColor="@color/greyDark"
@@ -154,6 +150,17 @@
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionNote"
             tools:text="Transaction rejected" />
+
+        <TextView
+            android:id="@+id/tvForeignCurrency"
+            style="@style/ASmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
+            app:layout_constraintStart_toStartOf="@+id/tvTransactionName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionStatus"
+            tools:text="CAD 7.00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

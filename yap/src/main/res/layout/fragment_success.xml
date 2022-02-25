@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="co.yap.yapcore.helpers.Utils" />
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel" />
@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(cvLocationCard)}"
         android:orientation="vertical">
 
         <TextView

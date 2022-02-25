@@ -34,10 +34,8 @@ allprojects {
         mavenCentral()
         maven { url "https://repo.leanplum.com/" }
         maven { url 'https://jitpack.io' }
-        maven { url "https://dl.bintray.com/drummer-aidan/maven" }
         maven { url "http://pay.cards/maven" }
         maven {url 'https://sdk.uxcam.com/android/'}
-//        maven { url "https://dl.bintray.com/drummer-aidan/maven" }
     }
 }
 

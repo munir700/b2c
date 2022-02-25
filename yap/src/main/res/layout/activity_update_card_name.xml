@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <data>
 
         <import type="co.yap.translation.Strings" />
         <import type="co.yap.yapcore.helpers.Utils" />
+
+        <import type="android.text.TextUtils" />
 
         <variable
             name="viewModel"
@@ -49,7 +52,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="@string/screen_card_name_title_change_card_name"
-                    app:text="@{Strings.screen_card_name_title_change_card_name}"/>
+                    app:text="@{Strings.screen_card_name_title_change_card_name}" />
 
             </RelativeLayout>
 
@@ -71,75 +74,77 @@
                     android:id="@+id/ivCard"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_100sdp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:contentDescription="@string/empty_string"
+                    app:cardImageUrl="@{viewModel.state.card.frontImage == null ? `` : viewModel.state.card.frontImage }"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    android:contentDescription="@string/empty_string"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    app:cardImageUrl="@{viewModel.state.card.frontImage == null ? `` : viewModel.state.card.frontImage }" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvCardType"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/ivCard"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="center"
-                    android:text="Spare Card" />
+                    android:text="Spare Card"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivCard" />
 
                 <EditText
                     android:id="@+id/etName"
                     style="@style/ALarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_56sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
                     android:background="@null"
                     android:gravity="start"
                     android:hint="@string/screen_card_name_hint_enter_card_name"
-                    app:hint="@{Strings.screen_card_name_hint_enter_card_name}"
                     android:inputType="textPersonName"
                     android:maxLength="@integer/spareCardName"
                     android:paddingEnd="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
                     android:text="@={viewModel.state.cardName}"
                     android:textColor="@color/colorPrimaryDarkHouseHold"
                     android:textColorHint="@color/greyDark"
                     android:textSize="@dimen/text_size_h3"
+                    app:hint="@{Strings.screen_card_name_hint_enter_card_name}"
                     app:layout_constraintHorizontal_bias="0.486"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardType" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/disabledDark"
-                    app:layout_constraintTop_toBottomOf="@+id/etName"
                     android:layout_marginTop="@dimen/margin_extra_small"
+                    android:background="@color/disabledDark"
+                    app:layout_constraintEnd_toEndOf="@+id/etName"
                     app:layout_constraintStart_toStartOf="@+id/etName"
-                    app:layout_constraintEnd_toEndOf="@+id/etName"/>
+                    app:layout_constraintTop_toBottomOf="@+id/etName" />
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnConfirm"
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:btn_size="small"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                    android:text="Confirm"
-                    app:enableCoreButton="@{viewModel.state.valid}"
+                    app:btn_size="small"
+                    app:enableCoreButton="@{!TextUtils.isEmpty(viewModel.state.cardName)}"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etName"
                     app:layout_constraintVertical_bias="0.988"
                     app:layout_goneMarginTop="@dimen/margin_extra_large"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}"
+                    tools:text="Confirm" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

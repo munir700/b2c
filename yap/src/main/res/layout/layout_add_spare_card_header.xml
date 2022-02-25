@@ -25,8 +25,8 @@
             android:layout_width="@dimen/_160sdp"
             android:layout_height="@dimen/_240sdp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/card_spare"
             android:orientation="vertical"
+            android:src="@drawable/card_spare"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,17 +36,17 @@
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_18sdp"
             android:layout_marginTop="@dimen/_30sdp"
-            android:textSize="@dimen/_9sdp"
             android:background="@drawable/round_light_gery_background"
             android:gravity="center"
             android:text="@{cardType}"
             android:textColor="?attr/colorPrimaryAttr"
-            tools:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_9sdp"
             app:btn_unpressed_color="@color/disabledLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
-            tools:text="Primary Card" />
+            tools:text="Primary Card"
+            tools:textColor="@color/colorPrimary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -205,6 +205,11 @@ enum class FirebaseEvent(val event: String?, val screenName: String?) {
         "deliverystarted",
         "Meeting_01a"
     ),
+    /**	User opens 'Your card is on its way' for the first time	*/
+    KYC_END(
+        "kyc_end",
+        "Meeting_01a"
+    ),
 
     /**	User clicks on Use Touch Id, upon first sign in	*/
     SETUP_TOUCH_ID(
