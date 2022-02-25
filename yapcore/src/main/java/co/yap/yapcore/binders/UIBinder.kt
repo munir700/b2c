@@ -11,11 +11,10 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.ContactsContract
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.TextWatcher
+import android.text.*
 import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.SuperscriptSpan
 import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -1169,6 +1168,29 @@ object UIBinder {
     @JvmStatic
     fun setPaddingImage(imageView: AppCompatImageView, padding: Float) {
             imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
+    }
+
+    @BindingAdapter(requireAll = true, value = ["year", "date", "superscript"])
+    @JvmStatic
+    fun setDateWithSuperScript(textView: TextView,year:String,strText:String, superscriptText:String){
+        val spannableStringBuilder = SpannableStringBuilder(superscriptText)
+        val spannableStringBuilderPreText = SpannableStringBuilder(strText)
+        val superscriptSpan = SuperscriptSpan()
+        spannableStringBuilder.setSpan(
+            superscriptSpan,
+            superscriptText.indexOf(superscriptText),
+            superscriptText.indexOf(superscriptText) +
+                    superscriptText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        val relativeSizeSpan = RelativeSizeSpan(.5f)
+        spannableStringBuilder.setSpan(
+            relativeSizeSpan,
+            superscriptText.indexOf(superscriptText),
+            superscriptText.indexOf(superscriptText) + superscriptText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        textView.text = spannableStringBuilderPreText.append(spannableStringBuilder).append(year)
     }
 
     /*

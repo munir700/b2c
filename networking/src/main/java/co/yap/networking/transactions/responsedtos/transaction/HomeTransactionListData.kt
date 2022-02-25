@@ -46,5 +46,7 @@ data class HomeTransactionListData(
     @Transient
     var dateForBalance: String? = null,
     @Transient
-    var suffixForDay: String? = null
+    var suffixForDay: String? = null,
+    @Transient
+    var balanceYear: String? = null
 ) : ApiResponse()

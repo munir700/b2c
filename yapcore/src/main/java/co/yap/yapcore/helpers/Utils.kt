@@ -824,7 +824,7 @@ object Utils {
     }
     fun categoryColorValidation(categoryColor : String):Int{
         var categoryColorCode:Int = -1
-        return if (categoryColor.isEmpty()) {-1
+        return if (categoryColor.isEmpty()) { Color.parseColor("#2d2d2d")
         } else {
             categoryColorCode = if (categoryColor.startsWith("#", true))
             Color.parseColor(categoryColor)
