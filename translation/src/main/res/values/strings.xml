@@ -558,6 +558,7 @@
     <string name="screen_profile_settings_display_text_follow_us">Follow us</string>
     <string name="screen_profile_settings_display_text_like_us">Like us</string>
     <string name="screen_profile_settings_display_text_logout">Log out</string>
+    <string name="screen_profile_settings_display_toast_text_account_not_active">Account not activated</string>
 
     <!-- update profile photo Bottom Sheet -->
 
@@ -1474,6 +1475,7 @@
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
     <string name="screen_employment_type_display_text_bottom_sheet_title">Select employment status:</string>
+    <string name="screen_employment_type_display_text_account_blocked">This account is in process to be activated</string>
     <!--    ERROR_INVALID_CARDINPUT-->
     <!--    Samsung Pay start-->
     <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>

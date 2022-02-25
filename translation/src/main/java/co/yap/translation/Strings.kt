@@ -868,6 +868,8 @@ object Strings {
         "screen_profile_settings_display_text_like_us"
     const val screen_profile_settings_display_text_logout: String =
         "screen_profile_settings_display_text_logout"
+    const val screen_profile_settings_display_toast_text_account_not_active: String =
+        "screen_profile_settings_display_toast_text_account_not_active"
 
 //update photo bottom sheet
 
@@ -2352,6 +2354,8 @@ object Strings {
         "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
     const val screen_employment_type_display_text_bottom_sheet_title =
         "screen_employment_type_display_text_bottom_sheet_title"
+    const val screen_employment_type_display_text_account_blocked =
+        "screen_employment_type_display_text_account_blocked"
 
 
     //Edit Card Name Screen

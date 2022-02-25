@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
-import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.skeletonlayout.views
@@ -55,7 +54,6 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.updateEditMode(false)
         addObservers()
     }
 
@@ -65,12 +63,14 @@ class EmploymentQuestionnaireAmendmentFragment :
     }
 
     private fun initQuestionViews() {
+        viewModel.questionsList.clear()
         viewModel.questionsList.addAll(
             viewModel.questionnaires(
                 viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED,
                 viewModel.employmentStatusValue.value
             )
         )
+        getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.removeAllViews()
         val questionItemViewHolders = QuestionItemViewHolders()
         viewModel.questionsList.forEachIndexed { position, questionUiField ->
             val questionView: View?
@@ -96,6 +96,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                 )
             binding.lifecycleOwner = this
         }
+        viewModel.setAnswersForQuestions()
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.post {
             viewModel.validator?.targetViewBinding =
                 getDataBindingView<FragmentEmploymentQuestionnaireBinding>()
@@ -125,8 +126,8 @@ class EmploymentQuestionnaireAmendmentFragment :
         }
     }
 
-    private val employmentStatusLoadedObserver =
-        Observer<EmploymentInfoAmendmentResponse> {
+    private val employmentTypeLoadedObserver =
+        Observer<EmploymentStatus> {
             initQuestionViews()
         }
 
@@ -159,7 +160,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                             showHeaderSeparator = true
                         ),
                         countriesList = viewModel.getSelectedStateCountries(
-                            viewModel.parentViewModel?.countries ?: arrayListOf()
+                            viewModel.countries
                         )
                     )
                 }
@@ -216,13 +217,13 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.employmentStatusValue.observe(this, employmentStatusLoadedObserver)
+        viewModel.employmentStatus.observe(this, employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.observe(this, businessCountriesLiveDataObserver)
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
-        viewModel.employmentStatusValue.removeObserver(employmentStatusLoadedObserver)
+        viewModel.employmentStatus.removeObserver(employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.removeObserver(businessCountriesLiveDataObserver)
     }
 
@@ -239,7 +240,7 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onStop() {
         super.onStop()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        viewModel.parentViewModel?.countries?.unSelectAllCountries(
+        viewModel.countries.unSelectAllCountries(
             viewModel.selectedBusinessCountries.get() ?: arrayListOf()
         )
     }

@@ -22,11 +22,14 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -183,9 +186,25 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     navigateToNotificationSettings()
                 }
                 R.id.tvEmploymentInformationView -> {
-                    startFragment(
-                        fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name
-                    )
+                    val accountInfo = SessionManager.user
+                    if (accountInfo?.notificationStatuses == AccountStatus.ON_BOARDED.name
+                                || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_EID.name
+                                || accountInfo?.notificationStatuses == AccountStatus.FSS_PROFILE_UPDATED.name
+                                || accountInfo?.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
+                                || accountInfo?.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                                || accountInfo?.notificationStatuses == AccountStatus.FATCA_GENERATED.name
+                    ) {
+                        toast(
+                            Translator.getString(
+                                requireContext(),
+                                Strings.screen_profile_settings_display_toast_text_account_not_active
+                            )
+                        )?.show()
+                    } else {
+                        startFragment(
+                            fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name
+                        )
+                    }
                 }
             }
         })
