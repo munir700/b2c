@@ -13,6 +13,8 @@ object Strings {
     const val common_button_submit: String = "common_button_submit"
     const val common_text_thanks: String = "common_text_thanks"
     const val common_text_hey: String = "common_text_hey"
+    const val common_text_go_back: String = "common_text_go_back"
+    const val common_text_complete: String = "common_text_complete"
 
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
