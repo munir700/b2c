@@ -33,6 +33,7 @@ interface IEmploymentQuestionnaireAmendment {
         var accountActivated : MutableLiveData<Boolean>
         var businessCountriesLiveData: MutableLiveData<ArrayList<String>>
         var countries: ArrayList<Country>
+        val documentAdapter : DocumentsAdapter
         fun handleOnPressView(id: Int)
         fun updateEditMode(isEditable: Boolean)
         fun questionnaires(

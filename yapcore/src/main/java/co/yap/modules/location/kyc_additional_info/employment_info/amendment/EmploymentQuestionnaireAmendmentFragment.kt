@@ -97,6 +97,7 @@ class EmploymentQuestionnaireAmendmentFragment :
             binding.lifecycleOwner = this
         }
         viewModel.setAnswersForQuestions()
+        viewModel.documentAdapter.setList(viewModel.employmentStatusValue.value?.documents ?: mutableListOf())
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.post {
             viewModel.validator?.targetViewBinding =
                 getDataBindingView<FragmentEmploymentQuestionnaireBinding>()

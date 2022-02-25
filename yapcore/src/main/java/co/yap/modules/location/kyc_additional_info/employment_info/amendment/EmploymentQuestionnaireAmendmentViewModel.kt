@@ -67,6 +67,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var countries: ArrayList<Country> = arrayListOf()
     override var accountActivated: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isInEditMode: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val documentAdapter = DocumentsAdapter(mutableListOf())
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -86,7 +87,8 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value =
+            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
         getAllApiCallsInParallelForScreen()
     }
 
