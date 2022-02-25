@@ -407,16 +407,17 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             industrySubSegmentCode = "USED CARS",
             monthlySalary = "1000.0"
         )
-        /*val empOtherRes = EmploymentInfoAmendmentResponse(
+        val empOtherRes = EmploymentInfoAmendmentResponse(
             employmentStatus = "OTHER",
             employmentType = "RETIRED",
             expectedMonthlyCredit = "300.0",
             monthlySalary = "1000.0",
-            sponsor = "Microsoft"
-        )*/
+            sponsorName = "Microsoft",
+            documents = arrayListOf(Document(DocumentTypes.PROOF_OF_INCOME.name, "https://yap/customer_data/1000002709/documents/1638797811931_1638797788318.jpg","pdf", "Proof of Income", "Upload salary certificate, Pay slip, Increment Letter or Labor Contract"))
+        )
         val response = BaseResponse<EmploymentInfoAmendmentResponse>()
-        response.data = empRes
-        //response.data = empOtherRes
+        //response.data = empRes
+        response.data = empOtherRes
         return RetroApiResponse.Success(200, response)*/
     }
 
