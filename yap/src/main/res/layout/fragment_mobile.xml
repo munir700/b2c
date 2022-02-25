@@ -147,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_extra_large"
-            android:onClick="@{() -> viewModel.handlePressOnNext()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@string/screen_phone_number_button_send"
             app:btn_size="small"
             app:enableCoreButton="@{viewModel.state.valid}"

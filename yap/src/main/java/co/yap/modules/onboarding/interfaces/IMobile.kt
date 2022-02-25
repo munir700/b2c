@@ -21,6 +21,7 @@ interface IMobile {
         fun onEditorActionListener(): TextView.OnEditorActionListener
         var clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
+        fun createOtp(success: (success : Boolean) -> Unit)
     }
 
     interface State : IBase.State {

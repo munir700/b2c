@@ -109,15 +109,19 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
             R.id.btnLogIn -> {
-                viewModel.state.mobileNumber.value = Utils.verifyUsername(
-                    viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim() ?: ""
-                )
-                viewModel.validateUsername { error ->
-                    if (error.isNullOrEmpty()
-                            .not()
-                    ) getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error =
-                        error else navigateToPassCode()
+                if (getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.prefixText != "+971") showToast("Coming Soon!")
+                else{
+                    viewModel.state.mobileNumber.value = Utils.verifyUsername(
+                        viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim() ?: ""
+                    )
+                    viewModel.validateUsername { error ->
+                        if (error.isNullOrEmpty()
+                                .not()
+                        ) getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.error =
+                            error else navigateToPassCode()
+                    }
                 }
+
             }
             R.id.tvSignUp -> findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
 
@@ -147,6 +151,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 viewModel.state.mobile.set("")
                 viewModel.state.countryCode.set(data.content.toString())
                 getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.requestFocusForField()
+
             }
         }
     }

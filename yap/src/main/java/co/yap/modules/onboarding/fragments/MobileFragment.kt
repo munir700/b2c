@@ -13,7 +13,6 @@ import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_mobile.*
 
 
 class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
@@ -27,10 +26,10 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.nextButtonPressEvent.observe(this, Observer {
-            navigate(R.id.phoneVerificationFragment)
-        })
-        viewModel.getCcp(etMobileNumber)
+        /* viewModel.nextButtonPressEvent.observe(this, Observer {
+             navigate(R.id.phoneVerificationFragment)
+         })*/
+        // viewModel.getCcp(etMobileNumber)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,12 +42,25 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
-            R.id.ccpContainer -> showToast("Blah Blah...")
+            R.id.next_button -> {
+                if (getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.prefixText != "+971") showToast(
+                    "Coming Soon!"
+                )
+                else {
+                    viewModel.createOtp { success ->
+                        if (success) {
+                            navigate(R.id.phoneVerificationFragment)
+                        }
+                    }
+                }
+            }
+
         }
     }
 
     override fun onDestroyView() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
+        viewModel.clickEvent.removeObserver(clickListenerHandler)
+        //  viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroyView()
     }
 
@@ -72,9 +84,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
         getDataBindingView<FragmentMobileBinding>().etMobileNumber.setTouchListener {
             getDataBindingView<FragmentMobileBinding>().tlPhoneNumber.hideKeyboard()
             activity?.let { context ->
-                context.launchBottomSheetForMutlipleCountries(
-                    selectCountryItemClickListener
-                )
+                context.launchBottomSheetForMutlipleCountries(selectCountryItemClickListener)
             }
         }
     }

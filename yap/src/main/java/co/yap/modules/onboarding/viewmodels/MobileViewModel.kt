@@ -51,9 +51,8 @@ class MobileViewModel(application: Application) :
 
     override fun handlePressOnNext() {
         // Record the updatedDate
-        parentViewModel?.onboardingData?.startTime = Date()
         // Send OTP request
-        createOtp()
+        createOtp{}
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
@@ -67,7 +66,8 @@ class MobileViewModel(application: Application) :
         }
     }
 
-    private fun createOtp() {
+    override fun createOtp(success: (success : Boolean) -> Unit) {
+        parentViewModel?.onboardingData?.startTime = Date()
         var mobileNumber: String =
             state.mobile.trim().replace(state.countryCode.get()?.trim() ?: "", "")
         mobileNumber = state.mobile.trim().replace(" ", "")
@@ -88,7 +88,7 @@ class MobileViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    nextButtonPressEvent.value = true
+                    success.invoke(true)
                     parentViewModel?.onboardingData?.countryCode = countryCode
                     parentViewModel?.onboardingData?.mobileNo = mobileNumber
                     parentViewModel?.onboardingData?.formattedMobileNumber = formattedMobileNumber
@@ -96,6 +96,7 @@ class MobileViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
                     state.mobileError = response.error.message
+                    success.invoke(false)
                     trackEvent(SignupEvents.SIGN_UP_NUMBER_ERROR.type, response.error.message)
                 }
             }
