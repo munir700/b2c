@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.yapcore.R" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Translator" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/toolbar_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightTitle="@{viewModel.state.rightButtonText}"
+            app:rightTitleVisibility="@{!viewModel.isInEditMode()}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                    android:id="@+id/tvEmploymentStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:dividerPadding="@dimen/margin_medium_large"
+                    android:enabled="@{viewModel.isInEditMode()}"
+                    android:hint="@{Translator.INSTANCE.getString(context,Strings.common_text_employment_status)}"
+                    android:textColorHint="@color/colorPlaceHolderGrey"
+                    android:visibility="@{viewModel.employmentStatusValue != null ? View.VISIBLE:View.GONE}"
+                    app:hintTextAppearance="@style/LabelTextStyl"
+                    app:hintTextColor="@color/colorPlaceHolderGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <co.yap.widgets.edittext.EditTextRichDrawable
+                        android:id="@+id/tvEmploymentStatusDropDown"
+                        style="@style/ARegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                        android:drawableTint="@color/greyDark"
+                        android:hint="@{Translator.INSTANCE.getString(context,Strings.common_text_employment_status)}"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                        android:padding="@dimen/margin_small"
+                        android:singleLine="true"
+                        android:text='@{viewModel.employmentStatus == viewModel.employmentStatus.NONE ? "" : viewModel.employmentStatus.status}'
+                        android:textColor="@color/colorPrimaryDark"
+                        android:theme="@style/Theme.EditText.Primary"
+                        app:compoundDrawableHeight="@dimen/margin_medium_large"
+                        app:compoundDrawableWidth="@dimen/margin_medium_large"
+                        app:drawableEndVector="@drawable/ic_chevron_down"
+                        app:editable="@{false}"
+                        app:highlightAmendmentField="@{true}"
+                        app:validateEmpty="@{true}"
+                        tools:text="@string/common_text_employment_status" />
+
+
+                </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llQuestions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/margin_extra_large"
+                    app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEmploymentStatus" />
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/btnSubmit"
+                    style="@style/FragmentsBtnStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
+                    android:background="@color/white"
+                    android:gravity="bottom"
+                    android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                    app:btn_size="small"
+                    app:enableCoreButton="@{viewModel.validator.isValidate}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:text="@{Strings.common_button_save}"
+                    tools:text="@string/common_button_save" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

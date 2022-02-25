@@ -10,7 +10,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
+import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
@@ -42,7 +43,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
     override val viewModel: IProfile.ViewModel
-        get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
+        get() = ViewModelProvider(this).get(ProfileSettingsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -180,6 +181,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
                 R.id.llNotification -> {
                     navigateToNotificationSettings()
+                }
+                R.id.tvEmploymentInformationView -> {
+                    startFragment(
+                        fragmentName = EmploymentQuestionnaireAmendmentFragment::class.java.name
+                    )
                 }
             }
         })

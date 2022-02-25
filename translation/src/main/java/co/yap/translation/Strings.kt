@@ -21,6 +21,7 @@ object Strings {
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
     const val common_button_save: String = "common_button_save"
+    const val common_text_employment_status: String = "common_text_employment_status"
     const val common_button_activate: String = "common_button_activate"
     const val common_button_delete: String = "common_button_delete"
     const val common_text_currency_type: String = "common_text_currency_type"
@@ -833,6 +834,10 @@ object Strings {
         "screen_profile_settings_display_text_profile"
     const val screen_profile_settings_display_text_personal_detail: String =
         "screen_profile_settings_display_text_personal_detail"
+    const val screen_profile_settings_display_text_employment_information: String =
+        "screen_profile_settings_display_text_employment_information"
+    const val screen_employment_information_display_right_toolbar_text: String =
+        "screen_employment_information_display_right_toolbar_text"
     const val screen_profile_settings_display_text_view: String =
         "screen_profile_settings_display_text_view"
     const val screen_profile_settings_display_text_change: String =
@@ -2345,6 +2350,9 @@ object Strings {
         "screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you"
     const val screen_employment_questionnaire_display_text__bottom_sheet_title_segments =
         "screen_employment_questionnaire_display_text__bottom_sheet_title_segments"
+    const val screen_employment_type_display_text_bottom_sheet_title =
+        "screen_employment_type_display_text_bottom_sheet_title"
+
 
     //Edit Card Name Screen
     const val screen_edit_card_name_text_heading: String = "screen_edit_card_name_text_heading"
