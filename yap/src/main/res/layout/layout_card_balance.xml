@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cardViewModel"
+            type="co.yap.modules.dashboard.cards.home.viewmodels.YapCardItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.R" />
+
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        app:cardStatus="@{cardViewModel.paymentCard}">
+
+        <TextView
+            android:id="@+id/tvCardBalanceTitle"
+            style="@style/MicroGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_cards_display_text_card_balance}"
+            tools:text="card Balanance" />
+
+        <TextView
+            android:id="@+id/tvCardBalance"
+            style="@style/LabelTextStylInActive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="@{CurrencyExtensionsKt.toFormattedCurrency(cardViewModel.paymentCard.availableBalance,true,SessionManager.INSTANCE.defaultCurrency,true)}"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardBalanceTitle"
+            app:layout_constraintStart_toStartOf="@+id/tvCardBalanceTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardBalanceTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

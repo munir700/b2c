@@ -21,6 +21,9 @@
 
         <import type="co.yap.yapcore.R" />
 
+        <import type="co.yap.wallet.samsung.SamsungPayStatus" />
+
+
     </data>
 
 
@@ -32,146 +35,102 @@
             android:id="@+id/imgCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/margin_normal_large"
             android:background="@drawable/white_round_card_background"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:src="@drawable/card_spare" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/cardLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:rotation="-90"
-            android:text="VIRTUAL CARD"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_size_h1"
-            android:visibility="@{viewModel.paymentCard.cardType.equals(Constants.INSTANCE.CARD_TYPE_DEBIT) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/imgCard"
-            app:layout_constraintEnd_toEndOf="@+id/imgCard"
-            app:layout_constraintHorizontal_bias="0.378"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.267"
-            tools:textColor="@color/colorPrimaryDark" />
 
         <ImageView
             android:id="@+id/imgStatus"
-            android:layout_width="@dimen/_48sdp"
-            android:layout_height="@dimen/_48sdp"
-            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="@dimen/margin_xl"
+            android:layout_height="@dimen/margin_xl"
+            android:layout_marginEnd="@dimen/margin_extra_small"
+            android:layout_marginBottom="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
-            android:elevation="@dimen/_2sdp"
+            android:elevation="@dimen/_1sdp"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:cardStatus="@{viewModel.paymentCard}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.71"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:src="@drawable/ic_status_expired" />
 
         <TextView
             android:id="@+id/tvCardName"
-            style="@style/ASmall"
+            style="@style/ALargeGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
             android:ellipsize="end"
             android:gravity="center"
-            android:maxLines="2"
+            android:maxLines="1"
             android:text="@{viewModel.cardName}"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toTopOf="@+id/imgCard"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
-            app:layout_constraintTop_toBottomOf="@+id/imgCard"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Rose Gold Premium card" />
 
-        <LinearLayout
+        <include
             android:id="@+id/layoutStatusSection"
+            layout="@layout/layout_card_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
             android:orientation="vertical"
-            app:cardStatus="@{viewModel.paymentCard}"
+            app:cardViewModel="@{viewModel}"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintTop_toBottomOf="@+id/imgCard"
+             tools:visibility="visible" />
+
+        <FrameLayout
+            android:id="@+id/frameContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
-            tools:visibility="visible">
+            app:layout_constraintTop_toBottomOf="@+id/imgCard" >
 
-            <TextView
-                android:id="@+id/tvCardStatus"
-                style="@style/ASmallGrey"
+            <include
+                layout="@layout/layout_card_balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_extra_large"
-                android:layout_marginEnd="@dimen/margin_extra_large"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="2"
-                app:cardStatus="@{viewModel.paymentCard}"
-                tools:text="We are now processing your account. Please wait for activation to be completed shortly" />
+                android:layout_gravity="center_horizontal"
+                app:cardViewModel="@{viewModel}" />
 
-            <TextView
-                android:id="@+id/tvCardStatusAction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:background="@drawable/round_purple_background"
-                android:gravity="center"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_c3"
-                app:cardButtonStatus="@{viewModel.paymentCard}"
-                tools:text="Update Card" />
-        </LinearLayout>
-
+        </FrameLayout>
         <include
             android:id="@+id/includeWalletButton"
             layout="@layout/layout_wallet_buttons"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_gravity="center_horizontal"
+            app:viewModel="@{viewModel}"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toBottomOf="@+id/frameContainer"
+            app:layout_constraintBottom_toTopOf="@+id/lySeeDetail"/>
 
-        <LinearLayout
+        <include
             android:id="@+id/lySeeDetail"
+            layout="@layout/layout_view_card_details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:gravity="center"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
-            android:orientation="vertical"
-            app:cardSeeDetailVisibility="@{viewModel.paymentCard}"
-            app:layout_constraintEnd_toEndOf="@+id/includeWalletButton"
-            app:layout_constraintStart_toStartOf="@+id/includeWalletButton"
-            app:layout_constraintTop_toBottomOf="@+id/includeWalletButton"
-            tools:text="Update Card"
-            tools:visibility="visible">
-
-
-            <ImageView
-                android:id="@+id/imgDetail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/empty_string"
-                android:src="@drawable/ic_action_up" />
-
-            <TextView
-                android:id="@+id/tvDetail"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="center"
-                android:textColor="?attr/colorPrimaryAttr"
-                app:text="@{Strings.screen_cards_display_text_see_details}" />
-        </LinearLayout>
-
+            app:cardViewModel="@{viewModel}"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/frameContainer"
+            app:layout_constraintStart_toStartOf="@+id/frameContainer"
+            app:layout_constraintTop_toBottomOf="@+id/includeWalletButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
