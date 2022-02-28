@@ -2,12 +2,14 @@ package co.yap.countryutils.country
 
 import android.content.Context
 import android.os.Parcelable
+import androidx.annotation.Keep
 import co.yap.countryutils.country.utils.Currency
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.networking.coreitems.CoreBottomSheetData
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@Keep
 data class Country(
     var id: Int? = null,
     var isoCountryCode3Digit: String? = null,
