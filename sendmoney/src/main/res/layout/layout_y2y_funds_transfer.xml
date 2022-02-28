@@ -137,14 +137,13 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:background="@null"
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
-                android:maxLength="@integer/notes_internal_transfer_length"
+                android:maxLength="@integer/remarks_length_limit"
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
                 android:textColorHint="@color/colorPrimaryDarkFadedLight"
-                app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
+                app:hint="@{Strings.screen_y2y_funds_transfer_display_text_remarks_placeholder}"
                 app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
-                tools:hint="@string/screen_y2y_funds_transfer_display_text_note_placeholder" />
+                tools:hint="@string/screen_y2y_funds_transfer_display_text_remarks_placeholder" />
 
             <View
                 android:layout_width="@dimen/margin_zero_dp"

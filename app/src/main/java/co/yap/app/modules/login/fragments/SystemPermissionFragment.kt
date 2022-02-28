@@ -88,10 +88,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 if (isGranted) navigateToNotificationSettings() else {
                     navigateToDashboard()
                     viewModel.getNotificationScreenValues(isGranted)
-
-
                 }
-
             }
         }
     }

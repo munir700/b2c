@@ -37,7 +37,9 @@ class TransactionDetailComposer(val context: Context) : TransactionDetailItemsCo
                 categoryType = transactionDetailFactory?.isCategoryGeneral(),
                 categoryDescription = transactionDetailFactory?.getCategoryDescription(),
                 tapixCategory = transactionDetailFactory?.getTapixCategory(),
-                showFeedBack = transactionDetailFactory?.showFeedbackOption()
+                showFeedBack = transactionDetailFactory?.showFeedbackOption(),
+                isDeclinedTransaction = transactionDetailFactory?.isDeclinedTransaction(),
+                isMApVisible = transactionDetailFactory?.isMApVisible()
             )
         } ?: return null
     }

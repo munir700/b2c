@@ -8,6 +8,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.icu.util.TimeZone
 import android.os.Build
 import android.telephony.TelephonyManager
@@ -820,5 +821,16 @@ object Utils {
             return firstData
         }
         return str
+    }
+    fun categoryColorValidation(categoryColor : String):Int{
+        var categoryColorCode:Int = -1
+        return if (categoryColor.isEmpty()) { Color.parseColor("#2d2d2d")
+        } else {
+            categoryColorCode = if (categoryColor.startsWith("#", true))
+            Color.parseColor(categoryColor)
+            else
+                Color.parseColor( "#${categoryColor}")
+            categoryColorCode
+        }
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="cardViewModel"
+            type="co.yap.modules.dashboard.cards.home.viewmodels.YapCardItemViewModel" />
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+    <LinearLayout
+        android:id="@+id/lySeeDetailMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:cardSeeDetailVisibility="@{cardViewModel.paymentCard}"
+        tools:text="Update Card"
+        tools:visibility="visible">
+
+
+        <ImageView
+            android:id="@+id/imgDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/empty_string"
+            android:src="@drawable/ic_action_up" />
+
+        <TextView
+            android:id="@+id/tvDetail"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center"
+            android:textColor="?attr/colorPrimaryAttr"
+            app:text="@{Strings.screen_cards_display_text_see_details}" />
+    </LinearLayout>
+
+</layout>

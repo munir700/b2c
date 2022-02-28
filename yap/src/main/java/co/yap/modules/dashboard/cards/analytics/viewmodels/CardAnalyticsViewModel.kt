@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.app.Application
-import androidx.databinding.ObservableField
+import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
@@ -11,15 +11,14 @@ import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
-import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
+import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
-import co.yap.yapcore.helpers.extentions.setCircularDrawable
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -31,10 +30,9 @@ class CardAnalyticsViewModel(application: Application) :
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    private var currentDate: Date? = Date()
+    override var currentDate: Date? = null
     private var listOfMonths: List<Date> = arrayListOf()
-
-    override var type: ObservableField<String> = ObservableField("merchant-category-id")
+//    override var type: ObservableField<String> = ObservableField("merchant-category-id")
 
     override fun onCreate() {
         super.onCreate()
@@ -48,8 +46,12 @@ class CardAnalyticsViewModel(application: Application) :
             startDate,
             endDate
         )
+        currentDate.let {
+            currentDate = Date()
+        }
         setSelectedDate(currentDate)
         state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
+        state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -197,20 +199,22 @@ class CardAnalyticsViewModel(application: Application) :
 
     private fun setSelectedDate(currentDate: Date?) {
         state.displayMonth =
-            currentDate?.let { DateUtils.getStartAndEndOfMonthAndDay(it) } ?: ""
-        state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MON_YEAR, false)
+            currentDate?.let { DateUtils.getMonth(it) } ?: ""
+        state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MONTH_YEAR, false)
         parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
         parentViewModel?.state?.currentSelectedDate =
             DateUtils.dateToString(currentDate, SIMPLE_DATE_FORMAT, false)
     }
 
-    override fun setPieChartIcon(image: CoreCircularImageView) {
-        image.setCircularDrawable(
-            title = state.selectedTxnAnalyticsItem.get()?.title ?: "",
-            url = state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
-            position = state.selectedItemPosition.get(),
-            type = type.get() ?: "merchant-name",
-            showBackground = (state.selectedTxnAnalyticsItem.get()?.logoUrl.isNullOrEmpty() || state.selectedTxnAnalyticsItem.get()?.logoUrl == " ")
+    override fun setPieChartIcon(image: ImageView) {
+        ImageBinding.loadCategoryAvatar(
+            image,
+            state.selectedTxnAnalyticsItem.get()?.logoUrl ?: "",
+            state.selectedTxnAnalyticsItem.get()?.title ?: "",
+            state.selectedItemPosition.get(),
+            isBackground = false,
+            showFirstInitials = false,
+            categoryColor = ""
         )
     }
 }
