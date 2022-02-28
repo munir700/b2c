@@ -14,6 +14,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.UTC
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 
 class TransactionSearchViewModel(application: Application) :
@@ -21,6 +22,7 @@ class TransactionSearchViewModel(application: Application) :
     override val state = TransactionSearchState()
     override var transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
     override var clickEvent = SingleClickEvent()
+    override var job: Job? = null
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -30,7 +32,7 @@ class TransactionSearchViewModel(application: Application) :
         transactionRequest: HomeTransactionsRequest?,
         isLoadMore: Boolean, apiResponse: ((State?, HomeTransactionListData?) -> Unit?)?
     ) {
-        launch {
+        job = launch {
             if (!isLoadMore)
                 state.stateLiveData?.value = State.loading(null)
             when (val response =
@@ -75,10 +77,13 @@ class TransactionSearchViewModel(application: Application) :
                     apiResponse?.invoke(state.stateLiveData?.value, response.data.data)
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-                    state.stateLiveData?.value = State.error(null)
-                    apiResponse?.invoke(state.stateLiveData?.value, null)
+                    //This is done because we have to cancel the job when user change the input
+                    if( response.error.statusCode > 0){
+                        state.loading = false
+                        state.toast = response.error.message
+                        state.stateLiveData?.value = State.error(null)
+                        apiResponse?.invoke(state.stateLiveData?.value, null)
+                    }
                 }
             }
         }
@@ -127,5 +132,10 @@ class TransactionSearchViewModel(application: Application) :
                 tempMap.size
             )
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
     }
 }

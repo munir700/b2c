@@ -46,14 +46,7 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
             notifyPropertyChanged(BR.cardPanNumber)
         }
 
-    @get:Bindable
-    override var cardBalance: String = "${SessionManager.getDefaultCurrency()}0.00"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.cardBalance)
-        }
-
-    @get:Bindable
+        @get:Bindable
     override var cardName: String = ""
         set(value) {
             field = value
@@ -90,4 +83,5 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
 
     override var filterCount: ObservableField<Int> = ObservableField(0)
     override var isTxnsEmpty: ObservableField<Boolean> = ObservableField(false)
+    override var cardBalance: ObservableField<String> = ObservableField("${SessionManager.getDefaultCurrency()}0.00")
 }

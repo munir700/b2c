@@ -4,11 +4,8 @@ import android.content.Context
 import android.text.*
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.widget.TextViewCompat
-import co.yap.widgets.DrawableClickEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.managers.SessionManager
 import java.text.DecimalFormat
 import java.util.*
@@ -267,14 +264,19 @@ class CoreEditText : AppCompatEditText {
                         if (valStr.contains(".")) {
                             if (valStr.indexOf(".") == valStr.length - 1) {
                                 // decimal has been currently put
-                                val front = getDecoratedStringFromNumber(
-                                    valStr.substring(
-                                        0,
-                                        valStr.length - 1
-                                    ).toLong()
-                                )
-                                textToDisplay = "$front."
-                                setText(textToDisplay)
+                                if (valStr.startsWith(".")) {
+                                    textToDisplay = valStr
+                                    setText(textToDisplay)
+                                } else {
+                                    val front = getDecoratedStringFromNumber(
+                                        valStr.substring(
+                                            0,
+                                            valStr.length - 1
+                                        ).toLong()
+                                    )
+                                    textToDisplay = "$front."
+                                    setText(textToDisplay)
+                                }
                             } else {
                                 val nums =
                                     getValueString().split("\\.".toRegex()).toTypedArray()

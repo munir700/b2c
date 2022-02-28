@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import androidx.fragment.app.Fragment
 import co.yap.R
+import co.yap.databinding.FragmentDashboardHomeBinding
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.addionalinfo.activities.AdditionalInfoActivity
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -27,7 +28,7 @@ import co.yap.yapcore.managers.SessionManager
 
 class DashboardNotificationStatusHelper(
     val fragment: Fragment,
-    val binding: FragmentYapHomeBinding,
+    val binding: FragmentDashboardHomeBinding,
     val viewModel: IYapHome.ViewModel
 ) {
     var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null

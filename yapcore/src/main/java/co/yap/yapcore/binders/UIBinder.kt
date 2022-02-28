@@ -11,11 +11,10 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.ContactsContract
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.TextWatcher
+import android.text.*
 import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.SuperscriptSpan
 import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -175,9 +174,8 @@ object UIBinder {
     fun setCardDetailLayoutVisibility(linearLayout: LinearLayout, card: Card) {
         when (card.status) {
             CardStatus.ACTIVE.name -> {
-                if (card.cardType == CardType.DEBIT.type) {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
-                        linearLayout.visibility = GONE
+                if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                        linearLayout.visibility = if(card.pinCreated) VISIBLE else GONE
                 } else {
                     linearLayout.visibility = VISIBLE
                 }
@@ -216,13 +214,13 @@ object UIBinder {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
+                        imageView.visibility = VISIBLE
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
-                            imageView.visibility = VISIBLE
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
-                            imageView.visibility = GONE
+                            imageView.setImageResource(R.drawable.iconsinformative)
                     } else
-                        imageView.visibility = GONE
+                        imageView.setImageResource(R.drawable.iconsinformative)
                 }
                 CardStatus.BLOCKED -> {
                     imageView.visibility = VISIBLE
@@ -240,8 +238,8 @@ object UIBinder {
                     imageView.visibility = VISIBLE
                     imageView.setImageResource(R.drawable.ic_status_expired)
                 }
-
             }
+
     }
 
     // Card status message text
@@ -1138,7 +1136,6 @@ object UIBinder {
                 )
             }
         }
-
     }
 
     @BindingAdapter("strikeThroughText")
@@ -1146,5 +1143,53 @@ object UIBinder {
     fun AppCompatTextView.strikeThroughText(isStrikeThrough: Boolean) {
         this.paintFlags =
             if (isStrikeThrough) this.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+    }
+
+    // Card Balance visibility
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(constraintLayout: ConstraintLayout, card: Card) {
+        if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
+           constraintLayout.visibility = when (CardStatus.valueOf(card.status)) {
+                CardStatus.ACTIVE -> {
+                        if (card.cardType == CardType.DEBIT.type && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
+                            && !card.pinCreated)
+                            GONE else VISIBLE
+                }
+                CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
+                     GONE
+                }
+               else -> GONE
+           }
+        }
+    }
+
+    @BindingAdapter("paddingImage")
+    @JvmStatic
+    fun setPaddingImage(imageView: AppCompatImageView, padding: Float) {
+            imageView.setPadding(padding.toInt(), padding.toInt(), padding.toInt(), padding.toInt())
+    }
+
+    @BindingAdapter(requireAll = true, value = ["year", "date", "superscript"])
+    @JvmStatic
+    fun setDateWithSuperScript(textView: TextView,year:String,strText:String, superscriptText:String){
+        val spannableStringBuilder = SpannableStringBuilder(superscriptText)
+        val spannableStringBuilderPreText = SpannableStringBuilder(strText)
+        val superscriptSpan = SuperscriptSpan()
+        spannableStringBuilder.setSpan(
+            superscriptSpan,
+            superscriptText.indexOf(superscriptText),
+            superscriptText.indexOf(superscriptText) +
+                    superscriptText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        val relativeSizeSpan = RelativeSizeSpan(.5f)
+        spannableStringBuilder.setSpan(
+            relativeSizeSpan,
+            superscriptText.indexOf(superscriptText),
+            superscriptText.indexOf(superscriptText) + superscriptText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        textView.text = spannableStringBuilderPreText.append(spannableStringBuilder).append(year)
     }
 }
