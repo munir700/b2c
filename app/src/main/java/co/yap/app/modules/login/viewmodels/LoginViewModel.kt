@@ -5,7 +5,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.LoadConfig
 import co.yap.app.UserVerifierProvider
+import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
@@ -16,7 +18,6 @@ import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.helpers.isValidPhoneNumber
@@ -28,9 +29,6 @@ class LoginViewModel(application: Application) :
     ILogin.ViewModel,
     IRepositoryHolder<AuthRepository>, IValidator,
     Validator.ValidationListener {
-
-    override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: LoginState = LoginState(application = application)
     override val repository: AuthRepository = AuthRepository
     private val customersRepository: CustomersRepository = CustomersRepository
@@ -40,17 +38,12 @@ class LoginViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    fun handlePressOnLogin(eventHandle: () -> Unit) {
+/*    fun handlePressOnLogin(eventHandle: () -> Unit) {
         eventHandle.invoke()
         state.twoWayTextWatcher =
             Utils.verifyUsername(state.twoWayTextWatcher.trim().filter { !it.isWhitespace() })
         validateUsername {}
-    }
-
-    override fun handlePressOnSignUp() {
-        signUpButtonPressEvent.value = true
-
-    }
+    }*/
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
@@ -69,7 +62,8 @@ class LoginViewModel(application: Application) :
                 customersRepository.verifyUsername(state.mobileNumber.value ?: "")) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data) {
-                        parentViewModel?.signingInData?.clientId = state.twoWayTextWatcher
+                        //  parentViewModel?.signingInData?.clientId = state.twoWayTextWatcher
+                        state.mobile.set(parentViewModel?.signingInData?.clientId)
                         success.invoke("")
                         state.isError.set(false)
                     } else {

@@ -35,12 +35,17 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import com.yap.yappakistan.configs.PKBuildConfigurations
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 @HiltAndroidApp
 class AAPApplication : YAPApplication(), NavigatorProvider {
+
+    @Inject
+    lateinit var pkBuildConfigurations: PKBuildConfigurations
 
     private external fun signatureKeysFromJNI(
         name: String,
@@ -57,6 +62,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
+        LoadConfig().initConfigs(applicationContext, pkBuildConfigurations)
         initFireBase()
         val originalSign =
             signatureKeysFromJNI(

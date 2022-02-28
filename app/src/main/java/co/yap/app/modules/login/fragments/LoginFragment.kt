@@ -39,6 +39,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     override val viewModel: LoginViewModel
         get() = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initiatePreference()
@@ -70,21 +71,22 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
         SessionManager.isRemembered.value =
             sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, true)
-        SessionManager.isRemembered.value?.let {
-            etEmailField.editText.setText(if (it) sharedPreferenceManager.getDecryptedUserName() else "")
-            if (etEmailField.editText.length() > 1) etEmailField.editText.setSelection(etEmailField.editText.length())
-        }
+        //TODO() Need to be modified according to the Country Number
+        /* SessionManager.isRemembered.value?.let {
+             etEmailField.editText.setText(if (it) sharedPreferenceManager.getDecryptedUserName() else "")
+             if (etEmailField.editText.length() > 1) etEmailField.editText.setSelection(etEmailField.editText.length())
+         }*/
     }
 
     private fun setObservers() {
         viewModel.clickEvent.observe(viewLifecycleOwner, clickListenerHandler)
         viewModel.isAccountBlocked.observe(viewLifecycleOwner, accountBlockedObserver)
-        viewModel.state.emailError.observe(viewLifecycleOwner, Observer {
-            if (!it.isNullOrBlank()) {
-                etEmailField.settingUIForError(it)
-                etEmailField.settingErrorColor(R.color.error)
-            }
-        })
+        /*   viewModel.state.emailError.observe(viewLifecycleOwner, Observer {
+               if (!it.isNullOrBlank()) {
+                   etEmailField.settingUIForError(it)
+                   etEmailField.settingErrorColor(R.color.error)
+               }
+           })*/
         KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner, object :
             KeyboardVisibilityEventListener {
             override fun onVisibilityChanged(isOpen: Boolean) {
@@ -96,13 +98,13 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
         viewModel.userVerified.observe(viewLifecycleOwner, Observer {
-            if (it == "0092") {
+            if (it == "+92") {
                 launchActivity<AuthenticationActivity> {
                     putExtra("countryCode", "+92")
                     putExtra("mobileNo", "3224642870")
                     putExtra("isAccountBlocked", false)
                 }
-            } else if (it == "00233") {
+            } else if (it == "+233") {
                 launchActivity<GhAuthenticationActivity> {
                     putExtra("countryCode", "+233")
                     putExtra("mobileNo", "2339999999")
@@ -126,13 +128,19 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private val clickListenerHandler = Observer<Int> { id ->
         when (id) {
             R.id.btnLogIn -> {
-                if (getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.prefixText != "+971") {
-                    viewModel.verifyUser("", "")
-                    showToast("Coming Soon!")
+                val countryCode =
+                    getDataBindingView<FragmentLogInBinding>().tlPhoneNumber.prefixText.toString()
+                val mobileNo =
+                    viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim()
+                        ?: ""
+                if (countryCode != "+971") {
+                    activity?.baseContext?.let { context ->
+                        viewModel.verifyUser(countryCode, mobileNo)
+                    }
+
                 } else {
                     viewModel.state.mobileNumber.value = Utils.verifyUsername(
-                        viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim()
-                            ?: ""
+                        mobileNo
                     )
                     viewModel.validateUsername { error ->
                         if (error.isNullOrEmpty()

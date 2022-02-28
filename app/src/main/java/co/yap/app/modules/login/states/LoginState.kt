@@ -27,7 +27,7 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
 
     override var emailError: MutableLiveData<String> = MutableLiveData("")
 
-    override var valid: ObservableBoolean = ObservableBoolean(false)
+    override var  valid: ObservableBoolean = ObservableBoolean(false)
 
 
     fun validate(): Boolean {
