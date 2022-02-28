@@ -1459,8 +1459,8 @@
     <string name="screen_employment_information_selection_display_text_employment_status">What is your employment status?</string>
     <string name="screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose">We only ask you this questions for administrative purpose. It does not impact your ability to sign up to a YAP account. </string>
     <string name="screen_employment_information_selection_display_button_text_next">Next</string>
-    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask you about your monthly salary?</string>
-    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum salary requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account.</string>
+    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask about your total monthly income?</string>
+    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum monthly income requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account</string>
     <string name="screen_employment_information_dialog_button_text_close">Close</string>
     <string name="screen_employment_information_cash_dialog_display_text_heading">For those people who still use cash, how much cash will you add to YAP per month?</string>
     <string name="screen_employment_information_cash_dialog_display_text_subheading">We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account.</string>

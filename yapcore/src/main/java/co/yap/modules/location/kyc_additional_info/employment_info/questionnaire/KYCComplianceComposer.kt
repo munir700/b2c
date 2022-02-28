@@ -27,7 +27,7 @@ class KYCComplianceComposer :
             EMPLOYED -> arrayListOf(
                 QuestionUiFields(
                     question = Question(
-                        questionTitle = "Tell us where you work?",
+                        questionTitle = "Who is your employer?",
                         placeholder = "Employer name",
                         questionType = QuestionType.EDIT_TEXT_FIELD,
                         answer = ObservableField(status?.employerName ?: ""),
@@ -37,7 +37,7 @@ class KYCComplianceComposer :
                 ),
                 QuestionUiFields(
                     question = Question(
-                        questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
+                        questionTitle = "What is your total monthly income?",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.monthlySalary ?: ""),
@@ -102,7 +102,7 @@ class KYCComplianceComposer :
                 ),
                 QuestionUiFields(
                     question = Question(
-                        questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
+                        questionTitle = "What is your total monthly income?",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.monthlySalary ?: ""),
@@ -156,7 +156,7 @@ class KYCComplianceComposer :
                 ),
                 QuestionUiFields(
                     question = Question(
-                        questionTitle = "What is your monthly salary? Don’t worry there is no minimum salary requirement.",
+                        questionTitle = "What is your total monthly income?",
                         placeholder = "Enter the amount",
                         questionType = QuestionType.EDIT_TEXT_FIELD_WITH_AMOUNT,
                         answer = ObservableField(status?.monthlySalary ?: "5000"),
@@ -175,7 +175,11 @@ class KYCComplianceComposer :
                     ), key = EmploymentQuestionIdentifier.DEPOSIT_AMOUNT
                 )
             )
-            NONE -> TODO()
+            NONE -> {
+                //TODO()
+                arrayListOf()
+            }
+
         }
     }
 }
