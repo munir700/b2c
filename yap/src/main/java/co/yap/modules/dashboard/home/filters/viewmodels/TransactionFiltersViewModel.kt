@@ -12,6 +12,9 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import com.jaygoo.widget.RangeSeekBar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 class TransactionFiltersViewModel(application: Application) :
     BaseViewModel<ITransactionFilters.State>(application),
@@ -25,21 +28,6 @@ class TransactionFiltersViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        launch {
-            state.loading = true
-            when (val response = repository.getSearchFilterAmount()) {
-                is RetroApiResponse.Success -> transactionFilters.value = response.data.data
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.hasInternet.set(response.error.statusCode == 504)
-                }
-            }
-            state.loading = false
-        }
     }
 
     override fun updateRangeValue(seekBar: RangeSeekBar) {
@@ -67,8 +55,25 @@ class TransactionFiltersViewModel(application: Application) :
             "Education"
 
         )
-
     }
 
-
+    override fun requestSearchFilterAmount() {
+        launch {
+            state.loading = true
+            when (val response = repository.getSearchFilterAmount()) {
+                is RetroApiResponse.Success -> {
+                    transactionFilters.value = response.data.data
+                    delay(1000)
+                    withContext(Dispatchers.Main) {
+                        state.loading = false
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.hasInternet.set(response.error.statusCode == 504)
+                    state.loading = false
+                }
+            }
+        }
+    }
 }

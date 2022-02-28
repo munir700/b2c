@@ -37,5 +37,6 @@ interface IRemoveFunds {
         var maxLimit: Double
         var minLimit: Double
         var valid: ObservableBoolean
+        var leftIconVisibility : ObservableBoolean
     }
 }

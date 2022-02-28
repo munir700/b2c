@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.widgets.WidgetItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60sdp">
+
+        <FrameLayout
+            android:id="@+id/flSwipeable"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_vertical"
+            android:background="@color/colorPrimary"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDelete"
+                style="@style/Micro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:drawableTop="@drawable/ic_hide_widget"
+                android:drawablePadding="@dimen/_2sdp"
+                android:drawableTint="@color/white"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:textColor="@color/white"
+                app:text="@{Strings.screen_send_money_home_display_text_hide}"
+                tools:text="@string/screen_send_money_home_display_text_hide" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/margin_medium"
+            tools:visibility="invisible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivWidget"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_round_purple_enabled"
+                android:contentDescription="@string/empty_string"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:visibility="@{viewModel.item.id != 10000 ? View.VISIBLE: View.GONE}"
+                app:drawableResource="@{@drawable/bg_round_purple_enabled}"
+                app:imageUrlWidget="@{viewModel.item.icon}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvWidgetName"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/margin_medium"
+                 android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="@{viewModel.item.name}"
+                android:textColor="@{viewModel.item.id != 10000 ?@color/colorMidnightExpress:@color/colorPrimary}"
+                app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
+                app:layout_constraintEnd_toStartOf="@+id/image"
+                app:layout_constraintStart_toEndOf="@+id/ivWidget"
+                app:layout_constraintTop_toTopOf="@+id/ivWidget"
+                tools:text="@string/screen_dashboard_widget_edit_hide_text" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivDragDropAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/empty_string"
+                android:src="@{viewModel.item.status?@drawable/ic_icon_menu:@drawable/ic_add_sign}"
+                android:visibility="@{viewModel.item.id != 10000 ? View.VISIBLE: View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/ivWidget"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ivWidget"
+                tools:src="@drawable/ic_icon_menu" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </FrameLayout>
+</layout>

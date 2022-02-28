@@ -6,5 +6,6 @@ class ItemAnalyticsTransactionVM(
     val item: Transaction,
     val position: Int,
     val analyticsItemTitle: String? = null,
-    val analyticsItemImgUrl: String? = null
+    val analyticsItemImgUrl: String? = null,
+    val analyticsType: String? = null
 )

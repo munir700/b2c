@@ -297,7 +297,7 @@ fun AccountInfo.getNotificationOfBlockedFeature(
     context: Context
 ): String? {
     return (when (key) {
-        UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,UserAccessRestriction.CARD_INACTIVE_CLOSE,
+        UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,
         UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD, UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
             Translator.getString(
                 context,

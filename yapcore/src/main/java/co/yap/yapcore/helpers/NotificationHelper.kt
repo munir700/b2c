@@ -33,7 +33,6 @@ object NotificationHelper {
         )
     }
 
-
     private fun getNotification(
         accountInfo: AccountInfo?,
         paymentCard: Card?,
@@ -64,7 +63,7 @@ object NotificationHelper {
                     btnTitle = "Open " + Translator.getString(
                         context,
                         Strings.screen_home_amendment_title
-                    )
+                    ), fileName = R.drawable.bill
                 )
             )
         }
@@ -82,7 +81,7 @@ object NotificationHelper {
                     btnTitle = "Open " + Translator.getString(
                         context,
                         Strings.screen_help_support_display_text_title
-                    )
+                    ),fileName = R.drawable.bell
                 )
             )
         }
@@ -118,7 +117,7 @@ object NotificationHelper {
                         btnTitle = Translator.getString(
                             context,
                             Strings.screen_b2c_kyc_home_display_text_screen_title
-                        )
+                        ), fileName = R.drawable.bill
                     )
                 )
             }
@@ -142,7 +141,8 @@ object NotificationHelper {
                     btnTitle = Translator.getString(
                         context,
                         Strings.dashboard_timeline_set_pin_stage_action_title
-                    ) + " now"
+                    ) + " now",
+                    fileName = R.drawable.locknot
                 )
             )
         }
@@ -167,7 +167,8 @@ object NotificationHelper {
                     btnTitle = Translator.getString(
                         context,
                         Strings.screen_b2c_eid_info_review_button_title_scan_eid
-                    )
+                    ),
+                    fileName = R.drawable.bill
                 )
             )
         }
@@ -184,7 +185,8 @@ object NotificationHelper {
                         btnTitle = Translator.getString(
                             context,
                             Strings.screen_help_support_display_text_call_us
-                        )
+                        ),
+                        fileName = R.drawable.bell
                     )
                 )
             }
@@ -221,7 +223,8 @@ object NotificationHelper {
                 btnTitle = "Open " + Translator.getString(
                     context,
                     Strings.screen_help_support_display_text_title
-                )
+                ),
+                fileName = R.drawable.bell
             )
         )
 
@@ -245,7 +248,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_kyc_home_display_text_screen_title
-                )
+                ),
+                fileName = R.drawable.bill
             )
         )
         list.add(
@@ -265,7 +269,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.dashboard_timeline_set_pin_stage_action_title
-                ) + " now"
+                ) + " now",
+                fileName = R.drawable.locknot
             )
         )
         list.add(
@@ -286,7 +291,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_b2c_eid_info_review_button_title_scan_eid
-                )
+                ),
+                fileName = R.drawable.bill
             )
         )
 
@@ -303,7 +309,8 @@ object NotificationHelper {
                 btnTitle = Translator.getString(
                     context,
                     Strings.screen_help_support_display_text_call_us
-                )
+                ),
+                fileName = R.drawable.bell
             )
         )
 
@@ -311,6 +318,6 @@ object NotificationHelper {
     }
 
     fun isStatusNotSubmittedToCustomer(accountInfo: AccountInfo?): Boolean =
-        accountInfo?.amendmentStatus.let { it != AmendmentStatus.SUBMIT_TO_CUSTOMER.name }
+        accountInfo?.amendmentStatus != AmendmentStatus.SUBMIT_TO_CUSTOMER.name
 
 }

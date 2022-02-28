@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.transaction.detail
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -30,17 +29,20 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.PhotoSelectionType
-import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import kotlinx.android.synthetic.main.activity_transaction_details.*
 import pl.aprilapps.easyphotopicker.MediaFile
 
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
-    ITransactionDetails.View {
+    ITransactionDetails.View, OnMapReadyCallback {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_transaction_details
@@ -50,7 +52,17 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        setContentDataColor(viewModel.transaction.get())
+        viewModel.setContentDataColor(
+            viewModel.transaction.get(),
+            getBindings().tvTotalAmountValue,
+            getBindings().tvCurrency
+        )
+        viewModel.state.transactionData.get()?.isMApVisible?.let { showMAp ->
+            if (showMAp) initMap()
+            viewModel.setMapVisibility(
+                getBindings().ivMap, map, showMAp
+            )
+        }
     }
 
     override fun setObservers() {
@@ -134,6 +146,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     data?.getValue(Constants.UPDATED_CATEGORY, "PARCEABLE") as TapixCategory
                 viewModel.state.updatedCategory.set(category)
                 viewModel.state.categoryDescription.set(viewModel.state.updatedCategory.get()?.description)
+                viewModel.state.isCategoryUpdated.set(true)
                 makeToast(this, "category updated sucessfully", LENGTH_SHORT)
             }
         }
@@ -201,14 +214,6 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 viewModel.transaction.get()?.txnType ?: ""
             ), Constants.INTENT_ADD_NOTE_REQUEST
         )
-    }
-
-    private fun setContentDataColor(transaction: Transaction?) {
-        //strike-thru textview
-        transaction?.let {
-            getBindings().tvTotalAmountValue.paintFlags =
-                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -283,7 +288,11 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                     ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
                 )
             )
-
+            intent.putExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, viewModel.state.isCategoryUpdated.get())
+            if(viewModel.state.isCategoryUpdated.get()==true){
+                intent.putExtra(ExtraKeys.UPDATED_CATEGORY_ICON.name,viewModel.state.updatedCategory.get()?.categoryIcon )
+                intent.putExtra(ExtraKeys.UPDATED_CATEGORY_NAME.name,viewModel.state.updatedCategory.get()?.categoryName )
+            }
             setResult(Activity.RESULT_OK, intent)
         }
         finish()
@@ -312,4 +321,14 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         )
     }
 
+    private fun initMap() {
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.view?.visibility = View.VISIBLE
+        mapFragment?.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        viewModel.gMap = googleMap
+        viewModel.setMap()
+    }
 }
