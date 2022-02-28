@@ -3,7 +3,9 @@ package co.yap.app.modules.login.viewmodels
 import android.app.Application
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.UserVerifierProvider
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
@@ -42,7 +44,7 @@ class LoginViewModel(application: Application) :
         eventHandle.invoke()
         state.twoWayTextWatcher =
             Utils.verifyUsername(state.twoWayTextWatcher.trim().filter { !it.isWhitespace() })
-        validateUsername{}
+        validateUsername {}
     }
 
     override fun handlePressOnSignUp() {
@@ -62,6 +64,7 @@ class LoginViewModel(application: Application) :
     fun validateUsername(success: (errorMessage: String) -> Unit) {
         launch {
             state.loading = true
+
             when (val response =
                 customersRepository.verifyUsername(state.mobileNumber.value ?: "")) {
                 is RetroApiResponse.Success -> {
@@ -114,5 +117,20 @@ class LoginViewModel(application: Application) :
         )
     }
 
+    private val _userVerified: MutableLiveData<String> = MutableLiveData()
+    val userVerified: LiveData<String> = _userVerified
+    private val userVerifier: UserVerifierProvider = UserVerifierProvider()
 
+    fun verifyUser(countryCode: String, mobileNumber: String) {
+        launch {
+            state.loading = true
+            userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
+                state.loading = false
+                if (result.isSuccess && result.getOrNull() == true) {
+                    _userVerified.value = countryCode
+                }
+            }
+        }
+
+    }
 }

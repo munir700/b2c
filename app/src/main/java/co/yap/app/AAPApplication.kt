@@ -35,9 +35,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.util.*
 
+@HiltAndroidApp
 class AAPApplication : YAPApplication(), NavigatorProvider {
 
     private external fun signatureKeysFromJNI(

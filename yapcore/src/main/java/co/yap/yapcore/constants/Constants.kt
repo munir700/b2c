@@ -205,7 +205,7 @@ object Constants {
     const val VIEW_CARD_DETAIL_ITEM = 5
     const val VIEW_ITEM_CARD_SUCCESSS = 6
     const val VIEW_ITEM_ACCOUNT_DETAIL = 7
-    const val VIEW_ITEM_WITH_FLAG_AND_CODE = 5
+    const val VIEW_ITEM_WITH_FLAG_AND_CODE = 20
 
     //Yap Store
     const val ITEM_STORE_CARD_PLANS = 0

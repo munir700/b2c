@@ -121,7 +121,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation "com.digitify:yappakistan:0.0.4"
+    implementation "com.digitify:yapghana:0.0.4"
     project.testDependencies.each {
         add(it.configuration, it.dependency)
     }

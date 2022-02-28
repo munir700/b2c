@@ -34,6 +34,15 @@ allprojects {
         mavenCentral()
         maven { url "https://repo.leanplum.com/" }
         maven { url 'https://jitpack.io' }
+        maven {
+            credentials {
+                username = "faheem870"
+                password = "m7RkEz8Apxd6NjuXtthd"
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+            url "https://api.bitbucket.org/2.0/repositories/mb28/android-yap-pak/src/releases"}
     }
 }
 
