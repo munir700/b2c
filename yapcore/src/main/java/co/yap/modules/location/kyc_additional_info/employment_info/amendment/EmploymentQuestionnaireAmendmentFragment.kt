@@ -64,10 +64,11 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     private fun initQuestionViews() {
         viewModel.questionsList.clear()
+        val empStatus = viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED
         viewModel.questionsList.addAll(
             viewModel.questionnaires(
-                viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED,
-                viewModel.employmentStatusValue.value
+                empStatus,
+                viewModel.getEmploymentResponse(empStatus)
             )
         )
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.removeAllViews()

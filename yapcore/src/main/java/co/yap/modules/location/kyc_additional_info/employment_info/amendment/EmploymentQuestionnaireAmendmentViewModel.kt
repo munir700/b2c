@@ -56,6 +56,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var selectedQuestionItemPosition: Int = -1
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
     override var employmentStatus = MutableLiveData<EmploymentStatus>()
+    override var serverEmploymentStatus: EmploymentStatus? = null
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
@@ -68,6 +69,8 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var accountActivated: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isInEditMode: MutableLiveData<Boolean> = MutableLiveData(false)
     override val documentAdapter = DocumentsAdapter(mutableListOf())
+    override var salaryAmount: String? = null
+    override var monthlyCreditAmount: String? = null
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -219,6 +222,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     val employmentStatusItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            getValuesForCommonQuestions()
             (data as? CoreBottomSheetData)?.subTitle.also { selectedType ->
                 employmentStatus.value = EmploymentStatus.values().find {
                     it.status == selectedType
@@ -333,8 +337,9 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                         } else {
                             employmentResponse.data.data?.let { res ->
                                 employmentStatusValue.value = res
-                                employmentStatus.value =
+                                serverEmploymentStatus =
                                     EmploymentStatus.valueOf(res.employmentStatus ?: "")
+                                employmentStatus.value = serverEmploymentStatus
                             }
                         }
                     }
@@ -348,6 +353,8 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     }
 
     override fun setAnswersForQuestions() {
+        if (serverEmploymentStatus != employmentStatus.value)
+            return
         when (employmentStatus.value) {
             EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
                 employmentStatusValue.value?.industrySubSegmentCode?.let {
@@ -381,6 +388,11 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             }
             else -> {}
         }
+    }
+
+    private fun getValuesForCommonQuestions() {
+        salaryAmount = getDataForPosition(questionsList.size - 2).getAnswer()
+        monthlyCreditAmount = getDataForPosition(questionsList.size - 1).getAnswer()
     }
 
     override fun saveEmploymentInfo(
@@ -454,6 +466,12 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             EmploymentStatus.NONE -> TODO()
         }
     }
+
+    override fun getEmploymentResponse(currentEmploymentStatus: EmploymentStatus): EmploymentInfoAmendmentResponse? =
+        if (currentEmploymentStatus == serverEmploymentStatus) employmentStatusValue.value else EmploymentInfoAmendmentResponse(
+            monthlySalary = salaryAmount,
+            expectedMonthlyCredit = monthlyCreditAmount
+        )
 
     override fun getDataForPosition(position: Int): QuestionUiFields {
         return questionsList[position]
