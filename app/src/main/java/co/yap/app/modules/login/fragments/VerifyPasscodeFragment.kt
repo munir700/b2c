@@ -48,6 +48,7 @@ import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 import co.yap.modules.kyc.amendments.missinginfo.MissingInfoFragment
+import com.yap.core.extensions.hideKeyboard
 
 class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
     IVerifyPasscode.View, NumberKeyboardListener {
@@ -70,6 +71,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         super.onViewCreated(view, savedInstanceState)
         shardPrefs = SharedPreferenceManager.getInstance(requireContext())
         dialer.hideFingerprintView()
+        hideKeyboard()
         receiveData()
         updateUUID()
         bioMetricLogic()
