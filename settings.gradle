@@ -1,2 +1,5 @@
 include ':app', ':yapcore', ':networking', ':translation', ':yap', ':identityscanner_v2', ':household', ':sendmoney', ':security' , ':qrcodereaderview', ':wallet', ':billpayments'
 
+include ':uikit'
+include ':core'
+include ':yappakistan'
