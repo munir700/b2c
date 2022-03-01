@@ -28,48 +28,12 @@
             android:dividerPadding="@dimen/margin_medium_large"
             android:enabled="@{viewModel.isEditable()}"
             android:hint="@{viewModel.questionUiFields.question.questionTitle}"
-            android:textColorHint="@color/colorPrimaryDark"
             app:hintTextAppearance="@style/Small"
-            app:hintTextColorSelected="@color/colorPrimaryDarkFadedLight"
+            android:textColorHint="@color/colorPlaceHolderGrey"
+            app:hintTextColor="@color/colorPlaceHolderGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <!--<androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTinNumber"
-                style="@style/SmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@{viewModel.questionUiFields.question.questionTitle}"
-                android:textColor="@color/darkSlateBlue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_reasons"
-                tools:text="Tell us the name of your company?" />-->
-
-            <!--      <co.yap.widgets.AlphaNumericEditText
-                      android:id="@+id/etQuestionEditText"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="bottom"
-                      android:layout_marginTop="@dimen/_3sdp"
-                      android:background="@null"
-                      android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                      android:gravity="bottom"
-                      android:hint="@{viewModel.questionUiFields.question.placeholder}"
-                      android:imeOptions="actionNext"
-                      android:inputType="textPersonName"
-                      android:lines="1"
-                      android:maxLength="@{250}"
-                      android:maxLines="1"
-                      android:paddingTop="@dimen/margin_extra_small"
-                      android:paddingEnd="@dimen/margin_extra_small"
-                      android:paddingBottom="@dimen/margin_extra_small"
-                      android:singleLine="true"
-                      android:text="@={viewModel.questionUiFields.question.answer}"
-                      android:textColor="@color/colorPrimaryDark"
-                      android:textColorHint="@color/colorPrimaryDark"
-                      android:textSize="@dimen/text_size_h3" />-->
 
             <co.yap.widgets.edittext.EditTextRichDrawable
                 android:id="@+id/etQuestionEditText"
@@ -96,7 +60,6 @@
                 app:previousValue="@{viewModel.questionUiFields.question.previousValue}"
                 app:validateEmpty="@{true}"
                 tools:text="Tell us the name of your company?" />
-
 
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
