@@ -211,7 +211,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
     }
 
-    override fun setMonthsEnableStates() {
+    override fun setDateAndMonthsEnableStates(date: Date?) {
+        parentViewModel?.currentDate = date
         state.previousMonth = isPreviousIconEnabled(listOfMonths, parentViewModel?.currentDate)
         state.nextMonth = isNextIconEnabled(listOfMonths, parentViewModel?.currentDate)
     }

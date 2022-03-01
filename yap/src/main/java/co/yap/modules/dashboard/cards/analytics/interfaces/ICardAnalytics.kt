@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import java.util.*
 
 interface ICardAnalytics {
     interface View : IBase.View<ViewModel> {
@@ -23,7 +24,7 @@ interface ICardAnalytics {
         fun isDataAvailableForSelectedMonth(tab: Int): Boolean
         //      var type: ObservableField<String>
         fun setPieChartIcon(image: ImageView)
-        fun setMonthsEnableStates()
+        fun setDateAndMonthsEnableStates(date: Date?)
     }
 
     interface State : IBase.State {

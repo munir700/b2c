@@ -58,15 +58,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         setupTabs()
         if (viewModel.parentViewModel?.currentDate == null) {
             viewModel.parentViewModel?.state?.selectedDate?.let {
-                if (!viewModel.parentViewModel?.state?.selectedDate.isNullOrEmpty()) {
+                if (viewModel.parentViewModel?.state?.selectedDate.isNullOrEmpty().not()) {
                     val date = SimpleDateFormat(DateUtils.FORMAT_COMPLETE_DATE).parse(it)
                     viewModel.fetchCardCategoryAnalytics(
                         DateUtils.dateToString(
                             date, "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
                         )
                     )
-                    viewModel.parentViewModel?.currentDate = date
-                    viewModel.setMonthsEnableStates()
+                    viewModel.setDateAndMonthsEnableStates(date)
                     viewModel.setSelectedDate(viewModel.parentViewModel?.currentDate)
                 } else setCurrentMonthCall()
             } ?: setCurrentMonthCall()
@@ -474,8 +473,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
             )
         )
-        viewModel.parentViewModel?.currentDate = Date()
-        viewModel.setMonthsEnableStates()
+        viewModel.setDateAndMonthsEnableStates(Date())
         viewModel.setSelectedDate(viewModel.parentViewModel?.currentDate)
     }
 
