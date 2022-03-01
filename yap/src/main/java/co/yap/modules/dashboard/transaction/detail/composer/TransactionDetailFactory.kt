@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.transaction.detail.composer
 
+import android.content.Context
 import co.yap.networking.transactions.responsedtos.transaction.TapixCategory
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.R
@@ -39,9 +40,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
             TransactionDetailItem.EXCHANGE_RATE -> {
                 if (transaction.isNonAEDTransaction()) "${transaction.currency} 1.00 = AED ${
-                getExchangeRateForInternationalPOS(
-                    transaction
-                )
+                    getExchangeRateForInternationalPOS(
+                        transaction
+                    )
                 }" else "${transaction.currency} 1.00 = AED ${transaction.fxRate}"
             }
             TransactionDetailItem.SENDER, TransactionDetailItem.RECEIVER -> {
@@ -109,6 +110,9 @@ class TransactionDetailFactory(private val transaction: Transaction) {
             }
         }
     }
+
+    private fun isShowItemFeeVat(value: Double?): Boolean =
+        !((transaction.productCode == TransactionProductCode.ECOM.pCode || transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) && value == 0.0)
 
     private fun isInternationalPOS(transaction: Transaction): Boolean {
         return (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode || transaction.productCode == TransactionProductCode.ECOM.pCode) && transaction.currency != SessionManager.getDefaultCurrency()
@@ -224,6 +228,12 @@ class TransactionDetailFactory(private val transaction: Transaction) {
     fun getLocation(): String? {
         return when (transaction.productCode) {
             TransactionProductCode.FUND_LOAD.pCode -> transaction.otherBankName ?: ""
+            TransactionProductCode.ECOM.pCode -> {
+                if (isCategoryGeneral()) "Online shopping" else transaction.cardAcceptorLocation
+            }
+            TransactionProductCode.POS_PURCHASE.pCode -> {
+                if (isCategoryGeneral()) "In store shopping" else transaction.cardAcceptorLocation
+            }
             else -> transaction.cardAcceptorLocation ?: ""
         }
     }
@@ -239,7 +249,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
         }
     }
 
-    fun getTransferCategoryIcon(): Int {
+    fun getTransferCategoryIcon(context: Context): Int {
         transaction?.let { transaction ->
 
             if (transaction.getProductType() == TransactionProductType.IS_TRANSACTION_FEE) {
@@ -255,7 +265,7 @@ class TransactionDetailFactory(private val transaction: Transaction) {
                 TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                     R.drawable.ic_cash
                 }
-                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon() == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon()
+                TransactionProductCode.POS_PURCHASE.pCode -> if (transaction.merchantCategoryName.getMerchantCategoryIcon(context) == -1) R.drawable.ic_other_outgoing else transaction.merchantCategoryName.getMerchantCategoryIcon(context)
 
                 else -> 0
             })

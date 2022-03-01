@@ -49,7 +49,7 @@ class GraphBarsAdapter(
             if (checkedPosition != holder.adapterPosition) {
                 holder.transactionBar.needAnimation = true
                 holder.transactionBar.isSelected = true
-                helper?.addTooltip(v.findViewById(R.id.transactionBar), transactionModel)
+               // helper?.addTooltip(v.findViewById(R.id.transactionBar), transactionModel)
                 notifyItemChanged(checkedPosition)
                 checkedPosition = holder.adapterPosition
                 helper?.barSelectedPosition = checkedPosition

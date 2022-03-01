@@ -20,7 +20,7 @@ class MissingInfoAdapter(val listItems: MutableList<String>, navigation: NavCont
         return position.toLong()
     }
 
-    override fun getLayoutId(viewType: Int): Int = getViewModel().layoutRes()
+    override fun getLayoutId(viewType: Int): Int = getViewModel(viewType).layoutRes()
     override fun getViewHolder(
         view: View,
         viewModel: MissingInfoItemViewModel,
@@ -28,7 +28,7 @@ class MissingInfoAdapter(val listItems: MutableList<String>, navigation: NavCont
         viewType: Int
     ) = BaseViewHolder(view, viewModel, mDataBinding)
 
-    override fun getViewModel(): MissingInfoItemViewModel = MissingInfoItemViewModel()
+    override fun getViewModel(viewType: Int): MissingInfoItemViewModel = MissingInfoItemViewModel()
 
     override fun getVariableId(): Int = BR.viewModel
 }

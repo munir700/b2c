@@ -22,4 +22,6 @@ class TransactionSearchState : BaseState(), ITransactionSearch.State {
             searchField = null
         )
     override var stateLiveData: MutableLiveData<State>? = MutableLiveData()
+    override var isCategoryChangeResult: ObservableField<Boolean> =ObservableField(false)
+    override var categoryLogo = ""
 }

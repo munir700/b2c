@@ -21,6 +21,8 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -47,6 +49,8 @@ class CardOnTheWayFragment : LocationChildFragment<ICardOnTheWay.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        trackEventWithScreenName(FirebaseEvent.DELIVERY_STARTED)
+        trackEventWithScreenName(FirebaseEvent.KYC_END)
         trackAdjustPlatformEvent(AdjustEvents.KYC_END.type)
         setObservers()
     }
