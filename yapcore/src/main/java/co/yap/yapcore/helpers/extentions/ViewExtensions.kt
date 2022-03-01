@@ -15,7 +15,9 @@ import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.helpers.ButtonType
 import co.yap.yapcore.helpers.ImageBinding
+import co.yap.yapcore.helpers.infoDialog
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
@@ -148,3 +150,16 @@ fun setTransactionLogo(
     }
 }
 
+fun Context.showInfoDialog(
+    title: String,
+    message: String,
+    buttonTypes: ArrayList<ButtonType>,
+    cb: (view: View) -> Unit
+) {
+    infoDialog(
+        title = title,
+        message = message,
+        buttonType = buttonTypes,
+        callback = cb
+    )
+}

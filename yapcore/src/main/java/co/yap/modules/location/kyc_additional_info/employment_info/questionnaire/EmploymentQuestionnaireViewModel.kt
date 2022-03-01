@@ -110,6 +110,14 @@ class EmploymentQuestionnaireViewModel(application: Application) :
             ), object : TypeToken<List<EmploymentType>>() {}.type
         )
     }
+    override fun selfEmploymentTypes(): MutableList<EmploymentType> {
+        val gson = GsonBuilder().create()
+        return gson.fromJson<MutableList<EmploymentType>>(
+            context.getJsonDataFromAsset(
+                "jsons/self_employment_type.json"
+            ), object : TypeToken<List<EmploymentType>>() {}.type
+        )
+    }
 
     override fun parseEmploymentTypes(employmentTypes: MutableList<EmploymentType>): MutableList<CoreBottomSheetData> {
         employmentTypes.forEach {
@@ -369,7 +377,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                                 }?.get(0)?.getName() ?: ""
                                 businessCountriesList.add(businessCountry)
                             }
-                            selectedQuestionItemPosition = 2
+                            selectedQuestionItemPosition = 3
                             businessCountriesLiveData.value = businessCountriesList
                         }
                     }
@@ -387,7 +395,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             val industrySegment = industrySegmentsList.first {
                                 it.segmentCode == segmentCode
                             }
-                            val objQuestion = getDataForPosition(1)
+                            val objQuestion = getDataForPosition(2)
                             objQuestion.question.answer.set(industrySegment.segment)
                             objQuestion.question.previousValue.set(industrySegment.segment)
                             validateForm()
@@ -441,33 +449,44 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
                     companyName = getDataForPosition(0).getAnswer(),
+                    typeOfSelfEmployment= selfEmploymentTypes().find {
+                        it.employmentType == getDataForPosition(
+                            1
+                        ).getAnswer().trim()
+                    }?.employmentTypeCode,
                     industrySegmentCodes = listOf(
                         industrySegmentsList.first {
                             it.segment == getDataForPosition(
-                                1
+                                2
                             ).getAnswer()
                         }.segmentCode ?: ""
                     ),
                     businessCountries = parentViewModel?.countries?.filterSelectedIsoCodes(
-                        getDataForPosition(2).question.multipleAnswers.get() ?: arrayListOf()
+                        getDataForPosition(3).question.multipleAnswers.get() ?: arrayListOf()
                     ),
-                    monthlySalary = getDataForPosition(3).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(4).getAnswer(),
+                    monthlySalary = getDataForPosition(4).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(5).getAnswer(),
                     isAmendment = isFromAmendment()
                 )
             }
             EmploymentStatus.OTHER -> {
                 EmploymentInfoRequest(
                     employmentStatus = status.name,
-                    employmentType = employmentTypes().first {
+                    employmentType = employmentTypes().find {
                         it.employmentType == getDataForPosition(
                             0
                         ).getAnswer().trim()
-                    }.employmentTypeCode,
+                    }?.employmentTypeCode,
                     sponsorName = getDataForPosition(1).getAnswer(),
-                    monthlySalary = getDataForPosition(2).getAnswer(),
-                    expectedMonthlyCredit = getDataForPosition(3).getAnswer(),
+                    monthlySalary = getDataForPosition(3).getAnswer(),
+                    expectedMonthlyCredit = getDataForPosition(4).getAnswer(),
+                    employmentTypeValue = employmentTypes().find {
+                        it.employmentType == getDataForPosition(
+                            0
+                        ).getAnswer().trim()
+                    }?.employmentType,
                     isAmendment = isFromAmendment()
+
                 )
             }
             EmploymentStatus.NONE -> TODO()
@@ -492,7 +511,8 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                             employmentStatus = EmploymentStatus.valueOf(res.employmentStatus ?: "")
                         employmentStatusValue.value = res
 
-                        if (employmentStatus == EmploymentStatus.SALARIED_AND_SELF_EMPLOYED || employmentStatus == EmploymentStatus.SELF_EMPLOYED
+                        if (employmentStatus == EmploymentStatus.SALARIED_AND_SELF_EMPLOYED ||
+                            employmentStatus == EmploymentStatus.SELF_EMPLOYED
                         ) {
                             isDataRequiredFromApi(
                                 employmentStatus,
@@ -502,9 +522,7 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                         } else if (employmentStatus == EmploymentStatus.OTHER) {
                             selectedQuestionItemPosition = 0
                             val objQuestion = getDataForPosition(selectedQuestionItemPosition)
-                            objQuestion.question.answer.set(employmentTypes().firstOrNull {
-                                it.employmentTypeCode == res.employmentType
-                            }?.employmentType ?: "")
+                            objQuestion.question.answer.set(res.employmentTypeValue?:"")
                             questionsList[selectedQuestionItemPosition] = objQuestion
                             if (objQuestion.question.questionType == QuestionType.DROP_DOWN_FIELD)
                                 objQuestion.question.previousValue.set(objQuestion.question.answer.get())
