@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.main.fragments
 
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavDirections
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.yapcore.BaseBindingFragment
@@ -19,8 +21,13 @@ abstract class AddPaymentChildFragment<V : IBase.ViewModel<*>> : BaseBindingFrag
     }
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
 
+    fun handleNavigation(
+        destinationId: NavDirections,
+        @IdRes popupTo: Int
+    ) {
+        navigateToBack(destinationId, popupTo)
+    }
 }

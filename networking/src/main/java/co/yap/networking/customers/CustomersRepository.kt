@@ -3,6 +3,8 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
+import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -139,10 +141,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_INDUSTRY_SEGMENTS = "customers/api/industry-sub-segments"
     const val URL_SAVE_EMPLOYMENT_INFO = "customers/api/employment-information"
     const val URL_STOP_RANKING_MSG = "customers/api/stop-display"
+    const val URL_DASHBOARD_WIDGETS = "customers/api/getWidgets"
+    const val URL_DASHBOARD_WIDGETS_UPDATE = "customers/api/updateWidgets"
     const val URL_UPDATE_PROFILE_FSS = "customers/api/update-profile-on-fss"
     const val URL_VALIDATE_EID = "customers/api/sanction-countries-configuration"
-
-
     const val URL_BILL_PROVIDERS = "customers/api/billpayment/biller-categories"
     const val URL_BILLER_CATALOGS = "customers/api/billpayment/biller-catalogs/{category-id}"
     const val URL_BILLER_INPUTS_DETAILS = "customers/api/billpayment/biller-details/{biller-id}"
@@ -525,6 +527,16 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun stopRankingMsgRequest(): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
             api.stopRankingMsgRequest()
+        })
+
+    override suspend fun getDashboardWidget(): RetroApiResponse<BaseListResponse<WidgetData>> =
+        executeSafely(call = {
+            api.getDashboardWidget()
+        })
+
+    override suspend fun updateDashboardWidget(list: List<WidgetData>): RetroApiResponse<UpdateWidgetResponse> =
+        executeSafely(call = {
+            api.updateDashboardWidget(list)
         })
 
     override suspend fun updateCardName(cardNameRequest: CardNameRequest): RetroApiResponse<ApiResponse> =

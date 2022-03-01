@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="homeViewModel"
+            type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+
+    </data>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:theme="@style/CoreAppTheme.AppBarOverlay"
+            app:elevation="0dp">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivAnalytics"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:onClick="@{v -> homeViewModel.handlePressOnView(v.getId())}"
+                        android:padding="@dimen/margin_three_dp"
+                        android:tint="?attr/colorPrimary"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toStartOf="@+id/ivSearch"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_analytics" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivSearch"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:onClick="@{v -> homeViewModel.handlePressOnView(v.getId())}"
+                        android:tint="?attr/colorPrimary"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toStartOf="@+id/ivMenu"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_search" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivMenu"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_marginEnd="@dimen/margin_normal"
+                        android:onClick="@{v -> homeViewModel.handlePressOnView(v.getId())}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_hamburger" />
+
+                    <co.yap.widgets.CoreCircularImageView
+                        android:id="@+id/profPic"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:background="@drawable/bg_round_white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:colorCode="@{SessionManager.INSTANCE.user.currentCustomer.parsedColor}"
+                        app:fullName="@{SessionManager.INSTANCE.user.currentCustomer.getFullName()}"
+                        app:imageUrl="@{homeViewModel.parentViewModel.state.userNameImage == null ? `` : homeViewModel.parentViewModel.state.userNameImage}"
+                        tools:src="@drawable/lp_messaging_ui_icon_image_broken"
+                        app:src="@drawable/ic_analytics" />
+                    <TextView
+                        android:id="@+id/tvAvailableBalance"
+                        style="@style/ALarge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:text="@={homeViewModel.state.availableBalance}"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/text_size_h7"
+                        app:layout_constraintTop_toBottomOf="@+id/ivMenu"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:text="50,174.78" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+</layout>

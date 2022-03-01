@@ -140,11 +140,17 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
-                showToast(viewModel.state.toast)
-            }
-            if (propertyId == BR.loading) {
-                showLoader(viewModel.state.loading)
+            /**
+             * please pay special attention to my this check as it is in base class,It is the solution of this crash
+             * java.lang.IllegalStateException: Fragment YapCardsFragment{85bc643} (e6f42334-e97f-4b43-8958-11de71fe2c5f)} not attached to an activity.
+             */
+            if (activity != null && isAdded) {
+                if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
+                    showToast(viewModel.state.toast)
+                }
+                if (propertyId == BR.loading) {
+                    showLoader(viewModel.state.loading)
+                }
             }
         }
     }

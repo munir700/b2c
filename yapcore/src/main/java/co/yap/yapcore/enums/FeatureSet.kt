@@ -27,6 +27,9 @@ enum class FeatureSet {
     YAP_TO_YAP,
     TOP_UP,
     BILL_PAYMENT,
+    ADD_BILL_PAYMENT,
+    EDIT_BILL_PAYMENT,
+    PAY_BILL_PAYMENT,
     SEND_MONEY,
     DEBIT_CARD_DETAIL,
     NONE

@@ -125,7 +125,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     usersList = response.data.data as ArrayList
                     user = getCurrentUser()
                     isFounder.postValue(user?.currentCustomer?.founder)
-                    setupDataSetForBlockedFeatures()
+                    setupDataSetForBlockedFeatures(card = card.value)
                     onAccountInfoSuccess.postValue(true)
                     success.invoke()
                 }
@@ -137,8 +137,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun setupDataSetForBlockedFeatures() {
-        user?.getUserAccessRestrictions {
+    fun setupDataSetForBlockedFeatures(card: Card?) {
+        user?.getUserAccessRestrictions(card = card) {
             val featuresList = arrayListOf<FeatureSet>()
             it.forEach { userAccessRestriction ->
                 featuresList.addAll(user.getBlockedFeaturesList(userAccessRestriction))

@@ -80,6 +80,7 @@
     <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
     <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
     <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
+    <string name="common_display_text_feature_blocked_bill_payment_error">Unfortunately, this feature isn’t currently available to you. Please get in touch via live chat for help &amp; support</string>
     <string name="common_display_text_show_recent_transfer">Show Recent transfers</string>
     <string name="common_display_text_search_hint">Search</string>
     <string name="common_display_text_no_results">No results</string>
@@ -386,7 +387,12 @@
     <string name="screen_cards_display_text_tour_add_card_heading">Add card</string>
     <string name="screen_cards_display_text_tour_add_card_description">Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!</string>
     <string name="screen_cards_display_text_tour_add_card_btn_text">OK</string>
-
+    <string name="screen_cards_display_text_card_balance">Card balance</string>
+    <string name="screen_cards_display_text_bottom_sheet_card_number">Card number</string>
+    <string name="screen_cards_display_text_bottom_sheet_expiry_date">Expiry date</string>
+    <string name="screen_cards_display_text_bottom_sheet_cvv">CVV</string>
+    <string name="screen_cards_display_text_bottom_sheet_heading">%1s details</string>
+    <string name="screen_cards_display_text_copy">Copy</string>
 
     <!-- Spare Card Landing Screen -->
 
@@ -396,6 +402,7 @@
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
     <string name="screen_spare_card_landing_display_tool_bar_title">Add a virtual card</string>
+    <string name="screen_spare_card_landing_display_text_description">Subscribe to a virtual card for AED %1$s/year and create a customizable card and shop online safely and securely.</string>
 
     <!-- Spare Card Benefit Screen -->
     <string name="screen_spare_card_benefit_display_text_title">Spare card benefits</string>
@@ -423,6 +430,9 @@
     <string name="screen_add_virtual_spare_card_edit_name_label">Name your virtual card</string>
     <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
     <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title_choose_colour">Choose a card color</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title_choose_name">Name your card</string>
+    <string name="screen_add_virtual_spare_card_card_name">Card name</string>
 
 
     <!-- Add Spare card location -->
@@ -452,6 +462,10 @@
     <string name="screen_success_funds_transaction_display_text_button">Back to card</string>
     <string name="screen_add_funds_display_text_error_card_balance_limit_reached">Your virtual card can only hold up to %1$s.</string>
     <string name="screen_add_funds_display_text_error_card_balance_limit">Your virtual card can only hold up to %1$s. Please enter an amount up to %2$s to proceed.</string>
+    <string name="screen_success_funds_transaction_display_text_top_up_with_balance">You have topped up with </string>
+    <string name="screen_success_funds_transaction_display_primary_balance_and_name">Your %1$s card balance is %2$s</string>
+    <string name="screen_success_funds_transaction_display_text_primary_balance_amount">Now, your primary card balance is %1s</string>
+
 
     <!--    Remove funds Screen-->
 
@@ -463,7 +477,7 @@
     <string name="screen_remove_funds_display_text_available_balance_error">You can only move an amount less than or equal to your current balance of %1$s %2$s</string>
 
     <!--    Success remove funds Screen-->
-    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s \nto your main debit card </string>
+    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved \n%1$s \nto your main debit card </string>
 
     <!--    Set Limits Screen-->
     <string name="screen_set_limits_display_text_title">Set limits</string>
@@ -537,6 +551,14 @@
     <string name="screen_more_detail_display_text_tour_yap_for_you_heading">YAP for you</string>
     <string name="screen_more_detail_display_text_tour_yap_for_you_description">A fun way to track your progress on YAP, complete missions and explore all the different aspects of the YAP app and account.</string>
     <string name="screen_more_detail_display_text_tour_yap_for_you_btn_text">Finish</string>
+    <string name="screen_more_detail_display_text_bank">Bank</string>
+    <string name="screen_more_detail_display_text_account">Account</string>
+    <string name="screen_more_detail_display_text_copied_to_clipboard">Copied to clipboard</string>
+    <string name="screen_more_atm_cdm">ATM &amp; CDM</string>
+    <string name="screen_more_invite_a_friend">Invite a friend</string>
+    <string name="screen_more_help_and_support">Help and support</string>
+    <string name="screen_more_subscription">Subscriptions</string>
+    <string name="screen_more_gifts">Gifts</string>
 
 
     <!--   Profile Settings screen-->
@@ -697,6 +719,7 @@
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
     <string name="screen_y2y_funds_transfer_display_text_limit_error">That\'s over your daily limit. Please enter an amount lower than AED</string>
+    <string name="screen_y2y_funds_transfer_display_text_remarks_placeholder">Leave a message (optional)</string>
 
     <!--    Y2Y funds Transfer success screen-->
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
@@ -917,7 +940,7 @@
     <!--    Topup bank detail screen-->
     <string name="screen_add_topup_bank_account_name_label_text">Account name</string>
     <string name="screen_add_topup_bank_iban_label_text">IBAN</string>
-    <string name="screen_add_topup_bank_bic_label_text">Swift/BIC</string>
+    <string name="screen_add_topup_bank_bic_label_text">SWIFT/BIC</string>
     <string name="screen_add_topup_bank_account_number_label_text">Account number</string>
     <string name="screen_add_topup_bank_address_label_text">Bank &amp; Address</string>
     <string name="screen_add_topup_bank_core_btn_label_text">Share</string>
@@ -936,6 +959,7 @@
     <string name="screen_card_analytics_display_tab_title_merchant">Merchant</string>
     <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s</string>
     <string name="screen_card_analytics_tool_bar_title">Analytics</string>
+    <string name="screen_card_analytics_total_spent">Total spent</string>
     <string name="screen_card_analytics_ntry">Nothing to report yet</string>
 
     <!--    Edit -->
@@ -1128,6 +1152,7 @@
     <string name="screen_notification_listing_display_text_toolbar_title">Notifications</string>
     <string name="screen_notification_listing_display_text_delete_alert_title">Delete</string>
     <string name="screen_notification_listing_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
+    <string name="screen_dashboard_notification_tap_to_open">Tap to open</string>
 
     <!--    Notification settings screen-->
     <string name="screen_notification_settings_display_text_toolbar_title">Notification settings</string>
@@ -1208,11 +1233,15 @@
 
     <!-- Blocked Screen-->
 
-    <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
-    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>
+    <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your account features may not work. This is due to a temporary block that has been put on your card or account.\n\nPlease get in touch via live chat for help &amp; support.</string>
+    <string name="screen_otp_blocked_display_title_card_blocked">We’re sorry, %1s</string>
+<!--    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>-->
+    <string name="iban_or_debit_card_freeze_or_blocked_message">Sorry, some of your account features are temporarily unavailable. Please get in touch via <b>live chat</b> for help &amp; support</string>
 
     <!--  Yap home fragment screen-->
     <string name="screen_fragment_yap_home_add_money">Add money</string>
+    <string name="screen_fragment_yap_home_balance_on_date">Balance on %1s</string>
+    <string name="screen_fragment_yap_home_todays_balance">Today’s balance</string>
 
     <!-- Change Card Pin screen-->
     <string name="screen_change_card_pin_text_heading">Change PIN</string>
@@ -1461,8 +1490,8 @@
     <string name="screen_employment_information_selection_display_text_employment_status">What is your employment status?</string>
     <string name="screen_employment_information_selection_display_text_we_only_ask_this_for_administrative_purpose">We only ask you this questions for administrative purpose. It does not impact your ability to sign up to a YAP account. </string>
     <string name="screen_employment_information_selection_display_button_text_next">Next</string>
-    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask you about your monthly salary?</string>
-    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum salary requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account.</string>
+    <string name="screen_employment_information_dialog_display_text_heading">Why do we ask about your total monthly income?</string>
+    <string name="screen_employment_information_dialog_display_text_subheading">There is no minimum monthly income requirement to sign up to YAP. We only ask this question for compliance purposes to safeguard your account</string>
     <string name="screen_employment_information_dialog_button_text_close">Close</string>
     <string name="screen_employment_information_cash_dialog_display_text_heading">For those people who still use cash, how much cash will you add to YAP per month?</string>
     <string name="screen_employment_information_cash_dialog_display_text_subheading">We are asking about CASH only that would be deposited in a bank machine.  We only ask this question for compliance purposes to safeguard your account.</string>
@@ -1486,6 +1515,15 @@
     <string name="screen_cards_display_text_error_user_canceled">You have cancelled before completing the requested operation.</string>
     <!--    Samsung Pay end-->
 
+    <!--Dashboard Widgets and Edit Screen-->
+    <string name="screen_dashboard_widget_edit_hide_text">Hide widgets from dashboard</string>
+    <string name="screen_edit_widget_heading_text">Edit dashboard widgets</string>
+    <string name="screen_edit_widget_hidden_text">Hidden</string>
+    <string name="screen_edit_widget_active_text">Active</string>
+    <string name="screen_edit_widget_swipe_to_hide">Swipe to hide</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_title">Widgets are Hidden</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_button_title">Hide Widgets</string>
+    <string name="screen_dashboard_widget_edit_hide_bottom_sheet_content">You have chosen to hide the quick link widgets from your dashboard. To turn these back on, go to the dashboard menu in the top right and click on Quick Access Widgets.</string>
 
     <!--    Edit Card Name -->
     <string name="screen_edit_card_name_text_heading">Type your full name</string>
@@ -1493,7 +1531,6 @@
     <string name="screen_edit_card_name_display_subheading">What name would you like on your card?</string>
     <string name="screen_edit_card_name_count_text">%1s\/26</string>
     <string name="screen_edit_card_name_display_description">We can only print 26 characters on the card, so if you have a long name, we suggest you use initials where possible.</string>
-
 
     <!--    Bill Payment-->
     <string name="screen_bill_payment_text_title">Pay bills</string>
