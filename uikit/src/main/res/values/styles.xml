@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Yap.App.Widget.Passcode.Secured.Box" parent="">
+        <item name="checkboxStyle">@style/PFLockScreenCodeStyle</item>
+        <item name="android:checkboxStyle">@style/PFLockScreenCodeStyle</item>
+    </style>
+    <style name="PFLockScreenCodeStyle">
+        <item name="android:button">@drawable/code_selector_pf</item>
+    </style>
+
+
+    <style name="Yap.App.Widget.Adjustable.KeyboardKey" parent="">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Yap.App.Widget.Adjustable.KeyboardKey.KeyboardTextKey" parent="Yap.App.Widget.Adjustable.KeyboardKey">
+        <item name="android:textColor">@color/key_selector_forground</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/text_size_h5</item>
+        <item name="android:background">@drawable/bg_round_selector</item>
+    </style>
+
+    <style name="Yap.App.Layout.Adjustable_DialerPad" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="adpBtnMaxWidth">100dp</item>
+        <item name="adpBtnMargin">@dimen/_8sdp</item>
+        <item name="android:layout_marginEnd">@dimen/ui_kit_margin_zero_dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_normal_large</item>
+        <item name="android:layout_marginStart">@dimen/margin_zero_dp</item>
+        <item name="android:layout_marginBottom">@dimen/margin_normal_large</item>
+    </style>
+
+
+</resources>

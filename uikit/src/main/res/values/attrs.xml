@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="primaryTextColor" format="reference" />
+    <attr name="primaryDarkTextColor" format="reference" />
+    <attr name="secondaryTextColor" format="reference" />
+    <attr name="tertiaryTextColor" format="reference" />
+    <attr name="buttonEnabledColor" format="reference" />
+    <attr name="buttonDisabledColor" format="reference" />
+    <attr name="buttonTextColor" format="reference" />
+
+    <declare-styleable name="PrefixSuffixEditText">
+        <attr name="android:inputType" />
+        <attr name="android:padding" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingBottom" />
+        <attr name="pse_setBackgroundColor" format="color" />
+        <attr name="pse_setBorderColor" format="color" />
+        <attr name="pse_setBorderView" format="boolean" />
+        <attr name="pse_setStrokeWidth" format="dimension" />
+        <attr name="pse_setCornerRadius" format="dimension" />
+        <attr name="pse_setClearIconVisible" format="boolean" />
+        <attr name="pse_showHint" format="boolean" />
+        <attr name="pse_clearIconTint" format="color" />
+        <attr name="pse_setCursorColor" format="color" />
+        <attr name="pse_hideShowPasswordIconTint" format="color" />
+        <attr name="pse_setPrefix" format="string" />
+        <attr name="pse_setPrefixTextColor" format="color" />
+        <attr name="pse_setPrefixDrawable" format="reference" />
+        <attr name="pse_showPrefixDrawable" format="boolean" />
+        <attr name="pse_compoundDrawableWidth" format="dimension" />
+        <attr name="pse_space" format="dimension" />
+        <attr name="pse_compoundDrawableHeight" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="PhoneTextInputEditText">
+        <attr name="p_showHint" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="EasyMoneyWidgets">
+        <attr name="currency_symbol" format="string" />
+        <attr name="show_currency" format="boolean" />
+        <attr name="show_commas" format="boolean" />
+        <attr name="decimalDigits" format="integer" />
+        <attr name="em_setBackgroundColor" format="color" />
+        <attr name="em_custom_width" format="dimension" />
+        <attr name="em_custom_height" format="dimension" />
+        <attr name="em_currency" format="string" />
+        <attr name="android:maxLength" format="integer" min="10" />
+    </declare-styleable>
+
+    <declare-styleable name="OtpTextView">
+        <attr name="android:textColor" />
+        <attr name="otp" format="string" />
+        <attr name="hide_otp" format="boolean" />
+        <attr name="hide_otp_drawable" format="reference" />
+        <attr name="length" format="integer" />
+        <attr name="custom_width" format="dimension" />
+        <attr name="custom_height" format="dimension" />
+        <attr name="box_margin" format="dimension" />
+        <attr name="box_margin_left" format="dimension" />
+        <attr name="box_margin_right" format="dimension" />
+        <attr name="box_margin_top" format="dimension" />
+        <attr name="box_margin_bottom" format="dimension" />
+        <attr name="bar_height" format="dimension" />
+        <attr name="bar_enabled" format="boolean" />
+        <attr name="otp_box_background" format="reference" />
+        <attr name="otp_box_background_active" format="reference" />
+        <attr name="otp_box_background_inactive" format="reference" />
+        <attr name="otp_box_background_success" format="reference" />
+        <attr name="otp_box_background_error" format="reference" />
+        <attr name="bar_margin" format="dimension" />
+        <attr name="bar_margin_bottom" format="dimension" />
+        <attr name="bar_margin_right" format="dimension" />
+        <attr name="bar_margin_left" format="dimension" />
+        <attr name="bar_margin_top" format="dimension" />
+        <attr name="otp_text_size" format="dimension" />
+        <attr name="bar_active_color" format="color" />
+        <attr name="bar_inactive_color" format="color" />
+        <attr name="bar_error_color" format="color" />
+        <attr name="bar_success_color" format="color" />
+        <attr name="text_typeface" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="CircularProgressBar">
+        <attr name="cpb_progress" format="integer" />
+        <attr name="cpb_progress_max" format="integer" />
+        <attr name="cpb_indeterminate_mode" format="boolean" />
+        <attr name="cpb_progressbar_color" format="color" />
+        <attr name="cpb_progressbar_color_start" format="color" />
+        <attr name="cpb_progressbar_color_end" format="color" />
+        <attr name="cpb_progressbar_color_direction">
+            <flag name="left_to_right" value="1" />
+            <flag name="right_to_left" value="2" />
+            <flag name="top_to_bottom" value="3" />
+            <flag name="bottom_to_top" value="4" />
+        </attr>
+        <attr name="cpb_background_progressbar_color" format="color" />
+        <attr name="cpb_background_progressbar_color_start" format="color" />
+        <attr name="cpb_background_progressbar_color_end" format="color" />
+        <attr name="cpb_background_progressbar_color_direction">
+            <flag name="left_to_right" value="1" />
+            <flag name="right_to_left" value="2" />
+            <flag name="top_to_bottom" value="3" />
+            <flag name="bottom_to_top" value="4" />
+        </attr>
+        <attr name="cpb_progressbar_width" format="dimension" />
+        <attr name="cpb_background_progressbar_width" format="dimension" />
+        <attr name="cpb_round_border" format="boolean" />
+        <attr name="cpb_start_angle" format="float" />
+        <attr name="cpb_progress_direction">
+            <flag name="to_right" value="1" />
+            <flag name="to_left" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CollapsedColoredHintTextInputLayout">
+        <attr name="hintTextColorNormal" format="color" />
+        <attr name="hintTextColorSelected" format="color" />
+        <attr name="android:drawablePadding" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="MultiStateLayout">
+        <attr name="uikit_msv_loadingView" format="reference" />
+        <attr name="uikit_msv_emptyView" format="reference" />
+        <attr name="uikit_msv_errorView" format="reference" />
+        <attr name="uikit_msv_viewState" format="enum">
+            <enum name="content" value="0" />
+            <enum name="error" value="1" />
+            <enum name="empty" value="2" />
+            <enum name="loading" value="3" />
+        </attr>
+        <attr name="uikit_msv_animateViewChanges" format="boolean" />
+        <attr name="uikit_msv_animateViewChangesDuration" format="integer|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CoreDialerPad">
+        <attr name="dialer_max_length" format="integer" />
+        <attr name="dialer_error" format="reference" />
+        <attr name="show_dialer_pass_code" format="boolean" />
+        <attr name="dialer_pass_code" format="enum">
+            <enum name="defaultType" value="0" />
+            <enum name="passcode" value="1" />
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="AdjustableDialerPad">
+        <attr name="adpLeftIcon" format="reference" />
+        <attr name="adpRightIcon" format="reference" />
+        <attr name="adpBtnMaxWidth" format="dimension" />
+        <attr name="adpBtnMargin" format="dimension" />
+        <attr name="adpBtn_MarginTop" format="dimension" />
+        <attr name="adpBtn_MarginBottom" format="dimension" />
+        <attr name="adpBtn_MarginStart" format="dimension" />
+        <attr name="adpBtn_MarginEnd" format="dimension" />
+        <attr name="adpCodeMinLength" format="integer" />
+        <attr name="adpCodeMaxLength" format="integer" />
+        <attr name="adpRightIconPadding" format="dimension" />
+        <attr name="adpLeftIconPadding" format="dimension" />
+        <attr name="adpLeftIconScaleType" format="enum">
+            <enum name="matrix" value="0" />
+            <enum name="fitXY" value="1" />
+            <enum name="fitStart" value="2" />
+            <enum name="fitCenter" value="3" />
+            <enum name="fitEnd" value="4" />
+            <enum name="center" value="5" />
+            <enum name="centerCrop" value="6" />
+            <enum name="centerInside" value="7" />
+        </attr>
+        <attr name="adpRightIconScaleType" format="enum">
+            <enum name="matrix" value="0" />
+            <enum name="fitXY" value="1" />
+            <enum name="fitStart" value="2" />
+            <enum name="fitCenter" value="3" />
+            <enum name="fitEnd" value="4" />
+            <enum name="center" value="5" />
+            <enum name="centerCrop" value="6" />
+            <enum name="centerInside" value="7" />
+        </attr>
+        <attr name="rightKeyVisibility" format="boolean" />
+
+    </declare-styleable>
+
+    <declare-styleable name="TimelineView">
+        <attr name="marker" format="color|reference" />
+        <attr name="markerSize" format="dimension" />
+        <attr name="markerPaddingLeft" format="dimension" />
+        <attr name="markerPaddingTop" format="dimension" />
+        <attr name="markerPaddingRight" format="dimension" />
+        <attr name="markerPaddingBottom" format="dimension" />
+        <attr name="markerInCenter" format="boolean" />
+        <attr name="lineRoundedCorner" format="boolean" />
+        <attr name="startLineColor" format="color" />
+        <attr name="endLineColor" format="color|reference" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="lineStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="dash" value="1" />
+        </attr>
+        <attr name="lineStyleDashGap" format="dimension" />
+        <attr name="lineStyleDashLength" format="dimension" />
+        <attr name="lineOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="linePadding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SkeletonLayout">
+        <attr name="maskColor" format="color" />
+        <attr name="maskCornerRadius" format="dimension" />
+        <attr name="showShimmer" format="boolean" />
+        <attr name="shimmerColor" format="color" />
+        <attr name="shimmerDurationInMillis" format="integer" />
+        <attr name="shimmerDirection" format="enum">
+            <enum name="left_to_right" value="0" />
+            <enum name="right_to_left" value="1" />
+        </attr>
+        <attr name="shimmerAngle" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="ShimmerRecyclerview">
+        <attr name="shimmerLayoutId" format="integer|reference" />
+        <attr name="itemCount" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="SecureCodeView">
+        <attr name="scv_size" format="dimension" />
+        <attr name="scv_margin" format="dimension" />
+        <attr name="scv_minLength" format="integer" />
+        <attr name="scv_maxLength" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="RollingCounterView">
+        <attr name="rcvBackground" format="reference" />
+        <!--        <attr name="rcvTextStyle" format="reference" />-->
+        <attr name="rcvTextColor" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="AndExoPlayerView">
+        <attr name="andexo_resize_mode" />
+        <attr name="andexo_aspect_ratio" />
+        <attr name="andexo_play_when_ready" format="boolean" />/>
+    </declare-styleable>
+
+    <attr name="andexo_resize_mode" format="enum">
+        <enum name="Fit" value="1" />
+        <enum name="Fill" value="2" />
+        <enum name="Zoom" value="3" />
+    </attr>
+
+    <attr name="andexo_aspect_ratio" format="enum">
+        <enum name="aspect_1_1" value="1" />
+        <enum name="aspect_16_9" value="2" />
+        <enum name="aspect_4_3" value="3" />
+        <enum name="aspect_match" value="4" />
+        <enum name="aspect_mp3" value="5" />
+    </attr>
+
+    <declare-styleable name="NameInitialsCircleImageView">
+        <attr name="niTextSize" format="dimension" />
+        <attr name="niTextColor" format="color" />
+        <attr name="niText" format="string" required="true" />
+        <attr name="niTextFont" format="reference" />
+        <attr name="circleBackgroundColor" format="color" />
+        <attr name="niIndex" format="integer" />
+        <attr name="niImageUrl" format="string" />
+        <attr name="niEnableGlideSignature" format="boolean" />
+    </declare-styleable>
+
+
+    <declare-styleable name="AnimatedProgressBar">
+        <attr name="apbIconSize" format="dimension" />
+        <attr name="apbLeftIconMarginLeft" format="dimension" />
+        <attr name="apbLeftIconMarginRight" format="dimension" />
+        <attr name="apbRightIconMarginLeft" format="dimension" />
+        <attr name="apbRightIconMarginRight" format="dimension" />
+        <attr name="apbProgressBarMarginBothSides" format="dimension" />
+        <attr name="apbIconPadding" format="dimension" />
+        <attr name="apbProgress" format="integer" />
+        <attr name="apbLeftBackgroundResource" format="integer" />
+        <attr name="apbRightBackgroundResource" format="integer" />
+        <attr name="apbLeftBackgroundDrawable" format="reference" />
+        <attr name="apbRightBackgroundDrawable" format="reference" />
+        <attr name="apbLeftIconEnable" format="boolean" />
+        <attr name="apbRightIconEnable" format="boolean" />
+        <attr name="apbVisibility" format="boolean" />
+        <attr name="apbLeftImageVisibility" format="boolean" />
+        <attr name="apbRightImageVisibility" format="boolean" />
+        <attr name="apbProgressCompleted" format="boolean" />
+        <attr name="apbHeight" format="dimension" />
+        <attr name="apbColor" format="reference" />
+        <attr name="apbBackgroundColor" format="reference" />
+        <attr name="apbDurationInSeconds" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="ToolbarView">
+        <attr name="tbStartIconVisibility" format="boolean" />
+        <attr name="tbStartIconEnabled" format="boolean" />
+        <attr name="tbEndIconVisibility" format="boolean" />
+        <attr name="tbEndIconEnabled" format="boolean" />
+        <attr name="tbEndTextVisibility" format="boolean" />
+        <attr name="tbEndTextEnabled" format="boolean" />
+        <attr name="tbBottomLineVisibility" format="boolean" />
+        <attr name="tbStartIconResource" format="reference" />
+        <attr name="tbEndIconResource" format="reference" />
+        <attr name="tbBackgroundResource" format="reference" />
+        <attr name="tbStartIconDrawable" format="reference" />
+        <attr name="tbEndIconDrawable" format="reference" />
+        <attr name="tbBackgroundDrawable" format="reference" />
+        <attr name="tbTitleStyle" format="reference" />
+        <attr name="tbEndTextStyle" format="reference" />
+        <attr name="tbEndText" format="string" />
+        <attr name="tbTitleText" format="string" />
+        <attr name="tbStartIconMarginEnd" format="dimension" />
+        <attr name="tbStartIconMarginStart" format="dimension" />
+        <attr name="tbEndIconMarginStart" format="dimension" />
+        <attr name="tbEndIconMarginEnd" format="dimension" />
+        <attr name="tbEndTextMarginEnd" format="dimension" />
+        <attr name="tbEndTextMarginStart" format="dimension" />
+
+    </declare-styleable>
+
+
+</resources>

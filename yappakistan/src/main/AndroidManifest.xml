@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.yap.yappakistan">
+
+    <application
+        android:theme="@style/Theme.Base.Yap.Pk"
+        tools:replace="android:theme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name="com.yap.yappakistan.ui.auth.main.AuthenticationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Base.Yap.Pk" />
+        <activity
+            android:name="com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Base.Yap.Pk" />
+
+    </application>
+
+</manifest>
