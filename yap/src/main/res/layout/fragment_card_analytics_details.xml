@@ -28,14 +28,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <co.yap.widgets.CoreCircularImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivUserImage"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal_large"
-            app:cropImage="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)}"
-            android:padding="@{constant.INSTANCE.MERCHANT_TYPE.equals(`merchant-name`)?@dimen/margin_zero_dp:@dimen/margin_normal_large}"
+            android:padding="@{viewModel.state.analyticType.equals(constant.INSTANCE.MERCHANT_NAME)?@dimen/margin_zero_dp:@dimen/margin_normal_large}"
+            app:categoryTitle="@{viewModel.state.title.empty || viewModel.state.title == null?`General`:viewModel.state.title}"
+            app:imageLogo="@{viewModel.state.ImageUrl == null ? ` ` : viewModel.state.ImageUrl}"
+            app:categoryColor="@{viewModel.state.categoryColor}"
+            app:isBackground = "@{true}"
+            app:showFirstInitials="@{true}"
+            app:detailType="@{viewModel.state.analyticType}"
+            app:position="@{viewModel.state.position}"
             tools:src="@drawable/ic_access_alarm" />
 
         <androidx.appcompat.widget.AppCompatTextView

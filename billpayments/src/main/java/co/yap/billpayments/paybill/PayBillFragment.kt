@@ -16,11 +16,14 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.tabs.TabLayout
 
 class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
@@ -185,16 +188,20 @@ class PayBillFragment : PayBillMainBaseFragment<IPayBill.ViewModel>(),
                 )
             }
             R.id.btnPay -> {
-                viewModel.payBillAndEditBiller(
-                    payBillRequest = viewModel.getPayBillRequest(
-                        viewModel.parentViewModel?.billModel?.value,
-                        viewModel.state.amount
-                    ), editBillerRequest = viewModel.getEditBillerRequest(
-                        viewModel.parentViewModel?.billModel?.value
-                    )
-                ) {
-                    viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
-                    navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.PAY_BILL_PAYMENT)) {
+                    showBlockedFeatureAlert(requireActivity(), FeatureSet.PAY_BILL_PAYMENT)
+                } else {
+                    viewModel.payBillAndEditBiller(
+                        payBillRequest = viewModel.getPayBillRequest(
+                            viewModel.parentViewModel?.billModel?.value,
+                            viewModel.state.amount
+                        ), editBillerRequest = viewModel.getEditBillerRequest(
+                            viewModel.parentViewModel?.billModel?.value
+                        )
+                    ) {
+                        viewModel.parentViewModel?.state?.paidAmount?.set(viewModel.state.amount)
+                        navigate(R.id.action_payBillFragment_to_payBillSuccessFragment)
+                    }
                 }
             }
         }

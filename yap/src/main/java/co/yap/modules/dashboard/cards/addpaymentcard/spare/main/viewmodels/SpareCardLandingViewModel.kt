@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels
 
 import android.app.Application
 import android.content.Context
+import android.view.View
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpareCards
@@ -9,7 +10,6 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states.SpareCard
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
-import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.parseToDouble
@@ -98,7 +98,7 @@ class SpareCardLandingViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(getString(Strings.screen_spare_card_landing_display_tool_bar_title))
+        toggleToolBarVisibility(View.GONE)
     }
 
     override fun loadJSONDummyList(): ArrayList<BenefitsModel> {
@@ -130,7 +130,7 @@ class SpareCardLandingViewModel(application: Application) :
     private fun loadTransactionFromJsonAssets(context: Context): String? {
         val json: String?
         try {
-            val `is` = context.assets.open("benefits.json")
+            val `is` = context.assets.open("card_benefits.json")
             val size = `is`.available()
             val buffer = ByteArray(size)
             `is`.read(buffer)

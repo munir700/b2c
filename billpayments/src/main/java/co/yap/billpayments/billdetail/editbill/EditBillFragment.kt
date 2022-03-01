@@ -18,10 +18,13 @@ import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.customAlertDialog
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.tabs.TabLayout
 
 class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
@@ -183,7 +186,11 @@ class EditBillFragment : BillDetailBaseFragment<IEditBill.ViewModel>(),
     val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnEditBill -> {
-                editBillClick()
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_BILL_PAYMENT)) {
+                    showBlockedFeatureAlert(requireActivity(), FeatureSet.EDIT_BILL_PAYMENT)
+                } else {
+                    editBillClick()
+                }
             }
             R.id.tvDeleteThisButton -> showPopUp()
             R.id.tvDropDownWeekDays -> {

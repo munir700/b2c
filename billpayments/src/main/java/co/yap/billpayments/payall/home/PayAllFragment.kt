@@ -9,9 +9,12 @@ import co.yap.billpayments.databinding.FragmentPayAllBinding
 import co.yap.billpayments.payall.base.PayAllBaseFragment
 import co.yap.billpayments.payall.payallsuccess.bottomsheetloder.PayBillLoaderBottomSheet
 import co.yap.billpayments.utils.enums.BillPaymentStatus
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
+import co.yap.yapcore.managers.FeatureProvisioning
 import com.google.android.material.snackbar.Snackbar
 
 class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
@@ -54,16 +57,20 @@ class PayAllFragment : PayAllBaseFragment<IPayAll.ViewModel>(),
     private val clickListener = Observer<Int> { it ->
         when (it) {
             R.id.btnPayAll -> {
-                openBottomSheet()
-                viewModel.payAllBills(viewModel.getPayAllBillsRequest()) {
-                    if (viewModel.parentViewModel?.paidBills?.size == 1 && viewModel.parentViewModel?.paidBills?.count {
-                            it.paymentStatus.equals(
-                                BillPaymentStatus.FAILEDTITLE.title
-                            )
-                        } == 1) {
-                        navigate(R.id.action_payAllFragment_to_singleDeclineFragment)
-                    } else {
-                        navigate(R.id.action_payAllFragment_to_payAllStatusFragment)
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.ADD_BILL_PAYMENT)) {
+                    showBlockedFeatureAlert(requireActivity(), FeatureSet.ADD_BILL_PAYMENT)
+                } else {
+                    openBottomSheet()
+                    viewModel.payAllBills(viewModel.getPayAllBillsRequest()) {
+                        if (viewModel.parentViewModel?.paidBills?.size == 1 && viewModel.parentViewModel?.paidBills?.count {
+                                it.paymentStatus.equals(
+                                    BillPaymentStatus.FAILEDTITLE.title
+                                )
+                            } == 1) {
+                            navigate(R.id.action_payAllFragment_to_singleDeclineFragment)
+                        } else {
+                            navigate(R.id.action_payAllFragment_to_payAllStatusFragment)
+                        }
                     }
                 }
             }

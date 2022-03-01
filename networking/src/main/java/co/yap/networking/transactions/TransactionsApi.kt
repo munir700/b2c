@@ -5,6 +5,7 @@ import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.categorybar.CategoryBarResponse
 import co.yap.networking.transactions.responsedtos.billpayment.BillAccountHistoryResponse
 import co.yap.networking.transactions.responsedtos.billpayment.BillLineChartHistory
 import co.yap.networking.transactions.responsedtos.billpayments.BPAnalyticsDetailsDTO
@@ -123,6 +124,9 @@ interface TransactionsApi {
         sendEmailRequestModel: SendEmailRequest
     ): RetroApiResponse<ApiResponse>
 
+    suspend fun getTotalPurchasesList(totalPurchaseRequest: TotalPurchaseRequest): RetroApiResponse<TotalPurchasesTransactionResponse>
+
+    suspend fun requestCategoryBarData(): RetroApiResponse<CategoryBarResponse>
 
     //Pay bill from bill payment
     suspend fun payBill(payBillRequest: PayBillRequest): RetroApiResponse<ApiResponse>

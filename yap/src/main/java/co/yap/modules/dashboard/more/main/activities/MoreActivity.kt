@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.ActivityMoreBinding
 import co.yap.modules.dashboard.more.main.interfaces.IMore
 import co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -14,7 +15,6 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import kotlinx.android.synthetic.main.activity_add_payment_cards.*
 
 class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -50,15 +50,15 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     }
 
     public fun hideToolbar() {
-        toolbar.visibility = View.INVISIBLE
+        getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.INVISIBLE
     }
 
     public fun goneToolbar() {
-        toolbar.visibility = View.GONE
+        getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.GONE
     }
 
     fun visibleToolbar() {
-        toolbar.visibility = View.VISIBLE
+        getDataBindingView<ActivityMoreBinding>().toolbar.visibility = View.VISIBLE
     }
 
     private fun isFromDrawer(): Boolean {
