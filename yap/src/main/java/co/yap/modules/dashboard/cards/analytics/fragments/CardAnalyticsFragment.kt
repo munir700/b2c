@@ -56,18 +56,21 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         setupBindings()
         setupAdaptor()
         setupTabs()
-        viewModel.parentViewModel?.state?.selectedDate?.let {
-            if(viewModel.parentViewModel?.state?.currentSelectedDate.isNullOrEmpty()){
-                val date = SimpleDateFormat(DateUtils.FORMAT_COMPLETE_DATE).parse(it)
-                viewModel.fetchCardCategoryAnalytics(
-                    DateUtils.dateToString(
-                        date, "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
+        if (viewModel.parentViewModel?.currentDate == null) {
+            viewModel.parentViewModel?.state?.selectedDate?.let {
+                if (!viewModel.parentViewModel?.state?.selectedDate.isNullOrEmpty()) {
+                    val date = SimpleDateFormat(DateUtils.FORMAT_COMPLETE_DATE).parse(it)
+                    viewModel.fetchCardCategoryAnalytics(
+                        DateUtils.dateToString(
+                            date, "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
+                        )
                     )
-                )
-                viewModel.currentDate = date
-            }else setCurrentMonthCall()
-
-        } ?: setCurrentMonthCall()
+                    viewModel.parentViewModel?.currentDate = date
+                    viewModel.setMonthsEnableStates()
+                    viewModel.setSelectedDate(viewModel.parentViewModel?.currentDate)
+                } else setCurrentMonthCall()
+            } ?: setCurrentMonthCall()
+        }
     }
 
     private fun setupBindings() {
@@ -455,7 +458,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         val colorCode: Int
         if (viewModel.state.selectedItemPosition.get() == -1) return
         try {
-            colorCode = Utils.categoryColorValidation(viewModel.state.selectedTxnAnalyticsItem.get()?.categoryColor.toString())
+            colorCode =
+                Utils.categoryColorValidation(viewModel.state.selectedTxnAnalyticsItem.get()?.categoryColor.toString())
             if (colorCode != -1)
                 getBindingView().tvPieViewTitle.setTextColor(colorCode)
         } catch (ex: Exception) {
@@ -470,7 +474,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 "yyyy-MM-dd", DateUtils.TIME_ZONE_Default
             )
         )
-        viewModel.currentDate = Date()
+        viewModel.parentViewModel?.currentDate = Date()
+        viewModel.setMonthsEnableStates()
+        viewModel.setSelectedDate(viewModel.parentViewModel?.currentDate)
     }
 
     private fun getBindingView(): FragmentCardAnalyticsBinding {

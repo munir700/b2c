@@ -30,7 +30,6 @@ class CardAnalyticsViewModel(application: Application) :
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var currentDate: Date? = null
     private var listOfMonths: List<Date> = arrayListOf()
 //    override var type: ObservableField<String> = ObservableField("merchant-category-id")
 
@@ -46,33 +45,28 @@ class CardAnalyticsViewModel(application: Application) :
             startDate,
             endDate
         )
-        currentDate.let {
-            currentDate = Date()
-        }
-        setSelectedDate(currentDate)
-        state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
-        state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
     }
 
     override fun handlePressOnView(id: Int) {
         when (id) {
             R.id.ivPrevious -> {
-                currentDate = DateUtils.getPriviousMonthFromCurrentDate(
+                parentViewModel?.currentDate = DateUtils.getPriviousMonthFromCurrentDate(
                     listOfMonths,
-                    currentDate
+                    parentViewModel?.currentDate
                 )
-                fetchAnalytics(currentDate)
-                state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
+                fetchAnalytics(parentViewModel?.currentDate)
+                state.previousMonth =
+                    isPreviousIconEnabled(listOfMonths, parentViewModel?.currentDate)
                 state.nextMonth = true
                 trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
             }
             R.id.ivNext -> {
-                currentDate = DateUtils.getNextMonthFromCurrentDate(
+                parentViewModel?.currentDate = DateUtils.getNextMonthFromCurrentDate(
                     listOfMonths,
-                    currentDate
+                    parentViewModel?.currentDate
                 )
-                fetchAnalytics(currentDate)
-                state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
+                fetchAnalytics(parentViewModel?.currentDate)
+                state.nextMonth = isNextIconEnabled(listOfMonths, parentViewModel?.currentDate)
                 state.previousMonth = true
                 trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
 
@@ -197,9 +191,8 @@ class CardAnalyticsViewModel(application: Application) :
         }
     }
 
-    private fun setSelectedDate(currentDate: Date?) {
-        state.displayMonth =
-            currentDate?.let { DateUtils.getMonth(it) } ?: ""
+    fun setSelectedDate(currentDate: Date?) {
+        state.displayMonth = currentDate?.let { DateUtils.getMonth(it) } ?: ""
         state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MONTH_YEAR, false)
         parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
         parentViewModel?.state?.currentSelectedDate =
@@ -216,5 +209,10 @@ class CardAnalyticsViewModel(application: Application) :
             showFirstInitials = false,
             categoryColor = ""
         )
+    }
+
+    override fun setMonthsEnableStates() {
+        state.previousMonth = isPreviousIconEnabled(listOfMonths, parentViewModel?.currentDate)
+        state.nextMonth = isNextIconEnabled(listOfMonths, parentViewModel?.currentDate)
     }
 }
