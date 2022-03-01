@@ -833,4 +833,7 @@ object Utils {
             categoryColorCode
         }
     }
+
+    @JvmStatic
+    fun getViewsList(vararg views: View) = listOf(*views)
 }

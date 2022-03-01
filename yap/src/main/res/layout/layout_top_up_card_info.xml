@@ -22,11 +22,15 @@
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        app:sensitiveViews="@{Utils.getViewsList(ivCustomCard,tvCardNumber,tvCardName)}"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">

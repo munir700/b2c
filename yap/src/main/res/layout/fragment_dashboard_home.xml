@@ -10,7 +10,7 @@
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
         <import type="co.yap.translation.Strings" />
-
+        <import type="co.yap.yapcore.helpers.Utils" />
         <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="android.view.View" />
@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
          android:orientation="vertical"
+        app:sensitiveViews="@{Utils.getViewsList(tvAvailableBalance,tvCurrencyName,tvBalanceTitle)}"
         app:srcCompat="?attr/colorPrimaryAttr">
 
         <androidx.constraintlayout.widget.ConstraintLayout

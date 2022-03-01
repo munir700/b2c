@@ -12,11 +12,13 @@
             type="co.yap.modules.reachonthetop.ReachedQueueTopViewModel" />
 
         <import type="co.yap.translation.Translator" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(appCompatTextView3)}"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
