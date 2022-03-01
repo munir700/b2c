@@ -47,7 +47,7 @@ class EmploymentQuestionnaireAmendmentFragment :
         when (id) {
             R.id.ivLeftIcon -> activity?.finish()
             R.id.tvRightText -> {
-                //viewModel.updateEditMode(true)
+                viewModel.updateEditMode(true)
             }
         }
     }

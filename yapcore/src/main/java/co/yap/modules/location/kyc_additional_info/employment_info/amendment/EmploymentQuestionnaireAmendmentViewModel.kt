@@ -350,11 +350,13 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override fun setAnswersForQuestions() {
         when (employmentStatus.value) {
             EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
-                val industrySegment = industrySegmentsList.first {
-                    it.segmentCode == employmentStatusValue.value?.industrySubSegmentCode?.get(0) ?: ""
+                employmentStatusValue.value?.industrySubSegmentCode?.let {
+                    val industrySegment = industrySegmentsList.first {
+                        it.segmentCode == employmentStatusValue.value?.industrySubSegmentCode?.get(0) ?: ""
+                    }
+                    val objQuestionSegment = getDataForPosition(1)
+                    objQuestionSegment.question.answer.set(industrySegment.segment)
                 }
-                val objQuestionSegment = getDataForPosition(1)
-                objQuestionSegment.question.answer.set(industrySegment.segment)
                 // Check Selected Countries
                 val businessCountriesList: ArrayList<String> = ArrayList()
                 employmentStatusValue.value?.businessCountries?.let { selectedCountries ->
