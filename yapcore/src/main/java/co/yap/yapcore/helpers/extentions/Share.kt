@@ -124,7 +124,7 @@ fun Context.sendEmail(
 fun Context.makeCall(number: String?): Boolean {
     return try {
         val intent = Intent(ACTION_DIAL).apply {
-            data = Uri.parse("tel:$$number")
+            data = Uri.parse("tel:${number}")
         }
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)

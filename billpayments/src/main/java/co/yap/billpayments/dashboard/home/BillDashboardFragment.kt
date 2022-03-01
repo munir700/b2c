@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import co.yap.billpayments.BR
 import co.yap.billpayments.R
 import co.yap.billpayments.addbiller.main.AddBillActivity
 import co.yap.billpayments.base.BillDashboardBaseFragment
 import co.yap.billpayments.billdetail.BillDetailActivity
-import co.yap.billpayments.dashboard.analytics.BillPaymentAnalyticsViewModel
 import co.yap.billpayments.databinding.FragmentBillDashboardBinding
 import co.yap.billpayments.payall.main.PayAllMainActivity
 import co.yap.billpayments.paybill.main.PayBillMainActivity
@@ -23,11 +21,14 @@ import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.google.gson.Gson
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -42,7 +43,7 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_bill_dashboard
     override var isFromSwipePayBill: Boolean = false
-    override val viewModel: BillDashboardViewModel  by viewModels()
+    override val viewModel: BillDashboardViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,13 +111,20 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
         when (it) {
             R.id.lMyBills -> navigate(R.id.action_billsDashboardFragment_to_myBillsFragment)
             R.id.lAnalytics -> navigate(R.id.action_billsDashboardFragment_to_billPaymentAnalyticsFragment)
-            R.id.lAddBill -> navigate(R.id.action_billsDashboardFragment_to_addBillFragment)
+            R.id.lAddBill -> navigate(
+                destinationId = R.id.action_billsDashboardFragment_to_addBillFragment,
+                screenType = FeatureSet.ADD_BILL_PAYMENT
+            )
             R.id.btnPayNow -> {
-                viewModel.clickEvent.getPayload()?.let { payload ->
-                    isFromSwipePayBill = true
-                    startPayBillFlow(payload.itemData as ViewBillModel)
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.PAY_BILL_PAYMENT)) {
+                    showBlockedFeatureAlert(requireActivity(), FeatureSet.PAY_BILL_PAYMENT)
+                } else {
+                    viewModel.clickEvent.getPayload()?.let { payload ->
+                        isFromSwipePayBill = true
+                        startPayBillFlow(payload.itemData as ViewBillModel)
+                    }
+                    viewModel.clickEvent.setPayload(null)
                 }
-                viewModel.clickEvent.setPayload(null)
             }
             R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
@@ -296,10 +304,15 @@ class BillDashboardFragment : BillDashboardBaseFragment<IBillDashboard.ViewModel
     }
 
     private fun startPayAllActivity() {
-        launchActivity<PayAllMainActivity>(requestCode = RequestCodes.REQUEST_PAY_BILL_ALL) {
+        launchActivity<PayAllMainActivity>(
+            requestCode = RequestCodes.REQUEST_PAY_BILL_ALL,
+            type = FeatureSet.PAY_BILL_PAYMENT
+        ) {
             putExtra(
                 ExtraKeys.ALL_BILLS.name,
-                Gson().toJson(viewModel.dueBillsAdapter.getDataList().filter { it.isBillerNotUnavailable().not() })
+                Gson().toJson(
+                    viewModel.dueBillsAdapter.getDataList()
+                        .filter { it.isBillerNotUnavailable().not() })
             )
         }
         requireActivity().overridePendingTransition(

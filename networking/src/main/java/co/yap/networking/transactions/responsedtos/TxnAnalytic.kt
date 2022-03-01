@@ -19,5 +19,9 @@ data class TxnAnalytic(
     @SerializedName("txnCount")
     val txnCount: Int? = null,
     @SerializedName("categories")
-    val categories: ArrayList<String>? = null
-): Parcelable
+    val categories: ArrayList<String>? = null,
+    @SerializedName("categoryColor")
+    val categoryColor: String = "",
+    @Transient
+    val analyticType : String = ""
+) : Parcelable

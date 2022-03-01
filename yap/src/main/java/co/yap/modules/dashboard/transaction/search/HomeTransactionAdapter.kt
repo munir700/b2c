@@ -11,9 +11,9 @@ import androidx.databinding.ViewDataBinding
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ItemSearchTransactionChildBinding
-import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.translation.Translator
 import co.yap.widgets.advrecyclerview.decoration.IStickyHeaderViewHolder
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.utils.AbstractExpandableItemViewHolder
@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
 class HomeTransactionAdapter(
+
     internal var transactionData: MutableMap<String?, List<Transaction>>,
     val expandableItemManager: RecyclerViewExpandableItemManager
 ) :
@@ -231,7 +232,16 @@ class HomeTransactionAdapter(
                         null
                 }
             }
-
+            binding.tvCurrency.text = transaction.cardHolderBillingCurrency
+            if (transaction.isInternationalTransaction()) {
+                binding.tvForeignCurrency.visibility = View.VISIBLE
+                binding.tvForeignCurrency.text = Translator.getString(
+                    context,
+                    R.string.common_display_one_variables,
+                    transaction.amount?.toString()
+                        ?.toFormattedCurrency(currency = transaction.currency.toString()) ?: "0.0"
+                )
+            }
         }
 
 
@@ -273,6 +283,7 @@ class HomeTransactionAdapter(
                 colorType = "Beneficiary"
             )
         }
+
         @SuppressLint("UseCompatLoadingForDrawables")
         private fun setCategoryIcon(
             transaction: Transaction,
@@ -298,6 +309,7 @@ class HomeTransactionAdapter(
                 )
             } ?: setInitialsAsImage(transaction, itemSearchTransactionBinding, position)
         }
+
         private fun setY2YUserImage(
             transaction: Transaction,
             itemTransactionListBinding: ItemSearchTransactionChildBinding, position: Int?

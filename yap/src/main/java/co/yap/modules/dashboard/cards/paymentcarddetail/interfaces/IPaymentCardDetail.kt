@@ -50,7 +50,7 @@ interface IPaymentCardDetail {
         var cardType: String
         var cardTypeText: String
         var cardPanNumber: String
-        var cardBalance: String
+        var cardBalance: ObservableField<String>
         var cardName: String
         var blocked: Boolean
         var physical: Boolean

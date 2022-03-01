@@ -14,7 +14,7 @@ class PlanBenefitsAdapter(mValue: MutableList<CardBenefits>, navigation: NavCont
         mValue,
         navigation
     ) {
-    override fun getLayoutId(viewType: Int): Int = getViewModel().layoutRes()
+    override fun getLayoutId(viewType: Int): Int = getViewModel(viewType).layoutRes()
     override fun getViewHolder(
         view: View,
         viewModel: PlanBenefitsItemViewModel,
@@ -26,7 +26,7 @@ class PlanBenefitsAdapter(mValue: MutableList<CardBenefits>, navigation: NavCont
         mDataBinding
     )
 
-    override fun getViewModel(): PlanBenefitsItemViewModel = PlanBenefitsItemViewModel()
+    override fun getViewModel(viewType: Int): PlanBenefitsItemViewModel = PlanBenefitsItemViewModel()
 
     override fun getVariableId(): Int = BR.planBenefitsItemViewModel
     class PlanBenefitsViewHolder(

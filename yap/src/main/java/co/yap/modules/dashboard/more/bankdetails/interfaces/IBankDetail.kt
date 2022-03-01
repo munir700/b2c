@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
+@Deprecated(message = "We are using bottom sheet to show bank details now")
 interface IBankDetail {
     interface State : IBase.State {
         var name: ObservableField<String>

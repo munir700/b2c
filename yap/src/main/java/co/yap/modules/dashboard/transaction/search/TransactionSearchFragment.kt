@@ -1,7 +1,10 @@
 package co.yap.modules.dashboard.transaction.search
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -21,9 +24,11 @@ import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.constants.RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.launchActivity
 import kotlinx.android.synthetic.main.fragment_transaction_search.*
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,10 +53,19 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
             R.layout.item_transaction_list_shimmer,
             5
         )
+        val callback = object : OnBackPressedCallback(
+            true
+            /** true means that the callback is enabled */
+        ) {
+            override fun handleOnBackPressed() {
+                setResponseResult()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun setObservers() {
-        viewModel.state.stateLiveData?.observe(this, Observer {
+        viewModel.state.stateLiveData?.observe(viewLifecycleOwner, Observer {
             handleShimmerState(it)
         })
         svTransactions.setOnQueryTextListener(
@@ -61,6 +75,9 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
                 newText?.let {
                     viewModel.state.transactionRequest?.searchField = it.toLowerCase()
 //                    viewModel.clearCoroutine()
+                    if( viewModel.job?.isActive == true){
+                        viewModel?.job?.cancel( CancellationException())
+                    }
                     recyclerView.pagination?.notifyPaginationRestart()
                 }
             }
@@ -68,7 +85,7 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivCloseSearch -> {
-                    requireActivity().finish()
+                    setResponseResult()
                 }
             }
         })
@@ -156,5 +173,21 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
             }
             return false
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT && resultCode == Activity.RESULT_OK){
+            viewModel.state.isCategoryChangeResult.set(data?.getBooleanExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, false))
+            viewModel.state.categoryLogo = data?.getStringExtra(ExtraKeys.UPDATED_CATEGORY_ICON.name)?:""
+        }
+    }
+
+    private fun setResponseResult() {
+        val intent = Intent()
+        intent.putExtra(ExtraKeys.IS_CATEGORY_UPDATED.name, viewModel.state.isCategoryChangeResult.get())
+        intent.putExtra(ExtraKeys.UPDATED_CATEGORY_ICON.name, viewModel.state.categoryLogo)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 }

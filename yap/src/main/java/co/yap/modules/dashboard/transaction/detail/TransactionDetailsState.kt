@@ -30,4 +30,5 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var showErrorMessage: ObservableBoolean = ObservableBoolean(false)
     override var updatedCategory: ObservableField<TapixCategory> = ObservableField()
     override var categoryDescription: ObservableField<String> = ObservableField()
+    override var isCategoryUpdated: ObservableField<Boolean> = ObservableField()
 }

@@ -34,7 +34,7 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val viewModel = createViewModel()
+        val viewModel = createViewModel( viewType)
         val view = LayoutInflater.from(parent.context).inflate(getLayoutId(viewType), parent, false)
         val mDataBinding = DataBindingUtil.bind<ViewDataBinding>(view)
         mDataBinding?.setVariable(getVariableId(), viewModel)
@@ -49,8 +49,8 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         return holder
     }
 
-    protected fun createViewModel(): VM {
-        val viewModel: VM = getViewModel()
+    protected fun createViewModel( viewType: Int): VM {
+        val viewModel: VM = getViewModel( viewType = viewType)
         viewModel.onCreate(Bundle(), navigation)
         navigation?.let { onItemClickListener = viewModel }
         onChildViewClickListener?.let {
@@ -70,7 +70,7 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         viewType: Int
     ): VH
 
-    abstract fun getViewModel(): VM
+    abstract fun getViewModel( viewType: Int): VM
     abstract fun getVariableId(): Int
 
     fun addAll(datas: List<T>) {
