@@ -108,8 +108,8 @@ class LoginViewModel(application: Application) :
         )
     }
 
-     val _userVerified: MutableLiveData<String> = MutableLiveData()
-//    val userVerified: LiveData<String> = _userVerified
+    private val _userVerified: MutableLiveData<String> = MutableLiveData()
+    val userVerified: LiveData<String> = _userVerified
     private val userVerifier: UserVerifierProvider = UserVerifierProvider()
 
     fun verifyUser(countryCode: String, mobileNumber: String) {
