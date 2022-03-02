@@ -26,6 +26,7 @@ interface IEmploymentQuestionnaireAmendment {
         var selectedQuestionItemPosition: Int
         val industrySegmentsList: ArrayList<IndustrySegment>
         var employmentStatus: MutableLiveData<EmploymentStatus>
+        var serverEmploymentStatus: EmploymentStatus?
         val selectedBusinessCountries: ObservableField<ArrayList<String>>
         var questionsList: ArrayList<QuestionUiFields>
         var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse>
@@ -34,6 +35,8 @@ interface IEmploymentQuestionnaireAmendment {
         var businessCountriesLiveData: MutableLiveData<ArrayList<String>>
         var countries: ArrayList<Country>
         val documentAdapter : DocumentsAdapter
+        var salaryAmount : String?
+        var monthlyCreditAmount : String?
         fun handleOnPressView(id: Int)
         fun updateEditMode(isEditable: Boolean)
         fun questionnaires(
@@ -68,6 +71,8 @@ interface IEmploymentQuestionnaireAmendment {
         fun getEmploymentInfoRequest(
             status: EmploymentStatus
         ): EmploymentInfoRequest
+
+        fun getEmploymentResponse(currentEmploymentStatus : EmploymentStatus) : EmploymentInfoAmendmentResponse?
 
         fun getDataForPosition(position: Int): QuestionUiFields
         fun getEmploymentTypesList(): MutableList<CoreBottomSheetData>
