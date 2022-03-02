@@ -53,6 +53,9 @@
     <color name="colorSecondaryMagenta">#F44774</color>
 
     <color name="colorMidnightExpress">#1e1c37</color>
+    <color name="colorCardBg">#EDF0F8</color>
+    <color name="colorImageBg">#ede6ff</color>
+
     <color name="colorDarkSlateBlue">#2f2067</color>
     <color name="colorBlueyPurple">#6334b6</color>
     <color name="colorPurpleMain">#5e35b1</color>
@@ -164,6 +167,12 @@
     <color name="teal_green">#44d389</color>
     <color name="colorPurple">#712ce2</color>
     <color name="primary_purple_diffused">#EDE6FF</color>
+
+    <color name="dialogue_alert_button_text">#007AFF</color>
+    <color name="dialogue_alert_details_text">#000000</color>
+    <color name="dialogue_alert_bg">#F2F2F2</color>
+    <color name="dialogue_divider">#3C3C435C</color>
+
 
     <!--    upload document dialogue-->
 

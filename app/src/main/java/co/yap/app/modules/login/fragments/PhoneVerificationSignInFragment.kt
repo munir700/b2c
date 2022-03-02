@@ -134,6 +134,7 @@ class PhoneVerificationSignInFragment :
             trackEventWithScreenName(FirebaseEvent.SIGN_IN_PIN)
             TourGuideManager.getTourGuides()
             SessionManager.getDebitCard { card ->
+                SessionManager.setupDataSetForBlockedFeatures(card)
                 SessionManager.updateCardBalance { }
                 if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                     val bundle = Bundle()

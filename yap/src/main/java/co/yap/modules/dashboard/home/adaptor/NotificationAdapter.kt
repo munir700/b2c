@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.databinding.ViewNotificationsBinding
-import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
 
 class NotificationAdapter(
@@ -19,7 +18,7 @@ class NotificationAdapter(
 ) :
     BaseBindingRecyclerAdapter<HomeNotification, NotificationAdapter.ViewHolder>(listItems) {
 
-    private var dimensions: IntArray = Utils.getCardDimensions(context, 80, 15)
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 88, 15)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
         return ViewHolder(binding as ViewNotificationsBinding)
@@ -35,27 +34,26 @@ class NotificationAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(notification: HomeNotification) {
-
             val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams
             params.width = dimensions[0]
-            //params.height = dimensions[1]
             binding.cvNotification.layoutParams = params
 
-            binding.tvTitle.text = notification.title
-            notification.imgResId?.let {
-                ImageBinding.loadGifImageView(binding.ivNotification, it)
-            }
 
+            binding.tvTitle.text = notification.title
+
+            notification.fileName?.let { filename->
+                binding.notificationImage.setImageResource(filename)
+            }
 
 //            binding.ivNotification
             binding.tvDescription.text = notification.description
-            if (notification.title?.isBlank() == true) {
-                binding.tvTitle.visibility = View.INVISIBLE
+            if (notification.title.isNullOrBlank()) {
+                binding.tvTitle.visibility = View.GONE
             } else {
                 binding.tvTitle.visibility = View.VISIBLE
             }
 
-            binding.cvNotification.setOnClickListener {
+            binding.tvTapToOpen.setOnClickListener {
                 clickListener.onClick(listItems[adapterPosition], adapterPosition)
             }
 

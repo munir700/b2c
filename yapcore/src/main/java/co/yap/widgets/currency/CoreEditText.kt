@@ -4,11 +4,8 @@ import android.content.Context
 import android.text.*
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.widget.TextViewCompat
-import co.yap.widgets.DrawableClickEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.managers.SessionManager
 import java.text.DecimalFormat
 import java.util.*
@@ -267,27 +264,42 @@ class CoreEditText : AppCompatEditText {
                         if (valStr.contains(".")) {
                             if (valStr.indexOf(".") == valStr.length - 1) {
                                 // decimal has been currently put
-                                val front = getDecoratedStringFromNumber(
-                                    valStr.substring(
-                                        0,
-                                        valStr.length - 1
-                                    ).toLong()
-                                )
-                                textToDisplay = "$front."
-                                setText(textToDisplay)
+                                if (valStr.startsWith(".")) {
+                                    textToDisplay = valStr
+                                    setText(textToDisplay)
+                                } else {
+                                    val front = getDecoratedStringFromNumber(
+                                        valStr.substring(
+                                            0,
+                                            valStr.length - 1
+                                        ).toLong()
+                                    )
+                                    textToDisplay = "$front."
+                                    setText(textToDisplay)
+                                }
                             } else {
                                 val nums =
                                     getValueString().split("\\.".toRegex()).toTypedArray()
                                 if (nums[1].length <= decimalDigits) {
-                                    val front =
-                                        getDecoratedStringFromNumber(nums[0].toLong())
-                                    textToDisplay = front + "." + nums[1]
+                                    textToDisplay = if (nums[0].isEmpty()) {
+                                        "." + nums[1]
+                                    } else {
+                                        val front =
+                                            getDecoratedStringFromNumber(nums[0].toLong())
+                                        front + "." + nums[1]
+                                    }
+
                                     setText(textToDisplay)
                                 } else {
-                                    val front =
-                                        getDecoratedStringFromNumber(nums[0].toLong())
-                                    textToDisplay =
+                                    textToDisplay = if (nums[0].isEmpty()) {
+                                        "." + nums[1].substring(0, decimalDigits)
+                                    } else {
+                                        val front =
+                                            getDecoratedStringFromNumber(nums[0].toLong())
+
                                         front + "." + nums[1].substring(0, decimalDigits)
+                                    }
+
                                     setText(textToDisplay)
                                 }
                             }

@@ -12,6 +12,7 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.maskAccountNumber
@@ -37,8 +38,7 @@ class YapDashBoardViewModel(application: Application) :
     override var isUnverifiedScreenNotVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isShowHomeTour: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isKycCompelted: MutableLiveData<Boolean> = MutableLiveData(false)
-
-
+    override var isFromSideMenu: Boolean = false
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
     }
@@ -148,4 +148,7 @@ class YapDashBoardViewModel(application: Application) :
         }
     }
 
+    fun isWidgetVisible(isVisible :Boolean) {
+        state.manageWidgetVisibility.set(isVisible)
+    }
 }

@@ -26,5 +26,25 @@ data class EmploymentInfoAmendmentResponse(
     @SerializedName("sponsorName")
     val sponsorName: String? = null,
     @SerializedName("isAmendment")
-    val isAmendment: Boolean? = null
+    val isAmendment: Boolean? = null,
+    @SerializedName("documents")
+    val documents: List<Document>? = null
 ) : ApiResponse(), Parcelable
+
+@Parcelize
+data class Document(
+    @SerializedName("documentType")
+    val documentType: String? = null,
+    @SerializedName("fileURL")
+    val fileURL: String? = null,
+    @SerializedName("contentType")
+    val contentType: String? = null,
+    val title : String? = "",
+    val description: String = ""
+) : Parcelable
+
+enum class DocumentTypes {
+    PROOF_OF_INCOME,
+    COMPANY_DOCUMENTATION,
+    VISA
+}

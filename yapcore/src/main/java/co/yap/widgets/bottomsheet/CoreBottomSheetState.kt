@@ -9,4 +9,5 @@ class CoreBottomSheetState :BaseState(), ICoreBottomSheet.State {
     override var searchBarVisibility: ObservableBoolean = ObservableBoolean()
     override var noItemFound: ObservableBoolean = ObservableBoolean()
     override val headerSeparatorVisibility: ObservableBoolean = ObservableBoolean()
+    override val buttonVisibility: ObservableBoolean = ObservableBoolean(false)
 }

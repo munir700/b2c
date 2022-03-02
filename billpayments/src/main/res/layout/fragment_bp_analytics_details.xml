@@ -33,7 +33,7 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal_large"
-            app:srcCompat="@{BPExtensionsKt.getResId(viewModel.state.bpAnalyticsModel.icon)}"
+            app:srcCompat="@{BPExtensionsKt.getResId(viewModel.state.bpAnalyticsModel.icon,context)}"
             tools:src="@drawable/icon_biller_type_utility_creditcard_enable" />
 
         <androidx.appcompat.widget.AppCompatTextView

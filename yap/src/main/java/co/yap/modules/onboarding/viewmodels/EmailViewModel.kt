@@ -205,7 +205,7 @@ class EmailViewModel(application: Application) :
                         parentViewModel?.onboardingData?.ibanNumber = accountInfo.iban
                         delay(500)
                         SessionManager.user = accountInfo
-                        SessionManager.setupDataSetForBlockedFeatures()
+                        SessionManager.setupDataSetForBlockedFeatures(SessionManager.card.value)
                         state.valid = true
                         state.isWaiting = accountInfo.isWaiting
                         state.loading = false

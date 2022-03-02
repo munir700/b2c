@@ -31,5 +31,7 @@ interface ICardAnalyticsDetails {
         var position: Int
         var percentCardVisibility: Boolean
         var categories: ObservableField<ArrayList<Any>>
+        var categoryColor: String
+        var analyticType: ObservableField<String>
     }
 }

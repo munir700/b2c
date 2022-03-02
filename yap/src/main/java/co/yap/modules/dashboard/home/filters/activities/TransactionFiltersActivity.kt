@@ -50,6 +50,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.requestSearchFilterAmount()
         setObservers()
         generateChipViews(viewModel.getCategoriesList())
         intent?.let {
