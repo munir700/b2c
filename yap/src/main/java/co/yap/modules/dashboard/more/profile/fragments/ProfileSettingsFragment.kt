@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +23,8 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.location.kyc_additional_info.employment_info.amendment.EmploymentQuestionnaireAmendmentFragment
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
@@ -35,6 +38,7 @@ import co.yap.yapcore.constants.RequestCodes.REQUEST_NOTIFICATION_SETTINGS
 import co.yap.yapcore.dialogs.showTwoOptionsAlertDialog
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -135,9 +139,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             when (it) {
 
                 R.id.tvPersonalDetailView -> {
-                    val action =
-                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
-                    findNavController().navigate(action)
+//                    val action =
+//                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
+//                    findNavController().navigate(action)
+
+                    //TODO this is just  for testing we will remove this after proper implementation For KYC INFO
+                    startOtpFragment()
                 }
 
                 R.id.tvChangePasscode -> {
@@ -289,6 +296,24 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             } else {
                 viewModel.getNotificationScreenValues(false)
+            }
+        }
+    }
+    //TODO this is just  for testing we will remove this after proper implementation For KYC INFO
+    private fun startOtpFragment() {
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    OTPActions.EMPLOYMENT_AMENDMENT.name,//action,
+                    otpMessage = "Message Required",
+                    mobileNumber = "+971890990818"
+                )
+            ),
+            showToolBar = true
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                showToast("OTP is accepted")
             }
         }
     }

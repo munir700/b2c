@@ -79,11 +79,8 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     private val onClickObserver = Observer<Int> {
         when (it) {
             R.id.btnGoToDashboard -> {
-//                startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
-//                activity?.finish()
-
-                //TODO this is just  for testing we will remove this after proper implementation For KYC INFO
-                startOtpFragment()
+                startActivity(Intent(requireContext(), YapDashboardActivity::class.java))
+                activity?.finish()
             }
         }
     }
@@ -100,23 +97,5 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
-    }
-    //TODO this is just  for testing we will remove this after proper implementation For KYC INFO
-    private fun startOtpFragment() {
-        startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
-                OtpDataModel::class.java.name to OtpDataModel(
-                    OTPActions.EMPLOYMENT_AMENDMENT.name,//action,
-                    otpMessage = "Message Required",
-                    mobileNumber = "+971890990818"
-                )
-            ),
-            showToolBar = true
-        ) { resultCode, _ ->
-            if (resultCode == Activity.RESULT_OK) {
-                showToast("OTP is accepted")
-            }
-        }
     }
 }
