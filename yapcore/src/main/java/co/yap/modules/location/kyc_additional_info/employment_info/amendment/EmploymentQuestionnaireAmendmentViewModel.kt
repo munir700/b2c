@@ -56,6 +56,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var selectedQuestionItemPosition: Int = -1
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
     override var employmentStatus = MutableLiveData<EmploymentStatus>()
+    var tempEmploymentStatus = MutableLiveData<EmploymentStatus>()
     override var serverEmploymentStatus: EmploymentStatus? = null
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
@@ -90,7 +91,8 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value =
+            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
         getAllApiCallsInParallelForScreen()
     }
 
@@ -222,9 +224,15 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     val employmentStatusItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             (data as? CoreBottomSheetData)?.subTitle.also { selectedType ->
-                employmentStatus.value = EmploymentStatus.values().find {
+                tempEmploymentStatus.value = EmploymentStatus.values().find {
                     it.status == selectedType
                 } ?: EmploymentStatus.EMPLOYED
+            }
+            if (tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED) == true) {
+                state.needToShowAdditionalDocumentDialogue.value =
+                    tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED)
+            } else {
+                employmentStatus.value = tempEmploymentStatus.value
             }
             validateForm()
         }
@@ -478,14 +486,4 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             add(CoreBottomSheetData(subTitle = EmploymentStatus.OTHER.status))
         }
 
-    override fun onValidationSuccess(validator: Validator) {
-        super.onValidationSuccess(validator)
-        // state.ruleValid = true
-        //  validate()
-    }
-
-    override fun onValidationError(validator: Validator) {
-        super.onValidationError(validator)
-        // state.ruleValid = false
-    }
 }

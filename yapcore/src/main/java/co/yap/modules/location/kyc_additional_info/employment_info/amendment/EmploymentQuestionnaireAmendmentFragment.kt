@@ -22,6 +22,7 @@ import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireAmendmentBindin
 import co.yap.yapcore.databinding.FragmentEmploymentQuestionnaireBinding
 import co.yap.yapcore.enums.EmploymentQuestionIdentifier
 import co.yap.yapcore.enums.EmploymentStatus
+import co.yap.yapcore.helpers.beneficiaryInfoDialog
 import co.yap.yapcore.helpers.extentions.launchBottomSheetSegment
 import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
@@ -163,6 +164,13 @@ class EmploymentQuestionnaireAmendmentFragment :
             onBusinessCountriesSelection(it)
         }
 
+    private val needToShowAdditionalDocumentDialogue =
+        Observer<Boolean> {
+            if (it) {
+                openAdditionallyDocumentConfirmationDialogue()
+            }
+        }
+
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.rvQuestionItemListener.onItemClick(view, data, pos)
@@ -246,12 +254,19 @@ class EmploymentQuestionnaireAmendmentFragment :
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.employmentStatus.observe(this, employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.observe(this, businessCountriesLiveDataObserver)
+        viewModel.state.needToShowAdditionalDocumentDialogue.observe(
+            this,
+            needToShowAdditionalDocumentDialogue
+        )
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
         viewModel.employmentStatus.removeObserver(employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.removeObserver(businessCountriesLiveDataObserver)
+        viewModel.state.needToShowAdditionalDocumentDialogue.removeObserver(
+            needToShowAdditionalDocumentDialogue
+        )
     }
 
     override fun onDestroy() {
@@ -269,6 +284,22 @@ class EmploymentQuestionnaireAmendmentFragment :
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         viewModel.countries.unSelectAllCountries(
             viewModel.selectedBusinessCountries.get() ?: arrayListOf()
+        )
+    }
+
+    fun openAdditionallyDocumentConfirmationDialogue() {
+        context?.beneficiaryInfoDialog(
+            title = "Additional documents\n" +
+                    "required.",
+            message = "Since you’re self-employed we will need to ask you to provide additional documentation.",
+            buttonText = "Cancel",
+            callback = { proceed ->
+                if (proceed) {
+                    viewModel.employmentStatus.value = viewModel.tempEmploymentStatus.value
+                }
+            },
+            icon = R.drawable.ic_exclamation_primary_white,
+            coreButtonTitle = "Continue"
         )
     }
 }

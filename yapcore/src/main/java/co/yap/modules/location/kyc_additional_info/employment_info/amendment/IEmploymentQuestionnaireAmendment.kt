@@ -31,12 +31,12 @@ interface IEmploymentQuestionnaireAmendment {
         var questionsList: ArrayList<QuestionUiFields>
         var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse>
         var isInEditMode: MutableLiveData<Boolean>
-        var accountActivated : MutableLiveData<Boolean>
+        var accountActivated: MutableLiveData<Boolean>
         var businessCountriesLiveData: MutableLiveData<ArrayList<String>>
         var countries: ArrayList<Country>
-        val documentAdapter : DocumentsAdapter
-        var salaryAmount : String?
-        var monthlyCreditAmount : String?
+        val documentAdapter: DocumentsAdapter
+        var salaryAmount: String?
+        var monthlyCreditAmount: String?
         fun handleOnPressView(id: Int)
         fun updateEditMode(isEditable: Boolean)
         fun questionnaires(
@@ -72,7 +72,7 @@ interface IEmploymentQuestionnaireAmendment {
             status: EmploymentStatus
         ): EmploymentInfoRequest
 
-        fun getEmploymentResponse(currentEmploymentStatus : EmploymentStatus) : EmploymentInfoAmendmentResponse?
+        fun getEmploymentResponse(currentEmploymentStatus: EmploymentStatus): EmploymentInfoAmendmentResponse?
 
         fun getDataForPosition(position: Int): QuestionUiFields
         fun getEmploymentTypesList(): MutableList<CoreBottomSheetData>
@@ -82,6 +82,7 @@ interface IEmploymentQuestionnaireAmendment {
     interface State : IBase.State {
         var ruleValid: Boolean
         var rightButtonText: String?
+        var needToShowAdditionalDocumentDialogue: MutableLiveData<Boolean>
     }
 
 }
