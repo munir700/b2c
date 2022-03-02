@@ -90,7 +90,8 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value =
+            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
         getAllApiCallsInParallelForScreen()
     }
 
@@ -258,11 +259,11 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 QuestionType.EDIT_TEXT_FIELD -> {
                     StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
                 }
-                else -> !it.question.answer.get().isNullOrBlank()
+                else -> it.question.answer.get().isNullOrBlank().not()
             }
-
             if (!isValid) {
                 validator?.isValidate?.value = isValid
+                return@validate
             }
         }
 
@@ -382,10 +383,14 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                     it.employmentTypeCode == employmentStatusValue.value?.employmentType ?: ""
                 }?.employmentType ?: "")
                 questionsList[selectedQuestionItemPosition] = objQuestion
-                //validateForm()
             }
             else -> {}
         }
+    }
+
+    override fun getSalaryAndMonthlyCredit() {
+        salaryAmount = getDataForPosition(questionsList.size - 2).getAnswer()
+        monthlyCreditAmount = getDataForPosition(questionsList.size - 1).getAnswer()
     }
 
     override fun saveEmploymentInfo(

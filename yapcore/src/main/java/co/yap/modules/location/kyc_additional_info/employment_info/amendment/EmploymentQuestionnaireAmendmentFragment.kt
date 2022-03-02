@@ -102,9 +102,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                 questionUiField.question.answer.addOnPropertyChangedCallback(object :
                     Observable.OnPropertyChangedCallback() {
                     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                        viewModel.salaryAmount =
-                            viewModel.getDataForPosition(viewModel.questionsList.size - 2)
-                                .getAnswer()
+                        viewModel.getSalaryAndMonthlyCredit()
                     }
                 })
             }
@@ -113,9 +111,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                 questionUiField.question.answer.addOnPropertyChangedCallback(object :
                     Observable.OnPropertyChangedCallback() {
                     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                        viewModel.monthlyCreditAmount =
-                            viewModel.getDataForPosition(viewModel.questionsList.size - 1)
-                                .getAnswer()
+                        viewModel.getSalaryAndMonthlyCredit()
                     }
                 })
             }
