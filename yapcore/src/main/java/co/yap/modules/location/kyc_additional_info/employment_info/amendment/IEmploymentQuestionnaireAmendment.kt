@@ -68,6 +68,8 @@ interface IEmploymentQuestionnaireAmendment {
             success: () -> Unit
         )
 
+        fun getSalaryAndMonthlyCredit()
+
         fun getEmploymentInfoRequest(
             status: EmploymentStatus
         ): EmploymentInfoRequest
