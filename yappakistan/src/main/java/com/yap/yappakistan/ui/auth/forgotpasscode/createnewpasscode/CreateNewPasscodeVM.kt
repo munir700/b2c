@@ -1,27 +1,25 @@
 package com.yap.yappakistan.ui.auth.forgotpasscode.createnewpasscode
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.yap.core.base.BaseViewModel
 import com.yap.core.utils.KEY_TOUCH_ID_ENABLED
-import com.yap.core.utils.SharedPreferenceManager
+import com.yap.yappakistan.SharedPreferenceManager
 import com.yap.core.utils.SingleEvent
 import com.yap.uikit.extensions.hasAllSameChars
 import com.yap.uikit.extensions.isSequenced
 import com.yap.yappakistan.R
-import com.yap.yappk.localization.error_passcode_same_digits
-import com.yap.yappk.localization.error_passcode_sequence
+import com.yap.yappakistan.di.ResourcesProviders
 import com.yap.yappakistan.networking.apiclient.base.ApiResponse
 import com.yap.yappakistan.networking.microservices.customers.CustomersApi
 import com.yap.yappakistan.networking.microservices.customers.requestsdtos.CreateNewPasscodeRequest
-import com.yap.yappakistan.di.ResourcesProviders
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.yap.yappk.localization.error_passcode_same_digits
+import com.yap.yappk.localization.error_passcode_sequence
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-@HiltViewModel
-class CreateNewPasscodeVM @Inject constructor(
+class CreateNewPasscodeVM @ViewModelInject constructor(
     override val viewState: CreateNewPasscodeState,
     private val customersApi: CustomersApi,
     override val sharedPreferenceManager: SharedPreferenceManager,

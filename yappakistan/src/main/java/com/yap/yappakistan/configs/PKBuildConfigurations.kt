@@ -5,7 +5,7 @@ import com.yap.core.enums.ProductFlavour
 import com.yap.core.utils.KEY_APP_UUID
 import com.yap.core.utils.REFERRAL_ID
 import com.yap.core.utils.REFERRAL_TIME
-import com.yap.core.utils.SharedPreferenceManager
+import com.yap.yappakistan.SharedPreferenceManager
 import com.yap.yappakistan.networking.apiclient.base.RetroNetwork
 import com.yap.yappakistan.networking.apiclient.base.interfaces.NetworkConstraintsListener
 import com.yap.yappakistan.networking.microservices.customers.responsedtos.accountinfo.AccountInfo

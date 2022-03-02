@@ -9,7 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.observe
+import androidx.lifecycle.Observer
 import com.yap.core.R
 import com.yap.core.base.interfaces.IBase
 import com.yap.core.extensions.toast
@@ -72,10 +72,10 @@ abstract class BaseActivity<VB : ViewDataBinding, VS : IBase.State, VM : IBase.V
         registerStateListeners()
         performDataBinding(savedInstanceState)
 //        showNetworkXSnackBarFire()
-        viewModel.clickEvent.observe(this) {
+        viewModel.clickEvent.observe(this, Observer {
             onClick(it)
-        }
-        viewModel.viewState.uiEvent.observe(this) {
+        })
+        viewModel.viewState.uiEvent.observe(this, Observer {
             it?.let {
                 when (it) {
                     is UIEvent.Message -> {
@@ -92,7 +92,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VS : IBase.State, VM : IBase.V
                     }
                 }
             }
-        }
+        })
     }
 
     private fun createProgressDialog(context: Context): Dialog {

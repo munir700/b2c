@@ -1,12 +1,13 @@
 package com.yap.yappakistan.ui.auth.otpverification
 
 import android.os.CountDownTimer
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.yap.core.base.BaseViewModel
 import com.yap.core.base.Dispatcher
 import com.yap.core.utils.KEY_IS_USER_LOGGED_IN
-import com.yap.core.utils.SharedPreferenceManager
+import com.yap.yappakistan.SharedPreferenceManager
 import com.yap.core.utils.SingleEvent
 import com.yap.yappakistan.R
 import com.yap.yappakistan.SessionManager
@@ -16,14 +17,11 @@ import com.yap.yappakistan.networking.microservices.authentication.AuthApi
 import com.yap.yappakistan.networking.microservices.authentication.requestdtos.DemographicDataRequest
 import com.yap.yappakistan.networking.microservices.customers.CustomersApi
 import com.yap.yappakistan.networking.microservices.customers.responsedtos.accountinfo.AccountInfo
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-@HiltViewModel
-class LoginOTPVerificationVM @Inject constructor(
+class LoginOTPVerificationVM @ViewModelInject constructor(
     private val authApi: AuthApi,
     private val customersApi: CustomersApi,
     override val sharedPreferenceManager: SharedPreferenceManager,

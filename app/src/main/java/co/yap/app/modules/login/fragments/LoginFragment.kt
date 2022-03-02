@@ -26,6 +26,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 //import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 //import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -134,6 +135,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim()
                         ?: ""
                 if (countryCode != "+971") {
+                    launchActivity<AuthenticationActivity>()
                     toast("Coming Soon")
 //                    activity?.baseContext?.let { context ->
 //                        viewModel.verifyUser(countryCode, mobileNo)

@@ -1,7 +1,7 @@
 package com.yap.yappakistan.ui.auth
 
 import com.yap.core.utils.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
-import com.yap.core.utils.SharedPreferenceManager
+import com.yap.yappakistan.SharedPreferenceManager
 import com.yap.yappakistan.networking.microservices.customers.responsedtos.accountinfo.AccountInfo
 import javax.inject.Inject
 

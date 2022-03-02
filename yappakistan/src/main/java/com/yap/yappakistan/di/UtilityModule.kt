@@ -1,16 +1,16 @@
 package com.yap.yappakistan.di
 
 import com.yap.core.biometric.BiometricUtils
-import com.yap.core.utils.SharedPreferenceManager
+import com.yap.yappakistan.SharedPreferenceManager
 import com.yap.yappakistan.ui.auth.AccountRouteManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ApplicationComponent
 
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ApplicationComponent::class)
 class UtilityModule {
 
     @Provides

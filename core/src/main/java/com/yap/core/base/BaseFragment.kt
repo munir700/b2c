@@ -10,12 +10,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
+import androidx.lifecycle.Observer
 import com.yap.core.base.interfaces.IBase
 import com.yap.core.sealed.UIEvent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 abstract class BaseFragment<VB : ViewDataBinding, VS : IBase.State, VM : IBase.ViewModel<VS>>(@LayoutRes val contentLayoutId: Int) :
     IBase.View<VM>, Fragment(contentLayoutId),
@@ -39,10 +36,10 @@ abstract class BaseFragment<VB : ViewDataBinding, VS : IBase.State, VM : IBase.V
         super.onViewCreated(view, savedInstanceState)
         registerStateListeners()
         performDataBinding()
-        viewModel.clickEvent.observe(viewLifecycleOwner) {
+        viewModel.clickEvent.observe(viewLifecycleOwner, Observer {
             onClick(it)
-        }
-        viewModel.viewState.uiEvent.observe(viewLifecycleOwner) {
+        })
+        viewModel.viewState.uiEvent.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
                     is UIEvent.Message -> {
@@ -59,7 +56,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VS : IBase.State, VM : IBase.V
                     }
                 }
             }
-        }
+        })
     }
 
     private fun performDataBinding() {
@@ -84,13 +81,13 @@ abstract class BaseFragment<VB : ViewDataBinding, VS : IBase.State, VM : IBase.V
     }
 
     fun launch(dispatcher: Dispatcher = Dispatcher.Main, block: suspend () -> Unit) {
-        lifecycleScope.launch(
-            when (dispatcher) {
-                Dispatcher.Main -> Dispatchers.Main
-                Dispatcher.Background -> Dispatchers.IO
-                Dispatcher.LongOperation -> Dispatchers.Default
-            }
-        ) { block() }
+//        lifecycleScope.launch(
+//            when (dispatcher) {
+//                Dispatcher.Main -> Dispatchers.Main
+//                Dispatcher.Background -> Dispatchers.IO
+//                Dispatcher.LongOperation -> Dispatchers.Default
+//            }
+//        ) { block() }
     }
 
     fun setBackButtonDispatcher() {

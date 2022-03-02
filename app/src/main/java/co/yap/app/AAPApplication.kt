@@ -1,6 +1,7 @@
 package co.yap.app
 
 //import com.yap.yappakistan.configs.PKBuildConfigurations
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -18,6 +19,7 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.security.AppSignature
 import co.yap.security.SecurityHelper
 import co.yap.security.SignatureValidator
@@ -41,7 +43,7 @@ import timber.log.Timber
 import java.util.*
 
 @HiltAndroidApp
-class AAPApplication : YAPApplication(), NavigatorProvider {
+class AAPApplication : Application(), NavigatorProvider {
 
 //    @Inject
 //    lateinit var pkBuildConfigurations: PKBuildConfigurations
@@ -99,6 +101,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                 configManager?.hasValidSignature = true
             }
         })
+
     }
 
     private fun initAllModules() {
@@ -247,5 +250,34 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         LocaleManager.setLocale(this)
+    }
+
+    companion object {
+        var AUTO_RESTART_APP = true
+        var configManager: BuildConfigManager? = null
+        const val pageSize = 250
+        var hasFilterStateChanged = false
+        var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
+            0,
+            pageSize,
+            null,
+            null,
+            null,
+            null,
+            totalAppliedFilter = 0,
+            categories = arrayListOf(),
+            statues = arrayListOf()
+        )
+
+        fun clearFilters() {
+            homeTransactionsRequest = HomeTransactionsRequest(
+                0, pageSize,
+                null, null,
+                null, null,
+                0,
+                categories = null,
+                statues = null
+            )
+        }
     }
 }

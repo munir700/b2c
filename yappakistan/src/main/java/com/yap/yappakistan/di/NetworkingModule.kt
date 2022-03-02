@@ -1,7 +1,5 @@
 package com.yap.yappakistan.di
 
-import android.content.Context
-import com.yap.core.utils.SharedPreferenceManager
 import com.yap.yappakistan.networking.apiclient.base.RetroNetwork
 import com.yap.yappakistan.networking.microservices.authentication.AuthRetroService
 import com.yap.yappakistan.networking.microservices.customers.CustomersRetroService
@@ -9,13 +7,12 @@ import com.yap.yappakistan.networking.microservices.messages.MessagesRetroServic
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ApplicationComponent::class)
 class NetworkingModule {
     @Singleton
     @Provides

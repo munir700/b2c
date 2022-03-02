@@ -1,10 +1,9 @@
 package co.yap.app
 
-import android.app.Application
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.yapcore.config.BuildConfigManager
 
-open class YAPApplication : Application() {
+open class YAPApplication {
     companion object {
         var AUTO_RESTART_APP = true
         var configManager: BuildConfigManager? = null

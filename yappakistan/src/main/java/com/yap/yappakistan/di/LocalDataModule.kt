@@ -1,20 +1,20 @@
 package com.yap.yappakistan.di
 
-import com.yap.core.utils.SharedPreferenceManager
+import android.content.Context
+import com.yap.yappakistan.SharedPreferenceManager
 import com.yap.yappakistan.SessionManager
-import com.yap.yappakistan.configs.PKBuildConfigurations
-import com.yap.yappakistan.networking.apiclient.base.RetroNetwork
 import com.yap.yappakistan.networking.microservices.authentication.AuthApi
 import com.yap.yappakistan.networking.microservices.customers.CustomersApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ApplicationComponent::class)
 class LocalDataModule {
 
     @Singleton
@@ -33,24 +33,15 @@ class LocalDataModule {
 
     @Singleton
     @Provides
-    fun providesPkConfigurations(
-        retroNetwork: RetroNetwork,
-        sharedPreferenceManager: SharedPreferenceManager
-    ) = PKBuildConfigurations(retroNetwork, sharedPreferenceManager)
+    fun providesSharePrefManager(
+        @ApplicationContext context: Context
+    ) = SharedPreferenceManager(context)
 
 //    @Singleton
 //    @Provides
-//    fun provideDeeplinkNavigator(
-//        @ApplicationContext context: Context
-//    ): IDeeplinkNavigator {
-//        return DeeplinkHandler(context)
-//    }
+//    fun providesPkConfigurations(
+//        retroNetwork: RetroNetwork,
+//        sharedPreferenceManager: SharedPreferenceManager
+//    ) = PKBuildConfigurations(retroNetwork, sharedPreferenceManager)
 //
-//    @Singleton
-//    @Provides
-//    fun provideNotificationPayloadImpl(
-//        deeplinkHandler: IDeeplinkNavigator
-//    ): DeeplinkNavigatorPayload {
-//        return NotificationPayloadImpl(deeplinkHandler)
-//    }
 }

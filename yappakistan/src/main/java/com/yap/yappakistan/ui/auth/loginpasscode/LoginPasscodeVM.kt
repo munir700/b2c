@@ -1,12 +1,13 @@
 package com.yap.yappakistan.ui.auth.loginpasscode
 
 import android.os.CountDownTimer
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.yap.core.base.BaseViewModel
 import com.yap.core.base.Dispatcher
 import com.yap.core.utils.KEY_TOUCH_ID_ENABLED
-import com.yap.core.utils.SharedPreferenceManager
+import com.yap.yappakistan.SharedPreferenceManager
 import com.yap.core.utils.SingleEvent
 import com.yap.yappakistan.R
 import com.yap.yappakistan.SessionManager
@@ -21,14 +22,11 @@ import com.yap.yappakistan.networking.microservices.customers.responsedtos.accou
 import com.yap.yappakistan.networking.microservices.messages.MessagesApi
 import com.yap.yappakistan.networking.microservices.messages.requestdtos.ForgotPasscodeOtpRequest
 import com.yap.yappk.localization.screen_verify_passcode_text_account_locked
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-@HiltViewModel
-class LoginPasscodeVM @Inject constructor(
+class LoginPasscodeVM @ViewModelInject constructor(
     override val viewState: LoginPasscodeState,
     override val sharedPreferenceManager: SharedPreferenceManager,
     override val sessionManager: SessionManager,

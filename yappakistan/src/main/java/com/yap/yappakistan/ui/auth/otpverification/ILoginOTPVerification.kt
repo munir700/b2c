@@ -3,7 +3,7 @@ package com.yap.yappakistan.ui.auth.otpverification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.yap.core.base.interfaces.IBase
-import com.yap.core.utils.SharedPreferenceManager
+import com.yap.yappakistan.SharedPreferenceManager
 import com.yap.core.utils.SingleEvent
 import com.yap.yappakistan.SessionManager
 import com.yap.yappakistan.networking.microservices.authentication.requestdtos.DemographicDataRequest

@@ -6,7 +6,7 @@
  *
  */
 
-package com.yap.core.utils
+package com.yap.yappakistan
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -16,11 +16,15 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.google.gson.Gson
 import com.yap.core.adjustRefferal.ReferralInfo
+import com.yap.core.utils.KEY_PASSCODE
+import com.yap.core.utils.KEY_THEME
+import com.yap.core.utils.KEY_USERDIALCODE
+import com.yap.core.utils.KEY_USERNAME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 
-class SharedPreferenceManager @Inject constructor(@ApplicationContext val context: Context) {
+class SharedPreferenceManager constructor(val context: Context) {
     private val PREFS_NAME = "YAPB2CPref"
     private val inviterAdjustId = "inviterAdjustId"
     private var sharedPref: SharedPreferences

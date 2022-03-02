@@ -1,11 +1,10 @@
 package com.yap.yappakistan.ui.auth.main
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.yap.core.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltViewModel
-class AuthViewModel @Inject constructor(override val viewState: AuthState) :
+class AuthViewModel @ViewModelInject constructor(override val viewState: AuthState) :
     BaseViewModel<IAuth.State>(), IAuth.ViewModel {
     override var mobileNo: String = ""
     override var countryCode: String = ""

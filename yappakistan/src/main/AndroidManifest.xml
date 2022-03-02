@@ -11,10 +11,6 @@
             android:name="com.yap.yappakistan.ui.auth.main.AuthenticationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Base.Yap.Pk" />
-        <activity
-            android:name="com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Base.Yap.Pk" />
 
     </application>
 

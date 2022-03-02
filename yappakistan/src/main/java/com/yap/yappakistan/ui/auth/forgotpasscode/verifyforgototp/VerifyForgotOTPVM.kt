@@ -1,23 +1,22 @@
 package com.yap.yappakistan.ui.auth.forgotpasscode.verifyforgototp
 
 import android.os.CountDownTimer
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.yap.core.base.BaseViewModel
 import com.yap.core.utils.SingleEvent
 import com.yap.yappakistan.R
+import com.yap.yappakistan.di.ResourcesProviders
 import com.yap.yappakistan.networking.apiclient.base.ApiResponse
 import com.yap.yappakistan.networking.microservices.messages.MessagesApi
 import com.yap.yappakistan.networking.microservices.messages.requestdtos.ForgotPasscodeOtpRequest
-import com.yap.yappakistan.di.ResourcesProviders
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-@HiltViewModel
-class VerifyForgotOTPVM @Inject constructor(
+class VerifyForgotOTPVM @ViewModelInject constructor(
     override val viewState: VerifyForgotOTPState,
     private val messagesApi: MessagesApi,
     private val resourcesProviders: ResourcesProviders
@@ -26,7 +25,7 @@ class VerifyForgotOTPVM @Inject constructor(
     override var mobileNumber: String = ""
     override var otp: String = ""
     override var optToken: String? = null
-    
+
     private val _isForgotOtpCreated: MutableLiveData<Boolean> = MutableLiveData()
     override val isForgotOtpCreated: LiveData<Boolean> = _isForgotOtpCreated
 

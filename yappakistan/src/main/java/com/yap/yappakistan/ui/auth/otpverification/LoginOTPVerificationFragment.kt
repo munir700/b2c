@@ -13,7 +13,6 @@ import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.yap.core.base.BaseNavFragment
 import com.yap.core.base.Dispatcher
 import com.yap.core.biometric.BiometricUtils
-import com.yap.core.extensions.launchActivity
 import com.yap.core.extensions.observe
 import com.yap.core.extensions.observeEvent
 import com.yap.core.extensions.showKeyboard
@@ -29,7 +28,6 @@ import com.yap.yappakistan.networking.microservices.customers.responsedtos.accou
 import com.yap.yappakistan.ui.auth.AccountRoute
 import com.yap.yappakistan.ui.auth.AccountRouteManager
 import com.yap.yappakistan.ui.auth.main.AuthViewModel
-import com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -139,18 +137,18 @@ class LoginOTPVerificationFragment :
     }
 
     private fun openWaitingScreen(navigateEvent: SingleEvent<Int>) {
-        navigateEvent.getContentIfNotHandled()?.let { destinationId ->
-            launchActivity<YapPkMainActivity>(
-                options = Bundle(),
-                clearPrevious = true
-            ) {
-                putExtra(NAVIGATION_GRAPH_ID, R.navigation.pk_onboarding_nav_graph)
-                putExtra(
-                    NAVIGATION_GRAPH_START_DESTINATION_ID,
-                    destinationId
-                )
-            }
-        }
+//        navigateEvent.getContentIfNotHandled()?.let { destinationId ->
+//            launchActivity<YapPkMainActivity>(
+//                options = Bundle(),
+//                clearPrevious = true
+//            ) {
+//                putExtra(NAVIGATION_GRAPH_ID, R.navigation.pk_onboarding_nav_graph)
+//                putExtra(
+//                    NAVIGATION_GRAPH_START_DESTINATION_ID,
+//                    destinationId
+//                )
+//            }
+//        }
     }
 
     private fun openAllowedScreen(navigateEvent: SingleEvent<Int>) {
