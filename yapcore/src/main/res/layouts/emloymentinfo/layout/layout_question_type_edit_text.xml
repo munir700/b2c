@@ -28,7 +28,7 @@
             android:dividerPadding="@dimen/margin_medium_large"
             android:enabled="@{viewModel.isEditable()}"
             android:hint="@{viewModel.questionUiFields.question.questionTitle}"
-            app:hintTextAppearance="@style/Small"
+            app:hintTextAppearance="@style/SmallGrey"
             android:textColorHint="@color/colorPlaceHolderGrey"
             app:hintTextColor="@color/colorPlaceHolderGrey"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
 
             <co.yap.widgets.edittext.EditTextRichDrawable
                 android:id="@+id/etQuestionEditText"
-                style="@style/Small"
+                style="@style/ARegular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
