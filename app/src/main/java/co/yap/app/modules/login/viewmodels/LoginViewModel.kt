@@ -5,6 +5,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.UserVerifierProvider
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
@@ -107,20 +108,20 @@ class LoginViewModel(application: Application) :
         )
     }
 
-//    private val _userVerified: MutableLiveData<String> = MutableLiveData()
+     val _userVerified: MutableLiveData<String> = MutableLiveData()
 //    val userVerified: LiveData<String> = _userVerified
-//    private val userVerifier: UserVerifierProvider = UserVerifierProvider()
-//
-//    fun verifyUser(countryCode: String, mobileNumber: String) {
-//        launch {
-//            state.loading = true
-//            userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
-//                state.loading = false
-//                if (result.isSuccess && result.getOrNull() == true) {
-//                    _userVerified.value = countryCode
-//                }
-//            }
-//        }
-//
-//    }
+    private val userVerifier: UserVerifierProvider = UserVerifierProvider()
+
+    fun verifyUser(countryCode: String, mobileNumber: String) {
+        launch {
+            state.loading = true
+            userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
+                state.loading = false
+                if (result.isSuccess && result.getOrNull() == true) {
+                    _userVerified.value = countryCode
+                }
+            }
+        }
+
+    }
 }

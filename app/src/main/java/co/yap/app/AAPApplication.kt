@@ -1,7 +1,6 @@
 package co.yap.app
 
 //import com.yap.yappakistan.configs.PKBuildConfigurations
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -19,7 +18,6 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
-import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.security.AppSignature
 import co.yap.security.SecurityHelper
 import co.yap.security.SignatureValidator
@@ -38,15 +36,17 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import com.yap.yappakistan.configs.PKBuildConfigurations
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 @HiltAndroidApp
-class AAPApplication : Application(), NavigatorProvider {
+class AAPApplication : YAPApplication(), NavigatorProvider {
 
-//    @Inject
-//    lateinit var pkBuildConfigurations: PKBuildConfigurations
+    @Inject
+    lateinit var pkBuildConfigurations: PKBuildConfigurations
 
     private external fun signatureKeysFromJNI(
         name: String,
@@ -63,7 +63,7 @@ class AAPApplication : Application(), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
-//        LoadConfig().initConfigs(applicationContext, pkBuildConfigurations)
+        LoadConfig().initConfigs(applicationContext, pkBuildConfigurations)
         initFireBase()
         val originalSign =
             signatureKeysFromJNI(
@@ -250,34 +250,5 @@ class AAPApplication : Application(), NavigatorProvider {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         LocaleManager.setLocale(this)
-    }
-
-    companion object {
-        var AUTO_RESTART_APP = true
-        var configManager: BuildConfigManager? = null
-        const val pageSize = 250
-        var hasFilterStateChanged = false
-        var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
-            0,
-            pageSize,
-            null,
-            null,
-            null,
-            null,
-            totalAppliedFilter = 0,
-            categories = arrayListOf(),
-            statues = arrayListOf()
-        )
-
-        fun clearFilters() {
-            homeTransactionsRequest = HomeTransactionsRequest(
-                0, pageSize,
-                null, null,
-                null, null,
-                0,
-                categories = null,
-                statues = null
-            )
-        }
     }
 }

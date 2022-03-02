@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import com.yap.core.base.BaseNavFragment
 import com.yap.core.biometric.BiometricUtils
 import com.yap.core.biometric.showBiometricDialog
+import com.yap.core.extensions.launchActivity
 import com.yap.core.extensions.observe
 import com.yap.core.extensions.observeEvent
 import com.yap.core.utils.*
@@ -25,6 +26,7 @@ import com.yap.yappakistan.networking.microservices.messages.requestdtos.ForgotP
 import com.yap.yappakistan.ui.auth.AccountRoute
 import com.yap.yappakistan.ui.auth.AccountRouteManager
 import com.yap.yappakistan.ui.auth.main.AuthViewModel
+import com.yap.yappakistan.ui.onboarding.main.YapPkMainActivity
 import com.yap.yappk.localization.screen_verify_passcode_text_account_locked
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -159,16 +161,16 @@ class LoginPasscodeFragment :
 
     private fun openWaitingScreen(navigateEvent: SingleEvent<Int>) {
         navigateEvent.getContentIfNotHandled()?.let { destinationId ->
-//            launchActivity<YapPkMainActivity>(
-//                options = Bundle(),
-//                clearPrevious = true
-//            ) {
-//                putExtra(NAVIGATION_GRAPH_ID, R.navigation.pk_onboarding_nav_graph)
-//                putExtra(
-//                    NAVIGATION_GRAPH_START_DESTINATION_ID,
-//                    destinationId
-//                )
-//            }
+            launchActivity<YapPkMainActivity>(
+                options = Bundle(),
+                clearPrevious = true
+            ) {
+                putExtra(NAVIGATION_GRAPH_ID, R.navigation.pk_onboarding_nav_graph)
+                putExtra(
+                    NAVIGATION_GRAPH_START_DESTINATION_ID,
+                    destinationId
+                )
+            }
         }
     }
 

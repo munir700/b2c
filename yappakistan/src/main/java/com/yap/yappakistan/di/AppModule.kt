@@ -3,13 +3,12 @@ package com.yap.yappakistan.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 class AppModule {
     @Provides
     fun provideCoroutineContext(): CoroutineContext {

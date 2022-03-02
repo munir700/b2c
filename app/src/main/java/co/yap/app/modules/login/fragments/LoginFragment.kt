@@ -1,6 +1,7 @@
 package co.yap.app.modules.login.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -28,7 +29,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 //import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
-//import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
@@ -40,6 +40,26 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     override val viewModel: LoginViewModel
         get() = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        viewModel._userVerified.observe(this, Observer {
+//            if (it == "+92") {
+//                startActivity(Intent(requireContext(), AuthenticationActivity::class.java))
+////                launchActivity<AuthenticationActivity> {
+////                    putExtra("countryCode", "+92")
+////                    putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
+////                    putExtra("isAccountBlocked", false)
+////                }
+//            } else if (it == "+233") {
+////                launchActivity<GhAuthenticationActivity> {
+////                    putExtra("countryCode", "+233")
+////                    putExtra("mobileNo", "2339999999")
+////                    putExtra("isAccountBlocked", false)
+////                }
+//            }
+//        })
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -98,21 +118,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 }
             }
         })
-//        viewModel.userVerified.observe(viewLifecycleOwner, Observer {
-//            if (it == "+92") {
-//                launchActivity<AuthenticationActivity> {
-//                    putExtra("countryCode", "+92")
-//                    putExtra("mobileNo", "3224642870")
-//                    putExtra("isAccountBlocked", false)
-//                }
-//            } else if (it == "+233") {
-//                launchActivity<GhAuthenticationActivity> {
-//                    putExtra("countryCode", "+233")
-//                    putExtra("mobileNo", "2339999999")
-//                    putExtra("isAccountBlocked", false)
-//                }
-//            }
-//        })
     }
 
     private fun navigateToPassCode() {
@@ -135,8 +140,9 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim()
                         ?: ""
                 if (countryCode != "+971") {
-                    launchActivity<AuthenticationActivity>()
-                    toast("Coming Soon")
+//                    launchActivity<AuthenticationActivity>()
+                    startActivity(Intent(requireContext(), AuthenticationActivity::class.java))
+
 //                    activity?.baseContext?.let { context ->
 //                        viewModel.verifyUser(countryCode, mobileNo)
 //                    }
@@ -198,6 +204,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             }
         }
     }
+
 
     private fun removeObserver() {
         viewModel.isAccountBlocked.removeObservers(this)
