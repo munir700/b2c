@@ -90,8 +90,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value =
-            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
         getAllApiCallsInParallelForScreen()
     }
 
@@ -222,7 +221,6 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
 
     val employmentStatusItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            getValuesForCommonQuestions()
             (data as? CoreBottomSheetData)?.subTitle.also { selectedType ->
                 employmentStatus.value = EmploymentStatus.values().find {
                     it.status == selectedType
@@ -388,11 +386,6 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             }
             else -> {}
         }
-    }
-
-    private fun getValuesForCommonQuestions() {
-        salaryAmount = getDataForPosition(questionsList.size - 2).getAnswer()
-        monthlyCreditAmount = getDataForPosition(questionsList.size - 1).getAnswer()
     }
 
     override fun saveEmploymentInfo(

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -96,6 +97,28 @@ class EmploymentQuestionnaireAmendmentFragment :
                     questionView
                 )
             binding.lifecycleOwner = this
+            // Adding Observer for Salary
+            if (position == viewModel.questionsList.size - 2) {
+                questionUiField.question.answer.addOnPropertyChangedCallback(object :
+                    Observable.OnPropertyChangedCallback() {
+                    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                        viewModel.salaryAmount =
+                            viewModel.getDataForPosition(viewModel.questionsList.size - 2)
+                                .getAnswer()
+                    }
+                })
+            }
+            // Adding Observer for Monthly Credit
+            if (position == viewModel.questionsList.size - 1) {
+                questionUiField.question.answer.addOnPropertyChangedCallback(object :
+                    Observable.OnPropertyChangedCallback() {
+                    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                        viewModel.monthlyCreditAmount =
+                            viewModel.getDataForPosition(viewModel.questionsList.size - 1)
+                                .getAnswer()
+                    }
+                })
+            }
         }
         viewModel.setAnswersForQuestions()
         viewModel.documentAdapter.setList(
