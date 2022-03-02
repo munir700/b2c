@@ -56,6 +56,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var selectedQuestionItemPosition: Int = -1
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
     override var employmentStatus = MutableLiveData<EmploymentStatus>()
+    override var serverEmploymentStatus: EmploymentStatus? = null
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
@@ -68,6 +69,8 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var accountActivated: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isInEditMode: MutableLiveData<Boolean> = MutableLiveData(false)
     override val documentAdapter = DocumentsAdapter(mutableListOf())
+    override var salaryAmount: String? = null
+    override var monthlyCreditAmount: String? = null
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -87,8 +90,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value =
-            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
         getAllApiCallsInParallelForScreen()
     }
 
@@ -333,8 +335,9 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                         } else {
                             employmentResponse.data.data?.let { res ->
                                 employmentStatusValue.value = res
-                                employmentStatus.value =
+                                serverEmploymentStatus =
                                     EmploymentStatus.valueOf(res.employmentStatus ?: "")
+                                employmentStatus.value = serverEmploymentStatus
                             }
                         }
                     }
@@ -348,13 +351,17 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     }
 
     override fun setAnswersForQuestions() {
+        if (serverEmploymentStatus != employmentStatus.value)
+            return
         when (employmentStatus.value) {
             EmploymentStatus.SALARIED_AND_SELF_EMPLOYED, EmploymentStatus.SELF_EMPLOYED -> {
-                val industrySegment = industrySegmentsList.first {
-                    it.segmentCode == employmentStatusValue.value?.industrySubSegmentCode?.get(0) ?: ""
+                employmentStatusValue.value?.industrySubSegmentCode?.let {
+                    val industrySegment = industrySegmentsList.first {
+                        it.segmentCode == employmentStatusValue.value?.industrySubSegmentCode?.get(0) ?: ""
+                    }
+                    val objQuestionSegment = getDataForPosition(1)
+                    objQuestionSegment.question.answer.set(industrySegment.segment)
                 }
-                val objQuestionSegment = getDataForPosition(1)
-                objQuestionSegment.question.answer.set(industrySegment.segment)
                 // Check Selected Countries
                 val businessCountriesList: ArrayList<String> = ArrayList()
                 employmentStatusValue.value?.businessCountries?.let { selectedCountries ->
@@ -452,6 +459,12 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             EmploymentStatus.NONE -> TODO()
         }
     }
+
+    override fun getEmploymentResponse(currentEmploymentStatus: EmploymentStatus): EmploymentInfoAmendmentResponse? =
+        if (currentEmploymentStatus == serverEmploymentStatus) employmentStatusValue.value else EmploymentInfoAmendmentResponse(
+            monthlySalary = salaryAmount,
+            expectedMonthlyCredit = monthlyCreditAmount
+        )
 
     override fun getDataForPosition(position: Int): QuestionUiFields {
         return questionsList[position]

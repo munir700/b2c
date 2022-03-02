@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -47,7 +48,7 @@ class EmploymentQuestionnaireAmendmentFragment :
         when (id) {
             R.id.ivLeftIcon -> activity?.finish()
             R.id.tvRightText -> {
-                //viewModel.updateEditMode(true)
+                viewModel.updateEditMode(true)
             }
         }
     }
@@ -64,10 +65,11 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     private fun initQuestionViews() {
         viewModel.questionsList.clear()
+        val empStatus = viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED
         viewModel.questionsList.addAll(
             viewModel.questionnaires(
-                viewModel.employmentStatus.value ?: EmploymentStatus.EMPLOYED,
-                viewModel.employmentStatusValue.value
+                empStatus,
+                viewModel.getEmploymentResponse(empStatus)
             )
         )
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.removeAllViews()
@@ -95,6 +97,28 @@ class EmploymentQuestionnaireAmendmentFragment :
                     questionView
                 )
             binding.lifecycleOwner = this
+            // Adding Observer for Salary
+            if (position == viewModel.questionsList.size - 2) {
+                questionUiField.question.answer.addOnPropertyChangedCallback(object :
+                    Observable.OnPropertyChangedCallback() {
+                    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                        viewModel.salaryAmount =
+                            viewModel.getDataForPosition(viewModel.questionsList.size - 2)
+                                .getAnswer()
+                    }
+                })
+            }
+            // Adding Observer for Monthly Credit
+            if (position == viewModel.questionsList.size - 1) {
+                questionUiField.question.answer.addOnPropertyChangedCallback(object :
+                    Observable.OnPropertyChangedCallback() {
+                    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                        viewModel.monthlyCreditAmount =
+                            viewModel.getDataForPosition(viewModel.questionsList.size - 1)
+                                .getAnswer()
+                    }
+                })
+            }
         }
         viewModel.setAnswersForQuestions()
         viewModel.documentAdapter.setList(

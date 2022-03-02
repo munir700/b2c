@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginRight="@dimen/margin_large"
-        android:alpha="0.8"
         android:background="@drawable/ic_divider_bg"
         android:paddingTop="@dimen/margin_medium">
 
