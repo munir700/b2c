@@ -13,6 +13,7 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeRespons
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -153,4 +154,5 @@ interface CustomersApi {
     suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
     suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse>
     suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>>
+    suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>>
 }

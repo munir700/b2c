@@ -18,11 +18,13 @@ import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -62,6 +64,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
     override var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse> =
         MutableLiveData()
+    override var requiredDocumentsResponse: MutableLiveData<MutableList<DocumentResponse>> = MutableLiveData()
     override var validator: Validator? = Validator(null)
     override var businessCountriesLiveData: MutableLiveData<ArrayList<String>> =
         MutableLiveData()
@@ -281,7 +284,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     }
 
     private fun fetchParallelAPIResponses(
-        responses: (RetroApiResponse<CountryModel>, RetroApiResponse<IndustrySegmentsResponse>, RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>) -> Unit
+        responses: (RetroApiResponse<CountryModel>, RetroApiResponse<IndustrySegmentsResponse>, RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>, RetroApiResponse<BaseListResponse<DocumentResponse>>) -> Unit
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
@@ -294,16 +297,20 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             val deferredEmploymentStatusResponse = launchAsync {
                 repository.getAmendmentsEmploymentInfo(SessionManager.user?.uuid ?: "")
             }
+            val deferredEmploymentProofDocuments = launchAsync {
+                repository.getAllDocumentsForEmploymentAmendment()
+            }
             responses(
                 deferredCountriesResponse.await(),
                 deferredIndustrySegmentsResponse.await(),
-                deferredEmploymentStatusResponse.await()
+                deferredEmploymentStatusResponse.await(),
+                deferredEmploymentProofDocuments.await()
             )
         }
     }
 
     override fun getAllApiCallsInParallelForScreen() {
-        fetchParallelAPIResponses { countriesResponse, segmentsResponse, employmentResponse ->
+        fetchParallelAPIResponses { countriesResponse, segmentsResponse, employmentResponse, documentResponse ->
             launch(Dispatcher.Main) {
                 when (countriesResponse) {
                     is RetroApiResponse.Success -> {
@@ -344,6 +351,15 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                     }
                     is RetroApiResponse.Error -> {
                         showDialogWithCancel(employmentResponse.error.message)
+                    }
+                }
+
+                when (documentResponse) {
+                    is RetroApiResponse.Success -> {
+                        requiredDocumentsResponse.value = documentResponse.data.data
+                    }
+                    is RetroApiResponse.Error -> {
+                        showDialogWithCancel(documentResponse.error.message)
                     }
                 }
                 state.viewState.value = false

@@ -3,8 +3,8 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -81,6 +81,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
     const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
     const val URL_GET_ALL_COUNTRIES = "customers/api/countries"
+    const val URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT = "customers/api/employment-document-criteria"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
     val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
@@ -616,5 +617,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getCustomerDocuments(accountUuid: String?) =
         executeSafely(call = { api.getCustomerDocuments(accountUuid) })
+
+    override suspend fun getAllDocumentsForEmploymentAmendment() =
+        executeSafely { api.getAllDocumentsForEmploymentAmendment() }
 
 }
