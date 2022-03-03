@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/text"
-        style="@style/Yap.App.Widget.Adjustable.KeyboardKey.KeyboardTextKey"
-        android:text="1" />
-
-</layout>

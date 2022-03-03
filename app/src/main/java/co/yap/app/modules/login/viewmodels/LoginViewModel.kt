@@ -113,15 +113,12 @@ class LoginViewModel(application: Application) :
     private val userVerifier: UserVerifierProvider = UserVerifierProvider()
 
     fun verifyUser(countryCode: String, mobileNumber: String) {
-        launch {
-            state.loading = true
-            userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
-                state.loading = false
-                if (result.isSuccess && result.getOrNull() == true) {
-                    _userVerified.value = countryCode
-                }
+        state.loading = true
+        userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
+            state.loading = false
+            if (result.isSuccess && result.getOrNull() == true) {
+                _userVerified.value = countryCode
             }
         }
-
     }
 }

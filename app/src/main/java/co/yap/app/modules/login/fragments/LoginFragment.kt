@@ -1,6 +1,5 @@
 package co.yap.app.modules.login.fragments
 
-//import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
@@ -27,6 +26,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.yap.ghana.ui.auth.main.GhAuthenticationActivity
 import com.yap.yappakistan.ui.auth.main.AuthenticationActivity
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
@@ -105,11 +105,11 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     putExtra("isAccountBlocked", false)
                 }
             } else if (it == "+233") {
-//                launchActivity<GhAuthenticationActivity> {
-//                    putExtra("countryCode", "+233")
-//                    putExtra("mobileNo", "2339999999")
-//                    putExtra("isAccountBlocked", false)
-//                }
+                launchActivity<GhAuthenticationActivity> {
+                    putExtra("countryCode", "+233")
+                    putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
+                    putExtra("isAccountBlocked", false)
+                }
             }
         })
     }
