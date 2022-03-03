@@ -5,6 +5,7 @@ import android.content.Intent
 import co.yap.app.main.MainActivity
 import com.yap.core.enums.ProductFlavour
 import com.yap.core.extensions.newIntent
+import com.yap.ghana.configs.GhanaBuildConfigurations
 import com.yap.yappakistan.configs.PKBuildConfigurations
 import com.yap.yappakistan.utils.enums.PkAppEvent
 import javax.inject.Inject
@@ -25,15 +26,15 @@ class LoadConfig @Inject constructor() {
                 )
             }
 
-//            is GhanaBuildConfigurations -> {
-//                initializeGhanaConfigs(
-//                    context, config, flavour = "qa",
-//                    buildType = "debug",
-//                    versionName = "1.0.0",
-//                    versionCode = "1",
-//                    applicationId = "co.yap.qa"
-//                )
-//            }
+            is GhanaBuildConfigurations -> {
+                initializeGhanaConfigs(
+                    context, config, flavour = "qa",
+                    buildType = "debug",
+                    versionName = "1.0.0",
+                    versionCode = "1",
+                    applicationId = "co.yap.qa"
+                )
+            }
 
             else -> {
                 throw IllegalStateException("Configuration has not been handled for $config")
@@ -66,25 +67,25 @@ class LoadConfig @Inject constructor() {
 
     }
 
-//    private fun initializeGhanaConfigs(
-//        context: Context,
-//        ghanaBuildConfigurations: GhanaBuildConfigurations,
-//        flavour: String,
-//        buildType: String,
-//        versionName: String,
-//        versionCode: String,
-//        applicationId: String
-//    ) {
-//        ghanaBuildConfigurations.configure(
-//            flavour = flavour,
-//            buildType = buildType,
-//            versionName = versionName,
-//            versionCode = versionCode,
-//            applicationId = applicationId
-//        )
-//        ghanaBuildConfigurations.setAdjustAppId(appId = getAdjustReferralTrackerId(flavour))
-//
-//    }
+    private fun initializeGhanaConfigs(
+        context: Context,
+        ghanaBuildConfigurations: GhanaBuildConfigurations,
+        flavour: String,
+        buildType: String,
+        versionName: String,
+        versionCode: String,
+        applicationId: String
+    ) {
+        ghanaBuildConfigurations.configure(
+            flavour = flavour,
+            buildType = buildType,
+            versionName = versionName,
+            versionCode = versionCode,
+            applicationId = applicationId
+        )
+        ghanaBuildConfigurations.setAdjustAppId(appId = getAdjustReferralTrackerId(flavour))
+
+    }
 
     private fun runAppEvent(event: PkAppEvent, context: Context) {
         when (event) {
