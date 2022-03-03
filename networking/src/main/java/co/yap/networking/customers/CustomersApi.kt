@@ -154,5 +154,6 @@ interface CustomersApi {
     suspend fun deleteBill(id: String): RetroApiResponse<ApiResponse>
     suspend fun editBiller(editBillerRequest: EditBillerRequest): RetroApiResponse<ApiResponse>
     suspend fun getEIDConfigurations(): RetroApiResponse<BaseResponse<ConfigureEIDResponse>>
+    suspend fun getEmploymentInfo(): RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>
     suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>>
 }

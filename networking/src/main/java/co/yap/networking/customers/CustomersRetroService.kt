@@ -377,6 +377,9 @@ interface CustomersRetroService {
         @Part("passportExpiryDate") passportExpiryDate: RequestBody
     ): Response<ApiResponse>
 
+    @GET(CustomersRepository.URL_GET_EMPLOYMENT_INFORMATION)
+    suspend fun getEmploymentInfo(): Response<BaseResponse<EmploymentInfoAmendmentResponse>>
+
     @GET(CustomersRepository.URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT)
     suspend fun getAllDocumentsForEmploymentAmendment(): Response<BaseListResponse<DocumentResponse>>
 }

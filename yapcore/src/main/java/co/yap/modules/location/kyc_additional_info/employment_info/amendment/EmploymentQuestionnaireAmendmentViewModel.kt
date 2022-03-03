@@ -295,7 +295,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 repository.getIndustrySegments()
             }
             val deferredEmploymentStatusResponse = launchAsync {
-                repository.getAmendmentsEmploymentInfo(SessionManager.user?.uuid ?: "")
+                repository.getEmploymentInfo()
             }
             val deferredEmploymentProofDocuments = launchAsync {
                 repository.getAllDocumentsForEmploymentAmendment()
