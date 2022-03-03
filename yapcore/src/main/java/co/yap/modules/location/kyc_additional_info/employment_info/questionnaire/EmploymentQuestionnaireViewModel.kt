@@ -280,11 +280,11 @@ class EmploymentQuestionnaireViewModel(application: Application) :
                 QuestionType.EDIT_TEXT_FIELD -> {
                     StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
                 }
-                else -> !it.question.answer.get().isNullOrBlank()
+                else -> it.question.answer.get().isNullOrBlank().not()
             }
-
             if (!isValid) {
-                validator?.isValidate?.value = isValid
+                 validator?.isValidate?.value = isValid
+                return@validate
             }
         }
 
