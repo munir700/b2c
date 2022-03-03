@@ -18,6 +18,7 @@ import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
@@ -47,7 +48,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
 
-open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
+class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaireAmendment.State>(application),
     IEmploymentQuestionnaireAmendment.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
     Validator.ValidationListener {
@@ -64,13 +65,15 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
     override var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse> =
         MutableLiveData()
-    override var requiredDocumentsResponse: MutableLiveData<MutableList<DocumentResponse>> = MutableLiveData()
+    override var requiredDocumentsResponse: MutableLiveData<MutableList<DocumentResponse>> =
+        MutableLiveData()
     override var validator: Validator? = Validator(null)
     override var businessCountriesLiveData: MutableLiveData<ArrayList<String>> =
         MutableLiveData()
     override var countries: ArrayList<Country> = arrayListOf()
     override var accountActivated: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isInEditMode: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val documentsList: MutableLiveData<List<Document>> = MutableLiveData()
     override val documentAdapter = DocumentsAdapter(mutableListOf())
     override var salaryAmount: String? = null
     override var monthlyCreditAmount: String? = null
@@ -93,8 +96,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         state.rightButtonText =
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
-        accountActivated.value =
-            SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
+        accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
         getAllApiCallsInParallelForScreen()
     }
 
@@ -231,6 +233,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 } ?: EmploymentStatus.EMPLOYED
             }
             validateForm()
+            updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
         }
     }
 
@@ -346,6 +349,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                                 serverEmploymentStatus =
                                     EmploymentStatus.valueOf(res.employmentStatus ?: "")
                                 employmentStatus.value = serverEmploymentStatus
+                                documentsList.value = res.documents ?: mutableListOf()
                             }
                         }
                     }
@@ -357,6 +361,11 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 when (documentResponse) {
                     is RetroApiResponse.Success -> {
                         requiredDocumentsResponse.value = documentResponse.data.data
+                        fillTitlesOfDocuments(
+                            EmploymentStatus.valueOf(
+                                employmentStatusValue.value?.employmentStatus ?: ""
+                            )
+                        )
                     }
                     is RetroApiResponse.Error -> {
                         showDialogWithCancel(documentResponse.error.message)
@@ -364,6 +373,24 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 }
                 state.viewState.value = false
             }
+        }
+    }
+
+    override fun fillTitlesOfDocuments(status: EmploymentStatus) {
+        val document = requiredDocumentsResponse.value?.find { it.empType == status.name }
+        document?.let {
+            documentsList.value?.forEach { doc ->
+                it.documents.find { it.documentType == doc.documentType }?.let {
+                    doc.title = it.title
+                    doc.description = it.description
+                }
+            }
+        }
+    }
+
+    override fun updateDocumentsInView(status: EmploymentStatus) {
+        requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
+            documentsList.value = it.documents
         }
     }
 

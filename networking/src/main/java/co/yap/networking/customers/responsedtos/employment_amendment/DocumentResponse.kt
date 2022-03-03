@@ -6,10 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class DocumentResponse(
     @SerializedName("onChange")
     val onChange: String? = null,
-    @SerializedName("from")
-    val from: String? = null,
-    @SerializedName("to")
-    val to: String? = null,
+    @SerializedName("empType")
+    val empType: String? = null,
     @SerializedName("employmentProofDocuments")
     val documents: List<Document> = listOf()
 ) : ApiResponse()

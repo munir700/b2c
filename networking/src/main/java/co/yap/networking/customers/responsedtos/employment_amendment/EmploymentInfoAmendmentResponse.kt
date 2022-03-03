@@ -40,9 +40,9 @@ data class Document(
     @SerializedName("contentType")
     val contentType: String? = null,
     @SerializedName("title")
-    val title: String? = null,
+    var title: String? = null,
     @SerializedName("description")
-    val description: String = "",
+    var description: String = "",
     @SerializedName("isMandatory")
     val isMandatory: Boolean = false
 ) : Parcelable
