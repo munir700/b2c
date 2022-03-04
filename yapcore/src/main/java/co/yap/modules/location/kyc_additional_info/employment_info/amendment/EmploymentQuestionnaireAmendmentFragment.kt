@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.unSelectAllCountries
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.skeletonlayout.views
@@ -102,9 +103,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                 questionUiField.question.answer.addOnPropertyChangedCallback(object :
                     Observable.OnPropertyChangedCallback() {
                     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                        viewModel.salaryAmount =
-                            viewModel.getDataForPosition(viewModel.questionsList.size - 2)
-                                .getAnswer()
+                        viewModel.getSalaryAndMonthlyCredit()
                     }
                 })
             }
@@ -113,17 +112,12 @@ class EmploymentQuestionnaireAmendmentFragment :
                 questionUiField.question.answer.addOnPropertyChangedCallback(object :
                     Observable.OnPropertyChangedCallback() {
                     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                        viewModel.monthlyCreditAmount =
-                            viewModel.getDataForPosition(viewModel.questionsList.size - 1)
-                                .getAnswer()
+                        viewModel.getSalaryAndMonthlyCredit()
                     }
                 })
             }
         }
         viewModel.setAnswersForQuestions()
-        viewModel.documentAdapter.setList(
-            viewModel.employmentStatusValue.value?.documents ?: mutableListOf()
-        )
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.post {
             viewModel.validator?.targetViewBinding =
                 getDataBindingView<FragmentEmploymentQuestionnaireBinding>()
@@ -161,6 +155,11 @@ class EmploymentQuestionnaireAmendmentFragment :
     private val businessCountriesLiveDataObserver =
         Observer<ArrayList<String>> {
             onBusinessCountriesSelection(it)
+        }
+
+    private val documentsLiveDataObserver =
+        Observer<List<Document>> {
+            viewModel.documentAdapter.setList(it)
         }
 
     val listener = object : OnItemClickListener {
@@ -246,12 +245,14 @@ class EmploymentQuestionnaireAmendmentFragment :
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.employmentStatus.observe(this, employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.observe(this, businessCountriesLiveDataObserver)
+        viewModel.documentsList.observe(this, documentsLiveDataObserver)
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
         viewModel.employmentStatus.removeObserver(employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.removeObserver(businessCountriesLiveDataObserver)
+        viewModel.documentsList.removeObserver(documentsLiveDataObserver)
     }
 
     override fun onDestroy() {
