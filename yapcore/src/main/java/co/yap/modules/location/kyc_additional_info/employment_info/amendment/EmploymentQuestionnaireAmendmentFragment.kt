@@ -3,6 +3,7 @@ package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.databinding.ViewDataBinding
@@ -62,6 +63,8 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().lifecycleOwner = this
+        viewModel.documentAdapter.allowFullItemClickListener = true
+        viewModel.documentAdapter.setItemListener(documentListener)
     }
 
     private fun initQuestionViews() {
@@ -161,6 +164,15 @@ class EmploymentQuestionnaireAmendmentFragment :
         Observer<List<Document>> {
             viewModel.documentAdapter.setList(it)
         }
+
+    private val documentListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Document)
+            {
+                Toast.makeText(requireContext(), "Tapped", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
