@@ -7,6 +7,8 @@ import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.yapcore.IBase
@@ -30,13 +32,15 @@ interface IEmploymentQuestionnaireAmendment {
         val selectedBusinessCountries: ObservableField<ArrayList<String>>
         var questionsList: ArrayList<QuestionUiFields>
         var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse>
+        var requiredDocumentsResponse: MutableLiveData<MutableList<DocumentResponse>>
         var isInEditMode: MutableLiveData<Boolean>
-        var accountActivated : MutableLiveData<Boolean>
+        var accountActivated: MutableLiveData<Boolean>
         var businessCountriesLiveData: MutableLiveData<ArrayList<String>>
         var countries: ArrayList<Country>
-        val documentAdapter : DocumentsAdapter
-        var salaryAmount : String?
-        var monthlyCreditAmount : String?
+        val documentAdapter: DocumentsAdapter
+        val documentsList: MutableLiveData<List<Document>>
+        var salaryAmount: String?
+        var monthlyCreditAmount: String?
         fun handleOnPressView(id: Int)
         fun updateEditMode(isEditable: Boolean)
         fun questionnaires(
@@ -61,6 +65,10 @@ interface IEmploymentQuestionnaireAmendment {
 
         fun getAllApiCallsInParallelForScreen()
 
+        fun fillTitlesOfDocuments(empType: EmploymentStatus)
+
+        fun updateDocumentsInView(status: EmploymentStatus)
+
         fun setAnswersForQuestions()
 
         fun saveEmploymentInfo(
@@ -74,7 +82,7 @@ interface IEmploymentQuestionnaireAmendment {
             status: EmploymentStatus
         ): EmploymentInfoRequest
 
-        fun getEmploymentResponse(currentEmploymentStatus : EmploymentStatus) : EmploymentInfoAmendmentResponse?
+        fun getEmploymentResponse(currentEmploymentStatus: EmploymentStatus): EmploymentInfoAmendmentResponse?
 
         fun getDataForPosition(position: Int): QuestionUiFields
         fun getEmploymentTypesList(): MutableList<CoreBottomSheetData>

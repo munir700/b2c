@@ -3,8 +3,8 @@ package co.yap.networking.customers
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.models.dashboardwidget.UpdateWidgetResponse
+import co.yap.networking.customers.models.dashboardwidget.WidgetData
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
@@ -16,6 +16,8 @@ import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.ConfigureEIDResponse
 import co.yap.networking.customers.responsedtos.documents.EIDDocumentsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
@@ -81,6 +83,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SEARCH_BANKS = "/customers/api/other_bank/query"
     const val URL_VALIDATE_BENEFICIARY = "customers/api/validate/bank-transfer/beneficiary-details"
     const val URL_GET_ALL_COUNTRIES = "customers/api/countries"
+    const val URL_GET_ALL_DOCUMENT_FOR_EMPLOYMENT = "customers/api/employment-document-criteria"
 
     val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
     val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
@@ -157,6 +160,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_UPDATE_PASSPORT_AMENDMENT = "customers/api/kyc-amendments/passport"
     const val URL_GET_CUSTOMER_DOCUMENTS =
         "customers/api/eida-data"
+    const val URL_GET_EMPLOYMENT_INFORMATION =
+        "customers/api/profile/employment-information"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -616,5 +621,99 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getCustomerDocuments(accountUuid: String?) =
         executeSafely(call = { api.getCustomerDocuments(accountUuid) })
+
+    override suspend fun getEmploymentInfo() =
+        executeSafely { api.getEmploymentInfo() }
+
+    override suspend fun getAllDocumentsForEmploymentAmendment(): RetroApiResponse<BaseListResponse<DocumentResponse>> {
+        //return executeSafely { api.getAllDocumentsForEmploymentAmendment() }
+        val res = mutableListOf(
+            DocumentResponse(
+                onChange = "SALARY",
+                empType = null,
+                documents = listOf(
+                    Document(
+                        documentType = "PROOF_OF_INCOME",
+                        title = "Proof of income",
+                        description = "Upload salary certificate, Pay slip, Increment Letter or Labor Contract",
+                        isMandatory = false
+                    )
+                )
+            ),
+            DocumentResponse(
+                onChange = "EMPLOYER_NAME",
+                empType = null,
+                documents = listOf(
+                    Document(
+                        documentType = "PROOF_OF_INCOME",
+                        title = "Proof of income",
+                        description = "Upload salary certificate, Pay slip, Increment Letter or Labor Contract",
+                        isMandatory = false
+                    )
+                )
+            ),
+            DocumentResponse(
+                onChange = "EMPLOYMENT_TYPE",
+                empType = "EMPLOYED",
+                documents = listOf(
+                    Document(
+                        documentType = "PROOF_OF_INCOME",
+                        title = "Proof of income",
+                        description = "Upload salary certificate, Pay slip, Increment Letter or Labor Contract",
+                        isMandatory = false
+                    )
+                )
+            ),
+            DocumentResponse(
+                onChange = "EMPLOYMENT_TYPE",
+                empType = "SELF_EMPLOYED",
+                documents = listOf(
+                    Document(
+                        documentType = "COMPANY_DOCUMENTATION",
+                        title = "Company documentation",
+                        description = "Upload the permit or trade license",
+                        isMandatory = false
+                    ), Document(
+                        documentType = "PROOF_OF_INCOME",
+                        title = "Proof of income",
+                        description = "Upload bank statement of 3 months",
+                        isMandatory = false
+                    )
+                )
+            ),
+            DocumentResponse(
+                onChange = "EMPLOYMENT_TYPE",
+                empType = "SALARIED_AND_SELF_EMPLOYED",
+                documents = listOf(
+                    Document(
+                        documentType = "COMPANY_DOCUMENTATION",
+                        title = "Company documentation",
+                        description = "Upload the permit or trade license",
+                        isMandatory = false
+                    ), Document(
+                        documentType = "PROOF_OF_INCOME",
+                        title = "Proof of income",
+                        description = "Upload salary certificate, Pay slip, Increment Letter or 3 months bank statement",
+                        isMandatory = false
+                    )
+                )
+            ),
+            DocumentResponse(
+                onChange = "EMPLOYMENT_TYPE",
+                empType = "OTHER",
+                documents = listOf(
+                    Document(
+                        documentType = "VISA",
+                        title = "Upload your visa copy",
+                        description = "The visa page inside your passport",
+                        isMandatory = true
+                    )
+                )
+            )
+        )
+        val response = BaseListResponse<DocumentResponse>()
+        response.data = res
+        return RetroApiResponse.Success(200, response)
+    }
 
 }
