@@ -25,6 +25,8 @@ interface ICardAnalytics {
         //      var type: ObservableField<String>
         fun setPieChartIcon(image: ImageView)
         fun setDateAndMonthsEnableStates(date: Date?)
+        fun fetchCardCategoryAnalyticsByDate()
+        fun setCurrentMonthCall()
     }
 
     interface State : IBase.State {

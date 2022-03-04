@@ -21,6 +21,7 @@ import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
+import java.text.SimpleDateFormat
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
@@ -209,6 +210,40 @@ class CardAnalyticsViewModel(application: Application) :
             showFirstInitials = false,
             categoryColor = ""
         )
+    }
+
+    override fun setCurrentMonthCall() {
+        fetchCardCategoryAnalytics(
+            DateUtils.dateToString(
+                Calendar.getInstance().time,
+                SIMPLE_DATE_FORMAT, DateUtils.TIME_ZONE_Default
+            )
+        )
+        setDateAndMonthsEnableStates(Date())
+        setSelectedDate(parentViewModel?.currentDate)
+    }
+
+    override fun fetchCardCategoryAnalyticsByDate() {
+        if(parentViewModel?.currentDate == null){
+            with(parentViewModel?.state) {
+                this?.selectedDate?.let {
+                    if (it.isNotEmpty()) {
+                        SimpleDateFormat(
+                            DateUtils.FORMAT_COMPLETE_DATE,
+                            Locale.getDefault()
+                        ).parse(it)?.let { date ->
+                            fetchCardCategoryAnalytics(
+                                DateUtils.dateToString(
+                                    date, SIMPLE_DATE_FORMAT, DateUtils.TIME_ZONE_Default
+                                )
+                            )
+                            setDateAndMonthsEnableStates(date)
+                            setSelectedDate(parentViewModel?.currentDate)
+                        }
+                    } else setCurrentMonthCall()
+                } ?: setCurrentMonthCall()
+            }
+        }
     }
 
     override fun setDateAndMonthsEnableStates(date: Date?) {
