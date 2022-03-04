@@ -333,19 +333,24 @@ class EasyMoneyEditText : AppCompatEditText {
                         if (valStr.contains(".")) {
                             if (valStr.indexOf(".") == valStr.length - 1) {
                                 // decimal has been currently put
-                                val front = getDecoratedStringFromNumber(
-                                    valStr.substring(
-                                        0,
-                                        valStr.length - 1
-                                    ).toLong()
-                                )
-                                textToDisplay = "$front."
-                                setText(textToDisplay)
+                                if (valStr.startsWith(".")) {
+                                    textToDisplay = valStr
+                                    setText(textToDisplay)
+                                }else {
+                                    val front = getDecoratedStringFromNumber(
+                                        valStr.substring(
+                                            0,
+                                            valStr.length - 1
+                                        ).toLong()
+                                    )
+                                    textToDisplay = "$front."
+                                    setText(textToDisplay)
+                                }
                             } else {
                                 val nums =
                                     getValueString().split("\\.".toRegex()).toTypedArray()
                                 if (nums[1].length <= decimalDigits) {
-                                    if (!nums[0].equals("")) {
+                                    if (nums[0].isEmpty().not()) {
                                         val front = getDecoratedStringFromNumber(nums[0].toLong())
                                         textToDisplay = front + "." + nums[1]
                                     } else {
