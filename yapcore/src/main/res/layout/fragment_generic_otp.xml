@@ -14,12 +14,14 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.R" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(clDescriptionContainer,otpView)}"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

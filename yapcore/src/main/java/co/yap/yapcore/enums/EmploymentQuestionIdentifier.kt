@@ -4,5 +4,6 @@ enum class EmploymentQuestionIdentifier() {
     SALARY_AMOUNT,
     DEPOSIT_AMOUNT,
     INDUSTRY_SEGMENT,
-    EMPLOYMENT_TYPE
+    EMPLOYMENT_TYPE,
+    SELF_EMPLOYMENT
 }

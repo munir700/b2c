@@ -308,28 +308,42 @@ fun Activity.showReceiptSuccessDialog(
 fun Context.infoDialog(
     title: String = "",
     message: String,
-    buttonText: String? = null,
-    callback: () -> Unit = {}
+    buttonType: ArrayList<ButtonType> = arrayListOf(),
+    callback: (view: View) -> Unit = {}
 ) {
-
     val dialogLayout = Dialog(this)
     dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialogLayout.setCancelable(false)
     dialogLayout.setContentView(R.layout.dialog_information)
     val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
     val messageView = dialogLayout.findViewById<TextView>(R.id.tvMessage)
+    val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
+    val btnContinue = dialogLayout.findViewById<CoreButton>(R.id.btnNext)
+    val tbBtnInfo = dialogLayout.findViewById<AppCompatImageView>(R.id.tbBtnInfo)
     messageView.text = message
     dialogTitle.text = title
-    val btnClose = dialogLayout.findViewById<AppCompatTextView>(R.id.btnClose)
-    dialogLayout.findViewById<View>(R.id.btnNext).visibility = View.GONE
-    btnClose.text = buttonText
+    btnContinue.visibility = if (buttonType.size == 2) View.VISIBLE else View.GONE
+    btnClose.text = getBackButtonText(buttonType)
+    btnContinue.text = getContinueText(buttonType)
+    tbBtnInfo.setImageResource(if (buttonType.contains(ButtonType.BACK)) R.drawable.ic_exclamation_primary_white else R.drawable.ic_support)
     btnClose.setOnClickListener {
-        callback.invoke()
+        if (buttonType.contains(ButtonType.BACK)) callback.invoke(it)
+        dialogLayout.dismiss()
+    }
+    btnContinue.setOnClickListener {
+        callback.invoke(it)
         dialogLayout.dismiss()
     }
     dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
     dialogLayout.show()
 }
+
+fun getContinueText(buttonType: ArrayList<ButtonType>): CharSequence? =
+    if (buttonType.contains(ButtonType.NEXT)) ButtonType.NEXT.type else ButtonType.CONTINUE.type
+
+
+fun getBackButtonText(buttonType: ArrayList<ButtonType>): String =
+    if (buttonType.contains(ButtonType.CLOSE)) ButtonType.CLOSE.type else ButtonType.BACK.type
 
 fun Context.beneficiaryInfoDialog(
     title: String = "",

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
         <variable
             name="cdmMapViewModel"
             type="co.yap.modules.dashboard.more.cdm.CdmMapViewModel" />
@@ -14,6 +16,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvAddressSubTitle,tvAddressTitle,ivLocationPhoto)}"
         android:orientation="vertical">
         <fragment
             android:id="@+id/map"

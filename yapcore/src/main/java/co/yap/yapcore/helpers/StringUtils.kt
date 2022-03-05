@@ -197,7 +197,7 @@ object StringUtils {
         val matcher = pattern.matcher(inputStr)
 
         if (matcher.matches() && !name.isNullOrEmpty()) {
-            if (name.length >= 1) {
+            if (name.trim().isNotEmpty()) {
                 isValid = true
             }
         }

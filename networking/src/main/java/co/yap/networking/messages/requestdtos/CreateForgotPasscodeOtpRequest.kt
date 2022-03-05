@@ -6,5 +6,7 @@ data class CreateForgotPasscodeOtpRequest(
     @SerializedName("destination")
     val destination: String,
     @SerializedName("emailOTP")
-    val emailOTP: Boolean
+    val emailOTP: Boolean,
+    @SerializedName("message")
+    val otpMessage: String? = null
 )

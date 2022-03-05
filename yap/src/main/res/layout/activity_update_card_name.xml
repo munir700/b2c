@@ -7,6 +7,7 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <import type="android.text.TextUtils" />
 
@@ -18,6 +19,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(etName)}"
         android:background="@color/white">
 
         <androidx.appcompat.widget.Toolbar

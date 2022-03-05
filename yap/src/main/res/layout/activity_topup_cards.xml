@@ -10,6 +10,7 @@
         <import type="android.view.View" />
 
         <import type="co.yap.R" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -20,6 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(txtCardName)}"
         android:animateLayoutChanges="true"
         android:background="@color/white">
 
