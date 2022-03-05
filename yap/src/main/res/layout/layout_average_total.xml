@@ -24,10 +24,12 @@
         <variable
             name="currency"
             type="String" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(tvPrice)}"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.helper.widget.Flow

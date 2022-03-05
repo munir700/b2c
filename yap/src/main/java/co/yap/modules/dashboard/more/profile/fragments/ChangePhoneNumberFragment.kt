@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.more.profile.intefaces.IChangePhoneNumber
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangePhoneNumberViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -67,7 +68,14 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CHANGE_MOBILE_NO.name,
-                    "+${viewModel.state.countryCode + " " + viewModel.state.mobile}"
+                    "+${viewModel.state.countryCode + " " + viewModel.state.mobile}",
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        OTPActions.CHANGE_MOBILE_NO.name,
+                        SessionManager.user?.currentCustomer?.firstName,
+                        "%s1",
+                        "%s2",
+                        SessionManager.helpPhoneNumber
+                    )
                 )
             ),
             showToolBar = true

@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.View"/>
+        <import type="co.yap.yapcore.helpers.Utils" />
         <variable
             name="model"
             type="com.digitify.identityscanner.docscanner.viewmodels.DocReviewViewModel" />
@@ -15,11 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
+        app:sensitiveViews="@{Utils.getViewsList(ivQuickDocPreview)}"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".docscanner.fragments.DocReviewFragment">
 
         <ImageView
-            android:id="@+id/quick_doc_preview"
+            android:id="@+id/ivQuickDocPreview"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="8dp"

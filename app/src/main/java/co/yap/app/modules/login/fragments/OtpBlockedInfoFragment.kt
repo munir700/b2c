@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.FeatureProvisioning.getFeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
+import com.uxcam.UXCam
 
 class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     IOtpBlockedInfo.View {
@@ -41,6 +42,11 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
         viewModel.onHelpNoSuccess.observe(this, Observer {
             if (it) setDetailTextView()
         })
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        UXCam.occludeSensitiveScreen(false)
     }
 
     private fun setDetailTextView() {

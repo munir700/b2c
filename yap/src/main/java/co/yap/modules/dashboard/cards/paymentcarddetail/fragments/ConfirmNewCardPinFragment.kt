@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPin
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.modules.otp.getOtpMessageFromComposer
 import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.translation.Strings
@@ -100,7 +101,14 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.FORGOT_CARD_PIN.name,
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
-                        ?: ""
+                        ?: "",
+                    otpMessage = requireContext().getOtpMessageFromComposer(
+                        OTPActions.FORGOT_CARD_PIN.name,
+                        SessionManager.user?.currentCustomer?.firstName,
+                        "%s1",
+                        "%s2",
+                        SessionManager.helpPhoneNumber
+                    )
                 )
             ), showToolBar = true
         ) { resultCode, data ->

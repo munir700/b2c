@@ -68,10 +68,11 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         mFusedLocationProviderClient?.lastLocation?.addOnSuccessListener { location ->
             if (location != null) {
                 mDefaultLocation = LatLng(location.latitude, location.longitude)
-                viewModel.address?.latitude = location.latitude
-                viewModel.address?.longitude = location.longitude
-
-                setupMapOptions()
+                if(isAdded) {
+                    viewModel.address?.latitude = location.latitude
+                    viewModel.address?.longitude = location.longitude
+                    setupMapOptions()
+                }
             } else {
                 startLocationUpdates()
             }

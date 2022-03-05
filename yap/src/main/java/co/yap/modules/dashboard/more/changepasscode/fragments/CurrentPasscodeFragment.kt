@@ -81,7 +81,9 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
                     mobileNumber = viewModel.mobileNumber,
                     username = name,
-                    emailOtp = !Utils.isUsernameNumeric(name)
+                    emailOtp = !Utils.isUsernameNumeric(name),
+                    otpMessage = parentActivity.viewModel.getOtpMessage()
+
                 )
             ),
             showToolBar = true

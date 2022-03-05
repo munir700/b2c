@@ -86,6 +86,7 @@
     <string name="common_display_text_percentage">%</string>
     <string name="common_display_one_variables">%1s</string>
     <string name="common_display_text_available_balance_error_without_fee">Uh oh! You’ll need to have a minimum balance of %1s to proceed with this payment. </string>
+    <string name="common_display_text_back">Back</string>
 
 
     <!-- Home Screen -->
@@ -1492,6 +1493,8 @@
 
     <!--    Employee information screen-->
     <string name="screen_employee_information_display_bottom_sheet_text_heading">Add all the countries your company does business with:</string>
+    <string name="screen_employee_information_additional_information_dialog_title">Additional documents \nwill be required.</string>
+    <string name="screen_employee_information_additional_information_dialog_text">Since you\’re self-employed we will need to ask you to provide additional documentation after you receive your YAP card.</string>
 
     <!-- KYC Employment Information Questionnaire screen -->
     <string name="screen_employment_questionnaire_display_text_heading">Employment Information</string>
@@ -1499,7 +1502,8 @@
     <string name="screen_employment_questionnaire_display_text_user_information">We only ask you these questions for administrative purpose. It does not impact your ability to sign up to a YAP account.</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_describe_you">Select which statement describes your situation best:</string>
     <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_segments">Select industry segment:</string>
-    <!--    ERROR_INVALID_CARDINPUT-->
+    <string name="screen_employment_questionnaire_display_text__bottom_sheet_title_self_employment">Select which statement describes your self-employment status:</string>
+<!--    ERROR_INVALID_CARDINPUT-->
     <!--    Samsung Pay start-->
     <string name="screen_cards_display_text_error_spay_internal">Your request wasn\'t approved by the card issuer. Try another card or contact your card issuer for more information</string>
     <string name="screen_cards_display_text_error_invalid_card_input">The card info you have entered is invalid.</string>
@@ -1665,6 +1669,13 @@
         <item>SWIFT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
         <item>RMT_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as Outside UAE Beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
         <item>DOMESTIC_BENEFICIARY;Hi %1$s! Your OTP to add %2$s as a local beneficiary to YAP is %3$s. This code expires in %4$s minutes. Please do not share this code with anyone else. If this was not you, please contact our support team immediately at %5$s</item>
+
+        <item>FORGOT_PASS_CODE;Hi %1$s! Your OTP to change your passcode for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>FORGOT_CARD_PIN;Hi %1$s! Your OTP to reset your YAP card PIN is  %2$s. This code expires in  %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %4$s</item>
+        <item>CHANGE_MOBILE_NO;Hi %1$s! Your OTP to change your mobile number for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>SIGN_UP_NUMBER;Hey there! Your OTP to verify your number for YAP is %1$s. This code expires in %2$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at  %3$s</item>
+        <item>DEMOGRAPHIC_VALIDATION;Hi %1$s! Your OTP to sign into YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
+        <item>CHANGE_EMAIL;Hi %1$s! Your OTP to change your email for YAP is %2$s. This code expires in %3$s minutes. Please do not share this code with anyone else. Need help? Contact our customer support team at %4$s</item>
     </string-array>
 
     <!-- KYC Amendments/ Missing Info Screen start -->

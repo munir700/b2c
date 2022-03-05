@@ -9,11 +9,13 @@
 
         <import type="co.yap.translation.Strings" />
         <import type="co.yap.yapcore.managers.SessionManager" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        app:sensitiveViews="@{Utils.getViewsList(llMain)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

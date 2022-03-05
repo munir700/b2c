@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
@@ -19,7 +20,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(tvSpareCardDesc,tvSpareCardTile)}">
 
         <ScrollView
             android:layout_width="match_parent"

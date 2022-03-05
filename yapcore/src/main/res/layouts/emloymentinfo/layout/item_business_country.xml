@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
         <variable
             name="countryName"
             type="String" />
@@ -13,20 +15,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(tvCountryName)}">
 
         <TextView
-            style="@style/Micro"
             android:id="@+id/tvCountryName"
+            style="@style/Micro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_extra_small"
-            android:paddingTop="@dimen/margin_extra_small"
-            android:paddingStart="@dimen/margin_medium"
-            android:paddingEnd="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_extra_small"
             android:background="@drawable/round_light_gery_background"
             android:gravity="center"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_extra_small"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_extra_small"
             android:text="@{countryName}"
             android:textColor="?attr/colorPrimaryAttr"
             android:textSize="@dimen/_9sdp"
