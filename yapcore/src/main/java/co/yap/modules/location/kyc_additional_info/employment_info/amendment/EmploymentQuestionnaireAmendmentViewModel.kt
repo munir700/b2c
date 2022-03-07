@@ -18,11 +18,14 @@ import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.coreitems.CoreBottomSheetData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.EmploymentInfoRequest
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
+import co.yap.networking.customers.responsedtos.employment_amendment.DocumentResponse
 import co.yap.networking.customers.responsedtos.employment_amendment.EmploymentInfoAmendmentResponse
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegment
 import co.yap.networking.customers.responsedtos.employmentinfo.IndustrySegmentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -45,7 +48,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
 
-open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
+class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     LocationChildViewModel<IEmploymentQuestionnaireAmendment.State>(application),
     IEmploymentQuestionnaireAmendment.ViewModel, IRepositoryHolder<CustomersRepository>, IValidator,
     Validator.ValidationListener {
@@ -62,12 +65,15 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var questionsList: ArrayList<QuestionUiFields> = arrayListOf()
     override var employmentStatusValue: MutableLiveData<EmploymentInfoAmendmentResponse> =
         MutableLiveData()
+    override var requiredDocumentsResponse: MutableLiveData<MutableList<DocumentResponse>> =
+        MutableLiveData()
     override var validator: Validator? = Validator(null)
     override var businessCountriesLiveData: MutableLiveData<ArrayList<String>> =
         MutableLiveData()
     override var countries: ArrayList<Country> = arrayListOf()
     override var accountActivated: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isInEditMode: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val documentsList: MutableLiveData<List<Document>> = MutableLiveData()
     override val documentAdapter = DocumentsAdapter(mutableListOf())
     override var salaryAmount: String? = null
     override var monthlyCreditAmount: String? = null
@@ -227,6 +233,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 } ?: EmploymentStatus.EMPLOYED
             }
             validateForm()
+            updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
         }
     }
 
@@ -258,11 +265,11 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 QuestionType.EDIT_TEXT_FIELD -> {
                     StringUtils.checkSpecialCharacters(it.question.answer.get() ?: "")
                 }
-                else -> !it.question.answer.get().isNullOrBlank()
+                else -> it.question.answer.get().isNullOrBlank().not()
             }
-
             if (!isValid) {
                 validator?.isValidate?.value = isValid
+                return@validate
             }
         }
 
@@ -280,7 +287,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     }
 
     private fun fetchParallelAPIResponses(
-        responses: (RetroApiResponse<CountryModel>, RetroApiResponse<IndustrySegmentsResponse>, RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>) -> Unit
+        responses: (RetroApiResponse<CountryModel>, RetroApiResponse<IndustrySegmentsResponse>, RetroApiResponse<BaseResponse<EmploymentInfoAmendmentResponse>>, RetroApiResponse<BaseListResponse<DocumentResponse>>) -> Unit
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
@@ -291,18 +298,22 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                 repository.getIndustrySegments()
             }
             val deferredEmploymentStatusResponse = launchAsync {
-                repository.getAmendmentsEmploymentInfo(SessionManager.user?.uuid ?: "")
+                repository.getEmploymentInfo()
+            }
+            val deferredEmploymentProofDocuments = launchAsync {
+                repository.getAllDocumentsForEmploymentAmendment()
             }
             responses(
                 deferredCountriesResponse.await(),
                 deferredIndustrySegmentsResponse.await(),
-                deferredEmploymentStatusResponse.await()
+                deferredEmploymentStatusResponse.await(),
+                deferredEmploymentProofDocuments.await()
             )
         }
     }
 
     override fun getAllApiCallsInParallelForScreen() {
-        fetchParallelAPIResponses { countriesResponse, segmentsResponse, employmentResponse ->
+        fetchParallelAPIResponses { countriesResponse, segmentsResponse, employmentResponse, documentResponse ->
             launch(Dispatcher.Main) {
                 when (countriesResponse) {
                     is RetroApiResponse.Success -> {
@@ -338,6 +349,7 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                                 serverEmploymentStatus =
                                     EmploymentStatus.valueOf(res.employmentStatus ?: "")
                                 employmentStatus.value = serverEmploymentStatus
+                                documentsList.value = res.documents ?: mutableListOf()
                             }
                         }
                     }
@@ -345,8 +357,40 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                         showDialogWithCancel(employmentResponse.error.message)
                     }
                 }
+
+                when (documentResponse) {
+                    is RetroApiResponse.Success -> {
+                        requiredDocumentsResponse.value = documentResponse.data.data
+                        fillTitlesOfDocuments(
+                            EmploymentStatus.valueOf(
+                                employmentStatusValue.value?.employmentStatus ?: ""
+                            )
+                        )
+                    }
+                    is RetroApiResponse.Error -> {
+                        showDialogWithCancel(documentResponse.error.message)
+                    }
+                }
                 state.viewState.value = false
             }
+        }
+    }
+
+    override fun fillTitlesOfDocuments(status: EmploymentStatus) {
+        val document = requiredDocumentsResponse.value?.find { it.empType == status.name }
+        document?.let {
+            documentsList.value?.forEach { doc ->
+                it.documents.find { it.documentType == doc.documentType }?.let {
+                    doc.title = it.title
+                    doc.description = it.description
+                }
+            }
+        }
+    }
+
+    override fun updateDocumentsInView(status: EmploymentStatus) {
+        requiredDocumentsResponse.value?.find { it.empType == status.name }?.let {
+            documentsList.value = it.documents
         }
     }
 
@@ -382,10 +426,14 @@ open class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
                     it.employmentTypeCode == employmentStatusValue.value?.employmentType ?: ""
                 }?.employmentType ?: "")
                 questionsList[selectedQuestionItemPosition] = objQuestion
-                //validateForm()
             }
             else -> {}
         }
+    }
+
+    override fun getSalaryAndMonthlyCredit() {
+        salaryAmount = getDataForPosition(questionsList.size - 2).getAnswer()
+        monthlyCreditAmount = getDataForPosition(questionsList.size - 1).getAnswer()
     }
 
     override fun saveEmploymentInfo(

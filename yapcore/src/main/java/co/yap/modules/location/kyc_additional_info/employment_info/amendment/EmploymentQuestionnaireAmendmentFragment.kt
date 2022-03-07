@@ -9,8 +9,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.unSelectAllCountries
+import co.yap.modules.document.ViewDocumentActivity
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
+import co.yap.networking.customers.responsedtos.employment_amendment.Document
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetConfiguration
 import co.yap.widgets.skeletonlayout.views
@@ -27,6 +29,13 @@ import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.utils.UIUtils
+import co.yap.modules.document.enums.FileFrom
+import android.content.Intent
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
+
 
 class EmploymentQuestionnaireAmendmentFragment :
     BaseBindingFragment<IEmploymentQuestionnaireAmendment.ViewModel>(),
@@ -61,6 +70,8 @@ class EmploymentQuestionnaireAmendmentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().lifecycleOwner = this
+        viewModel.documentAdapter.allowFullItemClickListener = true
+        viewModel.documentAdapter.setItemListener(documentListener)
     }
 
     private fun initQuestionViews() {
@@ -102,9 +113,7 @@ class EmploymentQuestionnaireAmendmentFragment :
                 questionUiField.question.answer.addOnPropertyChangedCallback(object :
                     Observable.OnPropertyChangedCallback() {
                     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                        viewModel.salaryAmount =
-                            viewModel.getDataForPosition(viewModel.questionsList.size - 2)
-                                .getAnswer()
+                        viewModel.getSalaryAndMonthlyCredit()
                     }
                 })
             }
@@ -113,17 +122,12 @@ class EmploymentQuestionnaireAmendmentFragment :
                 questionUiField.question.answer.addOnPropertyChangedCallback(object :
                     Observable.OnPropertyChangedCallback() {
                     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                        viewModel.monthlyCreditAmount =
-                            viewModel.getDataForPosition(viewModel.questionsList.size - 1)
-                                .getAnswer()
+                        viewModel.getSalaryAndMonthlyCredit()
                     }
                 })
             }
         }
         viewModel.setAnswersForQuestions()
-        viewModel.documentAdapter.setList(
-            viewModel.employmentStatusValue.value?.documents ?: mutableListOf()
-        )
         getDataBindingView<FragmentEmploymentQuestionnaireAmendmentBinding>().llQuestions.post {
             viewModel.validator?.targetViewBinding =
                 getDataBindingView<FragmentEmploymentQuestionnaireBinding>()
@@ -162,6 +166,29 @@ class EmploymentQuestionnaireAmendmentFragment :
         Observer<ArrayList<String>> {
             onBusinessCountriesSelection(it)
         }
+
+    private val documentsLiveDataObserver =
+        Observer<List<Document>> {
+            viewModel.documentAdapter.setList(it)
+        }
+
+    private val documentListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Document) {
+                context?.let {
+                    startActivityForResult(
+                        ViewDocumentActivity.newIntent(
+                            it,
+                            data.fileURL ?: "",
+                            data.extension,
+                            FileFrom.Link().link
+                        ), RequestCodes.REQUEST_VIEW_DOCUMENT
+                    )
+                }
+
+            }
+        }
+    }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -246,12 +273,14 @@ class EmploymentQuestionnaireAmendmentFragment :
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.employmentStatus.observe(this, employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.observe(this, businessCountriesLiveDataObserver)
+        viewModel.documentsList.observe(this, documentsLiveDataObserver)
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
         viewModel.employmentStatus.removeObserver(employmentTypeLoadedObserver)
         viewModel.businessCountriesLiveData.removeObserver(businessCountriesLiveDataObserver)
+        viewModel.documentsList.removeObserver(documentsLiveDataObserver)
     }
 
     override fun onDestroy() {
@@ -270,5 +299,20 @@ class EmploymentQuestionnaireAmendmentFragment :
         viewModel.countries.unSelectAllCountries(
             viewModel.selectedBusinessCountries.get() ?: arrayListOf()
         )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT) {
+            handleFileResult(data)
+        }
+    }
+
+    private fun handleFileResult(data: Intent?) {
+        val file =
+            data?.getValue(ExtraKeys.FILE_PATH.name, ExtraType.STRING.name) as? String
+        val fileType =
+            data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
+        showToast("$file $fileType ")
     }
 }
