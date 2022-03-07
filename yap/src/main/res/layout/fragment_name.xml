@@ -10,6 +10,7 @@
         <import type="co.yap.translation.Translator" />
 
         <import type="java.lang.reflect.Array" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -21,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        app:sensitiveViews="@{Utils.getViewsList(etLastName,etFirstName)}"
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout

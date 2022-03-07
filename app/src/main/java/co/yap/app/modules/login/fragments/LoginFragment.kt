@@ -39,7 +39,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     override val viewModel: LoginViewModel
         get() = ViewModelProvider(this).get(LoginViewModel::class.java)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initiatePreference()
@@ -97,17 +96,18 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 }
             }
         })
+
         viewModel.userVerified.observe(viewLifecycleOwner, Observer {
             if (it == "+92") {
                 launchActivity<AuthenticationActivity> {
                     putExtra("countryCode", "+92")
-                    putExtra("mobileNo", "3224642870")
+                    putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
                     putExtra("isAccountBlocked", false)
                 }
             } else if (it == "+233") {
                 launchActivity<GhAuthenticationActivity> {
                     putExtra("countryCode", "+233")
-                    putExtra("mobileNo", "2339999999")
+                    putExtra("mobileNo", viewModel.state.mobile.get()?.replace(" ", ""))
                     putExtra("isAccountBlocked", false)
                 }
             }
@@ -134,10 +134,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     viewModel.state.mobile.get()?.filter { it.isWhitespace().not() }?.trim()
                         ?: ""
                 if (countryCode != "+971") {
-                    activity?.baseContext?.let { context ->
-                        viewModel.verifyUser(countryCode, mobileNo)
-                    }
-
+                    viewModel.verifyUser(countryCode, mobileNo)
                 } else {
                     viewModel.state.mobileNumber.value = Utils.verifyUsername(
                         mobileNo
@@ -195,6 +192,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             }
         }
     }
+
 
     private fun removeObserver() {
         viewModel.isAccountBlocked.removeObservers(this)

@@ -63,7 +63,7 @@ data class Country(
                     break
                 }
             }
-            if (currency == null) {
+            if (currency == null && supportedCurrencies?.isNotEmpty()==true) {
                 val c = supportedCurrencies!![0]
                 // find currency from utils with flag and symbol etc
                 currency =

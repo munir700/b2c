@@ -10,12 +10,14 @@
             type="co.yap.modules.onboarding.viewmodels.EmailViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(inputEmailAddress,tvSuccess)}"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

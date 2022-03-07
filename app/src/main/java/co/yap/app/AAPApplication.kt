@@ -1,5 +1,6 @@
 package co.yap.app
 
+//import com.yap.yappakistan.configs.PKBuildConfigurations
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -35,8 +36,10 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import com.yap.ghana.configs.GhanaBuildConfigurations
 import com.yap.yappakistan.configs.PKBuildConfigurations
 import dagger.hilt.android.HiltAndroidApp
+import com.uxcam.UXCam
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -46,6 +49,9 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
 
     @Inject
     lateinit var pkBuildConfigurations: PKBuildConfigurations
+
+    @Inject
+    lateinit var ghanaBuildConfiguration: GhanaBuildConfigurations
 
     private external fun signatureKeysFromJNI(
         name: String,
@@ -63,6 +69,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     override fun onCreate() {
         super.onCreate()
         LoadConfig().initConfigs(applicationContext, pkBuildConfigurations)
+        LoadConfig().initConfigs(applicationContext, ghanaBuildConfiguration)
         initFireBase()
         val originalSign =
             signatureKeysFromJNI(
@@ -92,7 +99,8 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
             sslPin3 = originalSign.sslPin3,
             sslHost = originalSign.sslHost,
             spayServiceId = originalSign.spayServiceId,
-            flagSmithAPIKey = originalSign.flagSmithAPIKey
+            flagSmithAPIKey = originalSign.flagSmithAPIKey,
+            uxCamKey = originalSign.uxCamKey
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -100,6 +108,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
                 configManager?.hasValidSignature = true
             }
         })
+
     }
 
     private fun initAllModules() {
@@ -109,6 +118,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
         initFacebook()
+        initUxCam(configManager)
     }
 
     private fun initNetworkLayer() {
@@ -248,5 +258,11 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         LocaleManager.setLocale(this)
+    }
+
+    private fun initUxCam(configManager: BuildConfigManager?) {
+        if(!BuildConfig.DEBUG){
+            UXCam.startWithKey(configManager?.uxCamKey)
+        }
     }
 }

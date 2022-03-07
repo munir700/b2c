@@ -10,6 +10,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -20,6 +21,7 @@
         android:id="@+id/svContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:sensitiveViews="@{Utils.getViewsList(etNote,tvIntBankFee,tvDynamicCurrencyRete,tvDefaultCurrencyRate,etReceiver,etSenderAmount,tvName,ivProfilePic,tvAvailableBalance,tvFee)}"
         android:fillViewport="true">
 
 
@@ -107,6 +109,7 @@
                 </RelativeLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvName"
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -241,6 +244,7 @@
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvFee"
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -264,6 +268,7 @@
                     app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
                     tools:text="@string/screen_international_funds_transfer_display_text_note" />
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvIntBankFee"
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

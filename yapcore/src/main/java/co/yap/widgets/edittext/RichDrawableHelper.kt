@@ -28,6 +28,8 @@ class RichDrawableHelper(
     private var mDrawableTopVectorId: Int = 0
     private var mDrawableEndVectorId: Int = 0
     private var mDrawableBottomVectorId: Int = 0
+    var disableEmoji: Boolean = false
+    var disableSpaces: Boolean = false
 
     @ColorInt
     private var mDrawableTint: Int = 0
@@ -61,6 +63,14 @@ class RichDrawableHelper(
                 )
             mDrawableTint =
                 array.getColor(R.styleable.TextViewRichDrawable_rtdrawableTint, UNDEFINED)
+            disableEmoji = array.getBoolean(
+                R.styleable.TextViewRichDrawable_rtdrawableDisableEmoji,
+                false
+            )
+            disableSpaces = array.getBoolean(
+                R.styleable.TextViewRichDrawable_disableSpaces,
+                false
+            )
         } finally {
             array.recycle()
         }

@@ -10,7 +10,6 @@
         <variable
             name="viewModel"
             type="co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -32,8 +31,10 @@ import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.constants.Constants.VERIFY_PASSCODE_FROM
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.enums.VerifyPassCodeEnum
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -188,7 +189,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     otpAction = OTPActions.FORGOT_PASS_CODE.name,
                     mobileNumber = viewModel.mobileNumber,
                     username = name,
-                    emailOtp = !Utils.isUsernameNumeric(name)
+                    emailOtp = !Utils.isUsernameNumeric(name),
+                    otpMessage = viewModel.otpMessage(OTPActions.FORGOT_PASS_CODE.name)
                 )
             ),
             showToolBar = true
@@ -468,9 +470,4 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 }
 
-@Keep
-enum class VerifyPassCodeEnum {
-    VERIFY,
-    ACCESS_ACCOUNT
-}
 

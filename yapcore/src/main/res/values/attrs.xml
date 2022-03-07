@@ -749,6 +749,8 @@
         <attr name="drawableEndVector" format="reference" />
         <attr name="drawableBottomVector" format="reference" />
         <attr name="rtdrawableTint" format="reference" />
+        <attr name="rtdrawableDisableEmoji" format="boolean" />
+        <attr name="disableSpaces" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="PhoneTextInputEditText">

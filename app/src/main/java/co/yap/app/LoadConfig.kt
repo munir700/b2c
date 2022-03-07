@@ -5,7 +5,6 @@ import android.content.Intent
 import co.yap.app.main.MainActivity
 import com.yap.core.enums.ProductFlavour
 import com.yap.core.extensions.newIntent
-import com.yap.core.utils.NAVIGATION_GRAPH_ID
 import com.yap.ghana.configs.GhanaBuildConfigurations
 import com.yap.yappakistan.configs.PKBuildConfigurations
 import com.yap.yappakistan.utils.enums.PkAppEvent
@@ -87,6 +86,7 @@ class LoadConfig @Inject constructor() {
         ghanaBuildConfigurations.setAdjustAppId(appId = getAdjustReferralTrackerId(flavour))
 
     }
+
     private fun runAppEvent(event: PkAppEvent, context: Context) {
         when (event) {
             PkAppEvent.LOGOUT -> {

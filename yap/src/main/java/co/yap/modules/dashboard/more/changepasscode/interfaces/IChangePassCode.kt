@@ -13,7 +13,7 @@ interface IChangePassCode {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnView(id: Int)
         val clickEvent: SingleClickEvent
-
+        fun getOtpMessage(): String
     }
 
     interface State : IBase.State {

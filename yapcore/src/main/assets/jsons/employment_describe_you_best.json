@@ -1,6 +1,18 @@
 [
   {
-    "employmentType": "I am a homemaker",
+    "employmentType": "I’m a student",
+    "employmentTypeCode": "Other"
+  },
+  {
+    "employmentType": "I’m on my parent’s visa",
+    "employmentTypeCode": "Other"
+  },
+  {
+    "employmentType": "I’m on a spousal visa",
+    "employmentTypeCode": "Other"
+  },
+  {
+    "employmentType": "I’m a homemaker/home dependant",
     "employmentTypeCode": "HOUSEWIFE"
   },
   {

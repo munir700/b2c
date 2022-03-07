@@ -17,12 +17,14 @@
         <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.yapcore.enums.PartnerBankStatus" />
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        app:sensitiveViews="@{Utils.getViewsList(imgProfile,tvAddressValue,tvBankValue,tvSwiftValue,tvAccountValue,tvIbanValue,tvNameValue)}"
         android:orientation="vertical">
 
         <co.yap.widgets.CoreToolbar

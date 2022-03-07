@@ -18,6 +18,7 @@
         android:id="@+id/parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:sensitiveViews="@{Utils.getViewsList(paymentCard)}"
         android:alpha="0.5">
 
         <co.yap.widgets.CorePaymentCard

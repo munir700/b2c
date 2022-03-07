@@ -28,6 +28,7 @@ interface IVerifyPasscode {
         var isFingerprintLogin: Boolean
         var mobileNumber: String
         var EVENT_LOGOUT_SUCCESS: Int
+        fun otpMessage(otpAction : String): String
     }
 
     interface State : IBase.State {

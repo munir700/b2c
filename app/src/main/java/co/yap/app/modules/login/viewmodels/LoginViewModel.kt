@@ -5,9 +5,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.LoadConfig
 import co.yap.app.UserVerifierProvider
-import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
@@ -18,7 +16,6 @@ import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.getCountryCodeForRegion
 import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.helpers.validation.IValidator
@@ -44,6 +41,9 @@ class LoginViewModel(application: Application) :
             Utils.verifyUsername(state.twoWayTextWatcher.trim().filter { !it.isWhitespace() })
         validateUsername {}
     }*/
+//    override fun handlePressOnSignUp() {
+//   signUpButtonPressEvent.value = true
+//    }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
@@ -116,15 +116,12 @@ class LoginViewModel(application: Application) :
     private val userVerifier: UserVerifierProvider = UserVerifierProvider()
 
     fun verifyUser(countryCode: String, mobileNumber: String) {
-        launch {
-            state.loading = true
-            userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
-                state.loading = false
-                if (result.isSuccess && result.getOrNull() == true) {
-                    _userVerified.value = countryCode
-                }
+        state.loading = true
+        userVerifier.provide(countryCode).verifyUser(mobileNumber) { result ->
+            state.loading = false
+            if (result.isSuccess && result.getOrNull() == true) {
+                _userVerified.value = countryCode
             }
         }
-
     }
 }
