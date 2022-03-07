@@ -39,6 +39,16 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.utils.UIUtils
+import co.yap.modules.document.enums.FileFrom
+import android.content.Intent
+import androidx.core.os.bundleOf
+import co.yap.modules.otp.GenericOtpFragment
+import co.yap.modules.otp.OtpDataModel
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
 
 
 class EmploymentQuestionnaireAmendmentFragment :
@@ -195,6 +205,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                         navigate(R.id.action_employmentQuestionnaireFragment_to_cardOnTheWayFragment)
                     }
                 }*/
+                //TODO this is just  for testing we will remove this after proper implementation For KYC INFO
+                startOtpFragment()
             }
             R.id.tvEmploymentStatusDropDown -> {
                 UIUtils.hideKeyboard(requireActivity())
@@ -227,7 +239,8 @@ class EmploymentQuestionnaireAmendmentFragment :
                             it,
                             data.fileURL ?: "",
                             data.extension,
-                            FileFrom.Link().link
+                            FileFrom.Link().link,
+                            false
                         ), RequestCodes.REQUEST_VIEW_DOCUMENT
                     )
                 }
@@ -382,10 +395,8 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT && resultCode == Activity.RESULT_OK) {
                 handleFileResult(data)
-            }
         }
     }
 
@@ -395,5 +406,25 @@ class EmploymentQuestionnaireAmendmentFragment :
         val fileType =
             data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
         showToast("$file $fileType ")
+    }
+
+    private fun startOtpFragment() {
+        var mobileNumber =
+            SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+        startFragmentForResult<GenericOtpFragment>(
+            GenericOtpFragment::class.java.name,
+            bundleOf(
+                OtpDataModel::class.java.name to OtpDataModel(
+                    OTPActions.EMPLOYMENT_AMENDMENT.name,
+                    otpMessage = "Hi, your OTP for your employment information update is $mobileNumber. Please do not share your OTP with anyone. For help, contact our customer support team on 0600551214",
+                    mobileNumber = mobileNumber
+                )
+            ),
+            showToolBar = true
+        ) { resultCode, _ ->
+            if (resultCode == Activity.RESULT_OK) {
+                showToast("Can Call API")
+            }
+        }
     }
 }

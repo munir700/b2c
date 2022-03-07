@@ -24,5 +24,8 @@ enum class OTPActions {
     CASHPAYOUT,
     DOMESTIC_TRANSFER,
     INTERNAL_TRANSFER,
-    Y2Y
+    Y2Y,
+
+    //For KYC INFO
+    EMPLOYMENT_AMENDMENT
 }
