@@ -97,7 +97,6 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             getString(Strings.screen_employment_information_display_right_toolbar_text)
         validator?.setValidationListener(this)
         accountActivated.value = SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status && SessionManager.card.value?.status == PaymentCardStatus.ACTIVE.name
-        getAllApiCallsInParallelForScreen()
     }
 
     override fun questionnaires(
