@@ -3,13 +3,13 @@ package co.yap.modules.location.kyc_additional_info.employment_info.amendment
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yap.countryutils.country.unSelectAllCountries
+import co.yap.modules.document.ViewDocumentActivity
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.adapter.QuestionItemViewHolders
 import co.yap.modules.location.kyc_additional_info.employment_info.questionnaire.models.QuestionUiFields
 import co.yap.networking.customers.responsedtos.employment_amendment.Document
@@ -29,6 +29,13 @@ import co.yap.yapcore.helpers.extentions.launchMultiSelectionBottomSheet
 import co.yap.yapcore.helpers.infoDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.liveperson.infra.utils.UIUtils
+import co.yap.modules.document.enums.FileFrom
+import android.content.Intent
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
+
 
 class EmploymentQuestionnaireAmendmentFragment :
     BaseBindingFragment<IEmploymentQuestionnaireAmendment.ViewModel>(),
@@ -167,9 +174,18 @@ class EmploymentQuestionnaireAmendmentFragment :
 
     private val documentListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Document)
-            {
-                Toast.makeText(requireContext(), "Tapped", Toast.LENGTH_LONG).show()
+            if (data is Document) {
+                context?.let {
+                    startActivityForResult(
+                        ViewDocumentActivity.newIntent(
+                            it,
+                            data.fileURL ?: "",
+                            data.extension,
+                            FileFrom.Link().link
+                        ), RequestCodes.REQUEST_VIEW_DOCUMENT
+                    )
+                }
+
             }
         }
     }
@@ -283,5 +299,20 @@ class EmploymentQuestionnaireAmendmentFragment :
         viewModel.countries.unSelectAllCountries(
             viewModel.selectedBusinessCountries.get() ?: arrayListOf()
         )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCodes.REQUEST_VIEW_DOCUMENT) {
+            handleFileResult(data)
+        }
+    }
+
+    private fun handleFileResult(data: Intent?) {
+        val file =
+            data?.getValue(ExtraKeys.FILE_PATH.name, ExtraType.STRING.name) as? String
+        val fileType =
+            data?.getValue(ExtraKeys.FILE_TYPE.name, ExtraType.STRING.name) as? String
+        showToast("$file $fileType ")
     }
 }
