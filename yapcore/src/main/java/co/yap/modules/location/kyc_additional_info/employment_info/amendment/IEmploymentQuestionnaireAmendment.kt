@@ -92,6 +92,7 @@ interface IEmploymentQuestionnaireAmendment {
     interface State : IBase.State {
         var ruleValid: Boolean
         var rightButtonText: String?
+        var needToShowAdditionalDocumentDialogue: MutableLiveData<Boolean>
     }
 
 }

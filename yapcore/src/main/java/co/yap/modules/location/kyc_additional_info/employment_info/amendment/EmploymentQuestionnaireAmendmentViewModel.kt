@@ -59,6 +59,8 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     override var selectedQuestionItemPosition: Int = -1
     override val industrySegmentsList: ArrayList<IndustrySegment> = arrayListOf()
     override var employmentStatus = MutableLiveData<EmploymentStatus>()
+    var tempEmploymentStatus = MutableLiveData<EmploymentStatus>()
+    var previousEmploymentStatus = MutableLiveData<EmploymentStatus>()
     override var serverEmploymentStatus: EmploymentStatus? = null
     override val selectedBusinessCountries: ObservableField<ArrayList<String>> =
         ObservableField(arrayListOf())
@@ -199,7 +201,7 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
         }
         questionsList[position] = objQuestion
         selectedBusinessCountries.get()?.clear()
-                    selectedBusinessCountries.get()?.addAll(countries)
+        selectedBusinessCountries.get()?.addAll(countries)
         (rvCountries?.adapter as BusinessCountriesAdapter).setList(
             selectedBusinessCountries.get() ?: arrayListOf()
         )
@@ -227,10 +229,11 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
     val employmentStatusItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             (data as? CoreBottomSheetData)?.subTitle.also { selectedType ->
-                employmentStatus.value = EmploymentStatus.values().find {
+                tempEmploymentStatus.value = EmploymentStatus.values().find {
                     it.status == selectedType
                 } ?: EmploymentStatus.EMPLOYED
             }
+            showAdditionalDialogue()
             validateForm()
             updateDocumentsInView(employmentStatus.value ?: EmploymentStatus.NONE)
         }
@@ -242,6 +245,35 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             when (view.id) {
                 R.id.etAmount, R.id.etQuestionEditText -> validateForm()
             }
+        }
+    }
+
+    fun showAdditionalDialogue() {
+        if (tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED) == true) {
+            if (previousEmploymentStatus.value?.equals(EmploymentStatus.EMPLOYED) == true || previousEmploymentStatus.value?.equals(
+                    EmploymentStatus.OTHER
+                ) == true
+            ) {
+                state.needToShowAdditionalDocumentDialogue.value =
+                    tempEmploymentStatus.value?.equals(EmploymentStatus.SELF_EMPLOYED)
+            } else {
+                employmentStatus.value = tempEmploymentStatus.value
+                previousEmploymentStatus.value = tempEmploymentStatus.value
+            }
+        } else if (tempEmploymentStatus.value?.equals(EmploymentStatus.SALARIED_AND_SELF_EMPLOYED) == true) {
+            if (previousEmploymentStatus.value?.equals(EmploymentStatus.EMPLOYED) == true || previousEmploymentStatus.value?.equals(
+                    EmploymentStatus.OTHER
+                ) == true
+            ) {
+                state.needToShowAdditionalDocumentDialogue.value =
+                    tempEmploymentStatus.value?.equals(EmploymentStatus.SALARIED_AND_SELF_EMPLOYED)
+            } else {
+                employmentStatus.value = tempEmploymentStatus.value
+                previousEmploymentStatus.value = tempEmploymentStatus.value
+            }
+        } else {
+            employmentStatus.value = tempEmploymentStatus.value
+            previousEmploymentStatus.value = tempEmploymentStatus.value
         }
     }
 
@@ -525,14 +557,4 @@ class EmploymentQuestionnaireAmendmentViewModel(application: Application) :
             add(CoreBottomSheetData(subTitle = EmploymentStatus.OTHER.status))
         }
 
-    override fun onValidationSuccess(validator: Validator) {
-        super.onValidationSuccess(validator)
-        // state.ruleValid = true
-        //  validate()
-    }
-
-    override fun onValidationError(validator: Validator) {
-        super.onValidationError(validator)
-        // state.ruleValid = false
-    }
 }
